@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Special Participation A Explorer</title>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div>
+          <h1>Special Participation A Explorer</h1>
+          <p class="subtitle">
+            Curated views of EECS 182 "special participation A" posts where students used LLMs to evaluate homework problems.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section id="overview" class="panel">
+        <h2>Overview</h2>
+        <p>
+          This tool reads the exported Ed Discussion threads in
+          <code>thread_util/threads.json</code>, annotates each post with a small
+          set of hand-designed metrics, and lets you interactively filter and
+          explore how students used large language models on different
+          homeworks.
+        </p>
+        <div class="overview-grid">
+          <div>
+            <h3>Data</h3>
+            <ul>
+              <li>One row per top-level Ed thread that matched "special participation A".</li>
+              <li>Includes title, plain-text body, author, timestamps, and category.</li>
+              <li>Replies are not included beyond simple counts.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Metrics (summary)</h3>
+            <ul>
+              <li><strong>Homework</strong>: which HW the post is about (e.g., HW6).</li>
+              <li><strong>Model</strong>: which LLM or tool was evaluated (Kimi, Claude, GPT-5.x, etc.).</li>
+              <li><strong>Primary focus</strong>: model performance, assignment feedback, prompting, or reflection.</li>
+              <li><strong>Depth</strong>: low / medium / high, based on length and language.</li>
+              <li><strong>Actionability</strong>: low / medium / high, based on presence of concrete suggestions.</li>
+            </ul>
+            <p class="small-muted">
+              See <code>METRICS_DESIGN.md</code> for the exact heuristics.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="controls" class="panel">
+        <h2>Explore posts</h2>
+        <div class="filters" aria-label="Post filters">
+          <label>
+            <span>Homework</span>
+            <select id="filter-homework"></select>
+          </label>
+
+          <label>
+            <span>Model</span>
+            <select id="filter-model"></select>
+          </label>
+
+          <label>
+            <span>Primary focus</span>
+            <select id="filter-focus"></select>
+          </label>
+
+          <label>
+            <span>Actionability</span>
+            <select id="filter-actionability"></select>
+          </label>
+
+          <label class="search-label">
+            <span>Search</span>
+            <input
+              id="search-text"
+              type="search"
+              placeholder="Search title or body text..."
+            />
+          </label>
+
+          <label>
+            <span>Sort by</span>
+            <select id="sort-order">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="depth">Depth (high → low)</option>
+              <option value="actionability">Actionability (high → low)</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section id="explore" class="panel">
+        <div id="summary-bar" class="summary-bar"></div>
+        <div id="posts-list" class="posts-list" aria-live="polite"></div>
+        <div id="error-message" class="error-message" hidden></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        Built as a lightweight, static explorer for EECS 182 special participation posts.
+        Data never leaves your machine.
+      </p>
+    </footer>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
