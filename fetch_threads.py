@@ -52,9 +52,11 @@ def fetch_all_threads(course_id: int, batch_size: int = 100) -> list[dict]:
 
 
 def thread_contains_text(thread: dict, text: str) -> bool:
-    """Check if thread title contains the text (case-insensitive)."""
+    """Check if thread title or content contains the text (case-insensitive)."""
+    text_lower = text.lower()
     title = thread.get('title', '').lower()
-    return text.lower() in title
+    content = thread.get('content', '').lower()
+    return text_lower in title or text_lower in content
 
 
 def main():
