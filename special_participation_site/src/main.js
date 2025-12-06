@@ -22,6 +22,7 @@ function cacheElements() {
   els.filtersToggle = document.getElementById("filters-toggle");
   els.filtersPanel = document.getElementById("controls");
   els.themeMode = document.getElementById("theme-mode");
+  els.themeButtons = document.querySelectorAll(".appearance-btn");
   els.postModalBackdrop = document.getElementById("post-modal-backdrop");
   els.postModal = document.getElementById("post-modal");
   els.postModalTitle = document.getElementById("post-modal-title");
@@ -118,8 +119,13 @@ function applyThemePreference(mode) {
     }
   }
 
-  if (els.themeMode && els.themeMode.value !== mode) {
-    els.themeMode.value = mode;
+  if (els.themeButtons && els.themeButtons.length) {
+    els.themeButtons.forEach((btn) => {
+      const btnMode = btn.dataset.mode || "auto";
+      const isActive = btnMode === mode;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
   }
 }
 
@@ -159,10 +165,12 @@ function attachEvents() {
     });
   }
 
-  if (els.themeMode) {
-    els.themeMode.addEventListener("change", (event) => {
-      const mode = event.target.value || "auto";
-      applyThemePreference(mode);
+  if (els.themeButtons && els.themeButtons.length) {
+    els.themeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.mode || "auto";
+        applyThemePreference(mode);
+      });
     });
   }
 

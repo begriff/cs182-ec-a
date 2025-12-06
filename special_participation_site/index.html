@@ -16,12 +16,18 @@
           </p>
         </div>
         <div class="appearance-control">
-          <label for="theme-mode">Appearance</label>
-          <select id="theme-mode">
-            <option value="auto">Auto</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
+          <span class="appearance-label">Appearance</span>
+          <div class="appearance-buttons" role="radiogroup" aria-label="Appearance">
+            <button type="button" class="appearance-btn is-active" data-mode="auto" aria-pressed="true">
+              Auto
+            </button>
+            <button type="button" class="appearance-btn" data-mode="light" aria-pressed="false">
+              Light
+            </button>
+            <button type="button" class="appearance-btn" data-mode="dark" aria-pressed="false">
+              Dark
+            </button>
+          </div>
         </div>
       </div>
     </header>

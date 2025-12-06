@@ -111,29 +111,49 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.25rem;
+  gap: 0.35rem;
   font-size: 0.75rem;
   color: var(--fg-muted);
 }
 
-.appearance-control label {
-  cursor: pointer;
+.appearance-label {
+  cursor: default;
 }
 
-.appearance-control select {
-  padding: 0.25rem 0.7rem;
+.appearance-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.18rem;
   border-radius: 999px;
   border: 1px solid var(--border-subtle);
   background: var(--bg-panel);
-  color: var(--fg);
-  font-size: 0.75rem;
+  box-shadow: none;
 }
 
-.appearance-control select:focus {
+.appearance-btn {
+  border: none;
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+  padding: 0.18rem 0.65rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.appearance-btn.is-active {
+  background: var(--accent-soft);
+  color: var(--fg);
+  box-shadow: none;
+}
+
+.appearance-btn:focus-visible {
   outline: 1px solid var(--accent);
   outline-offset: 1px;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px rgba(125, 211, 252, 0.4);
 }
 
 .page-main {
