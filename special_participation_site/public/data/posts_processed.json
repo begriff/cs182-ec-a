@@ -1,29 +1,56 @@
 [
   {
-    "id": 7384785,
-    "number": 378,
+    "id": 7415618,
+    "number": 514,
     "course_id": 84647,
-    "title": "Extra Credit Opportunity --- curate special participation posts",
-    "document": "Please see the new updated extra credit post here: https://edstem.org/us/courses/84647/discussion/7395242\n\nDear students, \n\nWe've enjoyed reading your extra credits posts and engagement throughout the semester and found it very interesting ourselves. So much so that we would like to record this for posterity and create a forum that allows you to get visibility for this. This means we can follow up on some of your ideas more easily as well (with due credit of course). As a first step in this direction, we would like to create a searchable website that will document all participation for each of the extra credit participation categories. This would allow us, and other students, to easily navigate through the different ideas and explore what works for them and what does not. Furthermore, our goal will be to link student websites/linked-in pages, so all of you can gain visibility on the work you have done. This website will be hosted on the eecs182.org.\n\nWe are offering 5-10 points of extra credit per student (more points for better quality submissions, more points for the categories we care about more) for students who help make such a website. We understand this will be a significant lift, but hope you can leverage deep learning skills to make this happen. Ideally, this will be presented as a directory that we can simply drop into the eecs182 website. Multiple students are allowed to collaborate on this as below:\n\n\n\nWe care the most about this for E since this allows us to easily build tools in the future.\n\nSpecial Participation E: 3-4 students\n\nA nice version of this would categorize the submissions into different types of submissions (e.g. generating new questions, helping understand existing content, creating new content etc. --- come up with your own categories.) If you think some submissions are particularly impressive, highlight them. \n\n\n\nSecond we care about documenting student interactions with LLMs.\n\nSpecial Participation A: 3-4 students\n\nSpecial Participation B: 3-4 students\n\nFor each of these two cases, we would like to have a summary of insights on how each of the different LLMs behave and common issues. What insights were gained from \n\n\n\nThird we care about the Muon and MuP updates\n\nSpecial Participation D: 2 students\n\n\n\nLast (fourth) priority\n\nSince it would be nice to have this all coordinated in one website, if someone wants to take on a coordination role: 1-2 students. \n\nFor each kind of special participation we should be able to read what every student submitted as text and as attachment. Every student should get credited for the work they have put in. Include links to student websites/github repos if those are included in the post (All students --- feel free to go and edit your posts to include this information so that they will show up in the common collection).\n\nBonus points if the website is searchable by keyword/student name etc. Other design choices we leave up to you. Feel free to ask questions below.  \n\n\n\nPlease do not claim a spot to complete this unless you are truly planning to, since it does not allow others to take this on. Use this thread to self-organize so you can make teams to do this. \n\nThanks,\n\n182 Staff",
-    "category": "Admin",
+    "title": "Special Participation A: Kimi K2 on HW9",
+    "document": "I utilized Moonshot AI’s Kimi K2 model to tackle the non-coding problems of Homework 9. I first did a pass through of all the non-coding questions, sending each question individually to Kimi with no further prompting to see how the model would perform under one-shot conditions. For most of the questions, Kimi performed very well with just me sending the question to the model, and was able to get it all mostly correct on the first attempt except for the last question (question 6) which was much more difficult and longer.\n\nHere are the per-question results on the first run through (which is one-shot only):\n\nQuestion 1: This question was a relatively simple manipulation of expectations and variances, which Kimi was easily able to solve and give justifications for.\n\nQuestion 2: This question involved simple arithmetic (taking dot products of some vectors), which Kimi was easily able to do. This question also involved a conceptual question, which was also correctly answered by Kimi.\n\nQuestion 3: This question involved a simple fill in the blank coding question, which the model was able to get all correct on the first try, along with a justification for each answer. The second part of this question was also answered correctly, with the model coming up with the right changes to the code necessary for making the adjustment the question asked for.\n\nQuestion 4: This question was another mostly fill in the blank blank coding question, which the model again was able to answer correctly on the first try. The question also included two complexity calculations, of which the model was able to successfully answer the time complexity fully. The memory complexity, the model was able to get an answer that was very close to the given solutions, and up on further examination, the answer given by Kimi seems to be the same runtime, just using slightly different notation.\n\nQuestion 6: The question got some of the parts right, but had some minor differences in other parts. For these I asked the model to explain why it had answered part b(iii) the way it did, and asked it to clarify an assumption it made when calculating the time and memory complexities.\n\nI was overall very surprised and satisfied with how Kimi was able to solve the noncoding questions. It was able to one-shot the vast majority of the questions, and with simple prompting about its motivations on the incorrect questions, it was able to generate the correct solutions.\n\nTrace : https://www.kimi.com/share/19af04a7-bcf2-8f74-8000-0000496c3139\nAnnotated Trace:",
+    "category": "Curiosity",
     "subcategory": "",
-    "type": "announcement",
-    "created_at": "2025-12-02T07:11:44.121633+11:00",
-    "reply_count": 104,
-    "view_count": 1314,
+    "type": "post",
+    "created_at": "2025-12-06T07:56:24.953792+11:00",
+    "reply_count": 0,
+    "view_count": 30,
     "user": {
-      "id": 650420,
-      "name": "Gireeja Ranade",
-      "course_role": "admin"
+      "id": 961752,
+      "name": "William Li",
+      "course_role": "student"
     },
-    "ed_url": "https://edstem.org/us/courses/84647/discussion/7384785",
+    "ed_url": "https://edstem.org/us/courses/84647/discussion/7415618",
     "metrics": {
-      "homework_id": "Unknown",
-      "model_name": "LLM (unspecified)",
-      "primary_focus": "mixed/other",
-      "depth_bucket": "high",
+      "homework_id": "HW9",
+      "model_name": "Kimi",
+      "primary_focus": "model_performance",
+      "depth_bucket": "medium",
       "actionability_bucket": "medium",
-      "word_count": 532
+      "word_count": 418
+    }
+  },
+  {
+    "id": 7414931,
+    "number": 508,
+    "course_id": 84647,
+    "title": "Special Participation A: ChatGPT-5.1 on HW0",
+    "document": "I tested ChatGPT's ability to solve HW0 questions 2-5. In general, it was able to one-shot the problems while explaining its reasoning, most likely because many of the problems review fundamental ML/math concepts.",
+    "category": "Curiosity",
+    "subcategory": "",
+    "type": "post",
+    "created_at": "2025-12-06T06:24:29.195133+11:00",
+    "reply_count": 0,
+    "view_count": 20,
+    "user": {
+      "id": 639184,
+      "name": "Alena Chao",
+      "course_role": "student"
+    },
+    "ed_url": "https://edstem.org/us/courses/84647/discussion/7414931",
+    "metrics": {
+      "homework_id": "HW0",
+      "model_name": "ChatGPT (other)",
+      "primary_focus": "model_performance",
+      "depth_bucket": "low",
+      "actionability_bucket": "low",
+      "word_count": 33
     }
   },
   {
@@ -37,7 +64,7 @@
     "type": "post",
     "created_at": "2025-12-05T19:12:30.361236+11:00",
     "reply_count": 0,
-    "view_count": 31,
+    "view_count": 35,
     "user": {
       "id": 1751447,
       "name": "Moxin Tang",
@@ -64,7 +91,7 @@
     "type": "post",
     "created_at": "2025-12-05T17:56:51.215172+11:00",
     "reply_count": 0,
-    "view_count": 17,
+    "view_count": 25,
     "user": {
       "id": 963333,
       "name": "Guohao Lv",
@@ -91,7 +118,7 @@
     "type": "post",
     "created_at": "2025-12-05T10:32:39.626459+11:00",
     "reply_count": 0,
-    "view_count": 27,
+    "view_count": 29,
     "user": {
       "id": 1016381,
       "name": "Zimu Wang",
@@ -118,7 +145,7 @@
     "type": "post",
     "created_at": "2025-12-05T10:18:30.636365+11:00",
     "reply_count": 0,
-    "view_count": 32,
+    "view_count": 34,
     "user": {
       "id": 622884,
       "name": "Rohan Gulati",
@@ -145,7 +172,7 @@
     "type": "question",
     "created_at": "2025-12-05T09:57:39.03131+11:00",
     "reply_count": 0,
-    "view_count": 36,
+    "view_count": 41,
     "user": {
       "id": 1004026,
       "name": "Fangzhou Zhao",
@@ -172,7 +199,7 @@
     "type": "post",
     "created_at": "2025-12-05T09:19:12.125774+11:00",
     "reply_count": 0,
-    "view_count": 28,
+    "view_count": 32,
     "user": {
       "id": 647651,
       "name": "Sammie Smith",
@@ -226,7 +253,7 @@
     "type": "post",
     "created_at": "2025-12-05T07:02:14.471564+11:00",
     "reply_count": 0,
-    "view_count": 59,
+    "view_count": 63,
     "user": {
       "id": 619713,
       "name": "Dagny Streit",
@@ -253,7 +280,7 @@
     "type": "post",
     "created_at": "2025-12-05T06:38:54.935327+11:00",
     "reply_count": 0,
-    "view_count": 47,
+    "view_count": 48,
     "user": {
       "id": 617828,
       "name": "Ayush Goel",
@@ -280,7 +307,7 @@
     "type": "post",
     "created_at": "2025-12-05T05:52:32.652712+11:00",
     "reply_count": 0,
-    "view_count": 58,
+    "view_count": 59,
     "user": {
       "id": 1751540,
       "name": "Xueli Sun",
@@ -297,33 +324,6 @@
     }
   },
   {
-    "id": 7406979,
-    "number": 466,
-    "course_id": 84647,
-    "title": "Special Participation E: Building a Socratic Tutor",
-    "document": "Building a Socratic Tutor for Deep Learning: Designing Prompts That Probe Rather Than Tell\n\nFor the special participation assignment on AI-enhanced learning tools, I took a different approach than using an existing AI learning assistant. I designed a Socratic tutor prompt from scratch with specific pedagogical goals in mind.\n\nI used this prompt in a conversation with Claude Opus 4.5. I used Claude's \"project\" feature and uploaded the lecture notes to the project, though this didn't seem to make much of a difference as you'll see later.\n\nThe Core Idea: Test Understanding, Don't Just Explain\n\nThe key distinction in my approach is that the AI's primary job is not to explain concepts to me, it's to probe my understanding and expose gaps. Rather than uploading lecture materials and asking the model to teach me, I created a prompt where I explain concepts to the model, and it asks pointed follow-up questions to find weaknesses in my reasoning. My goal is to expose where I am too overconfident in my understanding of a topic, and fill in the holes.\n\nThey say that teaching is the best way to learn. Here, you don't just re-read notes, you practice articulating ideas and defending them under questioning, explaining a topic to the model.\n\nPrompt Design Choices\n\nI iteratively built the system prompt with several specific features:\n\n1. Question Progression Structure The prompt instructs the model to follow a specific arc: verify basic definitions -> ask about mechanics -> probe edge cases and failure modes -> ask about connections to other course topics. This ensures the conversation doesn't just stay surface-level.\n\n2. \"Don't Immediately Correct\" Rule When I get something wrong, the model is instructed to first ask a question that helps me discover the error myself, only providing explanations after 2-3 failed attempts. This is crucial. If the model just corrects you immediately, you lose the learning opportunity.\n\n3. Confidence Checks The prompt includes instructions to occasionally ask \"How confident are you in that?\" before probing further. This surfaces areas where I already know I'm uncertain, making the conversation more efficient.\n\n4. Explicit Course Topic List I included the actual syllabus topics so the model can ask cross-topic connection questions. For instance, during my SSM discussion, it connected the \"fixed-size hidden state\" limitation to oversquashing in GNNs, a connection I brought up, but that the prompt structure encouraged.\n\n5. Summary at End The prompt asks for a structured summary covering: what I understood well, what misconceptions were uncovered, and key connections to review.\n\nWhat Worked Well\n\nLooking at my annotated conversation on State Space Models, several things stood out:\n\nThe model followed the \"don't immediately correct\" instruction well. When I initially claimed \"outputs at time k only depend on previous inputs, not previous states,\" it didn't correct me, it asked me to write down the recurrence equations so I could see the issue myself.\n\nGood question scaffolding. When I got stuck on where nonlinearities live in SSM architectures, the model broke it down: \"If I stack two SSM layers with nothing in between, what do I effectively have?\" This smaller question was easier to answer than the original.\n\nCross-topic connections. The model naturally connected SSMs to RNNs (vanishing gradients), Transformers (content-based vs. fixed mixing), and GNNs (oversquashing). These connections helped solidify understanding.\n\nThe summary was genuinely useful. It accurately captured my gaps (fuzzy on HiPPO, initially confused about SVD vs eigendecomposition) and suggested specific review topics.\n\nWhat Could Be Improved\n\nFrom my annotations, I noticed several areas where the prompt could be strengthened:\n\n1. Hallucinations about what I said. At one point (page 8), the model claimed \"you mentioned the unrolling involves powers of A\", but I hadn't actually said this. The model was leading the conversation in a good direction, but it shouldn't attribute statements to me that I didn't make.\n\n2. Imprecise technical claims. The model said inference is \"O(1) per step\" (page 8), which can be misleading. It is true that it is constant time per token, but it would be better for the student’s understanding to explain it as O(L), where L is sequence length.\n\n3. Oversimplification of HiPPO eigenvalues. The model stated HiPPO produces \"negative real\" eigenvalues (page 11), when in reality they're generally complex with negative real parts. This is a subtle but meaningful distinction.\n\n4. Missed opportunities to probe further. When the model mentioned LayerNorm or the D matrix, the model didn't follow up. A more thorough tutor might ask \"what does the D matrix do?\" or \"why LayerNorm specifically?\"\n\n5. Not referencing lecture notes. The prompt instructs the model to tie explanations to \"lecture notes in this project,\" but even with notes provided, it often explained concepts from general knowledge rather than grounding in the specific course material.\n\nReflection\n\nUsing this tool genuinely helped me prepare for understanding SSMs more deeply. The conversation forced me to articulate things I thought I understood but actually couldn't explain precisely (i.e. why selective SSMs break the convolution trick).\n\nThe main takeaway: the value isn't in having an AI explain things to you, it's in having an AI pressure-test your own explanations. This is a fundamentally different mode of studying, and I think it's more effective for deep understanding than passive review.\n\nI've added in the prompt here so you can try it for yourself! I also added in the pdf of the original chat, and my annotated version.",
-    "category": "Curiosity",
-    "subcategory": "",
-    "type": "post",
-    "created_at": "2025-12-05T04:30:17.222314+11:00",
-    "reply_count": 0,
-    "view_count": 114,
-    "user": {
-      "id": 638316,
-      "name": "Elizabeth Weaver",
-      "course_role": "student"
-    },
-    "ed_url": "https://edstem.org/us/courses/84647/discussion/7406979",
-    "metrics": {
-      "homework_id": "Unknown",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
-      "depth_bucket": "high",
-      "actionability_bucket": "high",
-      "word_count": 899
-    }
-  },
-  {
     "id": 7405742,
     "number": 460,
     "course_id": 84647,
@@ -334,7 +334,7 @@
     "type": "post",
     "created_at": "2025-12-04T21:47:06.01722+11:00",
     "reply_count": 0,
-    "view_count": 56,
+    "view_count": 57,
     "user": {
       "id": 612982,
       "name": "Kelvin Li",
@@ -496,7 +496,7 @@
     "type": "post",
     "created_at": "2025-12-04T15:18:02.927395+11:00",
     "reply_count": 0,
-    "view_count": 59,
+    "view_count": 60,
     "user": {
       "id": 663744,
       "name": "Vongani Maluleke",
@@ -523,7 +523,7 @@
     "type": "post",
     "created_at": "2025-12-04T14:14:57.565789+11:00",
     "reply_count": 0,
-    "view_count": 42,
+    "view_count": 44,
     "user": {
       "id": 608574,
       "name": "Imra Dawoodani",
@@ -577,7 +577,7 @@
     "type": "question",
     "created_at": "2025-12-04T09:47:18.097945+11:00",
     "reply_count": 0,
-    "view_count": 68,
+    "view_count": 70,
     "user": {
       "id": 1553113,
       "name": "Nils Selte",
@@ -604,7 +604,7 @@
     "type": "post",
     "created_at": "2025-12-04T08:18:32.354006+11:00",
     "reply_count": 0,
-    "view_count": 63,
+    "view_count": 64,
     "user": {
       "id": 1316489,
       "name": "Krish Yadav",
@@ -739,7 +739,7 @@
     "type": "post",
     "created_at": "2025-12-03T17:16:38.165773+11:00",
     "reply_count": 0,
-    "view_count": 71,
+    "view_count": 72,
     "user": {
       "id": 1770933,
       "name": "Gustavo Jose Ortiz Zepeda",
@@ -874,7 +874,7 @@
     "type": "post",
     "created_at": "2025-12-02T16:53:58.575623+11:00",
     "reply_count": 0,
-    "view_count": 73,
+    "view_count": 74,
     "user": {
       "id": 647490,
       "name": "Vrushank Prakash",
@@ -1333,7 +1333,7 @@
     "type": "post",
     "created_at": "2025-11-17T18:22:18.14388+11:00",
     "reply_count": 0,
-    "view_count": 199,
+    "view_count": 200,
     "user": {
       "id": 1751558,
       "name": "Hanna Roed",
@@ -1360,7 +1360,7 @@
     "type": "question",
     "created_at": "2025-11-16T11:39:27.836513+11:00",
     "reply_count": 0,
-    "view_count": 145,
+    "view_count": 146,
     "user": {
       "id": 1762358,
       "name": "Angelina Zhang",
@@ -1441,7 +1441,7 @@
     "type": "post",
     "created_at": "2025-11-12T20:46:02.16884+11:00",
     "reply_count": 0,
-    "view_count": 128,
+    "view_count": 129,
     "user": {
       "id": 963909,
       "name": "Kithmini Herath",
@@ -1590,33 +1590,6 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 70
-    }
-  },
-  {
-    "id": 7259824,
-    "number": 234,
-    "course_id": 84647,
-    "title": "Participation Section A: Llama (Meta AI) on HW0",
-    "document": "I interacted with Llama/Meta AI and had a rather disappointing result. For the (easier) questions it answered, it made decent progress on showing the math steps but was vague at times and couldn't tell left multiplication from right. It had trouble answering questions one-by-one like a student would, instead fixating on the topic of the question and ranting about it.",
-    "category": "Admin",
-    "subcategory": "",
-    "type": "post",
-    "created_at": "2025-11-05T21:02:05.590684+11:00",
-    "reply_count": 0,
-    "view_count": 118,
-    "user": {
-      "id": 69192,
-      "name": "Shashwat Bansal",
-      "course_role": "student"
-    },
-    "ed_url": "https://edstem.org/us/courses/84647/discussion/7259824",
-    "metrics": {
-      "homework_id": "HW0",
-      "model_name": "LLaMA",
-      "primary_focus": "meta_reflection",
-      "depth_bucket": "low",
-      "actionability_bucket": "medium",
-      "word_count": 60
     }
   },
   {
@@ -1954,7 +1927,7 @@
     "type": "post",
     "created_at": "2025-10-20T18:33:07.202349+11:00",
     "reply_count": 0,
-    "view_count": 219,
+    "view_count": 221,
     "user": {
       "id": 1753326,
       "name": "Tianyu Gu",
