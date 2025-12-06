@@ -7,6 +7,7 @@ const state = {
 };
 
 const els = {};
+let lastFocusedElement = null;
 
 function cacheElements() {
   els.filterHomework = document.getElementById("filter-homework");
@@ -21,6 +22,13 @@ function cacheElements() {
   els.filtersToggle = document.getElementById("filters-toggle");
   els.filtersPanel = document.getElementById("controls");
   els.themeMode = document.getElementById("theme-mode");
+  els.postModalBackdrop = document.getElementById("post-modal-backdrop");
+  els.postModal = document.getElementById("post-modal");
+  els.postModalTitle = document.getElementById("post-modal-title");
+  els.postModalMeta = document.getElementById("post-modal-meta");
+  els.postModalBadges = document.getElementById("post-modal-badges");
+  els.postModalBody = document.getElementById("post-modal-body");
+  els.postModalClose = document.getElementById("post-modal-close");
 }
 
 async function loadData() {
@@ -159,6 +167,23 @@ function attachEvents() {
   }
 
   setupViewSwitcher();
+
+  if (els.postsList) {
+    els.postsList.addEventListener("click", handlePostListClick);
+  }
+
+  if (els.postModalClose && els.postModalBackdrop) {
+    els.postModalClose.addEventListener("click", () => closePostModal());
+    els.postModalBackdrop.addEventListener("click", (event) => {
+      if (event.target === els.postModalBackdrop) closePostModal();
+    });
+  }
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && els.postModalBackdrop && !els.postModalBackdrop.hidden) {
+      closePostModal();
+    }
+  });
 }
 
 function setupViewSwitcher() {
@@ -171,6 +196,7 @@ function setupViewSwitcher() {
       const isActive = section.dataset.view === view;
       section.hidden = !isActive;
       section.setAttribute("aria-hidden", isActive ? "false" : "true");
+      section.classList.toggle("view-active", isActive);
     });
 
     tabs.forEach((tab) => {
@@ -188,6 +214,99 @@ function setupViewSwitcher() {
   });
 
   setView("overview");
+}
+
+function handlePostListClick(event) {
+  if (!els.postsList) return;
+  const card = event.target.closest(".post-card");
+  if (!card || !els.postsList.contains(card)) return;
+
+  // Let explicit links behave normally.
+  if (event.target.closest("a")) return;
+
+  const indexAttr = card.getAttribute("data-index");
+  const index = indexAttr ? Number(indexAttr) : NaN;
+  if (Number.isNaN(index) || !state.filtered[index]) return;
+
+  event.preventDefault();
+  openPostModal(state.filtered[index]);
+}
+
+function openPostModal(post) {
+  if (!els.postModalBackdrop || !els.postModalBody || !els.postModalTitle) return;
+
+  lastFocusedElement = document.activeElement;
+
+  const m = post.metrics || {};
+  const hw = m.homework_id || "Unknown";
+  const model = m.model_name || "Unknown";
+  const focus = m.primary_focus || "mixed/other";
+  const depth = m.depth_bucket || "n/a";
+  const act = m.actionability_bucket || "n/a";
+  const wc = typeof m.word_count === "number" ? m.word_count : null;
+
+  const created = post.created_at ? new Date(post.created_at) : null;
+  const createdStr = created && !Number.isNaN(created.getTime())
+    ? created.toLocaleString()
+    : "";
+  const author = post.user?.name || "Unknown";
+  const role = post.user?.course_role || "";
+
+  const meta = [];
+  if (createdStr) meta.push(escapeHtml(createdStr));
+  if (author) meta.push(`by ${escapeHtml(author)}${role ? ` (${escapeHtml(role)})` : ""}`);
+  if (post.ed_url) {
+    meta.push(
+      `<a href="${escapeAttribute(post.ed_url)}" target="_blank" rel="noopener noreferrer">View on Ed</a>`,
+    );
+  }
+
+  els.postModalTitle.textContent = post.title || "Untitled post";
+  els.postModalMeta.innerHTML = meta.join(" · ");
+
+  if (els.postModalBadges) {
+    const badgesHtml = [
+      `<span class="badge badge-hw">${escapeHtml(hw)}</span>`,
+      `<span class="badge badge-model">${escapeHtml(model)}</span>`,
+      `<span class="badge badge-focus">${escapeHtml(focus)}</span>`,
+      `<span class="badge badge-depth depth-${escapeHtml(depth)}">depth: ${escapeHtml(depth)}</span>`,
+      `<span class="badge badge-action act-${escapeHtml(act)}">actionability: ${escapeHtml(act)}</span>`,
+    ].join(" ");
+    els.postModalBadges.innerHTML = badgesHtml;
+  }
+
+  const stats = [];
+  if (wc != null) stats.push(`${wc} words`);
+  if (typeof post.view_count === "number") stats.push(`${post.view_count} views`);
+  if (typeof post.reply_count === "number") stats.push(`${post.reply_count} replies`);
+
+  if (stats.length && els.postModalMeta) {
+    const statsHtml = escapeHtml(stats.join(" · "));
+    els.postModalMeta.innerHTML = `${els.postModalMeta.innerHTML}${meta.length ? " · " : ""}${statsHtml}`;
+  }
+
+  els.postModalBody.textContent = post.document || "(no body text available)";
+
+  els.postModalBackdrop.hidden = false;
+  document.body.classList.add("modal-open");
+
+  if (els.postModalClose) {
+    els.postModalClose.focus();
+  }
+}
+
+function closePostModal() {
+  if (!els.postModalBackdrop) return;
+  els.postModalBackdrop.hidden = true;
+  document.body.classList.remove("modal-open");
+
+  if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+    try {
+      lastFocusedElement.focus();
+    } catch {
+      // ignore
+    }
+  }
 }
 
 function applyFiltersAndRender() {
@@ -322,7 +441,7 @@ function renderPosts() {
     return;
   }
 
-  const items = state.filtered.map((post) => postToHtml(post));
+  const items = state.filtered.map((post, index) => postToHtml(post, index));
   els.postsList.innerHTML = items.join("\n");
   setupPostReveal();
 }
@@ -359,7 +478,7 @@ function setupPostReveal() {
   cards.forEach((card) => observer.observe(card));
 }
 
-function postToHtml(post) {
+function postToHtml(post, index) {
   const m = post.metrics || {};
   const hw = m.homework_id || "Unknown";
   const model = m.model_name || "Unknown";
@@ -397,7 +516,7 @@ function postToHtml(post) {
   const body = escapeHtml(post.document || "(no body text available)");
 
   return `
-<article class="post-card">
+<article class="post-card" data-index="${index}">
   <header class="post-header">
     <div>
       <h3 class="post-title">${title}</h3>

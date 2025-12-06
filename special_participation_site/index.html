@@ -223,6 +223,33 @@
       </div>
     </main>
 
+    <div id="post-modal-backdrop" class="post-modal-backdrop" hidden>
+      <div
+        id="post-modal"
+        class="post-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="post-modal-title"
+      >
+        <button
+          id="post-modal-close"
+          class="post-modal-close"
+          type="button"
+          aria-label="Close post"
+        >
+          ×
+        </button>
+        <header class="post-modal-header">
+          <h2 id="post-modal-title"></h2>
+          <p id="post-modal-meta" class="post-modal-meta"></p>
+          <div id="post-modal-badges" class="post-badges"></div>
+        </header>
+        <section class="post-modal-body">
+          <pre id="post-modal-body" class="post-modal-text"></pre>
+        </section>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <p>
         Built as a lightweight, static explorer for EECS 182 special participation posts.
