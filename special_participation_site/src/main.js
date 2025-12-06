@@ -1,4 +1,5 @@
 const DATA_URL = "public/data/posts_processed.json";
+const THEME_KEY = "spa-theme-mode";
 
 const state = {
   allPosts: [],
@@ -19,6 +20,7 @@ function cacheElements() {
   els.errorMessage = document.getElementById("error-message");
   els.filtersToggle = document.getElementById("filters-toggle");
   els.filtersPanel = document.getElementById("controls");
+  els.themeMode = document.getElementById("theme-mode");
 }
 
 async function loadData() {
@@ -59,7 +61,23 @@ function buildFilters(posts) {
 
   const sortAlpha = (a, b) => a.localeCompare(b);
 
-  populateSelect(els.filterHomework, "homeworks", Array.from(homeworks).sort(sortAlpha));
+  const parseHwNumber = (s) => {
+    const m = /^HW(\d+)$/i.exec(s);
+    return m ? parseInt(m[1], 10) : Number.POSITIVE_INFINITY;
+  };
+
+  const sortHomeworks = (a, b) => {
+    const na = parseHwNumber(a);
+    const nb = parseHwNumber(b);
+    if (na !== nb) return na - nb;
+    return a.localeCompare(b);
+  };
+
+  populateSelect(
+    els.filterHomework,
+    "homeworks",
+    Array.from(homeworks).sort(sortHomeworks),
+  );
   populateSelect(els.filterModel, "models", Array.from(models).sort(sortAlpha));
   populateSelect(els.filterFocus, "focus types", Array.from(focuses).sort(sortAlpha));
   populateSelect(
@@ -67,6 +85,48 @@ function buildFilters(posts) {
     "actionability levels",
     Array.from(actionability).sort(sortAlpha),
   );
+}
+
+function applyThemePreference(mode) {
+  document.body.classList.remove("theme-light", "theme-dark");
+
+  if (mode === "light") {
+    document.body.classList.add("theme-light");
+  } else if (mode === "dark") {
+    document.body.classList.add("theme-dark");
+  }
+
+  if (mode === "auto") {
+    try {
+      localStorage.removeItem(THEME_KEY);
+    } catch (err) {
+      // ignore
+    }
+  } else {
+    try {
+      localStorage.setItem(THEME_KEY, mode);
+    } catch (err) {
+      // ignore
+    }
+  }
+
+  if (els.themeMode && els.themeMode.value !== mode) {
+    els.themeMode.value = mode;
+  }
+}
+
+function initThemePreference() {
+  let stored = "auto";
+  try {
+    const v = localStorage.getItem(THEME_KEY);
+    if (v === "light" || v === "dark" || v === "auto") {
+      stored = v;
+    }
+  } catch (err) {
+    stored = "auto";
+  }
+
+  applyThemePreference(stored);
 }
 
 function attachEvents() {
@@ -88,6 +148,13 @@ function attachEvents() {
       const collapsed = document.body.classList.toggle("filters-collapsed");
       els.filtersToggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
       els.filtersToggle.textContent = collapsed ? "Show filters" : "Hide filters";
+    });
+  }
+
+  if (els.themeMode) {
+    els.themeMode.addEventListener("change", (event) => {
+      const mode = event.target.value || "auto";
+      applyThemePreference(mode);
     });
   }
 }
@@ -307,6 +374,7 @@ function showError(msg) {
 
 async function init() {
   cacheElements();
+  initThemePreference();
   attachEvents();
 
   try {
