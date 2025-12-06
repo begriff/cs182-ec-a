@@ -111,6 +111,67 @@
       </p>
     </footer>
 
+    <!-- Chat Assistant Widget -->
+    <div id="chat-widget" class="chat-widget">
+      <button id="chat-toggle" class="chat-toggle" aria-label="Toggle chat assistant">
+        <svg class="chat-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <svg class="chat-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div id="chat-panel" class="chat-panel" hidden>
+        <header class="chat-header">
+          <div>
+            <h3>AI Assistant</h3>
+            <p id="chat-status" class="chat-status">Loading model...</p>
+          </div>
+          <select id="model-select" class="model-select">
+            <option value="">Select a model...</option>
+            <option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">Llama 3.2 1B (fastest)</option>
+            <option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">Llama 3.2 3B (balanced)</option>
+            <option value="SmolLM2-1.7B-Instruct-q4f16_1-MLC">SmolLM2 1.7B</option>
+            <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen 2.5 1.5B</option>
+          </select>
+        </header>
+
+        <div id="chat-messages" class="chat-messages">
+          <div class="chat-message assistant">
+            <p>Hi! Select a model from the dropdown above to get started. The model will run entirely in your browser using WebGPU.</p>
+          </div>
+        </div>
+
+        <div id="chat-loading" class="chat-loading" hidden>
+          <div class="loading-spinner"></div>
+          <span id="loading-text">Downloading model...</span>
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <form id="chat-form" class="chat-form">
+          <input
+            type="text"
+            id="chat-input"
+            class="chat-input"
+            placeholder="Type a message..."
+            autocomplete="off"
+            disabled
+          />
+          <button type="submit" id="chat-send" class="chat-send" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
     <script type="module" src="src/main.js"></script>
+    <script type="module" src="src/chat.js"></script>
   </body>
 </html>
