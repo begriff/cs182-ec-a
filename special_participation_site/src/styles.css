@@ -158,6 +158,84 @@ h1 {
   gap: 1.25rem;
 }
 
+.view-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  align-self: flex-start;
+  padding: 0.2rem;
+  margin-bottom: 0.6rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-soft);
+}
+
+.view-tab {
+  border: none;
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.1s ease;
+}
+
+.view-tab.is-active {
+  color: var(--fg);
+  background: var(--accent-soft);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+}
+
+.view-tab:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  margin-top: 0.9rem;
+}
+
+.insight-card {
+  border-radius: var(--radius-md);
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  padding: 0.75rem 0.9rem 0.9rem;
+  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+}
+
+.insight-card h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+}
+
+.insight-card p {
+  margin: 0.15rem 0 0;
+  font-size: 0.83rem;
+  color: var(--fg-muted);
+}
+
+.insights-body {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
+.insights-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
 .filters-panel {
   position: sticky;
   top: 1rem;
@@ -548,6 +626,17 @@ body.filters-collapsed .filters-panel {
     border-color: var(--border-subtle);
   }
 
+  body.theme-light .view-tabs,
+  body:not(.theme-dark):not(.theme-light) .view-tabs {
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  body.theme-light .view-tab.is-active,
+  body:not(.theme-dark):not(.theme-light) .view-tab.is-active {
+    background: rgba(37, 99, 235, 0.08);
+    color: #111827;
+  }
+
   body.theme-light .post-card,
   body:not(.theme-dark):not(.theme-light) .post-card {
     background:
@@ -595,6 +684,12 @@ body.filters-collapsed .filters-panel {
     border-color: rgba(251, 191, 36, 0.9);
     background: rgba(254, 243, 199, 0.9);
     color: #78350f;
+  }
+
+  body.theme-light .insight-card,
+  body:not(.theme-dark):not(.theme-light) .insight-card {
+    background: #ffffff;
+    border-style: solid;
   }
 
   body.theme-light .depth-low,

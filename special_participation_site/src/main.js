@@ -157,6 +157,37 @@ function attachEvents() {
       applyThemePreference(mode);
     });
   }
+
+  setupViewSwitcher();
+}
+
+function setupViewSwitcher() {
+  const tabs = Array.from(document.querySelectorAll(".view-tab"));
+  const sections = Array.from(document.querySelectorAll(".view-section"));
+  if (!tabs.length || !sections.length) return;
+
+  const setView = (view) => {
+    sections.forEach((section) => {
+      const isActive = section.dataset.view === view;
+      section.hidden = !isActive;
+      section.setAttribute("aria-hidden", isActive ? "false" : "true");
+    });
+
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.view === view;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const view = tab.dataset.view;
+      if (view) setView(view);
+    });
+  });
+
+  setView("overview");
 }
 
 function applyFiltersAndRender() {
@@ -321,7 +352,7 @@ function setupPostReveal() {
     {
       root: null,
       rootMargin: "0px 0px -10% 0px",
-      threshold: 0.2,
+      threshold: 0,
     },
   );
 

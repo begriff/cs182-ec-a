@@ -83,7 +83,49 @@
         </aside>
 
         <div class="content-column">
-          <section id="overview" class="panel">
+          <nav class="view-tabs" aria-label="Views" role="tablist">
+            <button
+              id="tab-overview"
+              class="view-tab is-active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="overview"
+              data-view="overview"
+            >
+              Overview
+            </button>
+            <button
+              id="tab-homework"
+              class="view-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="homework-insights"
+              data-view="homework"
+            >
+              Homework insights
+            </button>
+            <button
+              id="tab-models"
+              class="view-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="model-insights"
+              data-view="models"
+            >
+              Model insights
+            </button>
+          </nav>
+
+          <section
+            id="overview"
+            class="panel view-section"
+            data-view="overview"
+            role="tabpanel"
+            aria-labelledby="tab-overview"
+          >
             <h2>Overview</h2>
             <p>
               This tool reads the exported Ed Discussion threads in
@@ -117,10 +159,65 @@
             </div>
           </section>
 
-          <section id="explore" class="panel">
+          <section
+            id="explore"
+            class="panel view-section"
+            data-view="overview"
+            aria-label="Explore posts"
+          >
             <div id="summary-bar" class="summary-bar"></div>
             <div id="posts-list" class="posts-list" aria-live="polite"></div>
             <div id="error-message" class="error-message" hidden></div>
+          </section>
+
+          <section
+            id="homework-insights"
+            class="panel view-section"
+            data-view="homework"
+            role="tabpanel"
+            aria-labelledby="tab-homework"
+            hidden
+          >
+            <h2>Homework insights</h2>
+            <p class="small-muted">
+              High-level summaries of how different models performed on each homework. This
+              section is a template; a separate script populates the metrics.
+            </p>
+            <div class="insights-grid">
+              <article class="insight-card">
+                <h3>Homework-level insights</h3>
+                <p>
+                  Placeholder for narrative annotations and explanations of how different models
+                  performed on each homework.
+                </p>
+                <div id="homework-insights-body" class="insights-body"></div>
+              </article>
+            </div>
+          </section>
+
+          <section
+            id="model-insights"
+            class="panel view-section"
+            data-view="models"
+            role="tabpanel"
+            aria-labelledby="tab-models"
+            hidden
+          >
+            <h2>Model insights</h2>
+            <p class="small-muted">
+              Summaries of how each model performed across all homeworks. This section is a
+              template; a separate script populates the metrics.
+            </p>
+            <div class="insights-grid">
+              <article class="insight-card">
+                <h3>Model-level insights</h3>
+                <p>
+                  Placeholder for narrative annotations and explanations of how each model
+                  performed overall across homeworks.
+                </p>
+                <div id="model-insights-body" class="insights-body"></div>
+              </article>
+            </div>
           </section>
         </div>
       </div>
