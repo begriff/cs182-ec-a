@@ -293,6 +293,39 @@ function renderPosts() {
 
   const items = state.filtered.map((post) => postToHtml(post));
   els.postsList.innerHTML = items.join("\n");
+  setupPostReveal();
+}
+
+function setupPostReveal() {
+  if (!els.postsList || typeof IntersectionObserver === "undefined") return;
+
+  const cards = Array.from(els.postsList.querySelectorAll(".post-card"));
+  if (!cards.length) return;
+
+  cards.forEach((card) => {
+    card.classList.add("is-revealing");
+  });
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          entry.target.classList.remove("is-revealing");
+        } else {
+          entry.target.classList.remove("is-visible");
+          entry.target.classList.add("is-revealing");
+        }
+      }
+    },
+    {
+      root: null,
+      rootMargin: "0px 0px -10% 0px",
+      threshold: 0.2,
+    },
+  );
+
+  cards.forEach((card) => observer.observe(card));
 }
 
 function postToHtml(post) {
