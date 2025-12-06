@@ -384,6 +384,10 @@ h1 {
   overflow: hidden;
 }
 
+.chat-panel[hidden] {
+  display: none;
+}
+
 .chat-header {
   padding: 0.9rem 1rem;
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.1));

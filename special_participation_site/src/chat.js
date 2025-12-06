@@ -3,11 +3,10 @@
  * Runs LLM inference entirely in the browser using WebGPU
  */
 
-import * as webllm from "https://esm.run/@mlc-ai/web-llm";
-
 // State
 const chatState = {
   engine: null,
+  webllm: null,
   isLoading: false,
   isGenerating: false,
   messages: [],
@@ -67,12 +66,18 @@ async function initEngine() {
       );
     }
 
+    // Dynamically import WebLLM if not loaded yet
+    if (!chatState.webllm) {
+      els.loadingText.textContent = "Loading WebLLM library...";
+      chatState.webllm = await import("https://esm.run/@mlc-ai/web-llm");
+    }
+
     chatState.currentModel = selectedModel;
 
     els.loadingText.textContent = `Loading ${getModelDisplayName(selectedModel)}...`;
 
     // Create engine with progress callback
-    chatState.engine = await webllm.CreateMLCEngine(selectedModel, {
+    chatState.engine = await chatState.webllm.CreateMLCEngine(selectedModel, {
       initProgressCallback: (progress) => {
         const percent = Math.round(progress.progress * 100);
         els.progressFill.style.width = `${percent}%`;
