@@ -17,6 +17,8 @@ function cacheElements() {
   els.postsList = document.getElementById("posts-list");
   els.summaryBar = document.getElementById("summary-bar");
   els.errorMessage = document.getElementById("error-message");
+  els.filtersToggle = document.getElementById("filters-toggle");
+  els.filtersPanel = document.getElementById("controls");
 }
 
 async function loadData() {
@@ -79,6 +81,14 @@ function attachEvents() {
 
   if (els.searchText) {
     els.searchText.addEventListener("input", () => applyFiltersAndRender());
+  }
+
+  if (els.filtersToggle && els.filtersPanel) {
+    els.filtersToggle.addEventListener("click", () => {
+      const collapsed = document.body.classList.toggle("filters-collapsed");
+      els.filtersToggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      els.filtersToggle.textContent = collapsed ? "Show filters" : "Hide filters";
+    });
   }
 }
 
