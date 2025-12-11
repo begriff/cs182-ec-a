@@ -37,7 +37,10 @@ python3 fetch_threads.py
 The script will:
 1. Fetch all threads from course ID `84647`
 2. Filter threads containing "special participation a" (case-insensitive)
-3. Save matching threads to `threads.json`
+3. Download all attached files to `../special_participation_site/files/` (organized by thread)
+4. Convert PDF attachments to machine-readable text transcripts (`.txt` files)
+5. Save matching threads to `threads.json`
+6. Save a files manifest to `../special_participation_site/files/manifest.json`
 
 ## Configuration
 
@@ -52,6 +55,8 @@ def main():
 
 ## Output
 
+### threads.json
+
 The script outputs a `threads.json` file containing an array of thread objects with fields like:
 - `id` - Global thread ID
 - `number` - Thread number within the course
@@ -61,4 +66,39 @@ The script outputs a `threads.json` file containing an array of thread objects w
 - `type` - Thread type (post, question, announcement)
 - `created_at` - Creation timestamp
 - `is_private`, `is_pinned`, `is_anonymous` - Status flags
+
+### special_participation_site/files/ directory
+
+Downloaded attachments are saved in the `special_participation_site/files/` directory with the following structure:
+
+```
+special_participation_site/files/
+├── manifest.json           # Index of all downloaded files
+├── thread_123/
+│   ├── document.pdf        # Original PDF attachment
+│   └── document.txt        # Extracted text transcript
+├── thread_456/
+│   ├── report.pdf
+│   ├── report.txt
+│   └── image.png           # Non-PDF files are saved as-is
+└── ...
+```
+
+The `manifest.json` file contains metadata about all downloaded files:
+```json
+{
+  "123": {
+    "thread_id": 7412632,
+    "thread_title": "Special Participation A: ...",
+    "files": [
+      {
+        "original_filename": "document.pdf",
+        "saved_as": "special_participation_site/files/thread_123/document.pdf",
+        "url": "https://...",
+        "transcript": "special_participation_site/files/thread_123/document.txt"
+      }
+    ]
+  }
+}
+```
 

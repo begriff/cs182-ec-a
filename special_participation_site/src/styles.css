@@ -1258,3 +1258,48 @@ body.theme-light .chat-message.assistant {
     max-width: 110px;
   }
 }
+
+/* Post Files */
+.post-files {
+  margin: 0.75rem 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-inset);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-files .files-label {
+  font-weight: 500;
+  color: var(--fg-muted);
+}
+
+.post-files .file-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.post-files .file-item a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.post-files .file-item a:hover {
+  text-decoration: underline;
+}
+
+.post-files .file-transcript-link {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  padding: 0.1rem 0.3rem;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.post-files .file-transcript-link:hover {
+  opacity: 1;
+}

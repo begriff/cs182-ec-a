@@ -1,9 +1,11 @@
 const DATA_URL = "public/data/posts_processed.json";
+const MANIFEST_URL = "files/manifest.json";
 const THEME_KEY = "spa-theme-mode";
 
 const state = {
   allPosts: [],
   filtered: [],
+  filesManifest: {},
 };
 
 const els = {};
@@ -30,6 +32,7 @@ function cacheElements() {
   els.postModalBadges = document.getElementById("post-modal-badges");
   els.postModalBody = document.getElementById("post-modal-body");
   els.postModalClose = document.getElementById("post-modal-close");
+  els.postModalFiles = document.getElementById("post-modal-files");
 }
 
 async function loadData() {
@@ -44,6 +47,27 @@ async function loadData() {
     throw new Error("Expected an array of posts in posts_processed.json");
   }
   return json;
+}
+
+async function loadFilesManifest() {
+  try {
+    const res = await fetch(MANIFEST_URL, { cache: "no-store" });
+    if (!res.ok) {
+      console.warn(`Files manifest not found at ${MANIFEST_URL}`);
+      return {};
+    }
+    return await res.json();
+  } catch (err) {
+    console.warn("Could not load files manifest:", err);
+    return {};
+  }
+}
+
+function getFilesForPost(post) {
+  const threadNum = String(post.number);
+  const entry = state.filesManifest[threadNum];
+  if (!entry || !entry.files || !entry.files.length) return null;
+  return entry.files;
 }
 
 function populateSelect(selectEl, label, values) {
@@ -240,6 +264,24 @@ function handlePostListClick(event) {
   openPostModal(state.filtered[index]);
 }
 
+function buildFilesHtml(files) {
+  if (!files || !files.length) return "";
+  
+  const fileLinks = files.map((f) => {
+    const filename = escapeHtml(f.original_filename);
+    const filePath = escapeAttribute(f.saved_as);
+    const hasTxt = f.transcript;
+    const txtPath = hasTxt ? escapeAttribute(f.transcript) : "";
+
+    let links = `<a href="${filePath}" target="_blank" rel="noopener noreferrer" title="Download ${filename}">${filename}</a>`;
+    if (hasTxt) {
+      links += ` <a href="${txtPath}" target="_blank" rel="noopener noreferrer" class="file-transcript-link" title="View transcript">[txt]</a>`;
+    }
+    return `<span class="file-item">${links}</span>`;
+  });
+  return `<div class="post-files"><span class="files-label">📎 Files:</span> ${fileLinks.join(" ")}</div>`;
+}
+
 function openPostModal(post) {
   if (!els.postModalBackdrop || !els.postModalBody || !els.postModalTitle) return;
 
@@ -291,6 +333,12 @@ function openPostModal(post) {
   if (stats.length && els.postModalMeta) {
     const statsHtml = escapeHtml(stats.join(" · "));
     els.postModalMeta.innerHTML = `${els.postModalMeta.innerHTML}${meta.length ? " · " : ""}${statsHtml}`;
+  }
+
+  // Add files to modal
+  if (els.postModalFiles) {
+    const files = getFilesForPost(post);
+    els.postModalFiles.innerHTML = buildFilesHtml(files);
   }
 
   els.postModalBody.textContent = post.document || "(no body text available)";
@@ -504,11 +552,11 @@ function postToHtml(post, index) {
   const role = post.user?.course_role || "";
 
   const badges = [
-    `<span class=\"badge badge-hw\">${escapeHtml(hw)}</span>`,
-    `<span class=\"badge badge-model\">${escapeHtml(model)}</span>`,
-    `<span class=\"badge badge-focus\">${escapeHtml(focus)}</span>`,
-    `<span class=\"badge badge-depth depth-${escapeHtml(depth)}\">depth: ${escapeHtml(depth)}</span>`,
-    `<span class=\"badge badge-action act-${escapeHtml(act)}\">actionability: ${escapeHtml(act)}</span>`,
+    `<span class="badge badge-hw">${escapeHtml(hw)}</span>`,
+    `<span class="badge badge-model">${escapeHtml(model)}</span>`,
+    `<span class="badge badge-focus">${escapeHtml(focus)}</span>`,
+    `<span class="badge badge-depth depth-${escapeHtml(depth)}">depth: ${escapeHtml(depth)}</span>`,
+    `<span class="badge badge-action act-${escapeHtml(act)}">actionability: ${escapeHtml(act)}</span>`,
   ];
 
   const stats = [];
@@ -517,11 +565,15 @@ function postToHtml(post, index) {
   if (typeof post.reply_count === "number") stats.push(`${post.reply_count} replies`);
 
   const edLink = post.ed_url
-    ? `<a href=\"${escapeAttribute(post.ed_url)}\" target=\"_blank\" rel=\"noopener noreferrer\">View on Ed</a>`
+    ? `<a href="${escapeAttribute(post.ed_url)}" target="_blank" rel="noopener noreferrer">View on Ed</a>`
     : "";
 
   const title = escapeHtml(post.title || "Untitled post");
   const body = escapeHtml(post.document || "(no body text available)");
+
+  // Build file links if available
+  const files = getFilesForPost(post);
+  const filesHtml = buildFilesHtml(files);
 
   return `
 <article class="post-card" data-index="${index}">
@@ -536,7 +588,8 @@ function postToHtml(post, index) {
     </div>
   </header>
   <div class="post-badges">${badges.join(" ")}</div>
-  <p class="post-stats">${stats.map(escapeHtml).join("  b7 ")}</p>
+  <p class="post-stats">${stats.map(escapeHtml).join(" · ")}</p>
+  ${filesHtml}
   <details class="post-details">
     <summary>Show full write-up</summary>
     <pre class="post-body">${body}</pre>
@@ -569,8 +622,12 @@ async function init() {
   attachEvents();
 
   try {
-    const posts = await loadData();
+    const [posts, manifest] = await Promise.all([
+      loadData(),
+      loadFilesManifest(),
+    ]);
     state.allPosts = posts;
+    state.filesManifest = manifest;
     buildFilters(posts);
     applyFiltersAndRender();
   } catch (err) {
