@@ -263,6 +263,45 @@ h1 {
   color: var(--fg-muted);
 }
 
+.insight-item {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.insight-item:last-child {
+  margin-bottom: 0;
+}
+
+.insight-item h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.insight-summary {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--fg);
+  line-height: 1.5;
+}
+
+.insight-meta {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.muted-text {
+  color: var(--fg-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem;
+}
+
 .insights-list {
   margin: 0.5rem 0 0;
   padding-left: 1.1rem;

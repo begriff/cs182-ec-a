@@ -45,6 +45,28 @@ This script:
 
 Re-run the script whenever `threads.json` changes.
 
+### Optional: Generate AI-powered insights
+
+To generate AI-powered summaries for each homework and model, add the `--insights` flag:
+
+```bash
+python3 special_participation_site/scripts/process_data.py --insights
+```
+
+**Requirements:**
+- Set your OpenAI API key: `export OPENAI_API_KEY=sk-...` (or add to `thread_util/.env`)
+- Install the openai package: `pip install openai>=1.0.0`
+
+This will:
+1. Analyze all processed posts
+2. Generate concise insights for each homework assignment (difficulty, common themes, etc.)
+3. Generate insights for each model (strengths, weaknesses, performance patterns)
+4. Save results to `special_participation_site/public/data/insights.json`
+
+The insights will automatically appear in the "Homework insights" and "Model insights" tabs when available.
+
+**Note:** This uses GPT-4o-mini and will make API calls that cost money (typically < $0.10 for the entire dataset).
+
 ## 2. Serve the site locally
 
 From the repo root:

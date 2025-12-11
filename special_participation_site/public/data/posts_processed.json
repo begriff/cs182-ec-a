@@ -53,7 +53,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7452161",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -121,7 +121,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7452109",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -217,7 +217,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451771",
     "metrics": {
       "homework_id": "Unknown",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "mixed/other",
       "depth_bucket": "low",
       "actionability_bucket": "low",
@@ -242,7 +242,7 @@
     "type": "question",
     "created_at": "2025-12-11T16:42:25.550672+11:00",
     "reply_count": 0,
-    "view_count": 14,
+    "view_count": 15,
     "user": {
       "id": 647555,
       "name": "Andrea Lou",
@@ -251,7 +251,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451745",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Unknown / Multiple",
+      "model_name": "DeepSeek",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -494,7 +494,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451058",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -590,7 +590,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450682",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -697,7 +697,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450203",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Claude",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -731,7 +731,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450077",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -765,7 +765,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450064",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -833,7 +833,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450012",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Unknown / Multiple",
+      "model_name": "DeepSeek",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -901,7 +901,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7449252",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "GPT-5",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -1071,7 +1071,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7445493",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Claude",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
@@ -1173,7 +1173,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7444860",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Claude",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -1207,7 +1207,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7444253",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -1513,7 +1513,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7430749",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Unknown / Multiple",
+      "model_name": "GPT-5",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -1603,7 +1603,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429448",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
@@ -1637,7 +1637,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429445",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "mixed/other",
       "depth_bucket": "low",
       "actionability_bucket": "low",
@@ -1671,7 +1671,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429282",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -1705,7 +1705,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428812",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Unknown / Multiple",
+      "model_name": "GPT-5",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -1801,7 +1801,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428374",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
@@ -1835,7 +1835,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428314",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -1869,7 +1869,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428265",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Claude",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -2027,7 +2027,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7427535",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
@@ -2046,7 +2046,7 @@
     "type": "post",
     "created_at": "2025-12-08T09:23:32.131726+11:00",
     "reply_count": 0,
-    "view_count": 54,
+    "view_count": 55,
     "user": {
       "id": 961793,
       "name": "Jermaine Lei",
@@ -2123,7 +2123,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7426560",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -2151,7 +2151,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7425035",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
@@ -2335,7 +2335,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424589",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
@@ -2369,7 +2369,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424515",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -2595,7 +2595,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7423757",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Claude",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -2629,7 +2629,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7423454",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -2663,7 +2663,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7423443",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -2691,7 +2691,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7419304",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Unknown / Multiple",
+      "model_name": "DeepSeek",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -2725,7 +2725,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7419069",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -2759,7 +2759,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7419018",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
@@ -2787,7 +2787,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7418727",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -2821,7 +2821,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7418177",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
@@ -3087,7 +3087,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7409877",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Unknown / Multiple",
+      "model_name": "GPT-5",
       "primary_focus": "prompting_strategy",
       "depth_bucket": "low",
       "actionability_bucket": "medium",
@@ -3155,7 +3155,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7409630",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -3189,7 +3189,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7409308",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -3257,7 +3257,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7408067",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT 5.1",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -3461,7 +3461,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7405554",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Claude",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -3523,7 +3523,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7405370",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "LLM (unspecified)",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -3817,7 +3817,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7397817",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -3851,7 +3851,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7397298",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
@@ -3997,7 +3997,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7389909",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Claude",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -4059,7 +4059,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7386904",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -4189,7 +4189,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7377516",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Unknown / Multiple",
+      "model_name": "GPT-5",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -4223,7 +4223,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7377431",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "DeepSeek",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -4387,7 +4387,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7372081",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "DeepSeek",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -4524,7 +4524,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7353572",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "prompting_strategy",
       "depth_bucket": "low",
       "actionability_bucket": "low",
@@ -4756,7 +4756,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7297480",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -4892,7 +4892,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7265693",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -4920,7 +4920,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7263386",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "mixed/other",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -4954,7 +4954,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7258633",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Kimi",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -5242,7 +5242,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7212198",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Unknown / Multiple",
+      "model_name": "GPT-5",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -5372,7 +5372,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7151370",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Unknown / Multiple",
+      "model_name": "ChatGPT (other)",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
@@ -5474,7 +5474,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7111658",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "GPT-5",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
@@ -5508,7 +5508,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7095749",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Unknown / Multiple",
+      "model_name": "DeepSeek",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
@@ -5598,7 +5598,7 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7049136",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",

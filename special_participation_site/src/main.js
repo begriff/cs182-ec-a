@@ -1,4 +1,5 @@
 const DATA_URL = "public/data/posts_processed.json";
+const INSIGHTS_URL = "public/data/insights.json";
 const MANIFEST_URL = "files/manifest.json";
 const THEME_KEY = "spa-theme-mode";
 
@@ -6,6 +7,7 @@ const state = {
   allPosts: [],
   filtered: [],
   filesManifest: {},
+  insights: null,
   currentModalPost: null,
   qaMessages: [],
   qaEngine: null,
@@ -43,6 +45,8 @@ function cacheElements() {
   els.qaSend = document.getElementById("qa-send");
   els.qaMessages = document.getElementById("qa-messages");
   els.qaStatus = document.getElementById("qa-status");
+  els.homeworkInsightsBody = document.getElementById("homework-insights-body");
+  els.modelInsightsBody = document.getElementById("model-insights-body");
 }
 
 async function loadData() {
@@ -70,6 +74,20 @@ async function loadFilesManifest() {
   } catch (err) {
     console.warn("Could not load files manifest:", err);
     return {};
+  }
+}
+
+async function loadInsights() {
+  try {
+    const res = await fetch(INSIGHTS_URL, { cache: "no-store" });
+    if (!res.ok) {
+      console.warn(`Insights not found at ${INSIGHTS_URL}. Run with --insights flag to generate.`);
+      return null;
+    }
+    return await res.json();
+  } catch (err) {
+    console.warn("Could not load insights:", err);
+    return null;
   }
 }
 
@@ -876,20 +894,78 @@ function showError(msg) {
   els.errorMessage.textContent = msg;
 }
 
+function renderHomeworkInsights() {
+  if (!state.insights || !state.insights.homework || !els.homeworkInsightsBody) {
+    return;
+  }
+  
+  const homeworkData = state.insights.homework;
+  const hwIds = Object.keys(homeworkData).sort();
+  
+  if (hwIds.length === 0) {
+    els.homeworkInsightsBody.innerHTML = '<p class="muted-text">No homework insights available yet.</p>';
+    return;
+  }
+  
+  const cards = hwIds.map(hwId => {
+    const data = homeworkData[hwId];
+    return `
+      <div class="insight-item">
+        <h4>${escapeHtml(hwId)}</h4>
+        <p class="insight-summary">${escapeHtml(data.summary)}</p>
+        <p class="insight-meta">${data.post_count} post${data.post_count !== 1 ? 's' : ''} analyzed</p>
+      </div>
+    `;
+  }).join('');
+  
+  els.homeworkInsightsBody.innerHTML = cards;
+}
+
+function renderModelInsights() {
+  if (!state.insights || !state.insights.models || !els.modelInsightsBody) {
+    return;
+  }
+  
+  const modelData = state.insights.models;
+  const modelNames = Object.keys(modelData).sort();
+  
+  if (modelNames.length === 0) {
+    els.modelInsightsBody.innerHTML = '<p class="muted-text">No model insights available yet.</p>';
+    return;
+  }
+  
+  const cards = modelNames.map(model => {
+    const data = modelData[model];
+    return `
+      <div class="insight-item">
+        <h4>${escapeHtml(model)}</h4>
+        <p class="insight-summary">${escapeHtml(data.summary)}</p>
+        <p class="insight-meta">${data.post_count} evaluation${data.post_count !== 1 ? 's' : ''} analyzed</p>
+      </div>
+    `;
+  }).join('');
+  
+  els.modelInsightsBody.innerHTML = cards;
+}
+
 async function init() {
   cacheElements();
   initThemePreference();
   attachEvents();
 
   try {
-    const [posts, manifest] = await Promise.all([
+    const [posts, manifest, insights] = await Promise.all([
       loadData(),
       loadFilesManifest(),
+      loadInsights(),
     ]);
     state.allPosts = posts;
     state.filesManifest = manifest;
+    state.insights = insights;
     buildFilters(posts);
     applyFiltersAndRender();
+    renderHomeworkInsights();
+    renderModelInsights();
   } catch (err) {
     console.error(err);
     showError(err.message || String(err));

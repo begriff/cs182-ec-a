@@ -3,15 +3,19 @@
 
 Usage (from repo root):
 
-    python3 special_participation_site/scripts/process_data.py
+    python3 special_participation_site/scripts/process_data.py [--insights]
 
 This first runs fetch_threads.py to get the latest data from Ed,
 then reads `thread_util/threads.json` and writes
 `special_participation_site/public/data/posts_processed.json`.
+
+Options:
+    --insights    Generate AI-powered insights (requires OPENAI_API_KEY)
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import subprocess
@@ -413,7 +417,47 @@ def main() -> None:
     json.dump(processed, f, indent=2, ensure_ascii=False)
 
   print(f"Wrote {len(processed)} posts to {output_path}")
+  return output_path
+
+
+def run_insights_generation(posts_path: Path):
+  """Run the insights generation script."""
+  print("\n" + "=" * 60)
+  print("GENERATING AI INSIGHTS")
+  print("=" * 60 + "\n")
+  
+  insights_script = Path(__file__).parent / "generate_insights.py"
+  
+  try:
+    result = subprocess.run(
+      [sys.executable, str(insights_script)],
+      cwd=str(insights_script.parent),
+      check=True
+    )
+    print("\n" + "=" * 60)
+    print("Insights generation completed successfully!")
+    print("=" * 60 + "\n")
+  except subprocess.CalledProcessError as e:
+    print(f"\nWarning: Insights generation failed with exit code {e.returncode}")
+    print("This is optional - your posts_processed.json is still valid.\n")
+  except FileNotFoundError:
+    print(f"\nWarning: Could not find {insights_script}")
+    print("This is optional - your posts_processed.json is still valid.\n")
 
 
 if __name__ == "__main__":  # pragma: no cover
-  main()
+  parser = argparse.ArgumentParser(
+    description="Process Ed Discussion threads into annotated posts"
+  )
+  parser.add_argument(
+    "--insights",
+    action="store_true",
+    help="Generate AI-powered insights using OpenAI API (requires OPENAI_API_KEY)"
+  )
+  
+  args = parser.parse_args()
+  
+  posts_path = main()
+  
+  if args.insights:
+    run_insights_generation(posts_path)

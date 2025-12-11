@@ -45,9 +45,9 @@ def group_posts_by_model(posts: List[Dict[str, Any]]) -> Dict[str, List[Dict[str
 
 def generate_homework_insight(client: Any, hw_id: str, posts: List[Dict[str, Any]]) -> str:
     """Generate insight summary for a specific homework using LLM."""
-    # Prepare summary of posts
+    # Prepare summary of posts - analyze ALL posts
     summary_parts = []
-    for post in posts[:20]:  # Limit to first 20 posts to avoid token limits
+    for post in posts:
         metrics = post.get('metrics', {})
         summary_parts.append(
             f"- Model: {metrics.get('model_name')}, "
@@ -72,7 +72,7 @@ Provide a concise, informative summary (2-3 sentences max):"""
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a helpful teaching assistant analyzing student homework feedback."},
                 {"role": "user", "content": prompt}
@@ -88,9 +88,9 @@ Provide a concise, informative summary (2-3 sentences max):"""
 
 def generate_model_insight(client: Any, model: str, posts: List[Dict[str, Any]]) -> str:
     """Generate insight summary for a specific model using LLM."""
-    # Prepare summary of posts
+    # Prepare summary of posts - analyze ALL posts
     summary_parts = []
-    for post in posts[:20]:  # Limit to first 20 posts
+    for post in posts:
         metrics = post.get('metrics', {})
         summary_parts.append(
             f"- HW: {metrics.get('homework_id')}, "
@@ -115,7 +115,7 @@ Provide a concise, informative summary (2-3 sentences max):"""
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a helpful teaching assistant analyzing LLM model performance on homework."},
                 {"role": "user", "content": prompt}
