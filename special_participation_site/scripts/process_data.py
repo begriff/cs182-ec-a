@@ -5,7 +5,8 @@ Usage (from repo root):
 
     python3 special_participation_site/scripts/process_data.py
 
-This reads `thread_util/threads.json` and writes
+This first runs fetch_threads.py to get the latest data from Ed,
+then reads `thread_util/threads.json` and writes
 `special_participation_site/public/data/posts_processed.json`.
 """
 
@@ -13,6 +14,8 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
+import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -292,6 +295,25 @@ def main() -> None:
 
   threads_path = root_dir / "thread_util" / "threads.json"
   output_path = site_dir / "public" / "data" / "posts_processed.json"
+
+  # First, run fetch_threads.py to get the latest data
+  fetch_script = root_dir / "thread_util" / "fetch_threads.py"
+  if not fetch_script.exists():
+    print(f"Warning: {fetch_script} not found, skipping fetch step")
+  else:
+    print("Running fetch_threads.py to get latest data from Ed...")
+    print("=" * 60)
+    try:
+      result = subprocess.run(
+        [sys.executable, str(fetch_script)],
+        cwd=str(fetch_script.parent),
+        check=True
+      )
+      print("=" * 60)
+      print("Fetch completed successfully!\n")
+    except subprocess.CalledProcessError as e:
+      print(f"Error running fetch_threads.py: {e}")
+      raise SystemExit(f"Failed to fetch threads. Exit code: {e.returncode}")
 
   if not threads_path.exists():
     raise SystemExit(f"threads.json not found at {threads_path}")
