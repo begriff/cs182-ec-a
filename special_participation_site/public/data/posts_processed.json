@@ -10,7 +10,7 @@
     "type": "post",
     "created_at": "2025-12-11T18:53:55.259297+11:00",
     "reply_count": 0,
-    "view_count": 39,
+    "view_count": 41,
     "user": {
       "id": 622729,
       "name": "Rudy Colato",
@@ -24,7 +24,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 90
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "special_participation_A.pdf",
+        "position": 588,
+        "context": "n problems in this assignment after only a few minutes of thinking.Here is the annotated transcript:"
+      }
+    ]
   },
   {
     "id": 7452161,
@@ -51,7 +58,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 163
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "HW11_chatgpt_trace_with_annotations.pdf",
+        "position": 1139,
+        "context": "ions, and it did not miss any major points.Model: GPT 5.1 Thinking (Extended)Trace with annotations:"
+      }
+    ]
   },
   {
     "id": 7452122,
@@ -73,12 +87,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7452122",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 149
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A_ Mistral on HW7 - Google Docs.pdf",
+        "position": 1027,
+        "context": "1003\">https://chat.mistral.ai/chat/2fc76ff9-ffb4-4ebb-b867-2c05650e1003 Here is the annotated trace:"
+      }
+    ]
   },
   {
     "id": 7452109,
@@ -105,7 +126,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 143
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw13_gpt_4o.pdf",
+        "position": 814,
+        "context": "2318\">thread on how to compute the number of gpt-4o image tokensHere's my full analysis of the chat:"
+      }
+    ]
   },
   {
     "id": 7451918,
@@ -127,12 +155,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451918",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 189
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A - Gemini 2.5 Flash on HW 5.pdf",
+        "position": 1395,
+        "context": "putational inaccuracies and incomplete treatment of subtle but important details.Chat log and notes:"
+      }
+    ]
   },
   {
     "id": 7451901,
@@ -145,7 +180,7 @@
     "type": "post",
     "created_at": "2025-12-11T17:16:39.774793+11:00",
     "reply_count": 0,
-    "view_count": 26,
+    "view_count": 28,
     "user": {
       "id": 228223,
       "name": "Will Cai",
@@ -159,7 +194,8 @@
       "depth_bucket": "high",
       "actionability_bucket": "high",
       "word_count": 456
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7451771,
@@ -186,7 +222,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 28
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "182 SPA_ HWK 8 GPT 5.1 Thinking-1.pdf",
+        "position": 169,
+        "context": "ct and field of human endeavor. I used GPT 5.1 Thinking on HWK 8 Non-Coding Problems.Attached below."
+      }
+    ]
   },
   {
     "id": 7451745,
@@ -213,7 +256,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 441
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Deepseek_response_log.pdf",
+        "position": 2928,
+        "context": "eek continued with the correct response format, and was able to one-shot the rest of the assignment."
+      }
+    ]
   },
   {
     "id": 7451722,
@@ -240,7 +290,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 349
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Chat-Annotions.pdf",
+        "position": 166,
+        "context": "lve the non-coding portion of Homework 1. The transcript of my interactions are outlined in the PDF:"
+      }
+    ]
   },
   {
     "id": 7451705,
@@ -262,12 +319,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451705",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "prompting_strategy",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 107
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "CS182_HW6_Gemini.pdf",
+        "position": 621,
+        "context": "PDF of the model responses organized by question including some of my own notes about the responses."
+      }
+    ]
   },
   {
     "id": 7451517,
@@ -294,7 +358,19 @@
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 119
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A Claude Opus 4.5 (Extended Thinking) hw0_solutions.pdf",
+        "position": 708,
+        "context": "own file Claude generated. Its solutions read much like a rigorously sound paper formatted in LaTex."
+      },
+      {
+        "filename": "Special Participation A HW 0 with Claude Opus 4.5 (Extended Thinking).pdf",
+        "position": 708,
+        "context": "ex."
+      }
+    ]
   },
   {
     "id": 7451410,
@@ -321,7 +397,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 54
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "ParticipationA.pdf",
+        "position": 351,
+        "context": "nnotated Log of our interaction, detailing where the model succeeded and where it required guidance."
+      }
+    ]
   },
   {
     "id": 7451347,
@@ -348,7 +431,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 127
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "182_participation_A.pdf",
+        "position": 715,
+        "context": " and gave quite a few key insights to take note of. Some explanations could have been more detailed."
+      }
+    ]
   },
   {
     "id": 7451118,
@@ -375,7 +465,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 191
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Deepseek v3.2 Deep Think w:o Search on HW 0.pdf",
+        "position": 1346,
+        "context": "lly accurate result. Link: https://chat.deepseek.com/share/c2i2w2lc8g2btd0o7iAnnotated File:"
+      }
+    ]
   },
   {
     "id": 7451058,
@@ -402,7 +499,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 280
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "ChatGPT-Special Participation A.pdf",
+        "position": 1681,
+        "context": " would say it still requires a fundamental understanding of the concepts to verify what it is doing."
+      }
+    ]
   },
   {
     "id": 7450819,
@@ -424,12 +528,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450819",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 220
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7450685,
@@ -456,7 +561,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 89
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Claude-HW8.pdf",
+        "position": 542,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7450682,
@@ -469,7 +581,7 @@
     "type": "question",
     "created_at": "2025-12-11T13:38:38.989415+11:00",
     "reply_count": 0,
-    "view_count": 12,
+    "view_count": 14,
     "user": {
       "id": 1765152,
       "name": "Yuri Lee",
@@ -478,12 +590,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450682",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "LLM (unspecified)",
+      "model_name": "Unknown / Multiple",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 172
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "special-a-gemini3pro(thinking)-hw1(written).pdf",
+        "position": 1164,
+        "context": "e interpretations clearly on the first try. This made the interaction feel much more time-efficient."
+      }
+    ]
   },
   {
     "id": 7450591,
@@ -505,12 +624,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450591",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 336
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw10_a.pdf",
+        "position": 2285,
+        "context": "owledge when specific data was missing (as seen in the notebook section). Here is the annotated chat"
+      }
+    ]
   },
   {
     "id": 7450396,
@@ -537,7 +663,19 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 13
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw5_solutions.pdf",
+        "position": 70,
+        "context": "One-shots all of HW5 Q1-4 (non coding) which I was quite impressed by."
+      },
+      {
+        "filename": "hw5_executive_summary.pdf",
+        "position": 70,
+        "context": "ragraph>One-shots all of HW5 Q1-4 (non coding) which I was quite impressed by."
+      }
+    ]
   },
   {
     "id": 7450203,
@@ -564,7 +702,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 160
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A.pdf",
+        "position": 1197,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7450077,
@@ -591,7 +736,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 131
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw3_special_participation_a.pdf",
+        "position": 928,
+        "context": ">Link to original conversation: https://chatgpt.com/share/693a069f-44a8-8007-bed7-a4db5aceaa8f"
+      }
+    ]
   },
   {
     "id": 7450064,
@@ -613,12 +765,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450064",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "LLM (unspecified)",
+      "model_name": "Unknown / Multiple",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 418
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "chat-Debugging Transformer Embeddings.txt",
+        "position": 322,
+        "context": "nt the entire conversation into pdf. The annotations will be written below based on questions/parts."
+      }
+    ]
   },
   {
     "id": 7450048,
@@ -640,12 +799,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450048",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 315
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A.pdf",
+        "position": 2194,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7450012,
@@ -672,7 +838,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 201
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A Deepseek on HW13 Non-coding,pdf.pdf",
+        "position": 1467,
+        "context": "the problem and reasoning. The time it cost for reasoning is longer than other agents, like ChatGPT."
+      }
+    ]
   },
   {
     "id": 7449875,
@@ -694,12 +867,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7449875",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 144
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "grok 4.1 special participation a hw 11.pdf",
+        "position": 822,
+        "context": "sted Grok 4.1 (beta) with reasoning capabilities on the non-coding question on hw09.This is the pdf:"
+      }
+    ]
   },
   {
     "id": 7449252,
@@ -726,7 +906,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 73
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Question 1 calculations.pdf",
+        "position": 54,
+        "context": "I used ChatGPT 5 - Pro on HW 4(all non-coding parts)."
+      }
+    ]
   },
   {
     "id": 7447947,
@@ -753,7 +940,14 @@
       "depth_bucket": "high",
       "actionability_bucket": "high",
       "word_count": 1546
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Problem 1_ SSM Convolution Kernel.md",
+        "position": 10895,
+        "context": " kinds of problems that are hardest to catch by inspection.See the file attached for my conversation"
+      }
+    ]
   },
   {
     "id": 7447290,
@@ -775,12 +969,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7447290",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 233
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A -- Gemini Pro 3 Thinking on HW 10 , Arvind Kruthiventy.pdf",
+        "position": 1440,
+        "context": "ly longer and could still require significant iteration before the code matches the user's requests."
+      }
+    ]
   },
   {
     "id": 7446043,
@@ -807,7 +1008,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 106
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "special_participation_A_cs182_hw0_claude.pdf",
+        "position": 742,
+        "context": "e, since specific forms for these were not specified.Consistent latex formatting/compilation issues."
+      }
+    ]
   },
   {
     "id": 7445765,
@@ -829,12 +1037,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7445765",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 210
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "HW11-Mistral-Annotated.pdf",
+        "position": 1438,
+        "context": "ogle Books. Despite this, the model nevertheless applied the correct methodology for these problems."
+      }
+    ]
   },
   {
     "id": 7445493,
@@ -861,7 +1076,14 @@
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 831
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Claude-Deep learning homework solutions.pdf",
+        "position": 5266,
+        "context": "xporter to get the pdf version of the chat (claude itself does not provide a method to get the pdf)."
+      }
+    ]
   },
   {
     "id": 7445419,
@@ -883,12 +1105,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7445419",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 151
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special_Participation_A__Gemini_Flash_on_HW12.pdf",
+        "position": 1154,
+        "context": "oods found in this output. Gemini adhered strictly to standard definitions and deep learning theory."
+      }
+    ]
   },
   {
     "id": 7445083,
@@ -915,7 +1144,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 183
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "special_participation.pdf",
+        "position": 1130,
+        "context": "the 3(a) ASCII diagram and annotated chatlog PDF:"
+      }
+    ]
   },
   {
     "id": 7444860,
@@ -942,7 +1178,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 287
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A_HW11.pdf",
+        "position": 1621,
+        "context": "ter than when I would previously give it small parts of the question and continuously ask questions."
+      }
+    ]
   },
   {
     "id": 7444253,
@@ -969,7 +1212,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 276
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "ChatGPT_HW6_Annotated.pdf",
+        "position": 1663,
+        "context": "onal mistakes that still require human checking.A link to my detailed annotations can be found here:"
+      }
+    ]
   },
   {
     "id": 7444212,
@@ -991,12 +1241,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7444212",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 187
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "CS282 Special Participation A_ Qwen on HW13.pdf",
+        "position": 1447,
+        "context": " included boxed final answers where appropriate, enhancing readability and correctness verification."
+      }
+    ]
   },
   {
     "id": 7443651,
@@ -1023,7 +1280,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 114
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Claude HW13 output.pdf",
+        "position": 661,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7440205,
@@ -1045,12 +1309,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7440205",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 219
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "A_ Qwen HW6 Written.pdf",
+        "position": 1434,
+        "context": "k/>I've attached the annotated transcript. Here is the official link to the conversation."
+      }
+    ]
   },
   {
     "id": 7436873,
@@ -1077,7 +1348,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 115
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Swetha Rajkumar CS182 Special Participation A.pdf",
+        "position": 754,
+        "context": "e chat:https://claude.ai/share/680c3bd2-67d6-46ee-bf22-b0de0537dde3Here is the annotated transcript:"
+      }
+    ]
   },
   {
     "id": 7433942,
@@ -1099,12 +1377,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7433942",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 244
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A by Tom.pdf",
+        "position": 1675,
+        "context": "182 with high accuracy and interpretability. For further information, please see the annotated logs."
+      }
+    ]
   },
   {
     "id": 7431425,
@@ -1131,7 +1416,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 33
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Participation_A.pdf",
+        "position": 193,
+        "context": " 7. In the attached file, I include the executive summary and annotations of the complete chat logs."
+      }
+    ]
   },
   {
     "id": 7431312,
@@ -1158,7 +1450,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 84
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Opus 4.5 Extended Thinking on HW6.pdf",
+        "position": 568,
+        "context": "it couldn't see the figure. Wrong neighbors led to wrong equations. Public Chat Link"
+      }
+    ]
   },
   {
     "id": 7431042,
@@ -1180,12 +1479,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7431042",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 90
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "gemini_3_pro_hw2.pdf",
+        "position": 578,
+        "context": "lem is unconstrained and suggested that a particular solution exists with a squared penalty instead."
+      }
+    ]
   },
   {
     "id": 7430749,
@@ -1212,7 +1518,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 154
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7429651,
@@ -1234,12 +1541,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429651",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "assignment_feedback",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 292
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Participation A.pdf",
+        "position": 1891,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7429462,
@@ -1261,12 +1575,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429462",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "high",
       "word_count": 1198
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7429448,
@@ -1293,7 +1608,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 70
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Exploration of Different Input Forms on HW5 (ChatGPT 5.1 Auto).pdf",
+        "position": 447,
+        "context": "hen, I observed the problem-solving capabilities of the large language model under different inputs."
+      }
+    ]
   },
   {
     "id": 7429445,
@@ -1320,7 +1642,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 0
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "ChatGPT 5.1 Thinking HW4 w exec.pdf",
+        "position": 0,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7429282,
@@ -1347,7 +1676,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 186
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw10_solutions_non_coding.pdf",
+        "position": 1173,
+        "context": ">Compare against the original paperAsk for structure, then fill in details myself"
+      }
+    ]
   },
   {
     "id": 7428812,
@@ -1374,7 +1710,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 143
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7428749,
@@ -1396,12 +1733,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428749",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 149
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "chat_log.pdf",
+        "position": 865,
+        "context": " fully correct. I have no significant complaints about how Gemini did for any problem.Annotated log:"
+      }
+    ]
   },
   {
     "id": 7428581,
@@ -1423,12 +1767,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428581",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 82
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Gemini_Pro_HW1_noncoding_annotated.pdf",
+        "position": 556,
+        "context": "ttps://gemini.google.com/share/f3019ef7b48eAnnotated:"
+      }
+    ]
   },
   {
     "id": 7428374,
@@ -1455,7 +1806,14 @@
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 784
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Deep learning problem set.pdf",
+        "position": 4774,
+        "context": "t!link to conversation: https://chatgpt.com/share/6935d518-4ebc-800f-88c0-bbe553d8c0efAnnotated log:"
+      }
+    ]
   },
   {
     "id": 7428314,
@@ -1482,7 +1840,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 545
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "182 participation A.pdf",
+        "position": 2995,
+        "context": " shot the problems given that I pasted screenshots of the problems rather than latex-formatted math."
+      }
+    ]
   },
   {
     "id": 7428265,
@@ -1509,7 +1874,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 135
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7427939,
@@ -1536,7 +1902,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 201
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "eecs182_HW07.pdf",
+        "position": 1440,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7427874,
@@ -1563,7 +1936,14 @@
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 630
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "special_participation_A_cs182_llama_4.pdf",
+        "position": 3728,
+        "context": " missed questions later in the pdf or questions requiring significant calculation and approximation."
+      }
+    ]
   },
   {
     "id": 7427837,
@@ -1585,12 +1965,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7427837",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 122
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7427672,
@@ -1617,7 +1998,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 138
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "HW10-ClaudeOpus4.5-ExtendedThinking-Annotated.pdf",
+        "position": 971,
+        "context": "-481006722865\">https://claude.ai/share/4655874a-b723-458e-bcbb-481006722865Here is my annotated pdf:"
+      }
+    ]
   },
   {
     "id": 7427535,
@@ -1639,12 +2027,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7427535",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "LLM (unspecified)",
+      "model_name": "Unknown / Multiple",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 679
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7427518,
@@ -1671,7 +2060,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 272
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "SpecialParticipationA_ChatGPT-4o_hw8.pdf",
+        "position": 1637,
+        "context": "e answer, and it can struggle with abstract, symbolic math like fully parameterized time complexity."
+      }
+    ]
   },
   {
     "id": 7427400,
@@ -1693,12 +2089,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7427400",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 223
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "HW3_A_notes.pdf",
+        "position": 1547,
+        "context": "s requiring careful reading of research-paper visuals.Here is the annotated log of the conversation:"
+      }
+    ]
   },
   {
     "id": 7426560,
@@ -1725,7 +2128,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 387
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7425035,
@@ -1752,7 +2156,34 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 91
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "writeup.md",
+        "position": 542,
+        "context": "asn't able to approach myself without getting guidance from some of its answers.Here is the writeup:"
+      },
+      {
+        "filename": "chat_history.md",
+        "position": 542,
+        "context": "Here is the writeup: Here is the chat history:"
+      },
+      {
+        "filename": "problem1sol.md",
+        "position": 542,
+        "context": "agraph>And the solutions and ambiguities it noted in for the homework:"
+      },
+      {
+        "filename": "problem2sol.md",
+        "position": 542,
+        "context": "ry.md\"/>And the solutions and ambiguities it noted in for the homework:"
+      },
+      {
+        "filename": "problem4sol.md",
+        "position": 542,
+        "context": "ttps://static.us.edusercontent.com/files/T8TFpr18rLhe8gj4f8YF4Jca\" filename=\"problem1sol.md\"/>"
+      }
+    ]
   },
   {
     "id": 7424922,
@@ -1774,12 +2205,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424922",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "high",
       "word_count": 378
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7424852,
@@ -1806,7 +2238,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 326
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "deepseek-chat.2025-12-07.pdf",
+        "position": 1910,
+        "context": "uestion. In my observation, this only happens when its answer is getting really long.Annotated Chat:"
+      }
+    ]
   },
   {
     "id": 7424734,
@@ -1828,12 +2267,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424734",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 226
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "participation_a.pdf",
+        "position": 1461,
+        "context": " the model's responses, and explain how I progress between prompts when the model clearly struggles."
+      }
+    ]
   },
   {
     "id": 7424701,
@@ -1855,12 +2301,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424701",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 397
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Grok HW 12.pdf",
+        "position": 2881,
+        "context": "ultiple steps without losing state makes it highly effective for checking graduate-level coursework."
+      }
+    ]
   },
   {
     "id": 7424589,
@@ -1887,7 +2340,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 109
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw_2_written_gpt5.pdf",
+        "position": 635,
+        "context": "on the homework on part (b) of problem 2, deducing that the problem is incorrect and is “ill-posed.”"
+      }
+    ]
   },
   {
     "id": 7424515,
@@ -1914,7 +2374,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 164
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Vector calculus derivatives.pdf",
+        "position": 120,
+        "context": "on solving non-coding related problems of Homework 0 using GPT4o. This is the pdf of the transcript."
+      }
+    ]
   },
   {
     "id": 7424271,
@@ -1936,12 +2403,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424271",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 187
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special participation A.pdf",
+        "position": 1386,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7424254,
@@ -1968,7 +2442,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 284
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "HW5 Annotated.pdf",
+        "position": 2020,
+        "context": "ace: https://claude.ai/share/aa61454a-eb86-4b3b-a210-ec8a3dda96deMy annotated pdf:"
+      }
+    ]
   },
   {
     "id": 7424085,
@@ -1990,12 +2471,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424085",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 620
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7424051,
@@ -2022,7 +2504,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 101
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "GPT4o on HW7.pdf",
+        "position": 720,
+        "context": "face value. Despite these challenges, ChatGPT4o answer are insightful and deepened my understanding."
+      }
+    ]
   },
   {
     "id": 7423926,
@@ -2049,7 +2538,14 @@
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 466
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "ChatGPT 4o for HW 10 (Special Participation A).pdf",
+        "position": 430,
+        "context": "ull annotated PDF (and trace) of our conversation, but here is the executive summary of how it went."
+      }
+    ]
   },
   {
     "id": 7423915,
@@ -2071,12 +2567,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7423915",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 111
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7423757,
@@ -2103,7 +2600,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 350
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "CSC182ParticipationA_Athul.pdf",
+        "position": 2134,
+        "context": "I still had even after reading through the staff solutions!Below is my annotated conversation trace:"
+      }
+    ]
   },
   {
     "id": 7423454,
@@ -2130,7 +2634,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 395
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A_ ChatGPT 5.1 Thinking on HW9 (2).pdf",
+        "position": 2247,
+        "context": "w standard ChatGPT models would often do.Here is the conversation I had along with some annotations:"
+      }
+    ]
   },
   {
     "id": 7423443,
@@ -2157,7 +2668,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 185
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7419304,
@@ -2184,7 +2696,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 110
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "deepseek hw7 annotated.pdf",
+        "position": 723,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7419069,
@@ -2211,7 +2730,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 255
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "MR-HW3-A.pdf",
+        "position": 1485,
+        "context": "ange of information in various formats and piece them together to come up with meaningful solutions."
+      }
+    ]
   },
   {
     "id": 7419018,
@@ -2238,7 +2764,8 @@
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 1232
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7418727,
@@ -2265,7 +2792,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 198
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A_ GPT5.1 Thinking on HW13.pdf",
+        "position": 1212,
+        "context": "e thread. It's like it forgets what assumptions we made earlier or what variables we're solving for."
+      }
+    ]
   },
   {
     "id": 7418177,
@@ -2287,12 +2821,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7418177",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "LLM (unspecified)",
+      "model_name": "Unknown / Multiple",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 552
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special_Participation_A.pdf",
+        "position": 3138,
+        "context": "8c3d-91f605d4de36\">https://chat.mistral.ai/chat/f5eb2483-4b31-4ed2-8c3d-91f605d4de36Annotated Trace:"
+      }
+    ]
   },
   {
     "id": 7417556,
@@ -2314,12 +2855,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7417556",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 419
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special_Participation_A (1).pdf",
+        "position": 2729,
+        "context": " $O(d^2)$ path for the final calculation step.I have attached my annotated conversation trace below."
+      }
+    ]
   },
   {
     "id": 7416689,
@@ -2341,12 +2889,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7416689",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 342
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7415618,
@@ -2373,7 +2922,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 418
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Kimi 2025-12-04 _3_ _1_.pdf",
+        "position": 2539,
+        "context": "ragraph>Trace : https://www.kimi.com/share/19af04a7-bcf2-8f74-8000-0000496c3139Annotated Trace:"
+      }
+    ]
   },
   {
     "id": 7414931,
@@ -2400,7 +2956,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 33
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "CS182_Special_Participation_A.pdf",
+        "position": 213,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7412832,
@@ -2427,7 +2990,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 129
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Kimi_hw6.pdf",
+        "position": 936,
+        "context": "ngThe following LaTeX document compiles and evaluates Kimi’s responses from the linked chat session."
+      }
+    ]
   },
   {
     "id": 7412632,
@@ -2454,7 +3024,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 191
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "HW6.pdf",
+        "position": 1366,
+        "context": " and would be usable as high-quality solutions or study notes with only light editing for concision."
+      }
+    ]
   },
   {
     "id": 7410078,
@@ -2476,12 +3053,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7410078",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 244
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A by Tom.pdf",
+        "position": 1675,
+        "context": "182 with high accuracy and interpretability. For further information, please see the annotated logs."
+      }
+    ]
   },
   {
     "id": 7409877,
@@ -2508,7 +3092,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 83
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw0_noncoding_zimu_gpt5-think.pdf",
+        "position": 531,
+        "context": "ide it to give me the .tex file, and I manually use LaTex IDE to generate the readable PDF solution."
+      }
+    ]
   },
   {
     "id": 7409772,
@@ -2535,7 +3126,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 245
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "kimi_written_hw2.pdf",
+        "position": 1563,
+        "context": " without having to explicitly state any relationships among rows or columns. Annotated Conversation:"
+      }
+    ]
   },
   {
     "id": 7409630,
@@ -2562,7 +3160,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 434
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special A.pdf",
+        "position": 3213,
+        "context": "uces detailed, correct, and often superior explanations compared to the official homework solutions."
+      }
+    ]
   },
   {
     "id": 7409308,
@@ -2589,7 +3194,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 319
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "screencapture-chatgpt-c-6930c5a2-9468-8327-bf03-8647a77eada3-2025-12-03-15_44_15 (1).pdf",
+        "position": 2019,
+        "context": "are shown in the staff solutions. See this annotated conversation for more problem specific details:"
+      }
+    ]
   },
   {
     "id": 7408383,
@@ -2616,7 +3228,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 252
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "ParticipationA_ KIMI_HW11_QichengZhu.pdf",
+        "position": 1819,
+        "context": "hallucinations and delivered fully correct solutions once OCR and prompt ambiguities were addressed."
+      }
+    ]
   },
   {
     "id": 7408067,
@@ -2643,7 +3262,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 231
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Participation A Annotated.pdf",
+        "position": 1545,
+        "context": " that the response was incorrect. Orange annotations indicate that the answer was partially correct."
+      }
+    ]
   },
   {
     "id": 7407894,
@@ -2665,12 +3291,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7407894",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 299
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw_0_gemini_pro_special_participation_a.pdf",
+        "position": 62,
+        "context": "Link to the chat: https://gemini.google.com/share/89b0a83f691b"
+      }
+    ]
   },
   {
     "id": 7407541,
@@ -2697,7 +3330,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 49
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "xueli_sun_deepseek_overthink_cn.pdf",
+        "position": 324,
+        "context": "nd answer the following question in English.\")Code is available, and discussions are warmly welcome."
+      }
+    ]
   },
   {
     "id": 7405742,
@@ -2724,7 +3364,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 95
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "DeepSeekv3.2_HW10.pdf",
+        "position": 661,
+        "context": "aragraph>Chat log: https://chat.deepseek.com/share/u3b4iptgfflvv0t4ohAnnotated PDF:"
+      }
+    ]
   },
   {
     "id": 7405582,
@@ -2751,7 +3398,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 153
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Annotated SPA.pdf",
+        "position": 1031,
+        "context": "h>Sometimes provided overly long chains of reasoningHere is my annotated conversation with DeepSeek:"
+      }
+    ]
   },
   {
     "id": 7405559,
@@ -2773,12 +3427,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7405559",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 188
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "chat-4de4d570-dc1c-4b2f-baf9-9afc394d0333.json",
+        "position": 86,
+        "context": "For special participation A, I used MistralAI's Le Chat to solve HW10 written portion."
+      }
+    ]
   },
   {
     "id": 7405554,
@@ -2800,12 +3461,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7405554",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Claude",
+      "model_name": "Unknown / Multiple",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 269
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "grok_annotated_merged.pdf",
+        "position": 1599,
+        "context": "quick glance over parts of the problem that the model was able to one-shot vs. required extra hints."
+      }
+    ]
   },
   {
     "id": 7405450,
@@ -2832,7 +3500,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 120
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7405370,
@@ -2859,7 +3528,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 325
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "participation_a_hw9.pdf",
+        "position": 2133,
+        "context": "from including pseudocode. Overall, most of the issues were minor and the model had sound reasoning."
+      }
+    ]
   },
   {
     "id": 7404515,
@@ -2872,7 +3548,7 @@
     "type": "post",
     "created_at": "2025-12-04T15:18:02.927395+11:00",
     "reply_count": 0,
-    "view_count": 73,
+    "view_count": 74,
     "user": {
       "id": 663744,
       "name": "Vongani Maluleke",
@@ -2886,7 +3562,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 195
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw7_claude_logs_annotated.pdf",
+        "position": 1230,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7404071,
@@ -2908,12 +3591,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7404071",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 348
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7403245,
@@ -2935,12 +3619,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7403245",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 215
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7401923,
@@ -2967,7 +3652,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 23
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "cs182_hw8 special participation kimi k2.pdf",
+        "position": 137,
+        "context": " giving correct answers zero shot on all questions. (even without \"thinking\" tokens) very impressed."
+      }
+    ]
   },
   {
     "id": 7401078,
@@ -2989,12 +3681,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7401078",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 93
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "annotated-grok-hw8-summary.pdf",
+        "position": 612,
+        "context": "ncluding annotated interaction logs and comparisons to the official solutions, see the attached PDF."
+      }
+    ]
   },
   {
     "id": 7400839,
@@ -3016,12 +3715,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7400839",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 201
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "qwen_hw4_annotated_trace.pdf",
+        "position": 1172,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7399196,
@@ -3048,7 +3754,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 118
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Kimi--HW0.pdf",
+        "position": 767,
+        "context": "reliable for detailed, step-by-step mathematical work without supervision.Here is the annotated log:"
+      }
+    ]
   },
   {
     "id": 7398141,
@@ -3070,12 +3783,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7398141",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 373
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A.pdf",
+        "position": 2791,
+        "context": "ioned as a highly competent tutor, correctly solving all non-coding theoretical components one-shot."
+      }
+    ]
   },
   {
     "id": 7397817,
@@ -3102,7 +3822,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 420
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "ChatGPT - hw9.pdf",
+        "position": 2591,
+        "context": "rrect makes it a pretty solid tool for these kinds of homework questions.Below is the annotated log:"
+      }
+    ]
   },
   {
     "id": 7397298,
@@ -3129,7 +3856,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 85
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw2-specialparticipationA-Gemini3ProThinking.pdf",
+        "position": 524,
+        "context": "sn't hallucinate with these questions). The answers were correct and also using different notations."
+      }
+    ]
   },
   {
     "id": 7397226,
@@ -3151,12 +3885,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7397226",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 90
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "A_Gemini_3_pro.pdf",
+        "position": 602,
+        "context": "was impressed by its precision, presentation quality, and the clarity of its mathematical reasoning."
+      }
+    ]
   },
   {
     "id": 7397166,
@@ -3169,7 +3910,7 @@
     "type": "post",
     "created_at": "2025-12-03T16:47:42.131618+11:00",
     "reply_count": 0,
-    "view_count": 68,
+    "view_count": 69,
     "user": {
       "id": 915218,
       "name": "Ijin Yu",
@@ -3178,12 +3919,29 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7397166",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 353
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "q1.pdf",
+        "position": 2757,
+        "context": "tion engines, provided the user monitors the \"reasoning track\" for the model's internal consistency."
+      },
+      {
+        "filename": "q2.pdf",
+        "position": 2757,
+        "context": "es, provided the user monitors the \"reasoning track\" for the model's internal consistency."
+      },
+      {
+        "filename": "q5.pdf",
+        "position": 2757,
+        "context": "aph>"
+      }
+    ]
   },
   {
     "id": 7393256,
@@ -3210,7 +3968,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 81
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "participationA.pdf",
+        "position": 156,
+        "context": " solve the written questions to Homework 12. I have also attached a PDF of the annotated transcript."
+      }
+    ]
   },
   {
     "id": 7389909,
@@ -3237,7 +4002,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 344
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Participation A.pdf",
+        "position": 2226,
+        "context": "ted themes - clarity of explanations, where Gemma 3 became lost, and emergent \"frustrated\" behavior."
+      }
+    ]
   },
   {
     "id": 7389325,
@@ -3259,12 +4031,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7389325",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 144
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7386904,
@@ -3286,12 +4059,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7386904",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "LLM (unspecified)",
+      "model_name": "Unknown / Multiple",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 226
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7382863,
@@ -3313,12 +4087,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7382863",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 66
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "special_participation.pdf",
+        "position": 428,
+        "context": "reak/>Here is the link to my chat: https://chat.mistral.ai/chat/9c9c7fc7-7985-45a9-b7cd-df337fec5d26"
+      }
+    ]
   },
   {
     "id": 7381174,
@@ -3340,12 +4121,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7381174",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 203
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Qwen Chat.pdf",
+        "position": 1352,
+        "context": "rong—Qwen consistently located the correct question inside the PDF without needing me to restate it."
+      }
+    ]
   },
   {
     "id": 7380526,
@@ -3367,12 +4155,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7380526",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 393
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "aaryan_spec_part_a.pdf",
+        "position": 2257,
+        "context": "them wrong. It seems that the performance of the model gets better and then gets worse, empirically."
+      }
+    ]
   },
   {
     "id": 7377516,
@@ -3399,7 +4194,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 381
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "EECS_182_Special_Participations_KimiK2_HW1.pdf",
+        "position": 2719,
+        "context": " intuitions makes it a powerful study aid for understanding the \"why\" behind deep learning dynamics."
+      }
+    ]
   },
   {
     "id": 7377431,
@@ -3426,7 +4228,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 306
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Pariticpation A-- DeepSeek on HW9.pdf",
+        "position": 2129,
+        "context": "ea4mnmt36qfqu\">https://chat.deepseek.com/share/pp0exea4mnmt36qfquReport with fully annotated traces:"
+      }
+    ]
   },
   {
     "id": 7375514,
@@ -3448,12 +4257,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7375514",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 342
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7374016,
@@ -3475,12 +4285,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7374016",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 235
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "gemini_trace_annotated.pdf",
+        "position": 1490,
+        "context": " you force it to prove elbow motion by comparing e′ vs e and validating with a quick counterexample."
+      }
+    ]
   },
   {
     "id": 7373861,
@@ -3502,12 +4319,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7373861",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 40
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special_Participation_A.pdf",
+        "position": 257,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7372448,
@@ -3534,7 +4358,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 240
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A hw8 deepseek.pdf",
+        "position": 1722,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7372081,
@@ -3561,7 +4392,24 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 393
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Q1_annotated.pdf",
+        "position": 2505,
+        "context": "or more in-depth observations.Files &amp; LinksQuestion 1:"
+      },
+      {
+        "filename": "Q2_annotated.pdf",
+        "position": 2505,
+        "context": "static.us.edusercontent.com/files/WLOcnHEm5JvQXOZ89iD1WNia\" filename=\"Q1_annotated.pdf\"/>Question 2:"
+      },
+      {
+        "filename": "Q5_annotated.pdf",
+        "position": 2505,
+        "context": "static.us.edusercontent.com/files/OuWilSbC3lNKib2obGheQgmb\" filename=\"Q2_annotated.pdf\"/>Question 5:"
+      }
+    ]
   },
   {
     "id": 7358125,
@@ -3583,12 +4431,44 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7358125",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 556
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "182HW9_grokq1.pdf",
+        "position": 1592,
+        "context": " square of a vector mu, rather than the norm squared). The conversation for Problem 1 is as follows:"
+      },
+      {
+        "filename": "182HW9_grok2.pdf",
+        "position": 1878,
+        "context": " of the problem's subject matter, I was able to get Grok to one-shot this highly conceptual problem."
+      },
+      {
+        "filename": "182HW9_grok3.pdf",
+        "position": 2100,
+        "context": "ank code, but I shouldn't have worried. Grok was able to easily one-shot the fill-in-the-blank code."
+      },
+      {
+        "filename": "182HW9_grok4.pdf",
+        "position": 2438,
+        "context": "/h), but in its solution process mentions that this is equivalent to the solutions answer of O(bnk)."
+      },
+      {
+        "filename": "182HW9_grok6.pdf",
+        "position": 3200,
+        "context": "the hypothetical of 'What if M and D were distinct values?\" in order to elicit the desired response."
+      },
+      {
+        "filename": "182HW9_grokfull.pdf",
+        "position": 3390,
+        "context": "s homework, Grok actually made the least sense discussing its \"Homework Process and Study Group\". :)"
+      }
+    ]
   },
   {
     "id": 7357397,
@@ -3610,12 +4490,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7357397",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "high",
       "actionability_bucket": "high",
       "word_count": 793
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Rault-Wang_Nicolas-Special Participation A.pdf",
+        "position": 5249,
+        "context": " Pro 3) to solve every non-coding question of homework 6.Here's the PDF summarizing our interaction:"
+      }
+    ]
   },
   {
     "id": 7353572,
@@ -3642,7 +4529,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 43
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "EECS_182_HW_4_GPT_5_Trace.pdf",
+        "position": 305,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7353091,
@@ -3669,7 +4563,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 266
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Participation_A__Claude_on_HW3.pdf",
+        "position": 1621,
+        "context": "ion-specific comments can be found in the PDF.Formatted PDF of conversation and additional comments:"
+      }
+    ]
   },
   {
     "id": 7335374,
@@ -3696,7 +4597,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 363
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "special_participation_a.pdf",
+        "position": 2114,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7322058,
@@ -3718,12 +4626,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7322058",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 83
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special_Participation_A_HW8.pdf",
+        "position": 470,
+        "context": "ciency; it had a hard time accurately responding in text along with giving a mathematical reasoning."
+      }
+    ]
   },
   {
     "id": 7315986,
@@ -3750,7 +4665,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 323
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7307445,
@@ -3772,12 +4688,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7307445",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 130
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Le Chat.pdf",
+        "position": 910,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7302906,
@@ -3799,12 +4722,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7302906",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 197
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Qwen_HW_Report_Formatted.docx",
+        "position": 1225,
+        "context": "ickly solved by directly copy-pasting the question, which had multiple parts often.Executive Summary"
+      }
+    ]
   },
   {
     "id": 7297480,
@@ -3826,12 +4756,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7297480",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "LLM (unspecified)",
+      "model_name": "Unknown / Multiple",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 445
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "gemini2.5Pro-chat_2025-11-11.pdf",
+        "position": 378,
+        "context": "blem. I’ve attached an annotated pdf of my interactions with the LLM and a link to my original chat."
+      }
+    ]
   },
   {
     "id": 7283953,
@@ -3858,7 +4795,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 156
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "chatgpt.pdf",
+        "position": 896,
+        "context": "extremely well on this homework, requiring only a few clarifications, especially for visual aspects."
+      }
+    ]
   },
   {
     "id": 7267427,
@@ -3885,7 +4829,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 130
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Claude-CS282-specialParticipationA-HW2.pdf",
+        "position": 918,
+        "context": "ind cleaner solutions and even provided further insights compared to the original homework solution."
+      }
+    ]
   },
   {
     "id": 7266065,
@@ -3907,12 +4858,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7266065",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 182
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "mistral_hw2_annotated_log.pdf",
+        "position": 1329,
+        "context": "6-83e1-2c0ac7a7384a\">https://chat.mistral.ai/chat/678d9106-0d96-45c6-83e1-2c0ac7a7384aAnnotated Log:"
+      }
+    ]
   },
   {
     "id": 7265693,
@@ -3939,7 +4897,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 309
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7263386,
@@ -3966,7 +4925,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 70
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A, HW6, gpt-oss-120b.pdf",
+        "position": 426,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7258633,
@@ -3993,7 +4959,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 410
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7250623,
@@ -4015,12 +4982,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7250623",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 147
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "grok_hw7.pdf",
+        "position": 942,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7250482,
@@ -4042,12 +5016,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7250482",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 159
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7250444,
@@ -4069,12 +5044,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7250444",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 362
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7246769,
@@ -4101,7 +5077,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 191
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "hw7 report.pdf",
+        "position": 1433,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7244375,
@@ -4123,12 +5106,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7244375",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Gemini",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 219
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special_Participation_A.pdf",
+        "position": 1386,
+        "context": "ion log with my notations and comments, highlighting notable phenomenons happens in Gemini's answer:"
+      }
+    ]
   },
   {
     "id": 7243310,
@@ -4155,7 +5145,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 114
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "HW5_walkthrough.pdf",
+        "position": 668,
+        "context": " tasks, it tends to make its solutions more complex even though such complex reasoning is not ideal."
+      }
+    ]
   },
   {
     "id": 7227387,
@@ -4182,7 +5179,14 @@
       "depth_bucket": "low",
       "actionability_bucket": "low",
       "word_count": 112
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "deepseek_hw3_log.pdf",
+        "position": 835,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7219478,
@@ -4209,7 +5213,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 286
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special Participation A ChatGPT on HW1.pdf",
+        "position": 2206,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7212198,
@@ -4236,7 +5247,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 175
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7212131,
@@ -4258,12 +5270,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7212131",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Mistral",
       "primary_focus": "model_performance",
       "depth_bucket": "low",
       "actionability_bucket": "medium",
       "word_count": 119
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Annotated log of conversation with Mistral AI.pdf",
+        "position": 814,
+        "context": "d84ff1d\">https://chat.mistral.ai/chat/8c72d241-dd44-41a0-b8fc-a0469d84ff1dHere is the annotated log:"
+      }
+    ]
   },
   {
     "id": 7202422,
@@ -4290,7 +5309,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 241
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "report.pdf",
+        "position": 1436,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7162279,
@@ -4312,12 +5338,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7162279",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 82
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Special participation A.pdf",
+        "position": 609,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7151370,
@@ -4344,7 +5377,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "low",
       "word_count": 106
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "SpecialParticipationA-GPTOssHW5.pdf",
+        "position": 721,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7148413,
@@ -4366,12 +5406,19 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7148413",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Grok",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 173
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "special_participation_A.pdf",
+        "position": 1242,
+        "context": "or theoretical deep learning. It has only minor inefficiencies related to verbosity or explicitness."
+      }
+    ]
   },
   {
     "id": 7132324,
@@ -4398,7 +5445,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 325
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "participationA_HW4_DeepSeek.pdf",
+        "position": 2221,
+        "context": "z7bHere is the file containing the conversation, with question-wise comments (annotated in the PDF):"
+      }
+    ]
   },
   {
     "id": 7111658,
@@ -4425,7 +5479,14 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 434
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "ParticipationA-HW3.pdf",
+        "position": 2840,
+        "context": "er more on topics or ideas that had less public material available online (e.g. RMS-RMS matrix norm)"
+      }
+    ]
   },
   {
     "id": 7095749,
@@ -4452,7 +5513,14 @@
       "depth_bucket": "high",
       "actionability_bucket": "medium",
       "word_count": 467
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "Deepseek4HW1.pdf",
+        "position": 2962,
+        "context": ""
+      }
+    ]
   },
   {
     "id": 7083805,
@@ -4474,12 +5542,13 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7083805",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Unknown / Multiple",
+      "model_name": "Qwen",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 174
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7074543,
@@ -4506,7 +5575,8 @@
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 183
-    }
+    },
+    "file_refs": null
   },
   {
     "id": 7049136,
@@ -4528,11 +5598,18 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7049136",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "LLM (unspecified)",
+      "model_name": "Unknown / Multiple",
       "primary_focus": "model_performance",
       "depth_bucket": "medium",
       "actionability_bucket": "medium",
       "word_count": 312
-    }
+    },
+    "file_refs": [
+      {
+        "filename": "CS_182_Participation_A_HW3_Grok.pdf",
+        "position": 2078,
+        "context": ""
+      }
+    ]
   }
 ]

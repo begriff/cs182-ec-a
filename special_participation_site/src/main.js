@@ -80,6 +80,35 @@ function getFilesForPost(post) {
   return entry.files;
 }
 
+function formatBodyWithLinks(bodyText, files) {
+  // Escape HTML and preserve line breaks
+  let formatted = escapeHtml(bodyText);
+  
+  // Convert markdown-style links [📎 filename] to actual HTML links
+  // Match against files from the manifest
+  if (files && files.length > 0) {
+    formatted = formatted.replace(/\[📎 ([^\]]+)\]/g, (match, filename) => {
+      // Find matching file in manifest
+      const file = files.find(f => f.original_filename === filename.trim());
+      if (file) {
+        return `<a href="${escapeAttribute(file.saved_as)}" class="inline-file-link" target="_blank" rel="noopener">📎 ${escapeHtml(filename)}</a>`;
+      }
+      return match; // No match, keep as is
+    });
+  }
+  
+  // Convert URLs to clickable links
+  // Match http:// or https:// URLs
+  formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, (url) => {
+    return `<a href="${escapeAttribute(url)}" target="_blank" rel="noopener">${escapeHtml(url)}</a>`;
+  });
+  
+  // Preserve line breaks
+  formatted = formatted.replace(/\n/g, '<br>');
+  
+  return formatted;
+}
+
 function populateSelect(selectEl, label, values) {
   const opts = [
     `<option value="">All ${label}</option>`,
@@ -380,7 +409,27 @@ function openPostModal(post) {
     els.postModalFiles.innerHTML = buildFilesHtml(files);
   }
 
-  els.postModalBody.textContent = post.document || "(no body text available)";
+  // Display body with inline PDF links
+  let bodyText = post.document || "(no body text available)";
+  const files = getFilesForPost(post);
+  const fileRefs = post.file_refs || [];
+  
+  if (fileRefs && fileRefs.length > 0) {
+    // Sort file refs by position (latest first to avoid position shifts)
+    const sorted = [...fileRefs].sort((a, b) => b.position - a.position);
+    
+    for (const ref of sorted) {
+      const pos = ref.position;
+      if (pos >= 0 && pos <= bodyText.length) {
+        // Insert inline file link marker
+        const marker = `\n\n[📎 ${ref.filename}]\n\n`;
+        bodyText = bodyText.slice(0, pos) + marker + bodyText.slice(pos);
+      }
+    }
+  }
+  
+  // Convert to HTML with proper formatting and clickable links
+  els.postModalBody.innerHTML = formatBodyWithLinks(bodyText, files);
 
   els.postModalBackdrop.hidden = false;
   document.body.classList.add("modal-open");

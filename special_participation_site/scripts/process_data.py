@@ -54,6 +54,7 @@ class ProcessedPost:
   user: UserLite
   ed_url: Optional[str]
   metrics: Metrics
+  file_refs: Optional[List[Dict[str, Any]]] = None
 
   def to_dict(self) -> Dict[str, Any]:  # for JSON serialization
     d = asdict(self)
@@ -72,32 +73,45 @@ def extract_homework_id(text: str) -> str:
 
 
 MODEL_KEYWORDS = {
+  "Gemini": ["gemini"],
   "Kimi": ["kimi"],
   "Claude": ["claude"],
   "ChatGPT 5.1": ["5.1 thinking", "gpt 5.1"],
   "GPT-5": ["gpt5", "gpt 5"],
-  "ChatGPT (other)": ["chatgpt"],
+  "ChatGPT (other)": ["chatgpt", "gpt"],
   "DeepSeek": ["deepseek"],
+  "Grok": ["grok"],
+  "Qwen": ["qwen"],
+  "Mistral": ["mistral"],
   "LLaMA": ["llama"],
   "LLM (unspecified)": ["llm", "language model"],
 }
 
 
 def detect_model_name(text_lower: str) -> str:
-  hits: List[str] = []
-  for label, phrases in MODEL_KEYWORDS.items():
+  # Check in priority order - more specific models first
+  priority_order = [
+    "ChatGPT 5.1",
+    "GPT-5", 
+    "Gemini",
+    "DeepSeek",
+    "Claude",
+    "Kimi",
+    "Grok",
+    "Qwen",
+    "Mistral",
+    "LLaMA",
+    "ChatGPT (other)",
+    "LLM (unspecified)",
+  ]
+  
+  for label in priority_order:
+    phrases = MODEL_KEYWORDS.get(label, [])
     for phrase in phrases:
       if phrase in text_lower:
-        hits.append(label)
-        break
-
-  if not hits:
-    return "Unknown / Multiple"
-
-  unique = sorted(set(hits))
-  if len(unique) > 1:
-    return "Unknown / Multiple"
-  return unique[0]
+        return label
+  
+  return "Unknown / Multiple"
 
 
 FOCUS_KEYWORDS = {
@@ -235,16 +249,75 @@ def compute_actionability_bucket(text_lower: str) -> str:
 
 
 def build_ed_url(course_id: Optional[int], thread_id: Optional[int]) -> Optional[str]:
-  if not course_id or not thread_id:
+  if course_id is None or thread_id is None:
     return None
   return f"https://edstem.org/us/courses/{course_id}/discussion/{thread_id}"
+
+
+def extract_file_references(content: str, document: str) -> List[Dict[str, Any]]:
+  """Extract file references from content and map them to positions in the document."""
+  import re
+  
+  # Find file tags in content
+  pattern = r'<file\s+url="([^"]+)"\s+filename="([^"]+)"\s*/>'
+  file_refs = []
+  
+  for match in re.finditer(pattern, content):
+    url, filename = match.groups()
+    
+    # Find approximate position in the cleaned document
+    # Look for context around the file tag
+    context_start = max(0, match.start() - 200)
+    context_end = min(len(content), match.end() + 100)
+    context_raw = content[context_start:match.start()]  # Only look BEFORE the file tag
+    
+    # Clean HTML tags to match document text
+    context_clean = re.sub(r'<[^>]+>', '', context_raw)
+    context_clean = re.sub(r'\s+', ' ', context_clean).strip()
+    
+    # Try to find this context in the document
+    # Use last few words before the file to locate position
+    context_words = context_clean.split()
+    if len(context_words) > 10:
+      # Use last 8 words before the file
+      search_text = ' '.join(context_words[-8:])
+    else:
+      search_text = context_clean
+    
+    position = -1
+    if search_text:
+      # Case-insensitive search
+      doc_lower = document.lower()
+      search_lower = search_text.lower()
+      found_pos = doc_lower.find(search_lower)
+      if found_pos >= 0:
+        # Position after the matched text (end of context)
+        position = found_pos + len(search_text)
+        # Find next word boundary (space or punctuation)
+        while position < len(document) and document[position] not in ' \n\t.,;:!?':
+          position += 1
+        # Skip any spaces after
+        while position < len(document) and document[position] in ' \t':
+          position += 1
+    
+    file_refs.append({
+      'filename': filename,
+      'position': position if position >= 0 else len(document),  # Default to end if not found
+      'context': context_clean[-100:] if context_clean else ''  # Store last 100 chars of context
+    })
+  
+  return file_refs
 
 
 def process_thread(raw: Dict[str, Any]) -> ProcessedPost:
   title = (raw.get("title") or "").strip()
   document = (raw.get("document") or "").strip()
+  content = (raw.get("content") or "")
   combined = f"{title}\n{document}"
   combined_lower = combined.lower()
+  
+  # Extract file references with positions from content
+  file_refs = extract_file_references(content, document)
 
   homework_id = extract_homework_id(combined)
   model_name = detect_model_name(combined_lower)
@@ -285,6 +358,7 @@ def process_thread(raw: Dict[str, Any]) -> ProcessedPost:
     user=user,
     ed_url=ed_url,
     metrics=metrics,
+    file_refs=file_refs if file_refs else None,
   )
 
 
