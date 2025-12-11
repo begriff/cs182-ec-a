@@ -254,6 +254,28 @@
         <section class="post-modal-body">
           <pre id="post-modal-body" class="post-modal-text"></pre>
         </section>
+        <section class="post-modal-qa">
+          <div class="qa-header">
+            <h4>Ask about this thread</h4>
+            <span id="qa-status" class="qa-status"></span>
+          </div>
+          <div id="qa-messages" class="qa-messages"></div>
+          <form id="qa-form" class="qa-form">
+            <input
+              type="text"
+              id="qa-input"
+              class="qa-input"
+              placeholder="Ask a question about this thread..."
+              autocomplete="off"
+            />
+            <button type="submit" id="qa-send" class="qa-send">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </form>
+        </section>
       </div>
     </div>
 

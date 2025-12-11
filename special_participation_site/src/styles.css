@@ -1413,6 +1413,132 @@ body.theme-light .chat-message.assistant {
   transform: scale(0.95);
 }
 
+/* Thread Q&A Section */
+.post-modal-qa {
+  border-top: 1px solid var(--border);
+  padding: 1rem;
+  background: var(--bg-inset);
+}
+
+.qa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.qa-header h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.qa-status {
+  font-size: 0.7rem;
+  color: var(--fg-muted);
+}
+
+.qa-status.ready {
+  color: var(--success, #22c55e);
+}
+
+.qa-status.loading {
+  color: var(--accent);
+}
+
+.qa-status.error {
+  color: var(--danger, #ef4444);
+}
+
+.qa-messages {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.qa-message {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.qa-message p {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.qa-user {
+  background: var(--accent);
+  color: white;
+  align-self: flex-end;
+  max-width: 85%;
+}
+
+.qa-assistant {
+  background: var(--bg-subtle);
+  color: var(--fg);
+  align-self: flex-start;
+  max-width: 85%;
+}
+
+.qa-assistant.streaming p::after {
+  content: "▋";
+  animation: blink 1s step-end infinite;
+}
+
+.qa-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.qa-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 0.85rem;
+}
+
+.qa-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.qa-input::placeholder {
+  color: var(--fg-muted);
+  opacity: 0.7;
+}
+
+.qa-send {
+  padding: 0.5rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+}
+
+.qa-send:hover {
+  opacity: 0.9;
+}
+
+.qa-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* RAG Source Links */
 .rag-sources {
   margin-top: 0.75rem;

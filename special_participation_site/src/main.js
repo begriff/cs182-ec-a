@@ -6,6 +6,11 @@ const state = {
   allPosts: [],
   filtered: [],
   filesManifest: {},
+  currentModalPost: null,
+  qaMessages: [],
+  qaEngine: null,
+  qaWebllm: null,
+  qaGenerating: false,
 };
 
 const els = {};
@@ -33,6 +38,11 @@ function cacheElements() {
   els.postModalBody = document.getElementById("post-modal-body");
   els.postModalClose = document.getElementById("post-modal-close");
   els.postModalFiles = document.getElementById("post-modal-files");
+  els.qaForm = document.getElementById("qa-form");
+  els.qaInput = document.getElementById("qa-input");
+  els.qaSend = document.getElementById("qa-send");
+  els.qaMessages = document.getElementById("qa-messages");
+  els.qaStatus = document.getElementById("qa-status");
 }
 
 async function loadData() {
@@ -225,6 +235,11 @@ function attachEvents() {
       openPostModal(post);
     }
   });
+
+  // Q&A form handler
+  if (els.qaForm) {
+    els.qaForm.addEventListener("submit", handleQaSubmit);
+  }
 }
 
 function setupViewSwitcher() {
@@ -295,6 +310,21 @@ function openPostModal(post) {
   if (!els.postModalBackdrop || !els.postModalBody || !els.postModalTitle) return;
 
   lastFocusedElement = document.activeElement;
+  state.currentModalPost = post;
+  state.qaMessages = [];
+  if (els.qaMessages) els.qaMessages.innerHTML = "";
+  
+  // Check for shared engine or existing engine
+  const hasEngine = state.qaEngine || window.sharedLLMEngine;
+  if (els.qaStatus) {
+    if (hasEngine) {
+      els.qaStatus.textContent = window.sharedLLMEngine ? "Ready (shared)" : "Ready";
+      els.qaStatus.className = "qa-status ready";
+    } else {
+      els.qaStatus.textContent = "Load model in chat first, or ask a question";
+      els.qaStatus.className = "qa-status";
+    }
+  }
 
   const m = post.metrics || {};
   const hw = m.homework_id || "Unknown";
@@ -365,12 +395,184 @@ function closePostModal() {
   els.postModalBackdrop.hidden = true;
   document.body.classList.remove("modal-open");
 
+  // Clear Q&A state for this modal
+  state.currentModalPost = null;
+  state.qaMessages = [];
+  if (els.qaMessages) els.qaMessages.innerHTML = "";
+  if (els.qaStatus) els.qaStatus.textContent = "";
+
   if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
     try {
       lastFocusedElement.focus();
     } catch {
       // ignore
     }
+  }
+}
+
+async function initQaEngine() {
+  // Check if shared engine from chat widget is available
+  if (window.sharedLLMEngine) {
+    state.qaEngine = window.sharedLLMEngine;
+    state.qaWebllm = window.sharedLLMWebllm;
+    if (els.qaStatus) {
+      els.qaStatus.textContent = "Ready (shared)";
+      els.qaStatus.className = "qa-status ready";
+    }
+    return;
+  }
+
+  if (state.qaEngine) return;
+
+  if (!navigator.gpu) {
+    if (els.qaStatus) {
+      els.qaStatus.textContent = "WebGPU not supported";
+      els.qaStatus.className = "qa-status error";
+    }
+    return;
+  }
+
+  try {
+    if (els.qaStatus) {
+      els.qaStatus.textContent = "Loading model...";
+      els.qaStatus.className = "qa-status loading";
+    }
+
+    if (!state.qaWebllm) {
+      state.qaWebllm = await import("https://esm.run/@mlc-ai/web-llm");
+    }
+
+    const modelId = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
+    state.qaEngine = await state.qaWebllm.CreateMLCEngine(modelId, {
+      initProgressCallback: (progress) => {
+        if (els.qaStatus) {
+          els.qaStatus.textContent = progress.text || "Loading...";
+        }
+      },
+    });
+
+    if (els.qaStatus) {
+      els.qaStatus.textContent = "Ready";
+      els.qaStatus.className = "qa-status ready";
+    }
+  } catch (err) {
+    console.error("Failed to init QA engine:", err);
+    if (els.qaStatus) {
+      els.qaStatus.textContent = "Failed to load";
+      els.qaStatus.className = "qa-status error";
+    }
+  }
+}
+
+async function buildThreadContext(post) {
+  const parts = [];
+  parts.push(`Title: ${post.title || "Untitled"}`);
+
+  const m = post.metrics || {};
+  if (m.homework_id) parts.push(`Homework: ${m.homework_id}`);
+  if (m.model_name) parts.push(`Model evaluated: ${m.model_name}`);
+
+  parts.push(`\nThread content:\n${post.document || "(no content)"}`);
+
+  // Try to load associated txt files
+  const threadNum = String(post.number);
+  const entry = state.filesManifest[threadNum];
+  if (entry?.files?.length) {
+    for (const file of entry.files) {
+      if (file.transcript) {
+        try {
+          const res = await fetch(file.transcript, { cache: "force-cache" });
+          if (res.ok) {
+            let txt = await res.text();
+            if (txt.length > 6000) txt = txt.slice(0, 6000) + "...";
+            parts.push(`\nAttached file (${file.original_filename}):\n${txt}`);
+          }
+        } catch {
+          // ignore
+        }
+      }
+    }
+  }
+
+  return parts.join("\n");
+}
+
+function addQaMessage(role, content, isStreaming = false) {
+  const div = document.createElement("div");
+  div.className = `qa-message qa-${role}${isStreaming ? " streaming" : ""}`;
+  div.innerHTML = `<p>${escapeHtml(content)}</p>`;
+  els.qaMessages.appendChild(div);
+  els.qaMessages.scrollTop = els.qaMessages.scrollHeight;
+  return div;
+}
+
+async function handleQaSubmit(e) {
+  e.preventDefault();
+
+  const question = els.qaInput.value.trim();
+  if (!question || state.qaGenerating || !state.currentModalPost) return;
+
+  // Initialize engine if needed
+  if (!state.qaEngine) {
+    await initQaEngine();
+    if (!state.qaEngine) return;
+  }
+
+  // Add user message
+  addQaMessage("user", question);
+  els.qaInput.value = "";
+
+  state.qaGenerating = true;
+  els.qaInput.disabled = true;
+  els.qaSend.disabled = true;
+  if (els.qaStatus) els.qaStatus.textContent = "Thinking...";
+
+  const assistantEl = addQaMessage("assistant", "", true);
+
+  try {
+    // Build context from the thread
+    const threadContext = await buildThreadContext(state.currentModalPost);
+
+    const messages = [
+      {
+        role: "system",
+        content: "You are a helpful assistant answering questions about a specific thread from EECS 182 special participation posts. Answer based on the thread content provided. Be concise.",
+      },
+      {
+        role: "user",
+        content: `Here is the thread content:\n\n${threadContext}\n\n---\n\nQuestion: ${question}\n\nPlease answer based on the thread content above.`,
+      },
+    ];
+
+    let fullResponse = "";
+    const asyncGenerator = await state.qaEngine.chat.completions.create({
+      messages,
+      stream: true,
+      max_tokens: 400,
+      temperature: 0.7,
+    });
+
+    for await (const chunk of asyncGenerator) {
+      const delta = chunk.choices[0]?.delta?.content || "";
+      fullResponse += delta;
+      assistantEl.querySelector("p").textContent = fullResponse;
+      els.qaMessages.scrollTop = els.qaMessages.scrollHeight;
+    }
+
+    assistantEl.classList.remove("streaming");
+  } catch (err) {
+    console.error("QA generation error:", err);
+    assistantEl.querySelector("p").textContent = "Sorry, something went wrong.";
+    assistantEl.classList.remove("streaming");
+  } finally {
+    state.qaGenerating = false;
+    els.qaInput.disabled = false;
+    els.qaSend.disabled = false;
+    if (els.qaStatus) {
+      els.qaStatus.textContent = "Ready";
+      els.qaStatus.className = "qa-status ready";
+    }
+    els.qaInput.focus();
   }
 }
 

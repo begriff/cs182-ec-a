@@ -118,6 +118,10 @@ async function initEngine() {
         content: `You are a helpful AI assistant integrated into a web app that explores EECS 182 "special participation A" posts where students evaluated LLMs on homework problems. Be concise and helpful. If asked about the posts, explain that users can filter and search them in the main interface.`,
       },
     ];
+
+    // Expose engine globally for thread Q&A to use
+    window.sharedLLMEngine = chatState.engine;
+    window.sharedLLMWebllm = chatState.webllm;
   } catch (error) {
     console.error("Failed to initialize WebLLM:", error);
     els.loading.hidden = true;
