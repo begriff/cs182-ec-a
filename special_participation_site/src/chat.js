@@ -1,7 +1,10 @@
 /**
  * Browser-based Chat Assistant using WebLLM
  * Runs LLM inference entirely in the browser using WebGPU
+ * Supports RAG (Retrieval-Augmented Generation) for context-aware responses
  */
+
+import * as rag from "./rag.js";
 
 // State
 const chatState = {
@@ -11,6 +14,10 @@ const chatState = {
   isGenerating: false,
   messages: [],
   currentModel: null,
+  ragEnabled: false,
+  ragIndexed: false,
+  posts: [],
+  filesManifest: {},
 };
 
 // DOM Elements
@@ -29,12 +36,21 @@ function cacheElements() {
   els.form = document.getElementById("chat-form");
   els.input = document.getElementById("chat-input");
   els.send = document.getElementById("chat-send");
+  els.ragToggle = document.getElementById("rag-toggle");
+  els.ragStatus = document.getElementById("rag-status");
+  els.clearChat = document.getElementById("clear-chat");
 }
 
 function attachEvents() {
   els.toggle.addEventListener("click", toggleChat);
   els.form.addEventListener("submit", handleSubmit);
   els.modelSelect.addEventListener("change", handleModelChange);
+  if (els.ragToggle) {
+    els.ragToggle.addEventListener("change", handleRagToggle);
+  }
+  if (els.clearChat) {
+    els.clearChat.addEventListener("click", clearConversation);
+  }
 }
 
 function toggleChat() {
@@ -140,6 +156,116 @@ async function handleModelChange() {
   await initEngine();
 }
 
+async function handleRagToggle() {
+  chatState.ragEnabled = els.ragToggle.checked;
+  updateRagStatus();
+
+  if (chatState.ragEnabled && !chatState.ragIndexed) {
+    await initRag();
+  }
+}
+
+function clearConversation() {
+  // Reset messages to just the system message
+  chatState.messages = [
+    {
+      role: "system",
+      content: `You are a helpful AI assistant integrated into a web app that explores EECS 182 "special participation A" posts where students evaluated LLMs on homework problems. Be concise and helpful. If asked about the posts, explain that users can filter and search them in the main interface.`,
+    },
+  ];
+
+  // Clear the messages display
+  els.messages.innerHTML = `
+    <div class="chat-message assistant">
+      <p>Conversation cleared. How can I help you?</p>
+    </div>
+  `;
+}
+
+function updateRagStatus() {
+  if (!els.ragStatus) return;
+
+  if (!chatState.ragEnabled) {
+    els.ragStatus.textContent = "RAG disabled";
+    els.ragStatus.className = "rag-status";
+  } else if (chatState.ragIndexed) {
+    els.ragStatus.textContent = `RAG ready (${rag.getIndexedCount()} threads)`;
+    els.ragStatus.className = "rag-status ready";
+  } else {
+    els.ragStatus.textContent = "RAG not indexed";
+    els.ragStatus.className = "rag-status";
+  }
+}
+
+async function loadPostsData() {
+  if (chatState.posts.length > 0) return;
+
+  try {
+    const [postsRes, manifestRes] = await Promise.all([
+      fetch("public/data/posts_processed.json", { cache: "no-store" }),
+      fetch("files/manifest.json", { cache: "no-store" }),
+    ]);
+
+    if (postsRes.ok) {
+      chatState.posts = await postsRes.json();
+    }
+    if (manifestRes.ok) {
+      chatState.filesManifest = await manifestRes.json();
+    }
+  } catch (err) {
+    console.error("Failed to load posts data:", err);
+  }
+}
+
+async function initRag() {
+  if (chatState.ragIndexed) return;
+
+  els.loading.hidden = false;
+  els.loadingText.textContent = "Initializing RAG...";
+  els.progressFill.style.width = "0%";
+
+  try {
+    // Load posts data first
+    els.loadingText.textContent = "Loading thread data...";
+    await loadPostsData();
+
+    if (chatState.posts.length === 0) {
+      throw new Error("No posts data available");
+    }
+
+    // Initialize embedding engine
+    await rag.initEmbeddingEngine((progress) => {
+      els.loadingText.textContent = progress.text;
+      els.progressFill.style.width = `${Math.round(progress.progress * 50)}%`;
+    });
+
+    // Index all threads
+    await rag.indexThreads(chatState.posts, chatState.filesManifest, (progress) => {
+      els.loadingText.textContent = progress.text;
+      els.progressFill.style.width = `${50 + Math.round(progress.progress * 50)}%`;
+    });
+
+    chatState.ragIndexed = true;
+    updateRagStatus();
+
+    addMessage(
+      "assistant",
+      `RAG initialized! I can now search through ${rag.getIndexedCount()} threads to find relevant context for your questions.`
+    );
+  } catch (err) {
+    console.error("Failed to initialize RAG:", err);
+    addMessage(
+      "assistant",
+      `Failed to initialize RAG: ${err.message}. Falling back to standard chat.`
+    );
+    chatState.ragEnabled = false;
+    if (els.ragToggle) els.ragToggle.checked = false;
+    updateRagStatus();
+  } finally {
+    els.loading.hidden = true;
+  }
+}
+
 async function handleSubmit(e) {
   e.preventDefault();
 
@@ -150,24 +276,57 @@ async function handleSubmit(e) {
   addMessage("user", userMessage);
   els.input.value = "";
 
-  // Add to conversation history
-  chatState.messages.push({ role: "user", content: userMessage });
-
   // Generate response
   chatState.isGenerating = true;
   els.input.disabled = true;
   els.send.disabled = true;
-  els.status.textContent = "Thinking...";
 
   // Create assistant message placeholder
   const assistantEl = addMessage("assistant", "", true);
 
   try {
+    let contextMessage = "";
+
+    // If RAG is enabled and indexed, search for relevant threads
+    let ragResults = [];
+    if (chatState.ragEnabled && chatState.ragIndexed) {
+      els.status.textContent = "Searching threads...";
+      ragResults = await rag.searchThreads(userMessage, 3);
+
+      if (ragResults.length > 0) {
+        contextMessage = rag.formatContext(ragResults);
+
+        // Show which threads were found
+        const threadList = ragResults
+          .map((r) => `"${r.title}" (${(r.score * 100).toFixed(0)}%)`)
+          .join(", ");
+        console.log("RAG retrieved threads:", threadList);
+      }
+    }
+
+    els.status.textContent = "Thinking...";
+
+    // Build messages for this request
+    const messagesForRequest = [...chatState.messages];
+
+    // Add user message with optional RAG context
+    if (contextMessage) {
+      messagesForRequest.push({
+        role: "user",
+        content: `${contextMessage}\n\nUser question: ${userMessage}\n\nPlease answer the question based on the thread content above. If the threads don't contain relevant information, say so and answer based on your general knowledge.`,
+      });
+    } else {
+      messagesForRequest.push({ role: "user", content: userMessage });
+    }
+
+    // Add to conversation history (without RAG context for cleaner history)
+    chatState.messages.push({ role: "user", content: userMessage });
+
     let fullResponse = "";
 
     // Use streaming for better UX
     const asyncGenerator = await chatState.engine.chat.completions.create({
-      messages: chatState.messages,
+      messages: messagesForRequest,
       stream: true,
       max_tokens: 512,
       temperature: 0.7,
@@ -182,6 +341,37 @@ async function handleSubmit(e) {
 
     // Remove streaming cursor
     assistantEl.classList.remove("streaming");
+
+    // Add source links if RAG was used
+    if (ragResults.length > 0) {
+      const sourcesDiv = document.createElement("div");
+      sourcesDiv.className = "rag-sources";
+      sourcesDiv.innerHTML = `
+        <span class="rag-sources-label">Sources:</span>
+        ${ragResults
+          .map((r) => {
+            const hw = r.metrics?.homework_id || "";
+            const score = (r.score * 100).toFixed(0);
+            const badge = hw ? `<span class="rag-source-badge">${escapeHtml(hw)}</span>` : "";
+            const link = `<a href="#" class="rag-source-link" data-thread-num="${r.threadNum}">${escapeHtml(r.title)}</a>`;
+            return `<div class="rag-source-item">${badge}${link}<span class="rag-source-score">${score}%</span></div>`;
+          })
+          .join("")}
+      `;
+      
+      // Add click handlers for source links
+      sourcesDiv.querySelectorAll(".rag-source-link").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const threadNum = parseInt(link.dataset.threadNum, 10);
+          // Dispatch custom event for main.js to handle
+          window.dispatchEvent(new CustomEvent("open-thread", { detail: { threadNum } }));
+        });
+      });
+      
+      assistantEl.appendChild(sourcesDiv);
+      scrollToBottom();
+    }
 
     // Add to conversation history
     chatState.messages.push({ role: "assistant", content: fullResponse });
@@ -243,6 +433,9 @@ function init() {
   } else {
     els.status.textContent = "Select a model to start";
   }
+
+  // Initialize RAG status
+  updateRagStatus();
 }
 
 if (document.readyState === "loading") {

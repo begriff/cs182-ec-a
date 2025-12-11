@@ -278,9 +278,17 @@
 
       <div id="chat-panel" class="chat-panel" hidden>
         <header class="chat-header">
-          <div>
-            <h3>AI Assistant</h3>
-            <p id="chat-status" class="chat-status">Loading model...</p>
+          <div class="chat-header-top">
+            <div>
+              <h3>AI Assistant</h3>
+              <p id="chat-status" class="chat-status">Loading model...</p>
+            </div>
+            <button id="clear-chat" class="clear-chat-btn" type="button" title="Clear conversation">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
           </div>
           <select id="model-select" class="model-select">
             <option value="">Select a model...</option>
@@ -289,6 +297,14 @@
             <option value="SmolLM2-1.7B-Instruct-q4f16_1-MLC">SmolLM2 1.7B</option>
             <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen 2.5 1.5B</option>
           </select>
+          <div class="rag-controls">
+            <label class="rag-toggle-label">
+              <input type="checkbox" id="rag-toggle" class="rag-toggle-input" />
+              <span class="rag-toggle-switch"></span>
+              <span class="rag-toggle-text">RAG</span>
+            </label>
+            <span id="rag-status" class="rag-status">RAG disabled</span>
+          </div>
         </header>
 
         <div id="chat-messages" class="chat-messages">

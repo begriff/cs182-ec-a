@@ -216,6 +216,15 @@ function attachEvents() {
       closePostModal();
     }
   });
+
+  // Listen for RAG source link clicks
+  window.addEventListener("open-thread", (event) => {
+    const { threadNum } = event.detail;
+    const post = state.allPosts.find((p) => p.number === threadNum);
+    if (post) {
+      openPostModal(post);
+    }
+  });
 }
 
 function setupViewSwitcher() {
