@@ -80,7 +80,6 @@ def generate_homework_insight(client: Any, hw_id: str, posts: List[Dict[str, Any
         summary_parts.append(
             f"- Model: {metrics.get('model_name')}\n"
             f"  Title: {post.get('title', '')}\n"
-            f"  Depth: {metrics.get('depth_bucket')}\n"
             f"  Content: {body}...{pdf_content}"
         )
     
@@ -143,7 +142,6 @@ def generate_model_insight(client: Any, model: str, posts: List[Dict[str, Any]],
         summary_parts.append(
             f"- HW: {metrics.get('homework_id')}\n"
             f"  Title: {post.get('title', '')}\n"
-            f"  Depth: {metrics.get('depth_bucket')}\n"
             f"  Content: {body}...{pdf_content}"
         )
     

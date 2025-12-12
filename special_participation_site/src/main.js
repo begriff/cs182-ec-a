@@ -658,29 +658,10 @@ function parseDateSafe(s) {
   return Number.isNaN(d.getTime()) ? null : d;
 }
 
-function depthScore(depth) {
-  switch (depth) {
-    case "high":
-      return 3;
-    case "medium":
-      return 2;
-    case "low":
-      return 1;
-    default:
-      return 0;
-  }
-}
-
 function sortResults(list, order) {
   const arr = list.slice();
 
-  if (order === "depth") {
-    arr.sort((a, b) => {
-      const da = depthScore(a.metrics?.depth_bucket);
-      const db = depthScore(b.metrics?.depth_bucket);
-      return db - da;
-    });
-  } else if (order === "homework") {
+  if (order === "homework") {
     arr.sort((a, b) => {
       const hwA = a.metrics?.homework_id || "";
       const hwB = b.metrics?.homework_id || "";

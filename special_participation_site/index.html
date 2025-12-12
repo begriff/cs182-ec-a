@@ -71,7 +71,6 @@
               <select id="sort-order">
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>
-                <option value="depth">Depth (high → low)</option>
                 <option value="homework">Homework (ascending)</option>
                 <option value="model">Model (A-Z)</option>
               </select>
@@ -145,12 +144,9 @@
                 <ul>
                   <li><strong>Homework</strong>: which HW the post is about (e.g., HW6).</li>
                   <li><strong>Model</strong>: which LLM or tool was evaluated (Kimi, Claude, GPT-5.x, etc.).</li>
-                  <li><strong>Primary focus</strong>: model performance, assignment feedback, prompting, or reflection.</li>
-                  <li><strong>Depth</strong>: low / medium / high, based on length and language.</li>
-                  <li><strong>Actionability</strong>: low / medium / high, based on presence of concrete suggestions.</li>
                 </ul>
                 <p class="small-muted">
-                  See <code>METRICS_DESIGN.md</code> for the exact heuristics.
+                  Posts can be filtered by homework or model, and sorted by date, homework number, or model name.
                 </p>
               </div>
             </div>
