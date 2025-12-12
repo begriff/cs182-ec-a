@@ -17,12 +17,18 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+try:
+  from openai import OpenAI
+except ImportError:
+  OpenAI = None
 
 
 @dataclass
@@ -34,11 +40,9 @@ class UserLite:
 
 @dataclass
 class Metrics:
-  homework_id: str
+  homework_id: Optional[str]
   model_name: str
-  primary_focus: str
   depth_bucket: str
-  actionability_bucket: str
   word_count: int
 
 
@@ -116,6 +120,157 @@ def detect_model_name(text_lower: str) -> str:
         return label
   
   return "Unknown / Multiple"
+
+
+def detect_model_name_with_llm(client: Any, title: str, content: str) -> str:
+  """Use LLM to detect and categorize the model with version/mode details."""
+  prompt = f"""Based on this student post title and content, identify the LLM model being evaluated.
+
+Title: {title}
+Content: {content[:800]}
+
+Extract ONLY the base model name and major version. IGNORE minor variations and thinking modes.
+
+NORMALIZATION RULES:
+1. ChatGPT/GPT models: Always use "GPT-X" format (NOT "ChatGPT X")
+   - ChatGPT 4 or 4o → "GPT-4o"
+   - ChatGPT 5 (but NOT 5.1) → "GPT-5"
+   - ChatGPT 5.1 or GPT-5.1 → "GPT-5.1"
+   - ChatGPT o3 → "GPT-o3"
+
+2. Claude: Use "Claude Sonnet" or "Claude Opus" (ignore version numbers like 4.5/3.5)
+
+3. Gemini: ONLY two categories based on capability
+   - If mentions "Pro" OR "Thinking" → "Gemini Pro"
+   - If mentions "Flash" OR "Fast" → "Gemini Flash"
+   - Otherwise → "Gemini Flash" (default)
+
+4. DeepSeek: Always just "DeepSeek" (ignore all version/mode info)
+
+5. Other models: Use base name only
+   - Kimi/KIMI K2 → "Kimi"
+   - Mistral/Le Chat/Mistral AI → "Mistral"
+   - Qwen/Qwen3-Max/etc → "Qwen"
+   - Grok → "Grok" or "Grok 4" if version 4
+   - GPT-Oss/gpt-oss-120b → "GPT-Oss"
+   - Gemma → "Gemma"
+   - LLaMA/Llama → "LLaMA"
+
+Examples:
+- "ChatGPT 5.1 (Extended Thinking)" → "GPT-5.1"
+- "ChatGPT 5 (Thinking)" → "GPT-5"
+- "GPT 5.1" → "GPT-5.1"
+- "Gemini 3 Pro (Thinking)" → "Gemini Pro"
+- "Gemini 2.5 Flash" → "Gemini Flash"
+- "Gemini" (no variant) → "Gemini Flash"
+- "DeepSeek v3.2 Deep Think" → "DeepSeek"
+- "Claude Opus 4.5 Extended" → "Claude Opus"
+- "gpt-oss-120b" → "GPT-Oss"
+- "GPT-Oss" → "GPT-Oss" (NOT ChatGPT)
+
+Response with ONLY the normalized model name:"""
+
+  try:
+    response = client.chat.completions.create(
+      model="gpt-4o-mini",
+      messages=[
+        {"role": "system", "content": "You are a precise model identification assistant. Normalize model names to their base forms, ignoring minor variations and thinking modes."},
+        {"role": "user", "content": prompt}
+      ],
+      max_tokens=30,
+      temperature=0
+    )
+    model_name = response.choices[0].message.content.strip()
+    
+    # Post-process to catch common variations
+    model_name = normalize_model_name(model_name)
+    
+    if not model_name or len(model_name) > 50:
+      return "Unknown / Multiple"
+    return model_name
+  except Exception as e:
+    print(f"  Warning: LLM model detection failed: {e}")
+    # Fallback to keyword detection
+    return detect_model_name((title + " " + content).lower())
+
+
+def normalize_model_name(name: str) -> str:
+  """Apply final normalization to catch common variations."""
+  name_lower = name.lower()
+  
+  # DeepSeek - always just "DeepSeek"
+  if "deepseek" in name_lower:
+    return "DeepSeek"
+  
+  # GPT-Oss variants - check BEFORE ChatGPT/GPT to avoid false matches
+  if "gpt-oss" in name_lower or "gpt_oss" in name_lower:
+    return "GPT-Oss"
+  
+  # ChatGPT/GPT variants - normalize to GPT-X format
+  if "chatgpt" in name_lower or name_lower.startswith("gpt"):
+    # Extract version
+    if "5.1" in name or "gpt-5.1" in name_lower:
+      return "GPT-5.1"
+    elif "5" in name or "gpt-5" in name_lower:
+      return "GPT-5"
+    elif "4o" in name_lower:
+      return "GPT-4o"
+    elif "o3" in name_lower:
+      return "GPT-o3"
+    elif "4" in name:
+      return "GPT-4"
+    return "ChatGPT"
+  
+  # Claude variants
+  if "claude" in name_lower:
+    if "sonnet" in name_lower:
+      return "Claude Sonnet"
+    if "opus" in name_lower:
+      return "Claude Opus"
+    return "Claude"
+  
+  # Gemini variants - Pro for thinking, Flash for fast, default to Flash
+  if "gemini" in name_lower:
+    # Check for thinking mode or "pro" variant
+    if "thinking" in name_lower or "pro" in name_lower:
+      return "Gemini Pro"
+    # Check for flash/fast variant OR default to Flash
+    if "flash" in name_lower or "fast" in name_lower:
+      return "Gemini Flash"
+    # Default to Flash when variant not specified
+    return "Gemini Flash"
+  
+  # Gemma
+  if "gemma" in name_lower:
+    return "Gemma"
+  
+  # Kimi variants
+  if "kimi" in name_lower:
+    return "Kimi"
+  
+  # Mistral variants
+  if "mistral" in name_lower or "le chat" in name_lower:
+    return "Mistral"
+  
+  # Qwen variants
+  if "qwen" in name_lower:
+    return "Qwen"
+  
+  # Grok variants
+  if "grok" in name_lower:
+    if "4" in name:
+      return "Grok 4"
+    return "Grok"
+  
+  # LLaMA variants
+  if "llama" in name_lower:
+    return "LLaMA"
+  
+  # Perplexity
+  if "perplexity" in name_lower or "sonar" in name_lower:
+    return "Perplexity"
+  
+  return name
 
 
 FOCUS_KEYWORDS = {
@@ -313,7 +468,7 @@ def extract_file_references(content: str, document: str) -> List[Dict[str, Any]]
   return file_refs
 
 
-def process_thread(raw: Dict[str, Any]) -> ProcessedPost:
+def process_thread(raw: Dict[str, Any], llm_client: Optional[Any] = None) -> ProcessedPost:
   title = (raw.get("title") or "").strip()
   document = (raw.get("document") or "").strip()
   content = (raw.get("content") or "")
@@ -324,17 +479,19 @@ def process_thread(raw: Dict[str, Any]) -> ProcessedPost:
   file_refs = extract_file_references(content, document)
 
   homework_id = extract_homework_id(combined)
-  model_name = detect_model_name(combined_lower)
-  primary_focus = determine_primary_focus(combined_lower)
+  
+  # Use LLM for model detection if available, otherwise fall back to keyword matching
+  if llm_client:
+    model_name = detect_model_name_with_llm(llm_client, title, document)
+  else:
+    model_name = detect_model_name(combined_lower)
+  
   depth_bucket, word_count = compute_depth_and_word_count(document)
-  actionability_bucket = compute_actionability_bucket(combined_lower)
 
   metrics = Metrics(
     homework_id=homework_id,
     model_name=model_name,
-    primary_focus=primary_focus,
     depth_bucket=depth_bucket,
-    actionability_bucket=actionability_bucket,
     word_count=word_count,
   )
 
@@ -366,57 +523,66 @@ def process_thread(raw: Dict[str, Any]) -> ProcessedPost:
   )
 
 
-def main() -> None:
-  script_path = Path(__file__).resolve()
-  site_dir = script_path.parent.parent
-  root_dir = site_dir.parent
+def main(auto_categorize: bool = False) -> Path:
+  script_dir = Path(__file__).parent
+  repo_root = script_dir.parent.parent
+  threads_path = repo_root / "thread_util" / "threads.json"
+  output_path = script_dir.parent / "public" / "data" / "posts_processed.json"
 
-  threads_path = root_dir / "thread_util" / "threads.json"
-  output_path = site_dir / "public" / "data" / "posts_processed.json"
-
-  # First, run fetch_threads.py to get the latest data
-  fetch_script = root_dir / "thread_util" / "fetch_threads.py"
-  if not fetch_script.exists():
-    print(f"Warning: {fetch_script} not found, skipping fetch step")
-  else:
-    print("Running fetch_threads.py to get latest data from Ed...")
+  # Run fetch_threads.py first
+  fetch_script = repo_root / "thread_util" / "fetch_threads.py"
+  if fetch_script.exists():
     print("=" * 60)
-    try:
-      result = subprocess.run(
-        [sys.executable, str(fetch_script)],
-        cwd=str(fetch_script.parent),
-        check=True
-      )
-      print("=" * 60)
-      print("Fetch completed successfully!\n")
-    except subprocess.CalledProcessError as e:
-      print(f"Error running fetch_threads.py: {e}")
-      raise SystemExit(f"Failed to fetch threads. Exit code: {e.returncode}")
-
-  if not threads_path.exists():
-    raise SystemExit(f"threads.json not found at {threads_path}")
-
-  print(f"Reading threads from {threads_path}...")
-  with threads_path.open("r", encoding="utf-8") as f:
-    threads_raw = json.load(f)
-
-  if not isinstance(threads_raw, list):
-    raise SystemExit("Expected threads.json to contain a JSON array.")
-
-  processed: List[Dict[str, Any]] = []
-  for raw in threads_raw:
-    try:
-      post = process_thread(raw)
-      processed.append(post.to_dict())
-    except Exception as exc:  # pragma: no cover - defensive
-      # If a single row is malformed, log it but continue.
-      print(f"Warning: failed to process thread id={raw.get('id')}: {exc}")
-
+    print("FETCHING THREADS FROM ED")
+    print("=" * 60 + "\n")
+    
+    result = subprocess.run([sys.executable, str(fetch_script)], cwd=str(fetch_script.parent))
+    if result.returncode != 0:
+      print(f"Warning: fetch_threads.py returned non-zero exit code {result.returncode}")
+  
+  # Initialize LLM client if auto-categorize is enabled
+  llm_client = None
+  if auto_categorize:
+    api_key = os.getenv('OPENAI_API_KEY')
+    if not api_key:
+      print("\nWarning: OPENAI_API_KEY not found. Auto-categorization disabled.")
+      print("Using keyword-based model detection instead.\n")
+    else:
+      try:
+        from openai import OpenAI
+        llm_client = OpenAI(api_key=api_key)
+        print(f"\n✓ LLM-based model categorization enabled (GPT-4o-mini)")
+        print(f"  This will analyze each post to extract precise model versions\n")
+      except Exception as e:
+        print(f"\nWarning: Could not initialize OpenAI client: {e}")
+        print("Using keyword-based model detection instead.\n")
+  
+  # Load and process threads
+  with open(threads_path, encoding="utf-8") as f:
+    threads = json.load(f)
+  
+  print(f"Processing {len(threads)} threads...")
+  if llm_client:
+    print("Using LLM for model categorization (progress updates every 10 posts)\n")
+  
+  processed_posts = []
+  for idx, thread in enumerate(threads, 1):
+    processed = process_thread(thread, llm_client=llm_client)
+    processed_posts.append(processed)
+    
+    # Progress update for LLM categorization
+    if llm_client and idx % 10 == 0:
+      print(f"  Processed {idx}/{len(threads)} posts...")
+  
+  if llm_client:
+    print(f"  Completed {len(threads)} posts with LLM categorization\n")
+  
+  # Save processed data
   output_path.parent.mkdir(parents=True, exist_ok=True)
-  with output_path.open("w", encoding="utf-8") as f:
-    json.dump(processed, f, indent=2, ensure_ascii=False)
-
-  print(f"Wrote {len(processed)} posts to {output_path}")
+  with open(output_path, "w", encoding="utf-8") as f:
+    json.dump([asdict(p) for p in processed_posts], f, indent=2, ensure_ascii=False)
+  
+  print(f"✓ Saved {len(processed_posts)} processed posts to {output_path}\n")
   return output_path
 
 
@@ -454,10 +620,16 @@ if __name__ == "__main__":  # pragma: no cover
     action="store_true",
     help="Generate AI-powered insights using OpenAI API (requires OPENAI_API_KEY)"
   )
+  parser.add_argument(
+    "--auto-categorize",
+    action="store_true",
+    help="Use LLM to automatically categorize models with version/mode details (requires OPENAI_API_KEY, adds ~$0.10 cost)"
+  )
   
   args = parser.parse_args()
   
-  posts_path = main()
+  posts_path = main(auto_categorize=args.auto_categorize)
   
   if args.insights:
     run_insights_generation(posts_path)
+

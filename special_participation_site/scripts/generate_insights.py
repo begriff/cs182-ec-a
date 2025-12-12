@@ -43,41 +43,74 @@ def group_posts_by_model(posts: List[Dict[str, Any]]) -> Dict[str, List[Dict[str
     return dict(grouped)
 
 
-def generate_homework_insight(client: Any, hw_id: str, posts: List[Dict[str, Any]]) -> str:
+def load_pdf_transcript(file_path: str, base_dir: Path) -> str:
+    """Load PDF transcript if available."""
+    try:
+        # file_path is relative like "files/thread_123/example.pdf"
+        # Look for corresponding .txt file
+        txt_path = base_dir / file_path.replace('.pdf', '.txt')
+        if txt_path.exists():
+            return txt_path.read_text(encoding='utf-8')[:2000]  # Limit to first 2000 chars
+    except Exception:
+        pass
+    return ""
+
+
+def generate_homework_insight(client: Any, hw_id: str, posts: List[Dict[str, Any]], manifest: Dict[str, Any], base_dir: Path) -> str:
     """Generate insight summary for a specific homework using LLM."""
-    # Prepare summary of posts - analyze ALL posts
+    # Prepare summary of posts - analyze ALL posts with full content
     summary_parts = []
     for post in posts:
         metrics = post.get('metrics', {})
+        
+        # Include full post body (longer for more context)
+        body = post.get('document', '')[:1500]
+        
+        # Load PDF transcripts if available
+        pdf_content = ""
+        thread_num = str(post.get('number', ''))
+        if thread_num in manifest:
+            files = manifest[thread_num].get('files', [])
+            for file_info in files[:2]:  # Limit to first 2 PDFs per post
+                if file_info.get('transcript'):
+                    pdf_text = load_pdf_transcript(file_info['transcript'], base_dir)
+                    if pdf_text:
+                        pdf_content += f"\n  PDF excerpt: {pdf_text[:800]}..."
+        
         summary_parts.append(
-            f"- Model: {metrics.get('model_name')}, "
-            f"Focus: {metrics.get('primary_focus')}, "
-            f"Depth: {metrics.get('depth_bucket')}, "
-            f"Title: {post.get('title', '')[:100]}"
+            f"- Model: {metrics.get('model_name')}\n"
+            f"  Title: {post.get('title', '')}\n"
+            f"  Depth: {metrics.get('depth_bucket')}\n"
+            f"  Content: {body}...{pdf_content}"
         )
     
-    posts_summary = '\n'.join(summary_parts)
+    posts_summary = '\n\n'.join(summary_parts)
     
-    prompt = f"""Based on these student posts about {hw_id}, provide a 2-3 sentence insight summary about:
-1. Which problems or topics seemed easiest/hardest
-2. Common themes or approaches students took
-3. Overall trends in model performance
+    prompt = f"""Based on these detailed student posts about {hw_id}, provide a comprehensive analysis in the following EXACT format:
+
+1. **Easiest/Hardest Problems:** [Cite specific problem numbers and concrete examples from the posts]
+
+2. **Common Themes and Strategies:** [Include specific techniques, prompts, or methods mentioned by students]
+
+3. **Trends in Model Performance:** [Which specific models worked best for which types of problems, with examples]
+
+4. **Notable Insights:** [Specific challenges, successes, or unexpected findings from student feedback]
 
 Posts summary:
 {posts_summary}
 
 Total posts analyzed: {len(posts)}
 
-Provide a concise, informative summary (2-3 sentences max):"""
+IMPORTANT: You MUST use the exact numbered format shown above (1. **Title:** followed by content). Each section should be 2-4 sentences with specific examples and concrete details from the student posts."""
 
     try:
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a helpful teaching assistant analyzing student homework feedback."},
+                {"role": "system", "content": "You are a helpful teaching assistant analyzing student homework feedback. Always follow the exact numbered format requested. Provide specific, concrete insights with examples from the actual student posts."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=150,
+            max_tokens=500,
             temperature=0.7
         )
         return response.choices[0].message.content.strip()
@@ -86,41 +119,61 @@ Provide a concise, informative summary (2-3 sentences max):"""
         return f"Analysis of {len(posts)} student submissions using various LLMs."
 
 
-def generate_model_insight(client: Any, model: str, posts: List[Dict[str, Any]]) -> str:
+def generate_model_insight(client: Any, model: str, posts: List[Dict[str, Any]], manifest: Dict[str, Any], base_dir: Path) -> str:
     """Generate insight summary for a specific model using LLM."""
-    # Prepare summary of posts - analyze ALL posts
+    # Prepare summary of posts - analyze ALL posts with full content
     summary_parts = []
     for post in posts:
         metrics = post.get('metrics', {})
+        
+        # Include full post body (longer for more context)
+        body = post.get('document', '')[:1500]
+        
+        # Load PDF transcripts if available
+        pdf_content = ""
+        thread_num = str(post.get('number', ''))
+        if thread_num in manifest:
+            files = manifest[thread_num].get('files', [])
+            for file_info in files[:2]:  # Limit to first 2 PDFs per post
+                if file_info.get('transcript'):
+                    pdf_text = load_pdf_transcript(file_info['transcript'], base_dir)
+                    if pdf_text:
+                        pdf_content += f"\n  PDF excerpt: {pdf_text[:800]}..."
+        
         summary_parts.append(
-            f"- HW: {metrics.get('homework_id')}, "
-            f"Focus: {metrics.get('primary_focus')}, "
-            f"Depth: {metrics.get('depth_bucket')}, "
-            f"Actionability: {metrics.get('actionability_bucket')}"
+            f"- HW: {metrics.get('homework_id')}\n"
+            f"  Title: {post.get('title', '')}\n"
+            f"  Depth: {metrics.get('depth_bucket')}\n"
+            f"  Content: {body}...{pdf_content}"
         )
     
-    posts_summary = '\n'.join(summary_parts)
+    posts_summary = '\n\n'.join(summary_parts)
     
-    prompt = f"""Based on these student evaluations of {model}, provide a 2-3 sentence insight summary about:
-1. What {model} excels at (conceptual vs. mathematical reasoning, etc.)
-2. Common strengths or weaknesses observed
-3. Overall student sentiment and usefulness
+    prompt = f"""Based on these detailed student evaluations of {model}, provide a comprehensive analysis in the following EXACT format:
+
+1. **Strengths and Best Use Cases:** [Cite concrete examples of problems, homework assignments, or tasks where {model} performed well]
+
+2. **Weaknesses and Limitations:** [Include specific examples of what didn't work well across different homework types]
+
+3. **Student Sentiment:** [Quote or paraphrase specific student feedback about usefulness and reliability]
+
+4. **Notable Patterns:** [Any surprising findings, specific use cases, or detailed observations from student experiences]
 
 Posts summary:
 {posts_summary}
 
 Total posts analyzed: {len(posts)}
 
-Provide a concise, informative summary (2-3 sentences max):"""
+IMPORTANT: You MUST use the exact numbered format shown above (1. **Title:** followed by content). Each section should be 2-4 sentences with specific examples and concrete details from the student evaluations."""
 
     try:
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a helpful teaching assistant analyzing LLM model performance on homework."},
+                {"role": "system", "content": "You are a helpful teaching assistant analyzing LLM model performance. Always follow the exact numbered format requested. Provide specific, concrete insights with examples from actual student evaluations."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=150,
+            max_tokens=500,
             temperature=0.7
         )
         return response.choices[0].message.content.strip()
@@ -156,6 +209,15 @@ def generate_insights(posts_path: Path, output_path: Path, api_key: str = None) 
     posts = load_processed_posts(posts_path)
     print(f"Loaded {len(posts)} posts")
     
+    # Load files manifest for PDF access
+    base_dir = posts_path.parent.parent
+    manifest_path = base_dir / 'files' / 'manifest.json'
+    manifest = {}
+    if manifest_path.exists():
+        with open(manifest_path, 'r', encoding='utf-8') as f:
+            manifest = json.load(f)
+        print(f"Loaded manifest with {len(manifest)} threads containing files")
+    
     # Group by homework and model
     hw_groups = group_posts_by_homework(posts)
     model_groups = group_posts_by_model(posts)
@@ -170,7 +232,7 @@ def generate_insights(posts_path: Path, output_path: Path, api_key: str = None) 
     print(f"\nGenerating insights for {len(hw_groups)} homework assignments...")
     for hw_id, hw_posts in sorted(hw_groups.items()):
         print(f"  {hw_id}: {len(hw_posts)} posts")
-        insight = generate_homework_insight(client, hw_id, hw_posts)
+        insight = generate_homework_insight(client, hw_id, hw_posts, manifest, base_dir)
         insights['homework'][hw_id] = {
             'summary': insight,
             'post_count': len(hw_posts)
@@ -180,7 +242,7 @@ def generate_insights(posts_path: Path, output_path: Path, api_key: str = None) 
     print(f"\nGenerating insights for {len(model_groups)} models...")
     for model, model_posts in sorted(model_groups.items()):
         print(f"  {model}: {len(model_posts)} posts")
-        insight = generate_model_insight(client, model, model_posts)
+        insight = generate_model_insight(client, model, model_posts, manifest, base_dir)
         insights['models'][model] = {
             'summary': insight,
             'post_count': len(model_posts)

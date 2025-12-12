@@ -45,6 +45,26 @@ This script:
 
 Re-run the script whenever `threads.json` changes.
 
+### Optional: AI-powered model categorization
+
+To use GPT-4o-mini to automatically detect model names, versions, and modes (e.g., "Gemini 3 Pro (Thinking)", "Claude Sonnet 3.5"):
+
+```bash
+python3 special_participation_site/scripts/process_data.py --auto-categorize
+```
+
+**Requirements:**
+- Set your OpenAI API key: `export OPENAI_API_KEY=sk-...` (or add to `thread_util/.env`)
+- Cost: ~$0.10-$0.15 for 168 posts
+
+**Benefits:**
+- More accurate model detection from title and content
+- Extracts specific versions (Gemini 3 Pro vs Flash, Claude Sonnet vs Opus)
+- Detects thinking mode vs normal mode
+- Handles ambiguous cases better than keyword matching
+
+Without this flag, the script uses simple keyword-based detection.
+
 ### Optional: Generate AI-powered insights
 
 To generate AI-powered summaries for each homework and model, add the `--insights` flag:
@@ -66,6 +86,12 @@ This will:
 The insights will automatically appear in the "Homework insights" and "Model insights" tabs when available.
 
 **Note:** This uses GPT-4o-mini and will make API calls that cost money (typically < $0.10 for the entire dataset).
+
+You can combine both flags:
+```bash
+python3 special_participation_site/scripts/process_data.py --auto-categorize --insights
+```
+This will use LLM for model categorization (~$0.15) and then generate detailed insights (~$1.50-$2.50), total cost ~$2.
 
 ## 2. Serve the site locally
 

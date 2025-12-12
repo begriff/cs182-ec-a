@@ -288,6 +288,51 @@ h1 {
   line-height: 1.5;
 }
 
+.insight-summary p {
+  margin: 0 0 0.75rem;
+}
+
+.insight-summary p:last-child {
+  margin-bottom: 0;
+}
+
+.insight-summary ol {
+  margin: 0 0 0.75rem;
+  padding-left: 1.5rem;
+  list-style-position: outside;
+}
+
+.insight-summary ol:last-child {
+  margin-bottom: 0;
+}
+
+.insight-summary li {
+  margin: 0 0 0.5rem;
+  line-height: 1.6;
+}
+
+.insight-summary li:last-child {
+  margin-bottom: 0;
+}
+
+.insight-summary strong {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.insight-summary em {
+  font-style: italic;
+}
+
+.insight-summary code {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.85em;
+}
+
 .insight-meta {
   margin: 0;
   font-size: 0.75rem;

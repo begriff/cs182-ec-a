@@ -65,15 +65,36 @@ def thread_contains_text(thread: dict, text: str) -> bool:
 
 def extract_files_from_content(content: str) -> list[dict]:
     """
-    Extract file URLs and filenames from thread content XML.
+    Extract file URLs and filenames from thread content XML with context.
     
     Returns:
-        List of dicts with 'url' and 'filename' keys
+        List of dicts with 'url', 'filename', 'position', and 'context' keys
     """
-    # Match <file url="..." filename="..."/> elements
+    # Match <file url="..." filename="..."/> elements with their position
     pattern = r'<file\s+url="([^"]+)"\s+filename="([^"]+)"\s*/>'
-    matches = re.findall(pattern, content)
-    return [{'url': url, 'filename': filename} for url, filename in matches]
+    files = []
+    
+    for match in re.finditer(pattern, content):
+        url, filename = match.groups()
+        position = match.start()
+        
+        # Extract context (200 chars before and after, excluding HTML tags)
+        context_start = max(0, position - 200)
+        context_end = min(len(content), match.end() + 200)
+        context_raw = content[context_start:context_end]
+        
+        # Remove HTML tags for cleaner context
+        context_clean = re.sub(r'<[^>]+>', ' ', context_raw)
+        context_clean = re.sub(r'\s+', ' ', context_clean).strip()
+        
+        files.append({
+            'url': url,
+            'filename': filename,
+            'position': position,
+            'context': context_clean
+        })
+    
+    return files
 
 
 def sanitize_filename(filename: str) -> str:
@@ -161,6 +182,8 @@ def process_thread_files(thread: dict, files_dir: Path) -> list[dict]:
             'original_filename': file_info['filename'],
             'saved_as': relative_path,
             'url': file_info['url'],
+            'position': file_info.get('position', 0),
+            'context': file_info.get('context', ''),
             'transcript': None
         }
         

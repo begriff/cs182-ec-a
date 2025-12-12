@@ -21,8 +21,6 @@ let lastFocusedElement = null;
 function cacheElements() {
   els.filterHomework = document.getElementById("filter-homework");
   els.filterModel = document.getElementById("filter-model");
-  els.filterFocus = document.getElementById("filter-focus");
-  els.filterActionability = document.getElementById("filter-actionability");
   els.searchText = document.getElementById("search-text");
   els.sortOrder = document.getElementById("sort-order");
   els.postsList = document.getElementById("posts-list");
@@ -138,15 +136,11 @@ function populateSelect(selectEl, label, values) {
 function buildFilters(posts) {
   const homeworks = new Set();
   const models = new Set();
-  const focuses = new Set();
-  const actionability = new Set();
 
   for (const post of posts) {
     const m = post.metrics || {};
     if (m.homework_id) homeworks.add(m.homework_id);
     if (m.model_name) models.add(m.model_name);
-    if (m.primary_focus) focuses.add(m.primary_focus);
-    if (m.actionability_bucket) actionability.add(m.actionability_bucket);
   }
 
   const sortAlpha = (a, b) => a.localeCompare(b);
@@ -169,12 +163,6 @@ function buildFilters(posts) {
     Array.from(homeworks).sort(sortHomeworks),
   );
   populateSelect(els.filterModel, "models", Array.from(models).sort(sortAlpha));
-  populateSelect(els.filterFocus, "focus types", Array.from(focuses).sort(sortAlpha));
-  populateSelect(
-    els.filterActionability,
-    "actionability levels",
-    Array.from(actionability).sort(sortAlpha),
-  );
 }
 
 function applyThemePreference(mode) {
@@ -376,9 +364,6 @@ function openPostModal(post) {
   const m = post.metrics || {};
   const hw = m.homework_id || "Unknown";
   const model = m.model_name || "Unknown";
-  const focus = m.primary_focus || "mixed/other";
-  const depth = m.depth_bucket || "n/a";
-  const act = m.actionability_bucket || "n/a";
   const wc = typeof m.word_count === "number" ? m.word_count : null;
 
   const created = post.created_at ? new Date(post.created_at) : null;
@@ -404,9 +389,6 @@ function openPostModal(post) {
     const badgesHtml = [
       `<span class="badge badge-hw">${escapeHtml(hw)}</span>`,
       `<span class="badge badge-model">${escapeHtml(model)}</span>`,
-      `<span class="badge badge-focus">${escapeHtml(focus)}</span>`,
-      `<span class="badge badge-depth depth-${escapeHtml(depth)}">depth: ${escapeHtml(depth)}</span>`,
-      `<span class="badge badge-action act-${escapeHtml(act)}">actionability: ${escapeHtml(act)}</span>`,
     ].join(" ");
     els.postModalBadges.innerHTML = badgesHtml;
   }
@@ -646,8 +628,6 @@ async function handleQaSubmit(e) {
 function applyFiltersAndRender() {
   const homeworkVal = decodeURIComponent(els.filterHomework.value || "");
   const modelVal = decodeURIComponent(els.filterModel.value || "");
-  const focusVal = decodeURIComponent(els.filterFocus.value || "");
-  const actionVal = decodeURIComponent(els.filterActionability.value || "");
   const search = (els.searchText.value || "").toLowerCase().trim();
   const sortOrder = els.sortOrder.value || "newest";
 
@@ -656,8 +636,6 @@ function applyFiltersAndRender() {
 
     if (homeworkVal && m.homework_id !== homeworkVal) return false;
     if (modelVal && m.model_name !== modelVal) return false;
-    if (focusVal && m.primary_focus !== focusVal) return false;
-    if (actionVal && m.actionability_bucket !== actionVal) return false;
 
     if (search) {
       const haystack = `${post.title || ""}\n${post.document || ""}`.toLowerCase();
@@ -693,19 +671,6 @@ function depthScore(depth) {
   }
 }
 
-function actionabilityScore(a) {
-  switch (a) {
-    case "high":
-      return 3;
-    case "medium":
-      return 2;
-    case "low":
-      return 1;
-    default:
-      return 0;
-  }
-}
-
 function sortResults(list, order) {
   const arr = list.slice();
 
@@ -715,11 +680,25 @@ function sortResults(list, order) {
       const db = depthScore(b.metrics?.depth_bucket);
       return db - da;
     });
-  } else if (order === "actionability") {
+  } else if (order === "homework") {
     arr.sort((a, b) => {
-      const aa = actionabilityScore(a.metrics?.actionability_bucket);
-      const ab = actionabilityScore(b.metrics?.actionability_bucket);
-      return ab - aa;
+      const hwA = a.metrics?.homework_id || "";
+      const hwB = b.metrics?.homework_id || "";
+      
+      // Extract homework number for numerical sorting
+      const numA = hwA.match(/\d+/);
+      const numB = hwB.match(/\d+/);
+      
+      if (numA && numB) {
+        return parseInt(numA[0], 10) - parseInt(numB[0], 10);
+      }
+      return hwA.localeCompare(hwB);
+    });
+  } else if (order === "model") {
+    arr.sort((a, b) => {
+      const modelA = a.metrics?.model_name || "";
+      const modelB = b.metrics?.model_name || "";
+      return modelA.localeCompare(modelB);
     });
   } else if (order === "oldest") {
     arr.sort((a, b) => {
@@ -816,9 +795,6 @@ function postToHtml(post, index) {
   const m = post.metrics || {};
   const hw = m.homework_id || "Unknown";
   const model = m.model_name || "Unknown";
-  const focus = m.primary_focus || "mixed/other";
-  const depth = m.depth_bucket || "n/a";
-  const act = m.actionability_bucket || "n/a";
   const wc = typeof m.word_count === "number" ? m.word_count : null;
 
   const created = post.created_at ? new Date(post.created_at) : null;
@@ -832,9 +808,6 @@ function postToHtml(post, index) {
   const badges = [
     `<span class="badge badge-hw">${escapeHtml(hw)}</span>`,
     `<span class="badge badge-model">${escapeHtml(model)}</span>`,
-    `<span class="badge badge-focus">${escapeHtml(focus)}</span>`,
-    `<span class="badge badge-depth depth-${escapeHtml(depth)}">depth: ${escapeHtml(depth)}</span>`,
-    `<span class="badge badge-action act-${escapeHtml(act)}">actionability: ${escapeHtml(act)}</span>`,
   ];
 
   const stats = [];
@@ -888,6 +861,66 @@ function escapeAttribute(str) {
   return escapeHtml(str).replace(/"/g, "&quot;");
 }
 
+function formatMarkdownText(text) {
+  // Basic markdown formatting for insights
+  let formatted = escapeHtml(text);
+  
+  // Bold: **text** -> <strong>text</strong>
+  formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  
+  // Italic: *text* (but not ** which is bold)
+  formatted = formatted.replace(/(?<!\*)\*(?!\*)([^*]+)\*(?!\*)/g, '<em>$1</em>');
+  
+  // Inline code: `code` -> <code>code</code>
+  formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
+  
+  // Split into paragraphs first
+  const paragraphs = formatted.split(/\n\n+/);
+  
+  // Process each paragraph for numbered lists
+  const processed = paragraphs.map(para => {
+    // Check if paragraph contains numbered list items (1. 2. 3. etc at start of lines)
+    const lines = para.split('\n');
+    const hasNumberedList = lines.some(line => /^\d+\.\s/.test(line.trim()));
+    
+    if (hasNumberedList) {
+      // Convert to proper list HTML
+      let inList = false;
+      let result = '';
+      
+      for (const line of lines) {
+        const match = line.match(/^(\d+)\.\s+(.+)$/);
+        if (match) {
+          if (!inList) {
+            result += '<ol>';
+            inList = true;
+          }
+          result += `<li>${match[2]}</li>`;
+        } else if (line.trim()) {
+          // Continuation of previous list item
+          if (inList) {
+            // Append to last list item
+            result = result.replace(/<\/li>$/, ` ${line.trim()}</li>`);
+          } else {
+            result += line;
+          }
+        }
+      }
+      
+      if (inList) {
+        result += '</ol>';
+      }
+      
+      return result;
+    } else {
+      // Regular paragraph
+      return `<p>${para}</p>`;
+    }
+  });
+  
+  return processed.join('');
+}
+
 function showError(msg) {
   if (!els.errorMessage) return;
   els.errorMessage.hidden = false;
@@ -900,7 +933,12 @@ function renderHomeworkInsights() {
   }
   
   const homeworkData = state.insights.homework;
-  const hwIds = Object.keys(homeworkData).sort();
+  // Sort homework IDs numerically (HW0, HW1, ..., HW13)
+  const hwIds = Object.keys(homeworkData).sort((a, b) => {
+    const numA = parseInt(a.replace(/\D/g, ''), 10) || 0;
+    const numB = parseInt(b.replace(/\D/g, ''), 10) || 0;
+    return numA - numB;
+  });
   
   if (hwIds.length === 0) {
     els.homeworkInsightsBody.innerHTML = '<p class="muted-text">No homework insights available yet.</p>';
@@ -909,10 +947,11 @@ function renderHomeworkInsights() {
   
   const cards = hwIds.map(hwId => {
     const data = homeworkData[hwId];
+    const formattedSummary = formatMarkdownText(data.summary);
     return `
       <div class="insight-item">
         <h4>${escapeHtml(hwId)}</h4>
-        <p class="insight-summary">${escapeHtml(data.summary)}</p>
+        <div class="insight-summary">${formattedSummary}</div>
         <p class="insight-meta">${data.post_count} post${data.post_count !== 1 ? 's' : ''} analyzed</p>
       </div>
     `;
@@ -936,10 +975,11 @@ function renderModelInsights() {
   
   const cards = modelNames.map(model => {
     const data = modelData[model];
+    const formattedSummary = formatMarkdownText(data.summary);
     return `
       <div class="insight-item">
         <h4>${escapeHtml(model)}</h4>
-        <p class="insight-summary">${escapeHtml(data.summary)}</p>
+        <div class="insight-summary">${formattedSummary}</div>
         <p class="insight-meta">${data.post_count} evaluation${data.post_count !== 1 ? 's' : ''} analyzed</p>
       </div>
     `;

@@ -10,7 +10,7 @@
     "type": "post",
     "created_at": "2025-12-11T18:53:55.259297+11:00",
     "reply_count": 0,
-    "view_count": 41,
+    "view_count": 46,
     "user": {
       "id": 622729,
       "name": "Rudy Colato",
@@ -20,9 +20,7 @@
     "metrics": {
       "homework_id": "HW10",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 90
     },
     "file_refs": [
@@ -44,7 +42,7 @@
     "type": "post",
     "created_at": "2025-12-11T18:42:18.322678+11:00",
     "reply_count": 0,
-    "view_count": 24,
+    "view_count": 27,
     "user": {
       "id": 639518,
       "name": "Yu-Jen Lin",
@@ -53,10 +51,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7452161",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 163
     },
     "file_refs": [
@@ -78,7 +74,7 @@
     "type": "question",
     "created_at": "2025-12-11T18:27:14.676364+11:00",
     "reply_count": 0,
-    "view_count": 10,
+    "view_count": 11,
     "user": {
       "id": 647646,
       "name": "Tvisha Londhe",
@@ -88,9 +84,7 @@
     "metrics": {
       "homework_id": "HW7",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 149
     },
     "file_refs": [
@@ -112,7 +106,7 @@
     "type": "question",
     "created_at": "2025-12-11T18:24:35.225606+11:00",
     "reply_count": 0,
-    "view_count": 16,
+    "view_count": 18,
     "user": {
       "id": 905785,
       "name": "Jason Lee",
@@ -121,10 +115,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7452109",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-4o",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 143
     },
     "file_refs": [
@@ -146,7 +138,7 @@
     "type": "post",
     "created_at": "2025-12-11T17:20:59.615129+11:00",
     "reply_count": 0,
-    "view_count": 14,
+    "view_count": 15,
     "user": {
       "id": 961784,
       "name": "Katie Wang",
@@ -155,10 +147,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451918",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 189
     },
     "file_refs": [
@@ -189,10 +179,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451901",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "high",
-      "actionability_bucket": "high",
       "word_count": 456
     },
     "file_refs": null
@@ -208,7 +196,7 @@
     "type": "question",
     "created_at": "2025-12-11T16:47:23.141899+11:00",
     "reply_count": 0,
-    "view_count": 26,
+    "view_count": 27,
     "user": {
       "id": 591182,
       "name": "Shaurya Jain",
@@ -217,10 +205,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451771",
     "metrics": {
       "homework_id": "Unknown",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "mixed/other",
+      "model_name": "GPT-5.1",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 28
     },
     "file_refs": [
@@ -252,9 +238,7 @@
     "metrics": {
       "homework_id": "HW0",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 441
     },
     "file_refs": [
@@ -276,7 +260,7 @@
     "type": "question",
     "created_at": "2025-12-11T16:34:08.791127+11:00",
     "reply_count": 0,
-    "view_count": 13,
+    "view_count": 14,
     "user": {
       "id": 635649,
       "name": "Siva Tanikonda",
@@ -285,10 +269,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451722",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "Gemma",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 349
     },
     "file_refs": [
@@ -319,10 +301,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451705",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Gemini",
-      "primary_focus": "prompting_strategy",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 107
     },
     "file_refs": [
@@ -353,10 +333,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451517",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 119
     },
     "file_refs": [
@@ -393,9 +371,7 @@
     "metrics": {
       "homework_id": "HW1",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 54
     },
     "file_refs": [
@@ -417,7 +393,7 @@
     "type": "question",
     "created_at": "2025-12-11T15:25:44.191133+11:00",
     "reply_count": 0,
-    "view_count": 16,
+    "view_count": 18,
     "user": {
       "id": 1010497,
       "name": "Celine Tan",
@@ -426,10 +402,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451347",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Sonnet",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 127
     },
     "file_refs": [
@@ -461,9 +435,7 @@
     "metrics": {
       "homework_id": "HW0",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 191
     },
     "file_refs": [
@@ -494,10 +466,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7451058",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 280
     },
     "file_refs": [
@@ -529,9 +499,7 @@
     "metrics": {
       "homework_id": "HW9",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 220
     },
     "file_refs": null
@@ -556,10 +524,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450685",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 89
     },
     "file_refs": [
@@ -590,10 +556,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450682",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 172
     },
     "file_refs": [
@@ -625,9 +589,7 @@
     "metrics": {
       "homework_id": "HW10",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 336
     },
     "file_refs": [
@@ -658,10 +620,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450396",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "mixed/other",
+      "model_name": "GPT-5.1",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 13
     },
     "file_refs": [
@@ -697,10 +657,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450203",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Sonnet",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 160
     },
     "file_refs": [
@@ -731,10 +689,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450077",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 131
     },
     "file_refs": [
@@ -766,9 +722,7 @@
     "metrics": {
       "homework_id": "HW12",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 418
     },
     "file_refs": [
@@ -799,10 +753,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7450048",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Grok",
-      "primary_focus": "model_performance",
+      "model_name": "Grok 4",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 315
     },
     "file_refs": [
@@ -834,9 +786,7 @@
     "metrics": {
       "homework_id": "HW13",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 201
     },
     "file_refs": [
@@ -867,10 +817,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7449875",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Grok",
-      "primary_focus": "model_performance",
+      "model_name": "Grok 4",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 144
     },
     "file_refs": [
@@ -892,7 +840,7 @@
     "type": "post",
     "created_at": "2025-12-11T09:54:18.4019+11:00",
     "reply_count": 0,
-    "view_count": 105,
+    "view_count": 106,
     "user": {
       "id": 1316471,
       "name": "Neel Kolhe",
@@ -902,9 +850,7 @@
     "metrics": {
       "homework_id": "HW4",
       "model_name": "GPT-5",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 73
     },
     "file_refs": [
@@ -935,10 +881,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7447947",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "LLM (unspecified)",
-      "primary_focus": "model_performance",
+      "model_name": "Perplexity",
       "depth_bucket": "high",
-      "actionability_bucket": "high",
       "word_count": 1546
     },
     "file_refs": [
@@ -969,10 +913,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7447290",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 233
     },
     "file_refs": [
@@ -1003,10 +945,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7446043",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Sonnet",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 106
     },
     "file_refs": [
@@ -1038,9 +978,7 @@
     "metrics": {
       "homework_id": "HW11",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 210
     },
     "file_refs": [
@@ -1071,10 +1009,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7445493",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Sonnet",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 831
     },
     "file_refs": [
@@ -1105,10 +1041,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7445419",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 151
     },
     "file_refs": [
@@ -1139,10 +1073,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7445083",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 183
     },
     "file_refs": [
@@ -1173,10 +1105,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7444860",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 287
     },
     "file_refs": [
@@ -1207,10 +1137,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7444253",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 276
     },
     "file_refs": [
@@ -1242,9 +1170,7 @@
     "metrics": {
       "homework_id": "HW13",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 187
     },
     "file_refs": [
@@ -1275,10 +1201,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7443651",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Sonnet",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 114
     },
     "file_refs": [
@@ -1310,9 +1234,7 @@
     "metrics": {
       "homework_id": "HW6",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 219
     },
     "file_refs": [
@@ -1343,10 +1265,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7436873",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Sonnet",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 115
     },
     "file_refs": [
@@ -1377,10 +1297,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7433942",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 244
     },
     "file_refs": [
@@ -1411,10 +1329,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7431425",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 33
     },
     "file_refs": [
@@ -1445,10 +1361,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7431312",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 84
     },
     "file_refs": [
@@ -1479,10 +1393,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7431042",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 90
     },
     "file_refs": [
@@ -1514,9 +1426,7 @@
     "metrics": {
       "homework_id": "HW10",
       "model_name": "GPT-5",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 154
     },
     "file_refs": null
@@ -1541,10 +1451,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429651",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Gemini",
-      "primary_focus": "assignment_feedback",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 292
     },
     "file_refs": [
@@ -1576,9 +1484,7 @@
     "metrics": {
       "homework_id": "HW6",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "high",
-      "actionability_bucket": "high",
       "word_count": 1198
     },
     "file_refs": null
@@ -1603,10 +1509,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429448",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 70
     },
     "file_refs": [
@@ -1637,10 +1541,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429445",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "mixed/other",
+      "model_name": "GPT-5.1",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 0
     },
     "file_refs": [
@@ -1671,10 +1573,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7429282",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 186
     },
     "file_refs": [
@@ -1696,7 +1596,7 @@
     "type": "post",
     "created_at": "2025-12-08T12:13:16.39494+11:00",
     "reply_count": 0,
-    "view_count": 23,
+    "view_count": 24,
     "user": {
       "id": 618212,
       "name": "Peyton Schales",
@@ -1706,9 +1606,7 @@
     "metrics": {
       "homework_id": "HW7",
       "model_name": "GPT-5",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 143
     },
     "file_refs": null
@@ -1733,10 +1631,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428749",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 149
     },
     "file_refs": [
@@ -1767,10 +1663,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428581",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 82
     },
     "file_refs": [
@@ -1801,10 +1695,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428374",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 784
     },
     "file_refs": [
@@ -1835,10 +1727,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428314",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 545
     },
     "file_refs": [
@@ -1869,10 +1759,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7428265",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 135
     },
     "file_refs": null
@@ -1898,9 +1786,7 @@
     "metrics": {
       "homework_id": "HW7",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 201
     },
     "file_refs": [
@@ -1932,9 +1818,7 @@
     "metrics": {
       "homework_id": "HW11",
       "model_name": "LLaMA",
-      "primary_focus": "model_performance",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 630
     },
     "file_refs": [
@@ -1956,7 +1840,7 @@
     "type": "post",
     "created_at": "2025-12-08T09:58:55.944225+11:00",
     "reply_count": 0,
-    "view_count": 93,
+    "view_count": 94,
     "user": {
       "id": 607289,
       "name": "Diana Kohr",
@@ -1965,10 +1849,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7427837",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 122
     },
     "file_refs": null
@@ -1993,10 +1875,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7427672",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 138
     },
     "file_refs": [
@@ -2018,7 +1898,7 @@
     "type": "post",
     "created_at": "2025-12-08T09:25:31.193131+11:00",
     "reply_count": 0,
-    "view_count": 64,
+    "view_count": 65,
     "user": {
       "id": 1756758,
       "name": "Reyna Liu",
@@ -2028,9 +1908,7 @@
     "metrics": {
       "homework_id": "HW11",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 679
     },
     "file_refs": null
@@ -2055,10 +1933,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7427518",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-4o",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 272
     },
     "file_refs": [
@@ -2089,10 +1965,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7427400",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 223
     },
     "file_refs": [
@@ -2123,10 +1997,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7426560",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "DeepSeek",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 387
     },
     "file_refs": null
@@ -2151,10 +2023,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7425035",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 91
     },
     "file_refs": [
@@ -2206,9 +2076,7 @@
     "metrics": {
       "homework_id": "HW8",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "high",
       "word_count": 378
     },
     "file_refs": null
@@ -2234,9 +2102,7 @@
     "metrics": {
       "homework_id": "HW9",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 326
     },
     "file_refs": [
@@ -2268,9 +2134,7 @@
     "metrics": {
       "homework_id": "HW12",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 226
     },
     "file_refs": [
@@ -2302,9 +2166,7 @@
     "metrics": {
       "homework_id": "HW12",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 397
     },
     "file_refs": [
@@ -2335,10 +2197,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424589",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 109
     },
     "file_refs": [
@@ -2369,10 +2229,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424515",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-4o",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 164
     },
     "file_refs": [
@@ -2403,10 +2261,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424271",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 187
     },
     "file_refs": [
@@ -2437,10 +2293,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424254",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 284
     },
     "file_refs": [
@@ -2471,10 +2325,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424085",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 620
     },
     "file_refs": null
@@ -2499,10 +2351,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7424051",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-4o",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 101
     },
     "file_refs": [
@@ -2533,10 +2383,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7423926",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-4o",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 466
     },
     "file_refs": [
@@ -2568,9 +2416,7 @@
     "metrics": {
       "homework_id": "HW2",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 111
     },
     "file_refs": null
@@ -2595,10 +2441,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7423757",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 350
     },
     "file_refs": [
@@ -2629,10 +2473,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7423454",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 395
     },
     "file_refs": [
@@ -2663,10 +2505,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7423443",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 185
     },
     "file_refs": null
@@ -2692,9 +2532,7 @@
     "metrics": {
       "homework_id": "HW7",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 110
     },
     "file_refs": [
@@ -2725,10 +2563,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7419069",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-4o",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 255
     },
     "file_refs": [
@@ -2759,10 +2595,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7419018",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 1232
     },
     "file_refs": null
@@ -2787,10 +2621,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7418727",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 198
     },
     "file_refs": [
@@ -2822,9 +2654,7 @@
     "metrics": {
       "homework_id": "HW4",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 552
     },
     "file_refs": [
@@ -2855,10 +2685,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7417556",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 419
     },
     "file_refs": [
@@ -2889,10 +2717,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7416689",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 342
     },
     "file_refs": null
@@ -2918,9 +2744,7 @@
     "metrics": {
       "homework_id": "HW9",
       "model_name": "Kimi",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 418
     },
     "file_refs": [
@@ -2951,10 +2775,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7414931",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 33
     },
     "file_refs": [
@@ -2986,9 +2808,7 @@
     "metrics": {
       "homework_id": "HW6",
       "model_name": "Kimi",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 129
     },
     "file_refs": [
@@ -3020,9 +2840,7 @@
     "metrics": {
       "homework_id": "HW6",
       "model_name": "Claude",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 191
     },
     "file_refs": [
@@ -3053,10 +2871,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7410078",
     "metrics": {
       "homework_id": "HW13",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 244
     },
     "file_refs": [
@@ -3088,9 +2904,7 @@
     "metrics": {
       "homework_id": "HW0",
       "model_name": "GPT-5",
-      "primary_focus": "prompting_strategy",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 83
     },
     "file_refs": [
@@ -3122,9 +2936,7 @@
     "metrics": {
       "homework_id": "HW2",
       "model_name": "Kimi",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 245
     },
     "file_refs": [
@@ -3155,10 +2967,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7409630",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 434
     },
     "file_refs": [
@@ -3189,10 +2999,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7409308",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 319
     },
     "file_refs": [
@@ -3224,9 +3032,7 @@
     "metrics": {
       "homework_id": "HW11",
       "model_name": "Kimi",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 252
     },
     "file_refs": [
@@ -3257,10 +3063,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7408067",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "ChatGPT 5.1",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 231
     },
     "file_refs": [
@@ -3291,10 +3095,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7407894",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 299
     },
     "file_refs": [
@@ -3326,9 +3128,7 @@
     "metrics": {
       "homework_id": "Unknown",
       "model_name": "DeepSeek",
-      "primary_focus": "prompting_strategy",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 49
     },
     "file_refs": [
@@ -3360,9 +3160,7 @@
     "metrics": {
       "homework_id": "HW10",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 95
     },
     "file_refs": [
@@ -3394,9 +3192,7 @@
     "metrics": {
       "homework_id": "HW8",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 153
     },
     "file_refs": [
@@ -3428,9 +3224,7 @@
     "metrics": {
       "homework_id": "HW10",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 188
     },
     "file_refs": [
@@ -3461,10 +3255,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7405554",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Grok",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 269
     },
     "file_refs": [
@@ -3495,10 +3287,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7405450",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-4o",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 120
     },
     "file_refs": null
@@ -3523,10 +3313,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7405370",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5.1",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 325
     },
     "file_refs": [
@@ -3557,10 +3345,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7404515",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Opus",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 195
     },
     "file_refs": [
@@ -3591,10 +3377,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7404071",
     "metrics": {
       "homework_id": "HW10",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 348
     },
     "file_refs": null
@@ -3619,10 +3403,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7403245",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 215
     },
     "file_refs": null
@@ -3648,9 +3430,7 @@
     "metrics": {
       "homework_id": "HW8",
       "model_name": "Kimi",
-      "primary_focus": "model_performance",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 23
     },
     "file_refs": [
@@ -3682,9 +3462,7 @@
     "metrics": {
       "homework_id": "HW8",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 93
     },
     "file_refs": [
@@ -3716,9 +3494,7 @@
     "metrics": {
       "homework_id": "HW4",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 201
     },
     "file_refs": [
@@ -3750,9 +3526,7 @@
     "metrics": {
       "homework_id": "HW0",
       "model_name": "Kimi",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 118
     },
     "file_refs": [
@@ -3783,10 +3557,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7398141",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 373
     },
     "file_refs": [
@@ -3817,10 +3589,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7397817",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-o3",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 420
     },
     "file_refs": [
@@ -3851,10 +3621,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7397298",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 85
     },
     "file_refs": [
@@ -3885,10 +3653,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7397226",
     "metrics": {
       "homework_id": "HW8",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 90
     },
     "file_refs": [
@@ -3919,10 +3685,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7397166",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 353
     },
     "file_refs": [
@@ -3963,10 +3727,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7393256",
     "metrics": {
       "homework_id": "HW12",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Sonnet",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 81
     },
     "file_refs": [
@@ -3997,10 +3759,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7389909",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Gemma",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 344
     },
     "file_refs": [
@@ -4031,10 +3791,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7389325",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 144
     },
     "file_refs": null
@@ -4060,9 +3818,7 @@
     "metrics": {
       "homework_id": "HW1",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 226
     },
     "file_refs": null
@@ -4088,9 +3844,7 @@
     "metrics": {
       "homework_id": "HW5",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 66
     },
     "file_refs": [
@@ -4122,9 +3876,7 @@
     "metrics": {
       "homework_id": "HW7",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 203
     },
     "file_refs": [
@@ -4155,10 +3907,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7380526",
     "metrics": {
       "homework_id": "HW11",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 393
     },
     "file_refs": [
@@ -4189,10 +3939,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7377516",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "GPT-5",
-      "primary_focus": "model_performance",
+      "model_name": "Kimi",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 381
     },
     "file_refs": [
@@ -4224,9 +3972,7 @@
     "metrics": {
       "homework_id": "HW9",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 306
     },
     "file_refs": [
@@ -4257,10 +4003,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7375514",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 342
     },
     "file_refs": null
@@ -4285,10 +4029,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7374016",
     "metrics": {
       "homework_id": "HW0",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 235
     },
     "file_refs": [
@@ -4319,10 +4061,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7373861",
     "metrics": {
       "homework_id": "HW9",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 40
     },
     "file_refs": [
@@ -4354,9 +4094,7 @@
     "metrics": {
       "homework_id": "HW8",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 240
     },
     "file_refs": [
@@ -4388,9 +4126,7 @@
     "metrics": {
       "homework_id": "HW2",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 393
     },
     "file_refs": [
@@ -4432,9 +4168,7 @@
     "metrics": {
       "homework_id": "HW9",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 556
     },
     "file_refs": [
@@ -4490,10 +4224,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7357397",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "high",
-      "actionability_bucket": "high",
       "word_count": 793
     },
     "file_refs": [
@@ -4524,10 +4256,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7353572",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "prompting_strategy",
+      "model_name": "GPT-5",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 43
     },
     "file_refs": [
@@ -4558,10 +4288,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7353091",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Claude",
-      "primary_focus": "model_performance",
+      "model_name": "Claude Sonnet",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 266
     },
     "file_refs": [
@@ -4593,9 +4321,7 @@
     "metrics": {
       "homework_id": "HW5",
       "model_name": "Kimi",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 363
     },
     "file_refs": [
@@ -4627,9 +4353,7 @@
     "metrics": {
       "homework_id": "HW8",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 83
     },
     "file_refs": [
@@ -4661,9 +4385,7 @@
     "metrics": {
       "homework_id": "HW6",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 323
     },
     "file_refs": null
@@ -4689,9 +4411,7 @@
     "metrics": {
       "homework_id": "HW0",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 130
     },
     "file_refs": [
@@ -4723,9 +4443,7 @@
     "metrics": {
       "homework_id": "HW9",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 197
     },
     "file_refs": [
@@ -4756,10 +4474,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7297480",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 445
     },
     "file_refs": [
@@ -4790,10 +4506,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7283953",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 156
     },
     "file_refs": [
@@ -4825,9 +4539,7 @@
     "metrics": {
       "homework_id": "HW2",
       "model_name": "Claude",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 130
     },
     "file_refs": [
@@ -4859,9 +4571,7 @@
     "metrics": {
       "homework_id": "HW2",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 182
     },
     "file_refs": [
@@ -4892,10 +4602,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7265693",
     "metrics": {
       "homework_id": "HW4",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 309
     },
     "file_refs": null
@@ -4920,10 +4628,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7263386",
     "metrics": {
       "homework_id": "HW6",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "mixed/other",
+      "model_name": "GPT-Oss",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 70
     },
     "file_refs": [
@@ -4955,9 +4661,7 @@
     "metrics": {
       "homework_id": "HW7",
       "model_name": "Kimi",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 410
     },
     "file_refs": null
@@ -4983,9 +4687,7 @@
     "metrics": {
       "homework_id": "HW7",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 147
     },
     "file_refs": [
@@ -5017,9 +4719,7 @@
     "metrics": {
       "homework_id": "HW6",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 159
     },
     "file_refs": null
@@ -5044,10 +4744,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7250444",
     "metrics": {
       "homework_id": "HW3",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Pro",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 362
     },
     "file_refs": null
@@ -5072,10 +4770,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7246769",
     "metrics": {
       "homework_id": "HW7",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-5",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 191
     },
     "file_refs": [
@@ -5106,10 +4802,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7244375",
     "metrics": {
       "homework_id": "HW2",
-      "model_name": "Gemini",
-      "primary_focus": "model_performance",
+      "model_name": "Gemini Flash",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 219
     },
     "file_refs": [
@@ -5141,9 +4835,7 @@
     "metrics": {
       "homework_id": "HW5",
       "model_name": "Claude",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 114
     },
     "file_refs": [
@@ -5175,9 +4867,7 @@
     "metrics": {
       "homework_id": "HW3",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "low",
-      "actionability_bucket": "low",
       "word_count": 112
     },
     "file_refs": [
@@ -5208,10 +4898,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7219478",
     "metrics": {
       "homework_id": "HW1",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-4o",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 286
     },
     "file_refs": [
@@ -5243,9 +4931,7 @@
     "metrics": {
       "homework_id": "HW5",
       "model_name": "GPT-5",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 175
     },
     "file_refs": null
@@ -5271,9 +4957,7 @@
     "metrics": {
       "homework_id": "HW3",
       "model_name": "Mistral",
-      "primary_focus": "model_performance",
       "depth_bucket": "low",
-      "actionability_bucket": "medium",
       "word_count": 119
     },
     "file_refs": [
@@ -5305,9 +4989,7 @@
     "metrics": {
       "homework_id": "HW5",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 241
     },
     "file_refs": [
@@ -5339,9 +5021,7 @@
     "metrics": {
       "homework_id": "HW0",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 82
     },
     "file_refs": [
@@ -5372,10 +5052,8 @@
     "ed_url": "https://edstem.org/us/courses/84647/discussion/7151370",
     "metrics": {
       "homework_id": "HW5",
-      "model_name": "ChatGPT (other)",
-      "primary_focus": "model_performance",
+      "model_name": "GPT-Oss",
       "depth_bucket": "medium",
-      "actionability_bucket": "low",
       "word_count": 106
     },
     "file_refs": [
@@ -5407,9 +5085,7 @@
     "metrics": {
       "homework_id": "HW5",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 173
     },
     "file_refs": [
@@ -5441,9 +5117,7 @@
     "metrics": {
       "homework_id": "HW4",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 325
     },
     "file_refs": [
@@ -5475,9 +5149,7 @@
     "metrics": {
       "homework_id": "HW3",
       "model_name": "GPT-5",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 434
     },
     "file_refs": [
@@ -5509,9 +5181,7 @@
     "metrics": {
       "homework_id": "HW1",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "high",
-      "actionability_bucket": "medium",
       "word_count": 467
     },
     "file_refs": [
@@ -5543,9 +5213,7 @@
     "metrics": {
       "homework_id": "HW0",
       "model_name": "Qwen",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 174
     },
     "file_refs": null
@@ -5571,9 +5239,7 @@
     "metrics": {
       "homework_id": "HW0",
       "model_name": "DeepSeek",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 183
     },
     "file_refs": null
@@ -5599,9 +5265,7 @@
     "metrics": {
       "homework_id": "HW3",
       "model_name": "Grok",
-      "primary_focus": "model_performance",
       "depth_bucket": "medium",
-      "actionability_bucket": "medium",
       "word_count": 312
     },
     "file_refs": [

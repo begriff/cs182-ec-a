@@ -1,4 +1,2 @@
 .env
 special_participation_site/files/
-thread_util/threads.json
-special_participation_site/public/data/posts_processed.json
