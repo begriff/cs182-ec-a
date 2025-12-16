@@ -323,6 +323,7 @@ function handlePostListClick(event) {
   openPostModal(state.filtered[index]);
 }
 
+// --- UPDATED: Add icons and proper structure ---
 function buildFilesHtml(files) {
   if (!files || !files.length) return "";
   
@@ -332,7 +333,13 @@ function buildFilesHtml(files) {
     const hasTxt = f.transcript;
     const txtPath = hasTxt ? escapeAttribute(f.transcript) : "";
 
-    let links = `<a href="${filePath}" target="_blank" rel="noopener noreferrer" title="Download ${filename}">${filename}</a>`;
+    // Determine icon based on extension
+    let icon = "📄"; // Default icon
+    if (filename.toLowerCase().endsWith(".pdf")) icon = "📄";
+    else if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpg")) icon = "🖼️";
+    else if (filename.toLowerCase().endsWith(".txt")) icon = "📝";
+
+    let links = `<a href="${filePath}" target="_blank" rel="noopener noreferrer" title="Download ${filename}" class="file-download-link">${icon} ${filename}</a>`;
     if (hasTxt) {
       links += ` <a href="${txtPath}" target="_blank" rel="noopener noreferrer" class="file-transcript-link" title="View transcript">[txt]</a>`;
     }
@@ -341,6 +348,7 @@ function buildFilesHtml(files) {
   return `<div class="post-files"><span class="files-label">📎 Files:</span> ${fileLinks.join(" ")}</div>`;
 }
 
+// --- UPDATED: Embed PDF viewer ---
 function openPostModal(post) {
   if (!els.postModalBackdrop || !els.postModalBody || !els.postModalTitle) return;
 
@@ -403,15 +411,16 @@ function openPostModal(post) {
     els.postModalMeta.innerHTML = `${els.postModalMeta.innerHTML}${meta.length ? " · " : ""}${statsHtml}`;
   }
 
-  // Add files to modal
+  // Retrieve files using manifest lookup
+  const files = getFilesForPost(post);
+
+  // Add files list to top of modal (download links)
   if (els.postModalFiles) {
-    const files = getFilesForPost(post);
     els.postModalFiles.innerHTML = buildFilesHtml(files);
   }
 
   // Display body with inline PDF links
   let bodyText = post.document || "(no body text available)";
-  const files = getFilesForPost(post);
   const fileRefs = post.file_refs || [];
   
   if (fileRefs && fileRefs.length > 0) {
@@ -430,6 +439,27 @@ function openPostModal(post) {
   
   // Convert to HTML with proper formatting and clickable links
   els.postModalBody.innerHTML = formatBodyWithLinks(bodyText, files);
+
+  // --- NEW: Embed PDF Previews at the bottom ---
+  if (files && files.length > 0) {
+    const pdfs = files.filter(f => f.saved_as.toLowerCase().endsWith('.pdf'));
+    
+    if (pdfs.length > 0) {
+      const pdfEmbeds = pdfs.map(pdf => `
+        <div class="pdf-embed-container" style="margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem;">
+          <h4 style="margin-bottom:0.5rem;">📄 Preview: ${escapeHtml(pdf.original_filename)}</h4>
+          <object data="${escapeAttribute(pdf.saved_as)}" type="application/pdf" width="100%" height="600px" style="border: 1px solid #ddd; border-radius: 4px;">
+            <p>
+              Your browser does not support inline PDF viewing. 
+              <a href="${escapeAttribute(pdf.saved_as)}" target="_blank">Click here to download the PDF</a>.
+            </p>
+          </object>
+        </div>
+      `).join('');
+      
+      els.postModalBody.insertAdjacentHTML('beforeend', pdfEmbeds);
+    }
+  }
 
   els.postModalBackdrop.hidden = false;
   document.body.classList.add("modal-open");
