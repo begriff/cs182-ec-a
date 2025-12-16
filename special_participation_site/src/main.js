@@ -3,16 +3,22 @@ const INSIGHTS_URL = "public/data/insights.json";
 const MANIFEST_URL = "files/manifest.json";
 const THEME_KEY = "spa-theme-mode";
 
+// -- NEW: PDF Constants --
+const PDFJS_CDN = "https://esm.run/pdfjs-dist@3.11.174";
+const PDFJS_WORKER_CDN = "https://esm.run/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+
 const state = {
   allPosts: [],
   filtered: [],
   filesManifest: {},
   insights: null,
   currentModalPost: null,
+  activeThreadPost: null, // New: for full page view
   qaMessages: [],
   qaEngine: null,
   qaWebllm: null,
   qaGenerating: false,
+  pdfLib: null, // New: cache for PDF library
   // New state for insights filtering
   insightsFilters: {
     homeworks: new Set(),
@@ -43,11 +49,14 @@ function cacheElements() {
   els.postModalBody = document.getElementById("post-modal-body");
   els.postModalClose = document.getElementById("post-modal-close");
   els.postModalFiles = document.getElementById("post-modal-files");
+  
+  // QA Els (Note: these might be re-bound in full page mode)
   els.qaForm = document.getElementById("qa-form");
   els.qaInput = document.getElementById("qa-input");
   els.qaSend = document.getElementById("qa-send");
   els.qaMessages = document.getElementById("qa-messages");
   els.qaStatus = document.getElementById("qa-status");
+  
   els.homeworkInsightsBody = document.getElementById("homework-insights-body");
   els.modelInsightsBody = document.getElementById("model-insights-body");
 }
@@ -93,6 +102,44 @@ async function loadInsights() {
     return null;
   }
 }
+
+// -- NEW: PDF Extraction Logic --
+
+async function loadPdfLib() {
+  if (state.pdfLib) return state.pdfLib;
+  const pdfjs = await import(PDFJS_CDN);
+  pdfjs.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_CDN;
+  state.pdfLib = pdfjs;
+  return pdfjs;
+}
+
+async function extractTextFromPdf(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return "";
+    const arrayBuffer = await res.arrayBuffer();
+    
+    const pdfjs = await loadPdfLib();
+    const doc = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+    
+    let fullText = "";
+    // Limit pages to avoid context overflow
+    const maxPages = Math.min(doc.numPages, 10); 
+    
+    for (let i = 1; i <= maxPages; i++) {
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      const strings = content.items.map((item) => item.str);
+      fullText += strings.join(" ") + "\n";
+    }
+    return fullText;
+  } catch (err) {
+    console.error("PDF Parse Error:", err);
+    return "";
+  }
+}
+
+// -- End PDF Logic --
 
 function getFilesForPost(post) {
   const threadNum = String(post.number);
@@ -299,6 +346,9 @@ function handlePostListClick(event) {
   if (!els.postsList) return;
   const card = event.target.closest(".post-card");
   if (!card || !els.postsList.contains(card)) return;
+  
+  // If clicking the "Full View" button, let standard navigation happen
+  if (event.target.closest(".btn-full-view")) return;
   if (event.target.closest("a")) return;
 
   const indexAttr = card.getAttribute("data-index");
@@ -414,7 +464,7 @@ function openPostModal(post) {
   
   els.postModalBody.innerHTML = formatBodyWithLinks(bodyText, files);
 
-  // PDF Preview Embedding
+  // PDF Preview Embedding in Modal
   if (files && files.length > 0) {
     const pdfs = files.filter(f => f.saved_as.toLowerCase().endsWith('.pdf'));
     if (pdfs.length > 0) {
@@ -497,6 +547,7 @@ async function initQaEngine() {
   }
 }
 
+// -- UPDATED: Support PDF extraction --
 async function buildThreadContext(post) {
   const parts = [];
   parts.push(`Title: ${post.title || "Untitled"}`);
@@ -509,6 +560,7 @@ async function buildThreadContext(post) {
   const entry = state.filesManifest[threadNum];
   if (entry?.files?.length) {
     for (const file of entry.files) {
+      // 1. Try simple text transcript first
       if (file.transcript) {
         try {
           const res = await fetch(file.transcript, { cache: "force-cache" });
@@ -516,8 +568,19 @@ async function buildThreadContext(post) {
             let txt = await res.text();
             if (txt.length > 6000) txt = txt.slice(0, 6000) + "...";
             parts.push(`\nAttached file (${file.original_filename}):\n${txt}`);
+            continue; // if found, move to next file
           }
         } catch { }
+      }
+      
+      // 2. Try PDF extraction if available
+      const savedPath = file.saved_as || file.url;
+      if (savedPath && savedPath.toLowerCase().endsWith('.pdf')) {
+        parts.push(`\n(Reading PDF: ${file.original_filename}...)`);
+        const pdfText = await extractTextFromPdf(savedPath);
+        if (pdfText && pdfText.length > 50) {
+           parts.push(`\nAttached PDF Content (${file.original_filename}):\n${pdfText}`);
+        }
       }
     }
   }
@@ -525,18 +588,31 @@ async function buildThreadContext(post) {
 }
 
 function addQaMessage(role, content, isStreaming = false) {
+  // Must dynamically find container because it changes between views
+  const container = document.getElementById("qa-messages");
+  if (!container) return null;
+  
   const div = document.createElement("div");
   div.className = `qa-message qa-${role}${isStreaming ? " streaming" : ""}`;
   div.innerHTML = `<p>${escapeHtml(content)}</p>`;
-  els.qaMessages.appendChild(div);
-  els.qaMessages.scrollTop = els.qaMessages.scrollHeight;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
   return div;
 }
 
 async function handleQaSubmit(e) {
   e.preventDefault();
-  const question = els.qaInput.value.trim();
-  if (!question || state.qaGenerating || !state.currentModalPost) return;
+  // Dynamically query input in case view changed
+  const inputEl = document.getElementById("qa-input");
+  const sendEl = document.getElementById("qa-send");
+  const statusEl = document.getElementById("qa-status");
+  const container = document.getElementById("qa-messages");
+  
+  const question = inputEl.value.trim();
+  // Check active thread (Full page) OR modal thread
+  const contextPost = state.activeThreadPost || state.currentModalPost;
+
+  if (!question || state.qaGenerating || !contextPost) return;
 
   if (!state.qaEngine) {
     await initQaEngine();
@@ -544,16 +620,16 @@ async function handleQaSubmit(e) {
   }
 
   addQaMessage("user", question);
-  els.qaInput.value = "";
+  inputEl.value = "";
   state.qaGenerating = true;
-  els.qaInput.disabled = true;
-  els.qaSend.disabled = true;
-  if (els.qaStatus) els.qaStatus.textContent = "Thinking...";
+  inputEl.disabled = true;
+  sendEl.disabled = true;
+  if (statusEl) statusEl.textContent = "Reading & Thinking...";
 
   const assistantEl = addQaMessage("assistant", "", true);
 
   try {
-    const threadContext = await buildThreadContext(state.currentModalPost);
+    const threadContext = await buildThreadContext(contextPost);
     const messages = [
       {
         role: "system",
@@ -576,23 +652,25 @@ async function handleQaSubmit(e) {
     for await (const chunk of asyncGenerator) {
       const delta = chunk.choices[0]?.delta?.content || "";
       fullResponse += delta;
-      assistantEl.querySelector("p").textContent = fullResponse;
-      els.qaMessages.scrollTop = els.qaMessages.scrollHeight;
+      if (assistantEl) {
+        assistantEl.querySelector("p").textContent = fullResponse;
+        if(container) container.scrollTop = container.scrollHeight;
+      }
     }
-    assistantEl.classList.remove("streaming");
+    if(assistantEl) assistantEl.classList.remove("streaming");
   } catch (err) {
     console.error("QA generation error:", err);
-    assistantEl.querySelector("p").textContent = "Sorry, something went wrong.";
-    assistantEl.classList.remove("streaming");
+    if(assistantEl) assistantEl.querySelector("p").textContent = "Sorry, something went wrong.";
+    if(assistantEl) assistantEl.classList.remove("streaming");
   } finally {
     state.qaGenerating = false;
-    els.qaInput.disabled = false;
-    els.qaSend.disabled = false;
-    if (els.qaStatus) {
-      els.qaStatus.textContent = "Ready";
-      els.qaStatus.className = "qa-status ready";
+    if(inputEl) inputEl.disabled = false;
+    if(sendEl) sendEl.disabled = false;
+    if (statusEl) {
+      statusEl.textContent = "Ready";
+      statusEl.className = "qa-status ready";
     }
-    els.qaInput.focus();
+    if(inputEl) inputEl.focus();
   }
 }
 
@@ -746,6 +824,7 @@ function postToHtml(post, index) {
   const files = getFilesForPost(post);
   const filesHtml = buildFilesHtml(files);
 
+  // New Button for Full View added below badges
   return `
 <article class="post-card" data-index="${index}">
   <header class="post-header">
@@ -759,6 +838,13 @@ function postToHtml(post, index) {
     </div>
   </header>
   <div class="post-badges">${badges.join(" ")}</div>
+  
+  <div style="margin: 0.75rem 0;">
+    <a href="?thread=${post.number}" class="btn-full-view" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.4rem 0.8rem; background:#eff6ff; color:#1d4ed8; text-decoration:none; border-radius:6px; font-size:0.875rem; font-weight:500;">
+      <span>Open Full View & PDF ↗</span>
+    </a>
+  </div>
+
   <p class="post-stats">${stats.map(escapeHtml).join(" · ")}</p>
   ${filesHtml}
   <details class="post-details">
@@ -1047,12 +1133,8 @@ function renderHomeworkInsights() {
             const linkDiv = document.createElement('div');
             linkDiv.style.marginBottom = "4px";
             const link = document.createElement('a');
-            link.href = "#";
+            link.href = `?thread=${p.number}`; // Link to Full Page View
             link.textContent = p.title || `Post #${p.number}`;
-            link.onclick = (e) => {
-                e.preventDefault();
-                openPostModal(p);
-            };
             linkDiv.appendChild(link);
             mBody.appendChild(linkDiv);
         });
@@ -1098,6 +1180,117 @@ function renderModelInsights() {
   els.modelInsightsBody.innerHTML = cards;
 }
 
+// -- NEW: Full Page Thread Renderer --
+
+function renderFullPageThread(post) {
+  state.activeThreadPost = post;
+  state.currentModalPost = null; 
+
+  const m = post.metrics || {};
+  const files = getFilesForPost(post);
+  
+  // Find PDF for split view
+  let pdfUrl = null;
+  if (files) {
+    const pdf = files.find(f => 
+      (f.transcript && f.transcript.endsWith('.pdf')) || 
+      (f.url && f.url.endsWith('.pdf')) ||
+      (f.saved_as && f.saved_as.endsWith('.pdf'))
+    );
+    if (pdf) pdfUrl = pdf.saved_as;
+  }
+
+  const html = `
+    <div class="fixed inset-0 z-50 bg-gray-50 flex flex-col md:flex-row overflow-hidden font-sans text-gray-800" style="position:fixed; top:0; left:0; width:100%; height:100vh; background:#fff; display:flex;">
+      
+      <div style="flex:1; display:flex; flex-direction:column; height:100%; border-right:1px solid #e5e7eb; overflow:hidden;">
+        
+        <div style="padding:1.5rem; border-bottom:1px solid #e5e7eb; background:#fff;">
+          <a href="?" style="display:inline-flex; align-items:center; gap:0.5rem; color:#6b7280; text-decoration:none; margin-bottom:1rem; font-size:0.875rem;">
+            ← Back to Dashboard
+          </a>
+          
+          <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
+            <span class="badge badge-hw">${escapeHtml(m.homework_id || 'HW')}</span>
+            <span class="badge badge-model">${escapeHtml(m.model_name || 'Model')}</span>
+          </div>
+          
+          <h1 style="font-size:1.5rem; font-weight:700; margin:0.5rem 0; color:#111827;">${escapeHtml(post.title)}</h1>
+          
+          <div style="font-size:0.875rem; color:#6b7280; display:flex; gap:1rem;">
+             <span>${escapeHtml(post.user?.name || 'Unknown')}</span>
+             <span>•</span>
+             <a href="${post.ed_url}" target="_blank" style="color:#2563eb;">View on Ed</a>
+          </div>
+        </div>
+
+        <div style="flex:1; overflow-y:auto; padding:2rem; background:#f9fafb;">
+           <div style="max-width:800px; margin:0 auto;">
+              <div class="post-body-container" style="background:#fff; padding:2rem; border-radius:0.75rem; border:1px solid #e5e7eb; margin-bottom:2rem; line-height:1.6;">
+                 ${formatBodyWithLinks(post.document, files)}
+              </div>
+
+              ${pdfUrl ? `
+                <div style="height:800px; border:1px solid #e5e7eb; border-radius:0.75rem; background:#fff; display:flex; flex-direction:column; overflow:hidden;">
+                  <div style="background:#f3f4f6; padding:0.75rem 1rem; border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between; align-items:center;">
+                     <span style="font-weight:600; font-size:0.875rem; color:#374151;">Document Viewer</span>
+                     <a href="${pdfUrl}" target="_blank" style="font-size:0.75rem; color:#2563eb;">Download PDF</a>
+                  </div>
+                  <iframe src="${pdfUrl}" style="width:100%; flex:1; border:none;"></iframe>
+                </div>
+              ` : `
+                <div style="padding:3rem; text-align:center; color:#9ca3af; border:2px dashed #e5e7eb; border-radius:0.75rem;">
+                  No PDF attachment found.
+                </div>
+              `}
+           </div>
+        </div>
+      </div>
+
+      <div style="width:400px; min-width:400px; display:flex; flex-direction:column; height:100%; background:#fff; border-left:1px solid #e5e7eb; box-shadow:-4px 0 15px rgba(0,0,0,0.05);">
+        <div style="padding:1rem; border-bottom:1px solid #e5e7eb; background:#f9fafb;">
+          <h2 style="font-weight:600; color:#1f2937; margin:0;">AI Assistant</h2>
+          <div id="qa-status" class="qa-status" style="font-size:0.75rem; color:#6b7280; margin-top:0.25rem;">Ready</div>
+        </div>
+
+        <div id="qa-messages" style="flex:1; overflow-y:auto; padding:1rem; display:flex; flex-direction:column; gap:1rem;">
+          <div class="qa-message qa-assistant">
+             <p>Hi! I've analyzed this thread and any attached PDFs. What would you like to know?</p>
+          </div>
+        </div>
+
+        <div style="padding:1rem; border-top:1px solid #e5e7eb; background:#f9fafb;">
+          <form id="qa-form" style="display:flex; gap:0.5rem;">
+            <input 
+              type="text" 
+              id="qa-input" 
+              style="flex:1; padding:0.5rem 0.75rem; border:1px solid #d1d5db; border-radius:0.375rem; font-size:0.875rem;"
+              placeholder="Ask about this thread..." 
+              autocomplete="off"
+            >
+            <button 
+              type="submit" 
+              id="qa-send" 
+              style="padding:0.5rem 1rem; background:#2563eb; color:white; border:none; border-radius:0.375rem; font-size:0.875rem; font-weight:500; cursor:pointer;"
+            >
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Completely replace body content for this view
+  document.body.innerHTML = html;
+  
+  // Re-bind events since we wiped the DOM
+  const form = document.getElementById("qa-form");
+  if (form) form.addEventListener("submit", handleQaSubmit);
+}
+
+// -- INIT --
+
 async function init() {
   cacheElements();
   initThemePreference();
@@ -1112,13 +1305,29 @@ async function init() {
     state.allPosts = posts;
     state.filesManifest = manifest;
     state.insights = insights;
+    
+    // -- NEW: Routing Check --
+    const params = new URLSearchParams(window.location.search);
+    const threadId = params.get('thread');
+    if (threadId) {
+      const post = posts.find(p => String(p.number) === threadId);
+      if (post) {
+        renderFullPageThread(post);
+        return; // Skip rendering dashboard
+      }
+    }
+
     buildFilters(posts);
     applyFiltersAndRender();
     renderHomeworkInsights();
     renderModelInsights();
   } catch (err) {
     console.error(err);
-    showError(err.message || String(err));
+    // Fallback error display
+    if (els.errorMessage) {
+       els.errorMessage.textContent = err.message || String(err);
+       els.errorMessage.hidden = false;
+    }
   }
 }
 

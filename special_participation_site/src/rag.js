@@ -1,12 +1,14 @@
 /**
  * RAG (Retrieval-Augmented Generation) Module
  * Uses WebLLM for embeddings and provides semantic search over threads
+ * Updates: Supports parsing of Text and PDF attachments.
  */
 
 // State
 const ragState = {
   embeddingEngine: null,
   webllm: null,
+  pdfLib: null, // Cache for PDF.js library
   embeddings: [], // Array of { threadNum, embedding, text }
   isInitialized: false,
   isIndexing: false,
@@ -14,6 +16,8 @@ const ragState = {
 
 // Embedding model (small, fast model for embeddings)
 const EMBEDDING_MODEL = "snowflake-arctic-embed-m-q0f32-MLC-b4";
+const PDFJS_CDN = "https://esm.run/pdfjs-dist@3.11.174";
+const PDFJS_WORKER_CDN = "https://esm.run/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
 /**
  * Initialize the embedding engine
@@ -47,6 +51,46 @@ export async function initEmbeddingEngine(progressCallback) {
 }
 
 /**
+ * Lazy load PDF.js library
+ */
+async function loadPdfLib() {
+  if (ragState.pdfLib) return ragState.pdfLib;
+  
+  const pdfjs = await import(PDFJS_CDN);
+  pdfjs.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_CDN;
+  ragState.pdfLib = pdfjs;
+  return pdfjs;
+}
+
+/**
+ * Extract text from a PDF ArrayBuffer
+ * @param {ArrayBuffer} data - PDF file data
+ * @returns {Promise<string>} - Extracted text
+ */
+async function extractTextFromPdf(data) {
+  try {
+    const pdfjs = await loadPdfLib();
+    const doc = await pdfjs.getDocument({ data }).promise;
+    let fullText = "";
+
+    // Limit pages to avoid massive processing for RAG context window
+    const maxPages = Math.min(doc.numPages, 10); 
+    
+    for (let i = 1; i <= maxPages; i++) {
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      const strings = content.items.map((item) => item.str);
+      fullText += strings.join(" ") + "\n";
+    }
+    
+    return fullText;
+  } catch (err) {
+    console.error("PDF Parsing Error:", err);
+    return "";
+  }
+}
+
+/**
  * Generate embedding for a single text
  * @param {string} text - Text to embed
  * @returns {Promise<number[]>} - Embedding vector
@@ -56,7 +100,6 @@ async function embedText(text) {
     throw new Error("Embedding engine not initialized");
   }
 
-  // Format text according to Snowflake model requirements
   const formattedText = `[CLS] ${text} [SEP]`;
 
   const reply = await ragState.embeddingEngine.embeddings.create({
@@ -110,10 +153,10 @@ function cosineSimilarity(a, b) {
  * Build the thread content string for embedding
  * @param {Object} post - Post object from posts_processed.json
  * @param {Object} filesManifest - Files manifest object
- * @param {Function} fetchTextFile - Function to fetch txt file content
+ * @param {Function} fetchFileContent - Function to fetch file content (txt or pdf)
  * @returns {Promise<string>} - Combined text for embedding
  */
-async function buildThreadText(post, filesManifest, fetchTextFile) {
+async function buildThreadText(post, filesManifest, fetchFileContent) {
   const parts = [];
 
   // Add title
@@ -138,19 +181,26 @@ async function buildThreadText(post, filesManifest, fetchTextFile) {
     parts.push(`\nContent:\n${post.document}`);
   }
 
-  // Add txt file content if available
+  // Add file content if available
   const threadNum = String(post.number);
   const entry = filesManifest[threadNum];
+  
   if (entry?.files?.length) {
     for (const file of entry.files) {
-      if (file.transcript) {
+      // Check for 'transcript' (often .txt) OR 'url' (generic attachment)
+      const filePath = file.transcript || file.url;
+      
+      if (filePath) {
+        // Skip images or non-doc types if known
+        if (filePath.match(/\.(jpg|jpeg|png|gif|mp4|mov)$/i)) continue;
+
         try {
-          const txtContent = await fetchTextFile(file.transcript);
-          if (txtContent) {
-            parts.push(`\nAttached File (${file.original_filename}):\n${txtContent}`);
+          const content = await fetchFileContent(filePath);
+          if (content && content.length > 50) { // filter out empty/noise files
+            parts.push(`\nAttached File (${file.original_filename}):\n${content}`);
           }
         } catch (err) {
-          console.warn(`Failed to load transcript for thread ${threadNum}:`, err);
+          console.warn(`Failed to load file for thread ${threadNum}:`, err);
         }
       }
     }
@@ -179,14 +229,28 @@ export async function indexThreads(posts, filesManifest, progressCallback) {
   ragState.isIndexing = true;
   ragState.embeddings = [];
 
-  const fetchTextFile = async (path) => {
+  // Helper to fetch and parse files (Text or PDF)
+  const fetchFileContent = async (path) => {
     try {
       const res = await fetch(path, { cache: "force-cache" });
       if (!res.ok) return null;
-      const text = await res.text();
+
+      const contentType = res.headers.get("content-type") || "";
+      const isPdf = path.toLowerCase().endsWith(".pdf") || contentType.includes("pdf");
+
+      let text = "";
+      if (isPdf) {
+        const buffer = await res.arrayBuffer();
+        text = await extractTextFromPdf(buffer);
+      } else {
+        // Assume text for everything else (txt, md, js, etc)
+        text = await res.text();
+      }
+
       // Truncate very long files to avoid embedding size issues
       return text.length > 8000 ? text.slice(0, 8000) + "..." : text;
-    } catch {
+    } catch (e) {
+      // Silent fail for missing files to not break indexing
       return null;
     }
   };
@@ -199,7 +263,7 @@ export async function indexThreads(posts, filesManifest, progressCallback) {
 
     // Build text for each post in batch
     const textsPromises = batch.map((post) =>
-      buildThreadText(post, filesManifest, fetchTextFile)
+      buildThreadText(post, filesManifest, fetchFileContent)
     );
     const texts = await Promise.all(textsPromises);
 
@@ -321,4 +385,3 @@ export async function unloadEmbeddingEngine() {
   }
   clearIndex();
 }
-
