@@ -13,6 +13,11 @@ const state = {
   qaEngine: null,
   qaWebllm: null,
   qaGenerating: false,
+  // New state for insights filtering
+  insightsFilters: {
+    homeworks: new Set(),
+    models: new Set()
+  }
 };
 
 const els = {};
@@ -97,31 +102,23 @@ function getFilesForPost(post) {
 }
 
 function formatBodyWithLinks(bodyText, files) {
-  // Escape HTML and preserve line breaks
   let formatted = escapeHtml(bodyText);
   
-  // Convert markdown-style links [📎 filename] to actual HTML links
-  // Match against files from the manifest
   if (files && files.length > 0) {
     formatted = formatted.replace(/\[📎 ([^\]]+)\]/g, (match, filename) => {
-      // Find matching file in manifest
       const file = files.find(f => f.original_filename === filename.trim());
       if (file) {
         return `<a href="${escapeAttribute(file.saved_as)}" class="inline-file-link" target="_blank" rel="noopener">📎 ${escapeHtml(filename)}</a>`;
       }
-      return match; // No match, keep as is
+      return match;
     });
   }
   
-  // Convert URLs to clickable links
-  // Match http:// or https:// URLs
   formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, (url) => {
     return `<a href="${escapeAttribute(url)}" target="_blank" rel="noopener">${escapeHtml(url)}</a>`;
   });
   
-  // Preserve line breaks
   formatted = formatted.replace(/\n/g, '<br>');
-  
   return formatted;
 }
 
@@ -177,15 +174,11 @@ function applyThemePreference(mode) {
   if (mode === "auto") {
     try {
       localStorage.removeItem(THEME_KEY);
-    } catch (err) {
-      // ignore
-    }
+    } catch (err) { }
   } else {
     try {
       localStorage.setItem(THEME_KEY, mode);
-    } catch (err) {
-      // ignore
-    }
+    } catch (err) { }
   }
 
   if (els.themeButtons && els.themeButtons.length) {
@@ -202,13 +195,10 @@ function initThemePreference() {
   let stored = "auto";
   try {
     const v = localStorage.getItem(THEME_KEY);
-    if (v === "light" || v === "dark" || v === "auto") {
-      stored = v;
-    }
+    if (v === "light" || v === "dark" || v === "auto") stored = v;
   } catch (err) {
     stored = "auto";
   }
-
   applyThemePreference(stored);
 }
 
@@ -262,7 +252,6 @@ function attachEvents() {
     }
   });
 
-  // Listen for RAG source link clicks
   window.addEventListener("open-thread", (event) => {
     const { threadNum } = event.detail;
     const post = state.allPosts.find((p) => p.number === threadNum);
@@ -271,7 +260,6 @@ function attachEvents() {
     }
   });
 
-  // Q&A form handler
   if (els.qaForm) {
     els.qaForm.addEventListener("submit", handleQaSubmit);
   }
@@ -311,8 +299,6 @@ function handlePostListClick(event) {
   if (!els.postsList) return;
   const card = event.target.closest(".post-card");
   if (!card || !els.postsList.contains(card)) return;
-
-  // Let explicit links behave normally.
   if (event.target.closest("a")) return;
 
   const indexAttr = card.getAttribute("data-index");
@@ -323,7 +309,6 @@ function handlePostListClick(event) {
   openPostModal(state.filtered[index]);
 }
 
-// --- UPDATED: Add icons and proper structure ---
 function buildFilesHtml(files) {
   if (!files || !files.length) return "";
   
@@ -333,8 +318,7 @@ function buildFilesHtml(files) {
     const hasTxt = f.transcript;
     const txtPath = hasTxt ? escapeAttribute(f.transcript) : "";
 
-    // Determine icon based on extension
-    let icon = "📄"; // Default icon
+    let icon = "📄";
     if (filename.toLowerCase().endsWith(".pdf")) icon = "📄";
     else if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpg")) icon = "🖼️";
     else if (filename.toLowerCase().endsWith(".txt")) icon = "📝";
@@ -348,7 +332,6 @@ function buildFilesHtml(files) {
   return `<div class="post-files"><span class="files-label">📎 Files:</span> ${fileLinks.join(" ")}</div>`;
 }
 
-// --- UPDATED: Embed PDF viewer ---
 function openPostModal(post) {
   if (!els.postModalBackdrop || !els.postModalBody || !els.postModalTitle) return;
 
@@ -357,7 +340,6 @@ function openPostModal(post) {
   state.qaMessages = [];
   if (els.qaMessages) els.qaMessages.innerHTML = "";
   
-  // Check for shared engine or existing engine
   const hasEngine = state.qaEngine || window.sharedLLMEngine;
   if (els.qaStatus) {
     if (hasEngine) {
@@ -411,39 +393,30 @@ function openPostModal(post) {
     els.postModalMeta.innerHTML = `${els.postModalMeta.innerHTML}${meta.length ? " · " : ""}${statsHtml}`;
   }
 
-  // Retrieve files using manifest lookup
   const files = getFilesForPost(post);
-
-  // Add files list to top of modal (download links)
   if (els.postModalFiles) {
     els.postModalFiles.innerHTML = buildFilesHtml(files);
   }
 
-  // Display body with inline PDF links
   let bodyText = post.document || "(no body text available)";
   const fileRefs = post.file_refs || [];
   
   if (fileRefs && fileRefs.length > 0) {
-    // Sort file refs by position (latest first to avoid position shifts)
     const sorted = [...fileRefs].sort((a, b) => b.position - a.position);
-    
     for (const ref of sorted) {
       const pos = ref.position;
       if (pos >= 0 && pos <= bodyText.length) {
-        // Insert inline file link marker
         const marker = `\n\n[📎 ${ref.filename}]\n\n`;
         bodyText = bodyText.slice(0, pos) + marker + bodyText.slice(pos);
       }
     }
   }
   
-  // Convert to HTML with proper formatting and clickable links
   els.postModalBody.innerHTML = formatBodyWithLinks(bodyText, files);
 
-  // --- NEW: Embed PDF Previews at the bottom ---
+  // PDF Preview Embedding
   if (files && files.length > 0) {
     const pdfs = files.filter(f => f.saved_as.toLowerCase().endsWith('.pdf'));
-    
     if (pdfs.length > 0) {
       const pdfEmbeds = pdfs.map(pdf => `
         <div class="pdf-embed-container" style="margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem;">
@@ -456,41 +429,30 @@ function openPostModal(post) {
           </object>
         </div>
       `).join('');
-      
       els.postModalBody.insertAdjacentHTML('beforeend', pdfEmbeds);
     }
   }
 
   els.postModalBackdrop.hidden = false;
   document.body.classList.add("modal-open");
-
-  if (els.postModalClose) {
-    els.postModalClose.focus();
-  }
+  if (els.postModalClose) els.postModalClose.focus();
 }
 
 function closePostModal() {
   if (!els.postModalBackdrop) return;
   els.postModalBackdrop.hidden = true;
   document.body.classList.remove("modal-open");
-
-  // Clear Q&A state for this modal
   state.currentModalPost = null;
   state.qaMessages = [];
   if (els.qaMessages) els.qaMessages.innerHTML = "";
   if (els.qaStatus) els.qaStatus.textContent = "";
 
   if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
-    try {
-      lastFocusedElement.focus();
-    } catch {
-      // ignore
-    }
+    try { lastFocusedElement.focus(); } catch { }
   }
 }
 
 async function initQaEngine() {
-  // Check if shared engine from chat widget is available
   if (window.sharedLLMEngine) {
     state.qaEngine = window.sharedLLMEngine;
     state.qaWebllm = window.sharedLLMWebllm;
@@ -500,9 +462,7 @@ async function initQaEngine() {
     }
     return;
   }
-
   if (state.qaEngine) return;
-
   if (!navigator.gpu) {
     if (els.qaStatus) {
       els.qaStatus.textContent = "WebGPU not supported";
@@ -510,26 +470,20 @@ async function initQaEngine() {
     }
     return;
   }
-
   try {
     if (els.qaStatus) {
       els.qaStatus.textContent = "Loading model...";
       els.qaStatus.className = "qa-status loading";
     }
-
     if (!state.qaWebllm) {
       state.qaWebllm = await import("https://esm.run/@mlc-ai/web-llm");
     }
-
     const modelId = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
     state.qaEngine = await state.qaWebllm.CreateMLCEngine(modelId, {
       initProgressCallback: (progress) => {
-        if (els.qaStatus) {
-          els.qaStatus.textContent = progress.text || "Loading...";
-        }
+        if (els.qaStatus) els.qaStatus.textContent = progress.text || "Loading...";
       },
     });
-
     if (els.qaStatus) {
       els.qaStatus.textContent = "Ready";
       els.qaStatus.className = "qa-status ready";
@@ -546,14 +500,11 @@ async function initQaEngine() {
 async function buildThreadContext(post) {
   const parts = [];
   parts.push(`Title: ${post.title || "Untitled"}`);
-
   const m = post.metrics || {};
   if (m.homework_id) parts.push(`Homework: ${m.homework_id}`);
   if (m.model_name) parts.push(`Model evaluated: ${m.model_name}`);
-
   parts.push(`\nThread content:\n${post.document || "(no content)"}`);
 
-  // Try to load associated txt files
   const threadNum = String(post.number);
   const entry = state.filesManifest[threadNum];
   if (entry?.files?.length) {
@@ -566,13 +517,10 @@ async function buildThreadContext(post) {
             if (txt.length > 6000) txt = txt.slice(0, 6000) + "...";
             parts.push(`\nAttached file (${file.original_filename}):\n${txt}`);
           }
-        } catch {
-          // ignore
-        }
+        } catch { }
       }
     }
   }
-
   return parts.join("\n");
 }
 
@@ -587,20 +535,16 @@ function addQaMessage(role, content, isStreaming = false) {
 
 async function handleQaSubmit(e) {
   e.preventDefault();
-
   const question = els.qaInput.value.trim();
   if (!question || state.qaGenerating || !state.currentModalPost) return;
 
-  // Initialize engine if needed
   if (!state.qaEngine) {
     await initQaEngine();
     if (!state.qaEngine) return;
   }
 
-  // Add user message
   addQaMessage("user", question);
   els.qaInput.value = "";
-
   state.qaGenerating = true;
   els.qaInput.disabled = true;
   els.qaSend.disabled = true;
@@ -609,9 +553,7 @@ async function handleQaSubmit(e) {
   const assistantEl = addQaMessage("assistant", "", true);
 
   try {
-    // Build context from the thread
     const threadContext = await buildThreadContext(state.currentModalPost);
-
     const messages = [
       {
         role: "system",
@@ -637,7 +579,6 @@ async function handleQaSubmit(e) {
       assistantEl.querySelector("p").textContent = fullResponse;
       els.qaMessages.scrollTop = els.qaMessages.scrollHeight;
     }
-
     assistantEl.classList.remove("streaming");
   } catch (err) {
     console.error("QA generation error:", err);
@@ -663,23 +604,22 @@ function applyFiltersAndRender() {
 
   let results = state.allPosts.filter((post) => {
     const m = post.metrics || {};
-
     if (homeworkVal && m.homework_id !== homeworkVal) return false;
     if (modelVal && m.model_name !== modelVal) return false;
-
     if (search) {
       const haystack = `${post.title || ""}\n${post.document || ""}`.toLowerCase();
       if (!haystack.includes(search)) return false;
     }
-
     return true;
   });
 
   results = sortResults(results, sortOrder);
-
   state.filtered = results;
   renderSummaryBar();
   renderPosts();
+  
+  // Also re-render insights to respect updates if needed (though insights usually use their own filters)
+  renderHomeworkInsights();
 }
 
 function parseDateSafe(s) {
@@ -690,19 +630,13 @@ function parseDateSafe(s) {
 
 function sortResults(list, order) {
   const arr = list.slice();
-
   if (order === "homework") {
     arr.sort((a, b) => {
       const hwA = a.metrics?.homework_id || "";
       const hwB = b.metrics?.homework_id || "";
-      
-      // Extract homework number for numerical sorting
       const numA = hwA.match(/\d+/);
       const numB = hwB.match(/\d+/);
-      
-      if (numA && numB) {
-        return parseInt(numA[0], 10) - parseInt(numB[0], 10);
-      }
+      if (numA && numB) return parseInt(numA[0], 10) - parseInt(numB[0], 10);
       return hwA.localeCompare(hwB);
     });
   } else if (order === "model") {
@@ -721,7 +655,6 @@ function sortResults(list, order) {
       return da - db;
     });
   } else {
-    // newest
     arr.sort((a, b) => {
       const da = parseDateSafe(a.created_at);
       const db = parseDateSafe(b.created_at);
@@ -731,7 +664,6 @@ function sortResults(list, order) {
       return db - da;
     });
   }
-
   return arr;
 }
 
@@ -739,32 +671,26 @@ function renderSummaryBar() {
   const total = state.allPosts.length;
   const shown = state.filtered.length;
   if (!els.summaryBar) return;
-
   if (!total) {
     els.summaryBar.textContent = "No posts loaded yet.";
     return;
   }
-
   const hw = new Set();
   const models = new Set();
-
   for (const post of state.filtered) {
     const m = post.metrics || {};
     if (m.homework_id) hw.add(m.homework_id);
     if (m.model_name) models.add(m.model_name);
   }
-
   els.summaryBar.textContent = `Showing ${shown} of ${total} posts | Homeworks: ${hw.size} | Models: ${models.size}`;
 }
 
 function renderPosts() {
   if (!els.postsList) return;
-
   if (!state.filtered.length) {
     els.postsList.innerHTML = "<p class=\"muted\">No posts match the current filters.</p>";
     return;
   }
-
   const items = state.filtered.map((post, index) => postToHtml(post, index));
   els.postsList.innerHTML = items.join("\n");
   setupPostReveal();
@@ -772,14 +698,11 @@ function renderPosts() {
 
 function setupPostReveal() {
   if (!els.postsList || typeof IntersectionObserver === "undefined") return;
-
   const cards = Array.from(els.postsList.querySelectorAll(".post-card"));
   if (!cards.length) return;
-
   cards.forEach((card) => {
     card.classList.add("is-revealing");
   });
-
   const observer = new IntersectionObserver(
     (entries, obs) => {
       for (const entry of entries) {
@@ -792,13 +715,8 @@ function setupPostReveal() {
         }
       }
     },
-    {
-      root: null,
-      rootMargin: "0px 0px -10% 0px",
-      threshold: 0,
-    },
+    { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0 }
   );
-
   cards.forEach((card) => observer.observe(card));
 }
 
@@ -807,12 +725,8 @@ function postToHtml(post, index) {
   const hw = m.homework_id || "Unknown";
   const model = m.model_name || "Unknown";
   const wc = typeof m.word_count === "number" ? m.word_count : null;
-
   const created = post.created_at ? new Date(post.created_at) : null;
-  const createdStr = created && !Number.isNaN(created.getTime())
-    ? created.toLocaleString()
-    : "";
-
+  const createdStr = created && !Number.isNaN(created.getTime()) ? created.toLocaleString() : "";
   const author = post.user?.name || "Unknown";
   const role = post.user?.course_role || "";
 
@@ -820,20 +734,15 @@ function postToHtml(post, index) {
     `<span class="badge badge-hw">${escapeHtml(hw)}</span>`,
     `<span class="badge badge-model">${escapeHtml(model)}</span>`,
   ];
-
   const stats = [];
   if (wc != null) stats.push(`${wc} words`);
   if (typeof post.view_count === "number") stats.push(`${post.view_count} views`);
   if (typeof post.reply_count === "number") stats.push(`${post.reply_count} replies`);
-
   const edLink = post.ed_url
     ? `<a href="${escapeAttribute(post.ed_url)}" target="_blank" rel="noopener noreferrer">View on Ed</a>`
     : "";
-
   const title = escapeHtml(post.title || "Untitled post");
   const body = escapeHtml(post.document || "(no body text available)");
-
-  // Build file links if available
   const files = getFilesForPost(post);
   const filesHtml = buildFilesHtml(files);
 
@@ -872,121 +781,312 @@ function escapeAttribute(str) {
   return escapeHtml(str).replace(/"/g, "&quot;");
 }
 
-function formatMarkdownText(text) {
-  // Basic markdown formatting for insights
-  let formatted = escapeHtml(text);
-  
-  // Bold: **text** -> <strong>text</strong>
+// -- INSIGHTS LOGIC START --
+
+// Parses markdown summary to find Strengths and Weaknesses sections
+function formatInsightText(text) {
+  let formatted = escapeHtml(text || "");
+
+  // Bold
   formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   
-  // Italic: *text* (but not ** which is bold)
-  formatted = formatted.replace(/(?<!\*)\*(?!\*)([^*]+)\*(?!\*)/g, '<em>$1</em>');
+  // Split sections if possible
+  const sections = [];
   
-  // Inline code: `code` -> <code>code</code>
-  formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Heuristic: Check for "Strengths:" and "Weaknesses:" or "Pros/Cons"
+  // We'll wrap these in colored blocks if we find them
+  const strRegex = /(?:^|\n)(?:\*\*|###\s)?(Strengths|Pros):?(?:\*\*)?(?:\n|$)/i;
+  const weakRegex = /(?:^|\n)(?:\*\*|###\s)?(Weaknesses|Cons|Limitations):?(?:\*\*)?(?:\n|$)/i;
   
-  // Split into paragraphs first
-  const paragraphs = formatted.split(/\n\n+/);
-  
-  // Process each paragraph for numbered lists
-  const processed = paragraphs.map(para => {
-    // Check if paragraph contains numbered list items (1. 2. 3. etc at start of lines)
-    const lines = para.split('\n');
-    const hasNumberedList = lines.some(line => /^\d+\.\s/.test(line.trim()));
-    
-    if (hasNumberedList) {
-      // Convert to proper list HTML
-      let inList = false;
-      let result = '';
-      
-      for (const line of lines) {
-        const match = line.match(/^(\d+)\.\s+(.+)$/);
-        if (match) {
-          if (!inList) {
-            result += '<ol>';
-            inList = true;
-          }
-          result += `<li>${match[2]}</li>`;
-        } else if (line.trim()) {
-          // Continuation of previous list item
-          if (inList) {
-            // Append to last list item
-            result = result.replace(/<\/li>$/, ` ${line.trim()}</li>`);
-          } else {
-            result += line;
-          }
-        }
-      }
-      
-      if (inList) {
-        result += '</ol>';
-      }
-      
-      return result;
+  // If we can't find structured headers, just return basic markdown
+  if (!strRegex.test(text) && !weakRegex.test(text)) {
+    return formatMarkdownText(text); // Fallback to simple markdown
+  }
+
+  // Very basic parser to split the blob by these headers
+  const lines = text.split('\n');
+  let currentMode = 'normal'; // normal, strengths, weaknesses
+  let buffer = [];
+
+  const flushBuffer = () => {
+    if (buffer.length === 0) return;
+    const block = buffer.join('\n');
+    const html = formatMarkdownText(block); // recursive simple format
+    if (currentMode === 'strengths') {
+      sections.push(`<div class="insight-section insight-strengths"><strong>Strengths:</strong>${html}</div>`);
+    } else if (currentMode === 'weaknesses') {
+      sections.push(`<div class="insight-section insight-weaknesses"><strong>Weaknesses:</strong>${html}</div>`);
     } else {
-      // Regular paragraph
-      return `<p>${para}</p>`;
+      sections.push(`<div class="insight-section">${html}</div>`);
     }
-  });
-  
-  return processed.join('');
+    buffer = [];
+  };
+
+  for (const line of lines) {
+    if (strRegex.test(line)) {
+      flushBuffer();
+      currentMode = 'strengths';
+      continue; // Skip the header line itself
+    }
+    if (weakRegex.test(line)) {
+      flushBuffer();
+      currentMode = 'weaknesses';
+      continue;
+    }
+    buffer.push(line);
+  }
+  flushBuffer();
+
+  return sections.join('');
 }
 
-function showError(msg) {
-  if (!els.errorMessage) return;
-  els.errorMessage.hidden = false;
-  els.errorMessage.textContent = msg;
+// Basic markdown formatter (lists, code)
+function formatMarkdownText(text) {
+  if (!text) return "";
+  let html = escapeHtml(text);
+  
+  // Bold/Italic
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/(?<!\*)\*(?!\*)([^*]+)\*(?!\*)/g, '<em>$1</em>');
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  
+  // Lists
+  const lines = html.split('\n');
+  let inList = false;
+  let result = '';
+  
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('* ') || trimmed.startsWith('- ') || /^\d+\./.test(trimmed)) {
+      if (!inList) { result += '<ul>'; inList = true; }
+      result += `<li>${trimmed.replace(/^(\* |-\s|\d+\.\s)/, '')}</li>`;
+    } else {
+      if (inList) { result += '</ul>'; inList = false; }
+      if (trimmed) result += `<p>${trimmed}</p>`;
+    }
+  }
+  if (inList) result += '</ul>';
+  return result;
+}
+
+// Render the checkbox filters inside the Insights panel
+function renderInsightsFilters(allHw, allModels) {
+  const container = document.createElement('div');
+  container.className = 'insights-filters-container';
+  container.style.marginBottom = '20px';
+  container.style.padding = '15px';
+  container.style.backgroundColor = 'var(--bg-card)';
+  container.style.border = '1px solid var(--border-color)';
+  container.style.borderRadius = '8px';
+
+  const makeCheckboxGroup = (label, items, type) => {
+    const group = document.createElement('div');
+    group.style.marginBottom = '10px';
+    const title = document.createElement('strong');
+    title.textContent = label + ": ";
+    title.style.marginRight = '10px';
+    group.appendChild(title);
+
+    items.forEach(item => {
+      const labelEl = document.createElement('label');
+      labelEl.style.marginRight = '15px';
+      labelEl.style.display = 'inline-block';
+      
+      const box = document.createElement('input');
+      box.type = 'checkbox';
+      box.value = item;
+      box.checked = state.insightsFilters[type].has(item);
+      box.onclick = () => {
+        if (box.checked) state.insightsFilters[type].add(item);
+        else state.insightsFilters[type].delete(item);
+        renderHomeworkInsights(); // Re-render logic
+      };
+      
+      labelEl.appendChild(box);
+      labelEl.appendChild(document.createTextNode(" " + item));
+      group.appendChild(labelEl);
+    });
+    return group;
+  };
+
+  container.appendChild(makeCheckboxGroup("Homeworks", allHw, 'homeworks'));
+  container.appendChild(makeCheckboxGroup("Models", allModels, 'models'));
+
+  // Reset button
+  const resetBtn = document.createElement('button');
+  resetBtn.textContent = "Clear Filters";
+  resetBtn.className = "appearance-btn"; 
+  resetBtn.style.fontSize = "0.8rem";
+  resetBtn.onclick = () => {
+    state.insightsFilters.homeworks.clear();
+    state.insightsFilters.models.clear();
+    renderHomeworkInsights();
+  };
+  container.appendChild(resetBtn);
+
+  return container;
 }
 
 function renderHomeworkInsights() {
   if (!state.insights || !state.insights.homework || !els.homeworkInsightsBody) {
     return;
   }
-  
+
+  // Clear current view
+  els.homeworkInsightsBody.innerHTML = '';
+
   const homeworkData = state.insights.homework;
-  // Sort homework IDs numerically (HW0, HW1, ..., HW13)
-  const hwIds = Object.keys(homeworkData).sort((a, b) => {
+  let hwIds = Object.keys(homeworkData).sort((a, b) => {
     const numA = parseInt(a.replace(/\D/g, ''), 10) || 0;
     const numB = parseInt(b.replace(/\D/g, ''), 10) || 0;
     return numA - numB;
   });
-  
-  if (hwIds.length === 0) {
-    els.homeworkInsightsBody.innerHTML = '<p class="muted-text">No homework insights available yet.</p>';
-    return;
+
+  // Collect all models for filter UI
+  const allModels = new Set();
+  state.allPosts.forEach(p => {
+    if (p.metrics?.model_name) allModels.add(p.metrics.model_name);
+  });
+  const sortedModels = Array.from(allModels).sort();
+
+  // Render Filters at top
+  els.homeworkInsightsBody.appendChild(renderInsightsFilters(hwIds, sortedModels));
+
+  // --- FILTERING LOGIC ---
+  if (state.insightsFilters.homeworks.size > 0) {
+    hwIds = hwIds.filter(id => state.insightsFilters.homeworks.has(id));
   }
   
-  const cards = hwIds.map(hwId => {
+  if (hwIds.length === 0) {
+    const msg = document.createElement('p');
+    msg.className = "muted-text";
+    msg.textContent = "No homeworks match the selected filters.";
+    els.homeworkInsightsBody.appendChild(msg);
+    return;
+  }
+
+  hwIds.forEach(hwId => {
     const data = homeworkData[hwId];
-    const formattedSummary = formatMarkdownText(data.summary);
-    return `
-      <div class="insight-item">
-        <h4>${escapeHtml(hwId)}</h4>
-        <div class="insight-summary">${formattedSummary}</div>
-        <p class="insight-meta">${data.post_count} post${data.post_count !== 1 ? 's' : ''} analyzed</p>
-      </div>
+    
+    // Create HW Card
+    const card = document.createElement('details');
+    card.className = "insight-card";
+    card.open = true; // Default open
+    card.style.marginBottom = "20px";
+    card.style.border = "1px solid var(--border-color)";
+    card.style.borderRadius = "8px";
+    card.style.padding = "10px";
+    card.style.backgroundColor = "var(--bg-card)";
+
+    const summaryEl = document.createElement('summary');
+    summaryEl.style.cursor = "pointer";
+    summaryEl.style.fontWeight = "bold";
+    summaryEl.style.fontSize = "1.1rem";
+    summaryEl.style.padding = "10px 0";
+    summaryEl.textContent = `${hwId}`; // e.g. "Homework 0"
+    card.appendChild(summaryEl);
+
+    const body = document.createElement('div');
+    body.style.paddingLeft = "15px";
+
+    // Overall HW Stats/Summary
+    const summaryHtml = formatInsightText(data.summary);
+    const metaHtml = `<p class="insight-meta" style="margin-bottom:15px; font-style:italic; color:var(--text-muted)">${data.post_count} posts analyzed</p>`;
+    
+    // Inject Styles for Green/Red sections locally
+    const styleBlock = `
+      <style>
+        .insight-section { margin-bottom: 10px; padding: 8px; border-radius: 4px; }
+        .insight-strengths { background-color: rgba(40, 167, 69, 0.1); border-left: 4px solid #28a745; color: var(--text-color); }
+        .insight-weaknesses { background-color: rgba(220, 53, 69, 0.1); border-left: 4px solid #dc3545; color: var(--text-color); }
+        .insight-strengths strong, .insight-weaknesses strong { display:block; margin-bottom:5px; }
+        .model-list-item { border-top: 1px solid var(--border-color); padding: 8px 0; }
+        .model-list-item summary { cursor: pointer; outline: none; }
+      </style>
     `;
-  }).join('');
-  
-  els.homeworkInsightsBody.innerHTML = cards;
+    
+    body.innerHTML = styleBlock + metaHtml + summaryHtml;
+
+    // --- RENDER MODEL LIST FOR THIS HOMEWORK ---
+    const modelListDiv = document.createElement('div');
+    modelListDiv.className = "insight-model-list";
+    modelListDiv.style.marginTop = "15px";
+
+    // Group posts for this HW by model
+    const postsForHw = state.allPosts.filter(p => p.metrics?.homework_id === hwId);
+    const modelsInHw = {};
+    postsForHw.forEach(p => {
+      const mName = p.metrics?.model_name || "Unknown";
+      if (!modelsInHw[mName]) modelsInHw[mName] = [];
+      modelsInHw[mName].push(p);
+    });
+
+    let modelNames = Object.keys(modelsInHw).sort();
+    
+    // Filter Models if checkboxes selected
+    if (state.insightsFilters.models.size > 0) {
+      modelNames = modelNames.filter(m => state.insightsFilters.models.has(m));
+    }
+
+    if (modelNames.length > 0) {
+      modelNames.forEach(mName => {
+        const mPosts = modelsInHw[mName];
+        
+        const mDetails = document.createElement('details');
+        mDetails.className = "model-list-item";
+        
+        const mSummary = document.createElement('summary');
+        mSummary.innerHTML = `<strong>${escapeHtml(mName)}</strong> <span class="muted-text">(${mPosts.length})</span>`;
+        mDetails.appendChild(mSummary);
+        
+        const mBody = document.createElement('div');
+        mBody.style.padding = "10px 0 10px 20px";
+        
+        // List links to the actual threads
+        mPosts.forEach(p => {
+            const linkDiv = document.createElement('div');
+            linkDiv.style.marginBottom = "4px";
+            const link = document.createElement('a');
+            link.href = "#";
+            link.textContent = p.title || `Post #${p.number}`;
+            link.onclick = (e) => {
+                e.preventDefault();
+                openPostModal(p);
+            };
+            linkDiv.appendChild(link);
+            mBody.appendChild(linkDiv);
+        });
+
+        mDetails.appendChild(mBody);
+        modelListDiv.appendChild(mDetails);
+      });
+      body.appendChild(modelListDiv);
+    } else {
+       if (state.insightsFilters.models.size > 0) {
+         body.innerHTML += `<p class="muted-text" style="margin-top:10px">No models match filter for this homework.</p>`;
+       }
+    }
+
+    card.appendChild(body);
+    els.homeworkInsightsBody.appendChild(card);
+  });
 }
+
+// -- INSIGHTS LOGIC END --
 
 function renderModelInsights() {
   if (!state.insights || !state.insights.models || !els.modelInsightsBody) {
     return;
   }
-  
   const modelData = state.insights.models;
   const modelNames = Object.keys(modelData).sort();
-  
   if (modelNames.length === 0) {
     els.modelInsightsBody.innerHTML = '<p class="muted-text">No model insights available yet.</p>';
     return;
   }
-  
   const cards = modelNames.map(model => {
     const data = modelData[model];
-    const formattedSummary = formatMarkdownText(data.summary);
+    const formattedSummary = formatInsightText(data.summary);
     return `
       <div class="insight-item">
         <h4>${escapeHtml(model)}</h4>
@@ -995,7 +1095,6 @@ function renderModelInsights() {
       </div>
     `;
   }).join('');
-  
   els.modelInsightsBody.innerHTML = cards;
 }
 
