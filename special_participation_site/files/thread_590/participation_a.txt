@@ -1,0 +1,118 @@
+--- Page 1 ---
+Here, I attempt to prompt the model to 
+be an expert in the ﬁeld in an attempt to 
+improve accuracy preemptively.
+This ﬁrst question was a zero-shot 
+success and was explained clearly and 
+concisely, as my prompt instructed it to 
+do.
+
+
+--- Page 2 ---
+Given the success on the ﬁrst problem, I 
+didn’t add new information to the next 
+prompt.
+The next question speciﬁcally asks for a 
+diagram, which I knew is not a native 
+format for LLMs. I therefore prompted it 
+to be “creative” regarding how it chooses
+to answer.
+The “creativity” I asked for in my prompt 
+was clearly employed, as the model 
+ﬁgured out how to make a block diagram
+using only text inside of a text block. 
+Surprisingly, the blocks are actually 
+aligned correctly, are human-readable, 
+and are overall correct based on the 
+homework instructions (using adders 
+and multipliers in the appropriate 
+places).
+
+
+--- Page 3 ---
+Once again, these answers are made in 
+a straightforward way, following my 
+instructions to be concise and clear.
+I was also surprised that the model was 
+able to accurately extract the numerical 
+data from the graph images and 
+interpret them in a reasonable way from 
+a deep learning perspective.
+I wanted to see how certain the model 
+was in its answers, especially given that 
+this question involved a combination of 
+numerical and visual reasoning. 
+
+
+--- Page 4 ---
+The model claimed high certainty in its 
+accuracy, but I was curious to see how 
+such certainty would change (if at all) if I 
+pushed it a bit further.
+After re-evaluating the answers 
+(including with some logic that it hadn’t 
+used before to double-check its 
+answers), the model solidiﬁed its 
+previous certainty.
+I wanted to instruct the model to only do 
+the non-coding portions of the question. 
+I expected this to be a fairly 
+straightforward task—one can easily tel 
+whether a given question solicits coding 
+by simply reading the question.
+
+
+--- Page 6 ---
+However, as can be seen, the model did 
+not ignore the coding questions. Given 
+that it lacked the code, it instead 
+completely hallucinated answers to 
+these questions and passed its 
+hallucinations on as facts.
+I wanted to see if the model would 
+address its hallucinations if I called it out 
+(without being too explicit and dragging 
+it all the way to the correct answer 
+immediately).
+
+
+--- Page 7 ---
+Clearly, the model still struggled and 
+came up with fake answers to coding 
+questions.
+
+
+--- Page 8 ---
+Even after being pushed further, the 
+model still hallucinated on one question.
+I essentially told the model exactly what 
+was wrong in these rhetorical questions, 
+as at this point, I felt like the model had 
+proven that it was unable to correctly 
+discern coding from non coding question
+in this context.
+
+
+--- Page 9 ---
+I was curious to see how the model 
+would explain the incorrect logic it 
+outputted in its last message if I explcitly 
+told the model what error it had made.
+Finally, after essentially telling the model 
+exactly what to do, it discerned the 
+correct non-coding questions to answer.
+I was also curious to see whether the 
+model would be capable of knowing its 
+own information limitations and whether 
+it would have the ability to say “I don’t 
+know” to simple questions rather than 
+hallucinating.
+Evidently, the model hallucinated, as 
+nearly all of the information in this 
+question is wrong. It seems like it also 
+either does not have access to the time 
+stamps of the messages (even though 
+these are displayed on the Mistral 
+website when interacting with the chat), 
+or it incorrectly calculated chat time 
+based on these time stamps.

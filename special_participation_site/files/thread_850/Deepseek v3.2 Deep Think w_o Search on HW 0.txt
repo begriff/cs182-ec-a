@@ -1,0 +1,4266 @@
+--- Page 1 ---
+hw0.pdf
+PDF 227.09KB
+Start by solving Question 2. For each part of question 2 explain 
+show all the work needed to arrive at the answer.
+We are asked to solve Question 2 from the homework. Question 2 is about vector calculus.
+We have to show several derivative identities. The convention is that the derivative of a
+scalar with respect to a column vector is a row vector. So if x is a column vector, then ∂f/∂x is
+a row vector.
+Given:
+x, c ∈ ℝ^n, A ∈ ℝ^{n×n}.
+We need to compute the following:
+(a) ∂/∂x (x^T c) = c^T
+(b) ∂/∂x ||x||_2^2 = 2 x^T
+(c) ∂/∂x (A x) = A
+(d) ∂/∂x (x^T A x) = x^T (A + A^T)
+(e) Under what condition is the previous derivative equal to 2 x^T A?
+Let's go step by step.
+Recall: x is a column vector, so x^T is a row vector. The derivative of a scalar function f(x)
+with respect to x is a row vector: [∂f/∂x1, ∂f/∂x2, ..., ∂f/∂xn].
+We'll compute each part.
+Part (a): Show ∂/∂x (x^T c) = c^T.
+x^T c is a scalar: sum_{i=1}^n x_i c_i.
+So, ∂/∂x_j (x^T c) = c_j.
+Thus, the derivative row vector is [c1, c2, ..., cn] = c^T.
+So indeed, ∂/∂x (x^T c) = c^T.
+Part (b): Show ∂/∂x ||x||_2^2 = 2 x^T.
+||x||2^2 = x^T x = sum{i=1}^n x_i^2.
+∂/∂x_j (x^T x) = 2 x_j.
+So the derivative is [2 x1, 2 x2, ..., 2 xn] = 2 x^T.
+Part (c): Show ∂/∂x (A x) = A.
+Thought for 63 seconds
+
+
+--- Page 2 ---
+Wait, careful: Here f(x) = A x, which is a vector. So the derivative of a vector function with
+respect to a vector is a matrix. Specifically, if f: ℝ^n → ℝ^n, f(x) = A x, then the derivative ∂f/
+∂x is an n×n matrix. The convention: The derivative matrix has entries (∂f_i/∂x_j). Since f_i =
+sum_k A_{ik} x_k, so ∂f_i/∂x_j = A_{ij}. So the derivative matrix is exactly A. But note: The
+problem statement says "identify what the derivative looks like (is it a scalar, vector, or
+matrix?)". For part (c), f(x) = A x is a vector, so its derivative is a matrix. And indeed, we have
+∂/∂x (A x) = A.
+But wait: In the problem it is written as ∂/∂x (A x). Possibly they mean the derivative of the
+vector-valued function. Yes, so it's a matrix.
+Part (d): Show ∂/∂x (x^T A x) = x^T (A + A^T).
+Here f(x) = x^T A x is a scalar. So derivative is a row vector.
+Compute: f(x) = sum_{i,j} x_i A_{ij} x_j.
+∂f/∂x_k = ∂/∂x_k (sum_{i,j} x_i A_{ij} x_j) = sum_{i,j} A_{ij} ∂/∂x_k (x_i x_j).
+We have ∂/∂x_k (x_i x_j) = δ_{ik} x_j + x_i δ_{jk}.
+So ∂f/∂x_k = sum_{i,j} A_{ij} (δ_{ik} x_j + x_i δ_{jk}) = sum_j A_{kj} x_j + sum_i A_{ik} x_i.
+That is: (A x)k + (x^T A)k? Actually careful: sum_j A{kj} x_j = (A x)k. And sum_i A{ik} x_i =
+(A^T x)k? Because (A^T){ki} = A{ik}, so sum_i A_{ik} x_i = sum_i (A^T)_{ki} x_i = (A^T x)_k. So
+∂f/∂x_k = (A x)_k + (A^T x)_k.
+Thus, the derivative row vector is (A x + A^T x)^T = x^T A^T + x^T A? Wait: (A x)^T = x^T A^T,
+and (A^T x)^T = x^T A. So the row vector is x^T A^T + x^T A = x^T (A^T + A). So indeed, ∂/∂x
+(x^T A x) = x^T (A + A^T).
+Alternatively, we can compute using product rule. Since f is scalar, we can think of it as x^T
+(A x). Let g(x) = x and h(x) = A x. Then f(x) = g(x)^T h(x). Derivative: ∂(g^T h)/∂x = (∂g/∂x)^T
+h + g^T (∂h/∂x). But careful with conventions. Alternatively, we can use the formula: ∂(x^T A
+x)/∂x = x^T (A + A^T). Yes.
+Part (e): Under what condition is the previous derivative equal to 2 x^T A?
+We have ∂/∂x (x^T A x) = x^T (A + A^T). This equals 2 x^T A if and only if x^T (A + A^T) = 2
+x^T A, i.e., x^T A + x^T A^T = 2 x^T A, which simplifies to x^T A^T = x^T A, i.e., x^T (A^T - A)
+= 0. This holds for all x if and only if A^T = A, i.e., A is symmetric. But the condition might be
+for a given x? The question likely asks: For what condition on A does the equality hold for all
+x? Probably A symmetric. But it says "under what condition", so likely A symmetric.
+Alternatively, it might be that the equality holds for the specific x? That wouldn't be
+interesting. So I'll say: When A is symmetric, i.e., A = A^T.
+Thus, the answer for (e) is: When A is symmetric.
+Now, we need to present the solutions for (a) through (e) with explanation. The problem says:
+"before taking any derivatives, identify what the derivative looks like (is it a scalar, vector, or
+matrix?) and how we calculate each term in the derivative. Then carefully solve for an
+arbitrary entry of the derivative, then stack/arrange all of them to get the final result."
+
+
+--- Page 3 ---
+So for each part, we should:
+1. Identify the type of the derivative.
+2. Compute the derivative entry by entry.
+3. Assemble the entries into the final form.
+Let's write up the solutions.
+Part (a):
+f(x) = x^T c is a scalar.
+Derivative ∂f/∂x is a row vector of size 1×n.
+Compute ∂f/∂x_j: f = ∑_{i=1}^n x_i c_i, so ∂f/∂x_j = c_j.
+So the derivative row vector is [c_1, c_2, ..., c_n] = c^T.
+Part (b):
+f(x) = ||x||_2^2 = x^T x is a scalar.
+Derivative is a row vector.
+∂f/∂x_j = ∂/∂x_j (∑_i x_i^2) = 2 x_j.
+So derivative is [2x_1, 2x_2, ..., 2x_n] = 2 x^T.
+Part (c):
+f(x) = A x is a vector (size n×1).
+Derivative ∂f/∂x is a matrix of size n×n.
+The (i,j) entry is ∂f_i/∂x_j, where f_i = ∑{k=1}^n A{ik} x_k.
+So ∂f_i/∂x_j = A_{ij}.
+Thus, the derivative matrix is A.
+Part (d):
+f(x) = x^T A x is a scalar.
+Derivative is a row vector.
+Compute ∂f/∂x_k: f = ∑{i,j} x_i A{ij} x_j.
+∂f/∂x_k = ∑{i,j} A{ij} (∂(x_i x_j)/∂x_k) = ∑{i,j} A{ij} (δ_{ik} x_j + x_i δ_{jk}) = ∑j A{kj} x_j + ∑i
+A{ik} x_i.
+The first sum is (A x)_k, the second sum is (A^T x)_k.
+So ∂f/∂x_k = (A x)_k + (A^T x)_k.
+Therefore, the derivative row vector is (A x + A^T x)^T = x^T A^T + x^T A = x^T (A^T + A) =
+x^T (A + A^T).
+Part (e):
+We have ∂/∂x (x^T A x) = x^T (A + A^T).
+
+
+--- Page 4 ---
+Question 2: Vector Calculus Review
+Convention:
+The derivative of a scalar  with respect to a column vector 
+ is a row vector:
+For a vector-valued function 
+, the derivative is a matrix with entries 
+.
+(a) Show 
+.
+ is a scalar.
+Derivative is a 
+ row vector.
+For each :
+Assembling into a row: 
+.
+(b) Show 
+.
+ is a scalar.
+Derivative is a 
+ row vector.
+For each :
+This equals 2 x^T A if and only if x^T (A + A^T) = 2 x^T A => x^T A^T = x^T A => x^T (A^T -
+A) = 0.
+For this to hold for all x, we need A^T - A = 0, i.e., A is symmetric.
+(If it only needs to hold for a particular x, then the condition is that x is in the left nullspace
+of (A^T - A). But typically we mean for all x, so A symmetric.)
+Thus, the condition is that A is symmetric.
+Now, we can present the final answers.
+f
+x ∈Rn
+​ =
+∂x
+∂f
+​,
+​, … ,
+​ .
+[∂x
+​1
+∂f
+∂x
+​2
+∂f
+∂x
+​n
+∂f ]
+f(x)
+(∂f
+​/∂x
+​)
+i
+j
+​(x c) =
+∂x
+∂
+T
+cT
+x c =
+T
+​ x
+​c
+​
+∑i=1
+n
+i i
+1 × n
+j
+​(x c) =
+∂x
+​j
+∂
+T
+​
+​x
+​c
+​
+=
+∂x
+​j
+∂
+(
+i=1
+∑
+n
+i i)
+c
+​.
+j
+[c
+​, c
+​, … , c
+​] =
+1
+2
+n
+cT
+​
+​(x c) = c
+∂x
+∂
+T
+T
+​∥x∥
+​ =
+∂x
+∂
+2
+2
+2xT
+∥x∥
+​ =
+2
+2
+x x =
+T
+​ x
+​
+∑i=1
+n
+i
+2
+1 × n
+j
+Deepseek v3.2 correctly 
+identiﬁes the conventions 
+required by the question.
+
+
+--- Page 5 ---
+Row vector: 
+.
+(c) Show 
+.
+ is a vector in 
+ (assuming 
+).
+Derivative is an 
+ matrix.
+Let 
+, so 
+.
+The 
+ entry is:
+Thus, the derivative matrix is exactly 
+.
+(d) Show 
+.
+ is a scalar.
+Derivative is a 
+ row vector.
+For each :
+Using 
+,
+​∥x∥
+​ =
+∂x
+​j
+∂
+2
+2
+​
+​x
+​
+=
+∂x
+​j
+∂
+(
+i=1
+∑
+n
+i
+2)
+2x
+​.
+j
+[2x
+​, 2x
+​, … , 2x
+​] =
+1
+2
+n
+2xT
+​
+​∥x∥
+​ = 2x
+∂x
+∂
+2
+2
+T
+​(Ax) =
+∂x
+∂
+A
+Ax
+Rn
+A ∈Rn×n
+n × n
+f(x) = Ax
+f
+​ =
+i
+​ A
+​x
+​
+∑k=1
+n
+ik
+k
+(i, j)
+​ =
+∂x
+​j
+∂f
+​i
+​
+​A
+​x
+​
+=
+∂x
+​j
+∂
+(
+k=1
+∑
+n
+ik
+k)
+A
+​.
+ij
+A
+​
+​(Ax) = A
+∂x
+∂
+​(x Ax) =
+∂x
+∂
+T
+x (A +
+T
+A )
+T
+x Ax =
+T
+​ x
+​A
+​x
+​
+∑i,j
+i
+ij
+j
+1 × n
+k
+​(x Ax) =
+∂x
+​k
+∂
+T
+​
+​x
+​A
+​x
+​
+=
+∂x
+​k
+∂
+(
+i,j
+∑
+i
+ij
+j)
+​A
+​
+​(x
+​x
+​).
+i,j
+∑
+ij ∂x
+​k
+∂
+i
+j
+​(x
+​x
+​) =
+∂x
+​k
+∂
+i
+j
+δ
+​x
+​ +
+ik
+j
+x
+​δ
+​
+i jk
+=
+​A
+​(δ
+​x
+​ +
+i,j
+∑
+ij
+ik
+j
+x
+​δ
+​) =
+i jk
+​A
+​x
+​ +
+j
+∑
+kj
+j
+​A
+​x
+​.
+i
+∑
+ik
+i
+Once again 
+Deepseek does 
+really well and 
+adheres to proper 
+proof conventions.
+
+
+--- Page 6 ---
+The first sum is 
+, the second is 
+.
+So 
+.
+As a row vector:
+(e) Under what condition is the previous derivative equal to 
+?
+We have 
+.
+Setting equal to 
+:
+For this to hold for all , we require 
+, i.e., 
+ is symmetric.
+(Ax)
+​k
+(A x)
+​
+T
+k
+​(x Ax) =
+∂x
+​k
+∂
+T
+(Ax)
+​ +
+k
+(A x)
+​
+T
+k
+(Ax + A x)
+=
+T
+T
+x A +
+T
+T
+x A =
+T
+x (A +
+T
+T
+A) = x (A +
+T
+A ).
+T
+​
+​(x Ax) = x (A + A )
+∂x
+∂
+T
+T
+T
+2x A
+T
+(x Ax) =
+∂x
+∂
+T
+x (A +
+T
+A )
+T
+2x A
+T
+x (A +
+T
+A ) =
+T
+2x A ⟺
+T
+x A
+=
+T
+T
+x A ⟺
+T
+x (A −
+T
+T
+A) = 0.
+x
+A −
+T
+A = 0
+A
+​
+When A = A  (symmetric matrix).
+T
+Similarly solve Question 3.
+We are given Question 3: "Least Squares and the Min-norm problem from the Perspective of
+SVD". We need to answer each subpart.
+We have the equation 
+, with 
+, and SVD: 
+, where 
+ is 
+ orthogonal, 
+ is 
+ orthogonal, and 
+ is 
+ diagonal matrix with singular values
+ on the diagonal (only for 
+ where 
+, and possibly zeros beyond
+that). We define 
+ as 
+ matrix with reciprocals 
+ on the diagonal for nonzero
+singular values, and zeros elsewhere.
+We consider two cases: (a) 
+ (overdetermined) and (d) 
+ (underdetermined). We
+need to find the least squares solution and the minimum norm solution using SVD.
+Let's go step by step.
+Part (a): For 
+, we want to solve 
+.
+Xw = y
+X ∈Rm×n
+X = UΣV T
+U
+m ×
+m
+V
+n × n
+Σ
+m × n
+σ
+​i
+i = 1, ..., r
+r = rank(X)
+Σ†
+n × m
+1/σ
+​i
+m > n
+m < n
+m > n
+min
+​ ∥Xw −
+w
+y∥2
+Thought for 145 seconds
+
+
+--- Page 7 ---
+The least squares solution is given by 
+ if 
+ is invertible (which
+requires 
+ to have full column rank, i.e., rank = n). In general, even if not full rank, the
+pseudo-inverse gives a solution. Using SVD, we have 
+. Then the pseudo-inverse
+is 
+. The least squares solution with minimum norm (if multiple) is 
+.
+But here, since 
+, the system is overdetermined, and if 
+ has full rank, the unique least
+squares solution is 
+. If not full rank, there are infinitely many
+solutions, but the one with minimum norm is 
+. So we can write the least squares solution
+as 
+.
+But the question asks: "How do we find the weights w that minimizes the error?" We need to
+derive it. Possibly, they want the expression using SVD.
+Part (b): Plug in the SVD 
+ and simplify.
+We have 
+. Since 
+ is orthogonal, multiplication by 
+preserves norm:
+Let 
+ (so 
+) and 
+. Then the problem becomes:
+Now, 
+ is 
+ diagonal matrix. Write 
+ if 
+, where 
+ is 
+ diagonal with
+singular values. More precisely, 
+ in general, but if 
+ and full
+rank, then 
+ with 
+ invertible. But let's do it generally.
+Let 
+. Then the singular values 
+, and 
+. The
+matrix 
+ has the first  diagonal entries nonzero, rest zero. Similarly, partition 
+ with
+ and 
+. Also, 
+. Then
+where 
+ is 
+ diagonal with 
+, and we have partitioned 
+ with 
+. Actually careful: 
+ is 
+. Suppose we write 
+ where 
+ is 
+diagonal. But then 
+ is -dimensional. We can write 
+ with 
+, 
+.
+Then
+w =
+∗
+(X X)
+X y
+T
+−1
+T
+X X
+T
+X
+X = UΣV T
+X =
+†
+V Σ U
+†
+T
+w =
+∗
+X y
+†
+m > n
+X
+w =
+∗
+(X X)
+X y =
+T
+−1
+T
+X y
+†
+X y
+†
+w =
+∗
+V Σ U y
+†
+T
+X = UΣV T
+∥Xw −y∥=
+2
+∥UΣV w −
+T
+y∥2
+U
+U T
+∥UΣV w −
+T
+y∥=
+2
+∥U (UΣV w −
+T
+T
+y)∥=
+2
+∥ΣV w −
+T
+U y∥.
+T
+2
+=
+w~
+V w
+T
+w = V w~
+​ =
+y~
+U y
+T
+​∥Σ
+−
+w~
+min
+w~
+​∥.
+y~ 2
+Σ
+m × n
+Σ =
+​
+[D
+0 ]
+m > n
+D
+n × n
+Σ =
+​
+​
+[diag(σ
+​, ..., σ
+​)
+1
+r
+0
+0
+0]
+m > n
+Σ =
+​
+[D
+0 ]
+D
+r = rank(X)
+σ
+​ ≥
+1
+... ≥σ
+​ >
+r
+0
+σ
+​ =
+r+1
+... = 0
+Σ
+r
+​ =
+y~
+​
+[
+​
+​
+y~1
+​
+​
+y~2]
+​
+​ ∈
+y~1
+Rr
+​
+​ ∈
+y~2
+Rm−r
+∈
+w~
+Rn
+Σ
+=
+w~
+​
+​
+=
+[D
+​r
+0
+0
+0] w~
+​ ,
+[D
+​
+​
+rw~1
+0
+]
+D
+​r
+r × r
+σ
+​, ..., σ
+​
+1
+r
+=
+w~
+​
+[
+​
+w~1
+​
+w~2]
+​ ∈
+w~1
+Rr
+Σ
+m × n
+Σ =
+​
+​
+[Σ
+​r
+0
+0
+0]
+Σ
+​r
+r × r
+w~
+n
+=
+w~
+​
+[
+​
+w~1
+​
+w~2]
+​ ∈
+w~1
+Rr
+​ ∈
+w~2
+Rn−r
+I noticed Deepseek’s 
+attention to the dimensions 
+of sigma which is important 
+to solution of this problem.
+
+
+--- Page 8 ---
+Actually, the multiplication: 
+ gives an 
+-vector. The top  entries are 
+, and the
+remaining 
+ entries are 0. So
+To minimize this, we choose 
+ such that 
+. Since 
+ is diagonal and invertible,
+we get 
+. For 
+, it does not appear in the objective, so it can be arbitrary.
+However, if we want the minimum norm solution among all least squares solutions, we set
+. So the minimum norm least squares solution is 
+. Then transforming
+back: 
+. But note that 
+ consists of the first  components of 
+.
+We can write 
+ as an 
+ matrix: is 
+, so 
+ is 
+. Typically, if 
+with 
+ 
+, then has diagonal entries 
+, then 
+ has diagonal entries 
+ for nonzero 
+,
+and zeros elsewhere, but arranged such that 
+ is 
+. So if 
+, then 
+ is tall, and
+ is wide. In fact, if 
+ and full rank (rank = n), then 
+ where 
+ is 
+diagonal, then 
+ (n x m). So indeed, 
+.
+So the answer for (a): The least squares solution is 
+ if 
+ has full
+column rank, or in general 
+.
+For (b): Plug in SVD and simplify as above, leading to 
+.
+Part (c): We'll notice that the least-squares solution is in the form 
+. What happens if
+we left-multiply 
+ by our matrix 
+? So 
+. Then 
+. For overdetermined
+case, 
+ is not necessarily identity. Actually, 
+. Now
+ is an 
+ matrix. If 
+ and rank = n, then 
+. So 
+ is the
+projection onto the column space of 
+. So 
+ acts as a left-inverse only when restricted to
+the column space? Actually, a left-inverse would satisfy 
+. But here 
+ is 
+, and
+ is 
+, so 
+ is 
+. Indeed, 
+. And
+ is 
+ diagonal with ones for the nonzero singular values. So if 
+ has full column
+rank (rank = n), then 
+, so 
+. Thus 
+ is a left-inverse of 
+. So that's why
+it's called the left-inverse: it satisfies 
+.
+Part (d): Now consider 
+, underdetermined. We want the minimum norm solution:
+ subject to 
+. This is given by 
+ if 
+ has full row rank
+(rank = m). In general, 
+, where 
+. But careful: For underdetermined
+case, 
+ still, but now 
+ is 
+ with 
+. Typically, if full row rank, 
+Σ
+=
+w~
+​
+​
+​
+Σ
+​
+​
+rw~1
+0
+0
+Σw~
+m
+r
+Σ
+​
+​
+rw~1
+m −r
+∥Σ
+−
+w~
+​∥=
+y~ 2
+∥Σ
+​
+​ −
+rw~1
+​
+​∥+
+y~1
+2
+∥
+​
+​∥.
+y~2
+2
+​
+w~1
+Σ
+​
+​ =
+rw~1
+​
+​
+y~1
+Σ
+​r
+​ =
+w~1
+Σ
+​
+​
+​
+r
+−1y~1
+​
+w~2
+​ =
+w~2
+0
+=
+w~
+​
+[Σ
+​
+​
+​
+r
+−1y~1
+0
+]
+w = V
+=
+w~
+V
+​
+[Σ
+​
+​
+​
+r
+−1y~1
+0
+]
+​
+​
+y~1
+r
+U y
+T
+Σ†
+n × m
+m × n
+Σ†
+n × m
+Σ =
+​
+​
+[D
+0
+0
+0]
+D r × r
+σ
+​i
+Σ†
+1/σ
+​i
+σ
+​i
+Σ†
+n × m
+m > n
+Σ
+Σ†
+m > n
+Σ =
+​
+[D
+0 ]
+D
+n × n
+Σ =
+†
+​
+​
+[D−1
+0]
+w = V Σ U y
+†
+T
+w =
+∗
+(X X)
+X y
+T
+−1
+T
+X
+w =
+∗
+X y =
+†
+V Σ U y
+†
+T
+w =
+∗
+V Σ U y
+†
+T
+w =
+∗
+Ay
+X
+A
+A = X†
+XA = XX†
+XX†
+XX =
+†
+UΣV V Σ U
+=
+T
+†
+T
+UΣΣ U
+†
+T
+ΣΣ†
+m × m
+m > n
+ΣΣ =
+†
+​
+​
+[I
+​n
+0
+0
+0]
+XX†
+X
+XA
+AX = I
+A
+n × m
+X
+m × n
+AX
+n × n
+AX = X X =
+†
+V Σ U UΣV
+=
+†
+T
+T
+V Σ ΣV
+†
+T
+Σ Σ
+†
+n × n
+X
+Σ Σ =
+†
+I
+​n
+AX = I
+​n
+A
+X
+X X =
+†
+I
+m < n
+min ∥w∥2
+Xw = y
+w =
+∗
+X (XX )
+y
+T
+T −1
+X
+w =
+∗
+X y
+†
+X =
+†
+V Σ U
+†
+T
+X =
+†
+V Σ U
+†
+T
+Σ
+m × n
+m < n
+Σ =
+
+
+--- Page 9 ---
+ where 
+ is 
+ diagonal. Then 
+ (n x m). So 
+.
+Alternatively, using the formula 
+.
+Part (e): Plug in SVD: 
+. Constraint: 
+. Multiply by 
+: 
+. Let 
+, 
+. Then 
+. Now 
+ is 
+, wide. Write 
+if full row rank, where 
+ is 
+ diagonal. Then the equation becomes: 
+. So 
+, and 
+ is free. To minimize 
+ (since V
+orthogonal), we set 
+. So 
+. Then 
+. This is of the
+form 
+.
+Part (f): You'll notice that the min-norm solution is in the form 
+. What happens if we
+right-multiply 
+ by our matrix 
+? Here 
+. Then 
+. For underdetermined case with full row rank, 
+, so not identity unless rank = n (which it isn't). Actually, 
+. Now if full row rank, 
+ (since 
+ is m x n, and 
+ is n x m, and their
+product is m x m: 
+). So 
+. Thus 
+ is a right-inverse of 
+:
+.
+Now, I need to write up the answers clearly.
+Let me structure the answers.
+3. Least Squares and the Min-norm problem from the Perspective of SVD
+Given 
+ (full SVD), with 
+, 
+ orthogonal, and 
+diagonal with singular values 
+ (r = rank(X)) on the main diagonal. Define 
+ as the matrix with 
+ on the diagonal for i=1,...,r, and zeros elsewhere.
+(a) For the overdetermined case (
+), the least squares solution minimizes 
+.
+The solution is given by the pseudo-inverse:
+In general, using SVD, 
+.
+(b) Substituting 
+, the objective becomes:
+Let 
+ and 
+. Then we minimize 
+. Write 
+ where
+, and partition 
+, 
+. Then
+​
+[D
+0]
+D
+m × m
+Σ =
+†
+[D−1
+0 ]
+w =
+∗
+V
+​ U y
+[D−1
+0 ]
+T
+w =
+∗
+X (XX )
+y
+T
+T −1
+X = UΣV T
+UΣV w =
+T
+y
+U T ΣV w =
+T
+U y
+T
+=
+w~
+V w
+T
+​ =
+y~
+U y
+T
+Σ
+=
+w~
+​y~
+Σ
+m × n
+Σ =
+​
+​
+[D
+0]
+D
+m × m
+​
+​
+​ =
+[D
+0] [
+​
+w~1
+​
+w~2]
+D
+​ =
+w~1
+​y~
+​ =
+w~1
+D
+​
+−1y~
+​
+w~2
+∥w∥=
+2
+∥V
+∥=
+w~
+2
+∥
+∥
+w~
+2
+​ =
+w~2
+0
+=
+w~
+​
+[D
+​
+−1y~
+0
+]
+w = V
+=
+w~
+V
+​
+[D
+​
+−1y~
+0
+]
+w = V Σ U y
+†
+T
+w =
+∗
+By
+X
+B
+B = X =
+†
+V Σ U
+†
+T
+BX = X X =
+†
+V Σ U UΣV
+=
+†
+T
+T
+V Σ ΣV
+†
+T
+Σ Σ =
+†
+​
+​
+[I
+​
+m
+0
+0
+0]
+XB = XX =
+†
+UΣV V Σ U
+=
+T
+†
+T
+UΣΣ U
+†
+T
+ΣΣ =
+†
+I
+​
+m
+Σ
+Σ†
+ΣΣ =
+†
+DD
+=
+−1
+I
+​
+m
+XB = I
+​
+m
+B
+X
+XB = I
+X = UΣV T
+U ∈Rm×m V ∈Rn×n
+Σ ∈Rm×n
+σ
+​, … , σ
+​ >
+1
+r
+0
+Σ ∈
+†
+Rn×m
+1/σ
+​i
+m > n
+∥Xw −y∥2
+w =
+∗
+X y =
+†
+(X X)
+X y
+(if X has full column rank).
+T
+−1
+T
+w =
+∗
+V Σ U y
+†
+T
+X = UΣV T
+∥Xw −y∥=
+2
+∥UΣV w −
+T
+y∥=
+2
+∥Σ(V w) −
+T
+U y∥.
+T
+2
+=
+w~
+V w
+T
+​ =
+y~
+U y
+T
+∥Σ
+−
+w~
+​∥
+y~ 2
+Σ =
+​
+​
+[Σ
+​r
+0
+0
+0]
+Σ
+​ =
+r
+diag(σ
+​, … , σ
+​)
+1
+r
+=
+w~
+​
+[
+​
+w~1
+​
+w~2]
+​ =
+y~
+​
+[
+​
+​
+y~1
+​
+​
+y~2]
+
+
+--- Page 10 ---
+This is minimized by choosing 
+, and 
+ arbitrary. To obtain the minimum norm
+solution among all least squares solutions, we set 
+. Thus,
+Transforming back: 
+.
+(c) The least squares solution is of the form 
+ with 
+. Left-multiplying 
+by 
+ gives:
+For the overdetermined case with full column rank, 
+, so 
+. Hence, 
+ is a
+left-inverse of 
+.
+(d) For the underdetermined case (
+), we seek the minimum norm solution:
+This is given by
+In general, using SVD, 
+.
+(e) Substitute SVD: 
+. The constraint 
+ becomes 
+, or
+. Let 
+, 
+. Then we have 
+. Write 
+ if
+full row rank, where 
+ is 
+ diagonal (assuming rank = m). Partition 
+ with
+. Then 
+, so 
+. To minimize 
+, set 
+. Thus,
+Then 
+.
+(f) The min-norm solution is of the form 
+ with 
+. Right-multiplying 
+by 
+ gives:
+For the underdetermined case with full row rank, 
+, so 
+. Hence, 
+ is a
+right-inverse of 
+.
+∥Σ
+−
+w~
+​∥=
+y~ 2
+∥Σ
+​
+​ −
+rw~1
+​
+​∥+
+y~1
+2
+∥
+​
+​∥.
+y~2
+2
+​ =
+w~1
+Σ
+​
+​
+​
+r
+−1y~1
+​
+w~2
+​ =
+w~2
+0
+=
+w~∗
+​ =
+[Σ
+​
+​
+​
+r
+−1y~1
+0
+]
+Σ
+​.
+†y~
+w =
+∗
+V
+=
+w~∗
+V Σ U y
+†
+T
+w =
+∗
+Ay
+A = V Σ U
+†
+T
+X
+A
+AX = (V Σ U )(UΣV ) =
+†
+T
+T
+V Σ ΣV .
+†
+T
+Σ Σ =
+†
+I
+​n
+AX = I
+​n
+A
+X
+m < n
+min ∥w∥
+subject to
+Xw =
+2
+y.
+w =
+∗
+X y =
+†
+X (XX )
+y
+(if X has full row rank).
+T
+T −1
+w =
+∗
+V Σ U y
+†
+T
+X = UΣV T
+Xw = y
+UΣV w =
+T
+y
+Σ(V w) =
+T
+U y
+T
+=
+w~
+V w
+T
+​ =
+y~
+U y
+T
+Σ
+=
+w~
+​y~
+Σ =
+​
+​
+[Σ
+​r
+0]
+Σ
+​r
+m × m
+=
+w~
+​
+[
+​
+w~1
+​
+w~2]
+​ ∈
+w~1
+Rm
+Σ
+=
+w~
+Σ
+​
+​ =
+rw~1
+​y~
+​ =
+w~1
+Σ
+​
+​
+r
+−1y~
+∥
+∥
+w~
+2
+​ =
+w~2
+0
+=
+w~∗
+​ =
+[Σ
+​
+​
+r
+−1y~
+0
+]
+Σ
+​.
+†y~
+w =
+∗
+V
+=
+w~∗
+V Σ U y
+†
+T
+w =
+∗
+By
+B = V Σ U
+†
+T
+X
+B
+XB = (UΣV )(V Σ U ) =
+T
+†
+T
+UΣΣ U .
+†
+T
+ΣΣ =
+†
+I
+​
+m
+XB = I
+​
+m
+B
+X
+
+
+--- Page 11 ---
+Question 3: Least Squares and the Min‑Norm Problem from the
+Perspective of SVD
+Let 
+ with SVD 
+, where 
+ and 
+ are
+orthogonal, and 
+ is diagonal with singular values 
+ (
+) on the main diagonal. Define 
+ as the matrix with 
+ on
+the diagonal for 
+ and zeros elsewhere.
+(a) Overdetermined case (
+): least squares solution
+We solve 
+. The optimal weight vector is given by the
+pseudo‑inverse:
+In general, using the SVD, 
+.
+(b) Substitute SVD and simplify
+Let 
+ and 
+. Partition
+where 
+ is 
+. Then
+Minimization gives 
+, and to obtain the minimum‑norm solution we set
+. Hence
+I'll now produce the final answer in the required format.
+X ∈Rm×n
+X = UΣV T
+U ∈Rm×m
+V ∈Rn×n
+Σ ∈Rm×n
+σ ≥
+1
+⋯≥σ
+​ >
+r
+0
+r = rank(X)
+Σ ∈
+†
+Rn×m
+1/σ
+​i
+i = 1, … , r
+m > n
+min
+​ ∥Xw −
+w
+y∥2
+​
+w = X y = (X X)
+X y
+(if X has full column rank)
+∗
+†
+T
+−1
+T
+w =
+∗
+V Σ U y
+†
+T
+​
+​
+∥Xw −y∥2 = ∥UΣV w −y∥
+T
+2
+= ∥Σ(V w) −U y∥
+(since U is orthogonal).
+T
+T
+2
+=
+w~
+V w
+T
+​ =
+y~
+U y
+T
+Σ =
+​
+​ ,
+=
+[Σ
+​r
+0
+0
+0]
+w~
+​ ,
+​ =
+[
+​
+w~1
+​
+w~2]
+y~
+​ ,
+[
+​
+​
+y~1
+​
+​
+y~2]
+Σ
+​ =
+r
+diag(σ
+​, … , σ
+​)
+1
+r
+r × r
+∥Σ
+−
+w~
+​∥=
+y~ 2
+∥Σ
+​
+​ −
+rw~1
+​
+​∥+
+y~1
+2
+∥
+​
+​∥.
+y~2
+2
+​ =
+w~1
+Σ
+​
+​
+​
+r
+−1y~1
+​ =
+w~2
+0
+=
+w~∗
+​ =
+[Σ
+​
+​
+​
+r
+−1y~1
+0
+]
+Σ
+​,
+w =
+†y~
+∗
+V
+=
+w~∗
+V Σ U y.
+†
+T
+
+
+--- Page 12 ---
+(c) Left‑inverse interpretation
+Writing 
+ with 
+, we compute
+If 
+ has full column rank (
+), then 
+, so 
+. Thus 
+ is a
+left‑inverse of 
+.
+(d) Underdetermined case (
+): minimum‑norm solution
+We solve 
+ subject to 
+. The solution is
+In general, using SVD, 
+.
+(e) Substitute SVD and simplify for the underdetermined case
+From 
+ we obtain 
+. Let 
+ and 
+. With full
+row rank (
+), write
+where 
+ is 
+. The constraint becomes 
+.
+Thus 
+. To minimize 
+ we set 
+, so
+(f) Right‑inverse interpretation
+Writing 
+ with 
+, we compute
+w =
+∗
+Ay
+A = V Σ U
+†
+T
+AX = (V Σ U )(UΣV ) =
+†
+T
+T
+V Σ ΣV .
+†
+T
+X
+r = n
+Σ Σ =
+†
+I
+​n
+AX = I
+​n
+A
+X
+m < n
+min ∥w∥2
+Xw = y
+w = X y = X (XX )
+y
+(if X has full row rank)
+∗
+†
+T
+T −1
+w =
+∗
+V Σ U y
+†
+T
+Xw = y
+Σ(V w) =
+T
+U y
+T
+=
+w~
+V w
+T
+​ =
+y~
+U y
+T
+r = m
+Σ =
+​
+​ ,
+=
+[Σ
+​
+m
+0]
+w~
+​ ,
+[
+​
+w~1
+​
+w~2]
+Σ
+​ =
+m
+diag(σ
+​, … , σ
+​)
+1
+m
+m × m
+Σ
+​
+​ =
+mw~1
+​y~
+​ =
+w~1
+Σ
+​
+​
+m
+−1y~
+∥
+∥
+w~
+2
+​ =
+w~2
+0
+=
+w~∗
+​ =
+[Σ
+​
+​
+m
+−1y~
+0
+]
+Σ
+​,
+w =
+†y~
+∗
+V
+=
+w~∗
+V Σ U y.
+†
+T
+w =
+∗
+By
+B = V Σ U
+†
+T
+Overall, Deepseek performs really 
+well in these initial probems due to 
+their straightforward nature.
+
+
+--- Page 13 ---
+If 
+ has full row rank (
+), then 
+, so 
+. Thus 
+ is a
+right‑inverse of 
+.
+XB = (UΣV )(V Σ U ) =
+T
+†
+T
+UΣΣ U .
+†
+T
+X
+r = m
+ΣΣ =
+†
+I
+​
+m
+XB = I
+​
+m
+B
+X
+Similarly solve Question 4.
+We are to solve Question 4, which has multiple parts (a) through (h). I will go through each
+part carefully.
+Question 4: The 5 Interpretations of Ridge Regression
+(a) Perspective 1: Optimization Problem
+We want to solve:
+where 
+, 
+, and 
+.
+Let the objective function be:
+We can expand:
+Also, 
+.
+Thus,
+Take derivative with respect to 
+ (using the convention that the derivative of a scalar with
+respect to a column vector is a row vector, but we'll later set to zero as a column).
+Alternatively, we can use the standard result that the gradient (as a column vector) is:
+Setting the gradient to zero:
+​∥y −
+w
+argmin
+Xw∥
+​ +
+2
+2
+λ∥w∥
+​,
+2
+2
+X ∈Rn×d y ∈Rn
+λ > 0
+J(w) = ∥y −Xw∥+
+2
+λ∥w∥.
+2
+∥y −Xw∥=
+2
+(y −Xw) (y −
+T
+Xw) = y y −
+T
+2y Xw +
+T
+w X Xw.
+T
+T
+λ∥w∥=
+2
+λw w
+T
+J(w) = y y −
+T
+2y Xw +
+T
+w (X X +
+T
+T
+λI)w.
+w
+∇
+​J =
+w
+−2X y +
+T
+2(X X +
+T
+λI)w.
+−2X y +
+T
+2(X X +
+T
+λI)w = 0
+⇒
+(X X +
+T
+λI)w = X y.
+T
+Thought for 131 seconds
+
+
+--- Page 14 ---
+Assuming 
+ is invertible (which it is for 
+ since it is positive definite), we get:
+(b) Perspective 2: "Hack" of shifting the Singular Values
+Given the SVD of 
+, where 
+ is 
+ orthogonal, 
+ is 
+ orthogonal, and 
+is 
+ diagonal with singular values 
+ (only non-zero for 
+, with 
+). The ridge solution becomes:
+Now,
+where 
+ is a 
+ diagonal matrix with entries 
+ (and possibly zeros). Then,
+so
+Also,
+Thus,
+Note that 
+ is an 
+ matrix. Specifically, consider the diagonal entries: For
+each singular value 
+, the corresponding entry in 
+ is 
+ for 
+,
+and zero for 
+ (since 
+). Thus, the effective singular values of the operator
+ are 
+.
+When 
+, then 
+.
+When 
+, then 
+, which is the same as in the ordinary least squares
+pseudo-inverse.
+Thus, ridge regression shrinks the influence of small singular values (directions with low
+variance in the data) more heavily, while keeping the large singular value directions nearly
+unchanged.
+X X +
+T
+λI
+λ > 0
+​.
+w = (X X + λI)
+X y
+T
+−1
+T
+X = UΣV T
+U
+n × n
+V
+d × d
+Σ
+n × d
+σ
+​i
+i = 1, … , r
+r = rank(X)
+w = (X X +
+T
+λI)
+X y.
+−1
+T
+X X =
+T
+V Σ ΣV
+=
+T
+T
+V ΛV ,
+T
+Λ = Σ Σ
+T
+d × d
+σ
+​i
+2
+X X +
+T
+λI = V (Λ + λI)V ,
+T
+(X X +
+T
+λI)
+=
+−1
+V (Λ + λI)
+V .
+−1
+T
+X y =
+T
+V Σ U y.
+T
+T
+w = V (Λ + λI)
+V
+⋅
+−1
+T
+V Σ U y =
+T
+T
+V (Λ + λI)
+Σ U y.
+−1
+T
+T
+(Λ + λI)
+Σ
+−1
+T
+d × n
+σ
+​i
+(Λ + λI)
+Σ
+−1
+T
+​
+σ
+​+λ
+i
+2
+σ
+​i
+i = 1, … , r
+i > r
+σ
+​ =
+i
+0
+(X X +
+T
+λI)
+X
+−1
+T
+​
+σ
+​+λ
+i
+2σ
+​i
+σ
+​ ≪
+i
+λ
+​ ≈
+σ
+​+λ
+i
+2σ
+​i
+​ →
+λ
+σ
+​i
+0
+σ
+​ ≫
+i
+λ
+​ ≈
+σ
+​+λ
+i
+2σ
+​i
+​ =
+σ
+​i
+2
+σ
+​i
+​
+σ
+​i
+1
+
+
+--- Page 15 ---
+(c) Perspective 3: Maximum A Posteriori (MAP) estimation
+We are given: Prior on 
+ (so covariance is identity; note: the problem statement
+says 
+, but we need to be careful about scaling). And the generative model: 
+, where 
+ i.i.d. across training samples. At the vector level: 
+, where 
+.
+We observe 
+. We want the MAP estimate of 
+. MAP maximizes the posterior
+.
+Given 
+, 
+ is Gaussian: 
+ because 
+ has covariance 
+.
+Prior: 
+.
+Thus,
+and
+So the log-posterior (up to constants) is:
+Maximizing the log-posterior is equivalent to minimizing:
+Multiplying by  (which is positive, so doesn't change optimum):
+This is exactly the ridge regression objective (1). Therefore, the MAP estimate is given by the
+ridge solution.
+(d) Perspective 4: Fake Data
+We define augmented data:
+The OLS problem on this augmented data is:
+W ∼N(0, I)
+N(0, I)
+Y =
+x W +
+T
+​N
+λ
+N ∼N(0, 1)
+Y =
+XW +
+​N
+λ
+N ∼N(0, I
+​)
+n
+Y = y
+W
+p(W∣Y = y) ∝p(Y∣W)p(W)
+W Y
+Y ∼N(XW, λI
+​)
+n
+​N
+λ
+λI
+​n
+W ∼N(0, I
+​)
+d
+log p(W) = −
+​W W +
+2
+1
+T
+const,
+log p(Y = y∣W) = −
+​∥y −
+2λ
+1
+XW∥+
+2
+const.
+−
+​∥y −
+2λ
+1
+XW∥−
+2
+​W W.
+2
+1
+T
+​∥y −
+λ
+1
+XW∥+
+2
+W W.
+T
+λ
+∥y −XW∥+
+2
+λW W.
+T
+​ =
+y^
+​ ,
+=
+[ y
+0
+​d]
+X^
+.
+[ X
+​I
+λ d]
+
+
+--- Page 16 ---
+But 
+. Hence the objective is exactly 
+, which
+is the ridge regression objective. So they have the same minimizer.
+(e) Perspective 5: Fake Features
+We define augmented design matrix:
+We consider the underdetermined system 
+, and seek the min-norm solution:
+Let 
+, where 
+ and 
+. Then the constraint becomes:
+The objective is 
+. We want to minimize over 
+ and  subject to the
+constraint. We can solve for  from the constraint:
+provided 
+. Then the objective becomes:
+Multiplying by  (which does not change the minimizer in 
+), we get:
+which is the ridge regression objective (with the order of terms swapped but same). Hence
+the minimizer 
+ from this problem is the ridge regression solution. And indeed, the first 
+coordinates of 
+ give 
+.
+(f) Use pseudo-inverse to show equivalence
+We have 
+. The min-norm solution to 
+ is 
+. For a wide
+matrix (underdetermined), the Moore-Penrose pseudo-inverse is given by 
+​∥
+​−
+w
+min y^
+w∥=
+X^
+2
+​
+​ −
+w
+​ =
+[ y
+0
+​d]
+[ X
+​I
+λ d]
+2
+∥y −Xw∥+
+2
+∥0
+​ −
+d
+​w∥.
+λ
+2
+∥0
+​ −
+d
+​w∥=
+λ
+2
+λ∥w∥2
+∥y −Xw∥+
+2
+λ∥w∥2
+=
+X~
+[X
+​I
+​] ∈
+λ n
+R
+.
+n×(d+n)
+η =
+X~
+y
+​∥η∥
+s.t.
+η =
+η
+min
+2
+X~
+y.
+η =
+​
+[w
+ν ]
+w ∈Rd
+ν ∈Rn
+Xw +
+​ν =
+λ
+y.
+∥η∥=
+2
+∥w∥+
+2
+∥ν∥2
+w
+ν
+ν
+ν =
+​(y −
+​λ
+1
+Xw),
+λ > 0
+∥w∥+
+2
+​
+​(y −Xw)
+​ =
+​λ
+1
+2
+∥w∥+
+2
+​∥y −
+λ
+1
+Xw∥.
+2
+λ
+w
+λ∥w∥+
+2
+∥y −Xw∥,
+2
+w∗
+d
+η∗
+w∗
+=
+X~
+[X
+​I
+​]
+λ n
+η =
+X~
+y
+η =
+∗
+y
+X~ †
+=
+X~ †
+
+
+--- Page 17 ---
+. First compute:
+Thus,
+Then,
+The first  coordinates give:
+This is the so-called "kernel ridge regression" form (or dual form). Now we need to show this
+is equivalent to the standard ridge regression formula:
+We use the identity (Woodbury matrix identity, or more simply, note that both expressions are
+solutions to the same problem, so they must be equal if the inverses exist). Alternatively, we
+can verify by manipulating:
+Starting from 
+, multiply both sides by 
+:
+where we used the fact that 
+. Indeed,
+Thus, 
+ satisfies 
+, so it must be equal to 
+(provided the inverse exists). This shows the equivalence.
+(g) Limit as 
+As 
+, the ridge solution 
+ behaves like:
+More precisely, 
+ for large , so 
+. Thus, the weights
+shrink to zero. That's why ridge regression is called "shrinkage".
+(
+)
+X~ T X~X~ T −1
+=
+X~X~ T
+[X
+​I
+​]
+​ =
+λ n [ XT
+​I
+​
+λ n
+]
+XX
++
+T
+λI
+​.
+n
+=
+X~ †
+(XX
++
+X~ T
+T
+λI
+​)
+=
+n −1
+​ (XX
++
+[ XT
+​I
+​
+λ n]
+T
+λI
+​)
+.
+n −1
+η =
+∗
+y =
+X~ †
+​ .
+[X (XX
++ λI
+​)
+y
+T
+T
+n −1
+​(XX
++ λI
+​)
+y
+λ
+T
+n −1 ]
+d
+=
+w^
+X (XX
++
+T
+T
+λI
+​)
+y.
+n −1
+=
+w^
+(X X +
+T
+λI
+​)
+X y.
+d
+−1
+T
+=
+w^
+X (XX
++
+T
+T
+λI )
+y
+n −1
+(X X +
+T
+λI
+​)
+d
+(X X +
+T
+λI
+​)X (XX
++
+d
+T
+T
+λI
+​)
+y =
+n −1
+X (XX
++
+T
+T
+λI )(XX
++
+n
+T
+λI
+​)
+y =
+n −1
+X y,
+T
+(X X +
+T
+λI )X
+=
+d
+T
+X (XX
++
+T
+T
+λI
+​)
+n
+(X X +
+T
+λI
+​)X
+=
+d
+T
+X XX
++
+T
+T
+λX
+=
+T
+X (XX
++
+T
+T
+λI
+​).
+n
+w^
+(X X +
+T
+λI
+​)
+=
+d w^
+X y
+T
+(X X +
+T
+λI
+​)
+X y
+d −1
+T
+λ →∞
+λ →∞
+​ =
+w^r
+(X X +
+T
+λI)
+X y
+−1
+T
+​ ≈
+w^r
+​X y →
+λ
+1
+T
+0.
+(X X +
+T
+λI)
+≈
+−1
+​I
+λ
+1
+λ
+​ ≈
+w^r
+​X y →
+λ
+1
+T
+0
+
+
+--- Page 18 ---
+Question 4: The 5 Interpretations of Ridge Regression
+(a) Perspective 1: Optimization Problem
+We minimize
+Expanding and taking the gradient with respect to 
+:
+Setting the gradient to zero:
+Thus, the solution is
+(h) Limit as 
+Consider two cases:
+Tall matrix (overdetermined, 
+): As 
+, ridge regression approaches ordinary
+least squares. If 
+ has full column rank, then 
+ exists and 
+.
+If 
+ does not have full column rank, then the limit may not be unique, but ridge regression
+with 
+ converges to the minimum-norm least squares solution (since it adds a tiny
+regularization, it picks the solution with smallest norm).
+Wide matrix (underdetermined, 
+): As 
+, the ridge solution approaches the
+minimum-norm solution of 
+ (if consistent) or the minimum-norm least squares
+solution. More precisely, the limit is 
+, which is the minimum-norm solution among all
+least squares solutions. For 
+, the solution is unique; as 
+, it converges to the
+pseudo-inverse solution.
+In both cases, as 
+, ridge regression recovers the pseudo-inverse solution (minimum-
+norm least squares solution).
+I have provided detailed solutions for all parts of Question 4. Now, if needed, I can also solve
+Questions 5, 6, and 7, but the instruction was to solve Question 4 similarly to how I did
+Questions 2 and 3. So I'll stop here unless further questions are asked.
+λ →0
+n > d
+λ →0
+X
+(X X)
+T
+−1
+→
+w^
+(X X)
+X y
+T
+−1
+T
+X
+λ →0
+n < d
+λ →0
+Xw = y
+X y
+†
+λ > 0
+λ →0
+λ →0
+J(w) = ∥y −Xw∥+
+2
+λ∥w∥.
+2
+w
+∇J =
+w
+−2X y +
+T
+2(X X +
+T
+λI)w.
+(X X +
+T
+λI)w = X y.
+T
+​.
+w = (X X + λI)
+X y
+T
+−1
+T
+
+
+--- Page 19 ---
+(b) Perspective 2: "Hack" of Shifting Singular Values
+Let 
+ be the SVD. Then
+where 
+. The effective singular values are 
+.
+When 
+: 
+.
+When 
+: 
+, as in ordinary least squares.
+(c) Perspective 3: Maximum A Posteriori (MAP) Estimation
+Prior: 
+. Likelihood: 
+.
+The log-posterior is proportional to
+Maximizing this is equivalent to minimizing 
+, which is the
+ridge regression objective.
+(d) Perspective 4: Fake Data
+Define augmented data:
+Then
+so the minimizer is the same as ridge regression.
+X = UΣV T
+w = V (Λ + λI)
+Σ U y,
+−1
+T
+T
+Λ = Σ Σ
+T
+​
+σ
+​+λ
+i
+2
+σ
+​i
+σ
+​ ≪
+i
+λ
+​ ≈
+σ
+​+λ
+i
+2σ
+​i
+​ →
+λ
+σ
+​i
+0
+σ
+​ ≫
+i
+λ
+​ ≈
+σ
+​+λ
+i
+2
+σ
+​i
+​
+σ
+​i
+1
+W ∼N(0, I)
+Y ∣W ∼N(XW, λI)
+−
+​∥y −
+2λ
+1
+XW∥−
+2
+​∥W∥.
+2
+1
+2
+∥y −XW∥+
+2
+λ∥W∥2
+​ =
+y^
+​ ,
+=
+[ y
+0
+​d]
+X^
+​ .
+[ X
+​I
+​
+λ d]
+∥
+​ −
+y^
+w∥=
+X^
+2
+∥y −Xw∥+
+2
+λ∥w∥,
+2
+While Deepseek arives 
+at the correct solutions, 
+it has begun to 
+minimize the amount of 
+the rigorous proofs it 
+provides. However, this 
+may show more 
+understanding as it 
+does not require a 
+robotic thinking process 
+to solve these problems 
+and ﬁnds shortcuts in 
+the explanations.
+
+
+--- Page 20 ---
+(e) Perspective 5: Fake Features
+Define 
+. Let 
+. The constraint 
+ gives
+The min-norm problem minimizes 
+, which becomes
+Multiplying by  gives the ridge objective, so the first  coordinates of 
+ give the
+ridge solution.
+(f) Pseudo-inverse and Equivalence
+For 
+, the pseudo-inverse is
+Thus,
+The first block gives 
+. Using the identity
+we multiply both sides of the expression for 
+ by 
+ to get
+so 
+.
+(g) Limit as 
+As 
+,
+=
+X~
+[X 
+​I
+​]
+λ n
+η = [w; ν]
+η =
+X~
+y
+ν =
+​(y −
+​λ
+1
+Xw).
+∥w∥+
+2
+∥ν∥2
+∥w∥+
+2
+​∥y −
+λ
+1
+Xw∥.
+2
+λ
+d
+η∗
+=
+X~
+[X 
+​I
+​]
+λ n
+=
+X~ †
+(
+)
+=
+X~ T X~X~ T −1
+​ (XX
++
+[ XT
+​I
+​
+λ n
+]
+T
+λI
+​)
+.
+n
+−1
+η =
+∗
+​ .
+[X (XX
++ λI
+​)
+y
+T
+T
+n −1
+​(XX
++ λI
+​)
+y
+λ
+T
+n −1 ]
+=
+w^
+X (XX
++
+T
+T
+λI
+​)
+y
+n −1
+(X X +
+T
+λI
+​)X
+=
+d
+T
+X (XX
++
+T
+T
+λI
+​),
+n
+w^
+(X X +
+T
+λI
+​)
+d
+(X X +
+T
+λI
+​)
+=
+d w^
+X y,
+T
+=
+w^
+(X X +
+T
+λI
+​)
+X y
+d −1
+T
+λ →∞
+λ →∞
+
+
+--- Page 21 ---
+Thus, ridge regression shrinks weights to zero.
+(h) Limit as 
+Tall matrix (overdetermined): 
+ if 
+ has full column rank;
+otherwise, it converges to the minimum-norm least squares solution.
+Wide matrix (underdetermined): 
+, the minimum-norm solution to
+ (if consistent) or the minimum-norm least squares solution.
+In both cases, as 
+, ridge regression recovers the pseudo-inverse solution.
+w ≈
+​X y →
+λ
+1
+T
+0.
+λ →0
+w →(X X)
+X y
+T
+−1
+T
+X
+w →X y
+†
+Xw = y
+λ →0
+Similarly solve Question 5.
+We are solving Question 5: ReLU Elbow Update under SGD.
+Part (a) deals with a single ReLU: φ(x) = max(0, wx+b). The "elbow" is the point where wx+b
+= 0, i.e., x = -b/w (provided w ≠ 0). We assume w ≠ 0 for the elbow to exist.
+Loss: ℓ(x,y,φ) = 1/2 (φ(x)-y)^2.
+(i) Elbow location e:
+Since φ(x) = wx+b for wx+b > 0, and 0 otherwise, the elbow is at wx+b = 0 => x = -b/w.
+(ii) Derivative of loss w.r.t. φ(x):
+dℓ/dφ = φ(x) - y.
+(iii) Partial derivative of loss w.r.t. w:
+Note that φ(x) depends on w only when wx+b > 0. Using chain rule: ∂ℓ/∂w = (φ(x)-y) * ∂φ/
+∂w. But ∂φ/∂w = x if wx+b > 0, and 0 if wx+b < 0. At wx+b=0, we take gradient 0 as given.
+So:
+∂ℓ/∂w = (φ(x)-y) * x * I{wx+b>0}.
+(iv) Partial derivative of loss w.r.t. b:
+Similarly, ∂φ/∂b = 1 if wx+b > 0, else 0. So:
+∂ℓ/∂b = (φ(x)-y) * I{wx+b>0}.
+Now part (b): Given φ(x)-y = 1 (prediction too high by 1). We consider cases and describe
+what happens to slope and elbow after a gradient descent update on w and b. The update: w'
+= w - λ ∂ℓ/∂w, b' = b - λ ∂ℓ/∂b.
+Thought for 109 seconds
+
+
+--- Page 22 ---
+We need to analyze each case.
+Case (i): φ(x)=0. But if φ(x)=0, then φ(x)-y = -y = 1 => y = -1. But φ(x)=0 means either wx+b <
+0 or wx+b=0. Since φ(x)-y=1, we have 0-y=1 so y=-1. For gradient, we need to check if
+wx+b>0? No, because φ(x)=0. So by definition, if φ(x)=0, we assume wx+b ≤ 0. With our
+convention gradient at 0 is 0. So ∂ℓ/∂w = 0, ∂ℓ/∂b = 0. Therefore, no update: w'=w, b'=b. So
+slope and elbow unchanged.
+Case (ii): w>0, x>0, and φ(x)>0. Then wx+b > 0. Given φ(x)-y=1, so prediction is 1 above
+target. Then ∂ℓ/∂w = (φ(x)-y)*x = 1*x = x > 0, ∂ℓ/∂b = (φ(x)-y)*1 = 1. So update: w' = w - λ x,
+b' = b - λ. Since λ>0, w decreases, b decreases. The slope w becomes smaller. The elbow e
+= -b/w. Let's compute change in e. Initially e = -b/w. After update, e' = -b'/w' = -(b-λ)/(w-λ
+x). We need to check if e' > e or < e. Since w>0, x>0, and both w and b decrease, we can
+analyze numerically. For example, take w=2, b=1, x=1, λ=0.1. Then initially e = -1/2 = -0.5.
+After update: w'=2-0.1=1.9, b'=1-0.1=0.9, so e' = -0.9/1.9 ≈ -0.4737. So e' > e (less negative),
+meaning the elbow moves to the right. In general, for w>0, x>0, the elbow moves to the
+right? Let's derive the change: e' - e = (-b'/w') - (-b/w) = -b'/w' + b/w. We can compute the
+derivative of e w.r.t. parameters, but the problem says it's fine to check numerically. So
+answer: slope decreases, elbow moves to the right.
+Case (iii): w>0, x<0, and φ(x)>0. Then wx+b>0. Since w>0, x<0, note that wx is negative. For
+φ(x)>0, we need b sufficiently large. Given φ(x)-y=1. Compute gradients: ∂ℓ/∂w = (φ(x)-y)*x
+= 1*x = x < 0, ∂ℓ/∂b = 1. So w' = w - λ x = w - λ (negative) = w + λ|x|, so w increases. b' = b -
+λ, so b decreases. Slope increases. Elbow e = -b/w. Initially e = -b/w. After update, w' > w, b'
+< b. So numerator of e' becomes -b' > -b (since b' < b, so -b' > -b), denominator w' > w.
+Both numerator and denominator increase. The change in e depends. For example, take w=2,
+b=3, x=-1, λ=0.1. Then initially e = -3/2 = -1.5. Update: w' = 2 - 0.1*(-1)=2+0.1=2.1, b'=3-
+0.1=2.9, e' = -2.9/2.1 ≈ -1.381. So e' > e (less negative), elbow moves to the right. Another
+example: w=0.5, b=1, x=-0.5, λ=0.1. Then e = -1/0.5 = -2. Update: w'=0.5 - 0.1*
+(-0.5)=0.5+0.05=0.55, b'=1-0.1=0.9, e' = -0.9/0.55 ≈ -1.636, still > -2. So elbow moves right.
+Generally, it seems elbow moves right. But we can analyze: e = -b/w, de/dw = b/w^2, de/db
+= -1/w. The total change Δe ≈ (∂e/∂w)Δw + (∂e/∂b)Δb. Here Δw = -λ ∂ℓ/∂w = -λ x, Δb = -λ ∂ℓ/
+∂b = -λ. So Δe ≈ (b/w^2)*(-λ x) + (-1/w)*(-λ) = -λ b x / w^2 + λ/w = λ/w (1 - b x / w). Since
+φ(x)=wx+b > 0, we have b > -wx. But x<0, so -wx>0. So b is positive enough. The sign of Δe
+depends on 1 - b x / w. Since x<0, b x / w is negative, so 1 - negative > 1, so Δe > 0. So e
+increases, meaning elbow moves right.
+Case (iv): w<0, x>0, and φ(x)>0. Then wx+b>0. Since w<0, x>0, wx is negative. For φ(x)>0,
+b must be positive and large enough. Given φ(x)-y=1. Gradients: ∂ℓ/∂w = (φ(x)-y)*x = x > 0,
+∂ℓ/∂b = 1. So update: w' = w - λ x. Since x>0, w' = w - λ x becomes more negative (since
+subtracting positive from negative). So magnitude of w increases (more negative). b' = b - λ,
+decreases. Slope w is negative, so slope becomes more negative (steeper downward slope).
+Elbow e = -b/w. Since w<0, -b/w = b/|w|. Initially e = b/|w|. After update: w' more negative,
+so |w'| > |w|; b' < b. So numerator decreases, denominator increases, so e' < e. Elbow
+
+
+--- Page 23 ---
+moves left. Numerical: w=-2, b=3, x=1, λ=0.1. Then e = -3/(-2)=1.5. Update: w'=-2-0.1= -2.1,
+b'=3-0.1=2.9, e' = -2.9/(-2.1)= 2.9/2.1 ≈ 1.381, so e' < e, moves left. So answer: slope
+becomes more negative, elbow moves left.
+We also need to draw and label, but since this is text, we'll describe: For each case, sketch
+φ(x) as a piecewise linear function with elbow at e. Show the point (x,y) such that φ(x)-y=1
+(so φ(x)=y+1). After update, the slope changes and elbow shifts as described.
+Now part (c): Full network: \hat{f}(x)=W^{(2)} Φ(W^{(1)} x + b). Here W^{(1)} is d×1, so it's a
+column vector (call it w^(1)), b is d-dimensional vector, W^{(2)} is 1×d row vector (call it
+w^(2)}^T). Actually careful: W^{(1)} ∈ ℝ^{d×1}, so it's essentially a vector; let's denote it as a
+column vector w1 (each entry w1_i). Similarly b is vector b_i. Then the input to the i-th ReLU is
+z_i = w1_i * x + b_i. The elbow for the i-th ReLU is where z_i = 0, i.e., x such that w1_i x + b_i
+= 0 => x = -b_i / w1_i, provided w1_i ≠ 0. So e_i = -b_i / w1_i.
+Part (d): After one SGD update with learning rate λ, we need the new elbow location e_i'. The
+update depends on the loss gradient w.r.t. parameters. The loss is ℓ = 1/2 (f(x)-y)^2. We need
+gradients w.r.t. w1_i, b_i, and w2_i. But the elbow e_i depends only on w1_i and b_i. So we
+need to compute how w1_i and b_i change.
+Let’s derive gradients for the network. Let z = W^{(1)} x + b, a vector. Then a = Φ(z)
+(elementwise ReLU). Then f = W^{(2)} a = sum_{i=1}^d w2_i a_i.
+Loss ℓ = 1/2 (f - y)^2.
+Gradient w.r.t. W^{(2)}: ∂ℓ/∂w2_i = (f-y) a_i.
+Gradient w.r.t. b_i: ∂ℓ/∂b_i = (f-y) w2_i * I{z_i>0} (since ∂a_i/∂b_i = 1 if z_i>0 else 0).
+Gradient w.r.t. w1_i: ∂ℓ/∂w1_i = (f-y) w2_i * x * I{z_i>0}.
+Now, after an SGD step on parameters (assuming we update all parameters using the same
+point (x,y)), we have:
+w1_i' = w1_i - λ * ∂ℓ/∂w1_i = w1_i - λ (f-y) w2_i x I{z_i>0}
+b_i' = b_i - λ * ∂ℓ/∂b_i = b_i - λ (f-y) w2_i I{z_i>0}
+Then the new elbow for neuron i is e_i' = -b_i' / w1_i', provided w1_i' ≠ 0.
+If the neuron was not active (z_i ≤ 0), then I{z_i>0}=0, so no update to w1_i and b_i from this
+data point, so e_i unchanged.
+If the neuron was active, then the update occurs. Note that the change depends on (f-y),
+w2_i, x, and λ.
+So the new elbow location is:
+e_i' = - (b_i - λ (f-y) w2_i I{z_i>0}) / (w1_i - λ (f-y) w2_i x I{z_i>0})
+= -b_i' / w1_i'
+
+
+--- Page 24 ---
+Question 5: ReLU Elbow Update under SGD
+(a) Single ReLU Analysis
+For 
+ and loss 
+:
+(i) Elbow location:
+(ii) Derivative of loss w.r.t. 
+:
+with the understanding that if w1_i' becomes zero, the elbow is at infinity or undefined.
+That is the answer.
+We should also note that if w1_i was zero, then originally there is no elbow (the ReLU is either
+always 0 or always linear depending on b_i). But if w1_i=0, then the gradient for w1_i is ∂ℓ/
+∂w1_i = (f-y) w2_i * x * I{b_i>0} (since z_i = b_i). So it might become nonzero after update.
+But the problem likely assumes w1_i ≠ 0.
+So final answers:
+(a)
+(i) e = -b/w.
+(ii) dℓ/dφ = φ(x)-y.
+(iii) ∂ℓ/∂w = (φ(x)-y) * x * I{wx+b>0}.
+(iv) ∂ℓ/∂b = (φ(x)-y) * I{wx+b>0}.
+(b)
+(i) No change.
+(ii) Slope decreases, elbow moves right.
+(iii) Slope increases, elbow moves right.
+(iv) Slope becomes more negative, elbow moves left.
+(c) e_i = -b_i / w1_i.
+(d) e_i' = - (b_i - λ (f-y) w2_i I{z_i>0}) / (w1_i - λ (f-y) w2_i x I{z_i>0}).
+Now, we need to put it in a box. Since it's long, we'll box final answers per part.
+Let's present clearly.
+ϕ(x) = max(0, wx + b)
+ℓ(x, y, ϕ) =
+​(ϕ(x) −
+2
+1
+y)2
+​
+e = −
+​
+(w = 0)
+w
+b
+
+ϕ(x)
+​
+​ = ϕ(x) −y
+dϕ
+dℓ
+
+
+--- Page 25 ---
+(iii) Partial derivative w.r.t. 
+:
+(iv) Partial derivative w.r.t. :
+(b) Gradient Descent Updates Given 
+Update rule: 
+ for 
+.
+(i) 
+:
+No gradient (
+), so slope and elbow remain unchanged.
+(ii) 
+:
+, 
+ decreases,  decreases
+Slope decreases, elbow moves right (e.g., 
+:  from
+ to 
+)
+(iii) 
+:
+, 
+ increases,  decreases
+Slope increases, elbow moves right (e.g., 
+:  from
+ to 
+)
+(iv) 
+:
+, 
+ becomes more negative,  decreases
+Slope becomes more negative, elbow moves left (e.g., 
+:  from 
+ to 
+)
+w
+​
+​ = (ϕ(x) −y) ⋅x ⋅I
+​
+∂w
+∂ℓ
+{wx+b>0}
+b
+​
+​ = (ϕ(x) −y) ⋅I
+​
+∂b
+∂ℓ
+{wx+b>0}
+ϕ(x) −y = 1
+p =
+′
+p −λ
+​
+∂p
+∂ℓ
+p = w, b
+ϕ(x) = 0
+I
+​ =
+{wx+b>0}
+0
+w > 0, x > 0, ϕ(x) > 0
+​ =
+∂w
+∂ℓ
+x > 0
+​ =
+∂b
+∂ℓ
+1
+w
+b
+w = 2, b = 1, x = 1, λ = 0.1 e
+−0.5
+≈−0.474
+w > 0, x < 0, ϕ(x) > 0
+​ =
+∂w
+∂ℓ
+x < 0
+​ =
+∂b
+∂ℓ
+1
+w
+b
+w = 2, b = 3, x = −1, λ = 0.1 e
+−1.5
+≈−1.381
+w < 0, x > 0, ϕ(x) > 0
+​ =
+∂w
+∂ℓ
+x > 0
+​ =
+∂b
+∂ℓ
+1
+w
+b
+w = −2, b = 3, x =
+1, λ = 0.1 e
+1.5
+≈1.381
+Deepseek ﬁnally 
+begins to make errors 
+in the solutions. The 
+model relies on a 
+speciﬁc numerical 
+example to determine 
+the direction of the 
+elbow movement. 
+This causes 
+deepseek to ignore 
+other possibilites per 
+each part.
+
+
+--- Page 26 ---
+(c) Elbow Location in the Full Network
+For network 
+, let 
+. The elbow for the -
+th ReLU is:
+(d) New Elbow After One SGD Update
+Let 
+ and 
+. The loss gradient yields updates:
+The new elbow location is:
+If 
+, no update occurs and 
+.
+​(x) =
+f^
+W
+Φ(W
+x +
+(2)
+(1)
+b)
+z = W
+x +
+(1)
+b
+i
+​
+e
+​ = −
+​
+(W
+​ = 0)
+i
+W
+​
+i
+(1)
+b
+​i
+i
+(1) 
+z
+​ =
+i
+W
+​x +
+i
+(1)
+b
+​i
+a
+​ =
+i
+Φ(z
+​)
+i
+​
+​
+W
+​
+i
+(1)′
+b
+​i
+′
+= W
+​ −λ(
+​ −y)W
+​xI
+​
+i
+(1)
+f^
+i
+(2)
+{z
+​>0}
+i
+= b
+​ −λ(
+​ −y)W
+​I
+​
+i
+f^
+i
+(2)
+{z
+​>0}
+i
+​
+e
+​ = −
+​
+i
+′
+W
+​
+i
+(1)′
+b
+​i
+′
+z
+​ ≤
+i
+0
+e
+​ =
+i
+′
+e
+​i
+Expand on the solution for 5.d. This solution is not correct
+We are asked to derive the new elbow location after one SGD update for the i-th ReLU in the
+full network.
+We have:
+\hat{f}(x) = W^{(2)} \Phi(W^{(1)} x + b) = W^{(2)} a, where a = \Phi(z) and z = W^{(1)} x + b.
+Here, W^{(1)} is d x 1, b is d x 1, W^{(2)} is 1 x d.
+We consider the loss: L = 1/2 ( \hat{f}(x) - y )^2.
+We want to update parameters W^{(1)}_i, b_i for the i-th neuron. The gradient of L w.r.t. these
+parameters:
+First, note: \hat{f}(x) = \sum_j W^{(2)}_j a_j, where a_j = \Phi(z_j) = max(0, z_j).
+Thought for 51 seconds
+I ﬂag deepseek for its 
+solution for part D since 
+this is a lazy answer and 
+does not fully solve for 
+the new elbow location.
+
+
+--- Page 27 ---
+Then:
+\frac{\partial L}{\partial W^{(1)}_i} = \frac{\partial L}{\partial \hat{f}} \cdot \frac{\partial
+\hat{f}}{\partial a_i} \cdot \frac{\partial a_i}{\partial z_i} \cdot \frac{\partial z_i}{\partial
+W^{(1)}_i} = (\hat{f} - y) \cdot W^{(2)}_i \cdot \mathbb{I}(z_i > 0) \cdot x.
+Similarly:
+\frac{\partial L}{\partial b_i} = (\hat{f} - y) \cdot W^{(2)}_i \cdot \mathbb{I}(z_i > 0).
+The update rule (SGD with learning rate λ):
+W^{(1)}_i' = W^{(1)}_i - λ \frac{\partial L}{\partial W^{(1)}_i},
+b_i' = b_i - λ \frac{\partial L}{\partial b_i}.
+Now, the elbow location for the i-th ReLU is defined as the point where the input to the ReLU
+becomes zero: z_i = W^{(1)}_i x + b_i = 0, so x = -b_i / W^{(1)}_i, provided W^{(1)}_i ≠ 0. That
+is e_i.
+After one update, the new parameters are W^{(1)}_i' and b_i', so the new elbow location e_i'
+is given by solving W^{(1)}_i' x + b_i' = 0:
+e_i' = - b_i' / W^{(1)}_i', provided W^{(1)}_i' ≠ 0.
+We need to express e_i' in terms of the old parameters and the update. Let's compute
+explicitly:
+Let δ = \hat{f} - y.
+Let I_i = \mathbb{I}(z_i > 0).
+Then:
+W^{(1)}_i' = W^{(1)}_i - λ δ W^{(2)}_i I_i x,
+b_i' = b_i - λ δ W^{(2)}_i I_i.
+Note: The indicator I_i depends on whether z_i > 0. Importantly, after the update, the elbow
+may shift, and the indicator may change if the update causes the activation pattern to
+change. However, the problem likely assumes that the learning rate is small enough that the
+activation pattern does not change in a single update, or we are to compute the new elbow
+location based solely on the updated parameters regardless of whether the activation pattern
+changes. Usually, in such analysis, we consider the update as a small step and ignore the
+change in the indicator.
+Now, compute e_i':
+e_i' = - b_i' / W^{(1)}_i' = - (b_i - λ δ W^{(2)}_i I_i) / (W^{(1)}_i - λ δ W^{(2)}_i I_i x).
+We can rewrite this in terms of the old elbow e_i = -b_i / W^{(1)}_i.
+We have:
+b_i = -e_i W^{(1)}_i.
+Plug into numerator and denominator:
+Numerator: b_i - λ δ W^{(2)}_i I_i = -e_i W^{(1)}_i - λ δ W^{(2)}_i I_i.
+Denominator: W^{(1)}_i - λ δ W^{(2)}_i I_i x.
+
+
+--- Page 28 ---
+Question 5 (d) – Full Derivation of New Elbow Location After SGD
+Update
+Given the network:
+where:
+ (column vector),
+,
+So:
+e_i' = - ( -e_i W^{(1)}_i - λ δ W^{(2)}_i I_i ) / (W^{(1)}_i - λ δ W^{(2)}_i I_i x) = (e_i W^{(1)}_i + λ
+δ W^{(2)}_i I_i) / (W^{(1)}_i - λ δ W^{(2)}_i I_i x).
+Divide numerator and denominator by W^{(1)}_i (assuming non-zero):
+e_i' = (e_i + (λ δ W^{(2)}_i I_i)/W^{(1)}_i) / (1 - (λ δ W^{(2)}_i I_i x)/W^{(1)}_i).
+Let α = λ δ W^{(2)}_i I_i / W^{(1)}_i. Then:
+e_i' = (e_i + α) / (1 - α x).
+This is the new elbow location in terms of old elbow, the learning rate, the error, the weight,
+and the input x.
+Alternatively, we can write it as:
+e_i' = e_i + \frac{α (e_i + x)}{1 - α x}? Let's see:
+e_i' - e_i = (e_i + α)/(1 - α x) - e_i = [e_i + α - e_i (1 - α x)] / (1 - α x) = [e_i + α - e_i + e_i α x] /
+(1 - α x) = α (1 + e_i x) / (1 - α x).
+But maybe it's simpler to leave as is.
+We should note that this derivation assumes that the indicator I_i remains the same after the
+update. In practice, if the update is small, this is a reasonable approximation.
+Thus, the answer for part (d) is:
+e_i' = \frac{e_i W^{(1)}_i + λ δ W^{(2)}_i I_i}{W^{(1)}_i - λ δ W^{(2)}_i I_i x} = \frac{e_i + \frac{λ
+δ W^{(2)}_i I_i}{W^{(1)}_i}}{1 - \frac{λ δ W^{(2)}_i I_i x}{W^{(1)}_i}}.
+If we want to express δ explicitly: δ = \hat{f} - y.
+I'll provide a boxed answer.
+Note: The earlier answer I gave was too brief and not fully correct because it didn't account
+for the indicator and the fact that the update depends on W^{(2)}_i and x. So I'll correct it
+now.
+​(x) =
+f^
+W
+Φ W
+x + b ,
+(2)
+(
+(1)
+)
+W
+∈
+(1)
+Rd×1
+b ∈Rd
+
+
+--- Page 29 ---
+ (row vector),
+ is the element‑wise ReLU: 
+.
+Let 
+, and 
+. Then 
+.
+The loss is:
+Step 1 – Gradients w.r.t. parameters of the -th neuron
+We compute the gradients for 
+ and 
+:
+Step 2 – SGD update (learning rate )
+Let 
+ and 
+. Then:
+Step 3 – New elbow location
+The elbow for the -th ReLU is the point where its input becomes zero:
+W
+∈
+(2)
+R1×d
+Φ
+Φ(z)
+​ =
+i
+max(0, z
+​)
+i
+z = W
+x +
+(1)
+b
+a
+​ =
+i
+Φ(z
+​)
+i
+​(x) =
+f^
+​ W
+​a
+​
+∑j=1
+d
+j
+(2)
+j
+ℓ=
+​
+​(x) −y
+.
+2
+1 (f^
+)
+2
+i
+W
+​
+i
+(1)
+b
+​i
+​
+​
+​
+∂W
+​
+i
+(1)
+∂ℓ
+=
+​ ⋅
+​ ⋅
+​ ⋅
+​
+​−y
+f^
+​
+​
+∂
+​f^
+∂ℓ
+W
+​
+i
+(2)
+​
+​
+∂a
+​i
+∂
+​f^
+I(z
+​>0)
+i
+​
+​
+∂z
+​i
+∂a
+​i
+x
+​
+​
+∂W
+​
+i
+(1)
+∂z
+​i
+=
+​ −y W
+​ I(z
+​ > 0) x,
+(f^
+)
+i
+(2)
+i
+​
+​
+​
+∂b
+​i
+∂ℓ=
+​ −y W
+​ I(z
+​ > 0).
+(f^
+)
+i
+(2)
+i
+λ
+δ =
+​ −
+f^
+y
+I
+​ =
+i
+I(z
+​ >
+i
+0)
+​
+​
+W
+​
+i
+(1)′
+b
+​i
+′
+= W
+​ −λδW
+​I
+​x,
+i
+(1)
+i
+(2)
+i
+= b
+​ −λδW
+​I
+​.
+i
+i
+(2)
+i
+i
+z
+​ =
+i
+W
+​x +
+i
+(1)
+b
+​ =
+i
+0
+⇒
+e
+​ =
+i
+−
+​
+(W
+​ =
+W
+​
+i
+(1)
+b
+​i
+i
+(1) 0).
+
+
+--- Page 30 ---
+After the update, the new elbow 
+ satisfies:
+Substitute the updated parameters:
+Using the original elbow 
+ (so 
+):
+Assuming 
+, divide numerator and denominator by 
+:
+where 
+ and 
+.
+Remarks:
+1. The expression assumes the activation pattern 
+ remains unchanged after the
+small update (common for infinitesimal learning rates).
+2. If 
+, the elbow is undefined (the ReLU is either always‑on or always‑off).
+3. The new elbow depends on the error , the output‑layer weight 
+, the input ,
+and the learning rate .
+e
+​i
+′
+W
+​e
+​ +
+i
+(1)′
+i
+′
+b
+​ =
+i
+′
+0
+⇒
+e
+​ =
+i
+′
+−
+​.
+W
+​
+i
+(1)′
+b
+​i
+′
+​
+​
+e
+​i
+′ = −
+​.
+W
+​ −λδW
+​I
+​x
+i
+(1)
+i
+(2)
+i
+b
+​ −λδW
+​I
+​
+i
+i
+(2)
+i
+e
+​ =
+i
+−b
+​/W
+​
+i
+i
+(1)
+b
+​ =
+i
+−e
+​W
+​
+i
+i
+(1)
+​
+​
+e
+​i
+′ = −
+​
+W
+−λδW
+​I
+​x
+i
+(1)
+i
+(2)
+i
+−e
+​W
+​ −λδW
+​I
+​
+i
+i
+(1)
+i
+(2)
+i
+=
+.
+W
+​ −λδW
+​I
+​x
+i
+(1)
+i
+(2)
+i
+e
+​W
+​ + λδW
+​I
+i
+i
+(1)
+i
+(2)
+i
+W
+​ =
+i
+(1) 0
+W
+​
+i
+(1)
+​
+e
+​ =
+​
+i
+′
+1 −
+​
+W
+​
+i
+(1)
+λδW
+​I
+​x
+i
+(2)
+i
+e
+​ +
+​
+i
+W
+​
+i
+(1)
+λδW
+​I
+​
+i
+(2)
+i
+δ =
+​ −
+f^
+y
+I
+​ =
+i
+I(W
+​x +
+i
+(1)
+b
+​ >
+i
+0)
+I
+​i
+W
+​ =
+i
+(1)
+0
+δ
+W
+​
+i
+(2)
+x
+λ
+Great

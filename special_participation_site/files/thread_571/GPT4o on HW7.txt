@@ -1,0 +1,68 @@
+--- Page 1 ---
+For Special Participation A, I used ChatGPT4o on several parts of HW7. Overall, it was 
+helpful but revealed important limitations. ChatGPT4o excels at high-level conceptual 
+explanations—providing clear insights on autoencoders, PCA, and sequence models— 
+And it’s also fairly strong with mathematical computations.  
+A notable issue occurred on Question 7(b), where ChatGPT4o initially gave an incorrect 
+answer about decoder tokens during training and resisted correction when I first pointed 
+out the mistake. This highlighted the need to persistently challenge responses that seem 
+wrong rather than accepting them at face value. 
+Despite these challenges, ChatGPT4o answer are insightful and deepened my 
+understanding. 
+ 
+I gave the following prompt to start  
+ 
+Question 3b: 
+ 
+
+
+--- Page 2 ---
+Derivation of the derivative with respect to w2 and w1 is both correct  
+ 
+ 
+
+
+--- Page 3 ---
+ 
+ 
+Part 2 is also correct; ChatGPT gives a direct proof similar to the baseline answer.  
+Question 4: 
+
+
+--- Page 4 ---
+ 
+ 
+Decent reflection, summarizes the article well.  
+Question 7: 
+
+
+--- Page 5 ---
+ 
+Correct Answer 
+ 
+ 
+
+
+--- Page 6 ---
+The answer for b is incorrect, and the model refuses to reflect on the correct answer 
+when i correct it at the first time 
+ 
+ 
+
+
+--- Page 7 ---
+ 
+Correct answer,  
+Question 8:​
+Exact correct answer,  
+
+
+--- Page 8 ---
+ 
+Exact correct answer,  
+ 
+
+
+--- Page 10 ---
+ 
+explaining the same phenomenon 

@@ -1,0 +1,6277 @@
+--- Page 1 ---
+Can you please the first 3 parts of this homework 
+question?
+Here’s a complete step-by-step solution to parts (a), (b), and (c) from the image titled
+"DDPM/DDIM Fun: From a Gaussian":
+(a) What is the distribution of 
+?
+We are told that the forward process starts at:
+At each small interval 
+, we add independent Gaussian noise 
+. Let 
+ be the number of steps from 
+ to 
+. Then, over 
+ steps, the noise
+accumulates.
+X
+​1
+X
+​ ∼
+0
+N(0, σ )
+2
+Δt
+∼N(0, Δt)
+T =
+​
+Δt
+1
+t = 0
+t = 1
+T
+ChatGPT 4o
+Share
+Add people
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+1/71
+This was critical: I passed the question as an image because there is a lot of mathematics
+ that gets wiped away if I copy and paste the raw text from the PDF 
+
+
+--- Page 2 ---
+Using the fact that the sum of independent Gaussians is another Gaussian with variances
+adding up:
+✅ Final answer:
+(b) What are the marginal distributions of 
+ and 
+?
+Let the process be defined as:
+Suppose the initial variable is 
+, and we have a continuous-time
+Brownian motion with additive Gaussian noise.
+Let’s define:
+✅ Final answer:
+X
+​ =
+1
+X
+​ +
+0
+​ϵ
+​,
+ϵ
+​ ∼
+i=1
+∑
+T
+i
+i
+N(0, Δt)
+Var(X
+​) =
+1
+Var(X
+​) +
+0
+T ⋅Δt = σ +
+2
+1
+X
+​ ∼
+1
+N(0, σ +
+2
+1)
+X
+​
+t−Δt
+X
+​t
+X
+​ =
+t
+X
+​ +
+t−Δt
+ϵ
+​,
+ϵ
+​ ∼
+t
+t
+N(0, Δt)
+X
+​ ∼
+0
+N(0, σ )
+2
+Var(X
+​) =
+t
+σ +
+2
+t
+Var(X
+​) =
+t−Δt
+σ +
+2
+t −Δt
+X
+​ ∼
+t−Δt
+N(0, σ +
+2
+t −Δt),
+X
+​ ∼
+t
+N(0, σ +
+2
+t)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+2/71
+
+
+--- Page 3 ---
+(c) Simplify and approximate the variance of the conditional distribution
+We're given:
+We are asked to simplify and approximate the variance term:
+Under the assumption that 
+, we can use a first-order approximation.
+Let’s write:
+Since 
+, the second term is very small:
+✅ Final answer (approximate variance):
+So the conditional variance is approximately 
+, matching our intuition that only a small bit
+of uncertainty gets subtracted per step in the reverse process.
+Let me know if you'd like part (d) or further intuition about DDPMs and reverse diffusion.
+(X
+​ ∣
+t−Δt
+X
+​ =
+t
+x
+​) ∼
+t
+N
+​x
+​,
+​
+(
+σ + t
+2
+σ + t −Δt
+2
+t
+σ + t
+2
+(σ + t −Δt)Δt
+2
+)
+σ + t
+2
+(σ + t −Δt)Δt
+2
+Δt ≪σ ≪
+2
+1
+​ =
+σ + t
+2
+(σ + t −Δt)Δt
+2
+Δt ⋅
+​
+=
+(
+σ + t
+2
+σ + t −Δt
+2
+)
+Δt ⋅
+1 −
+​
+≈
+(
+σ + t
+2
+Δt
+)
+Δt
+1 −
+​
+(
+σ + t
+2
+Δt
+)
+Δt ≪1
+Var ≈Δt
+1 −
+​
+≈
+(
+σ + t
+2
+Δt
+)
+Δt
+Δt
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+3/71
+
+
+--- Page 4 ---
+Nice! Next, can you solve part D?
+Absolutely! Let’s work through Part (d) step-by-step:
+🔁 Problem Recap
+We are told:
+Start with 
+The forward diffusion is defined as: at each step, we add zero-mean Gaussian noise
+with variance 
+In reverse, instead of sampling from the full conditional 
+, we only
+apply the conditional mean mapping (i.e., we drop the stochastic part and only use
+the mean)
+Goal:
+Find the resulting distribution of 
+ after reversing from 
+ using only the
+conditional mean at each step
+X
+​ ∼
+1
+N(0, 1)
+Δt
+p(X
+​ ∣
+t−Δt
+X )
+t
+​
+X^0
+X
+​1
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+4/71
+
+
+--- Page 5 ---
+🔁 Step 1: Recall the Conditional Mean
+From part (c), the mean of 
+ is:
+Let us define:
+Then, iteratively applying the conditional mean mapping without any noise, we get:
+So, going backwards from 
+ to 
+ in steps of 
+, the full mapping is a product:
+🔁 Step 2: Analyze the Product
+We want to evaluate:
+This is a telescoping product!
+Let’s write out the first few terms:
+X
+​ ∣
+t−Δt
+X
+​ =
+t
+x
+​t
+E[X
+​ ∣
+t−Δt
+X
+​ =
+t
+x
+​] =
+t
+​x
+​
+σ + t
+2
+σ + t −Δt
+2
+t
+α
+​ :=
+t
+​ =
+σ + t
+2
+σ + t −Δt
+2
+1 −
+​
+σ + t
+2
+Δt
+​ =
+X^t−Δt
+α
+​
+​
+tX^t
+t = 1
+t = 0
+Δt
+​ =
+X^0
+​α
+​
+X
+​
+where
+T =
+(
+k=1
+∏
+T
+k)
+1
+​
+Δt
+1
+​ =
+X^0
+​
+​
+X
+​
+(
+k=1
+∏
+T
+σ + 1 −(k −1)Δt
+2
+σ + 1 −kΔt
+2
+)
+1
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+5/71
+
+
+--- Page 6 ---
+So, everything cancels except:
+✅ Therefore:
+🔁 Step 3: What is the Distribution of 
+?
+Since 
+, and we multiply it by a constant:
+This has mean 0 and variance:
+🔁 Step 4: Approximate the Result for 
+When 
+, then:
+​
+​ =
+k=1
+∏
+T
+σ + 1 −(k −1)Δt
+2
+σ + 1 −kΔt
+2
+​ ⋅
+σ + 1
+2
+σ + 1 −Δt
+2
+​ ⋅
+σ + 1 −Δt
+2
+σ + 1 −2Δt
+2
+​ ⋯
+​
+σ + 1 −2Δt
+2
+σ + 1 −3Δt
+2
+σ + Δt
+2
+σ2
+​
+σ + 1
+2
+σ2
+​ =
+X^0
+​X
+​
+σ + 1
+2
+σ2
+1
+​
+X^0
+X
+​ ∼
+1
+N(0, 1)
+​ ∼
+X^0
+N
+0,
+​
+(
+(σ + 1
+2
+σ2
+)
+2
+)
+Var(
+​) =
+X^0
+​
+(σ + 1
+2
+σ2
+)
+2
+σ ≪
+2
+1
+σ ≪
+2
+1
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+6/71
+
+
+--- Page 7 ---
+✅ Final Answer:
+🔎 Intuition and Takeaway
+By skipping the stochastic noise during denoising, we collapse the uncertainty.
+The resulting distribution becomes much narrower: the variance drops from 1 (at 
+) to 
+ at 
+This shows why adding noise is critical during reverse diffusion: without it, you lose
+diversity and collapse to a single mode.
+Let me know if you'd like help with the next part or plotting this!
+​ ≈
+σ + 1
+2
+σ2
+σ
+⇒
+2
+​
+≈
+(σ + 1
+2
+σ2
+)
+2
+σ4
+​ ∼
+X^0
+N(0, σ )
+4
+X
+​1
+σ ≪
+4
+1
+​
+X^0
+Nice! Now, can you solve part E?
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+7/71
+
+
+--- Page 8 ---
+Absolutely! Let's now solve part (e) of this DDPM/DDIM derivation.
+🔁 Problem Summary
+We're given the variance of 
+ when we do add independent noise 
+ at every
+reverse diffusion step:
+We are asked to:
+1. Take the limit 
+ (i.e., large 
+)
+2. Replace the sum with an integral
+3. Evaluate the expression approximately, under the assumption:
+✅ Step 1: Replace the sum with an integral
+Recall:
+Apply this to equation (1):
+​
+X^0
+N(0, Δt)
+​
+Var(
+​) =
+​
++ Δt
+​
+X^0
+(σ + 1
+2
+σ2
+)
+2
+k=0
+∑
+T−1
+(σ + kΔt
+2
+σ2
+)
+2
+(1)
+Δt →0
+T = 1/Δt
+0 < Δt ≪σ ≪
+2
+1
+Δt
+​f(kΔt)
+​
+k=0
+∑
+T−1
+Δt→0
+​f(t) dt
+∫
+0
+1
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+8/71
+
+
+--- Page 9 ---
+✅ Step 2: Evaluate the integral
+We need to evaluate:
+Make the substitution:
+So the integral becomes:
+Now integrate:
+✅ Step 3: Simplify and combine
+Now combine the two terms in the variance expression:
+1st term:
+Var(
+​) ≈
+X^0
+​
++
+(σ + 1
+2
+σ2
+)
+2
+​
+​
+dt
+∫
+0
+1
+(σ + t
+2
+σ2
+)
+2
+​
+​
+dt
+∫
+0
+1
+(σ + t
+2
+σ2
+)
+2
+u = σ +
+2
+t
+⇒
+du = dt,
+as t = 0 ⇒u = σ ,
+t =
+2
+1 ⇒u = σ +
+2
+1
+​
+​
+du =
+∫
+σ2
+σ +1
+2
+( u
+σ2
+)
+2
+σ
+​
+​du
+4 ∫
+σ2
+σ +1
+2
+u2
+1
+= σ
+−
+​
+​ =
+4 [ u
+1]
+σ2
+σ +1
+2
+σ
+​ −
+​
+4 (σ2
+1
+σ + 1
+2
+1
+)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+9/71
+
+
+--- Page 10 ---
+2nd term:
+So:
+✅ Step 4: Approximate for 
+Let’s now approximate this assuming 
+:
+Term 1:
+Term 2:
+So:
+✅ Final Answer:
+​
+=
+(σ + 1
+2
+σ2
+)
+2
+​
+(σ + 1)
+2
+2
+σ4
+σ
+​ −
+​
+=
+4 (σ2
+1
+σ + 1
+2
+1
+)
+σ
+1 −
+​
+=
+2 (
+σ + 1
+2
+σ2
+)
+σ
+​
+2 (σ + 1
+2
+1
+)
+Var(
+​) ≈
+X^0
+​ +
+(σ + 1)
+2
+2
+σ4
+​
+σ + 1
+2
+σ2
+σ ≪
+2
+1
+σ ≪
+2
+1
+​ ≈
+(σ + 1)
+2
+2
+σ4
+σ
+(since denominator  ≈
+4
+1)
+​ ≈
+σ + 1
+2
+σ2
+σ
+(since σ ≪
+2
+2
+1)
+Var(
+​) ≈
+X^0
+σ +
+2
+σ ≈
+4
+​ ≈
+σ (1 + σ )
+2
+2
+​
+σ2
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+10/71
+
+
+--- Page 11 ---
+✨ Intuition / Interpretation
+This result tells us:
+When we include noise at each reverse step, the final variance correctly recovers the
+original variance of the data distribution 
+This confirms that the DDPM reverse process works — as long as we preserve both
+the mean and variance evolution over time
+Let me know if you'd like a figure or derivation summary!
+​
+Var(
+​) ≈σ
+X^0
+2
+N(0, σ )
+2
+Nice! Now, please solve part f
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+11/71
+
+
+--- Page 12 ---
+Great! Let's now tackle Part (f), which is about using a neural network to estimate the
+ideal predictor in a DDPM-style setup.
+✅ Objective Recap
+We are given that the ideal denoiser at time  is the function:
+We want to train a neural network to approximate this function.
+You are asked:
+🔢 Step 1: What are the inputs to the neural net?
+We want the neural network to learn the mapping:
+So the inputs to the neural network are:
+Noisy sample 
+Time 
+, typically scaled to [0, 1] and embedded (e.g., via sinusoidal or learned
+embeddings)
+👉 Inputs to the neural net: A batch of tuples 
+t
+g(x
+​, t) =
+t
+​x
+​
+σ + t
+2
+σ2
+t
+If you had a dataset of samples 
+ drawn from the target distribution
+, how would you train a neural net to learn this function?
+s
+​, s
+​, … , s
+​
+1
+2
+n
+X
+​ ∼
+0
+N(0, σ )
+2
+(x
+​, t) ↦
+t
+​
+x^0
+x
+​ ∈
+t
+Rd
+t ∈R
+(x
+​, t)
+t
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+12/71
+
+
+--- Page 13 ---
+🔁 Step 2: How do you generate a batch of them?
+We assume you are given clean samples 
+To create training pairs 
+:
+1. Sample a timestep 
+ for each clean sample
+2. Add forward Gaussian noise to simulate the DDPM forward process:
+This makes 
+, consistent with the forward process.
+3. The input to the network is 
+, and the target is:
+This gives you a batch of training data: 
+📉 Step 3: How do you compute the loss?
+The neural net is trained to output an estimate 
+So we use a standard MSE loss:
+This loss can then be used with an optimizer like AdamW to update the neural net
+parameters.
+s
+​ ∼
+i
+X
+​ ∼
+0
+N(0, σ )
+2
+(x
+​, t, x
+​)
+t
+0
+t ∼Uniform(0, 1)
+x
+​ =
+t
+s
+​ +
+i
+ϵ,
+ϵ ∼N(0, t)
+x
+​ ∼
+t
+N(0, σ +
+2
+t)
+(x
+​, t)
+t
+x
+​ =
+0
+⋆
+​x
+​
+σ + t
+2
+σ2
+t
+{(x
+​, t
+, x
+​)}
+​
+t
+(i)
+(i)
+0
+⋆(i)
+i=1
+B
+​ ≈
+x^0
+x
+​0
+⋆
+L =
+​
+​
+​NN(x
+​, t
+) −x
+​
+​
+​
+B
+1
+i=1
+∑
+B
+t
+(i)
+(i)
+0
+⋆(i)
+2
+2
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+13/71
+
+
+--- Page 14 ---
+✅ Final Answer (in words)
+To train a neural network to estimate the function 
+:
+1. Inputs to the network are pairs 
+, where:
+, with 
+, and 
+2. To generate a batch, sample 
+, choose timestep 
+, and compute:
+3. Loss: Use MSE between the predicted 
+ and the true 
+:
+Then use any optimizer (e.g. AdamW) to minimize this loss and train the model.
+Let me know if you'd like the PyTorch code for this or a visual diagram!
+g(x
+​, t) =
+t
+​x
+​
+σ +t
+2
+σ2
+t
+(x
+​, t)
+t
+x
+​ =
+t
+x
+​ +
+0
+ϵ
+x
+​ ∼
+0
+N(0, σ )
+2
+ϵ ∼N(0, t)
+t ∼Uniform(0, 1)
+x
+​
+0
+(i)
+t(i)
+x
+​ =
+t
+(i)
+x
+​ +
+0
+(i)
+ϵ
+,
+target: x
+​ =
+(i)
+0
+⋆(i)
+​x
+​
+σ + t
+2
+(i)
+σ2
+t
+(i)
+​
+x^0
+x
+​0
+⋆
+L = E
+​
+​NN(x
+​, t) −
+​x
+​
+​
+x
+​,t
+t
+[
+t
+σ + t
+2
+σ2
+t
+2
+]
+Can you please solve part g now?
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+14/71
+
+
+--- Page 15 ---
+Absolutely! Let’s solve Part (g) — which asks you to approximate the DDIM step when
+, using the known analytical form of 
+, but without assuming
+anything about 
+.
+✅ Step 1: Recall the DDIM update rule
+The DDIM step is given by:
+We are told 
+, so:
+So the update becomes:
+✅ Step 2: Approximate 
+ for small 
+From earlier parts, we know:
+Δt ≪t
+g(x , t) =
+t
+​x
+​
+σ +t
+2
+σ2
+t
+σ ≪
+2
+t
+x
+​ =
+t−Δt
+DDIM
+x
+​ +
+t
+η(t, Δt) ⋅
+g(x
+​, t) −x
+​
+(
+t
+t)
+g(x , t) =
+t
+​x
+​
+σ +t
+2σ2
+t
+g(x
+​, t) −
+t
+x
+​ =
+t
+​ −1
+x
+​ =
+(σ + t
+2
+σ2
+)
+t
+−
+x
+​
+( σ + t
+2
+t
+)
+t
+x
+​ =
+t−Δt
+DDIM
+x
+​ −
+t
+η(t, Δt) ⋅
+​
+x
+​ =
+(σ + t
+2
+t
+)
+t
+x
+​
+1 −η(t, Δt) ⋅
+​
+t (
+σ + t
+2
+t
+)
+η(t, Δt)
+Δt
+η(t, Δt) =
+​ =
+​+
+​
+t −Δt
+t
+​t
+1 +
+​
+(
+1 −
+​t
+Δt)
+−1
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+15/71
+
+
+--- Page 16 ---
+Now for 
+, use the first-order Taylor expansion:
+Then:
+So to first order:
+✅ Step 3: Final DDIM Step Approximation
+Substitute 
+ into the update rule:
+✅ Final Answer:
+Δt ≪t
+​ ≈
+t −Δt
+​
+1 −
+​
+t (
+2t
+Δt)
+η(t, Δt) =
+≈
+​+
+t −Δt
+t
+​t
+​ =
+​ 1 −
+​ +
+​
+t (
+2t
+Δt)
+t
+​t
+​ ≈
+2 −
+​
+2t
+Δt
+1
+​ +
+2
+1
+​
+8t
+Δt
+​
+η(t, Δt) ≈
+​2
+1
+η(t, Δt) ≈
+​2
+1
+x
+​ ≈
+t−Δt
+DDIM
+x
+​
+1 −
+​ ⋅
+​
+=
+t (
+2
+1
+σ + t
+2
+t
+)
+x
+​
+​
+=
+t (
+σ + t
+2
+σ + t −
+​
+2
+2
+t
+)
+x
+​
+​
+t ( σ + t
+2
+σ +
+​
+2
+2
+t
+)
+​
+x
+​ ≈x
+​ ⋅
+​
+t−Δt
+DDIM
+t
+( σ + t
+2
+σ +
+​
+2
+2
+t
+)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+16/71
+
+
+--- Page 17 ---
+🧠 Interpretation:
+This DDIM update shrinks the signal toward zero, depending on both  and 
+For large , this ratio becomes close to 
+, as expected
+For small , it’s closer to 1, meaning less denoising is needed early on
+Let me know if you want this turned into pseudocode or extended to higher-order terms!
+t
+σ2
+t
+​2
+1
+t
+Are you sure? I think you get the 1/2 term correctly but try 
+checking that the other term is correct
+You're right to be skeptical — let’s double-check the derivation of the DDIM update step
+in Part (g) and rederive it carefully, keeping track of all approximations.
+✅ Step 1: DDIM Update Rule
+From part (f), the DDIM step is:
+And from the problem setup:
+So the update becomes:
+x
+​ =
+t−Δt
+DDIM
+x
+​ +
+t
+η(t, Δt) ⋅
+g(x
+​, t) −x
+​
+(
+t
+t)
+g(x
+​, t) =
+t
+​x
+​
+⇒
+σ + t
+2
+σ2
+t
+g(x
+​, t) −
+t
+x
+​ =
+t
+​ −1
+x
+​ =
+(σ + t
+2
+σ2
+)
+t
+−
+​x
+​
+σ + t
+2
+t
+t
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+17/71
+It made an error here where it vastly over complicated the question so I had to 
+intervene. Note: in the later parts, it does this quite frequently
+
+
+--- Page 18 ---
+✅ Step 2: Approximate 
+ for small 
+Recall the exact expression:
+As before, expand 
+ using Taylor:
+Then:
+So up to first order:
+✅ Step 3: Plug this into the DDIM update
+We have:
+x
+​ =
+t−Δt
+DDIM
+x
+​ −
+t
+η(t, Δt) ⋅
+​x
+​ =
+σ + t
+2
+t
+t
+x
+​
+1 −η(t, Δt) ⋅
+​
+t (
+σ + t
+2
+t
+)
+η(t, Δt)
+Δt ≪t
+η(t, Δt) =
+​
+​+
+​
+t −Δt
+t
+​t
+​
+t −Δt
+​ =
+t −Δt
+​
+1 −
+​ + O(Δt )
+t (
+2t
+Δt
+2 )
+η(t, Δt) =
+​ =
+​+
+​
+t −Δt
+t
+​t
+​ =
+1 −
+​ + 1
+(
+2t
+Δt)
+1
+​ =
+2 −
+​
+2t
+Δt
+1
+​
+1 +
+​ + O(Δt )
+2
+1 (
+4t
+Δt
+2 )
+​
+η(t, Δt) ≈
+​ +
+​
+2
+1
+8t
+Δt
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+18/71
+
+
+--- Page 19 ---
+Substitute in 
+:
+✅ Final Answer
+This includes the correct linear correction in 
+ and avoids assuming anything about
+the size of 
+ relative to .
+🧠 Interpretation
+When 
+, the factor becomes 
+, as expected.
+When 
+, it reduces to 
+, which aligns with the intuition that DDIM steps
+shrink 
+ over time.
+Thanks for catching that detail — let me know if you'd like this visualized or implemented
+in code!
+x
+​ =
+t−Δt
+DDIM
+x
+​
+1 −η(t, Δt) ⋅
+​
+t (
+σ + t
+2
+t
+)
+η(t, Δt) ≈
+​ +
+2
+1
+8t
+Δt
+1 −
+​ +
+​
+⋅
+(2
+1
+8t
+Δt)
+​ =
+σ + t
+2
+t
+1 −
+​ +
+​
+(2(σ + t)
+2
+t
+8(σ + t)
+2
+Δt
+)
+=
+​ =
+σ + t
+2
+σ + t −
+​ −
+​
+2
+2
+t
+8
+Δt
+​
+σ + t
+2
+σ +
+​ −
+​
+2
+2
+t
+8
+Δt
+​
+x
+​ ≈x
+​ ⋅
+​
+t−Δt
+DDIM
+t
+(
+σ + t
+2
+σ +
+​ −
+​
+2
+2
+t
+8
+Δt
+)
+Δt
+σ2
+t
+Δt →0
+​
+σ +t
+2
+σ +t/2
+2
+σ →
+2
+0
+​ −
+2
+1
+​
+8t
+Δt
+x
+​t
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+19/71
+
+
+--- Page 20 ---
+Try starting your answer in this form:
+Great! Given your preferred starting point, let’s begin with the DDIM step in the following
+form:
+Now we will approximate this expression under the assumption that:
+No assumption is made about 
+ vs. 
+✅ Step 1: Approximate 
+Recall:
+Use the first-order Taylor approximation:
+x
+​ =
+t−Δt
+DDIM
+1 −
+​
+x
+​
+(
+σ + t
+2
+η(t, Δt)Δt)
+t
+Δt ≪t
+σ2
+t
+η(t, Δt)
+η(t, Δt) =
+​
+​+
+​
+t −Δt
+t
+​t
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+20/71
+
+
+--- Page 21 ---
+So we substitute:
+✅ Step 2: Plug into the DDIM update
+We now substitute this approximation into the original formula:
+Now simplify the expression:
+✅ Final Answer (boxed)
+This expression is accurate up to second order in 
+, and makes no assumption about
+the size of 
+ relative to , as requested.
+​ ≈
+t −Δt
+​
+1 −
+​
+⇒
+t (
+2t
+Δt)
+η(t, Δt) =
+​ ≈
+​+
+​
+t −Δt
+t
+​t
+​ =
+2 −
+​
+2t
+Δt
+1
+​ +
+2
+1
+​
+8t
+Δt
+η(t, Δt) ≈
+​ +
+2
+1
+​
+8t
+Δt
+x
+​ =
+t−Δt
+DDIM
+1 −
+​
+x
+​ =
+(
+σ + t
+2
+​ +
+​ Δt
+( 2
+1
+8t
+Δt)
+)
+t
+1 −
+​ +
+​
+x
+​
+(
+[2(σ + t)
+2
+Δt
+8t(σ + t)
+2
+Δt2
+])
+t
+x
+​ =
+t−Δt
+DDIM
+​
+x
+​
+(
+σ + t
+2
+σ + t −
+​ −
+​
+2
+2
+Δt
+8t
+Δt2
+)
+t
+​
+x
+​ ≈
+​
+x
+​
+t−Δt
+DDIM
+(
+σ + t
+2
+σ + t −
+​ −
+​
+2
+2
+Δt
+8t
+Δt2
+)
+t
+Δt
+σ2
+t
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+21/71
+
+
+--- Page 22 ---
+Let me know if you’d like the same result in a LaTeX format or as a function in PyTorch!
+Ok nice! now, try factoring the terms out
+Great! Let’s now take our boxed expression from before and factor it for cleaner
+interpretation.
+🔁 Starting Expression
+We previously derived:
+🔧 Step 1: Factor out 
+Let’s write:
+We can now factor out 
+ from the numerator:
+x
+​ ≈
+t−Δt
+DDIM
+​
+x
+​
+(
+σ + t
+2
+σ + t −
+​ −
+​
+2
+2
+Δt
+8t
+Δt2
+)
+t
+​
+σ +t
+21
+x
+​ ≈
+t−Δt
+DDIM
+1 −
+​
+x
+​
+(
+σ + t
+2
+​ +
+​
+2
+Δt
+8t
+Δt2
+)
+t
+​
+2(σ +t)
+2
+Δt
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+22/71
+
+
+--- Page 23 ---
+✅ Final Factored Answer:
+🧠 Interpretation:
+This is now factored into a clean step size term that controls how much the update
+shrinks 
+The expression clearly shows how:
+The update shrinks more with larger 
+The curvature correction (the 
+ term) becomes significant only if  is very small
+Let me know if you want a comparison with Euler steps or a plot showing this scaling
+behavior!
+​ =
+σ + t
+2
+​ +
+​
+2
+Δt
+8t
+Δt2
+​
+1 +
+​
+2(σ + t)
+2
+Δt
+(
+4t
+Δt)
+​
+x
+​ ≈
+1 −
+1 +
+​
+x
+​
+t−Δt
+DDIM
+(
+2(σ + t)
+2
+Δt
+(
+4t
+Δt))
+t
+x
+​t
+Δt
+Δt2
+t
+Ok yeah that's basically correct. Now, try solving part F
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+23/71
+The ﬁnal solution doesn’t exactly match the answer sheet but it’s the same thing, just written differently!
+A cool thing about 4o is that it always tries to 
+extract a broader takeaway at the end of an explanation
+—> good learning tool :)
+
+
+--- Page 24 ---
+Let’s solve Part (h) step-by-step.
+🔁 Problem Overview
+We are to compute the distribution of:
+by applying 
+ DDIM steps, each of which shrinks 
+ by a factor of:
+From part (g) and (factored form in part g'), this becomes (up to second order in 
+):
+✅ Step 1: Express total contraction as a product
+Let the contraction from 
+ be:
+We're applying 
+ steps in reverse from 
+, so this product represents
+the total
+​ =
+X^0
+DDIM-step-reversed(
+​),
+​ ∼
+X^1
+X^1
+N(0, 1)
+T =
+​
+Δt
+1
+x
+​t
+x
+​ =
+t−Δt
+1 −
+​
+x
+​
+(
+σ + t
+2
+η(t, Δt)Δt)
+t
+Δt
+x
+​ ≈
+t−Δt
+1 −
+​
+1 +
+​
+x
+​
+(
+2(σ + t)
+2
+Δt
+(
+4t
+Δt))
+t
+t = 1 →0
+​ =
+X^0
+​ ⋅
+X^1
+​
+1 −
+​
+1 +
+​
+,
+t
+​ =
+k=0
+∏
+T−1
+(
+2(σ + t
+​)
+2
+k
+Δt
+(
+4t
+​k
+Δt ))
+k
+1 −kΔt
+T = 1/Δt
+t = 1 →0
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+24/71
+
+
+--- Page 25 ---
+Sorry, try solving part H. My bad I made a mistake in what 
+I called it.
+No worries — let’s solve Part (h) now!
+🧠 Goal:
+Given a sample 
+, we apply 
+ DDIM steps from time 
+,
+each of which contracts 
+, and we want to compute the final distribution of 
+ after all
+the steps.
+We'll:
+1. Express total contraction as a product
+2. Take logs to convert to a sum
+3. Take the 
+ limit (i.e. Riemann sum → integral)
+4. Recover the variance of 
+ in closed form
+​ ∼
+X^1
+N(0, 1)
+T =
+​
+Δt
+1
+t = 1 →0
+x
+​t
+​
+X^0
+Δt →0
+​
+X^0
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+25/71
+
+
+--- Page 26 ---
+✅ Step 1: DDIM Contraction Per Step
+From Part (g) and (factored form), each step contracts the signal by:
+So applying this over 
+ steps from 
+, the total contraction is:
+✅ Step 2: Take Logs
+Take logarithms:
+Use the first-order expansion 
+ for small :
+✅ Step 3: Convert Sum to Integral
+Now let 
+, turning the sum into a Riemann integral:
+x
+​ =
+t−Δt
+DDIM
+1 −
+​
+x
+​
+(to first order in Δt)
+(
+2(σ + t)
+2
+Δt
+)
+t
+T = 1/Δt
+t = 1 →0
+​ =
+X^0
+​ ⋅
+X^1
+​
+1 −
+​
+,
+where t
+​ =
+k=0
+∏
+T−1
+(
+2(σ + t
+​)
+2
+k
+Δt
+)
+k
+1 −kΔt
+ln
+​ =
+X^0
+ln
+​ +
+X^1
+​ln
+1 −
+​
+k=0
+∑
+T−1
+(
+2(σ + t
+​)
+2
+k
+Δt
+)
+ln(1 −x) ≈−x
+x
+≈ln
+​ −
+X^1
+​
+​
+k=0
+∑
+T−1
+2(σ + t
+​)
+2
+k
+Δt
+Δt →0
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+26/71
+
+
+--- Page 27 ---
+This gives:
+Exponentiate:
+✅ Step 4: Final Distribution of 
+Since 
+, multiplying by a constant gives:
+🧪 Sanity Check: Assume 
+If 
+, then:
+​
+​ ⟶
+k=0
+∑
+T−1
+2(σ + t
+​)
+2
+k
+Δt
+​
+​dt
+∫
+0
+1
+2(σ + t)
+2
+1
+ln
+​ =
+X^0
+ln
+​ −
+X^1
+​
+​dt
+∫
+0
+1
+2(σ + t)
+2
+1
+= ln
+​ −
+X^1
+​ ln(σ + t)
+​ =
+[2
+1
+2
+]
+0
+1
+ln
+​ −
+X^1
+​ ln
+​
+2
+1
+(
+σ2
+σ + 1
+2
+)
+​ =
+X^0
+​ ⋅
+X^1
+exp
+−
+​ ln
+​
+=
+( 2
+1
+(
+σ2
+σ + 1
+2
+))
+​ ⋅
+X^1
+​
+(σ + 1
+2
+σ2
+)
+1/2
+​
+X^0
+​ ∼
+X^1
+N(0, 1)
+​
+​ ∼N
+0,
+​
+X^0
+(
+σ + 1
+2
+σ2
+)
+σ ≪
+2
+1
+σ ≪
+2
+1
+​ ≈
+σ + 1
+2
+σ2
+σ2
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+27/71
+
+
+--- Page 28 ---
+✅ Which matches the expected answer:
+✅ Final Boxed Result:
+Let me know if you want a visual intuition or a derivation for the mean as well!
+​
+​ ∼N(0, σ )
+X^0
+2
+​
+​ =
+​
+⋅
+​
+so
+​ ∼N
+0,
+​
+X^0
+(σ + 1
+2
+σ2
+)
+1/2
+X^1
+X^0
+(
+σ + 1
+2
+σ2
+)
+Wow! That was a tough one. Now, can you help me solve 
+the second question on the homework? It's very long, so 
+be sure to read all of it. Then, solve part a
+Absolutely! Let's walk through Question 2 (a) step-by-step.
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+28/71
+It was able to solve question 1 with almost no issues!
+What is remarkable is that it doesn’t use thinking mode 
+so it’s not checking its work and its basing its answers off of
+what it thinks is the best answer at a ﬁrst pass. I only had to nudge it once
+
+
+--- Page 29 ---
+✅ Problem Summary
+We're given an optimization problem:
+where:
+and the question is:
+🧠 Intuition
+KL divergence 
+ is always non-negative and equals zero if and only if
+ for all .
+Thus, we’re minimizing a function whose global minimum is known:
+✅ Final Answer:
+​ D
+​(p∥q)
+p∈P
+min
+KL
+D
+​(p∥q) =
+KL
+​p(x) log
+​
+x
+∑
+(q(x)
+p(x))
+What is the optimal 
+ that minimizes 
+?
+p∗
+D
+​(p∥q)
+KL
+D
+​(p∥q)
+KL
+p(x) = q(x)
+x
+D
+​(p∥q) =
+KL
+0
+when p(x) = q(x)
+​
+p (x) = q(x)
+∗
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+29/71
+
+
+--- Page 30 ---
+This is the unique minimizer, since KL divergence is convex in  and achieves its
+minimum when 
+.
+🧪 Sanity Check
+If we plug in 
+, then:
+✅ Confirmed.
+Let me know when you’re ready to move on to part (b) — it looks like we’ll be diving into
+Direct Preference Optimization!
+p
+p = q
+p (x) =
+∗
+q(x)
+D
+​(p ∥q) =
+KL
+∗
+​q(x) log
+​
+=
+x
+∑
+(q(x)
+q(x))
+​q(x) ⋅
+x
+∑
+0 = 0
+Nice, you got that right! Now, try solving part b
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+30/71
+While thinking mode isn’t enabled, it usually always checks its answer.
+However, I haven’t seen a case where it does a check and then realizes the answer is wrong
+so i’m wondering what happens in that case…
+
+
+--- Page 31 ---
+Excellent! Let’s solve Part (b).
+🔁 Problem Setup
+We are asked to maximize the following objective over 
+:
+Our goal is to derive the form of the optimal policy 
+, and show it equals:
+✅ Step-by-step Derivation
+We’ll treat this as a constrained optimization problem over the space of conditional
+distributions 
+, for fixed .
+We'll fix  and drop the -dependence for clarity during derivation, and restore it later.
+🎯 Objective:
+We include a Lagrange multiplier  to enforce the constraint 
+:
+π
+​(y ∣
+θ
+x)
+​ E
+​ r
+​(x, y)
+−
+π
+​θ
+max
+x∼D, y∼π
+​(y∣x)
+θ
+[ ϕ
+]
+β D
+​ π
+​(y∣x) ∥π
+​(y∣x)
+KL [
+θ
+ref
+]
+π
+​(y∣x)
+θ
+∗
+​
+π
+​(y∣x) =
+​π
+​(y∣x) exp
+​r
+​(x, y)
+θ
+∗
+Z(x)
+1
+ref
+(β
+1
+ϕ
+)
+π
+​(y ∣
+θ
+x)
+x
+x
+x
+L[π] =
+​π(y)r
+​(x, y) −
+y
+∑
+ϕ
+β
+​π(y) log
+​
+y
+∑
+π
+​(y)
+ref
+π(y)
+λ
+​π(y) =
+∑y
+1
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+31/71
+
+
+--- Page 32 ---
+🧮 Take the functional derivative and set to zero
+We differentiate 
+ w.r.t. 
+:
+Rearranging:
+Exponentiate both sides:
+Therefore:
+J [π, λ] =
+​π(y)r
+​(x, y) −
+y
+∑
+ϕ
+β
+​π(y) log
+​ −
+y
+∑
+π
+​(y)
+ref
+π(y)
+λ
+​π(y) −1
+(
+y
+∑
+)
+J
+π(y)
+​ =
+∂π(y)
+∂J
+r
+​(x, y) −
+ϕ
+β
+log
+​ + 1
+−
+(
+π
+​(y)
+ref
+π(y)
+)
+λ = 0
+log
+​ =
+π
+​(y)
+ref
+π(y)
+​
+r
+​(x, y) −λ −β
+β
+1 ( ϕ
+)
+​ =
+π
+​(y)
+ref
+π(y)
+exp
+(r
+​(x, y) −λ −β)
+=
+(β
+1
+ϕ
+)
+C ⋅
+exp
+​r
+​(x, y)
+where C =
+(β
+1
+ϕ
+)
+exp
+−
+​
+(
+β
+λ + β )
+π(y) = C ⋅π
+​(y) ⋅
+ref
+exp
+​r
+​(x, y)
+(β
+1
+ϕ
+)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+32/71
+
+
+--- Page 33 ---
+🧮 Enforce normalization: 
+where:
+✅ Final Answer:
+Which is exactly what we were asked to show.
+Let me know when you’re ready for part (c) — we’ll likely begin to connect this to Direct
+Preference Optimization!
+​π(y) =
+∑y
+1
+1 =
+​π(y) =
+y
+∑
+C
+​π
+​(y) exp
+r
+​(x, y)
+⇒
+y
+∑
+ref
+(β
+1
+ϕ
+)
+C =
+​
+Z(x)
+1
+Z(x) =
+​π
+​(y ∣
+y
+∑
+ref
+x) exp
+​r
+​(x, y)
+(β
+1
+ϕ
+)
+​
+π
+​(y ∣x) =
+π
+​(y ∣x) ⋅exp
+​r
+​(x, y)
+θ
+∗
+Z(x)
+1
+ref
+(β
+1
+ϕ
+)
+Ok great! You got almost all the way there. Try 
+reorganizing it as a minimization function of some 
+expected value
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+33/71
+Had to help it out here, because it forgot to 
+frame the question as a minimization problem
+
+
+--- Page 34 ---
+Excellent observation — yes, we can reorganize the problem into a minimization form,
+which makes the connection to KL-divergence-based optimization (and DPO) even
+clearer.
+Let’s go through it again with the goal of recasting the objective as a minimization of
+an expected KL-like divergence, which is often how these problems are framed in
+variational inference and energy-based models.
+✅ Step 1: Original Objective (from problem)
+We're trying to maximize the following:
+Let’s isolate the inner optimization problem per input . For fixed , define:
+We can now reorganize this as a minimization problem by multiplying by 
+:
+This is now clearly a KL-regularized expected utility minimization. We're searching for
+a policy 
+ that stays close to 
+, but leans toward outputs with higher
+reward.
+E
+​ r
+​(x, y)
+−
+x∼D, y∼π
+​(y∣x)
+θ
+[ ϕ
+]
+β D
+​ π
+​(y∣x) ∥π
+​(y∣x)
+KL (
+θ
+ref
+)
+x
+x
+L
+​(π
+​) =
+x
+θ
+E
+​ r
+​(x, y)
+−
+y∼π
+​(y∣x)
+θ
+[ ϕ
+]
+β D
+​ π
+​(y∣x) ∥π
+​(y∣x)
+KL (
+θ
+ref
+)
+−1
+​ D
+​ π
+​(y∣x) ∥π
+​(y∣x)
+−
+π
+​(y∣x)
+θmin
+KL (
+θ
+ref
+)
+​ E
+​ r
+​(x, y)
+β
+1
+y∼π
+​(y∣x)
+θ
+[ ϕ
+]
+π
+​(y∣x)
+θ
+π
+​(y∣x)
+ref
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+34/71
+
+
+--- Page 35 ---
+✅ Step 2: Solve with variational calculus (as before)
+As we derived earlier, this is minimized by:
+where the partition function ensures normalization:
+✅ Summary
+So, in minimization form, the problem becomes:
+This is equivalent to Relative Entropy Policy Search or the softmax of rewards from
+control theory. And the solution is a Boltzmann (exponentiated reward) distribution
+reweighted from the reference model.
+Let me know when you’re ready to connect this to Direct Preference Optimization (DPO)
+in part (c)!
+​
+π
+​(y∣x) =
+​π
+​(y∣x) exp
+​r
+​(x, y)
+θ
+∗
+Z(x)
+1
+ref
+(β
+1
+ϕ
+)
+Z(x) =
+​π
+​(y∣x) exp
+​r
+​(x, y)
+y
+∑
+ref
+(β
+1
+ϕ
+)
+​
+​ E
+​ D
+​ π
+​(y∣x) ∥π
+​(y∣x)
+−
+​E
+​[r
+​(x, y)]
+π
+​(y∣x)
+θ
+min
+x∼D [
+KL (
+θ
+ref
+)
+β
+1
+y∼π
+​(y∣x)
+θ
+ϕ
+]
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+35/71
+and as you can see, it helps the model out 
+but it doesn’t completely ﬁgure out the answer
+(in the correct format)
+
+
+--- Page 36 ---
+Could you use your knowledge of what Z(x) is to help 
+simplify the answer further?
+Absolutely! This is a great follow-up — let’s now use our knowledge of the partition
+function 
+ to express the optimal policy 
+ as the minimizer of an
+expected log-ratio, which will be helpful for connecting to Direct Preference
+Optimization (DPO) later.
+✅ Step 1: Recall the Optimal Policy Expression
+From the previous derivation, the optimal policy is:
+and the partition function is:
+✅ Step 2: Plug into KL-regularized objective
+We had the minimization form:
+Z(x)
+π
+​(y∣x)
+θ
+∗
+π
+​(y∣x) =
+θ
+∗
+​ π
+​(y∣x) exp
+​r
+​(x, y)
+Z(x)
+1
+ref
+(β
+1
+ϕ
+)
+Z(x) =
+​π
+​(y ∣x) exp
+​r
+​(x, y )
+y′
+∑
+ref
+′
+(β
+1
+ϕ
+′ )
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+36/71
+
+
+--- Page 37 ---
+Now plug in the closed-form solution for 
+ into this expression:
+Let’s compute:
+Substitute:
+So:
+Now plug back into the objective:
+✅ Final Simplified Objective
+​ D
+​ π
+​(y∣x) ∥π
+​(y∣x)
+−
+π
+​(y∣x)
+θmin
+KL (
+θ
+ref
+)
+​E
+​ r
+​(x, y)
+β
+1
+y∼π
+​(y∣x)
+θ
+[ ϕ
+]
+π
+​(y∣x)
+θ
+∗
+D
+​(π
+​∥π
+​) =
+KL
+θ
+∗
+ref
+​π
+​(y∣x) log
+​
+y
+∑
+θ
+∗
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ
+∗
+​ =
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ
+∗
+​ exp
+​r
+​(x, y)
+⇒
+Z(x)
+1
+(β
+1
+ϕ
+)
+log
+​ =
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ
+∗
+−log Z(x) +
+​r
+​(x, y)
+β
+1
+ϕ
+D
+​(π
+​∥π
+) =
+KL
+θ
+∗
+ref
+​π
+​(y∣x)
+​r
+​(x, y) −log Z(x)
+=
+y
+∑
+θ
+∗
+(β
+1
+ϕ
+)
+​E
+​[r
+​(x, y)] −
+β
+1
+y∼π
+​
+θ
+∗
+ϕ
+log Z(x)
+D
+​(π
+​∥π
+​) −
+KL
+θ
+∗
+ref
+​E
+​[r
+​(x, y)] =
+β
+1
+π
+​
+θ
+∗
+ϕ
+​E[r
+​] −log Z(x)
+−
+(β
+1
+ϕ
+)
+​E[r
+​] =
+β
+1
+ϕ
+−log Z(x)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+37/71
+
+
+--- Page 38 ---
+Therefore, the minimum value of the original objective is:
+And this is achieved exactly when:
+🧠 Why this matters for DPO
+This expression shows that the KL-regularized reward maximization objective is
+minimized by reweighting the reference policy via an exponentiated reward, and the log
+partition function 
+ plays the role of the log-normalizer in DPO’s loss.
+It’s the exact same structure you get in logistic regression, Boltzmann distributions, and
+energy-based models.
+Let me know when you want to proceed to part (c), which will probably ask us to relate this
+to preferences and DPO!
+​
+​ D
+​(π
+​(y∣x)∥π
+​(y∣x)) −
+​E[r
+​(x, y)]
+= −log Z(x)
+π
+​(y∣x)
+θmin [
+KL
+θ
+ref
+β
+1
+ϕ
+]
+​
+π
+​(y∣x) =
+​ π
+​(y∣x) exp
+​r
+​(x, y)
+θ
+∗
+Z(x)
+1
+ref
+(β
+1
+ϕ
+)
+log Z(x)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+38/71
+^ My hint makes it think that the solution is Z(x) 
+I think this is a common behavior in gpt-4o where it tries to “glaze” 
+the user that they are always correct
+This behavior is destructive because it leads to simple misunderstandings
+such as here
+
+
+--- Page 39 ---
+Ok, not quite. What I was looking for was this. Can you 
+show how you get that?
+Ah, thank you for the clarification — you're absolutely right that the goal is to write the KL-
+regularized reward maximization problem as a KL minimization between the policy
+ and the optimal policy 
+, up to a constant involving the partition
+function 
+.
+Let’s derive the following:
+🔁 Step-by-Step Derivation
+We begin with the original KL-regularized reward maximization problem:
+Now flip the sign to turn this into a minimization:
+π
+​(y∣x)
+θ
+π (y∣x)
+∗
+log Z(x)
+​
+​ E
+​ D
+​ π
+​(y∣x) ∥π (y∣x)
+−log Z(x)
+π
+​θ
+min
+x∼D [
+KL (
+θ
+∗
+)
+]
+​E
+​ E
+​ r
+​(x, y)
+−β D
+​(π
+​(y∣x)∥π
+​(y∣x))
+π
+​θ
+max
+x∼D [
+y∼π
+​(y∣x)
+θ
+[ ϕ
+]
+KL
+θ
+ref
+]
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+39/71
+I ﬁnally give the model the solution to see if it can get its way to that answer
+
+
+--- Page 40 ---
+Let’s now factor this inside the expectation over :
+🔧 Step 1: Use the definition of KL divergence
+Recall:
+So the objective becomes:
+Rewriting this:
+Note that the denominator inside the log is proportional to 
+:
+So we can write:
+​E
+​ β D
+​(π
+​(y∣x)∥π
+​(y∣x)) −E
+​ r
+​(x, y)
+π
+​θ
+min
+x∼D [
+KL
+θ
+ref
+y∼π
+​(y∣x)
+θ
+[ ϕ
+]]
+x
+D
+​(π
+​∥π
+​) =
+KL
+θ
+ref
+E
+​ log
+​
+y∼π
+​(y∣x)
+θ
+[
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ
+]
+​E
+​ E
+​ β log
+​ −r
+​(x, y)
+π
+​θ
+min
+x∼D [
+y∼π
+​(y∣x)
+θ
+[
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ
+ϕ
+]]
+​E
+​
+​E
+​
+​log
+​
+​
+​
+πθ
+min
+x∼D
+y∼π
+​(y∣x)
+θ
+π
+​(y∣x) exp
+r
+​(x, y)
+ref
+( β
+1
+ϕ
+)
+π
+​(y∣x)
+θ
+π (y∣x)
+∗
+π (y∣x) =
+∗
+​π
+​(y∣x) exp
+​r
+​(x, y)
+Z(x)
+1
+ref
+(β
+1
+ϕ
+)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+40/71
+It kind of complicates it below by expanding it like that, but overall, it has the right idea
+
+
+--- Page 41 ---
+✅ Step 2: Final rearrangement
+So we now have:
+That is:
+🧠 Interpretation
+The original reward-maximizing RL objective becomes a KL minimization to the
+optimal reweighted policy 
+, up to a constant shift 
+This formulation will be the foundation for DPO, where we don't need to estimate
+reward values explicitly — only preference-induced ranking between outputs
+Let me know if you'd like to move on to part (c), where DPO is likely derived from this!
+log
+​ =
+π (y∣x)
+∗
+π
+​(y∣x)
+θ
+log
+​ =
+π
+​(y∣x) exp
+​r
+​(x, y) /Z(x)
+ref
+( β
+1
+ϕ
+)
+π
+​(y∣x)
+θ
+log
+​ +
+π
+​(y∣x) exp
+​r
+​(x, y)
+ref
+( β
+1
+ϕ
+)
+π
+​(y∣x)
+θ
+log Z(x)
+​E
+​ E
+​ log
+​ + log Z(x)
+π
+​θ
+min
+x∼D [
+y∼π
+​(y∣x)
+θ
+[
+π (y∣x)
+∗
+π
+​(y∣x)
+θ
+]
+]
+​
+​E
+​ D
+​ π
+​(y∣x) ∥π (y∣x)
+−log Z(x)
+π
+​θ
+min
+x∼D [
+KL (
+θ
+∗
+)
+]
+π (y∣x)
+∗
+log Z(x)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+41/71
+
+
+--- Page 42 ---
+Ok great. Glad you got it now. Now, try solving part c
+Thanks! Let’s now solve Part (c).
+❓ Problem Restatement
+✅ Key Insight
+The optimal policy we derived was:
+Where the partition function is:
+Even though we’ve obtained the optimal policy 
+, this particular
+representation is hard to utilize in practice.
+Why?
+Hint: How large can the output space 
+ be?
+π
+​(y ∣
+θ
+∗
+x)
+Y
+π
+​(y∣x) =
+θ
+∗
+​ π
+​(y∣x) exp
+​r
+​(x, y)
+Z(x)
+1
+ref
+(β
+1
+ϕ
+)
+Z(x) =
+​π
+​(y ∣x) exp
+​r
+​(x, y )
+y ∈Y
+′
+∑
+ref
+′
+(β
+1
+ϕ
+′ )
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+42/71
+
+
+--- Page 43 ---
+To compute or even sample from this policy, we would need to:
+1. Evaluate the reward function 
+ for every possible output 
+2. Sum over all 
+ to compute 
+3. Normalize
+🚨 The Problem: Size of Output Space
+In the context of language modeling:
+The output space 
+ is exponentially large
+For an output of length 
+, and vocabulary size 
+, there are:
+This makes exact computation of the sum over 
+ in 
+, or even sampling from
+, intractable.
+Even for short responses (say, 50 tokens) and a vocab size of 50k, the number of possible
+completions is astronomical.
+✅ Final Answer:
+Hence, the form of 
+ is theoretically optimal, but impractical to compute or use
+directly in large language models.
+r
+​(x, y )
+ϕ
+′
+y ∈
+′
+Y
+y ∈
+′
+Y
+Z(x)
+Y
+T
+V
+∣Y∣= V T
+Y
+Z(x)
+π (y∣x)
+∗
+Because the output space Y is exponentially large (e.g., all possible
+π (y∣x)
+∗
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+43/71
+
+
+--- Page 44 ---
+Let me know when you’re ready to move on to part (d), where we’ll likely start
+approximating or reformulating this!
+Yeah! You're right. The vocabulary would be extremely 
+large! Now, please solve part D
+Great! Let’s now solve Part (d).
+❓ Problem
+✅ Step-by-step Derivation
+Recall from part (b) that:
+We want to solve for 
+.
+Using the expression for the optimal policy 
+ derived in part (b), express the
+reward function 
+ in terms of 
+, 
+, and 
+.
+π
+​(y ∣
+θ
+∗
+x)
+r
+​(x, y)
+ϕ
+πθ
+∗π
+​
+ref
+Z(x)
+π
+​(y ∣
+θ
+∗
+x) =
+​ π
+​(y ∣
+Z(x)
+1
+ref
+x) exp
+​r
+​(x, y)
+(β
+1
+ϕ
+)
+r
+​(x, y)
+ϕ
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+44/71
+Explains the answer differently but conceptually it understands!
+
+
+--- Page 45 ---
+🔁 Step 1: Isolate the exponential
+Multiply both sides by 
+:
+Divide both sides by 
+:
+🔁 Step 2: Take the logarithm
+Take the natural log of both sides:
+✅ Final Answer:
+Multiply both sides by :
+This is the reward that makes the optimal policy 
+ consistent with the exponentiated
+reward form.
+Z(x)
+Z(x) ⋅π
+​(y ∣
+θ
+∗
+x) = π
+​(y ∣
+ref
+x) exp
+​r
+​(x, y)
+(β
+1
+ϕ
+)
+π
+​(y ∣
+ref
+x)
+​ =
+π
+​(y ∣x)
+ref
+Z(x) ⋅π
+​(y ∣x)
+θ
+∗
+exp
+​r
+​(x, y)
+(β
+1
+ϕ
+)
+log
+​
++
+(π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ
+∗
+)
+log Z(x) =
+​r
+​(x, y)
+β
+1
+ϕ
+β
+​
+r
+​(x, y) = β log
++ log Z(x)
+ϕ
+[
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ
+∗
+]
+π
+​θ
+∗
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+45/71
+
+
+--- Page 46 ---
+🧠 Intuition
+This tells us that the reward function under the DPO framework is proportional to the
+log odds ratio between the optimal and reference policies, adjusted by the log
+partition function.
+If you know 
+ and 
+, then you can directly compute the reward value (up to
+temperature ).
+Let me know when you’re ready to proceed to part (e)!
+π
+​θ
+∗
+π
+​
+ref
+β
+That's right! Now, please solve part e.
+Great — let’s work through part (e) step by step using the reparameterization of
+ from part (d), and apply it to the Bradley-Terry model.
+🔁 Recap of Part (d): Reward Reparameterization
+From part (d), we derived:
+r
+​(x, y)
+ϕ
+r
+​(x, y) =
+ϕ
+log
+​ +
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+log Z(x)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+46/71
+
+
+--- Page 47 ---
+This rewrites the learned reward function in terms of the optimal policy 
+, the reference
+policy 
+, and the partition function 
+.
+📐 Step 1: Plug into the Bradley-Terry model
+The Bradley-Terry model gives the probability that a human prefers 
+ over 
+ given
+context  as:
+Substituting the reparameterized form of 
+:
+✂️ Step 2: Simplify using log/exp rules
+Since 
+, we get:
+The 
+ terms cancel out:
+π
+​
+θ∗
+π
+​
+ref
+Z(x)
+y
+​1
+y
+​2
+x
+P(y
+​ ≻
+1
+y
+​ ∣
+2
+x) =
+​
+exp(r
+​(x, y
+​)) + exp(r
+​(x, y
+​))
+ϕ
+1
+ϕ
+2
+exp(r
+​(x, y
+​))
+ϕ
+1
+r
+​ϕ
+P(y
+​ ≻
+1
+y
+​ ∣
+2
+x) =
+​
+exp log
+​ + log Z(x)
++ exp log
+​ + log Z(x)
+(
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+)
+(
+π
+​(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+)
+exp log
+​ + log Z(x)
+(
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+)
+exp(log a + log Z(x)) = a ⋅Z(x)
+P(y
+​ ≻
+1
+y
+​ ∣
+2
+x) =
+​
+​ ⋅Z(x) +
+​ ⋅Z(x)
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+π
+​(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+​ ⋅Z(x)
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+Z(x)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+47/71
+
+
+--- Page 48 ---
+✅ Final Answer (Expression in Terms of Optimal Policy):
+💡 Why is it desirable that 
+ cancels?
+Because:
+ is a partition function, and:
+It’s intractable to compute when the action space  is large (e.g., entire language
+vocabularies).
+By canceling out, we avoid computing 
+, making preference learning practical
+and scalable.
+The preference model becomes directly computable from policy ratios, which are
+tractable and learnable.
+Let me know if you’d like me to help derive the gradient of the loss function from this, or
+explain how this fits into RLHF pipelines.
+P(y
+​ ≻
+1
+y
+​ ∣
+2
+x) =
+​
+​ +
+​
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y ∣x)
+θ∗
+1
+π
+​(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+​
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+P(y
+​ ≻
+1
+y
+​ ∣
+2
+x) =
+​
+​ +
+​
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y ∣x)
+θ∗
+1
+π
+​(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+​
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+Z(x)
+Z(x) =
+​π
+​(y ∣
+∑y
+ref
+x) exp(r
+​(x, y))
+ϕ
+y
+Z(x)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+48/71
+
+
+--- Page 49 ---
+Try showing your work starting with this equation, then try 
+to solve it.
+Absolutely — let’s start from the Bradley-Terry model expression you just shared:
+📌 Step 1: Start from the preference model
+Now recall from part (d) that we can reparameterize the reward function as:
+📌 Step 2: Plug in the reparameterization
+We substitute 
+ and 
+:
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) =
+​
+exp(r
+​(x, y
+​)) + exp(r
+​(x, y
+​))
+ϕ
+1
+ϕ
+2
+exp(r
+​(x, y
+​))
+ϕ
+1
+r
+​(x, y) =
+ϕ
+log
+​ +
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+log Z(x)
+r
+​(x, y
+​)
+ϕ
+1
+r
+​(x, y
+​)
+ϕ
+2
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+49/71
+ok so on this problem, it really struggles.
+it seems to get the equations and notation confused very easily,
+i suspect this kind of data is not very common in its training distribution 
+
+
+--- Page 50 ---
+📌 Step 3: Simplify the exponentials
+Using the identity 
+, we get:
+📌 Step 4: Cancel out 
+Since it appears in both numerator and denominator:
+✅ Final Answer (simplified expression):
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) =
+​
+exp log
+​ + log Z(x)
++ exp log
+​ + log Z(x)
+(
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+)
+(
+π
+​(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+)
+exp log
+​ + log Z(x)
+(
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+)
+exp(a + b) = exp(a) ⋅exp(b)
+=
+​
+​ +
+​
+⋅Z(x)
+( π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+π
+(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+)
+​ ⋅Z(x)
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+Z(x)
+=
+​
+​ +
+​
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+π
+​(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+​
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) =
+​
+​ +
+​
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+π
+​(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+​
+π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+50/71
+It keeps trying to do this double policy fraction again!
+
+
+--- Page 51 ---
+This shows that pairwise preferences under the learned reward function are entirely
+determined by the ratio between the optimal and reference policies, and the
+normalization constant 
+ cancels out — making the whole expression
+computationally tractable.
+Would you like to now write this in expectation form (e.g. minimizing KL divergence or
+cross-entropy loss)?
+Z(x)
+Can you try again where the next step after the equation I 
+gave above is the following equation?
+Yes! You're now expressing the Bradley-Terry preference model using the
+reparameterized reward function:
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) =
+exp β log
+​
++ β log Z(x)
++ exp β log
+​
++ β log Z(x)
+(
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+)
+(
+( π
+​(y
+​∣x)
+ref
+2
+π (y
+​∣x)
+∗
+2
+)
+)
+exp β log
+​
++ β log Z(x)
+(
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+51/71
+
+
+--- Page 52 ---
+Step-by-step simplification:
+We simplify the numerator and denominator using exponent rules:
+📌 Step 1: Pull out 
+Each term in the numerator and denominator has a shared additive term 
+,
+so we factor it out:
+📌 Step 2: Cancel out the shared 
+✅ Final Answer:
+💡 Why is canceling out 
+ desirable?
+β log Z(x)
+β log Z(x)
+=
+​
+exp β log
+​
++ exp β log
+​
+⋅exp(β log Z(x))
+[
+(
+( π
+​(y ∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+))
+(
+( π
+​(y
+​∣x)
+ref
+2
+π (y
+​∣x)
+∗
+2
+))]
+exp β log
+​
+⋅exp(β log Z(x))
+(
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+))
+exp(β log Z(x))
+=
+​
+​
++
+​
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+β
+( π
+​(y
+​∣x)
+ref
+2
+π (y
+​∣x)
+∗
+2
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+β
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) =
+​
+​
++
+​
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+β
+( π
+​(y
+​∣x)
+ref
+2
+π (y
+​∣x)
+∗
+2
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+β
+Z(x)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+52/71
+
+
+--- Page 53 ---
+Numerical stability: 
+ is typically a partition function over a large (possibly
+infinite) action space, which is hard or intractable to compute.
+Efficiency: You can compute preferences without ever needing to evaluate 
+.
+Interpretability: Preference learning reduces to a comparison of relative likelihoods
+under 
+ and 
+, raised to a temperature-like parameter .
+Let me know if you'd like this boxed as a LaTeX expression!
+Z(x)
+Z(x)
+π∗
+π
+​
+ref
+β
+Can you try seeing how it cancels out to turn into a 
+sigmoid?
+Absolutely! Let’s now show how the expression simplifies to a sigmoid form.
+We’ll start from the equation you posted:
+Step 1: Plug in the expression for 
+From earlier parts (like part d), we derived:
+Plug that into the Bradley-Terry model:
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) =
+​
+exp r
+​(x, y
+​)
++ exp r
+​(x, y
+​)
+( ϕ
+1 )
+( ϕ
+2 )
+exp r
+​(x, y
+​)
+( ϕ
+1 )
+r
+​(x, y)
+ϕ
+r
+​(x, y) =
+ϕ
+β log
+​
++
+(π
+​(y ∣x)
+ref
+π (y ∣x)
+∗
+)
+β log Z(x)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+53/71
+
+
+--- Page 54 ---
+Step 2: Factor the exponentials
+Using the identity:
+This becomes:
+Now cancel the common 
+ term:
+Step 3: Write in terms of difference of rewards (sigmoid form)
+Recall that:
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) =
+exp β log
+​
++ β log Z(x)
++ exp β log
+​
++ β log Z(x)
+(
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+)
+(
+( π
+​(y
+​∣x)
+ref
+2
+π (y
+​∣x)
+∗
+2
+)
+)
+exp β log
+​
++ β log Z(x)
+(
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+)
+exp(a + b) = exp(a) ⋅exp(b)
+=
+​
+​
+⋅Z(x) +
+​
+⋅Z(x)
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+β
+β
+( π
+​(y
+​∣x)
+ref
+2
+π (y
+​∣x)
+∗
+2
+)
+β
+β
+​
+⋅Z(x)
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+β
+β
+Z(x)β
+=
+​
+​
++
+​
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+β
+( π
+​(y
+​∣x)
+ref
+2
+π (y
+​∣x)
+∗
+2
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+1
+π (y
+​∣x)
+∗
+1
+)
+β
+​ =
+1 + exp(−z)
+1
+sigmoid(z)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+54/71
+Again, it tries to write it using this 
+notation. And it goes down the wrong 
+path trying to solve the problem
+
+
+--- Page 55 ---
+We want to rewrite this probability in terms of a difference between scores.
+So define:
+Then:
+So we’ve shown:
+This is a sigmoid over reward differences, and:
+✅ Why is this desirable?
+1. Partition function 
+ cancels out: You can compute relative preferences
+without needing to normalize over all  — which could be very large (like all possible
+strings).
+2. Efficient training: We can train reward models using preference pairs without
+evaluating the full distribution.
+3. Nice probabilistic interpretation: This form corresponds to a logistic model over
+the difference in reward scores — simple and interpretable.
+Let me know if you’d like this typeset as a final boxed LaTeX answer.
+s(y) := r
+​(x, y) =
+ϕ
+β log
+​
++
+(π
+​(y ∣x)
+ref
+π (y ∣x)
+∗
+)
+β log Z(x)
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) =
+​ =
+e
++ e
+s(y
+​)
+1
+s(y
+​)
+2
+es(y
+​)
+1
+​ =
+1 + exp s(y
+​) −s(y
+​)
+(
+2
+1 )
+1
+σ
+s(y
+​) −s(y
+​)
+(
+1
+2 )
+p
+​(y
+​ ≻
+θ∗
+1
+y
+​ ∣
+2
+x) = σ
+r
+​(x, y
+​) −r
+​(x, y
+​)
+( ϕ
+1
+ϕ
+2 )
+Z(x)
+y
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+55/71
+
+
+--- Page 56 ---
+Ok yeah that's the right way to write the final answer! Nice. 
+Now, please try solving the following
+Great! Let’s now solve part (f), which asks us to:
+🧮 Derive the gradient of the DPO loss:
+We are given the DPO loss:
+Where the implicit reward is:
+L
+​(π
+​; π
+​) =
+DPO
+θ
+ref
+−E
+​ log σ
+​(x, y
+​) −
+​(x, y
+​)
+(x,y
+​,y
+​)∼D
+w
+l
+[
+(r^θ
+w
+r^θ
+l )]
+​(x, y) =
+r^θ
+β log
+​
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+56/71
+
+
+--- Page 57 ---
+Let’s define:
+✅ Step 1: Compute the derivative of the loss wrt 
+We know:
+So the derivative of the loss is:
+✅ Step 2: Apply chain rule to get gradient wrt model parameters 
+We want:
+Now compute the gradient of the reward difference:
+So the full gradient becomes:
+z :=
+​(x, y
+​) −
+r^θ
+w
+​(x, y
+​)
+⇒
+r^θ
+l
+L
+​ =
+DPO
+−log σ(z)
+z
+​[−log σ(z)] =
+dz
+d
+−
+​ ⋅
+σ(z)
+1
+σ (z) =
+′
+−
+​ ⋅
+σ(z)
+1
+σ(z)(1 −σ(z)) =
+σ(z) −1
+​ =
+dz
+dL
+​
+DPO
+σ(z) −1
+θ
+∇
+​L
+​ =
+θ
+DPO
+​ ⋅
+dz
+dL
+∇
+​z =
+θ
+(σ(z) −1) ⋅∇
+​
+​(x, y
+​) −
+​(x, y )
+θ [r^θ
+w
+r^θ
+l ]
+∇
+​z =
+θ
+∇
+​ β log
+​ −β log
+​
+=
+θ [
+π
+​(y
+​ ∣x)
+ref
+w
+π
+​(y
+​ ∣x)
+θ
+w
+π
+​(y
+​ ∣x)
+ref
+l
+π
+​(y
+​ ∣x)
+θ
+l
+]
+β
+∇
+​log π
+​(y
+​ ∣x) −∇
+​log π
+​(y
+​ ∣x)
+[
+θ
+θ
+w
+θ
+θ
+l
+]
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+57/71
+
+
+--- Page 58 ---
+✅ Final Answer (boxed):
+🔍 Interpretation
+This gradient shows how much we upweight or downweight the log-probability gradients
+depending on correctness:
+If the preferred sample 
+ is assigned a higher reward than 
+ →
+Then 
+ →
+So 
+, i.e., small update — model is already correct.
+If the model is incorrect, i.e., 
+, then
+, and the gradient will be large — we push the model to assign higher
+log-prob to the winner and lower log-prob to the loser.
+In other words:
+Let me know if you’d like a diagram to visualize this or have it formatted as a LaTeX
+theorem box!
+∇
+​L
+​ =
+θ
+DPO
+(σ(z) −1) ⋅β
+∇
+​log π
+​(y
+​ ∣x) −∇
+​log π
+​(y
+​ ∣x)
+[
+θ
+θ
+w
+θ
+θ
+l
+]
+​
+∇
+​L
+​ = β ⋅
+σ(
+​(x, y
+​) −
+​(x, y
+​)) −1
+⋅
+∇
+​log π
+​(y
+​ ∣x) −∇
+​log π
+​(y
+​ ∣x)
+θ
+DPO
+(
+r^θ
+w
+r^θ
+l
+)
+[
+θ
+θ
+w
+θ
+θ
+l
+]
+y
+​
+w
+y
+​l
+​(x, y
+​) >
+r^θ
+w
+​(x, y
+​) ⇒
+r^θ
+l
+σ(z) ≈1
+σ(z) −1 ≈0
+​(x, y
+​) <
+r^θ
+w
+​(x, y
+​) ⇒
+r^θ
+l
+σ(z) ≪1
+σ(z) −1 ≪0
+The weighting term 
+ ensures the model updates more when it is wrong
+and less when it is already correct.
+σ(z) −1
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+58/71
+
+
+--- Page 59 ---
+Not quite, but you were actually super close. 
+Great — let’s carefully walk through it again and this time land exactly on the correct
+result, which involves both the sigmoid derivative and the difference in implicit
+rewards. Here's the clean derivation from scratch, aligned with the setup from your image.
+🧩 Setup
+You’re given the DPO loss:
+where the implicit reward is:
+✅ Step 1: Define 
+Let:
+✅ Step 2: Compute gradient of loss
+L
+​(π
+​; π
+​) =
+DPO
+θ
+ref
+−E
+​ log σ
+​(x, y
+​) −
+​(x, y
+​)
+(x,y
+​,y
+​)
+w
+l [
+(r^θ
+w
+r^θ
+l )]
+​(x, y) =
+r^θ
+β log
+​
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ
+z
+z :=
+​(x, y
+​) −
+r^θ
+w
+​(x, y
+​) ⇒
+r^θ
+l
+L
+​ =
+DPO
+−log σ(z)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+59/71
+Here, I try to nudge it to recheck its answer for mistakes, but I end up leading it down the wrong path
+
+
+--- Page 60 ---
+We apply chain rule:
+Now compute:
+We now plug in:
+(since 
+ is fixed and doesn’t depend on )
+So the full gradient becomes:
+✅ Final Answer
+Or, equivalently:
+✨ Intuition: What is this saying?
+∇
+​L
+​ =
+θ
+DPO
+−∇
+​log σ(z) =
+θ
+−σ(−z) ⋅∇
+​z
+θ
+∇
+​z =
+θ
+∇
+​
+​(x, y
+​) −
+θr^θ
+w
+∇
+​
+​(x, y
+​)
+θr^θ
+l
+​(x, y) =
+r^θ
+β log
+​ ⇒
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ
+∇
+​
+​(x, y) =
+θr^θ
+β ⋅∇
+​log π
+​(y ∣
+θ
+θ
+x)
+π
+​
+ref
+θ
+∇
+​L
+​ =
+θ
+DPO
+−σ(−z) ⋅β ⋅
+∇
+​log π
+​(y
+​ ∣x) −∇
+​log π
+​(y
+​ ∣x)
+[
+θ
+θ
+w
+θ
+θ
+l
+]
+​
+∇
+​L
+​ = β ⋅σ
+​(x, y
+​) −
+​(x, y
+​)
+⋅
+∇
+​log π
+​(y
+​ ∣x) −∇
+​log π
+​(y
+​ ∣x)
+θ
+DPO
+(r^θ
+l
+r^θ
+w )
+[
+θ
+θ
+l
+θ
+θ
+w
+]
+​
+∇
+​L
+​ = β ⋅σ(−z) ⋅
+∇
+​log π
+​(y
+​ ∣x) −∇
+​log π
+​(y
+​ ∣x)
+θ
+DPO
+[
+θ
+θ
+l
+θ
+θ
+w
+]
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+60/71
+
+
+--- Page 61 ---
+When the reward difference 
+ is large and positive, we have
+, and the gradient is close to 0 → no update needed — model is correct.
+When the model is wrong, i.e., 
+, then 
+ → we make a
+large update in the direction of increasing 
+ and decreasing
+.
+So the sigmoid term acts as an error-weighting function, guiding updates more
+aggressively when the preference is violated.
+Let me know if you'd like this rendered as LaTeX or if you want to derive the second-order
+(Hessian) version too!
+(y
+​) −
+r^
+w
+(y
+​)
+r^
+l
+σ(−z) ≈0
+(y
+​) <
+r^
+w
+(y
+​)
+r^
+l
+σ(−z) ≈1
+log π
+​(y
+​)
+θ
+w
+log π
+​(y
+​)
+θ
+l
+Not quite. Try starting at this equation and doing what you 
+need above (your initial response to the question)
+Perfect — now that you've given the rewritten gradient expression:
+∇
+​L
+​(π
+​; π
+​) =
+θ
+DPO
+θ
+ref
+−E
+​
+​ ⋅∇
+​u
+(x,y
+​,y
+​)∼D
+w
+l
+[ σ(u)
+σ (u)
+′
+θ ]
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+61/71
+I try to reground it on telling it to go back to its previous answer
+
+
+--- Page 62 ---
+with:
+Let's simplify this and derive the correct gradient form, step-by-step.
+✅ Step 1: Use the identity for the sigmoid derivative
+We are given the useful identity:
+So:
+Therefore, the gradient becomes:
+✅ Step 2: Compute 
+We now compute the gradient of:
+Since the reference policy is fixed and doesn’t depend on , we treat those terms as
+constants. So:
+u = β log
+​ −
+π
+​(y
+​ ∣x)
+ref
+l
+π
+​(y
+​ ∣x)
+θ
+l
+β log
+​
+π
+​(y
+​ ∣x)
+ref
+w
+π
+​(y
+​ ∣x)
+θ
+w
+σ (z) =
+′
+σ(z)(1 −σ(z)) = σ(z)σ(−z)
+​ =
+σ(u)
+σ (u)
+′
+σ(−u)
+∇
+​L
+​ =
+θ
+DPO
+−E
+​ σ(−u) ⋅∇
+​u
+(x,y
+​,y
+​)
+w
+l [
+θ ]
+∇
+​u
+θ
+u = β log
+​ −
+π
+​(y
+​ ∣x)
+ref
+l
+π
+​(y
+​ ∣x)
+θ
+l
+β log
+​
+π
+​(y
+​ ∣x)
+ref
+w
+π
+​(y
+​ ∣x)
+θ
+w
+θ
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+62/71
+I like this! It tries to simplify the notation it 
+uses to make the work more clear
+
+
+--- Page 63 ---
+✅ Step 3: Plug back into the full expression
+✅ Final Answer (boxed)
+This is equivalent to the earlier expression we derived before but fully written in terms of
+. It perfectly aligns with your image and the DPO loss gradient interpretation.
+Let me know if you'd like this rendered as full LaTeX or want to derive the Hessian next!
+∇
+​u =
+θ
+β ⋅∇
+​log π
+​(y
+​ ∣
+θ
+θ
+l
+x) −β ⋅∇
+​log π
+​(y
+​ ∣
+θ
+θ
+w
+x)
+∇
+​L
+​ =
+θ
+DPO
+−E
+​ σ(−u) ⋅
+β ⋅∇
+​log π
+​(y
+​ ∣x) −β ⋅∇
+​log π
+​(y
+​ ∣x)
+(x,y
+​,y
+​)
+w
+l [
+(
+θ
+θ
+l
+θ
+θ
+w
+)]
+= β ⋅E
+​ σ(−u) ⋅
+∇
+​log π
+​(y
+​ ∣x) −∇log π
+​(y
+​ ∣x)
+(x,y
+​,y
+​)
+w
+l [
+(
+θ
+θ
+w
+θ
+θ
+l
+)]
+​
+∇
+​L
+​(π
+​; π
+​) = β ⋅E
+​ σ(−u) ⋅
+∇
+​log π
+​(y
+​ ∣x) −∇
+​log π
+​(y
+​ ∣x)
+θ
+DPO
+θ
+ref
+(x,y
+​,y
+​)
+w
+l [
+(
+θ
+θ
+w
+θ
+θ
+l
+)]
+u
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+63/71
+It still can’t get the answer correct despite 
+simplifying its notation since I think it gets 
+overwhelmed that so many equations 
+exist. 
+I also wonder if this lack in performance 
+relates to the context length being so large
+(because images are known to take up a 
+lot of space in the model’s context). So I 
+wonder how much of this can be attributed 
+to context degredation.
+
+
+--- Page 64 ---
+Ok, not quite. The sign should be negative. I posted the 
+correct answer. Try solving part g now (this question has 2 
+images)
+Let's now walk through part (g) step-by-step, using the implicit reward parameterization:
+and show that the partition function 
+ cancels out in the Plackett-Luce likelihood
+expression.
+Step 1: Write out Plackett-Luce probability with the reward
+parameterization
+From the problem:
+Substitute the reward function:
+Now plug this into the PL probability:
+r
+​(x, y) =
+ϕ
+β log
+​ +
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+β log Z(x)
+Z(x)
+p
+​(τ ∣
+θ∗
+y
+​, … , y
+​, x) =
+1
+K
+​
+​
+k=1
+∏
+K
+​exp(r
+​(x, y
+))
+∑j=k
+K
+ϕ
+τ(j)
+exp(r
+​(x, y
+​))
+ϕ
+τ(k)
+exp(r
+​(x, y)) =
+ϕ
+exp
+β log
+​ + β log Z(x)
+=
+(
+π
+​(y ∣x)
+ref
+π (y ∣x)
+θ∗
+)
+​ ⋅Z(x)
+(π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+β
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+64/71
+
+
+--- Page 65 ---
+Step 2: Cancel the partition function 
+Note that for each term in the product, 
+ appears both in the numerator and all
+terms in the denominator:
+So the final expression for the probability becomes:
+Step 3: Take log and form DPO loss
+We now define the loss as the negative log-likelihood of the observed permutation under
+this probability:
+Plug in the expression from above:
+p
+​(τ ∣
+θ∗
+y
+​, … , y
+​, x) =
+1
+K
+​
+​
+k=1
+∏
+K
+​
+​ ⋅Z(x)
+∑j=k
+K ( π
+​(y
+​∣x)
+ref
+τ(j)
+π
+​(y
+​∣x)
+θ∗
+τ(j)
+)
+β
+​ ⋅Z(x)
+( π
+​(y
+​∣x)
+ref
+τ(k)
+π
+​(y
+​∣x)
+θ∗
+τ(k)
+)
+β
+Z(x)
+Z(x)β
+=
+​
+​
+k=1
+∏
+K
+​
+​
+∑j=k
+K ( π
+​(y
+​∣x)
+ref
+τ(j)
+π
+​(y
+​∣x)
+θ∗
+τ(j)
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+τ(k)
+π
+​(y
+​∣x)
+θ∗
+τ(k)
+)
+β
+p
+​(τ ∣
+θ∗
+y
+​, … , y
+​, x) =
+1
+K
+​
+​
+k=1
+∏
+K
+​
+​
+∑j=k
+K ( π
+​(y
+​∣x)
+ref
+τ(j)
+π
+​(y
+​∣x)
+θ∗
+τ(j)
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+τ(k)
+π
+​(y
+​∣x)
+θ∗
+τ(k)
+)
+β
+L
+​(π
+​; π
+​) =
+DPO
+θ
+ref
+−E
+​ log p
+​(τ ∣y
+​, … , y
+​, x)
+(τ,y
+​,…,y
+​,x)∼D
+1
+K
+[
+θ∗
+1
+K
+]
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+65/71
+
+
+--- Page 66 ---
+Simplify the log of the quotient:
+This is the multi-answer generalization of DPO using the Plackett-Luce model. The final
+DPO loss is:
+✅ Final Answer (Boxed)
+Let me know if you'd like this reformatted into LaTeX or converted into code!
+= −E
+​
+​
+log
+​
+​
+D
+k=1
+∑
+K
+​
+​
+∑j=k
+K ( π
+​(y
+​∣x)
+ref
+τ(j)
+π
+​(y
+​∣x)
+θ
+τ(j)
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+τ(k)
+π
+​(y
+​∣x)
+θ
+τ(k)
+)
+β
+= −E
+​
+​
+​
+​β log
+​ −log
+​
+​
+​
+​
+D
+k=1
+∑
+K
+π
+​(y
+​ ∣x)
+ref
+τ(k)
+π
+​(y
+​ ∣x)
+θ
+τ(k)
+j=k
+∑
+K
+(π
+​(y
+​ ∣x)
+ref
+τ(j)
+π
+​(y
+​ ∣x)
+θ
+τ(j)
+)
+β
+L
+​(π
+​; π
+​) =
+DPO
+θ
+ref
+−E
+​
+​
+​β log
+​ −log
+​
+​
+​
+D
+k=1
+∑
+K
+π
+​(y
+​ ∣x)
+ref
+τ(k)
+π
+​(y
+​ ∣x)
+θ
+τ(k)
+j=k
+∑
+K
+(π
+​(y
+​ ∣x)
+ref
+τ(j)
+π
+​(y
+​ ∣x)
+θ
+τ(j)
+)
+β
+​
+L
+​(π
+​; π
+​) = −E
+​
+​
+​
+​β log
+​ −log
+​
+​
+​
+​
+DPO
+θ
+ref
+D
+k=1
+∑
+K
+π
+​(y
+​ ∣x)
+ref
+τ(k)
+π
+​(y
+​ ∣x)
+θ
+τ(k)
+j=k
+∑
+K
+(π
+​(y
+​ ∣x)
+ref
+τ(j)
+π
+​(y
+​ ∣x)
+θ
+τ(j)
+)
+β
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+66/71
+This is way too complicated and not really close to the answer
+
+
+--- Page 67 ---
+Ok this problem is pretty difficult. Try starting with the 
+following simplification:
+Great! Let’s now walk through the simplification shown in your latest image to help you
+derive the expression used in DPO (Direct Preference Optimization). You’ve already
+factored the reward into two clean components:
+Step 1: Start from the implicit reward form
+Step 2: Use exponent rules
+Recall that 
+. Applying that:
+exp(r
+​(x, y)) =
+ϕ
+exp
+β log
+​ + β log Z(x)
+(
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+exp(a + b) = exp(a) ⋅exp(b)
+= exp
+β log
+​
+⋅
+(
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+exp β log Z(x)
+(
+)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+67/71
+so I try giving it a hint!
+
+
+--- Page 68 ---
+Step 3: Simplify each exponential
+The first term becomes:
+The second term:
+✅ Final result:
+This simplification is crucial in DPO derivations (especially the binary or pairwise case),
+because when we form ratios like:
+the 
+ terms cancel out, allowing the final expression to collapse into a sigmoid
+function over log-ratio scores:
+​
+(π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+β
+exp(β log Z(x)) = Z(x)β
+exp(r
+​(x, y)) =
+ϕ
+​
+⋅
+(π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+β
+Z(x)β
+​
+exp(r
+​(x, y
+​)) + exp(r
+​(x, y
+​))
+ϕ
+1
+ϕ
+2
+exp(r
+​(x, y
+​))
+ϕ
+1
+Z(x)β
+σ(u) =
+​
+where u =
+1 + exp(−u)
+1
+β
+log
+​ −log
+​
+(
+π
+​(y
+​ ∣x)
+ref
+1
+π
+​(y
+​ ∣x)
+θ
+1
+π
+​(y
+​ ∣x)
+ref
+2
+π
+​(y
+​ ∣x)
+θ
+2
+)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+68/71
+It doesn’t even 
+think of applying 
+the summation by 
+trying to determine 
+the k-th PL 
+product. It just 
+tries to hail-mary 
+the ﬁnal solution
+
+
+--- Page 69 ---
+Let me know if you'd like to continue and finish that simplification too!
+Your final probability should be a product of terms
+You're absolutely right to point out that the final form of 
+ should reflect
+a product of terms—specifically a product involving the ratio of policy and reference
+probabilities, and the normalization term 
+. Let's now carefully walk through this
+step-by-step and clarify where the product form emerges in the context of DPO and
+implicit reward modeling.
+🔁 Recap: Start with the expression
+We are given the following decomposition:
+Apply the identity:
+✅ Step 1: Distribute the exponential
+exp(r
+​(x, y))
+ϕ
+Z(x)
+exp(r
+​(x, y)) =
+ϕ
+exp
+β log
+​ + β log Z(x)
+(
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+exp(a + b) = exp(a) ⋅exp(b)
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+69/71
+
+
+--- Page 70 ---
+✅ Step 2: Simplify each exponential
+First term:
+Second term:
+✅ Final Result (Product Form):
+This product form is critical because:
+The first factor captures how much more likely  is under the optimal policy 
+ than
+under the reference policy 
+.
+The second factor 
+ acts like a normalization constant that ensures we
+recover a proper softmax distribution when summing over all .
+exp(r
+​(x, y)) =
+ϕ
+​⋅
+Policy/reference ratio term
+​
+exp
+β log
+​
+(
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+​
+Normalization term
+​
+exp β log Z(x)
+(
+)
+exp
+β log
+​
+=
+(
+π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+​
+(π
+(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+β
+exp(β log Z(x)) = Z(x)β
+​
+exp(r
+​(x, y)) =
+​
+⋅Z(x)
+ϕ
+(π
+​(y ∣x)
+ref
+π
+​(y ∣x)
+θ∗
+)
+β
+β
+y
+π
+​
+θ∗
+π
+​
+ref
+Z(x)β
+y
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+70/71
+It still doesn’t get the answer right… so i gave up :/
+
+
+--- Page 71 ---
+🔄 Usage in Preference Probabilities
+When calculating preference probabilities like:
+the 
+ term cancels out:
+Then taking log-odds:
+This motivates the form of the DPO objective:
+Let me know if you want to go from this to the gradient (with the 
+ term),
+or explain where the sigmoid appears directly!
+p(y
+​ ≻
+1
+y
+​ ∣
+2
+x) =
+​
+exp(r
+​(x, y
+​)) + exp(r
+​(x, y
+​))
+ϕ
+1
+ϕ
+2
+exp(r
+​(x, y
+​))
+ϕ
+1
+Z(x)β
+=
+​
+​
++
+​
+( π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+)
+β
+( π
+​(y
+​∣x)
+ref
+2
+π
+​(y
+​∣x)
+θ∗
+2
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+1
+π
+​(y
+​∣x)
+θ∗
+1
+)
+β
+log
+​ =
+1 −p(y
+​ ≻y
+​ ∣x)
+1
+2
+p(y
+​ ≻y
+​ ∣x)
+1
+2
+β log
+​ −log
+​
+[
+π
+​(y
+​ ∣x)
+ref
+1
+π
+​(y
+​ ∣x)
+θ
+1
+π
+​(y
+​ ∣x)
+ref
+2
+π
+​(y
+​ ∣x)
+θ
+2
+]
+L
+​ =
+DPO
+−E log σ
+β log
+​ −log
+​
+[
+( [
+π
+​(y
+​ ∣x)
+ref
+w
+π
+​(y
+​ ∣x)
+θ
+w
+π
+​(y
+​ ∣x)
+ref
+l
+π
+​(y
+​ ∣x)
+θ
+l
+])]
+σ (u)/σ(u)
+′
+12/10/25, 10:55 PM
+Homework question solution
+https://chatgpt.com/c/693a5ced-dc0c-832e-9058-f20d52d1ce94
+71/71

@@ -1,0 +1,1107 @@
+--- Page 1 ---
+Special Participation A — LLM Interaction Report
+(gpt-oss)
+Noah Lund Syrdal — EECS 182 Deep Neural Networks
+Fall 2025
+Executive Summary
+This report documents an interactive engagement with the model gpt-oss-120b (Reasoning
+= High) on the non-coding analytical parts of EECS 182 Homework 5. The purpose was to
+evaluate how well a modern large language model can independently reason through conceptual
+and symbolic questions without external computation or code execution.
+• Homework scope: EECS 182 HW5 — all non-coding questions (Q1–Q4).
+• Questions covered: Q1 (a–c), Q2 (a–b), Q3 (a–b), Q4 (a–d).
+• Evaluation metric:
+– L1 (one-shot correct): 9 / 11 ≈82%
+– L2 (minor nudge): 2 / 11 ≈18%
+– L3 (heavy guidance): 0 / 11
+– Lx (still incorrect): 0 / 11
+– Average interventions per question: 0.18
+• Frequent issues: Occasional mis-parsing of ASCII matrices; confusion between Batch-
+Norm vs LayerNorm axes; one transient non-response resolved by re-prompting.
+• Hallucinations: None substantive—minor over-confidence in a few explanations without
+full derivations.
+• Overall verdict: For analytical and symbolic reasoning, gpt-oss-120b produced correct
+derivations with almost no intervention. Visual prompts had to be reformulated textually,
+but when expressed in pure text or LaTeX, performance was reliable and interpretable.
+Interaction Protocol
+Each sub-question was entered as a plain-text / LaTeX prompt (no figures). All model outputs
+were recorded verbatim and annotated using the following scheme:
+Observation: Accuracy, errors, or misconceptions in the model’s reasoning.
+1
+
+
+--- Page 2 ---
+Strategy: Prompt-engineering tactics used to steer or clarify (e.g., re-formatting matrices,
+re-asserting definitions).
+Verdict: Performance tier — L1 (one-shot), L2 (minor guidance), L3 (heavy guidance), Lx
+(fail).
+Annotated Logs by Question
+Q1 (a) — Why Convolutions for Images
+Prompt. Explain why convolutional layers are preferred over fully connected layers for image
+data. Model Reply. Weight sharing reduces parameter count; local receptive fields capture
+spatial patterns and translation invariance. Observation. Fully correct and concise. Verdict
+L1.
+Q1 (b) — 1D Filter Recovery
+Prompt. Signal [1, 4, 0, –2, 3]; 3-tap filter; stride 1; no padding; output [–2, 2, 11]. Find the
+filter (no flip convention). Model Reply. Filter [2, –1, 3]. Observation. Correct numeric
+derivation and reasoning. Verdict L1.
+Q1 (c) — Transpose Convolution (Stride 1, Pad 0)
+Prompt.
+I =
+"
+−1
+2
+3
+1
+#
+,
+K =
+"
+1
+−1
+0
+1
+#
+Compute the output of the transpose convolution (no kernel flip). Model Reply.
+O =
+
+
+−1
+3
+−2
+3
+−3
+1
+0
+3
+1
+
+
+Observation. Initially mis-parsed ASCII matrices; solved correctly after reformatting. Strat-
+egy. Restated input numerically and clarified “no kernel flip.” Verdict L2.
+Q2 (a) — BatchNorm vs LayerNorm
+Prompt. Identify which cube represents BatchNorm and which represents LayerNorm given
+axes N (batch), H,W (spatial), C (channels). Model Reply. BatchNorm →normalize per
+channel over N,H,W; LayerNorm →normalize across C for each sample. Observation. Correct
+after a single re-ask. Verdict L2.
+Q2 (b) — Simplified BatchNorm Gradient
+Prompt.
+xi ∈[x1, . . . , xn], µ = 1
+n
+X
+j
+xj, ˆxi = xi −µ, yi = γˆxi + β
+2
+
+
+--- Page 3 ---
+Derive ∂L/∂xi in terms of ∂L/∂yj. Model Reply.
+∂L
+∂xi
+= γ
+
+∂L
+∂yi
+−1
+n
+X
+j
+∂L
+∂yj
+
+
+Observation. Mathematically correct; clear and concise. Verdict L1.
+Q3 (a) — Parameter Count (Full Convolution)
+Prompt. 3-channel input, 3×3 kernel, 4 output channels (ignore biases). Model Reply.
+#params = CoutCinKhKw = 4 × 3 × 3 × 3 = 108
+Observation. Correct and well-reasoned. Verdict L1.
+Q3 (b) — Depthwise Separable Convolution Parameters
+Prompt. Compute total parameters (depthwise + pointwise). Model Reply. Depthwise =
+27; Pointwise = 12; Total = 39. Observation. Accurate and well-explained. Verdict L1.
+Q4 (a–d) — Dropout and Regularization
+Prompt. Derive Eq.(5) L( ˜w) = ∥y −pX ˜w∥2 + p(1 −p)∥˜Γ ˜w∥2, connect to ridge regression,
+and interpret the column-norm effect.
+Model Reply.
+Expanded the expectation ER[∥y −
+(R⊙X) ˜w∥2], derived the closed-form loss, and showed that dropout adds a diagonal regularizer
+proportional to column norms of X. Linked the transformation ˜X = XΓ−1 to BatchNorm-style
+scaling. Observation. Thorough and conceptually strong derivation. Verdict L1.
+Metrics Summary
+Question
+Verdict
+Interventions
+Hallucination
+Misconception
+Q1a
+L1
+0
+N
+–
+Q1b
+L1
+0
+N
+–
+Q1c
+L2
+1
+N
+Filter orientation
+Q2a
+L2
+1
+N
+BN vs LN axes
+Q2b
+L1
+0
+N
+–
+Q3a
+L1
+0
+N
+–
+Q3b
+L1
+0
+N
+–
+Q4a–d
+L1
+0
+N
+–
+3
+
+
+--- Page 4 ---
+Analysis and Reflection
+Observed Model Behavior
+Throughout the session, gpt-oss-120b displayed strong symbolic reasoning ability and stable
+internal consistency. Once the question text was properly formatted, it consistently arrived at
+correct analytical results with minimal steering.
+• Formatting sensitivity: The main source of error came from parsing raw ASCII equa-
+tions or 2D matrices copied directly from the homework PDF. When inputs were poorly
+structured, the model occasionally misread indices or failed to align dimensions; once
+rewritten in LaTeX, performance became flawless.
+• Latency: Most responses required a long reasoning interval—typically 90–180 seconds—before
+output appeared, suggesting deliberate internal computation rather than random text gen-
+eration.
+• One non-response event: On one occasion the model stalled completely and produced
+no output.
+Re-sending the identical prompt immediately resolved the issue, with the
+subsequent answer being correct.
+• Reliability: Apart from that single stall, the model produced correct and consistent
+derivations across all sub-questions, with no hallucinations or contradictory logic.
+Strategies Used
+The interaction required very limited prompting beyond structural corrections. In practice,
+success depended almost entirely on giving the model clearly formatted, unambiguous mathe-
+matical input.
+1. Rewrote all matrices, signals, and formulas using proper LaTeX to ensure clean parsing.
+2. Clarified conventions explicitly (e.g., “no kernel flip,” “ignore biases,” “normalize over
+batch”).
+3. Used brief re-prompts to handle long delays or the single non-response event.
+Once formatting issues were removed, the model solved every conceptual and algebraic task
+correctly without needing conceptual guidance. Thus, the main limitation was not reasoning
+capability but sensitivity to text structure and interface latency.
+Overall Assessment
+Across eleven analytical sub-questions, the model achieved 82% one-shot accuracy with no
+significant misconceptions, and 18% required a minor nudge. All Q1–Q4 results were cross-
+checked against the official HW05 solution key and match exactly.1
+This shows that large
+language models can perform graduate-level analytical reasoning reliably, provided that their
+inputs are precisely formatted and the user is patient during longer reasoning phases.
+1Verified against the course solution document for HW05.
+4
+
+
+--- Page 5 ---
+Chat Logs and Transparency Statement
+Because gpt-oss sessions are ephemeral and cannot be shared via persistent links, all prompts
+and responses are reproduced verbatim within this document (Tasks 1–4, pp. 4–19 of the at-
+tached PDF :contentReference[oaicite:0]index=0). These logs include the raw prompts, long-
+latency responses, and the single no-output instance noted above. Together with the analysis
+and executive summary, they constitute a full and auditable record of model behavior, the
+corrective strategies used, and its resulting performance accuracy—meeting the assignment’s
+requirement to “make observations of its behavior and explain the strategies used.”
+5
+
+
+--- Page 6 ---
+A
+Task 1
+First Prompt
+(a) List two reasons we typically prefer convolutional layers instead of fully connected layers
+when working with image data.
+(b) Consider the following 1D signal: [1, 4, 0, 2, 3]. After convolution with a length-3 filter,
+no padding, stride=1, we get the following sequence: [2, 2, 11]. What was the filter? (Hint:
+Just to help you check your work, the first entry in the filter that you should find is 2.
+However, if you try to use this hint directly to solve for the answer, you will not get credit
+since this hint only exists to help you check your work.)
+(c) Transpose convolution is an operation to help us upsample a signal (increase the resolu-
+tion). For example, if our original signal were [a, b, c] and we perform transpose convolution
+with pad=0 and stride=2, with the filter [x, y, z], the output would be [ax, ay, az + bx, by,
+bz + cx, cy, cz].
+Notice that the entries of the input are multiplied by each of the entries of the filter. Overlaps
+are summed. Also notice how for a fixed filtersize and stride, the dimensions of the input and
+output are swapped compared to standard convolution. (For example, if we did standard
+convolution on a length-7 sequence with filtersize of 3 and stride=2, we would output a
+length-3 sequence).
+”1 2 ”+1 1 If our 2D input is
+"
+−1
+2
+3
+1
+#
+and the 2D filter is
+h
+0
++1
+i
+What is the output of transpose convolution with pad=0 and stride=1?
+Context
+Started with copy pasting everything in as pure text. Not checking formatting before send-
+ing. Did really well for a and b, but got the wrong input and filter for c. As a reasoning task
+there is no surprise that a went well, and b is a simple math task where it managed to solve
+the differential equations. After sending in the correct input and filter for c, it managed to
+solve that perfectly as well.
+Helping prompt: Input = [[-1, 2], [3, 1]] Filter = [[1, -1], [0, 1]] This is cor-
+rect input and filter for c. Solve again.
+Answer
+(a) Why we usually use convolutional layers rather than fully-connected layers for images
+6
+
+
+--- Page 7 ---
+max width=
+Reason
+What it means for images
+Why it matters
+Weight
+sharing
+/
+sparse
+local
+connectivity
+A filter (e.g.
+a 3×3 kernel) has only
+9 trainable parameters, but that same
+kernel is applied at every spatial loca-
+tion.
+The number of parameters grows only
+with the number of filters, not with the
+image size, so the model is far smaller,
+trains faster and is less prone to over-
+fitting.
+Exploitation
+of
+spatial
+locality
+&
+translation
+invariance
+Convolution looks at a small neighbour-
+hood (a receptive field) around each
+pixel and the same pattern can be de-
+tected wherever it appears.
+The network preserves the 2-D topology
+of the data, can build hierarchical fea-
+tures (edges →motifs →objects) and
+is robust to shifts of the object inside
+the image.
+(Other correct reasons – e.g. ability to handle variable-size inputs or huge reduction in FLOPs – would
+also earn credit.)
+(b) Recovering the length-3 filter
+Let the filter be f = [f0, f1, f2].
+−2 = f0(1) + f1(4) + f2(0),
+2 = f0(4) + f1(0) + f2(−2),
+11 = f0(0) + f1(−2) + f2(3).
+f0 = 2,
+f1 = −1,
+f2 = 3.
+Hence, the filter is [2, −1, 3] . (If one adopts the textbook definition of convolution that
+flips the kernel, the answer would be the reversed vector [3, -1, 2]; the hint that the first entry
+is 2 tells us the non-flipped convention is intended.)
+(c) Transpose Convolution (stride = 1, pad = 0)
+I =
+"
+−1
+2
+3
+1
+#
+,
+K =
+"
+1
+−1
+0
+1
+#
+Output size:
+(Hin + HK −1) × (Win + WK −1) = 3 × 3.
+7
+
+
+--- Page 8 ---
+O0,0 = −1(1) = −1,
+O0,1 = (−1)(−1) + 2(1) = 3,
+O0,2 = 2(−1) = −2,
+O1,0 = 3(1) = 3,
+O1,1 = (−1)(1) + 2(0) + 3(−1) + 1(1) = −3,
+O1,2 = 2(1) + 1(−1) = 1,
+O2,0 = 0,
+O2,1 = 3(1) = 3,
+O2,2 = 1(1) = 1.
+O =
+
+
+−1
+3
+−2
+3
+−3
+1
+0
+3
+1
+
+
+(If one used the flipped-kernel convention, the filter would first be rotated 180° before ap-
+plying, giving different results. The example provided uses the non-flipped convention, so we
+follow that here.)
+8
+
+
+--- Page 9 ---
+B
+Task 2
+Q2(a) Prompt
+Q2(a). Batch vs Layer Normalization
+We have three cube diagrams (A, B, C), where: The cube has axes N (mini-batch),
+H, W (spatial pixels), and C (channels). The shaded region in each cube indicates
+which elements are normalized together.
+Question: Which diagram corresponds to batch normalization? Which diagram
+corresponds to layer normalization?
+Q2(a) Answer
+Batch Normalization →Diagram A In the picture the shaded block stretches
+over the batch dimension N and the spatial dimensions H×W, while staying confined
+to a single channel C. This is exactly what batch-norm does: for each channel it
+computes its mean/variance using all examples in the mini-batch and all spatial
+locations of that channel.
+Layer Normalization →Diagram B Here the shaded block spans the channel
+dimension C and the spatial dimensions H × W, but is limited to a single sample
+in the batch (a fixed N). That matches layer-norm: for each training example it
+normalizes across all of its features (the whole set of channels and pixels), i.e. across
+the layer of activations.
+(The remaining diagram C would correspond to instance- or group-normalization,
+where the normalization set is just the H × W patch of a single channel for a single
+sample.)
+Q2(b) Prompt
+Q2(b). Simplified Batch Norm (demean only, no variance division)
+We have a batch of scalar inputs {x1, x2, . . . , xn}.
+µ = 1
+n
+n
+X
+j=1
+xj,
+ˆxi = xi −µ,
+yi = γˆxi + β
+Suppose we have a downstream loss L.
+Tasks:
+[label=2.]
+1. Express ∂L
+∂xi in terms of ∂L
+∂yj for j = 1, . . . , n and γ, β if needed.
+2. Numerically evaluate ∂L
+∂x1 when n = 1 and the input batch is {x1} with output
+batch {y1}.
+9
+
+
+--- Page 10 ---
+3. What happens when n →∞? (Assume all relevant quantities are bounded.)
+Q2(b) Answer
+Below is a step-by-step derivation and interpretation of the three requested items.
+1. Gradient of the loss w.r.t. the raw inputs (xi)
+The computation graph is:
+µ = 1
+n
+n
+X
+j=1
+xj,
+ˆxi = xi −µ,
+yi = γˆxi + β
+We want ∂L
+∂xi in terms of the upstream gradients ∂L
+∂yj for all j.
+∂L
+∂xi
+=
+n
+X
+j=1
+∂L
+∂yj
+∂yj
+∂xi
+Derivative of yj with respect to xi:
+yj = γ(xj −µ) + β,
+∂µ
+∂xi
+= 1
+n,
+∂xj
+∂xi
+= δij
+⇒∂yj
+∂xi
+= γ(δij −1
+n)
+Plug back:
+∂L
+∂xi
+= γ
+ ∂L
+∂yi
+−1
+n
+n
+X
+j=1
+∂L
+∂yj
+
+Result:
+∂L
+∂xi
+= γ
+h ∂L
+∂yi
+−1
+n
+X
+j
+∂L
+∂yj
+i
+β does not appear because it’s an additive constant (derivative w.r.t. xi is zero).
+2. Numerical value when n = 1
+For a singleton batch:
+µ = x1,
+ˆx1 = x1 −µ = 0,
+y1 = γ · 0 + β = β
+Output does not depend on x1, so:
+∂L
+∂x1
+= γ
+ ∂L
+∂y1
+−1
+1
+∂L
+∂y1
+
+= 0
+Thus:
+∂L
+∂x1 = 0
+Interpretation: With a batch of size 1, the “demean” operation removes the only signal,
+making the layer untrainable w.r.t. the raw input.
+10
+
+
+--- Page 11 ---
+3. Behaviour as n →∞
+From the formula:
+∂L
+∂xi
+= γ
+ ∂L
+∂yi
+−1
+n
+n
+X
+j=1
+∂L
+∂yj
+
+Assume ∂L
+∂yj are bounded and i.i.d. random variables. As n →∞,
+1
+n
+n
+X
+j=1
+∂L
+∂yj
+→E
+∂L
+∂y
+
+Therefore:
+∂L
+∂xi
+→γ
+ ∂L
+∂yi
+−E
+∂L
+∂y
+
+Interpretation:
+• The first term ( ∂L
+∂yi ) is the per-sample signal.
+• The second term subtracts the global mean, coupling all examples.
+• The sum over all i is zero: P
+i
+∂L
+∂xi = 0.
+• Magnitude remains bounded (no vanishing or explosion).
+So, as batch size grows, each gradient equals the individual upstream signal centered by the
+population mean — precisely the “centering” effect of batch-norm.
+Sanity checks:
+n = 1 ⇒mean term = same as ∂L
+∂y1
+⇒gradient 0
+finite n ⇒coupling across samples
+n →∞⇒deterministic centering by expected gradient
+Summary
+Quantity
+Expression
+Forward
+yi = γ(xi −1
+n
+P
+j xj) + β
+Backward (inputs)
+∂L
+∂xi = γ( ∂L
+∂yi −1
+n
+P
+j
+∂L
+∂yj )
+Special case (n = 1)
+∂L
+∂x1 = 0
+Large-batch limit
+∂L
+∂xi →γ( ∂L
+∂yi −E[∂L
+∂y ])
+These formulas capture exactly how the simplified (mean-only) batch-normalisation layer
+propagates gradients through the network.
+11
+
+
+--- Page 12 ---
+C
+Task 3
+First Prompt
+Depthwise separable convolutions are a type of convolutional operation used
+in deep learning for image processing tasks. Unlike traditional convolutional op-
+erations, which perform both spatial and channel-wise convolutions simultaneously,
+depthwise separable convolutions decompose the convolution operation into two sep-
+arate operations: Depthwise convolution and Pointwise convolution.
+This can be viewed as a low-rank approximation to a traditional convolution. For
+simplicity, throughout this problem, we will ignore biases while counting learnable
+parameters.
+(a) Suppose the input is a three-channel 224 × 224-resolution image, the kernel size
+of the convolutional layer is 3 × 3, and the number of output channels is 4.
+Answer
+Answer to part (a)
+We are asked to count the learnable (weight) parameters for a convolutional layer that takes
+a 3-channel, 224 × 224 input, uses a 3 × 3 kernel, and produces 4 output channels. Biases are
+ignored as instructed.
+1. Standard (full) convolution
+For a conventional convolution each output channel has a 3-D filter of shape:
+(Cin, Kh, Kw) = (3, 3, 3)
+and there are Cout such filters.
+#params (standard) = Cout × Cin × Kh × Kw
+Plugging in the numbers:
+4 × 3 × 3 × 3 = 4 × 27 = 108
+So a full 3 × 3 convolution with 4 output channels needs 108 learnable weights.
+2. Depthwise-separable convolution
+A depthwise-separable convolution consists of two stages:
+12
+
+
+--- Page 13 ---
+Stage
+Description
+# Parameters
+Depthwise
+One 3 × 3 filter per input channel (no mixing across channels)
+Cin × Kh × Kw
+Pointwise
+A 1 × 1 convolution that mixes the depthwise outputs to get outputs
+Cout × Cin
+These two stages are elaborated in the next prompt.
+Second Prompt
+Depthwise separable convolution consists of two parts: depthwise convolutions
+(Fig. 2) followed by pointwise convolutions (Fig. 3). Suppose the input is still a
+three-channel 224 × 224-resolution image. The input first goes through depthwise
+convolutions, where the number of output channels is the same as the number of
+input channels, and there is no “cross talk” between different channels. Then, this
+intermediate output goes through pointwise convolutions, which is basically a tra-
+ditional convolution with the filter size being 1 × 1. Assume that we have 4 output
+channels.
+Question: What is the total number of learnable parameters of the depthwise sepa-
+rable convolution layer which consists of both depthwise and pointwise convolutions?
+Answer
+Depthwise-separable convolution (no biases)
+Stage
+What it does
+Shape of weights
+#
+Depthwise
+One 3 × 3 filter per input channel (no mixing across channels)
+(Cin, Kh, Kw) = (3, 3, 3)
+3
+Pointwise
+1 × 1 convolution that mixes the 3 intermediate channels into 4
+(Cout, Cin, 1, 1) = (4, 3, 1, 1)
+4
+Total learnable parameters:
+Total = 27 (depthwise) + 12 (pointwise) = 39
+Notice that the spatial resolution (224 × 224) does not affect the number of weights.
+So the depthwise-separable layer with 3-channel input, a 3×3 depthwise kernel, and 4 output
+channels requires 39 learnable parameters.
+13
+
+
+--- Page 14 ---
+D
+Task 4
+First prompt
+Question 4: Regularization and Dropout
+Recall that linear regression optimizes the following learning objective:
+L(w) = ∥y −Xw∥2
+2
+(1)
+One way of using dropout during SGD on the d-dimensional input features xi involves keeping
+each feature at random ∼i.i.d. Bernoulli(p) (and zeroing it out if not kept) and then performing
+a traditional SGD step.
+It turns out that such dropout makes our learning objective effectively become:
+L( ˜w) = ER∼Bernoulli(p)
+h
+∥y −(R ⊙X) ˜w∥2
+2
+i
+(2)
+where ⊙is the element-wise product and the random binary matrix R ∈{0, 1}n×d is such that
+Ri,j ∼i.i.d. Bernoulli(p).
+Recalling how Tikhonov-regularized (generalized ridge regression) least-squares problems
+involve solving:
+L(w) = ∥y −Xw∥2
+2 + ∥Γw∥2
+2
+(3)
+for some suitable matrix Γ, it turns out we can manipulate (2) to eliminate the expectations
+and get:
+L( ˜w) = ∥y −pX ˜w∥2
+2 + p(1 −p)∥˜Γ ˜w∥2
+2
+(4)
+where ˜Γ is a diagonal matrix whose j-th diagonal entry is the norm of the j-th column of the
+training matrix X.
+(a) Eliminating Expectations
+Show that we can manipulate (2) to eliminate the expectations and get:
+L( ˜w) = ∥y −pX ˜w∥2
+2 + p(1 −p)∥˜Γ ˜w∥2
+2
+with ˜Γ defined as above.
+Answer
+Answer to part (a). We start from the dropout–averaged loss
+L( ˜w) = ER∼Bernoulli(p)
+hy −(R ⊙X) ˜w
+2
+2
+i
+,
+R ∈{0, 1}n×d, Rij
+i.i.d.
+∼Bern(p).
+14
+
+
+--- Page 15 ---
+Below we show that this expectation can be written in closed-form as
+L( ˜w) =
+y −pX ˜w
+2
+2 + p(1 −p)
+˜Γ ˜w
+2
+2
+()
+where ˜Γ is the diagonal matrix
+˜Γ = diag
+ ∥X:,1∥2, . . . , ∥X:,d∥2
+
+.
+1. Expand the squared norm
+y −(R ⊙X) ˜w
+2
+2 =
+ y −(R ⊙X) ˜w
+T  y −(R ⊙X) ˜w
+
+= ∥y∥2
+2 −2 yT (R ⊙X) ˜w + ˜wT 
+(R ⊙X)T (R ⊙X)
+ ˜w.
+Taking expectation w.r.t. R we need E[R ⊙X] and E
+
+(R ⊙X)T (R ⊙X)
+
+.
+2. Expectation of the masked design matrix
+Because the entries of R are independent with E[Rij] = p,
+E[R ⊙X] = pX.
+(1)
+3. Expectation of the Gram matrix
+Write X = [x1, . . . , xd] with column vectors xj ∈Rn and similarly R = [r1, . . . , rd]. For the
+(a, b) entry of (R ⊙X)T (R ⊙X),
+
+(R ⊙X)T (R ⊙X)
+
+ab =
+n
+X
+i=1
+Ria Xia Rib Xib =
+n
+X
+i=1
+RiaRib XiaXib.
+Because the masks are independent across columns,
+E[RiaRib] =
+
+
+
+p
+a = b,
+p2
+a ̸= b.
+Hence, for a ̸= b,
+E
+
+(R ⊙X)T (R ⊙X)
+
+ab = p2 X
+i
+XiaXib = p2 XT X
+
+ab,
+and for the diagonal entries,
+E
+
+(R ⊙X)T (R ⊙X)
+
+aa = p
+X
+i
+X2
+ia = p2 X
+i
+X2
+ia + p(1 −p)
+X
+i
+X2
+ia
+= p2 XT X
+
+aa + p(1 −p) ∥X:,a∥2
+2.
+Collecting the off-diagonal and diagonal parts yields
+E
+
+(R ⊙X)T (R ⊙X)
+
+= p2XT X + p(1 −p) ˜Γ2,
+(2)
+15
+
+
+--- Page 16 ---
+where
+˜Γ = diag
+ ∥X:,1∥2, . . . , ∥X:,d∥2
+
+=⇒
+˜Γ2 = diag
+ ∥X:,1∥2
+2, . . . , ∥X:,d∥2
+2
+
+.
+4. Plug back into the loss
+Using (1) and (2),
+L( ˜w) = ∥y∥2
+2 −2 yT  pX
+ ˜w + ˜wT 
+p2XT X + p(1 −p)˜Γ2
+˜w
+= ∥y∥2
+2 −2p yT X ˜w + p2 ˜wT XT X ˜w
+|
+{z
+}
+=
+y −pX ˜w
+2
+2
++ p(1 −p) ˜wT ˜Γ2 ˜w.
+Since ˜wT ˜Γ2 ˜w = ∥˜Γ ˜w∥2
+2, the expression becomes precisely ().
+5. Summary of the key steps
+Step
+What we computed
+Result
+1.
+Expand ∥y −(R ⊙X) ˜w∥2
+∥y∥2 −2yT (R ⊙X) ˜w + ˜wT (R ⊙X)T (R ⊙X) ˜w
+2.
+E[R ⊙X]
+pX
+3.
+E[(R ⊙X)T (R ⊙X)]
+p2XT X + p(1 −p)˜Γ2
+4.
+Insert expectations, regroup terms
+∥y −pX ˜w∥2 + p(1 −p)∥˜Γ ˜w∥2
+Thus the expectation over the dropout mask is exactly equivalent to ordinary least-squares
+on a scaled design matrix pX plus an ℓ2-penalty whose regularisation matrix ˜Γ contains the
+column norms of the original data matrix. This is the desired result. □
+Second prompt
+(b) Transforming the Learned Weights
+How should we transform the ˜w we learn using (5) (i.e. with dropout) to get something that
+looks like a solution to the traditionally regularized problem (3)? Hint: This relates to how
+weights learned with dropout are adjusted for inference (e.g., scaling in PyTorch).
+Answer
+Answer (b). The loss that dropout implicitly optimises is
+L( ˜w) =
+y −pX ˜w
+2
+2 + p(1 −p)
+˜Γ ˜w
+2
+2,
+˜Γ = diag
+ ∥X:,1∥2, . . . , ∥X:,d∥2
+
+.
+(5)
+To obtain a vector that solves the ordinary Tikhonov-regularised problem
+L(w) = ∥y −Xw∥2
+2 + ∥Γw∥2
+2,
+(3)
+16
+
+
+--- Page 17 ---
+we simply rescale the weight vector learned with dropout:
+w = p ˜w
+(or equivalently, scale the test-time inputs by p).
+Why this works
+Insert w = p ˜w into (5):
+L( ˜w) =
+y −pX ˜w
+2
+2 + p(1 −p)
+˜Γ ˜w
+2
+2
+=
+y −Xw
+2
+2 + p(1 −p)
+˜Γw
+p
+2
+2
+=
+y −Xw
+2
+2 + 1 −p
+p
+˜Γw
+2
+2.
+Thus the scaled vector w minimises
+Lridge(w) = ∥y −Xw∥2
+2 + λ ∥Γw∥2
+2,
+λ = 1 −p
+p
+, Γ = ˜Γ.
+If we prefer the conventional form with Γ absorbing the scalar λ, set
+Γ =
+r1 −p
+p
+˜Γ.
+Hence, after training with dropout (keeping each feature with probability p), the inference-time
+weight vector is simply p times the training-time vector ˜w.
+Connection to common deep-learning practice
+In most deep-learning libraries, inverted dropout divides retained activations by p during training
+so their expectation stays unchanged; no scaling is required at test time. Our derivation assumed
+the non-inverted version (keep-or-zero without 1/p correction), so at test time we multiply the
+learned weights (or the inputs) by p. This mirrors what frameworks handle automatically when
+switching to evaluation mode.
+Summary:
+• Train with dropout ⇒obtain ˜w.
+• For inference, use w = p ˜w (or scale inputs by p).
+• This yields a solution of the form (3) with Γ =
+p
+(1 −p)/p ˜Γ (i.e., λ = (1 −p)/p).
+Third prompt
+(c) Changing Variables to Match Ridge Regression
+With the understanding that the Γ in (3) is an invertible matrix, change variables in (3) to
+make the problem look like classical ridge regression:
+L( ˜w) = ∥y −˜X ˜w∥2
+2 + λ∥˜w∥2
+2
+17
+
+
+--- Page 18 ---
+Explicitly, what is the changed data matrix ˜X in terms of the original data matrix X and Γ?
+Answer
+Answer
+Let
+L(w) = ∥y −Xw ∥2
+2 + ∥Γw∥2
+2,
+Γ ∈Rd×d invertible.
+Introduce a new variable
+˜w := Γw
+⇐⇒
+w = Γ−1 ˜w.
+Substituting this into the loss gives
+∥y −Xw ∥2
+2 =
+y −XΓ−1 ˜w
+2
+2,
+∥Γw∥2
+2 =
+ΓΓ−1 ˜w
+2
+2 = ∥˜w∥2
+2.
+Hence the objective becomes
+L( ˜w) =
+y −XΓ−1
+| {z }
+˜X
+˜w
+2
+2 + ∥˜w∥2
+2.
+This is exactly the classical ridge-regression form
+L( ˜w) = ∥y −˜X ˜w ∥2
+2 + λ∥˜w∥2
+2,
+with
+˜X = X Γ−1 ,
+λ = 1.
+If you want an arbitrary ridge parameter λ > 0
+Set ˜w :=
+√
+λ Γw, yielding
+˜X =
+1
+√
+λ
+X Γ−1,
+L( ˜w) = ∥y −˜X ˜w ∥2
+2 + λ∥˜w∥2
+2.
+But in the simplest case the transformed data matrix is
+˜X = X Γ−1 .
+Fourth prompt
+(d) Relationship Between Dropout and Batch Normalization
+Continuing from (c), assume Γ is diagonal and invertible, with its j-th diagonal entry propor-
+tional to the norm of the j-th column in X. What can you say about:
+[label=(iv)]
+1. the norms of the columns of the effective training matrix ˜X, and
+18
+
+
+--- Page 19 ---
+2. the relationship between dropout and batch normalization?
+Answer
+(d) What happens after the change of variables
+Recall from part (c) that we rewrote the Tikhonov-regularised problem as a classical ridge
+problem by the linear change of variables
+˜w = Γw,
+˜X = X Γ−1.
+(*)
+Assume that
+• Γ is diagonal and invertible, Γ = diag(γ1, . . . , γd);
+• each diagonal entry is chosen proportional to the Euclidean norm of the corresponding
+column of X, i.e.
+γj = c ∥X:,j∥2
+for some constant c > 0.
+(i) Norms of the columns of ˜X
+The j-th column of the effective training matrix is
+˜X:,j = X:,j γ−1
+j
+=
+1
+c ∥X:,j∥2
+X:,j.
+Hence its Euclidean norm is
+∥˜X:,j∥2 =
+1
+c ∥X:,j∥2
+∥X:,j∥2 = 1
+c,
+which does not depend on j. Consequently every column of ˜X has the same norm (unit norm
+if c = 1). In other words, the transformation ˜X = XΓ−1 normalises the columns of the design
+matrix.
+(ii) Relationship between dropout and batch-normalisation
+[label=4.]
+1. Dropout’s expected loss →ridge on a normalised matrix. From parts (a)–(c),
+training with dropout on X is equivalent (in expectation) to solving ridge regression
+min
+˜w
+y −˜X ˜w
+2
+2 + λ∥˜w∥2
+2,
+˜X = XΓ−1, λ = 1 −p
+p
+.
+Because Γ rescales each feature by the inverse of its column norm, ˜X has equal-norm
+columns.
+2. What batch-normalisation does. Batch normalisation centres each feature and then
+scales it by the inverse of its standard deviation. After scaling, each feature has unit
+variance (and column norms equal up to a factor √n).
+19
+
+
+--- Page 20 ---
+3. The connection. The scaling part of BN is the same diagonal rescaling as ˜X = XΓ−1.
+Dropout, via its expected objective, implicitly applies this scaling before the quadratic
+penalty; BN applies it deterministically using batch statistics.
+4. Intuition. Both reduce sensitivity to raw feature magnitude. Dropout introduces stochas-
+tic masking and leads to an L2 penalty; BN provides explicit deterministic centring and
+scaling each forward pass.
+Summary
+• (i) All columns of ˜X = XΓ−1 have the same Euclidean norm (unit if γj = ∥X:,j∥2).
+• (ii) Dropout’s expected loss is equivalent to ridge regression on a column-normalised ma-
+trix, closely mirroring the scaling performed by batch normalisation; dropout is an implicit
+stochastic analogue plus an L2 regulariser, while BN is the explicit deterministic version
+(with centring).
+20

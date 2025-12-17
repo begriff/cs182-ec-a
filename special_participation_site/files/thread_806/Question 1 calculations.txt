@@ -1,0 +1,3392 @@
+--- Page 1 ---
+1/27
+Question 1 calculations
+hw4.pdf
+PDF
+Do questions 1,2,3,4, and 7 please. Make sure all
+calculations and explanations are accurate and detailed.
+Explain all math. If you are unsure, do not guess, just ask
+for clarification or help.
+Reasoned for 19m 52s
+I’ll go question by question and part by part. I’ll flag any assumptions I have to make
+(e.g. about RMS definition or network depth) so you can adjust to your course’s exact
+conventions.
+1. Newton–Schulz Runtime 
+We update a matrix 
+ with
+We’re told: multiplying an 
+ matrix by an 
+ matrix takes time 
+. 
+(a) Runtime of one iteration (naïve implementation)
+We need to compute:
+1. 
+ (size 
+)
+2. 
+3. 
+4. 
+Only 1 and 3 involve matrix–matrix multiplies (dominant cost).
+1. Compute 
+Shape: 
+ is 
+, 
+ is 
+.
+Using the given rule, runtime:
+W ∈Rd
+​×d
+​
+out
+in
+p(W) =
+​(3I
+​ −
+2
+1
+d
+​
+out
+WW )W.
+⊤
+n × m
+m × p
+c nmp
+A = WW ⊤
+d
+​ ×
+out
+d
+​
+out
+B = 3I
+​ −
+d
+​
+out
+A
+C = BW
+p(W) =
+​C
+2
+1
+A = WW ⊤
+W
+d
+​ ×
+out
+d
+​
+in W ⊤
+d
+​ ×
+in
+d
+​
+out
+c (d
+​)(d
+​)(d
+​) =
+out
+in
+out
+c d
+​d
+​.
+out
+2
+in
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 2 ---
+2/27
+2. Compute 
+ is matrix add/subtract and scaling, which is 
+, but we’re
+told to ignore non-matmul costs.
+Shape: 
+ is 
+, 
+ is 
+.
+Runtime:
+3. The final scaling by 
+ is negligible.
+Total runtime per iteration (naïve):
+(b) Faster when 
+ using 
+We’re told to consider the Gram matrix 
+. 
+Key algebra trick:
+So
+Let 
+ (Gram matrix, size 
+). Then we can compute:
+1. 
+2. 
+3. 
+ (linear-time ops)
+Now compute the runtimes:
+1. Compute 
+ is 
+, 
+ is 
+.
+Runtime:
+2. Compute 
+C = (3I
+​ −
+d
+​
+out
+A)W
+B = 3I
+​ −
+d
+​
+out
+A
+O(d
+​)
+out
+2
+B
+d
+​ ×
+out
+d
+​
+out W
+d
+​ ×
+out
+d
+​
+in
+c (d
+​)(d
+​)(d
+​) =
+out
+out
+in
+c d
+​d
+​.
+out
+2
+in
+1/2
+T
+​ =
+naive
+c d
+​d
+​ +
+out
+2
+in
+c d
+​d
+​ =
+out
+2
+in
+2c d
+​d
+​.
+out
+2
+in
+d
+​ ≫
+out
+d
+​
+in
+W W
+⊤
+W W
+⊤
+(WW )W =
+⊤
+W(W W).
+⊤
+​
+​
+p(W) =
+​(3I −WW )W
+2
+1
+⊤
+=
+​ 3W −(WW )W
+2
+1 (
+⊤
+)
+=
+​ 3W −W(W W) .
+2
+1 (
+⊤
+)
+G = W W
+⊤
+d
+​ ×
+in
+d
+​
+in
+G = W W
+⊤
+H = WG
+p(W) =
+​(3W −
+2
+1
+H)
+G = W W
+⊤
+W ⊤
+d
+​ ×
+in
+d
+​
+out W
+d
+​ ×
+out
+d
+​
+in
+c (d
+​)(d
+​)(d
+​) =
+in
+out
+in
+c d
+​d
+​.
+out
+in
+2
+H = WG
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 3 ---
+3/27
+ is 
+, 
+ is 
+.
+Runtime:
+3. Scalar multiplies/adds again negligible.
+Total runtime per iteration (Gram-trick):
+Speedup factor:
+So when 
+, the Gram formulation is much faster:
+Naïve: 
+Gram: 
+.
+2. MuP at the Unit Scale 
+We consider a dense layer
+with parameters 
+ initialized i.i.d. 
+, and an external scalar .
+Let 
+ be the input dimension (fan-in).
+(a) Why initialize with 
+ instead of Xavier in fp8?
+In fp8 we have only 255 representable values. 
+Xavier/He initializations scale weights as 
+ with 
+ (or similar),
+so for wide layers  becomes very small.
+In fp8, when the true weight distribution is very narrow around 0, most values
+underflow to 0 or collapse to a tiny subset of the 255 representable values. That
+wastes dynamic range and effectively reduces many different weights to the same
+quantized value.
+If we instead sample 
+, the weights are spread across the full fp8
+grid. This:
+W
+d
+​ ×
+out
+d
+​
+in G
+d
+​ ×
+in
+d
+​
+in
+c (d
+​)(d
+​)(d
+​) =
+out
+in
+in
+c d
+​d
+​.
+out
+in
+2
+T
+​ =
+Gram
+2c d
+​d
+​.
+out
+in
+2
+​ =
+T
+​
+Gram
+T
+​
+naive
+​ =
+2c d
+​d
+​
+out
+in
+2
+2c d
+​d
+​
+out
+2
+in
+​.
+d
+​
+in
+d
+​
+out
+d
+​ ≫
+out
+d
+​
+in
+O(d
+​d
+​)
+out
+2
+in
+O(d
+​d
+​)
+out
+in
+2
+y = cWx
+W
+N(0, 1)
+c
+d
+​
+in
+N(0, 1)
+N(0, σ )
+2
+σ ∼1/
+​
+d
+​
+in
+σ
+w
+​ ∼
+ij
+N(0, 1)
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 4 ---
+4/27
+uses the available representable values more uniformly,
+keeps each parameter at roughly unit scale, independent of layer width, which
+is exactly what MuP / maximal-update parameterization likes: the scaling is
+handled separately rather than baked into the raw weights.
+We then recover Xavier-like behavior by scaling activations with the float scalar , which
+is stored in higher precision, rather than by shrinking the underlying fp8 weights.
+(b) Choosing  to recover Xavier-like forward variance
+Assume:
+,
+ are i.i.d., mean 0, variance 
+,
+, and a single output coordinate is:
+Because 
+ and 
+ are independent and zero-mean:
+For the variance:
+Xavier’s goal is roughly to keep 
+. Thus we require:
+c
+c
+w
+​ ∼
+ij
+N(0, 1)
+x
+​i
+Var(x
+​) =
+i
+v
+​x
+y = cWx
+y =
+j
+c
+​w
+​x
+​.
+i=1
+∑
+d
+​
+in
+ji
+i
+w
+​
+ji
+x
+​i
+E[y
+​] =
+j
+0.
+​
+​
+Var(y
+​)
+j = c Var(
+​w
+​x
+​)
+2
+i=1
+∑
+d
+​
+in
+ji
+i
+= c
+​Var(w
+​x
+​)
+(cross-terms vanish by independence and zero mean)
+2
+i=1
+∑
+d
+​
+in
+ji
+i
+= c
+​E[w
+​x
+​]
+2
+i=1
+∑
+d
+​
+in
+ji
+2
+i
+2
+= c
+​E[w
+​] E[x
+​]
+(independent)
+2
+i=1
+∑
+d
+​
+in
+ji
+2
+i
+2
+= c
+​(1) v
+​ = c d
+​v
+​.
+2
+i=1
+∑
+d
+​
+in
+x
+2
+in x
+Var(y
+​) ≈
+j
+Var(x
+​) =
+i
+v
+​x
+1
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 5 ---
+5/27
+(choosing the positive root).
+So to mimic a Xavier-style initialization with unit-variance weights, we take
+(c) Spectral norm bound on 
+ so 
+ has RMS ≤ 1
+We want to control the update
+so that for any  with RMS norm 1, the RMS norm of 
+ is at most 1. 
+Let:
+Input dimension be 
+, output dimension 
+.
+For a vector 
+, RMS norm: 
+.
+Given 
+, we have 
+.
+For 
+:
+Use the spectral norm bound 
+:
+To ensure 
+ for any such , we need:
+That’s the spectral norm constraint.
+c d
+​v
+​ =
+2
+in x
+v
+​
+⇒
+x
+c d
+​ =
+2
+in
+1
+⇒
+c =
+​
+​
+d
+​
+in
+1
+​
+c =
+​.
+​
+d
+​
+in
+1
+ΔW
+Δy
+Δy = cΔWx
+x
+Δy
+d
+​
+in
+d
+​
+out
+v ∈Rd
+∥v∥
+​ :=
+RMS
+​ =
+​
+​ v
+​
+d
+1 ∑i=1
+d
+i
+2
+​
+​d
+∥v∥
+​2
+∥x∥
+​ =
+RMS
+1
+∥x∥
+​ =
+2
+​
+d
+​
+in
+Δy = cΔWx
+∥Δy∥
+​ =
+RMS
+​ =
+​
+d
+​
+out
+∥Δy∥
+​2
+​
+​
+d
+​
+out
+∣c∣∥ΔWx∥
+​2
+∥ΔWx∥
+​ ≤
+2
+∥ΔW∥
+​∥x∥
+​
+2
+2
+∥Δy∥
+​ ≤
+RMS
+∣c∣∥ΔW∥
+​
+​ =
+2
+​
+d
+​
+out
+∥x∥
+​2
+∣c∣∥ΔW∥
+​
+​.
+2
+​
+d
+​
+out
+​
+d
+​
+in
+∥Δy∥
+​ ≤
+RMS
+1
+x
+∣c∣∥ΔW∥
+​ ≤
+2
+​
+d
+​
+out
+d
+​
+in
+1
+⇒
+​
+∥ΔW∥
+​ ≤
+​
+​.
+2
+∣c∣
+1
+​
+d
+​
+in
+d
+​
+out
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 6 ---
+6/27
+(d) SignSGD learning rate  under that constraint 
+Mini-batch size is 1. For a fully-connected layer, the true gradient has the form
+where 
+ is the upstream gradient and 
+ is the input.
+For SignSGD, we use
+Each element of 
+ is
+so
+where 
+ and 
+.
+This is a rank‑1 matrix. The spectral norm of a rank‑1 outer product is the product of the
+vector 
+ norms:
+In the “worst case” where no entry is exactly zero, we have:
+.
+.
+So
+For the update:
+To satisfy the constraint from (c),
+Solve for :
+α
+∇
+​L =
+W
+gx ,
+⊤
+g ∈Rd
+​
+out
+x ∈Rd
+​
+in
+ΔW = α sign(∇
+​L).
+W
+sign(∇
+​L)
+W
+sign(g
+​x
+​) =
+i
+j
+sign(g
+​) sign(x
+​),
+i
+j
+sign(∇
+​L) =
+W
+ab⊤
+a
+​ =
+i
+sign(g
+​) ∈
+i
+{−1, 0, 1}
+b
+​ =
+j
+sign(x
+​) ∈
+j
+{−1, 0, 1}
+ℓ
+​2
+∥ab ∥
+​ =
+⊤
+2
+∥a∥
+​∥b∥
+​.
+2
+2
+∥a∥
+​ =
+2
+​ =
+​ a
+​
+∑i=1
+d
+​
+out
+i
+2
+​
+d
+​
+out
+∥b∥
+​ =
+2
+​ =
+​ b
+​
+∑j=1
+d
+​
+in
+j
+2
+​
+d
+​
+in
+∥sign(∇
+​L)∥
+​ =
+W
+2
+​
+​ =
+d
+​
+out
+d
+​
+in
+​.
+d
+​d
+​
+out
+in
+∥ΔW∥
+​ =
+2
+∣α∣∥sign(∇
+​L)∥
+​ =
+W
+2
+∣α∣
+​.
+d
+​d
+​
+out
+in
+∣α∣
+​ ≤
+d
+​d
+​
+out
+in
+​
+​.
+∣c∣
+1
+​
+d
+​
+in
+d
+​
+out
+α
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 7 ---
+7/27
+1. Divide both sides by 
+ (positive):
+2. Combine square roots:
+So
+A maximal safe choice is
+(assuming 
+). This works for rectangular 
+.
+(e) Muon-style orthogonalized update: learning rate 
+We perform SVD:
+Here 
+ and 
+ have orthonormal columns, and  is the rank.
+Consider 
+. Its spectral norm is 1:
+.
+The eigenvalues of 
+ are 1 (with multiplicity ) and 0 otherwise, so the
+largest singular value of 
+ is 1.
+Thus:
+To satisfy the same bound as in (c):
+So a maximal choice is
+​
+d
+​d
+​
+out
+in
+∣α∣≤
+​
+​ ⋅
+∣c∣
+1
+​
+d
+​
+in
+d
+​
+out
+​.
+​
+d
+​d
+​
+out
+in
+1
+​ ⋅
+​
+d
+​
+in
+d
+​
+out
+​ =
+​
+d
+​d
+​
+out
+in
+1
+​ ⋅
+​
+d
+​
+in
+d
+​
+out
+​ =
+​
+​
+d
+​
+out
+d
+​
+in
+1
+​.
+d
+​
+in
+1
+∣α∣≤
+​.
+∣c∣d
+​
+in
+1
+​
+α =
+​
+c d
+​
+in
+1
+c > 0
+W ∈Rd
+​×d
+​
+out
+in
+α
+∇
+​L =
+W
+UΣV
+,
+ΔW =
+⊤
+αUV
+.
+⊤
+U ∈Rd
+​×r
+out
+V ∈Rd
+​×r
+in
+r
+M := UV ⊤
+MM
+=
+⊤
+UV
+V U
+=
+⊤
+⊤
+UI
+​U
+=
+r
+⊤
+UU ⊤
+UU ⊤
+r
+M
+∥ΔW∥
+​ =
+2
+∥αUV
+∥
+​ =
+⊤
+2
+∣α∣∥UV
+∥
+​ =
+⊤
+2
+∣α∣.
+∣α∣≤
+​
+​.
+∣c∣
+1
+​
+d
+​
+in
+d
+​
+out
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 8 ---
+8/27
+(f) When can we ignore the scale of intermediate backpropagated
+gradients? 
+We have a stack of linear layers (no activations):
+Backprop recursion:
+The parameter gradient is
+Now suppose we rescale the intermediate gradient at layer 
+ by some scalar 
+:
+Then
+is simply scaled by 
+ relative to the original gradient.
+Algorithms like SignGD, Adam (with normalized steps), and Muon are (approximately)
+invariant to global gradient scale: multiplying the whole gradient by a positive constant
+doesn’t change the update direction and often doesn’t change the actual update (after
+normalization/clipping/etc.).
+So in a setting where every layer is updated by a scale-invariant optimizer (SignGD /
+Adam-with-normalization / Muon), we can:
+arbitrarily scale 
+ at each layer,
+as long as we use that scaled version consistently in 
+.
+The direction of the parameter update remains unchanged. That means the absolute
+scale of intermediate backpropagated gradients can be ignored (or normalized for
+​
+α =
+​
+​.
+c
+1
+​
+d
+​
+in
+d
+​
+out
+x
+​ =
+n+1
+c
+​W
+​x
+​.
+n
+n
+n
+∇
+​L =
+x
+​n
+c
+​W
+​∇
+​L.
+n
+n
+⊤
+x
+​
+n+1
+∇
+​L =
+W
+​n
+c
+​ ∇
+​L x
+​.
+n
+x
+​
+n+1
+n
+⊤
+n + 1
+λ
+​ >
+n
+0
+​
+​ :=
+g~n+1
+λ
+​∇
+​L.
+n
+x
+​
+n+1
+∇
+​L ∝
+W
+​n
+​
+​x
+​
+g~n+1
+n
+⊤
+λ
+​n
+∇
+​L
+x
+​n
+∇
+​L
+W
+​n
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 9 ---
+9/27
+numerical convenience) in such a setup; we only need their direction (relative shape
+across coordinates).
+(g) Explosion / vanishing of backprop gradients, and stabilizing constants 
+We again have 
+, and the backprop recursion
+We are told to assume:
+ is rank‑1,
+each parameter is unit-scaled (entries of order 1),
+for rank‑1 matrices, the spectral norm equals the Frobenius norm.
+For a rank‑1 matrix with all entries of order 1 and shape 
+:
+There are 
+ entries.
+Frobenius norm squared:
+Spectral norm 
+.
+Thus each backprop step roughly multiplies gradient magnitude by
+If we choose 
+ as in (b) for forward stability:
+then
+If 
+, then 
+ and gradients explode exponentially with depth.
+If 
+ (not really meaningful in this discrete setting), they would vanish.
+So yes, without adjustments, intermediate backpropagated gradients will typically
+explode (in the usual wide-layer case).
+To stabilize them, we can renormalize each gradient after every layer by the inverse of
+this factor. That is, multiply 
+ by:
+x
+​ =
+n+1
+c
+​W
+​x
+​
+n
+n
+n
+g
+​ :=
+n
+∇
+​L =
+x
+​n
+c
+​W
+​g
+​.
+n
+n
+⊤
+n+1
+W
+​n
+d
+​ ×
+out
+d
+​
+in
+d
+​d
+​
+out
+in
+∥W
+​∥
+​ ≈
+n F
+2
+d
+​d
+​
+⇒
+out
+in
+∥W
+​∥
+​ ≈
+n F
+​.
+d
+​d
+​
+out
+in
+∥W
+​∥
+​ =
+n 2
+∥W
+​∥
+​ ≈
+n F
+​
+d
+​d
+​
+out
+in
+factor
+​ ≈
+n
+c
+​∥W
+​∥
+​ ≈
+n
+n 2
+c
+​
+​.
+n
+d
+​d
+​
+out
+in
+c
+​n
+c
+​ =
+n
+​,
+​
+d
+​
+in
+1
+factor
+​ ≈
+n
+​
+​ =
+​
+d
+​
+in
+1
+d
+​d
+​
+out
+in
+​.
+d
+​
+out
+d
+​ >
+out
+1
+​ >
+d
+​
+out
+1
+d
+​ <
+out
+1
+g
+​n
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 10 ---
+10/27
+With 
+, this simplifies to
+So in a square 
+ layer, you’d multiply the gradient after backpropagating through
+that layer by roughly 
+. That keeps the expected gradient scale roughly constant
+across many layers.
+3. Understanding Convolution as an FIR Filter 
+We have a rectangular (boxcar) signal of length 
+:
+In the figure they show 
+, so I’ll use 
+ explicitly. 
+The impulse response is
+h(n) = \left(\tfrac12\right)^n u(n) = \begin{cases} \left(\tfrac12\right)^n, & n =
+0,1,2,\dots,\\ 0, & \text{otherwise}. \end{cases} \] :contentReference[oaicite:12]
+{index=12} --- ### (a) Compute \(y(n) = (x*h)(n)\), plot from \(n=-6\) to \(12\) By
+definition of discrete convolution: \[ y(n) = (x*h)(n) = \sum_{k=-\infty}^{\infty} x(k)\,h(n-
+k). \] :contentReference[oaicite:13]{index=13} Because \(x(k)\) is nonzero only for \
+(k=0,\dots,6\), we can write: \[ y(n) = \sum_{k=0}^{6} h(n-k).
+Recall 
+ for 
+ and  otherwise, so the summation effectively only
+includes terms where 
+, i.e. 
+.
+So for each :
+If 
+: then for all 
+, 
+, so 
+.
+Hence 
+.
+If 
+: allowed  values are 
+ (cannot exceed 6).
+​
+β
+​ =
+​ ≈
+​.
+n
+c
+​∥W
+​∥
+​
+n
+n 2
+1
+c
+​
+​
+n
+d
+​d
+​
+out
+in
+1
+c
+​ =
+n
+1/
+​
+d
+​
+in
+β
+​ ≈
+n
+​ =
+(1/
+​)
+​
+d
+​
+in
+d
+​d
+​
+out
+in
+1
+​.
+​
+d
+​
+out
+1
+d × d
+1/
+d
+L
+x(n) =
+​
+​
+{1,
+0,
+n = 0, 1, 2, … , L −1,
+otherwise.
+L = 7
+L = 7
+h(m) = (1/2)m
+m ≥0
+0
+n −k ≥0
+k ≤n
+n
+n < 0
+k ≥0 n −k < 0
+h(n −k) = 0
+y(n) = 0
+0 ≤n ≤6
+k
+k = 0, 1, … , n
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 11 ---
+11/27
+If 
+: we can use all 
+, since 
+.
+Since 
+, we have 
+, so the tail is:
+Piecewise formula:
+For plotting from 
+ to 
+, we can tabulate values (approximate decimals):
+: 
+: 
+: 
+: 
+: 
+: 
+: 
+: 
+Tail uses the exponential formula:
+: 
+: multiply by  again ≈ 0.49609375
+: ≈0.248046875
+: ≈0.1240234375
+: ≈0.06201171875
+​
+​
+y(n) =
+​
+​
+=
+​
+​
+(change variable r = n −k)
+k=0
+∑
+n
+( 2
+1)
+n−k
+r=0
+∑
+n
+( 2
+1)
+r
+=
+​ = 2 1 −
+​
+.
+1 −1/2
+1 −(1/2)n+1
+(
+( 2
+1)
+n+1)
+n ≥7
+k = 0, … , 6
+n −k ≥n −6 ≥1
+​
+​
+y(n) =
+​
+​
+=
+​
+​
+​
+k=0
+∑
+6
+( 2
+1)
+n−k
+( 2
+1)
+n−6
+j=0
+∑
+6
+( 2
+1)
+j
+=
+​
+⋅
+​
+( 2
+1)
+n−6
+1 −1/2
+1 −(1/2)7
+= 2(1 −(1/2) )
+​
+.
+7 ( 2
+1)
+n−6
+(1/2) =
+7
+1/128
+1 −(1/2) =
+7
+127/128
+y(n) = 2 ⋅
+​
+=
+128
+127 ( 2
+1)
+n−6
+​ ⋅
+128
+254
+2
+for n ≥
+−(n−6)
+7.
+y(n) =
+​
+​
+​
+⎩
+⎨
+⎧0,
+2 1 −
+​
+,
+(
+( 2
+1)
+n+1)
+2 1 −
+​
+​
+,
+(
+( 2
+1)
+7) ( 2
+1)
+n−6
+n < 0,
+0 ≤n ≤6,
+n ≥7.
+n = −6
+12
+n = −6, −5, −4, −3, −2, −1 y(n) = 0
+n = 0 2(1 −(1/2) ) =
+1
+2(1 −1/2) = 1
+n = 1 2(1 −(1/2) ) =
+2
+2(1 −1/4) = 2 ⋅
+​ =
+4
+3
+1.5
+n = 2 2(1 −(1/2) ) =
+3
+2(1 −1/8) = 2 ⋅
+​ =
+8
+7
+1.75
+n = 3 2(1 −1/16) = 2 ⋅
+​ =
+16
+15
+1.875
+n = 4 2(1 −1/32) = 2 ⋅
+​ =
+32
+31
+1.9375
+n = 5 2(1 −1/64) = 2 ⋅
+​ =
+64
+63
+1.96875
+n = 6 2(1 −1/128) = 2 ⋅
+​ ≈
+128
+127
+1.984375
+n = 7 2(1 −1/128) ⋅(1/2) =
+1
+​ ⋅
+64
+127
+​ =
+2
+1
+​ ≈
+128
+127
+0.9921875
+n = 8
+​2
+1
+n = 9
+n = 10
+n = 11
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 12 ---
+12/27
+: ≈0.031005859375
+If you sketch those, you get a rising ramp from 0 to just under 2 over 
+ to 6, then
+an exponentially decaying tail.
+(b) Convolution with shifted input 
+ and property
+We define
+Let
+Use the time-shift property of convolution:
+For any signals  and , and integer shift 
+,
+So
+Thus the output is exactly the same shape as in (a), but shifted right by 5.
+Property identified: time-shift invariance (or shift equivariance) of convolution.
+(c) 2D convolution with given  and Sobel-like filter 
+We’re given:
+We are to compute 
+ with no padding and stride 1. 
+The 2D convolution definition (as in the statement) is:
+n = 12
+n = 0
+x
+​(n) =
+2
+x(n −5)
+x
+​(n) =
+2
+x(n −5),
+N = 5. : contentReference[oaicite : 14]index = 14
+y
+​(n) =
+2
+(h ∗x
+​)(n).
+2
+x
+h
+N
+x
+​(n) =
+2
+x(n −N)
+⇒
+(h ∗x
+​)(n) =
+2
+(h ∗x)(n −N).
+​
+y
+​(n) = y(n −5).
+2
+x
+h
+x =
+​
+​
+​
+​
+​
+​
+​,
+h =
+1
+6
+11
+16
+21
+2
+7
+12
+17
+22
+3
+8
+13
+18
+23
+4
+9
+14
+19
+24
+5
+10
+15
+20
+25
+​
+​
+​
+​
+​.
+−1
+0
+1
+−2
+0
+2
+−1
+0
+1
+y = x ∗h
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 13 ---
+13/27
+i.e. we flip the kernel in both dimensions (“flip and drag”). 
+Flipping  horizontally and vertically yields:
+So convolution with  is equivalent to correlation with .
+The input is 
+, kernel 
+, no padding, stride 1 ⇒ output is 
+. For each output
+position, we take the corresponding 
+ patch of , multiply elementwise by , and
+sum.
+Let’s compute one position explicitly, say the top-left output 
+:
+Patch of  (rows 1–3, cols 1–3):
+Elementwise multiply 
+:
+Sum all entries:
+You can check (systematically or by symmetry) that every 
+ patch of this
+numerically linear matrix produces the same sum with , so all entries of  are 
+.
+Thus:
+(d) With padding and stride
+y[m, n] =
+​x[m −
+i,j
+∑
+i, n −j]h[i, j],
+h
+=
+h~
+​
+​
+​
+​
+​ =
+1
+0
+−1
+2
+0
+−2
+1
+0
+−1
+−h.
+h
+h~
+5 × 5
+3 × 3
+3 × 3
+3 × 3
+x
+h~
+y
+​
+1,1
+x
+P =
+​
+​
+​
+​
+​.
+1
+6
+11
+2
+7
+12
+3
+8
+13
+P ⊙h~
+​
+​
+​
+​
+​ =
+1 ⋅1
+6 ⋅0
+11 ⋅(−1)
+2 ⋅2
+7 ⋅0
+12 ⋅(−2)
+3 ⋅1
+8 ⋅0
+13 ⋅(−1)
+​
+​
+​
+​
+​.
+1
+0
+−11
+4
+0
+−24
+3
+0
+−13
+1 + 4 + 3 −11 −24 −13 = 8 −48 = −40.
+3 × 3
+h~
+y
+−40
+​
+y =
+​
+​
+​
+​
+​.
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 14 ---
+14/27
+Now we consider the same convolution with:
+1. stride 
+, pad 
+,
+2. stride 
+, pad 
+. 
+We still use true convolution (with flipped kernel ).
+Case (i): stride = 1, pad = 1
+Pad the 
+ input with a 1-pixel border of zeros ⇒ padded size 
+.
+Kernel 
+, stride 1 ⇒ output size
+in each dimension ⇒ 
+.
+Compute top-left output 
+ as an example:
+Padded  (schematically):
+Patch at top-left (rows 1–3, cols 1–3 of the padded input):
+Multiply with  and sum:
+Carrying out all positions (as I checked programmatically) gives:
+S = 1
+P = 1
+S = 2
+P = 1
+h~
+5 × 5
+7 × 7
+3 × 3
+7 −3 + 1 = 5
+5 × 5
+y
+​
+1,1
+x
+​
+​
+​
+​
+​
+​
+​
+​
+​.
+0
+0
+0
+0
+0
+0
+0
+0
+1
+6
+11
+16
+21
+0
+0
+2
+7
+12
+17
+22
+0
+0
+3
+8
+13
+18
+23
+0
+0
+4
+9
+14
+19
+24
+0
+0
+5
+10
+15
+20
+25
+0
+0
+0
+0
+0
+0
+0
+0
+​
+​
+​
+​.
+0
+0
+0
+0
+1
+6
+0
+2
+7
+h~
+​
+​
+0 ⋅1 + 0 ⋅2 + 0 ⋅1 + 0 ⋅0 + 1 ⋅0 + 2 ⋅0
++ 0 ⋅(−1) + 6 ⋅(−2) + 7 ⋅(−1) = −12 −7 = −19.
+​
+y
+​ =
+​
+​
+​
+​
+​
+​.
+pad=1,S=1
+−19
+−34
+−59
+−84
+−49
+−29
+−40
+−60
+−80
+−51
+−39
+−40
+−60
+−80
+−53
+−49
+−40
+−60
+−80
+−55
+−31
+−46
+−61
+−74
+−41
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 15 ---
+15/27
+(You’d typically only need the mechanism; I’m giving the full numeric matrix in case your
+homework wants explicit values.)
+Case (ii): stride = 2, pad = 1
+Same padded 
+ input, same kernel, but stride 
+:
+Output size:
+so output is 
+.
+Using stride-2 “jumps” between patches and the same conv rule, the resulting output is:
+4. Feature Dimensions in a CNN 
+Assume input feature shape is 
+ (width, height, channels).
+(a) Conv layer: parameter count and output shape 
+Hyperparameters:
+filter size 
+ (assume square 
+),
+padding 
+,
+stride ,
+number of filters 
+.
+Each filter has shape 
+:
+weights per filter: 
+,
+for 
+ filters: 
+ weights,
+plus 1 bias per filter ⇒ 
+ biases.
+Total parameters:
+Output shape:
+7 × 7
+S = 2
+out_dim =
+​
++
+⌊
+2
+7 −3⌋
+1 =
+​
++
+⌊2
+4⌋
+1 = 2 + 1 = 3,
+3 × 3
+​
+y
+​ =
+​
+​
+​.
+pad=1,S=2
+−19
+−59
+−49
+−39
+−60
+−53
+−31
+−61
+−41
+W × H × C
+K
+K × K
+P
+S
+F
+K × K × C
+K C
+2
+F
+K CF
+2
+F
+​
+K CF + F.
+2
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 16 ---
+16/27
+Width dimension:
+Height:
+Channels = number of filters 
+.
+So output feature shape:
+(b) Max pooling layer output shape 
+Given:
+pooling filter size 
+,
+stride ,
+no padding (usual pooling).
+Then for input 
+:
+channels remain the same 
+.
+So:
+(c) Receptive field of last output after 
+ conv layers (stride 1, kernel size 
+) 
+Each conv layer (stride 1, kernel 
+) increases the receptive field by 
+ in each
+dimension.
+Let 
+ be the receptive field size (e.g. width) after layer .
+Before any conv: 
+ (each input pixel only “sees” itself).
+W
+​ =
+out
+​
++
+⌊
+S
+W −K + 2P ⌋
+1.
+H
+​ =
+out
+​
++
+⌊
+S
+H −K + 2P ⌋
+1.
+F
+​
+W
+​ × H
+​ × F.
+out
+out
+K
+S
+W × H × C
+W
+​ =
+out
+​
++
+⌊
+S
+W −K ⌋
+1,
+H
+​ =
+out
+​
++
+⌊
+S
+H −K ⌋
+1,
+C
+​
+W
+​ × H
+​ × C.
+out
+out
+L
+K
+K
+K −1
+R
+​ℓ
+ℓ
+R
+​ =
+0
+1
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 17 ---
+17/27
+After first layer: 
+.
+Each additional layer adds 
+:
+.
+Solve this recurrence:
+So the receptive field of the last output (in 1D per dimension) is:
+(Interpreted per spatial dimension; in 2D it’s 
+.)
+(d) Effect of a 
+, stride-2 downsampling layer on receptive field &
+computation 
+A max-pooling layer with kernel 
+ and stride 
+ takes blocks of 
+ in the
+input and emits one output per block.
+Immediately after such a pooling layer, each output unit’s receptive field (relative to
+that layer’s input) is exactly 
+.
+If the input to the pooling layer had a receptive field 
+ (in pixels of the original
+image), then the new receptive field is:
+where  is the effective stride so far. For the very first layer, 
+, so the
+receptive field grows from 1 to 2 – doubling in linear size and quadrupling in area.
+For deeper layers, this additive formula generalizes, but intuitively each pooling
+layer makes each feature depend on a larger chunk of the original image.
+So each pooling layer meaningfully increases receptive field, in particular for 
+pooling it expands the region each subsequent feature “summarizes”.
+Computation advantage:
+The layer halves the spatial resolution in each dimension:
+,
+R
+​ =
+1
+K
+K −1
+R
+​ =
+ℓ+1
+R
+​ +
+ℓ
+(K −1)
+​
+​
+R
+​L = R
+​ + (L −1)(K −1)
+1
+= K + (L −1)(K −1)
+= (K −1)L + 1.
+​
+R
+​ = (K −1)L + 1.
+L
+R
+​ ×
+L
+R
+​L
+2 × 2
+K = 2
+S = 2
+2 × 2
+2 × 2
+R
+R
+​ =
+new
+R + (K −1)J,
+J
+J = 1
+2 × 2
+W →W/2
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 18 ---
+18/27
+.
+A subsequent conv layer cost scales roughly like
+Halving both 
+ and 
+ reduces the spatial term 
+ by a factor of 4.
+We often compensate by doubling the channel count (e.g. from 
+ to 
+) to
+maintain representational power. That multiplies cost by factor 2, but the spatial
+reduction by 4 dominates, so the net cost often drops by about a factor of 2.
+So decreasing the spatial resolution dramatically reduces the number of multiply–
+adds in later layers, allowing deeper or wider networks for the same compute budget.
+(e) Concrete CNN example: fill the table 
+Network pieces:
+CONV3‑F:
+ conv with 
+ filters, padding 1, stride 1.
+POOL2:
+ max pool, stride 2, pad 0.
+FLATTEN
+FC‑K: fully-connected with 
+ outputs. Biases included.
+Given table:
+Layer
+# Parameters
+Dimension of
+Activations
+Input
+0
+CONV3‑10
+?
+POOL2
+0
+CONV3‑10
+?
+POOL2
+?
+?
+FLATTEN
+0
+490
+FC‑3
+?
+3
+Let’s fill in:
+1. First CONV3‑10 (input channels 
+):
+H →H/2
+cost ∝W
+​H
+​K C
+​C
+​.
+out
+out
+2
+in
+out
+W
+H
+W
+​H
+​
+out
+out
+C
+2C
+3 × 3
+F
+2 × 2
+K
+28 × 28 × 1
+28 × 28 × 10
+14 × 14 × 10
+3 × 3 × 10 × 10 + 10
+C = 1
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 19 ---
+19/27
+Weights: 
+.
+Biases: 10.
+Total: 
+.
+Activations: 
+ (given).
+2. POOL2:
+No parameters: 0.
+Spatial dims halved: 
+, 
+, channels unchanged ⇒ 
+ (given).
+3. Second CONV3‑10 (input channels 
+):
+Parameters already written: 
+.
+If you expand: 
+; 
+; 
+.
+Output activations keep same spatial size (padding 1, stride 1) and filter count
+10 ⇒
+.
+4. Second POOL2:
+#params: 0.
+Spatial dims halved: 
+, 
+; channels 10 ⇒
+.
+5. FLATTEN:
+No parameters: 0.
+Flatten 
+ ⇒ activation size 490 (given).
+6. FC‑3:
+Input dimension: 490.
+Weights: 
+.
+.
+Biases: 3.
+Total params: 
+.
+So the completed table:
+Layer
+# Parameters
+Dimension of
+Activations
+Input
+0
+CONV3‑10
+POOL2
+0
+3 × 3 × 1 × 10 = 9 × 10 = 90
+90 + 10 = 100
+28 × 28 × 10
+28 →14 28 →14
+14 × 14 ×
+10
+C = 10
+3 × 3 × 10 × 10 + 10
+3 × 3 = 9 9 × 10 × 10 = 900 900 + 10 = 910
+​
+14 × 14 × 10
+14 →7 14 →7
+​
+7 × 7 × 10
+7 × 7 × 10 = 49 × 10 = 490
+490 × 3
+490 × 3 = 490 + 490 + 490 = 1470
+1470 + 3 = 1473
+28 × 28 × 1
+3 × 3 × 1 × 10 + 10 =
+100
+28 × 28 × 10
+14 × 14 × 10
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 20 ---
+20/27
+Layer
+# Parameters
+Dimension of
+Activations
+CONV3‑10
+POOL2
+0
+FLATTEN
+0
+490
+FC‑3
+3
+(f) New architecture and equivariances 
+Architecture:
+CONV2‑3: 
+ conv, 3 filters, stride 1, padding 1 (circular padding, i.e. wrap-
+around on an 8×8 grid).
+GAP: Global average pool (per-channel mean over entire spatial map).
+Input images 
+ are 8×8 binary “edge” patterns; outputs (before
+softmax) for some are given as:
+We’re asked to compute 
+ and 
+ for new inputs 
+ and 
+ which are translated
+versions (shifted horizontally/vertically) of 
+ and 
+ respectively. 
+Key facts:
+Convolution with circular padding is translation-equivariant on the 2D torus:
+shifting the input simply shifts the feature maps.
+GAP then averages each channel over all spatial positions, which makes the result
+translation-invariant: a translation of the input does not change the per-channel
+mean.
+So:
+3 × 3 × 10 × 10 + 10 =
+910
+14 × 14 × 10
+7 × 7 × 10
+490 × 3 + 3 = 1473
+CONV2‑3 →ReLU →CONV2‑3 →ReLU →GAP →FC‑3.
+2 × 2
+x
+​, x
+​, x
+​, x
+​
+1
+2
+3
+4
+g
+​ =
+1
+​
+​
+​,
+g
+​ =
+0.8
+0
+0
+2
+​
+​
+​. :
+0
+0.8
+0
+contentReference[oaicite : 26]index = 26
+g
+​3
+g
+​4
+x
+​3
+x
+​4
+x
+​2
+x
+​1
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 21 ---
+21/27
+ is a horizontal shift of 
+ ⇒ its feature maps after the last conv layer are a shifted
+version of those for 
+. GAP wipes out the shift, so the per-channel averages are
+identical. Therefore,
+Similarly, 
+ is a vertical shift of 
+. Same argument ⇒ per-channel means
+unchanged, so
+7. Weights and Gradients in a CNN 
+We consider a single-channel 2D conv layer:
+Input 
+,
+Kernel 
+,
+Output 
+ with 
+ (no padding, stride 1). 
+The forward pass for each output:
+We denote upstream gradient 
+ with entries 
+. 
+(a) Gradient to the weight matrix 
+, and one-step SGD update 
+We want 
+.
+Use the chain rule:
+From the forward expression:
+x
+​3
+x
+​2
+x
+​2
+​
+g
+​ = g
+​ =
+​
+​
+​.
+3
+2
+0
+0.8
+0
+x
+​4
+x
+​1
+​
+g
+​ = g
+​ =
+​
+​
+​.
+4
+1
+0.8
+0
+0
+X ∈Rn×n
+w ∈Rk×k
+Y ∈Rm×m
+m = n −k + 1
+y
+​ =
+i,j
+​
+​x
+​ w
+​. :
+h=1
+∑
+k
+l=1
+∑
+k
+i+h−1, j+l−1
+h,l
+contentReference[oaicite : 30]index = 30
+dY ∈Rm×m
+dy
+​ =
+i,j
+​
+∂y
+​
+i,j
+∂L
+dw
+dw
+​ =
+h,l
+​
+∂w
+​
+h,l
+∂L
+​ =
+∂w
+​
+h,l
+∂L
+​
+​
+​ =
+i,j
+∑∂y
+​
+i,j
+∂L
+∂w
+​
+h,l
+∂y
+​
+i,j
+​dy
+​
+​.
+i,j
+∑
+i,j ∂w
+​
+h,l
+∂y
+​
+i,j
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 22 ---
+22/27
+So
+Thus:
+Collect these into a matrix 
+.
+One-step SGD update (batch size 1, learning rate ):
+In matrix form:
+Interpretation: each kernel weight becomes a weighted sum of overlapping patches of
+the input, where weights are given by the upstream gradients. Over many steps and
+many images, 
+ becomes a kind of weighted average of training image patches.
+(b) Mean/variance of 
+ vs image size 
+Assumptions (for all 
+):
+ are independent with
+,
+. 
+ are independent with
+,
+. 
+All 
+ are independent of all 
+.
+Recall:
+y
+​ =
+i,j
+​
+​x
+​w
+​.
+h =1
+′
+∑
+k
+l =1
+′
+∑
+k
+i+h −1,j+l −1
+′
+′
+h ,l
+′
+′
+​ =
+∂w
+​
+h,l
+∂y
+​
+i,j
+x
+​.
+i+h−1, j+l−1
+​
+dw
+​ =
+​
+​dy
+​ x
+​.
+h,l
+i=1
+∑
+m
+j=1
+∑
+m
+i,j
+i+h−1, j+l−1
+dw ∈Rk×k
+η
+w
+​ =
+h,l
+(new)
+w
+​ −
+h,l
+η dw
+​.
+h,l
+​
+w
+= w −η dw.
+(new)
+w
+dw
+​
+h,l
+n
+i, j
+x
+​
+i,j
+E[x
+​] =
+i,j
+0
+Var(x
+​) =
+i,j
+σ
+​x
+2
+dy
+​
+i,j
+E[dy
+​] =
+i,j
+0
+Var(dy
+​) =
+i,j
+σ
+​g
+2
+x
+​
+i,j
+dy
+​
+p,q
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 23 ---
+23/27
+Let’s define
+So
+Mean of 
+:
+Variance of 
+:
+Independence across 
+:
+Different 
+ use different pairs 
+.
+By independence assumptions, 
+ are independent across 
+.
+So we can sum variances:
+The mean is
+Recall 
+ (no padding, stride 1). So
+Standard deviation:
+dw
+​ =
+h,l
+​
+​dy
+​ x
+​.
+i=1
+∑
+m
+j=1
+∑
+m
+i,j
+i+h−1,j+l−1
+Z
+​ :=
+i,j
+dy
+​ x
+​.
+i,j
+i+h−1,j+l−1
+dw
+​ =
+h,l
+​
+​Z
+​.
+i=1
+∑
+m
+j=1
+∑
+m
+i,j
+Z
+​
+i,j
+E[Z
+​] =
+i,j
+E[dy
+​] E[x
+​] =
+i,j
+i+h−1,j+l−1
+0 ⋅0 = 0.
+Z
+​
+i,j
+​
+​
+Var(Z
+​)
+i,j = E[Z
+​] −(E[Z
+​])
+i,j
+2
+i,j
+2
+= E[dy
+​x
+​]
+i,j
+2
+i+h−1,j+l−1
+2
+= E[dy
+​] E[x
+​]
+(independent)
+i,j
+2
+i+h−1,j+l−1
+2
+= σ
+​σ
+​.
+g
+2
+x
+2
+(i, j)
+(i, j)
+(dy
+​, x
+​)
+i,j
+i+h−1,j+l−1
+Z
+​
+i,j
+(i, j)
+Var(dw
+​) =
+h,l
+​Var(Z
+​) =
+i,j
+∑
+i,j
+m σ
+​σ
+​.
+2
+g
+2
+x
+2
+E[dw
+​] =
+h,l
+​E[Z
+​] =
+i,j
+∑
+i,j
+0.
+m = n −k + 1
+Var(dw
+​) =
+h,l
+(n −k + 1) σ
+​σ
+​.
+2
+g
+2
+x
+2
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 24 ---
+24/27
+For large , 
+. So the asymptotic growth rate:
+The standard deviation of the gradient grows linearly in the image size
+ (side length).
+(c) Network with only 2×2 pooling layers: what is 
+?
+We now consider a network built only from 2×2 pooling layers (no convs, no
+nonlinearities). 
+We’ll separate the two cases.
+2×2 Max-pooling only
+Consider one 2×2 max-pooling operation with stride 2 on
+output
+Suppose the top-left value wins:
+Then:
+,
+,
+,
+.
+If the upstream gradient is 
+, then by chain rule:
+Std(dw
+​) =
+h,l
+​ =
+Var(dw
+​)
+h,l
+(n −k + 1)σ
+​σ
+​.
+x
+g
+n n −k + 1 ≈n
+​
+E[dw
+​] = 0,
+Var(dw
+​) = (n −k + 1) σ
+​σ
+​,
+Std(dw
+​) ∼O(n).
+h,l
+h,l
+2
+x
+2
+g
+2
+h,l
+n
+dX
+X =
+​
+​ ,
+[x
+​
+11
+x
+​
+21
+x
+​
+12
+x
+​
+22]
+y
+​ =
+11
+max(x
+​, x
+​, x
+​, x
+​).
+11
+12
+21
+22
+y
+​ =
+11
+x
+​. :
+11
+contentReference[oaicite : 37]index = 37
+​ =
+∂x
+​
+11
+∂y
+​
+11
+1
+​ =
+∂x
+​
+12
+∂y
+​
+11
+0
+​ =
+∂x
+​
+21
+∂y
+​
+11
+0
+​ =
+∂x
+​
+22
+∂y
+​
+11
+0
+dy
+​ =
+11
+​
+∂y
+​
+11
+∂L
+∂
+∂
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 25 ---
+25/27
+So within each 2×2 pooling region, all of the gradient flows to the max location, others
+get 0.
+In a deeper network with only 2×2 max-pools stacked until a single scalar output:
+Each pooling layer picks a single “winner” in each 2×2 block.
+Ultimately there is exactly one input pixel that wins the max at each scale; the final
+scalar output is the global max.
+The gradient from the scalar output flows only to that global-max pixel; all other
+pixels have gradient 0.
+So for such a network,
+where  is the final scalar output (assuming a single scalar).
+2×2 Average-pooling only
+For a 2×2 average pool:
+Then:
+So with upstream gradient 
+,
+Stacking multiple average pools to get a single scalar output essentially computes the
+global average (up to a constant factor depending on exact architecture):
+​
+​
+dx
+​
+11
+dx
+​
+12
+dx
+​
+21
+dx
+​
+22
+=
+​ = dy
+​ ⋅
+​ = dy ,
+∂x
+​
+11
+∂L
+11
+∂x
+​
+11
+∂y
+​
+11
+11
+= dy
+​ ⋅0 = 0,
+11
+= 0,
+= 0.
+dX
+​ =
+​
+​
+​
+i,j
+⎩
+⎨
+⎧
+​,
+∂y
+∂L
+0,
+if x
+​ is the global max,
+i,j
+otherwise,
+y
+y
+​ =
+11
+​(x
+​ +
+4
+1
+11
+x
+​ +
+12
+x
+​ +
+21
+x
+​).
+22
+​ =
+∂x
+​
+pq
+∂y
+​
+11
+​ for each (p, q) ∈
+4
+1
+{1, 2} .
+2
+dy
+​
+11
+dx
+​ =
+pq
+​ =
+∂x
+​
+pq
+∂L
+dy
+​ ⋅
+11
+​.
+4
+1
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 26 ---
+26/27
+Each pooling splits its gradient among 4 inputs by a factor .
+Repeated across layers, every input pixel receives the same gradient, up to a global
+factor.
+For a typical complete average-pool-only network that reduces to a single scalar mean
+of all 
+ pixels 
+:
+So
+Gradients are dense and uniformly spread in the average-pooling-only case.
+(d) Advantages of max vs average pooling (qualitative) 
+From the gradient behavior and forward behavior:
+Max pooling:
+Forward: preserves the strongest activation in each local region, promoting
+invariance to small translations — if a feature shifts slightly within the pool window,
+the max remains similar.
+Backward: gradient flows only through the max locations, creating a sparse
+gradient:
+Pros: highlights the most “important” features, can help focus learning on
+salient structures like edges.
+Cons: other pixels in the region receive no gradient, so learning can be less
+smooth, potentially slower to refine subtle patterns.
+Average pooling:
+Forward: computes local averages, producing smoother, more blurred
+representations; preserves information about all activations in a region.
+Backward: gradient is spread uniformly across all inputs in a region:
+Pros: every location in the region gets some gradient signal, making
+optimization smoother and less brittle; often better when you care about overall
+presence of a pattern rather than the single strongest pixel.
+​4
+1
+N
+y =
+​
+​ x
+​
+N
+1 ∑i,j
+i,j
+​ =
+∂x
+​
+i,j
+∂y
+​.
+N
+1
+​
+dX
+​ =
+​
+​
+for all i, j.
+i,j
+N
+1
+∂y
+∂L
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 27 ---
+27/27
+Cons: can blur out sharp edges or peaks; less selective, weaker inductive bias
+for “pick the strongest feature”.
+In practice:
+Max pooling is often good for detecting sparse, localized features such as edges
+and corners, giving strong translation robustness.
+Average/global average pooling is often used near the end of CNNs to summarize
+features across the whole image and reduce parameters, especially when you want
+to aggregate evidence rather than pick a single strongest activation.
+If you’d like, I can also turn some of these into small numeric examples (e.g., explicitly
+enumerating all pooling gradients for a slightly bigger image) so you can sanity‑check
+your intuition.
+12/10/25, 2:02 PM
+Question 1 calculations
+
+
+--- Page 28 ---
+GPT 5- Pro did quite well on this homework. It got everything correct except question 3d, on 
+which it made a calculation error/programatic error - it did not show full work trace, just  said it 
+expanded the work done before.  
+ 
+It was kind of surprising to me how just feeding ChatGPT the pdf would allow it to run properly, 
+the only drawback being the reasoning time - it took 20+ minutes to get a response.  
+ 
+I verified all the other work - it seemed as though GPT 5-Pro was quite proficient at 
+algebra/derivations, only the numbers were either calculated incorrectly or the python program 
+was written wrong for q3d. 

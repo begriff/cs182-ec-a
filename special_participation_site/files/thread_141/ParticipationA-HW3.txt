@@ -1,0 +1,2211 @@
+--- Page 1 ---
+This is a copy of a conversation between ChatGPT & Anonymous.
+Report conversation
+ Consider a dense layer with input x ∈ Rd1 , weights W ∈ 
+Rd2×d1 , where W is initialized with i.i.d.
+standard Gaussian entries, and entries of x are sampled 
+from an i.i.d. unit Gaussian.
+What is the expected squared RMS norm of the output 
+features y = W x? How does this scale
+with d1 or d2? What constant should we multiply W by to 
+ensure that the expected squared
+RMS norm of W x is 1, regardless of d1 and d2?
+Thought for 6s
+Short answer:
+. It scales linearly with 
+ and does not depend on
+. To make the expected squared RMS equal to  multiply 
+ by 
+.
+Derivation (clean):
+RMS of  is 
+. The squared RMS is
+With 
+ and 
+,
+since cross terms vanish. Hence
+E[(squared RMS of y)] = d
+ 1
+d
+ 1
+d
+ 2
+1
+W
+1/
+ 
+d
+ 1
+y
+ 
+ 
+ y
+ 
+d
+ 2
+1 ∑i=1
+d
+ 2
+i
+2
+ ∥y∥=
+d
+ 2
+1
+2
+ 
+ y
+ .
+d
+ 2
+1
+i=1
+∑
+d
+ 2
+i
+2
+y
+ =
+i
+ W
+ x
+ 
+∑j=1
+d
+ 1
+ij
+j
+W
+ , x
+ 
+ij
+j ∼
+iid N(0, 1)
+E[y
+ ] =
+i
+2
+E
+ 
+W
+ W
+ x
+ x
+ 
+ =
+j,k
+∑
+ij
+ik
+j
+k
+ E[W
+ W
+ ]E[x
+ x
+ ] =
+j,k
+∑
+ij
+ik
+j
+k
+ 1 ⋅
+j=1
+∑
+d
+ 1
+1 = d
+ ,
+1
+E
+ ∥y∥
+=
+[d
+ 2
+1
+2]
+ 
+ E[y
+ ] =
+d
+ 2
+1
+i=1
+∑
+d
+ 2
+i
+2
+ =
+d
+ 2
+d
+ ⋅d
+ 
+2
+1
+d
+ .
+1
+ChatGPT
+Log in
+Skip to content
+10/9/25, 9:33 AM
+1. Expected RMS norm
+https://chatgpt.com/share/68daf846-7bdc-8003-97ce-788968634c2a
+1/6
+z
+Question 1:
+
+
+--- Page 2 ---
+If 
+ instead has variance 
+ per entry, then 
+. So to force
+ choose 
+, i.e. scale 
+ by 
+.
+(As a side note: Xavier/Glorot or He initializations use other scalings that trade off fan-in
+and fan-out for signal/gradient flow; the choice above is the simple fan-in normalization.)
+W
+σ
+ 
+W
+2
+E[y
+ ] =
+i
+2
+d
+ σ
+ 
+1
+W
+2
+E[squared RMS] = 1
+σ
+ =
+W
+2
+1/d
+ 1
+W
+1/
+ 
+d
+ 1
+ We will now consider how to ensure that RMS norms of 
+features update at a constant rate during train-
+ing, again regardless of layer width. Assume we are using 
+the SignGD optimizer (which is a simplified
+version of Adam). Unlike at initialization, where we 
+assume weights and inputs are independent, the
+updates to weights during training are very much 
+correlated with the inputs. For simplicity, assume
+that the minibatch training input xi ∈ Rd1 are sampled from 
+an i.i.d. unit Gaussian, and the raw
+gradient ∇W f (W ) is an outer product of the input and a 
+constant backpropagated vector gi ∈ Rd2 .
+Wt+1 ← Wt + ηsign(gixiT
+).
+What is the expected RMS norm squared of the 
+(unscaled) change in features y′ = sign(gixiT )xi?
+How does this scale with d1 or d2? What constant should 
+we multiply the update by to ensure that the expected 
+RMS norm of y′ is 1, regardless of d1 and d2?
+Thought for 13s
+Answer (short)
+It does not depend on 
+. For large 
+ the leading term grows like 
+ (quadratic in 
+).
+To make the expected RMS of 
+ equal to  multiply the (unscaled) update by
+E[(squared RMS of y )] =
+′
+d
+ (1 −
+1
+ ) +
+π
+2
+d
+ 
+ .
+1
+2( π
+2)
+d
+ 2
+d
+ 1
+ d
+ 
+π
+2
+1
+2
+d
+ 1
+y′
+1
+Skip to content
+10/9/25, 9:33 AM
+1. Expected RMS norm
+https://chatgpt.com/share/68daf846-7bdc-8003-97ce-788968634c2a
+2/6
+
+
+--- Page 3 ---
+Asymptotically for large 
+, 
+.
+Derivation
+The raw elementwise update matrix for one sample is
+and since 
+ we can write
+where 
+ (constant here) and 
+. The
+feature-change vector is
+Since 
+ has 
+ entries of magnitude ,
+so the squared RMS across the 
+ outputs is
+But 
+. Thus
+With independent standard normal components,
+Therefore
+c =
+ .
+ 
+d
+ (1 −
+ ) + d
+ (
+ )
+1
+π
+2
+1
+2
+π
+2
+1
+d
+ 1 c ≈
+ 
+ 
+ 2
+π
+d
+ 1
+1
+U = sign(g x ),
+⊤
+sign(ab) = sign(a) sign(b)
+U = s
+ s
+ 
+g
+x
+⊤
+s
+ =
+g
+sign(g) ∈{±1}d
+ 2
+s
+ =
+x
+sign(x) ∈{±1}d
+ 1
+y
+=
+′
+Ux = s
+ (s
+ x).
+g
+x
+⊤
+s
+ g
+d
+ 2
+1
+∥y ∥
+=
+′ 2
+∥s
+ ∥(s
+ x) =
+g
+2
+x
+⊤
+2
+d
+ (s
+ x) ,
+2
+x
+⊤
+2
+d
+ 2
+ ∥y ∥
+=
+d
+ 2
+1
+′ 2
+(s
+ x) .
+x
+⊤
+2
+s
+ x =
+x
+⊤
+ sign(x
+ )x
+ =
+∑j=1
+d
+ 1
+j
+j
+ ∣x
+ ∣
+∑j=1
+d
+ 1
+j
+E[(squared RMS)] = E[(
+ ∣x
+ ∣) ].
+j=1
+∑
+d
+ 1
+j
+2
+E∣X∣=
+ ,
+Var(∣X∣) =
+ π
+2
+1 −
+ .
+π
+2
+E[(
+ ∣x
+ ∣) ] =
+j=1
+∑
+d
+ 1
+j
+2
+d
+ Var(∣X∣) +
+1
+d
+ (E∣X∣) =
+1
+2
+2
+d
+ (1 −
+1
+ ) +
+π
+2
+d
+ (
+ ).
+1
+2
+π
+2
+Skip to content
+10/9/25, 9:33 AM
+1. Expected RMS norm
+https://chatgpt.com/share/68daf846-7bdc-8003-97ce-788968634c2a
+3/6
+
+
+--- Page 4 ---
+Set  so that 
+ times this expectation equals , giving
+Remarks
+The update magnitude grows like 
+ (dominant) for wide layers, so to keep feature
+changes width-independent you need a scaling 
+ on the sign-update
+(contrast this with the 
+ fan-in scaling for Gaussian-initialized forward
+weights).
+The result is independent of 
+ because the per-output RMS divides out the factor 
+.
+If the backprop vector  has variable magnitudes (not just signs) add a factor
+ into the calculation (it multiplies the RHS).
+c
+c2
+1
+c =
+ .
+ 
+d
+ (1 −
+ ) + d
+ (
+ )
+1
+π
+2
+1
+2
+π
+2
+1
+d
+ 1
+2
+Θ(1/d
+ )
+1
+Θ(1/
+ )
+d
+ 1
+d
+ 2
+d
+ 2
+g
+∥g∥/d
+ 
+2
+2
+You may notice that the above update rule only depends 
+on d1. Why is this the case?
+Good observation — yes, the expected RMS change in features 
+ depends only on 
+(the input dimension, or fan-in), not on 
+ (the output dimension, or fan-out).
+Let’s unpack why that’s true.
+1. The update rule is row-separable in 
+The weight update is
+and since 
+,
+each row of 
+ is updated as
+y′
+d
+ 1
+d
+ 2
+W
+W
+ =
+t+1
+W
+ +
+t
+η sign(gx ),
+⊤
+sign(gx ) =
+⊤
+sign(g) sign(x)⊤
+W
+W
+ =
+t+1
+(i,:)
+W
+ +
+t
+(i,:)
+η sign(g
+ ) sign(x) .
+i
+⊤
+Skip to content
+10/9/25, 9:33 AM
+1. Expected RMS norm
+https://chatgpt.com/share/68daf846-7bdc-8003-97ce-788968634c2a
+4/6
+While this answer is technically 
+correct, deriving the exact expected 
+RMS norm is unnecessary to 
+understand that the norm scales 
+(d_1)^2. The remarks clarify this, but 
+it may have been more intuitive to 
+have explained the single case as the 
+official solutions did
+
+
+--- Page 5 ---
+So each output neuron  gets the same direction of update in input space, just possibly
+flipped by the sign of 
+.
+No row interacts with the others — the update structure is independent across outputs.
+2. The feature change 
+We can write:
+Here:
+ just flips signs per output neuron.
+The scalar 
+ is shared across all outputs.
+Hence, all 
+ outputs get the same magnitude change, differing only by sign.
+3. RMS normalization cancels 
+The squared RMS of the feature change is
+The factor of 
+ from 
+ cancels the 
+ in the RMS definition.
+Thus, the expected RMS depends only on the statistics of 
+, i.e. on the
+input dimension 
+.
+4. Intuition
+The update magnitude per output neuron is the same, so increasing 
+ just replicates
+the same change across more outputs — the RMS normalization removes this
+duplication.
+In contrast, increasing 
+ increases the number of input components contributing to
+, so the change scales with how many input features are combined —
+that’s why it grows with 
+.
+i
+g
+ i
+y =
+′
+(sign(gx ))x
+⊤
+y =
+′
+sign(g) (sign(x) x).
+⊤
+sign(g) ∈{±1}d
+ 2
+(sign(x) x) =
+⊤
+ ∣x
+ ∣
+∑j=1
+d
+ 1
+j
+d
+ 2
+d
+ 2
+RMS (y ) =
+2
+′
+ ∥y ∥=
+d
+ 2
+1
+′ 2
+ d
+ (sign(x) x) =
+d
+ 2
+1
+2
+⊤
+2
+(sign(x) x) .
+⊤
+2
+d
+ 2
+∥y ∥
+′ 2
+1/d
+ 2
+(sign(x) x)
+⊤
+d
+ 1
+d
+ 2
+d
+ 1
+sign(x) x
+⊤
+d
+ 1
+Skip to content
+10/9/25, 9:33 AM
+1. Expected RMS norm
+https://chatgpt.com/share/68daf846-7bdc-8003-97ce-788968634c2a
+5/6
+1 and 2 are slightly repetitive in 
+saying that the magnitude of the 
+gradient will be the same except 
+flipped by the sign of g_i.
+
+
+--- Page 6 ---
+Summary
+The dependence on 
+ but not 
+ arises because:
+ controls how many input coordinates contribute to each neuron’s update (the fan-
+in effect),
+while 
+ only multiplies identical copies of the same output update, which cancels out
+in the RMS average.
+In short:
+d1
+d
+ 2
+d
+ 1
+d
+ 2
+The update scales with the input dimension because the chan
+Search
+Study
+Message ChatGPT
+Message ChatGPT
+Attach
+Voice
+10/9/25, 9:33 AM
+1. Expected RMS norm
+https://chatgpt.com/share/68daf846-7bdc-8003-97ce-788968634c2a
+6/6
+
+
+--- Page 7 ---
+This is a copy of a conversation between ChatGPT & Anonymous.
+Report conversation
+Uploaded a file
+Uploaded a file
+3. Maximal Update Parameterization Research
+This homework problem talks about the research papers 
+behind “maximal update parameterization,” also
+called µP in the community. This idea is discussed in detail 
+in the paper Tensor Programs V: Tuning Large
+Neural Networks via Zero-Shot Hyperparameter Transfer. 
+Understanding the full paper is out of scope of the class 
+and requires sophistication that is not a prerequisite, but 
+we want to highlight some points.
+(a) Look at Figure 1 of the paper. What are the two side-
+by-side figures plotting? What is the obser-
+vation you make about the width of a matrix?
+Figure 1 in Tensor Programs V: Tuning Large Neural Networks via Zero-Shot
+Hyperparameter Transfer plots training loss versus learning rate for Transformers of
+various widths trained with Adam.
+Left panel (Standard Practice): Each curve corresponds to a different model width
+(128 → 8192). As width increases, the optimal learning rate shifts, meaning that the
+best learning rate depends strongly on width. Wider models can even perform worse
+than narrower ones, since they are not correctly scaled.
+Right panel (Our Work = µP): Again, training loss vs. learning rate is shown for the
+same widths, but now under the maximal update parameterization (µP). The
+optimal learning rate stays nearly constant across widths, and training loss
+monotonically improves as width increases.
+Observation about the width of a matrix:
+Under standard parametrization, increasing width changes how much each layer’s
+updates affect activations—wide matrices receive disproportionately large or small
+updates, causing instability. In µP, parameter and learning-rate scalings are chosen so
+ChatGPT
+Log in
+Skip to content
+10/6/25, 10:09 AM
+3. Maximal update parameterization
+https://chatgpt.com/share/68daf87a-8af8-8003-9197-82fc16bba5fe
+1/6
+Question 3:
+Here, I uploaded the two files 
+necessary for the problem, 
+“Tensor Programs V: Tuning 
+Large
+Neural Networks via Zero-
+Shot Hyperparameter Transfer”
+and “A Spectral Condition for 
+Feature Learning”
+
+
+--- Page 8 ---
+that each layer’s updates remain of the same order regardless of width, leading to
+stable behavior and transferable hyperparameters across widths
+.
+2203.03466
+Sources
+(b) Look at Table 3 in the paper. In lecture, we gave an 
+elementary argument to support the 1/fanin scaling
+for Adam LR for the hidden layers, the rightmost entry in 
+the bottom row of the paper. What does the
+table say is the corresponding standard parameterization?
+In Table 3 of the Tensor Programs V paper
+, the rightmost entry in the
+bottom row corresponds to the Adam learning rate for hidden weights under Maximal
+Update Parameterization (µP).
+That entry is:
+The table also shows the corresponding “Standard Parameterization (SP)” entry
+directly beneath the “Adam LR” heading for hidden weights, which is:
+So, summarizing:
+Layer type
+Adam LR (µP)
+Adam LR (Standard Param.)
+Hidden weights
+1 / fan_in
+1
+Answer:
+In standard parameterization, the corresponding Adam learning rate for hidden weights is
+1 (constant) — it does not scale with fan-in.
+2203.03466
+µP (Adam LR, hidden weights): 1 / fan_in
+SP (Adam LR, hidden weights): 1 (constant)
+Sources
+Skip to content
+10/6/25, 10:09 AM
+3. Maximal update parameterization
+https://chatgpt.com/share/68daf87a-8af8-8003-9197-82fc16bba5fe
+2/6
+
+
+--- Page 9 ---
+(c) The paper A Spectral Condition for Feature Learning 
+presents the same scaling using elementary linear
+algebra. While understanding the entirely of the paper is 
+out of scope of the class, we presented some simplified 
+arguments in lecture.
+Look at Desideratum 1. Why is this behavior desired for 
+feature learning? Can you rewrite this
+Desideratum in terms of the RMS norm? Similarly, rewrite 
+Condition 1 in terms of the RMS
+norm as well. How does Condition 1 imply that ∥hℓ(x)∥2 ≤ 
+Θ(√nℓ) and that ∥∆hℓ(x)∥2 ≤
+√
+Θ( nℓ)? What is the key assumption that allows us to also 
+get the lower bounds on ∥hℓ(x)∥2
+and ∥∆hℓ(x)∥2?
+Let’s unpack this step by step using A Spectral Condition for Feature Learning
+.
+1. Desideratum 1 (from the paper)
+It states:
+Why this behavior is desired for feature learning
+This ensures that:
+Each feature vector 
+ has elements of order one (i.e., 
+ magnitude per
+neuron), so activations don’t blow up or vanish as width increases.
+Each feature update 
+ is also 
+ per element, meaning each neuron
+continues to learn as the network widens.
+A Spectral Condition for Featur…
+∥h
+ (x)∥
+ =
+ℓ
+2
+Θ(
+ )
+and
+∥Δh
+ (x)∥
+ =
+n
+ ℓ
+ℓ
+2
+Θ(
+ )
+n
+ ℓ
+h
+ (x)
+ℓ
+O(1)
+Δh
+ (x)
+ℓ
+O(1)
+Skip to content
+10/6/25, 10:09 AM
+3. Maximal update parameterization
+https://chatgpt.com/share/68daf87a-8af8-8003-9197-82fc16bba5fe
+3/6
+
+
+--- Page 10 ---
+If instead features or updates scaled faster or slower than 
+, learning would either
+diverge (too large) or freeze (too small) as width grows. Thus, this scaling guarantees
+nontrivial feature evolution at all widths—what the paper calls “feature learning.”
+2. Rewrite Desideratum 1 in terms of RMS norm
+Define the RMS norm of a layer’s feature vector as
+Then Desideratum 1 becomes:
+In words:
+Each neuron’s typical activation and update magnitude are of constant order, independent
+of network width.
+3. Rewrite Condition 1 in terms of RMS norm
+Condition 1 (Spectral Scaling Condition) states:
+To express this in RMS terms, recall that the RMS of a matrix is
+For random matrices whose spectral and Frobenius norms have the usual relation
+, this scaling means
+which is the same as saying “weights (and their updates) scale like 
+”—
+exactly the µP scaling.
+ 
+n
+ ℓ
+∥h
+ (x)∥
+ ≡
+ℓ
+RMS
+ .
+ 
+n
+ ℓ
+∥h
+ (x)∥
+ 
+ℓ
+2
+∥h
+ (x)∥
+ =
+ℓ
+RMS
+Θ(1),
+∥Δh
+ (x)∥
+ =
+ℓ
+RMS
+Θ(1).
+∥W
+ ∥
+ =
+ℓ∗
+Θ
+ 
+,
+∥ΔW
+ ∥
+ =
+(
+ 
+n
+ 
+ℓ−1
+n
+ ℓ)
+ℓ∗
+Θ
+ 
+.
+(
+ 
+n
+ 
+ℓ−1
+n
+ ℓ)
+∥W
+ ∥
+ =
+ℓRMS
+ .
+ 
+n
+ n
+ 
+ℓ
+ℓ−1
+∥W
+ ∥
+ 
+ℓF
+∥W
+ ∥
+ ≈
+ℓ∗
+∥W
+ ∥
+ /
+ 
+ℓF
+min(n , n
+ )
+ℓ
+ℓ−1
+∥W
+ ∥
+ =
+ℓRMS
+Θ
+ 
+,
+∥ΔW
+ ∥
+ =
+(
+ 
+n
+ 
+ℓ−1
+1
+)
+ℓRMS
+Θ
+ 
+,
+(
+ 
+n
+ 
+ℓ−1
+1
+)
+1/
+ 
+fan-in
+Skip to content
+10/6/25, 10:09 AM
+3. Maximal update parameterization
+https://chatgpt.com/share/68daf87a-8af8-8003-9197-82fc16bba5fe
+4/6
+Rather than defining the RMS-
+RMS norm of a matrix in terms of 
+the spectral norm of a matrix, 
+hallucinated the definition of the 
+RMS matrix norm. It defined it as 
+if the matrix was unrolled into a 
+vector and then the RMS norm of 
+that flattened vector was taken, 
+
+
+--- Page 11 ---
+Concept
+Expression
+RMS-norm form
+Meaning
+Desideratum
+1
+Feature and update
+magnitudes per neuron
+stay constant.
+Condition 1
+Weight spectral norms
+scale like
+.
+Implication
+Submultiplicativity gives ≤
+bounds
+Alignment gives ≥ bounds
+Together yield full Θ-
+scaling → feature
+learning at all widths.
+∥h
+ ∥
+ , ∥Δh
+ ∥
+ =
+ℓ2
+ℓ2
+Θ(
+ )
+n
+ ℓ
+∥h
+ ∥
+ , ∥Δh
+ ∥
+ =
+ℓRMS
+ℓRMS
+Θ(1)
+∥W
+ ∥
+ , ∥ΔW
+ ∥
+ =
+ℓ∗
+ℓ∗
+Θ(
+ )
+n
+ /n
+ 
+ℓ
+ℓ−1
+∥W
+ ∥
+ , ∥ΔW
+ ∥
+ =
+ℓRMS
+ℓRMS
+Θ(1/
+ )
+n
+ 
+ℓ−1
+fan-out/fan-i
+Sources
+For RMS norm of a matrix, define it to be the induced 
+RMS- RMS matrix norm (i.e. 
+ǁ ǁ_{p,q}=max_{ǁ ǁ_p≠0}
+ǁ
+ǁ_q/ǁ ǁ_p, where the RMS norm of a vector is 
+ǁ ǁ_2/sqrt(d)
+Good — you’re defining an induced RMS–RMS operator norm, meaning both the input
+and output vector norms are RMS-normalized (so that the “size per coordinate” is invariant
+with dimension). Let’s formalize this and then rewrite Condition 1 and Desideratum 1 in
+that language.
+1. RMS vector norm
+For a vector 
+,
+This measures the average magnitude per coordinate rather than total magnitude.
+x ∈Rd
+∥x∥
+ =
+RMS
+ .
+ d
+∥x∥
+ 2
+Skip to content
+10/9/25, 9:48 PM
+3. Maximal update parameterization
+https://chatgpt.com/share/68daf87a-8af8-8003-9197-82fc16bba5fe
+6/9
+
+
+--- Page 12 ---
+2. Induced RMS–RMS matrix norm
+For a matrix 
+, define
+So the RMS–RMS operator norm rescales the spectral norm by 
+, where  is the
+input dimension and 
+ is the output dimension.
+3. Rewriting Condition 1 (spectral scaling)
+Original form from the paper:
+Convert to the induced RMS–RMS norm using the above relation:
+and likewise
+Interpretation:
+Under the RMS–RMS normalization, both the weights and their gradient updates act as
+order-one operators: they neither amplify nor shrink RMS activations as width grows.
+4. Rewriting Desideratum 1
+Original:
+In RMS form:
+A ∈Rm×n
+∥A∥
+ =
+RMS→RMS
+ 
+ =
+x=0
+ max ∥x∥
+ 
+RMS
+∥Ax∥
+ 
+RMS
+ 
+ =
+x=0
+ max ∥x∥
+ /
+ 
+2
+n
+∥Ax∥
+ /
+ 
+2
+m
+ ∥A∥
+ .
+ 
+m
+n
+∗
+ 
+n/m
+n
+m
+∥W
+ ∥
+ =
+ℓ∗
+Θ
+ 
+,
+∥ΔW
+ ∥
+ =
+(
+ 
+n
+ 
+ℓ−1
+n
+ ℓ)
+ℓ∗
+Θ
+ 
+.
+(
+ 
+n
+ 
+ℓ−1
+n
+ ℓ)
+∥W ∥
+ =
+ℓRMS→RMS
+ ∥W
+ ∥
+ =
+ 
+n
+ ℓ
+n
+ 
+ℓ−1
+ℓ∗
+Θ(1),
+∥ΔW
+ ∥
+ =
+ℓRMS→RMS
+Θ(1).
+∥h
+ (x)∥
+ =
+ℓ
+2
+Θ(
+ ),
+∥Δh
+ (x)∥
+ =
+n
+ ℓ
+ℓ
+2
+Θ(
+ ).
+n
+ ℓ
+∥h
+ (x)∥
+ =
+ℓ
+RMS
+Θ(1),
+∥Δh
+ (x)∥
+ =
+ℓ
+RMS
+Θ(1).
+Skip to content
+10/9/25, 9:48 PM
+3. Maximal update parameterization
+https://chatgpt.com/share/68daf87a-8af8-8003-9197-82fc16bba5fe
+7/9
+
+
+--- Page 13 ---
+That is, the RMS magnitude per feature and its update remain 
+ — no explosion or
+vanishing with width.
+5. How Condition 1 
+ upper bounds
+From the forward relation 
+:
+Multiplying back by 
+ gives
+The same argument, applied to
+gives
+6. Key assumption for lower bounds
+To strengthen “≤” into full “Θ( · )” (i.e., to get matching lower bounds), we need the
+alignment assumption from the paper:
+Claim 1: Random weight matrices 
+ roughly scale their inputs by their spectral
+norm (so the upper bound is tight).
+Claim 2: Gradient updates 
+ are rank-1 and aligned with 
+.
+These imply that 
+ and 
+ actually achieve the upper-bound scaling,
+yielding
+Summary
+O(1)
+h
+ =
+ℓ
+W
+ h
+ 
+ℓ
+ℓ−1
+∥h
+ ∥
+ =
+ℓRMS
+ ≤
+ 
+n
+ ℓ
+∥W
+ h
+ ∥
+ 
+ℓ
+ℓ−1 2
+ =
+ 
+n
+ ℓ
+∥W
+ ∥
+ ∥h
+ ∥
+ 
+ℓ∗
+ℓ−1 2
+∥W
+ ∥
+ ∥h
+ ∥
+ =
+ℓRMS→RMS
+ℓ−1 RMS
+Θ(1) Θ(1) = Θ(1).
+ 
+n
+ ℓ
+∥h
+ ∥
+ ≤
+ℓ2
+Θ(
+ ).
+n
+ ℓ
+Δh
+ =
+ℓ
+ΔW
+ h
+ +
+ℓ
+ℓ−1
+W
+ Δh
+ +
+ℓ
+ℓ−1
+… ,
+∥Δh
+ ∥
+ ≤
+ℓ2
+Θ(
+).
+nℓ
+W
+ ℓ
+ΔW
+ ℓ
+h
+ 
+ℓ−1
+W
+ h
+ 
+ℓ
+ℓ−1
+ΔW
+ h
+ 
+ℓ
+ℓ−1
+∥h
+ (x)∥
+ =
+ℓ
+2
+Θ(
+ ),
+∥Δh
+ (x)∥
+ =
+n
+ ℓ
+ℓ
+2
+Θ(
+ ).
+n
+ ℓ
+Skip to content
+10/9/25, 9:48 PM
+3. Maximal update parameterization
+https://chatgpt.com/share/68daf87a-8af8-8003-9197-82fc16bba5fe
+8/9
+
+
+--- Page 14 ---
+Concept
+Spectral-norm form
+RMS–RMS form
+Meaning
+Condition 1
+Each layer’s operator
+and its update are
+ in RMS sense
+Desideratum
+1
+Each neuron’s activation
+and update stay
+∥W
+ ∥
+ =
+ℓ∗
+Θ(
+ )
+n
+ /n
+ 
+ℓ
+ℓ−1
+∥W
+ ∥
+ =
+ℓRMS→RMS
+Θ(1)
+O(1)
+∥h
+ ∥
+ , ∥Δh
+ ∥
+ =
+ℓ2
+ℓ2
+Θ(
+)
+nℓ
+∥h
+ ∥
+ , ∥Δh
+ ∥
+ =
+ℓRMS
+ℓRMS
+Θ(1)
+O(1)
+Search
+Study
+Message ChatGPT
+Message ChatGPT
+Attach
+Voice
+10/9/25, 9:48 PM
+3. Maximal update parameterization
+https://chatgpt.com/share/68daf87a-8af8-8003-9197-82fc16bba5fe
+9/9
+With a course-correcting 
+prompt to provide the 
+correct definition of the 
+RMS-RMS norm it was 
+able to one shot the entire 
+problem
+
+
+--- Page 15 ---
+This is a copy of a conversation between ChatGPT & Anonymous.
+Report conversation
+4. Policy Gradient and the Reparameterization Gradient 
+Estimator
+In this question, you are going to derive two gradient 
+estimators for the following objective function:
+F(θ) = Ex∼pθ (1)
+where x is a random variable that follows the probability 
+distribution of pθ: X → ∆(X ) that is parameterized by θ ∈ 
+R^P  , and f : X → R is a function
+(a) Let x be a k-D multivariate Gaussian random variable 
+that is parameterized by the mean µ ∈ R
+K
+under the distribution,
+pµ(x) = (2πσ)
+−n/2
+exp 
+−∥x − µ∥
+2
+2/(2σ
+2
+)
+, (2)
+where σ ∈ R is a scalar constant. Express ∇µF(µ) as an 
+expectation under pµ(x) (i.e., find g(x) in
+∇F(µ) = E_{x∼pµ} [g(X)]. (Hint: Ex∼pθ[f(x)] = \int 
+pθ(x)f(x)dx)
+We want 
+.
+Differentiate under the integral:
+For the Gaussian (mean , covariance 
+),
+∇
+ F(μ) =
+μ
+∇
+ E
+ [f(x)] =
+μ
+x∼pμ
+∇
+ 
+p
+ (x)f(x) dx
+μ ∫
+μ
+∇
+ F(μ) =
+μ
+f(x) ∇
+ p
+ (x) dx =
+∫
+μ μ
+f(x) p
+ (x) ∇
+ log p
+ (x) dx =
+∫
+μ
+μ
+μ
+E
+ [f(x) ∇
+ log p
+ (x)].
+x∼p
+ μ
+μ
+μ
+μ
+σ I
+2
+ChatGPT
+Log in
+Skip to content
+10/10/25, 7:45 PM
+Gradient estimators derivation
+https://chatgpt.com/share/68d697f2-ea8c-8003-b45d-17dd516d1437
+1/6
+Question 4:
+
+
+--- Page 16 ---
+so
+Therefore one valid choice of 
+ is
+log p
+ (x) =
+μ
+−
+ log(2πσ ) −
+2
+k
+2
+ ∥x −
+2σ2
+1
+μ∥,
+2
+∇
+ log p
+ (x) =
+μ
+μ
+ .
+σ2
+x −μ
+g(x)
+ 
+g(x) = f(x)
+ ,
+∇
+ F(μ) = E
+ f(x)
+ .
+σ2
+x −μ
+μ
+x∼p
+ μ[
+σ2
+x −μ]
+(b) Rewrite the expression in F(µ) with an expectation with 
+the distribution over a standard normal
+N (0, I)? (Hint: if x follows the distribution of pµ(x), then 
+x−µ follows the distribution of N (0, σ2
+I))
+We start from
+where
+Step 1. Change of variables
+Let’s define a new variable
+If 
+, then 
+.
+Step 2. Rewrite the expectation
+F(μ) = E
+ [f(x)],
+x∼p
+ μ
+x ∼N(μ, σ I).
+2
+ε =
+ 
+⟺
+σ
+x −μ
+x = μ + σε.
+x ∼N(μ, σ I)
+2
+ε ∼N(0, I)
+Skip to content
+10/10/25, 7:45 PM
+Gradient estimators derivation
+https://chatgpt.com/share/68d697f2-ea8c-8003-b45d-17dd516d1437
+2/6
+Rather than directly taking 
+the derivative of the pdf, it 
+define the gradient of the 
+pdf as the pdf * log (pdf) 
+and took the gradient of 
+that. Though this method 
+was not as direct, I 
+appreciated the different 
+perspective (which was 
+actually used later in the 
+problem solution anyway)
+
+
+--- Page 17 ---
+Using this substitution:
+ Final Answer
+This expresses the same objective as an expectation over a standard normal random
+variable .
+F(μ) = E
+ [f(x)] =
+x∼N(μ,σ I)
+2
+E
+ [f(μ +
+ε∼N(0,I)
+σε)].
+ 
+F(μ) = E
+ [f(μ + σε)].
+ε∼N(0,I)
+ε
+(c) Using the expression you obtained from the previous 
+part, can you express ∇µF(µ) in a similar
+way (i.e., with an expectation with the distribution over 
+pµ=0(x))? (Hint: ∇µ can be safely moved
+inside the expectation because the expectation no longer 
+follows a distribution that depends on µ and
+expectations are linear.)
+Yes — using the reparameterized form from (b),
+we can move 
+ inside the expectation (the integrand no longer depends on  through
+the sampling distribution, and differentiation under the integral is allowed). Then
+So a convenient Monte-Carlo estimator is
+i.e. sample 
+, compute 
+, evaluate 
+, and average.
+F(μ) = E
+ [f(μ +
+ε∼N(0,I)
+σε)],
+∇
+ μ
+μ
+ 
+ 
+∇
+ F(μ)
+μ
+= ∇
+ E
+ [f(μ + σε)] = E
+ [∇
+ f(μ + σε)]
+μ
+ε
+ε
+μ
+= E
+ [∇
+ f(μ + σε)
+ ] = E
+ [∇
+ f(μ + σε)].
+ε
+x
+∂μ
+∂(μ + σε)
+ε
+x
+ ,
+∇
+ F(μ) = E
+ [∇
+ f(μ + σε)]
+μ
+ε∼N(0,I)
+x
+ε ∼N(0, I)
+x = μ + σε
+∇
+ f(x)
+x
+Skip to content
+10/10/25, 7:45 PM
+Gradient estimators derivation
+https://chatgpt.com/share/68d697f2-ea8c-8003-b45d-17dd516d1437
+3/6
+
+
+--- Page 18 ---
+(You can check this equals the score-function form from part (a) under mild smoothness
+conditions.)
+For the following two parts, we are going to generalize our 
+findings from the specific Gaussian case to
+arbitrary pθ’s (you may assume pθ has well-defined 
+gradient ∇θpθ that expresses what change in parameters
+would make a particular realization more likely).
+(d) In the general case, can you still write ∇F(θ) as an 
+expectation under pθ(x)? (Hint: look at your
+answer in Part (a) and see how the term inside your 
+expectation relates to log pθ(x)).
+Yes. Exactly the same trick as in (a) works for any differentiable family 
+. Start from
+differentiate under the integral (assume the usual regularity conditions so this is allowed):
+So you can write
+This estimator is commonly called the score-function (or REINFORCE / likelihood-ratio)
+estimator.
+A useful variance-reduction variant is to subtract any baseline  independent of :
+which has the same expectation but often lower variance.
+p
+ θ
+F(θ) = E
+ [f(x)] =
+x∼p
+ θ
+f(x) p
+ (x) dx,
+∫
+θ
+∇
+ F(θ) =
+θ
+f(x) ∇
+ p
+ (x) dx =
+∫
+θ
+θ
+f(x) p
+ (x) ∇
+ log p
+ (x) dx =
+∫
+θ
+θ
+θ
+E
+ [f(x) ∇
+ log p
+ (x)].
+x∼p
+ θ
+θ
+θ
+ 
+∇
+ F(θ) = E
+ [g(x)]
+with
+g(x) = f(x) ∇
+ log p
+ (x).
+θ
+x∼p
+ θ
+θ
+θ
+b
+x
+∇
+ F(θ) =
+θ
+E
+ [(f(x) −
+x∼p
+ θ
+b) ∇
+ log p
+ (x)],
+θ
+θ
+Skip to content
+10/10/25, 7:45 PM
+Gradient estimators derivation
+https://chatgpt.com/share/68d697f2-ea8c-8003-b45d-17dd516d1437
+4/6
+ChatGPT 5 gave more 
+information than necessary to 
+solve the problem, seemed to 
+provide helpful 
+contextualization
+
+
+--- Page 19 ---
+(e) Assume there exists a function g(z, θ) : Z ×R
+P 7→ X and a distribution over z, p(z), such that g(z, θ)has 
+the same distribution as x ∼ pθ(x). Prove that ∇θF(θ) = 
+Ez∼Z h
+∇θg(z)
+⊤∇xf|x=g(z,θ)
+iIn the
+previous part (b) and (c), we actually prove a special case 
+of this. Can you determine what g and
+p(z) are for the special case?
+Thought for 5s
+Write
+By assumption there exists a measurable map 
+ and a fixed distribution
+ such that the random variable 
+ with 
+ has the same law as 
+. Hence we can rewrite the objective as an expectation over :
+Now assume the usual regularity conditions that allow us to (i) push the gradient inside the
+expectation (dominated convergence / bounded derivative / integrability) and (ii) apply the
+chain rule to the integrand. For fixed ,
+where 
+ is the Jacobian matrix of  with respect to  (shape 
+) and
+ is the gradient of  w.r.t.  (shape 
+). Taking expectation over  and moving
+ inside gives
+This is exactly the reparameterization-gradient formula you were asked to prove.
+F(θ) = E
+ [f(x)].
+x∼p
+ θ
+g : Z × R
+→
+P
+X
+p(z)
+g(z, θ)
+z ∼p(z)
+x ∼
+p
+ θ
+z
+F(θ) = E
+ [ f(g(z, θ)) ].
+z∼p(z)
+z
+∇
+ [f(g(z, θ))] =
+θ
+(∇
+ g(z, θ)) ∇
+ f(g(z, θ)),
+θ
+⊤
+x
+∇
+ g(z, θ)
+θ
+g
+θ
+∣X∣× P
+∇
+ f
+x
+f
+x
+∣X∣× 1
+z
+∇
+ θ
+ 
+∇
+ F(θ) = E
+ (∇
+ g(z, θ)) ∇
+ f(g(z, θ)) .
+θ
+z∼p(z)[
+θ
+⊤
+x
+]
+Skip to content
+10/10/25, 7:45 PM
+Gradient estimators derivation
+https://chatgpt.com/share/68d697f2-ea8c-8003-b45d-17dd516d1437
+5/6
+Highlighted key conditions to 
+push gradient into expectation
+
+
+--- Page 20 ---
+Special case (Gaussian) identification
+For the Gaussian example in parts (a)–(c) we had 
+ and we
+reparametrized by 
+ with
+Thus in the notation above:
+, 
+.
+.
+.
+Compute the Jacobian: 
+. Plugging into the general formula yields
+which matches the result you obtained in part (c).
+x ∼N(μ, σ I)
+2
+ε ∼N(0, I)
+x = μ + σε.
+z = ε p(z) = N(0, I)
+θ = μ
+g(z, θ) = θ + σz
+∇
+ g(z, θ) =
+θ
+I
+∇
+ F(μ) =
+μ
+E
+ [I ∇
+ f(μ +
+ε∼N(0,I)
+⊤
+x
+σε)] = E
+ [∇
+ f(μ +
+ε
+x
+σε)],
+Search
+Study
+Message ChatGPT
+Message ChatGPT
+Attach
+Voice
+10/10/25, 7:45 PM
+Gradient estimators derivation
+https://chatgpt.com/share/68d697f2-ea8c-8003-b45d-17dd516d1437
+6/6
+
+
+--- Page 21 ---
+This is a copy of a conversation between ChatGPT & Anonymous.
+Report conversation
+Tensor Rematerialization
+You want to train a neural network on a new chip designed 
+at UC Berkeley. Your model is a 10 layer network,
+where each layer has the same fixed input and output size 
+of s. The chip your model will be trained on is
+heavily specialized for model evaluation. It can run forward 
+passes through a layer very fast. However, it is
+severely memory constrained, and can only fit in memory 
+the following items (slightly more than twice of
+the data necessary for performing a forward pass):
+(a) the inputs;
+(b) 2s activations in memory;
+(c) optimizer states necessary for performing the forward 
+pass through the current layer.
+To train despite this memory limitation, your friend 
+suggests using a training method called tensor 
+rematerialization. She proposes using SGD with a batch 
+size of 1, and only storing the activations of every 5th
+layer during an initial forward pass to evaluate the model. 
+During backpropagation, she suggests recomputing 
+activations on-the-fly for each layer by loading the relevant 
+last stored activation from memory, and
+rerunning forward through layers up till the current layer.
+Figure 1 illustrates this approach. Activations for Layer 5 
+and Layer 10 are stored in memory from an
+initial forward pass through all the layers. Consider when 
+weights in layer 7 are to be updated during
+backpropagation. To get the activations for layer 7, we 
+would load the activations of layer 5 from memory,
+and then run them through layer 6 and layer 7 to get the 
+activations for layer 7. These activations can then
+be used (together with the gradients from upstream) to 
+compute the gradients to update the parameters of
+Layer 7, as well as get ready to next deal with layer 6.
+ChatGPT
+Log in
+Skip to content
+10/6/25, 10:38 AM
+5. Tensor rematerialization process
+https://chatgpt.com/share/68e3fe7f-29f8-8003-bb9d-83314660a85e
+1/7
+Question 5:
+
+
+--- Page 22 ---
+Figure 1: Tensor rematerialization in action - Layer 5 and 
+Layer 10 activations are stored in memory along with the
+inputs. Activations for other layers are recomputed on-
+demand from stored activations and inputs.
+(a) Assume a forward pass of a single layer is called a fwd 
+operation. How many fwd operations
+are invoked when running a single backward pass through 
+the entire network? Do not count
+the initial forward passes required to compute the loss, 
+and don’t worry about any extra computation
+beyond activations to actually backprop gradients.
+Thought for 18s
+You get 20 fwd operations.
+Reasoning: checkpoints are at inputs (layer 0), layer 5, and layer 10. For each layer 
+during backprop we load the last stored checkpoint before  and re-run forward up to .
+Counting fwd ops per layer (layers counted 1..10):
+Layers 1–4: start from inputs → fwd ops = 4 + 3 + 2 + 1 = 10.
+Layer 5: activation is stored → 0 fwd ops.
+Layers 6–9: start from layer 5 → fwd ops = 1 + 2 + 3 + 4 = 10.
+Layer 10: activation is stored → 0 fwd ops.
+Total 
+.
+i
+i
+i
+= 10 + 0 + 10 + 0 = 20
+(b) Assume that each memory access to fetch activations 
+or inputs is called a loadmem operation. How many 
+loadmem operations are invoked when running a single 
+backward pass?
+Let’s carefully go step by step.
+Stored activations:
+Skip to content
+10/6/25, 10:38 AM
+5. Tensor rematerialization process
+https://chatgpt.com/share/68e3fe7f-29f8-8003-bb9d-83314660a85e
+2/7
+
+
+--- Page 23 ---
+Inputs (layer 0)
+Layer 5
+Layer 10
+During backprop, we start from the top (layer 10 → 1), loading the nearest stored
+activation below the layer we are processing.
+Backprop through layers 10 → 6
+Stored activation for layer 10 is already in memory, so:
+Layer 10: no load needed (activation already stored).
+Layer 9: need activations up to layer 9 → load layer 5 activation (nearest stored one)
+once.
+Then use it to recompute 6→9.
+Layers 8, 7, 6: still use same cached activation from layer 5 (no additional loads).
+→ 1 loadmem total for this block.
+Backprop through layers 5 → 1
+Stored activation for layer 5 is already in memory.
+Layer 5: no load (stored).
+Layer 4, 3, 2, 1: to get activations, we must load inputs (the checkpoint before layer
+1).
+Once loaded, we can reuse it for all 4 layers.
+→ 1 loadmem total for this block.
+Total
+1 load (for layer 5 checkpoint)
+1 load (for input checkpoint)
+ 
+2 loadmem operations
+Skip to content
+10/6/25, 10:38 AM
+5. Tensor rematerialization process
+https://chatgpt.com/share/68e3fe7f-29f8-8003-bb9d-83314660a85e
+3/7
+
+
+--- Page 24 ---
+Remember, we are recomputing activations on-the-fly for 
+each layer by loading the relevant last stored activation 
+from memory, and rerunning forward through layers up till 
+the current layer
+Good — that clarification matters.
+We’re told “for each layer,” we load the relevant last stored activation from memory,
+then recompute forward until that layer.
+So even if the same checkpoint (say, layer 5) could in principle be reused, the problem
+statement explicitly says that each time we process a new layer during backprop, we
+again load from memory the most recent stored activation.
+Let’s go layer by layer.
+Stored activations:
+Inputs (layer 0)
+Layer 5
+Layer 10
+We ignore the initial forward pass (loss computation) — we only count during backprop.
+Backprop layers 10 → 6
+For each layer 
+:
+To recompute activations for layer , we must load the most recent stored activation
+below  (which is layer 5).
+That means one loadmem per layer.
+So layers 10–6 contribute 5 loadmem ops.
+Backprop layers 5 → 1
+i ∈{10, 9, 8, 7, 6}
+i
+i
+Skip to content
+10/6/25, 10:38 AM
+5. Tensor rematerialization process
+https://chatgpt.com/share/68e3fe7f-29f8-8003-bb9d-83314660a85e
+4/7
+With just reiterating the key 
+part of the problem 
+statement, it was able to 
+correctly derive that each 
+layer required loading an 
+activation
+
+
+--- Page 25 ---
+For each layer 
+:
+The nearest stored activation below these layers is the inputs.
+Again, we must load the relevant stored activation (inputs) for each layer separately.
+So layers 5–1 contribute 5 loadmem ops.
+ Total loadmem operations
+i ∈{5, 4, 3, 2, 1}
+5 + 5 =
+ 
+10 loadmem operations
+(c) Say you have access to a local disk which offers 
+practically infinite storage for activations and a
+loaddisk operation for loading activations. You decide to 
+not use tensor rematerialization and instead store all 
+activations on this disk, loading each activation when 
+required. Assuming each fwd
+operation takes 20ns and each loadmem operation (which 
+loads from memory, not local disk) takes
+10ns for tensor rematerialization, how fast (in ns) should 
+each loaddisk operation be to take the
+same time for one backward pass as tensor 
+rematerialization? Assume activations are directly
+loaded to the processor registers from disk (i.e., they do 
+not have to go to memory first), only one
+operation can be run at a time, ignore any caching and 
+assume latency of any other related operations
+is negligible.
+Let's restate what we have so far.
+From parts (a) and (b):
+Skip to content
+10/6/25, 10:38 AM
+5. Tensor rematerialization process
+https://chatgpt.com/share/68e3fe7f-29f8-8003-bb9d-83314660a85e
+5/7
+
+
+--- Page 26 ---
+Method
+# fwd ops
+# loadmem ops
+Description
+Tensor
+rematerialization
+20
+10
+recompute activations by re-
+running forwards, each layer
+reloads last stored activation
+Disk-storage (no
+rematerialization)
+0
+0
+store all activations to disk and
+load each when needed
+Now we’ll compute the total cost of tensor rematerialization, then find what the loaddisk
+time must be to match it.
+Step 1. Compute tensor rematerialization time
+Each forward pass = 20 ns, each loadmem = 10 ns.
+Step 2. Compute cost for full-storage (disk) approach
+If we store all activations, we don’t need to recompute any; we just load each activation
+when needed during backprop.
+For a 10-layer network, there are 10 activations to load (one per layer) during the
+backward pass.
+Step 3. Equate total times
+We want them to be equal in time:
+T
+ =
+remat
+20 × 20 + 10 × 10 = 400 + 100 = 500 ns
+T
+ =
+disk
+10 × t
+ 
+loaddisk
+T
+ =
+disk
+T
+ 
+remat
+10 t
+ =
+loaddisk
+500 ns
+ 
+t
+ = 50 ns
+loaddisk
+Skip to content
+10/6/25, 10:38 AM
+5. Tensor rematerialization process
+https://chatgpt.com/share/68e3fe7f-29f8-8003-bb9d-83314660a85e
+6/7
+
+
+--- Page 27 ---
+ Final Answer:
+Each loaddisk operation must take 50 ns to make the full-storage approach as fast as
+tensor rematerialization.
+Search
+Study
+Message ChatGPT
+Message ChatGPT
+Attach
+Voice
+10/6/25, 10:38 AM
+5. Tensor rematerialization process
+https://chatgpt.com/share/68e3fe7f-29f8-8003-bb9d-83314660a85e
+7/7

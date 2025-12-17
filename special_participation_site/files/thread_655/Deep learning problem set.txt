@@ -1,0 +1,3387 @@
+--- Page 1 ---
+w
+ =
+t+1
+(1 −2ησ )w
+ +
+2
+t
+2ησy,
+w =
+∗
+ .
+σ
+y
+a := 1 −2ησ .
+2
+e
+ =
+t+1
+ae
+ t
+∣a∣< 1
+∣1 −2ησ ∣<
+2
+1
+−1 < 1 −2ησ <
+2
+1.
+−1 < 1 −2ησ
+⇒
+2
+−2 < −2ησ
+⇒
+2
+ησ <
+2
+1 ⇒η <
+ .
+σ2
+1
+1 −2ησ <
+2
+1 ⇒−2ησ <
+2
+0 ⇒η > 0.
+12/7/25, 11:36 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+arrived atthe correct answer; added the 
+explicit reference to the homogeneous 
+error dynamic 
+
+
+--- Page 2 ---
+0 < η <
+ .
+σ2
+1
+1 −ε
+e
+ =
+t
+w
+ −
+t
+w∗
+e
+ =
+t+1
+(1 −2ησ )e
+ ⇒
+2
+t
+e
+ =
+t
+(1 −2ησ ) e
+ .
+2 t
+0
+w
+ =
+0
+0
+e
+ =
+0
+−w =
+∗
+−
+ σ
+y
+∣e
+ ∣=
+t
+ 1 −2ησ
+ ∣w ∣.
+2 t
+∗
+1 −ε
+w∗
+ ≤
+∣w ∣
+∗
+∣w
+ −w ∣
+t
+∗
+ε
+∣1 −2ησ ∣≤
+2 t
+ε ⇒t ≥
+ .
+−ln ∣1 −2ησ ∣
+2
+ln(1/ε)
+∣1 −2ησ ∣
+2
+ 
+ 
+ =
+[σ
+ ℓ
+0
+0
+σ
+ s] [w[1]
+w[2]]
+ ,
+σ
+ ≫
+[y[1]
+y[2]]
+ℓ
+σ
+ .
+s
+w
+ =
+t+1
+[i]
+(1 −2ησ
+ )w
+ +
+i
+2
+t
+[i]
+2ησ
+ y ,
+i ∈
+i
+[i]
+{ℓ, s}.
+∣1
+2ησ ∣<
+2
+1
+and
+∣1
+2ησ ∣<
+2
+1
+12/7/25, 11:36 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Decided to write in a slightly 
+different form compared to the 
+solution; the same answer as the 
+solution is just multiplied by (-1) in 
+numberator and denominator
+Arrived at the correct answer, 
+but decided to generalize this 
+logic to any i, though it doesn’t 
+add any additional information 
+to us since we are just working 
+with two singular values.
+
+
+--- Page 3 ---
+ℓ
+∣1 −2ησ
+ ∣<
+ℓ
+2
+1
+and
+∣1 −2ησ
+ ∣<
+s
+2
+1.
+0 < η <
+ 
+and
+0 <
+σ
+ ℓ
+2
+1
+η <
+ .
+σ
+ s
+2
+1
+σ
+ ≫
+ℓ
+σ
+ s
+1/σ
+ ≪
+ℓ
+2
+1/σ
+ s
+2
+0 < η <
+ .
+σ
+ ℓ
+2
+1
+ρ
+ (η) =
+i
+∣1 −2ησ
+ ∣.
+i
+2
+∣1 −2ησ
+ ∣
+i
+2
+ max (∣1 −
+η
+min
+2ησ
+ ∣, ∣1 −
+ℓ
+2
+2η\s
+ mall ∣)
+s.t. 0 <
+s
+2
+η < 1/σ
+ .
+ℓ
+2
+1 −2ησ
+ =
+ℓ
+2
+−(1 −2ησ
+ ).
+s
+2
+12/7/25, 11:37 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+took a more high-level approach to answering this 
+question than the solutions did (rewriting update rule), 
+which I didn’t expect.
+
+
+--- Page 4 ---
+ᵢ
+ℓ
+ᵢ
+ᵢ
+ᵢ
+ᵢ
+ℓ
+1 −2ησ
+ =
+ℓ
+2
+−1 + 2ησ
+ s
+2
+2 = 2η(σ
+ +
+ℓ
+2
+σ
+ ) ⇒
+s
+2
+η =
+∗
+ .
+σ
+ + σ
+ 
+ℓ
+2
+s
+2
+1
+∣1 −2η σ
+ ∣=
+∗
+ℓ
+2
+∣1 −2η σ
+ ∣=
+∗
+s
+2
+ ,
+σ
+ + σ
+ 
+ℓ
+2
+s
+2
+σ
+ −σ
+ 
+ℓ
+2
+s
+2
+η < 1/σ
+ 
+max
+2
+σ
+ 
+max
+L(w) = ∥Xw −y∥,
+X =
+2
+UΣV
+,
+⊤
+∇L = 2X (Xw −
+⊤
+y) = 2V Σ ΣV
+(w −
+⊤
+⊤
+w ).
+∗
+=
+w~
+V
+(w −
+⊤
+w ),
+∗
+12/7/25, 11:38 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Answered the 
+question correctly, 
+and also added an 
+additional step about 
+optimal worst-case 
+contraction factor.
+yes, only the extremal singular 
+values matter
+Wrote out explicit SVD form
+
+
+--- Page 5 ---
+ =
+w~
+t+1
+(i)
+(1 −2ησ
+ )
+ ,
+i
+2 w~
+t
+(i)
+0 < η < 1/σ
+ 
+max
+2
+w =
+∗
+X (XX )
+y =
+⊤
+⊤−1
+X y,
++
+w =
+′
+w −w .
+∗
+Xw =
+′
+X(w −w ) =
+∗
+Xw −Xw =
+∗
+y −y = 0,
+Xw =
+′
+0.
+w
+ =
+0
+′
+w
+ −
+0
+w =
+∗
+−w .
+∗
+12/7/25, 11:38 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+indeed the earlier analysis is the general case in SVD 
+coordinates. Didn’t spell out the relation to change of 
+bases as verbatim, though.
+Carried out the same steps as the 
+solutions, which it tends to do for 
+simpler subparts.
+
+
+--- Page 6 ---
+ᵢ
+X = UΣV
+,
+⊤
+Σ = [Σ
+ 0
+ ],
+e
+n×(d−n)
+Σ
+ =
+e
+diag(σ
+ , … , σ
+ )
+1
+n
+w =
+′′
+V
+w .
+⊤
+′
+Xw =
+′
+UΣV
+w =
+⊤
+′
+UΣw .
+′′
+Σw =
+′′
+0
+⇒
+ 
+ 
+ =
+[Σ
+ e
+0] [ w
+ 
+1:n
+′′
+w
+ 
+n+1:d
+′′
+]
+0 ⇒Σ
+ w
+ =
+e
+1:n
+′′
+0.
+w
+ =
+0
+′
+−w ⇒
+∗
+w =
+0
+′′
+V
+w
+ 
+⊤
+0
+′
+w :
+w′′
+12/7/25, 11:38 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+deﬁned the same w’’
+correct logic, with correct dimensions. 
+Additionally speciﬁes that the 
+diagonals in e are positive, 
+presumably to make it clear that the 
+Sigma_e part of the Sigma matrix is 
+the only part with non-negative 
+singular values. The LLM merely 
+states the positivity fact without 
+underlying reasoning (in ﬁrst pass)
+This second vector is (V^T)*w’ split after n points, with the point of showcasing that only the points from w’’_{1:n} remain.
+Uses min-norm justiﬁcation to skip a lot of 
+intermediate steps, but it’s true and an elegant result.
+
+
+--- Page 7 ---
+w
+ :=
+e
+w
+ .
+1:n
+′′
+Σ
+ w
+ =
+e
+e
+0.
+ w
+ =
+X~
+e
+e
+0,
+ 
+X~
+e
+I
+ ∼
+t
+Unif{1, … , n}
+w
+ =
+t+1
+w
+ −
+t
+η∇L
+ (w ),
+L
+ (w) =
+I
+ t
+t
+i
+(y
+ −
+i
+x
+ w) .
+i
+⊤
+2
+∇L
+ (w) =
+i
+−2(y
+ −
+i
+x
+ w) x
+ .
+i
+⊤
+i
+y
+ −
+i
+x
+ w
+ =
+i
+⊤
+t
+x
+ (w −
+i
+⊤
+∗
+w
+ ) =
+t
+−x
+ w
+ .
+i
+⊤
+t
+′
+w
+ =
+t+1
+′
+w
+ −
+t
+′
+η(−2(−x
+ w
+ )x
+ ) =
+I
+ t
+⊤
+t
+′
+I
+ t
+w −
+t
+′
+2ηx
+ x
+ w
+ .
+I
+ t
+I
+ t
+⊤
+t
+′
+w
+ e
+x
+ 
+e,i
+12/7/25, 11:39 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+This isn’t very detailed or intuitive upon the ﬁrst 
+pass of the LLM. I inquire further about this 
+problem in the next prompt (at the bottom of this 
+document trace)
+
+
+--- Page 8 ---
+w
+ =
+t+1
+e
+w
+ −
+t
+e
+2ηx
+ x
+ w
+ ,
+e,I
+ t
+e,I
+ t
+⊤
+t
+e
+w
+ =
+t+1
+e
+w
+ −
+t
+e
+2ηx
+ x
+ w
+ .
+e,I
+ t
+e,I
+ t
+⊤
+t
+e
+w
+ =
+t+1
+e
+w
+ −
+t
+e
+2ηx
+ x
+ w
+ .
+I
+ t
+e
+I
+ t
+e⊤
+t
+e
+E[L(w
+ ) ∣
+t+1
+e
+w
+ ] ≤
+t
+e
+(1 −ρ)L(w
+ ),
+0 <
+t
+e
+ρ < 1.
+E[L(w
+ )] ≤
+t
+e
+(1 −ρ) L(w
+ ).
+t
+0
+e
+P(L(w
+ ) ≥
+t
+e
+ε) ≤
+ ≤
+ε
+E[L(w
+ )]
+t
+e
+ .
+ε
+(1 −ρ) L(w
+ )
+t
+0
+e
+(1 −ρ) ≤
+t
+ ⇒
+L(w
+ )
+0
+e
+εδ
+t ≥
+ .
+−ln(1 −ρ)
+ln (L(w
+ )/(εδ))
+0
+e
+T =
+ 
+,
+⌈
+−ln(1 −ρ)
+ln (L(w
+ )/(εδ))
+0
+e
+⌉
+P(L(w
+ ) <
+T
+e
+ε) ≥1 −δ.
+12/7/25, 11:40 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+I found this explanation quite 
+intuitive to follow along, and it 
+seemed to emphasize/show 
+intermediate steps which was 
+beneﬁcial for my learning.
+Good use of markov inequality
+Doesnt explicitly say that as t goes to inﬁnity, 
+Lyapunov func goes to zero, converging 
+exponentially. However, the logic is valid.
+
+
+--- Page 9 ---
+L(w
+ ) =
+e
+w
+ X
+ X
+ w
+ =
+e
+⊤
+e
+⊤
+e
+e
+∥X
+ w
+ ∥≥
+e
+e
+2
+0.
+L(w
+ ) =
+t+1
+e
+(w
+ +
+t
+e
+Δw
+ ) A(w
+ +
+t
+⊤
+t
+e
+Δw
+ ) =
+t
+w
+ Aw
+ +
+t
+e⊤
+t
+e
+2w
+ AΔw
+ +
+t
+e⊤
+t
+Δw
+ AΔw
+ .
+t
+⊤
+t
+L(w
+ ) =
+t+1
+e
+L(w
+ ) +
+t
+e
+A + B
+A = 2w
+ X
+ X
+ (w
+ −
+t
+e⊤
+e
+⊤
+e
+t+1
+e
+w
+ )
+t
+e
+B = (w
+ −
+t+1
+e
+w
+ ) X
+ X
+ (w
+ −
+t
+e ⊤
+e
+⊤
+e
+t+1
+e
+w
+ )
+t
+e
+E[A ∣w
+ ]
+t
+e
+Δw
+ =
+t
+w
+ −
+t+1
+e
+w
+ =
+t
+e
+−2ηx
+ x
+ w
+ .
+I
+ t
+e
+I
+ t
+e⊤
+t
+e
+A = 2w
+ X
+ X
+ (−2ηx
+ x
+ w
+ ) =
+t
+e⊤
+e
+⊤
+e
+I
+ t
+e
+I
+ t
+e⊤
+t
+e
+−4η w
+ X
+ X
+ x
+ x
+ w
+ .
+t
+e⊤
+e
+⊤
+e
+It
+e
+I
+ t
+e⊤
+t
+e
+E[A ∣w
+ ] =
+t
+e
+−4η w
+ X
+ X
+ 
+ 
+ x
+ x
+ 
+w
+ =
+t
+e⊤
+e
+⊤
+e (n
+1
+i=1
+∑
+n
+i
+e
+i
+e⊤)
+t
+e
+−4η w
+ X
+ X
+ 
+ X
+ X
+ 
+w
+ 
+t
+e⊤
+e
+⊤
+e (n
+1
+e
+⊤
+e)
+t
+e
+4η
+12/7/25, 11:40 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Understood the key about X~^TX being full rank, thus positive deﬁnite.
+Decided to expand out to symmetric matrix form only at the end
+Still getting the correct answer.
+
+
+--- Page 10 ---
+= −
+ w
+ (X
+ X
+ ) w .
+n
+4η
+t
+e⊤
+e
+⊤
+e
+2
+t
+e
+X
+ X
+ 
+e
+⊤
+e
+σ
+ , … , σ
+ >
+1
+2
+n
+2
+0
+(X
+ X
+ )
+e
+⊤
+e 2
+σ
+ i
+4
+w (X
+ X
+ ) w ≥
+⊤
+e
+⊤
+e
+2
+σ
+ w X
+ X
+ w
+min
+2
+⊤
+e
+⊤
+e
+σ
+ ≥
+i
+4
+σ
+ σ
+ 
+min
+2
+i
+2
+E[A ∣w
+ ] ≤
+t
+e
+−
+ σ
+ w
+ X
+ X
+ w
+ =
+n
+4η
+min
+2
+t
+e⊤
+e
+⊤
+e
+t
+e
+−c
+ ηL(w
+ )
+1
+t
+e
+c
+ =
+1
+ σ
+ >
+n
+4
+min
+2
+0.
+E[B ∣w
+ ]
+t
+e
+B = Δw
+ X
+ X
+ Δw
+ =
+t
+⊤
+e
+⊤
+e
+t
+∥X
+ Δw
+ ∥.
+e
+t
+2
+Δw
+ =
+t
+−2ηx
+ x
+ w
+ ,
+I
+ t
+e
+I
+ t
+e⊤
+t
+e
+∥Δw
+ ∥≤
+t
+2η∥x
+ ∥∥w
+ ∥.
+I
+ t
+e
+2
+t
+e
+β =
+ ∥x
+ ∥.
+i
+max
+i
+e
+∥X
+ Δw
+ ∥≤
+e
+t
+∥X
+ ∥∥Δw
+ ∥≤
+e
+t
+∥X
+ ∥⋅
+e
+2ηβ ∥w
+ ∥.
+2
+t
+e
+B = ∥X Δw ∥≤
+2
+4η ∥X ∥β ∥w ∥
+2
+2
+4
+e 2
+12/7/25, 11:41 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Did not include the eta term in the ﬁnal 
+answer. However, I believe this LLM solution 
+might be correct while the course solution is 
+wrong; the equation we are trying to show 
+(59) already includes the eta term, thus c1 
+should not include it.
+
+
+--- Page 11 ---
+B = ∥X
+ Δw
+ ∥≤
+e
+t
+2
+4η ∥X ∥β ∥w
+ ∥.
+2
+e
+2
+4
+t
+e 2
+∥w
+ ∥
+t
+e 2
+L(w
+ ) =
+t
+e
+w
+ X
+ X
+ w
+ ≥
+t
+e⊤
+e
+⊤
+e
+t
+e
+σ
+ ∥w
+ ∥
+⇒
+min
+2
+t
+e 2
+∥w
+ ∥≤
+t
+e 2
+ L(w
+ ).
+σ
+ 
+min
+2
+1
+t
+e
+B ≤
+ L(w
+ ).
+σ
+ 
+min
+2
+4η ∥X
+ ∥β
+2
+e 2
+4
+t
+e
+E[B ∣w
+ ] ≤
+t
+e
+c
+ η L(w
+ ),
+2
+2
+t
+e
+c
+ =
+2
+ >
+σ
+ 
+min
+2
+4∥X
+ ∥β
+e 2
+4
+0,
+E[L(w
+ ) ∣
+t+1
+e
+w
+ ] =
+t
+e
+L(w
+ ) +
+t
+e
+E[A ∣w
+ ] +
+t
+e
+E[B ∣w
+ ] ≤
+t
+e
+(1 −c
+ η +
+1
+c
+ η )L(w
+ ).
+2
+2
+t
+e
+q(η) := 1 −c
+ η +
+1
+c
+ η .
+2
+2
+q(η) < 1
+and
+q(η) > 0.
+1 −c
+ η +
+1
+c
+ η <
+2
+2
+1
+12/7/25, 11:41 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Did not break down into singular-value land; utilized the min singular value
+not the max sing value. I believe there is nothing wrong with the ﬁnal answer
+however, it is just a different approach that leverages spectral norm bounds.
+
+
+--- Page 12 ---
+1 −c
+ η +
+1
+c
+ η <
+2
+2
+1
+−c
+ η +
+1
+c
+ η <
+2
+2
+0 ⇒η(c
+ η −
+2
+c
+ ) <
+1
+0.
+0 < η <
+ .
+c
+ 2
+c
+ 1
+(0, c /c
+ )
+1
+2
+∥Xw −y∥+
+2
+λ∥w∥2
+L( )
+∥
+X ∥2
+12/7/25, 11:42 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Corectly showed an upper bound of eta that exists, so we can always
+just choose some number less than c1/c2 to ﬁnd an appropriate eta.
+I was interested that the LLM used 
+wording like “the notebook 
+illustrates …” and from this 
+response, it seems like it knows 
+about the decay schedule 
+(memory)..
+but I was curious if it’s actually 
+able to see the notebook, since all 
+I uploaded
+was the pdf of the homework. A 
+follow up question I asked 
+(included here instead as a 
+footnote at the end of the trace):
+My prompt: Are you able to see 
+the notebook demo in question 
+3k?
+LLM response: Short answer: 
+nope, I can’t actually see that 
+speciﬁc notebook demo unless 
+you paste it or upload it.
+I don’t have access to your course 
+materials / Colab / Jupyter 
+environment. When I talked about 
+“the notebook illustrates…” in 3k, I 
+was describing what a typical 
+ridge-regression demo would 
+show given the theory, not literally 
+reading your class’s notebook.
+If you want me to reason with the 
+actual demo, you can:
+paste the relevant cells (code + 
+plots description), or
+export the notebook as a .ipynb or 
+PDF and upload it.
+Then I can walk through exactly 
+what it’s doing and tie it back to 
+the theory in 3(k).
+
+
+--- Page 13 ---
+ᵢ
+L(w) = ∥y −Xw∥
+ 2
+2
+w
+ =
+t+1
+w
+ −
+t
+ηz
+ ,
+z
+ =
+t+1
+t+1
+(1 −β)z
+ +
+t
+βg
+ ,
+g
+ =
+t
+t
+∇L(w
+ ) =
+t
+2X (Xw
+ −
+⊤
+t
+y).
+X = UΣV ⊤
+x
+ =
+t
+V
+(w
+ −
+⊤
+t
+w ),
+a
+ =
+∗
+t
+V
+z
+ .
+⊤
+t
+w =
+∗
+(X X)
+X y
+⊤
+−1
+⊤
+X (Xw −
+⊤
+∗
+y) = 0
+g
+ =
+t
+2X (Xw
+ −
+⊤
+t
+y) = 2X X(w
+ −
+⊤
+t
+w ) =
+∗
+2V Σ ΣV
+(w
+ −
+⊤
+⊤
+t
+w ) =
+∗
+2V Σ Σx
+ .
+⊤
+t
+g
+ =
+t
+(i)
+2σ
+ x
+.
+i
+2
+t
+(i)
+a
+ =
+t+1
+V
+z
+ =
+⊤
+t+1
+(1 −β)V
+z
+ +
+⊤
+t
+βV
+g
+ =
+⊤
+t
+(1 −β)a
+ +
+t
+β ⋅2Σ Σx
+ .
+⊤
+t
+a
+ [i] =
+t+1
+(1 −β)a
+ [i] +
+t
+2βσ
+ x
+ [i].
+i
+2
+t
+w
+ =
+t+1
+w
+ −
+t
+ηz
+ ⇒
+t+1
+x
+ =
+t+1
+V
+(w
+ −
+⊤
+t+1
+w ) =
+∗
+V
+(w
+ −
+⊤
+t
+w −
+∗
+ηz
+ ) =
+t+1
+x
+ −
+t
+ηa
+ .
+t+1
+x
+ [i] =
+t+1
+x
+ [i] −
+t
+ηa
+ [i].
+t+1
+[
+[i]
+[i]]⊤
+12/7/25, 11:42 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Though this subpart required lots of steps, still arrived at correct answer.
+
+
+--- Page 14 ---
+[a
+ [i], x
+ [i]]
+t
+t
+⊤
+a
+ [i] =
+t+1
+(1 −β)a
+ [i] +
+t
+2βσ
+ x
+ [i],
+i
+2
+t
+x
+ [i] =
+t+1
+x [i] −
+t
+ηa
+ [i] =
+t+1
+x
+ [i] −
+t
+η((1 −β)a
+ [i] +
+t
+2βσ
+ x
+ [i])
+i
+2
+t
+= −η(1 −β)a
+ [i] +
+t
+(1 −2ηβσ
+ )x
+ [i].
+i
+2
+t
+ =
+[a
+ [i]
+t+1
+x
+ [i]
+t+1
+]
+R
+ 
+ ,
+R
+ =
+i [a
+ [i]
+t
+x
+ [i]
+t
+]
+i
+ 
+ .
+[
+1 −β
+−(1 −β)η
+2βσ
+ i
+2
+1 −2ηβσ
+ i
+2]
+T = (1 −β) + (1 −2ηβσ ) =
+i
+2
+2 −β −2ηβσ
+ ,
+i
+2
+D = (1 −β)(1 −2ηβσ
+ ) −
+i
+2
+(2βσ
+ )( −
+i
+2
+(1 −β)η) = (1 −β)(1 −2ηβσ
+ +
+i
+2
+2ηβσ
+ ) =
+i
+2
+1
+λ
+ =
+i,±
+ =
+2
+T ±
+ 
+T −4D
+2
+ .
+2
+T ±
+ 
+T −4(1 −β)
+2
+Δ = T −
+2
+4(1 −β)
+Δ ≥0
+Δ < 0
+Δ = 0
+∣T∣≥2
+ 
+1 −β
+∣T∣= 2
+ 
+1 −β
+∣T∣< 2
+ 
+1 −β
+T = 2 −β −2ηβσ
+ .
+i
+2
+12/7/25, 11:42 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+I’m 
+impressed 
+that it can do 
+problems 
+involving 
+stacking the 
+coorinate 
+pairs, and 
+keep track of 
+them 
+correctly
+Correctly identiﬁed the 
+relationships between 
+the discriminant and 
+real/conjugate 
+eigenvalues. Decided 
+to deﬁne a variable “T” 
+to help formulate the 
+solution, leveraging the 
+multiple uses of the 
+value in T to declutter 
+the solution. I thought 
+this was a nice touch!
+
+
+--- Page 15 ---
+∈
+Δ = 0 ⇔T
+=
+2
+4(1 −β)
+2 −β −2ηβσ
+ =
+i
+2
+±2
+ .
+1 −β
+2 −β −2ηβσ
+ =
+i
+2
+2
+ 
+1 −β
+2ηβσ
+ =
+i
+2
+2 −β −2
+ =
+1 −β
+(1 −
+ )
+1 −β 2
+η
+ =
+rep,1
+ .
+2βσ
+ i
+2
+(1 −
+ )
+1 −β 2
+2 −β −2ηβσ
+ =
+i
+2
+−2
+ 
+1 −β
+2ηβσ
+ =
+i
+2
+2 −β + 2
+ =
+1 −β
+(1 +
+ )
+1 −β 2
+η
+ =
+rep,2
+ .
+2βσ
+ i
+2
+(1 +
+ )
+1 −β 2
+λ =
+ =
+2
+T
+±
+ ,
+1 −β
+∣λ∣=
+ <
+1 −β
+1
+ 
+η
+=
+ .
+rep,max
+2βσ
+ i
+2
+(1 +
+ )
+1 −β 2
+Δ ≥0
+1 −T + D > 0
+12/7/25, 11:43 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+<- plugging in learning rate to eigenvalues
+Arrived at correct solution! Note: “simpliﬁed”
+further than the course solutions did
+Just the larger of the two learning rates
+
+
+--- Page 16 ---
+1 −T + D > 0
+1 + T + D > 0
+1 −T + D > 0
+1 −(2 −β −2ηβσ
+ ) +
+i
+2
+(1 −β) = 2ηβσ
+ >
+i
+2
+0
+1 + T + D > 0
+1 + (2 −β −2ηβσ
+ ) +
+i
+2
+(1 −β) = 4 −2β −2ηβσ
+ >
+i
+2
+0
+⇒η <
+ .
+βσ
+ i
+2
+2 −β
+Δ ≥0
+0 < η <
+ 
+and
+∣T∣≥
+βσ
+ i
+2
+2 −β
+2
+ .
+1 −β
+λ
+ λ
+ =
+i,+
+i,−
+D = 1 −β.
+∣λ∣=
+2
+D
+∣λ∣=
+ <
+1 −β
+1
+Δ < 0
+∣T∣< 2
+ 
+1 −β
+η
+ <
+rep,1
+η < η
+ .
+rep,2
+12/7/25, 11:43 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+The restrictions it yielded are 
+looser than they should be; 
+there is a section in the middle 
+of (2-beta-2(sqrt(1-beta))/
+(2*beta(sigma_i^2) and (2-
+beta+2*sqrt(1-beta))/
+2(beta*sigma_i^2) where there 
+are not two different real roots.
+
+
+--- Page 17 ---
+ᵢ
+ᵢ
+η
+ <
+rep,1
+η < η
+ .
+rep,2
+ 
+η
+ = η
+ =
+ .
+complex,max
+rep,2
+2βσ
+ i
+2
+(1 +
+ )
+1 −β 2
+ <
+1 −β
+1
+0 < η <
+ .
+βσ
+ i
+2
+2 −β
+X X
+⊤
+σ
+ =
+max
+2
+5,
+σ
+ =
+min
+2
+0.05,
+κ =
+ =
+σ
+ 
+min
+2
+σ
+ 
+max
+2
+100.
+rate
+ =
+GD
+ =
+κ + 1
+κ −1
+ =
+100 + 1
+100 −1
+≈
+101
+99
+0.9802.
+ρ ≤
+t
+0.001 ⇒t ≥
+ .
+ln(ρ)
+ln(0.001)
+t
+ ≈
+GD
+ ≈
+ln(0.9802)
+ln(10
+)
+−3
+345–346 iterations.
+12/7/25, 11:43 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+correct highest learning rate! 
+the point of this question however is the 
+takeaway that we have to choose eta
+such that R_i’s eigenvalues
+are the same real roots or complex roots.
+However, from the LLM answer this is not 
+immediately clear. Though it answered
+the question correctly.
+
+
+--- Page 18 ---
+ᵢ
+ᵢ
+ᵢ
+∣λ∣=
+ =
+1 −β
+ ≈
+0.9
+0.94868.
+ 
+η
+ ≈1.69
+mom
+0 < η <
+ =
+βσ
+ 
+max
+2
+2−β
+ =
+0.1⋅5
+1.9
+3.8
+ρ
+ ≈
+mom
+0.94868.
+t
+ ≈
+mom
+ ≈
+ln(0.94868)
+ln(10
+)
+−3
+131–132 iterations.
+σ
+ i
+2
+12/7/25, 11:44 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+This subpart was quite long. I’m impressed that it got the exact correct
+number of iterations  to guarantee the desired error.
+
+
+--- Page 19 ---
+ᵢ
+ᵢ
+ᵢ
+ᵢ
+ᵢ
+⊙
+m
+ =
+t
+β
+ m
+ +
+1
+t−1
+(1 −β
+ )g
+ 
+1
+t
+v
+ =
+t
+β
+ v
+ +
+2 t−1
+(1 −β
+ )g
+ ⊙
+2
+t
+g
+ t
+m
+ ←
+t
+β
+ m
+ +
+1
+t−1
+(1 −β
+ )g
+ 
+1
+t
+v
+ ←
+t
+β v
+ +
+2 t−1
+(1 −β
+ )g
+ ⊙
+2
+t
+g
+ t
+12/7/25, 11:44 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Again, upon further probing, the LLM admits that it cannot see the notebook demo in this 
+question. However it still answers this question quite speciﬁcally, meaning it just guessed 
+from the question setup what might be shown in the notebook. This isn’t reassuring, because
+it’s preferable the LLM just admits when it doesn’t know something rather than potentially 
+hallucinate.
+
+
+--- Page 20 ---
+t
+β
++
+2 t 1
+(
+β )g ⊙
+2
+t
+gt
+θ
+ =
+t
+θ
+ −
+t−1
+η
+ 
+ + ε
+v
+ t
+m
+ t
+f
+ (θ) =
+t
+reg
+f
+ (θ) +
+t
+ ∥θ∥
+ .
+2
+λ
+2
+2
+∇f
+ (θ) =
+t
+reg
+∇f
+ (θ) +
+t
+λθ.
+f
+ 
+t
+reg
+θ
+ =
+t+1
+θ
+ −
+t
+η∇f
+ (θ
+ ) =
+t
+reg
+t
+θ
+ −
+t
+η(∇f
+ (θ
+ ) +
+t
+t
+λθ
+ )
+t
+= (1 −ηλ)θ
+ −
+t
+η∇f
+ (θ
+ ).
+t
+t
+θ
+ =
+t+1
+(1 −γ)θ
+ −
+t
+η∇f
+ (θ
+ ).
+t
+t
+1 −γ = 1 −ηλ ⇒
+ 
+γ = ηλ.
+γ = ηλ
+ =
+Xˇi
+x
+ +
+i
+N
+ ,
+N
+ ∼
+i
+i
+N(0, σ I
+ ).
+2
+n
+12/7/25, 11:45 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+LLM went a step farther to give the typical 
+update equation, which it didn’t have to.
+Precisely!
+
+
+--- Page 21 ---
+∈ℝ
+∈ℝ
+arg
+ E[∥
+w −
+w
+min
+Xˇ
+y∥].
+2
+(
+ w −
+Xˇi
+⊤
+y
+ ) =
+i
+2
+((x
+ +
+i
+N
+ ) w −
+i
+⊤
+y
+ ) .
+i
+2
+E[(x
+ w +
+i
+⊤
+N
+ w −
+i
+⊤
+y
+ ) ] =
+i
+2
+(x
+ w −
+i
+⊤
+y
+ ) +
+i
+2
+2(x
+ w −
+i
+⊤
+y
+ )E[N
+ w] +
+i
+i
+⊤
+E[(N
+ w) ].
+i
+⊤
+2
+E[N
+ ] =
+i
+0
+E[(N
+ w) ] =
+i
+⊤
+2
+w E[N
+ N
+ ]w =
+⊤
+i
+i
+⊤
+w (σ I)w =
+⊤
+2
+σ ∥w∥.
+2
+2
+E[∥
+w −
+Xˇ
+y∥] =
+2
+ (x
+ w −
+i
+∑
+i
+⊤
+y
+ ) +
+i
+2
+ σ ∥w∥=
+i
+∑
+2
+2
+∥Xw −y∥+
+2
+mσ ∥w∥.
+2
+2
+ E[∥
+w −
+m
+1
+Xˇ
+y∥] =
+2
+∥Xw −
+m
+1
+y∥+
+2
+σ ∥w∥.
+2
+2
+arg
+ 
+ ∥Xw −
+w
+min m
+1
+y∥+
+2
+λ∥w∥2
+ 
+λ = σ .
+2
+ =
+Xˇt
+x + N
+ t
+L(w) =
+ (
+ w −
+2
+1 Xˇt
+y) .
+2
+12/7/25, 11:45 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+This indeed shows a regularized least squares problem, matching
+the desired form.
+This question doesn’t ask about the noisy scalar input yet;
+the LLM is looking ahead / answering a further question.
+
+
+--- Page 22 ---
+ =
+∂w
+∂L
+(
+ w
+ −
+Xˇt
+t
+y)
+ .
+Xˇt
+w
+ =
+t+1
+w
+ −
+t
+η(
+ w
+ −
+Xˇt
+t
+y)
+ .
+Xˇt
+E[w
+ ]
+t+1
+E[w
+ ]
+t
+w
+ =
+t+1
+w
+ −
+t
+η(
+w
+ −
+Xˇt
+2
+t
+y
+ ).
+Xˇt
+E[w
+ ∣
+t+1
+w
+ ] =
+t
+w
+ −
+t
+η(E[
+ ]w
+ −
+Xˇt
+2
+t
+y E[
+ ]).
+Xˇt
+ =
+Xˇt
+x + N
+ t
+E[
+ ] =
+Xˇt
+x
+E[
+ ] =
+Xˇt
+2
+x +
+2
+σ2
+E[w
+ ∣
+t+1
+w ] =
+t
+w
+ −
+t
+η((x +
+2
+σ )w
+ −
+2
+t
+xy) = (1 −η(x +
+2
+σ ))w
+ +
+2
+t
+ηxy.
+ 
+E[w
+ ] = (1 −η(x + σ )) E[w
+ ] + ηxy.
+t+1
+2
+2
+t
+u
+ :=
+t
+E[w
+ ]
+t
+u
+ =
+t+1
+au
+ +
+t
+b,
+a = 1 −η(x +
+2
+σ ).
+2
+∣1 −η(x +
+2
+σ )∣<
+2
+1
+−1 < 1 −η(x +
+2
+σ ) <
+2
+1.
+2
+12/7/25, 11:45 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Seems to be quite good at all the recurrence-related problems, including this one.
+
+
+--- Page 23 ---
+−1 < 1 −η(x +
+2
+σ ) ⇒
+2
+η(x +
+2
+σ ) <
+2
+2 ⇒η <
+.
+x + σ
+2
+2
+2
+1 −η(x +
+2
+σ ) <
+2
+1 ⇒−η(x +
+2
+σ ) <
+2
+0 ⇒η > 0.
+ 
+0 < η <
+ .
+x + σ
+2
+2
+2
+E[w
+ ]
+t
+u
+ =
+t+1
+u
+ :=
+t
+u∗
+u =
+∗
+(1 −η(x +
+2
+σ ))u +
+2
+∗
+ηxy ⇒η(x +
+2
+σ )u =
+2
+∗
+ηxy ⇒
+ 
+u =
+ .
+∗
+x + σ
+2
+2
+xy
+ 
+ (xw −
+w
+min 2
+1
+y) ⇒
+2
+x w =
+2
+xy ⇒w =
+∗
+ .
+x
+y
+u =
+∗
+ =
+x + σ
+2
+2
+xy
+ ,
+1 + σ /x
+2
+2
+w∗
+ ∥W
+ (Ax −
+x
+min
+1
+b)∥
+ +
+2
+2
+∥W
+ (x −
+2
+c)∥
+ .
+2
+2
+∥
+(
+)∥2
+(
+)
+(
+⊤
+⊤
+)
+12/7/25, 11:45 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Correct and precise, showing lots of steps which 
+is good for learning as a student.
+Yes, though it expresses in a slightly different form.
+
+
+--- Page 24 ---
+∥W
+ (Ax −
+1
+b)∥
+ =
+2
+2
+(Ax −b) W
+ W
+ (Ax −
+⊤
+1
+⊤
+1
+b),
+∥W
+ (x −
+2
+c)∥
+ =
+2
+2
+(x −c) W
+ W
+ (x −
+⊤
+2
+⊤
+2
+c).
+J(x) = (Ax −b) W
+ W
+ (Ax −
+⊤
+1
+⊤
+1
+b) + (x −c) W
+ W
+ (x −
+⊤
+2
+⊤
+2
+c).
+∇
+ =
+x
+2A W
+ W
+ (Ax −
+⊤
+1
+⊤
+1
+b).
+∇
+ =
+x
+2W
+ W
+ (x −
+2
+⊤
+2
+c).
+2A W
+ W
+ (Ax −
+⊤
+1
+⊤
+1
+b) + 2W
+ W
+ (x −
+2
+⊤
+2
+c) = 0.
+A W
+ W
+ Ax −
+⊤
+1
+⊤
+1
+A W
+ W
+ b +
+⊤
+1
+⊤
+1
+W
+ W
+ x −
+2
+⊤
+2
+W
+ W
+ c =
+2
+⊤
+2
+0
+⇒(A W
+ W
+ A +
+⊤
+1
+⊤
+1
+W
+ W
+ )x =
+2
+⊤
+2
+A W
+ W
+ b +
+⊤
+1
+⊤
+1
+W
+ W
+ c.
+2
+⊤
+2
+ 
+x = (A W
+ W
+ A + W W
+ )
+(A W
+ W
+ b + W
+ W
+ c).
+∗
+⊤
+1
+⊤
+1
+2
+⊤
+2
+−1
+⊤
+1
+⊤
+1
+2
+⊤
+2
+C =
+,
+d =
+[W
+ A
+1
+W
+ 2 ]
+ .
+[W
+ b
+1
+W
+ c
+2 ]
+∥Cx −d∥=
+2
+∥W
+ (Ax −
+1
+b)∥+
+2
+∥W
+ (x −
+2
+c)∥,
+2
+∥C
+i
+d∥2
+12/7/25, 11:45 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Perfect execution. again I am quite impressed by this, due to the length of the output answer. However it is indeed
+quite a standard algorithmic calculation.
+
+
+--- Page 25 ---
+ ∥Cx −
+x
+min
+d∥.
+2
+x =
+∗
+(C C)
+C d.
+⊤
+−1
+⊤
+C C =
+⊤
+(A W
+ , W
+ )
+ =
+⊤
+1
+⊤
+2
+⊤[W
+ A
+1
+W
+ 2 ]
+A W
+ W
+ A +
+⊤
+1
+⊤
+1
+W
+ W
+ ,
+2
+⊤
+2
+C d =
+⊤
+(A W
+ , W
+ )
+ =
+⊤
+1
+⊤
+2
+⊤[W
+ b
+1
+W
+ c
+2 ]
+A W
+ W
+ b +
+⊤
+1
+⊤
+1
+W
+ W
+ c.
+2
+⊤
+2
+x =
+∗
+(A W
+ W
+ A +
+⊤
+1
+⊤
+1
+W W
+ )
+(A W
+ W
+ b +
+2
+⊤
+2
+−1
+⊤
+1
+⊤
+1
+W
+ W
+ c),
+2
+⊤
+2
+x =
+∗
+(A A +
+⊤
+λI)
+A b.
+−1
+⊤
+W
+ =
+1
+I
+W
+ =
+2
+ I
+λ
+c = 0
+∥Ax −b∥+
+2
+∥
+ (x −
+λ
+0)∥=
+2
+∥Ax −b∥+
+2
+λ∥x∥,
+2
+A W
+ W
+ A +
+⊤
+1
+⊤
+1
+W
+ W
+ =
+2
+⊤
+2
+A A +
+⊤
+λI,
+A W
+ W
+ b +
+⊤
+1
+⊤
+1
+W
+ W
+ c =
+2
+⊤
+2
+A b +
+⊤
+0.
+12/7/25, 11:46 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+indeed consistent with a 
+and the matrix looks 
+correct.
+<- main result. is true.
+
+
+--- Page 26 ---
+x =
+∗
+(A A +
+⊤
+λI)
+A b,
+−1
+⊤
+=
+w^
+(X X +
+⊤
+λI)
+X y
+−1
+⊤
+=
+w^
+X (XX
++
+⊤
+⊤
+λI)
+y.
+−1
+W ∼N(0, I
+ )
+d
+Y = XW +
+ N
+λ
+Σ
+ =
+WW
+E[WW ] =
+⊤
+I
+ d
+Σ
+ =
+YY
+E[Y Y
+] =
+⊤
+XX
++
+⊤
+λI
+ n
+Σ
+ =
+WY
+E[WY
+] =
+⊤
+E[W(XW +
+ N) ] =
+λ
+⊤
+E[WW ]X
++
+⊤
+⊤
+ E[WN ] =
+λ
+⊤
+I
+ X
+d
+⊤
+(W, Y )
+E[W ∣Y = y] = Σ
+ Σ
+ y =
+WY
+YY
+−1
+X (XX
++
+⊤
+⊤
+λI)
+y.
+−1
+ =
+w^MAP
+X (XX
++
+⊤
+⊤
+λI)
+y.
+−1
+w^
+(X X +
+⊤
+λI)
+X y
+−1
+⊤
+12/7/25, 11:46 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+
+
+--- Page 27 ---
+ =
+w^MAP
+(X X +
+⊤
+λI)
+X y.
+−1
+⊤
+(X X +
+⊤
+λI)
+X
+=
+−1
+⊤
+X (XX
++
+⊤
+⊤
+λI)
+.
+−1
+∣
+∣
+∣
+∣
+t
+∣1 −2ησ ∣≤
+2 t
+ε,
+12/7/25, 11:46 AM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Below begins follow up questions to the above one-shot ChatGPT-5.1 Thinking attempts.
+Skipped some steps but they are trivial. arrived at correct identity.
+
+
+--- Page 28 ---
+ =
+X~
+e
+Σ
+ e
+Σ
+ =
+e
+diag(σ
+ , … , σ
+ )
+1
+n
+σ
+ >
+i
+0
+(σ
+ )
+ =
+i w~i
+0.
+σ
+ >
+i
+0
+ =
+w~i
+0.
+w~
+=
+w~
+0
+Xw =
+′
+0
+Xw =
+′
+0.
+x
+ w =
+i
+⊤
+′
+0,
+i = 1, … , n,
+x
+ 
+i
+⊤
+X
+w =
+′
+V w′′
+x
+ w =
+i
+⊤
+′
+x
+ V w .
+i
+⊤
+′′
+XV = UΣ
+XV
+UΣ
+x
+ V =
+i
+⊤
+(UΣ)
+ .
+i
+⊤
+(i-th row of UΣ) w =
+′′
+0.
+Xw =
+′
+0 ⟺U Xw =
+⊤
+′
+0 ⟺Σw =
+′′
+0.
+12/7/25, 1:46 PM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+Question 2c again. 
+Prompt was: Can you go 
+deeper on your 
+reasoning for question 
+2c? Can you show me 
+how , given the i-th 
+equation of equation 30 
+(X~ * w~) = 0 is zero? 
+The steps were a little 
+unclear (to me at least)
+
+
+--- Page 29 ---
+.ipynb
+12/7/25, 3:42 PM
+Deep learning problem set
+https://chatgpt.com/c/69352acb-4358-8328-bc17-f1f3e385e34d
+1/1
+LLM was unable to open jupyter notebooks linked in question 2k and 3h and 3i. It pretended
+to know what was in them though, as shown in the ﬁrst pass.

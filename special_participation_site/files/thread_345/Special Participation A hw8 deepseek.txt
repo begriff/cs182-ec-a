@@ -1,0 +1,2802 @@
+--- Page 1 ---
+Hi Deepseek, You are my study partner for Homework 8. This part of 
+the homework contains only non-coding problems (conceptual, 
+mathematical, proofs, and reasoning questions).
+For each question:
+1. Read the question carefully and explain in your own words what it 
+is asking.
+2. Solve the problem step by step. Be explicit in reasoning and 
+algebra. If there are multiple interpretations, note them and explain 
+your choice.
+3. If you are unsure at any step, clearly indicate your uncertainty.
+4. After finishing, perform a self-check: does your answer directly 
+address the question? Are there possible mistakes or gaps? Suggest 
+ways to verify your result.
+Format for each question can be flexible but should include your 
+reasoning and self-checks.
+First, I need to understand the format. I'm acting as a study partner for Homework 8, which
+has non-coding problems. For each question, I must:
+1. Explain the question in my own words.
+2. Solve step by step with clear reasoning.
+3. Indicate uncertainty if any.
+4. Self-check after.
+Since no specific questions are provided, I'll assume that the user will give me the questions
+one by one. But since this is a response, I should wait for the questions. Looking back at the
+user's message, it seems like they might have forgotten to include the actual questions. The
+user says: "This part of the homework contains only non-coding problems" but doesn't list
+them.
+Perhaps I need to prompt the user to provide the questions. But since this is a simulation, I
+should just proceed as if the questions will be provided in the conversation.
+The user might be expecting me to generate questions or something, but that doesn't make
+sense. Let me read carefully: "You are my study partner for Homework 8. This part of the
+已思考（用时 14 秒）
+I gave him a few rules to guide his thinking patte
+
+
+--- Page 2 ---
+Hello! I'm excited to be your study partner for Homework 8. I understand that this
+section focuses on non-coding problems, such as conceptual, mathematical, proofs,
+and reasoning questions. I'm ready to help you tackle each question step by step.
+Since you haven't provided any specific questions yet, please share the first
+question from your homework. Once you do, I'll:
+1. Explain the question in my own words to ensure I understand what it's asking.
+2. Solve the problem step by step with explicit reasoning and algebra, noting any
+multiple interpretations and explaining my choices.
+3. Indicate any uncertainties clearly if I encounter them.
+4. Perform a self-check after solving to verify that my answer addresses the
+question directly and suggest ways to catch possible mistakes or gaps.
+Go ahead and paste the first question! I'm here to work through it with you.
+homework contains only non-coding problems..."
+I think the user intends to provide the questions later, so for now, I should just acknowledge
+and wait. But since this is a text-based interaction, I'll respond accordingly.
+To be helpful, I'll state my readiness to help with the questions once they are provided.
+So, my response should be: I'm ready to help with your homework questions. Please provide
+the first question, and I'll follow the format you specified.
+But since the user might be testing me, I should demonstrate with a sample question if
+possible. But I don't have any sample.
+Another thought: perhaps the homework questions are implied, but no, the user didn't attach
+anything.
+I think I should just respond as per the instruction.
+image.png
+PNG 263.42KB
+1. SSM Convolution Kernel
+ Background and Setup: Consider a discrete-time State-Space 
+Model (SSM) of the form
+ xk+1 = Axk +Buk,
+ yk = Cxk +Duk,
+ (a) ConvolutionKernelandtheOutputEquation. 
+GiventhatthesequencelengthisL(input: (u0,··· ,uL),
+ output: (y0,··· ,yL)) and assume x0 = 0, show that the output yk can 
+I provided him with both image and text titles to prevent omissio
+during copy-pasting.
+
+
+--- Page 3 ---
+be expressed as a convolution
+ of the input sequence {uℓ}L
+ 0 with a kernel K = {Kℓ}L
+ 0:
+ L
+ yk =
+ ℓ=0
+ Kℓuk−ℓ,
+ where any u≤0 with a negative index is set to 0 (zero-padding). 
+Also, find K.
+ (b) Concrete Examples.
+ i. Scalar Case: Let n = 1, and set A = α, B = β, C = γ, D = δ. Use α = 
+0.8,β = 1,γ = 1.5
+ and compute the kernel up to L = 4.
+ ii. 2D Case: Let A ∈ R2×2 be, for instance,
+ A= 0.7 0.1
+ 0.2 0.6 , B= 1
+ 0 , C= 1 0 , D=0
+ Compute kernels up to L = 3 and briefly discuss how the kernel 
+captures the “impulse response”.
+ (c) Efficient Computation with Convolutions. If we already know the 
+kernel K, how much can we
+ parallelize the computation of the output sequence {yk} for an input 
+sequence {uk} ∈ Rd of length L?
+ What is the minimum critical path length of the computation? What 
+about a naive, direct computation
+ of yk from the unrolled recursion?
+ (d) Efficient Kernel Computation. Given A,B,C, how can we compute 
+the kernel, K, efficiently?
+ What are some strategies to parallelize kernel computation? You 
+may assume L = 2N for some N for
+ simplicity.
+ (e) Adding structure to A. Suppose A is a diagonal matrix. How can 
+we leverage this structure to
+ compute the kernel K more efficiently?
+ (f) Diagonal-plus-low-rank (DPLR) structure Now if A has the 
+following form:
+ A=In+pp⊤,
+ where A ∈ Rn×n,p ∈ Rn. How can we leverage this structure to 
+compute the kernel K more
+ efficiently?
+已思考（用时 220 秒）
+
+
+--- Page 4 ---
+📘 Solution for Problem 1: SSM Convolution Kernel
+🔹 Part (a): Convolution Kernel and Output Equation
+❓ Question Interpretation
+We are given a discrete-time State-Space Model (SSM):
+State update: 
+Output: 
+with initial condition 
+. We need to show that the output 
+ can be
+expressed as a convolution of the input sequence 
+ with a kernel 
+, and
+explicitly find 
+.
+🧠 Step-by-Step Solution
+1. Unroll the state recurrence:
+In general:
+2. Substitute into the output equation:
+3. Change the summation index:
+Let 
+. Then 
+, and when 
+, 
+; when 
+, 
+.
+So:
+x
+​ =
+k+1
+Ax
+​ +
+k
+Bu
+​k
+y
+​ =
+k
+Cx
+​ +
+k
+Du
+​k
+x
+​ =
+0
+0
+y
+​k
+{u
+​}
+ℓ
+K
+K
+x
+​ =
+0
+0
+x
+​ =
+1
+Ax
+​ +
+0
+Bu
+​ =
+0
+Bu
+​0
+x
+​ =
+2
+Ax
+​ +
+1
+Bu
+​ =
+1
+ABu
+​ +
+0
+Bu
+​1
+x
+​ =
+3
+Ax
+​ +
+2
+Bu
+​ =
+2
+A Bu
+​ +
+2
+0
+ABu
+​ +
+1
+Bu
+​2
+x
+​ =
+k
+​A
+Bu
+​
+j=0
+∑
+k−1
+k−1−j
+j
+y
+​ =
+k
+Cx
+​ +
+k
+Du
+​ =
+k
+C
+​A
+Bu
+​
++
+(
+j=0
+∑
+k−1
+k−1−j
+j)
+Du
+​k
+ℓ= k −j
+j = k −ℓ
+j = 0 ℓ= k
+j = k −1 ℓ= 1
+
+
+--- Page 5 ---
+4. Combine into a single sum:
+Define the kernel 
+ as:
+ for 
+Then:
+where 
+ for 
+.
+✅ Self-Check
+For 
+: 
+, matches the original output.
+For 
+: 
+, matches the original output.
+The kernel 
+ is explicitly defined and depends only on 
+.
+🔹 Part (b): Concrete Examples
+❓ Question Interpretation
+We compute the kernel 
+ for two specific SSMs and discuss how it represents the
+impulse response.
+🧠 Step-by-Step Solution
+(i) Scalar Case
+, 
+, 
+, 
+Kernel:
+y
+​ =
+k
+​CA
+Bu
+​ +
+ℓ=1
+∑
+k
+ℓ−1
+k−ℓ
+Du
+​k
+K = {K
+​}
+ℓ
+K
+​ =
+0
+D
+K
+​ =
+ℓ
+CA
+B
+ℓ−1
+ℓ= 1, 2, … , L
+y
+​ =
+k
+​K
+​u
+​
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+u
+​ =
+k−ℓ
+0
+k −ℓ< 0
+k = 0 y
+​ =
+0
+K
+​u
+​ =
+0
+0
+Du
+​0
+k = 1 y
+​ =
+1
+K
+​u
+​ +
+0
+1
+K
+​u
+​ =
+1
+0
+Du
+​ +
+1
+CBu
+​0
+K
+A, B, C, D
+K
+A = α = 0.8 B = β = 1 C = γ = 1.5 D = δ = 0
+K
+​ =
+0
+D = 0
+K
+​ =
+1
+CB = 1.5
+
+
+--- Page 6 ---
+Result: 
+(ii) 2D Case
+, 
+, 
+, 
+Kernel:
+Result: 
+💡 Discussion on Impulse Response
+If the input is an impulse 
+, 
+ for 
+, then:
+...
+So the kernel 
+ is exactly the impulse response of the system.
+✅ Self-Check
+Computations are straightforward matrix multiplications.
+The kernel decays as  increases, reflecting the stability of 
+.
+🔹 Part (c): Efficient Computation with Convolutions
+K
+​ =
+2
+CAB = 1.5 × 0.8 = 1.2
+K
+​ =
+3
+CA B =
+2
+1.5 × 0.8 =
+2
+0.96
+K
+​ =
+4
+CA B =
+3
+1.5 × 0.8 =
+3
+0.768
+K = [0, 1.5, 1.2, 0.96, 0.768]
+A =
+​
+​
+(0.7
+0.2
+0.1
+0.6) B =
+​
+(1
+0) C =
+​
+​
+(1
+0) D = 0
+K
+​ =
+0
+D = 0
+K
+​ =
+1
+CB = 1
+K
+​ =
+2
+CAB =
+​
+​
+​
+=
+(1
+0) (0.7
+0.2)
+0.7
+K
+​ =
+3
+CA B =
+2
+CA(AB) =
+​
+​
+​
+=
+(1
+0) (0.51
+0.26)
+0.51
+K = [0, 1, 0.7, 0.51]
+u
+​ =
+0
+1 u
+​ =
+k
+0
+k > 0
+y
+​ =
+0
+K
+​0
+y
+​ =
+1
+K
+​1
+y
+​ =
+2
+K
+​2
+K
+k
+A
+
+
+--- Page 7 ---
+❓ Question Interpretation
+We analyze the parallelization potential and critical path length when computing the
+output via convolution versus the naive recurrent method.
+🧠 Step-by-Step Solution
+1. Using Convolution:
+Each 
+ is a dot product of length 
+, which can be computed in parallel for
+all .
+Using tree reduction, each dot product has critical path length 
+.
+Overall critical path: 
+2. Naive Recurrent Computation:
+Compute 
+ sequentially: 
+Then compute 
+ in parallel: 
+Overall critical path: 
+✅ Self-Check
+Convolution enables massive parallelization.
+Critical path reduces from 
+ to 
+.
+🔹 Part (d): Efficient Kernel Computation
+❓ Question Interpretation
+We seek efficient methods to compute the kernel 
+ for 
+,
+and how to parallelize this.
+🧠 Step-by-Step Solution
+1. Direct Sequential Method:
+Compute 
+, 
+, 
+, ..., 
+y
+​ =
+k
+​ K
+​u
+​
+∑ℓ=0
+L
+ℓ
+k−ℓ
+y
+​k
+L + 1
+k
+O(log L)
+O(log L)
+x
+​, x
+​, … , x
+​
+1
+2
+L
+O(L)
+y
+​ =
+k
+Cx
+​ +
+k
+Du
+​k
+O(1)
+O(L)
+O(L)
+O(log L)
+K
+​ =
+ℓ
+CA
+B
+ℓ−1
+ℓ= 1, … , L
+v
+​ =
+0
+B v
+​ =
+1
+Av
+​0 v
+​ =
+2
+Av
+​1
+v
+​ =
+L−1
+Av
+​
+L−2
+The model overlooks the 
+computational complexity of 
+matrix multiplication.
+
+
+--- Page 8 ---
+Then 
+This takes 
+ steps.
+2. Parallel Strategy Using Doubling:
+Compute powers of 
+ up to 
+ using repeated squaring.
+Compute 
+ recursively:
+Critical path: 
+Then compute 
+ in parallel.
+✅ Self-Check
+Doubling method reduces critical path to 
+.
+Requires 
+ processors but is highly parallel.
+🔹 Part (e): Diagonal Matrix 
+❓ Question Interpretation
+We leverage the diagonal structure of 
+ to compute the kernel more efficiently.
+🧠 Step-by-Step Solution
+Let 
+Then 
+So:
+Compute the geometric sequences 
+ in parallel using doubling.
+Then sum over  for each .
+✅ Self-Check
+K
+​ =
+ℓ
+Cv
+​
+ℓ−1
+O(L)
+A
+L −1
+V
+​ =
+k
+[v
+​, v
+​, … , v
+​]
+0
+1
+2 −1
+k
+V
+​ =
+k+1
+[V
+​, A V
+​]
+k
+2k
+k
+O(log L)
+K
+​ =
+ℓ
+Cv
+​
+ℓ−1
+O(log L)
+O(L)
+A
+A
+A = diag(λ
+​, … , λ
+​)
+1
+n
+A
+=
+ℓ−1
+diag(λ
+​, … , λ
+​)
+1
+ℓ−1
+n
+ℓ−1
+K
+​ =
+ℓ
+CA
+B =
+ℓ−1
+​C
+​B
+​λ
+​
+i=1
+∑
+n
+i
+i
+i
+ℓ−1
+λ
+​
+i
+ℓ−1
+i
+ℓ
+
+
+--- Page 9 ---
+Avoids matrix multiplications.
+Critical path: 
+🔹 Part (f): Diagonal-plus-low-rank (DPLR) Structure
+❓ Question Interpretation
+We exploit the structure 
+ to compute the kernel efficiently.
+🧠 Step-by-Step Solution
+1. Eigenvalue Decomposition:
+ is symmetric with eigenvalues:
+Let 
+ be the orthogonal matrix diagonalizing 
+.
+2. Kernel Expression:
+Let 
+, 
+Then:
+where:
+3. Final Formula:
+and 
+.
+✅ Self-Check
+O(log L)
+A = I
+​ +
+n
+pp⊤
+A
+λ
+​ =
+1
+1 + ∥p∥2
+λ
+​ =
+2
+⋯= λ
+​ =
+n
+1
+U
+A
+C =
+′
+CU B =
+′
+U B
+⊤
+K
+​ =
+ℓ
+C Λ
+B =
+′
+ℓ−1
+′
+αβ
++
+ℓ−1
+S
+β = 1 + ∥p∥2
+α =
+∥p∥2
+(Cp)(p B)
+⊤
+S = CB −α
+K
+​ =
+ℓ
+CB + α β
+−1
+for ℓ≥
+(
+ℓ−1
+)
+1
+K
+​ =
+0
+D
+The model proposed a different 
+approach than the answer, which 
+was quite interesting.
+
+
+--- Page 10 ---
+Verified for 
+.
+Only scalar exponentials needed → compute in 
+ via doubling.
+✅ Overall Self-Check
+All answers directly address the questions.
+Mathematical derivations are explicit and logical.
+Parallelization strategies are clearly explained.
+Assumptions (e.g., 
+ in examples) are stated.
+This completes the solution to Problem 1. If you have any questions or need further
+clarification, feel free to ask! 😊
+ℓ= 1, 2
+O(log L)
+D = 0
+For part (c), did you consider the computation of matrix mult?, same 
+for part(d), rethink it and double check that
+🔍 Revised Analysis for Parts (c) and (d)
+I'll re-examine parts (c) and (d) with special attention to matrix multiplication
+complexities and parallelization strategies.
+🔹 Part (c): Efficient Computation with Convolutions
+(Revised)
+❓ Question Interpretation
+Given the kernel 
+, we want to compute the output sequence 
+ for 
+ via convolution:
+K
+{y
+​}
+k
+k =
+0, … , L
+y
+​ =
+k
+​K
+​u
+​
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+已思考（用时 212 秒）
+I gave him a hint to let him 
+correct it.
+
+
+--- Page 11 ---
+We analyze parallelization potential and critical path length, considering matrix-
+vector multiplications.
+🧠 Step-by-Step Solution
+1. Convolution Structure:
+Each 
+ is a sum of matrix-vector products: 
+.
+If 
+ and 
+, then 
+ is 
+.
+The computation for each 
+ is a dot product between the kernel and a shifted
+input sequence.
+2. Parallelization Strategy:
+Option 1: Independent Dot Products: Compute each 
+ in parallel. Each dot
+product of length 
+ can be done with tree reduction in 
+ time.
+Option 2: FFT-Based Convolution:
+Convert to frequency domain using FFT (parallel FFT has 
+ critical
+path).
+Perform element-wise multiplication (parallel in 
+).
+Inverse FFT (another 
+ step).
+Total critical path: 
+.
+3. Critical Path Analysis:
+Using FFT: 
+ (dominant term from FFT steps).
+Naive recurrence:
+Sequential state updates: 
+ requires 
+ matrix-vector
+multiplications.
+Each matrix-vector multiplication has cost 
+ if 
+ is 
+, but the
+critical path length is 
+ due to sequential dependency.
+4. Comparison:
+Convolution method: Critical path = 
+ (assuming FFT).
+Naive recurrence: Critical path = 
+.
+✅ Self-Check
+FFT-based convolution is highly parallel and achieves 
+ critical path.
+y
+​k
+K
+​u
+​
+ℓ
+k−ℓ
+u
+​ ∈
+k
+Rd
+y
+​ ∈
+k
+Rm
+K
+​ℓ
+m × d
+y
+​k
+y
+​k
+L + 1
+O(log L)
+O(log L)
+O(1)
+O(log L)
+O(log L)
+O(log L)
+x
+​ =
+k+1
+Ax
+​ +
+k
+Bu
+​k
+O(L)
+O(n )
+2
+A
+n × n
+O(L)
+O(log L)
+O(L)
+O(log L)
+
+
+--- Page 12 ---
+Matrix multiplications are handled efficiently in frequency domain.
+The naive method's sequential dependency cannot be broken.
+🔹 Part (d): Efficient Kernel Computation (Revised)
+❓ Question Interpretation
+Compute 
+ for 
+ efficiently and in parallel, considering
+matrix multiplication costs.
+🧠 Step-by-Step Solution
+1. Direct Sequential Method:
+Compute 
+, 
+, ..., 
+.
+Then 
+.
+Cost: 
+ matrix multiplications, critical path 
+.
+2. Parallel Doubling Method:
+Step 1: Compute Powers of 
+:
+Compute 
+ using repeated squaring.
+Each matrix multiplication: 
+ time (where 
+ for Strassen).
+Critical path: 
+ steps.
+Step 2: Compute 
+ via Binary Expansion:
+For each , express 
+ as product of powers from step 1.
+Multiply these powers by 
+ using tree reduction.
+Critical path: 
+ matrix multiplications.
+Step 3: Multiply by 
+:
+Compute 
+ in parallel for all .
+Critical path: 
+ if parallelized.
+3. Optimized Doubling for 
+:
+Initialize 
+.
+For 
+ to 
+:
+K
+​ =
+ℓ
+CA
+B
+ℓ−1
+ℓ= 1, … , L
+V =
+0
+B V
+​ =
+1
+AV0
+V
+​ =
+L−1
+AV
+​
+L−2
+K
+​ =
+ℓ
+CV
+​
+ℓ−1
+O(L)
+O(L)
+A
+A , A , A , … , A
+1
+2
+4
+2N
+O(n )
+ω
+ω ≈2.8
+O(log L)
+A B
+j
+j
+Aj
+B
+O(log L)
+C
+K
+​ =
+ℓ
+C(A
+B)
+ℓ−1
+ℓ
+O(1)
+A B
+j
+Y
+​ =
+0
+B
+k = 0
+N −1
+
+
+--- Page 13 ---
+In parallel for all 
+ to 
+:
+This computes 
+ for 
+.
+Critical path: 
+ steps (each step involves one matrix multiplication).
+4. Overall Critical Path:
+Power computation: 
+Doubling steps: 
+Multiplication by 
+: 
+Total: 
+✅ Self-Check
+The doubling method efficiently parallelizes the sequence 
+.
+Matrix multiplication costs are absorbed into the 
+ critical path.
+This method leverages parallel tree reductions and is optimal for 
+.
+🔹 Final Answers for Parts (c) and (d)
+(c) Efficient Computation with Convolutions
+Parallelization: Full parallelization is possible using FFT-based convolution.
+Critical Path: 
+ using FFT.
+Naive Recurrence: 
+ due to sequential state updates.
+(d) Efficient Kernel Computation
+Strategy: Use doubling method to compute 
+ in 
+ steps.
+Parallelization:
+Precompute powers of 
+ via repeated squaring.
+Compute 
+ using parallel assignments.
+Multiply by 
+ in parallel.
+Critical Path: 
+.
+j = 0
+2 −
+k
+1
+Y
+​ =
+j+2k
+A Y
+​
+2k
+j
+Y
+​ =
+j
+A B
+j
+j = 0, … , L −1
+O(log L)
+O(log L)
+O(log L)
+C O(1)
+O(log L)
+A B
+j
+O(log L)
+L = 2N
+O(log L)
+O(L)
+A B
+j
+O(log L)
+A
+A B
+j
+C
+O(log L)
+still missed
+
+
+--- Page 14 ---
+These revised answers explicitly account for matrix multiplication complexities and
+confirm that logarithmic critical paths are achievable through careful parallelization.
+think of the matrix mult, n*n @ n*n matrix, what's the critical path? 
+Then rethink about c and d
+🔍 Revised Analysis for Parts (c) and (d) with Matrix
+Multiplication Considerations
+I'll re-examine parts (c) and (d) with careful attention to matrix multiplication
+complexities and parallelization strategies.
+🔹 Part (c): Efficient Computation with Convolutions
+(Revised)
+❓ Question Interpretation
+Given the kernel 
+, we want to compute the output sequence 
+ for 
+ via convolution:
+where 
+, 
+, and 
+ is 
+. We analyze parallelization potential and
+critical path length, considering matrix-vector multiplications.
+🧠 Step-by-Step Solution
+1. Convolution Structure:
+Each 
+ requires computing 
+ matrix-vector products 
+ and
+summing the results.
+Matrix-vector product for fixed  and :
+Each element of the result is a dot product of length .
+With tree reduction, critical path is 
+.
+K
+{y
+​}
+k
+k =
+0, … , L
+y
+​ =
+k
+​K
+​u
+​
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+u
+​ ∈
+k
+Rd y
+​ ∈
+k
+Rm
+K
+​ℓ
+m × d
+y
+​k
+L + 1
+K
+​u
+​
+ℓ
+k−ℓ
+ℓ
+k
+d
+O(log d)
+已思考（用时 169 秒）
+This time I gave him a 
+more detailed hint.
+
+
+--- Page 15 ---
+Summing 
+ vectors of size 
+:
+Tree reduction gives critical path 
+.
+Total critical path per 
+: 
+.
+All 
+ can be computed in parallel, so overall critical path remains 
+.
+2. FFT-Based Convolution:
+Convert kernel and input to frequency domain using FFT:
+Parallel FFT has critical path 
+.
+Pointwise multiplication in frequency domain:
+Each pointwise product is 
+ matrix-vector multiplication? Actually,
+careful:
+In frequency domain, the convolution becomes pointwise multiplication of
+transforms.
+But since 
+ and 
+ are sequences of matrices and vectors, we need to
+consider multi-channel FFT.
+Critical path for pointwise multiplication: 
+ per frequency bin.
+Inverse FFT: critical path 
+.
+Total critical path: 
+.
+3. Naive Recurrent Computation:
+Compute states sequentially: 
+.
+Each state update: matrix-vector product 
+ (critical path 
+) and
+vector addition.
+Sequential dependency: 
+ steps.
+Then compute 
+ in parallel: critical path 
+.
+Total critical path: 
+.
+✅ Self-Check
+Convolution method critical path: 
+ vs. naive: 
+.
+Matrix-vector products are efficiently parallelized via tree reductions.
+FFT method achieves same asymptotic critical path.
+L + 1
+m
+O(log L)
+y
+​k O(log d + log L) = O(log(dL))
+y
+​k
+O(log(dL))
+O(log L)
+m × d
+K
+​ℓ
+u
+​ℓ
+O(log d)
+O(log L)
+O(log L + log d) = O(log(dL))
+x
+​ =
+k+1
+Ax
+​ +
+k
+Bu
+​k
+Ax
+​k
+O(log n)
+O(L)
+y
+​ =
+k
+Cx
+​ +
+k
+Du
+​k
+O(log n)
+O(L ⋅log n)
+O(log(dL))
+O(L log n)
+
+
+--- Page 16 ---
+🔹 Part (d): Efficient Kernel Computation (Revised)
+❓ Question Interpretation
+Compute 
+ for 
+ efficiently and in parallel, considering
+matrix multiplication costs. Assume 
+.
+🧠 Step-by-Step Solution
+1. Matrix Multiplication Critical Path:
+Multiplying two 
+ matrices:
+Each element of the product is a dot product of length .
+With tree reduction, critical path is 
+.
+So each matrix multiplication has critical path 
+.
+2. Parallel Doubling Method:
+Step 1: Compute Powers of 
+:
+Compute 
+ via repeated squaring.
+Number of steps: 
+.
+Critical path per step: 
+.
+Total critical path: 
+.
+Step 2: Compute 
+ for 
+:
+For each , express 
+ as product of powers from Step 1.
+Multiply these powers by 
+ using tree reduction:
+Each multiplication: 
+ matrix with 
+ matrix → critical path
+.
+Tree depth: 
+.
+Critical path per : 
+.
+All  can be computed in parallel.
+Step 3: Compute 
+:
+Multiply 
+ ( 
+ ) by 
+ ( 
+ ):
+Critical path: 
+ per .
+All  can be computed in parallel.
+K
+​ =
+ℓ
+CA
+B
+ℓ−1
+ℓ= 1, … , L
+L = 2N
+n × n
+n
+O(log n)
+O(log n)
+A
+A , A , A , … , A
+1
+2
+4
+2N
+O(log L)
+O(log n)
+O(log L ⋅log n)
+A B
+j
+j = 0, … , L −1
+j
+Aj
+B
+n × n
+n × d
+O(log n)
+O(log L)
+j O(log L ⋅log n)
+j
+K
+​ =
+ℓ
+CA
+B
+ℓ−1
+C
+m × n
+A
+B
+ℓ−1
+n × d
+O(log n)
+ℓ
+ℓ
+
+
+--- Page 17 ---
+Overall critical path: 
+.
+3. Alternative Parallel Prefix Method:
+Use parallel prefix algorithm to compute 
+ for 
+:
+Critical path: 
+ steps, each step a matrix multiplication (
+).
+Total: 
+.
+Then compute 
+ and 
+ as above.
+✅ Self-Check
+Critical path dominated by matrix multiplications in doubling steps.
+Achieves 
+ critical path, which is efficient for parallel computation.
+Precomputation of powers allows reuse for multiple inputs.
+🔹 Final Answers for Parts (c) and (d)
+(c) Efficient Computation with Convolutions
+Parallelization: Full parallelization is possible using direct convolution or FFT.
+Critical Path: 
+ using either method.
+Naive Recurrence: 
+ due to sequential state updates.
+Key Insight: Convolution breaks the sequential dependency, allowing logarithmic
+critical path in 
+.
+(d) Efficient Kernel Computation
+Strategy: Use doubling or parallel prefix to compute powers of 
+, then multiply by
+ and 
+.
+Critical Path: 
+.
+Parallelization:
+Compute matrix powers via repeated squaring.
+Compute 
+ using tree reductions over binary expansions of .
+Multiply by 
+ in parallel.
+O(log L ⋅log n)
+Aj
+j = 0, … , L −1
+O(log L)
+O(log n)
+O(log L ⋅log n)
+A B
+j
+CA B
+j
+O(log L ⋅log n)
+O(log(dL))
+O(L ⋅log n)
+L
+A
+B
+C
+O(log L ⋅log n)
+A B
+j
+j
+C
+Correct now
+
+
+--- Page 18 ---
+Key Insight: Matrix multiplication critical path 
+ multiplies with 
+steps from doubling.
+These revised answers explicitly account for matrix multiplication complexities and
+confirm that logarithmic critical paths are achievable through careful parallelization.
+The convolution method significantly outperforms the naive recurrence for long
+sequences.
+O(log n)
+O(log L)
+image.png
+PNG 162.18KB
+image.png
+PNG 191.88KB
+Good job! Now let's do problem3. The requirements are the same as 
+before. 3. Self-Supervised Linear Purification
+ Consider a linear encoder — square weight matrix W ∈ Rm×m — 
+that we want to be a “purification”
+ operation on m−dimensional feature vectors from a particular 
+problem domain. We do this by using self
+supervised learning to reconstruct n points of training data X ∈ 
+Rm×n by minimizing the loss:
+ L1(W;X) = ∥X−WX∥2
+ F
+ (1)
+ While the trivial solution W = I can minimize the reconstruction loss 
+(1), we will now see how weight
+decay (or equivalently in this case, ridge-style regularization) can 
+help us achieve non-trivial purification.
+ L2(W;X,λ) = ∥X−WX∥2
+ F
+ Reconstruction Loss
+ +λ ∥W∥2
+ F
+ Regularization Loss
+ Note above that λ controls the relative weighting of the two losses 
+in the optimization.
+ Homework 8, © Faculty teaching EECS 182, Fall 2025. 
+AllRightsReserved. Thismaynotbepubliclysharedwithoutexplicit 
+permission.
+ (2)
+ 2
+Homework8@2025-10-2508:44:19Z
+ 
+(a)Considerthesimplifiedcaseform=2withthefollowingtwocandidatew
+eightmatrices:
+
+
+--- Page 19 ---
+ W(α)= 1 0
+ 0 1 W(β)= 1 0
+ 0 0 (3)
+ ThetrainingdatamatrixXisalsogiventoyouasfollows:
+ X= −2.17 1.98 2.41 −2.03
+ 0.02 −0.01 0.01 −0.02 (4)
+ i. 
+Computethereconstructionlossandtheregularizationlossforthetwoen
+coders,andfillin
+ themissingentriesinthetablebelow.
+ Encoder ReconstructionLoss RegularizationLoss α __________ 
+__________
+ β 0.001 __________
+ ii. 
+ForwhatvaluesoftheregularizationparameterλistheidentitymatrixW(α)
+gethigherloss
+ L2in(2),ascomparedtoW(β)?
+ 
+(b)NowconsideragenericsquarelinearencoderW∈Rm×mandtheregul
+arizedobjectiveL2reproduced
+ belowforyourconvenience:
+ L2(W;X,λ)=∥X−WX∥2
+ F
+ ReconstructionLoss
+ +λ ∥W∥2
+ F
+ RegularizationLoss
+ Assumeσ1>···>σm≥0arethemsingularvaluesinX, that 
+thenumberoftrainingpointsnis
+ 
+largerthanthenumberoffeaturesm,andthatXcanbeexpressedinSVDco
+ordinatesasX=UΣV⊤.
+ i. Youaregiventhat 
+theoptimizingweightmatrixfortheregularizedobjectiveL2abovetakesth
+e
+ followingform.Fillintheemptymatricesbelow.
+ W=
+     
+ 
+  ·
+               
+
+
+--- Page 20 ---
+ σ2
+ 1
+ σ2
+ 1+λ
+ σ2
+ 2
+ σ2
+ 2+λ
+ . . .
+ σ2m
+ σ2m+λ
+ 
+       
+ ·
+     
+ 
+   (5)
+ ii. Derivetheaboveexpression.
+ 
+(Hint:CanyouunderstandL2(W;X,λ)asasumofmcompletelydecoupledri
+dge-regression
+ problems?)
+ (Hint:TheFrobeniusnormisequal to∥A∥2
+ F :=tr(AAT),andit isinvariantunderorthogonal
+ transform.Thatis,∥A∥2
+ F=∥UAVT∥2
+ F foranyorthogonalmatricesU,V,andanyrectangular
+ matrixA,aslongasU,A,Vhavecompatibleshapes.)
+ 
+(c)YouaregiventhatthedatamatrixX∈R8×nhasthefollowingsingularval
+ues:
+ {σi}={10,8,4,1,0.5,0.36,0.16,0.01}
+ 
+Homework8,©FacultyteachingEECS182,Fall2025.AllRightsReserved.
+Thismaynotbepubliclysharedwithoutexplicitpermission. 3
+Homework 8 @2025-10-25 08:44:19Z
+ For what set of hyperparameter values λ can we guarantee that the 
+learned purifier W will
+ preserve at least 80% of the feature directions corresponding to the 
+first 3 singular vectors of
+ X, while attenuating components in the remaining directions to at 
+most 50% of their original
+
+
+--- Page 21 ---
+ strength?
+ (Hint: What are the two critical singular values to focus on?) The 
+picture attached also demonstrate the question , in case of you don't 
+understand it, and you can have a double check for this question.
+📘 Solution for Problem 3: Self-Supervised Linear Purification
+🔹 Part (a)
+❓ Question Interpretation
+We are given two candidate weight matrices 
+ (identity) and 
+ (partial
+identity), and a data matrix 
+. We need to compute the reconstruction loss 
+ and regularization loss 
+ for each, then determine for which  values
+ has higher total loss than 
+.
+🧠 Step-by-Step Solution
+(i) Compute Losses
+Given:
+For 
+:
+Reconstruction loss: 
+Regularization loss: 
+ (since 
+)
+For 
+:
+Reconstruction error: 
+Reconstruction loss: 
+Regularization loss: 
+W (α)
+W (β)
+X
+∥X −
+WX∥
+​
+F
+2
+∥W∥
+​
+F
+2
+λ
+W (α)
+W (β)
+X =
+​
+​
+​
+​
+[−2.17
+0.02
+1.98
+−0.01
+2.41
+0.01
+−2.03
+−0.02]
+W
+=
+(α)
+I
+∥X −IX∥
+​ =
+F
+2
+∥0∥
+​ =
+F
+2
+0
+∥I∥
+=
+F
+2
+2
+1 +
+2
+0 +
+2
+0 +
+2
+1 =
+2
+2
+W
+=
+(β)
+​
+​
+[1
+0
+0
+0]
+W
+X =
+(β)
+​
+​
+​
+​
+[−2.17
+0
+1.98
+0
+2.41
+0
+−2.03
+0
+]
+X −W
+X =
+(β)
+​
+​
+​
+​
+[ 0
+0.02
+0
+−0.01
+0
+0.01
+0
+−0.02]
+0.02 +
+2
+(−0.01) +
+2
+0.01 +
+2
+(−0.02) =
+2
+0.001
+∥W
+∥
+​ =
+(β)
+F
+2
+1 +
+2
+0 +
+2
+0 +
+2
+0 =
+2
+1
+已思考（用时 99 秒）
+
+
+--- Page 22 ---
+Completed Table:
+(ii) Compare Total Losses
+Set 
+:
+✅ Self-Check
+Computations match given reconstruction loss for .
+Inequality derivation is straightforward.
+🔹 Part (b)
+❓ Question Interpretation
+We derive the optimal 
+ for the regularized loss 
+ using SVD and orthogonal
+invariance properties.
+🧠 Step-by-Step Solution
+(i) Fill in Matrices
+Given 
+, the optimal weight matrix is:
+(ii) Derivation
+1. Orthogonal Invariance:
+​
+​
+​
+​
+Encoder
+α
+β
+Reconstruction Loss
+0
+0.001
+Regularization Loss
+2
+1
+L
+​ =
+2
+(α)
+0 + 2λ = 2λ
+L
+​ =
+2
+(β)
+0.001 + 1λ = 0.001 + λ
+L
+​ >
+2
+(α)
+L
+​
+2
+(β)
+2λ > 0.001 + λ ⟹λ > 0.001
+β
+W
+L
+​2
+X = UΣV ⊤
+=
+W^
+U ⋅
+​
+​
+​
+​
+​ ⋅
+​
+σ
+​+λ
+1
+2
+σ
+​1
+2
+⋱
+​
+σ
+​+λ
+m
+2
+σ
+​
+m
+2
+U ⊤
+
+
+--- Page 23 ---
+2. Let 
+:
+Loss becomes: 
+3. Decouple via Diagonal Structure:
+Since 
+ is diagonal, optimal 
+ is diagonal: 
+Each 
+ minimizes: 
+Derivative: 
+Solution: 
+4. Recover 
+:
+✅ Self-Check
+Derivation uses Frobenius norm invariance and decoupling.
+Solution matches given form.
+🔹 Part (c)
+❓ Question Interpretation
+Given singular values, find  such that:
+First 3 components are preserved ≥80%: 
+Remaining components are attenuated ≤50%: 
+🧠 Step-by-Step Solution
+Singular values: 
+Conditions:
+1. Preservation (i=1,2,3):
+∥X −WX∥
+​ =
+F
+2
+∥U (X −
+⊤
+WX)V ∥
+​ =
+F
+2
+∥Σ −U WUΣ∥
+​
+⊤
+F
+2
+∥W∥
+​ =
+F
+2
+∥U WU∥
+​
+⊤
+F
+2
+A = U WU
+⊤
+∥Σ −AΣ∥
+​ +
+F
+2
+λ∥A∥
+​
+F
+2
+Σ
+A
+A = diag(a
+​, … , a
+​)
+1
+m
+a
+​i
+σ
+​(1 −
+i
+2
+a
+​) +
+i 2
+λa
+​i
+2
+−2σ
+​(1 −
+i
+2
+a
+​) +
+i
+2λa
+​ =
+i
+0
+a
+​ =
+i
+​
+σ
+​+λ
+i
+2
+σ
+​i
+2
+W
+W = UAU ⊤
+λ
+​ ≥
+σ
+​+λ
+i
+2
+σ
+​i
+2
+0.8
+​ ≤
+σ
+​+λ
+i
+2
+σ
+​i
+2
+0.5
+{10, 8, 4, 1, 0.5, 0.36, 0.16, 0.01}
+The model's own checks are largely 
+useless; they almost never detect errors.
+
+
+--- Page 24 ---
+Most restrictive: 
+2. Attenuation (i=4,\dots,8):
+Most restrictive: 
+Combined: 
+✅ Self-Check
+Boundaries checked: at 
+, component 4 is exactly 50%; at 
+,
+component 3 is exactly 80%.
+All conditions are satisfied within this range.
+✅ Overall Self-Check
+All answers directly address the questions.
+Computations are explicit and verified.
+Derivation in (b) uses orthogonal invariance and decoupling correctly.
+Range in (c) satisfies all constraints.
+​ ≥
+σ
+​ + λ
+i
+2
+σ
+​i
+2
+0.8 ⟹λ ≤
+​
+4
+σ
+​i
+2
+σ
+​ =
+1
+10 ⟹λ ≤25
+σ
+​ =
+2
+8 ⟹λ ≤16
+σ
+​ =
+3
+4 ⟹λ ≤4
+λ ≤4
+​ ≤
+σ
+​ + λ
+i
+2
+σ
+​i
+2
+0.5 ⟹λ ≥σ
+​i
+2
+σ
+​ =
+4
+1 ⟹λ ≥1
+σ
+​ =
+5
+0.5 ⟹λ ≥0.25
+σ
+​ =
+6
+0.36 ⟹λ ≥0.1296
+σ
+​ =
+7
+0.16 ⟹λ ≥0.0256
+σ
+​ =
+8
+0.01 ⟹λ ≥0.0001
+λ ≥1
+1 ≤λ ≤4
+λ = 1
+λ = 4
+Correct!
+
+
+--- Page 25 ---
+This completes the solution to Problem 3. If you have any questions or need further
+clarification, feel free to ask! 😊
+image.png
+PNG 237.15KB
+image.png
+PNG 273.11KB
+Very good! Now let's do problem 4:  4. Ridge-Attention
+ In lecture, you saw how the standard softmax-attention mechanism 
+can be viewed as a softened version
+ of something akin to a nearest-neighbor model in which the value 
+returned for a query reflects a weighted
+ combination of the values that correspond to the keys closest to the 
+query. In this view, the (key, value) pairs
+ in the memory represent a kind of in-context “training data” and the 
+query is a test input for which we want
+ to predict the right output given that data.
+ (a) To start, let’s think about why it is possible to efficiently update 
+simple averaging. Let m = 1
+ n 
+n
+ i=1 xi
+ be the average of n points. Use m,xn+1,n and simple arithmetic 
+operations to compute m′ =
+ 1
+ n+1
+ n+1
+ i=1 xi —the average of all points including the new point xn+1.
+ (HINT: Start by multiplying m by n.)
+ (b) Let us now shift to thinking about traditional ridge-regression 
+with n training pairs (xi,yi) where xi
+ are d-dimensional vectors and yi are scalars. Let the matrix A =
+ we can find the familiar closed-form solution
+ w∗ =(A⊤A+λI)−1A⊤y
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ x⊤
+
+
+--- Page 26 ---
+ 1
+ x⊤
+ 2
+ .
+ .
+ .
+ x⊤n
+ 
+ 
+ 
+ that allows us to make scalar predictions on any new test input x by 
+computing w⊤∗x.
+ First, write the two terms (A⊤A + λI) and A⊤y as sums involving the 
+xi and yi.
+ i.e. Complete:
+ (A⊤A+λI) =λI + n
+ i=1
+ A⊤y = n
+ i=1
+   
+ 
+ and vector y =
+ 
+ 
+ 
+ 
+ 
+ 
+ y1
+ y2
+ .
+ .
+ .
+ yn
+ 
+ 
+ 
+ so that
+ (6)
+ (c) Suppose we wanted to do ridge-self-attention (non-causal– 
+“encoder-style”) with a context length of
+ n and d-dimensional query, key, and value vectors. Recall that this 
+
+
+--- Page 27 ---
+is the style of attention where
+ each of the n queries is applied to the same pool of n (key, value) 
+pairs. The goal is to calculate
+ multi-dimensional ridge-regression predictions, after “training” on 
+the pool of (key, value) pairs, and
+ given the query as a kind of “test” input. (Note: the keys are playing 
+the role of the A matrix in
+ ridge-regression, each query is like the x we are testing on, and in 
+place of the scalar yi, we have an
+ entire value vector for a multi-dimensional ridge-regression 
+problem so the y vector is replaced with a
+ matrix that has a row for each value vector.)
+ Assume that the cost of inverting a d×d matrix is O(d3) and the cost 
+of multiplying two such matrices
+ is also O(d3). Assume that a d×d matrix times either a d-
+dimensional row or column vector costs d2
+ operations. You should assume d < n.
+ What is the computational cost of a non-causal ridge self-attention 
+layer?
+ ⃝ O(d4)
+ ⃝ O(nd2)
+ Homework 8, © Faculty teaching EECS 182, Fall 2025. 
+AllRightsReserved. Thismaynotbepubliclysharedwithoutexplicit 
+permission.
+ 4
+Homework 8 @2025-10-25 08:44:19Z
+ ⃝ O(n2d3)
+ ⃝ O(n2d2)
+ ⃝ O(n2)
+ ⃝ O(1)
+ (HINT: Do not forget that for a single d-dimensional query vector q, 
+attention needs to return a d
+dimensional result.)
+ (d) Assumethat a ridge self-attention layer is used in a Transformer 
+architecture and there is a downstream
+ loss. For which of these will backprop successfully pass gradients if 
+we use ridge self-attention?
+ The ridge λ viewed as a learnable parameter for the self-attention 
+layer.
+ The keys
+ The values
+ The queries
+ (e) Nowstep back. There is a nice trick (called the Sherman–
+
+
+--- Page 28 ---
+Morrison Formula) by which one can update
+ the inverse of an invertible matrix to which you make a rank-1 
+update. Let M be an invertible square
+ d ×dmatrix and let u,v be two d-dimensional vectors. Then:
+ (M +uv⊤)−1 =M−1−
+ 1
+ 1 +v⊤M−1u(M−1u)(v⊤M−1)
+ (7)
+ Assume that a d × d matrix times either a d-dimensional row or 
+column vector costs d2 operations,
+ and so does the evaluation of a dyad uv⊤. Assume that computing a 
+Euclidean inner-product costs d
+ operations. Assuming that you already had M−1 in hand, what is the 
+computational cost of one
+ application of (7)?
+ ⃝ O(d4)
+ ⃝ O(d3)
+ ⃝ O(d2)
+ ⃝ O(d)
+ ⃝ O(1)
+ (f) Consider implementing causal ridge-self-attention with a context 
+length of n but where the pool of
+ (key, value) vectors that one is querying at position t consists only 
+of the t (key, value) pairs so far.
+ Describe explicitly how you would compute causal ridge-self-
+attention in a computationally effi
+cient manner. Leverage your decomposition of the ridge-regression 
+formula in part (b) of this problem
+ together with the Sherman-Morrison formula from (7) to avoid 
+having to do O(n2) computations while
+ still calculating causal ridge-self-attention outputs correctly for all n 
+positions in the context.
+ (HINT: Think recursively. What do you need to track from one time 
+step to the next to avoid repeating
+ work? )
+ (g) Many people consider important the ability to visualize the 
+attention weights. For traditional softmax
+attention, these are the outputs of the softmax for a given query 
+vector. They tell you the exact amounts
+ by which the attention outputs at this position are linear 
+combinations of the values being fed in at this
+ and other positions.
+ For ridge-attention and a given query vector, how would you 
+
+
+--- Page 29 ---
+compute the (possibly negative)
+ weights associated to each of the value vectors in the context? The 
+picture attached also demonstrate the question , in case of you don't 
+understand it, and you can have a double check for this question.
+📘 Solution for Problem 4: Ridge-Attention
+🔹 Part (a)
+❓ Question Interpretation
+We need to update the average 
+ of  points to include a new point 
+, using
+only 
+, 
+, and .
+🧠 Step-by-Step Solution
+The current average is 
+, so 
+.
+Adding 
+, the new sum is 
+.
+The new average is:
+✅ Self-Check
+For 
+, 
+, then 
+, which is correct.
+🔹 Part (b)
+❓ Question Interpretation
+We express the ridge regression terms 
+ and 
+ as sums over the data
+points.
+🧠 Step-by-Step Solution
+m
+n
+x
+​
+n+1
+m x
+​
+n+1
+n
+m =
+​
+​ x
+​
+n
+1 ∑i=1
+n
+i
+​ x
+​ =
+∑i=1
+n
+i
+n ⋅m
+x
+​
+n+1
+n ⋅m + x
+​
+n+1
+m =
+′
+​
+n + 1
+n ⋅m + x
+​
+n+1
+n = 1 m = x
+​1
+m =
+′
+​
+2
+x
+​+x
+​
+1
+2
+A A +
+⊤
+λI
+A y
+⊤
+已思考（用时 219 秒）
+The interpretation shows its strategy.
+
+
+--- Page 30 ---
+Thus:
+✅ Self-Check
+Dimensions match: 
+ is 
+, and 
+ is 
+.
+🔹 Part (c)
+❓ Question Interpretation
+We compute the computational cost of non-causal ridge self-attention with 
+queries and -dimensional keys/values.
+🧠 Step-by-Step Solution
+Precompute 
+: cost 
+.
+Invert 
+: cost 
+.
+Compute 
+: cost 
+.
+Compute 
+: cost 
+.
+For all queries 
+, compute output 
+: cost 
+.
+Total cost: 
+. Since 
+, this simplifies to 
+.
+✅ Self-Check
+The dominant term is 
+, which matches the option 
+.
+A A =
+⊤
+​ x
+​x
+​
+∑i=1
+n
+i
+i
+⊤
+A y =
+⊤
+​ x
+​y
+​
+∑i=1
+n
+i i
+(A A +
+⊤
+λI) = λI +
+​x
+​x
+​
+i=1
+∑
+n
+i
+i
+⊤
+A y =
+⊤
+​x
+​y
+​
+i=1
+∑
+n
+i i
+x
+​x
+​
+i
+i
+⊤
+d × d
+x
+​y
+​
+i i
+d × 1
+n
+d
+M = K K +
+⊤
+λI
+O(nd )
+2
+M
+O(d )
+3
+V
+K
+⊤
+O(nd )
+2
+(V
+K)M
+⊤
+−1
+O(d )
+3
+Q
+Q(V
+KM
+)
+⊤
+−1
+O(nd )
+2
+O(nd +
+2
+d )
+3
+d < n
+O(nd )
+2
+O(nd )
+2
+O(nd )
+2
+
+
+--- Page 31 ---
+🔹 Part (d)
+❓ Question Interpretation
+We determine which components can receive gradients during backpropagation
+through ridge self-attention.
+🧠 Step-by-Step Solution
+The solution 
+ is differentiable with respect to , 
+, 
+, and 
+.
+Gradients can be computed for all parameters via matrix calculus.
+Answer: All of them ( , keys, values, queries) can receive gradients.
+✅ Self-Check
+The matrix inverse and products are differentiable operations.
+🔹 Part (e)
+❓ Question Interpretation
+We compute the cost of applying the Sherman-Morrison formula to update a matrix
+inverse.
+🧠 Step-by-Step Solution
+Compute 
+: cost 
+.
+Compute 
+: cost 
+.
+Compute inner product 
+: cost 
+.
+Compute dyad 
+: cost 
+.
+Scalar division and subtraction: cost 
+.
+Total cost: 
+.
+W = (K K +
+⊤
+λI)
+K V
+−1
+⊤
+λ K V
+Q
+λ
+M
+u
+−1
+O(d )
+2
+v M
+⊤
+−1
+O(d )
+2
+v M
+u
+⊤
+−1
+O(d)
+(M
+u)(v M
+)
+−1
+⊤
+−1
+O(d )
+2
+O(1)
+O(d )
+2
+
+
+--- Page 32 ---
+✅ Self-Check
+All steps are 
+ or less, so the overall cost is 
+.
+🔹 Part (f)
+❓ Question Interpretation
+We design an efficient algorithm for causal ridge self-attention using recursive
+updates.
+🧠 Step-by-Step Solution
+Initialize 
+, 
+.
+For 
+ to :
+Get new key 
+ and value 
+.
+Update 
+ from 
+ using Sherman-Morrison with 
+: cost 
+.
+Update 
+: cost 
+.
+Compute output 
+: cost 
+.
+Total cost: 
+.
+✅ Self-Check
+Each step avoids recomputing from scratch, leveraging recursive updates.
+🔹 Part (g)
+❓ Question Interpretation
+We compute the attention weights for ridge-attention, which may be negative.
+🧠 Step-by-Step Solution
+O(d )
+2
+O(d )
+2
+M
+​ =
+0
+−1
+λ
+I
+−1
+N
+​ =
+0
+0
+t = 1
+n
+k
+​t
+v
+​t
+M
+​
+t
+−1
+M
+​
+t−1
+−1
+u = v = k
+​t
+O(d )
+2
+N
+​ =
+t
+N
+​ +
+t−1
+k
+​v
+​
+t t
+⊤
+O(d )
+2
+o
+​ =
+t
+M
+​(N
+​q
+​)
+t
+−1
+t t
+O(d )
+2
+O(nd )
+2
+Mostly correct, but there are some 
+misunderstandings of the question.
+
+
+--- Page 33 ---
+The output for a query  is 
+.
+The weights  such that 
+ are given by:
+Compute 
+ (cost 
+ if precomputed), then 
+ (cost
+).
+✅ Self-Check
+The weights  are linear in  and can be negative due to the ridge regression
+formulation.
+✅ Overall Self-Check
+All answers directly address the questions.
+Computational costs are justified step by step.
+The recursive algorithm in (f) efficiently updates the inverse.
+The weight computation in (g) aligns with ridge regression duality.
+This completes the solution to Problem 4. If you have any questions or need further
+clarification, feel free to ask! 😊
+q
+o = Wq = (K K +
+⊤
+λI)
+K V q
+−1
+⊤
+α
+o =
+​ α
+​v
+​
+∑i=1
+n
+i i
+α = K(K K +
+⊤
+λI)
+q
+−1
+b = (K K +
+⊤
+λI)
+q
+−1
+O(d )
+2
+α = Kb
+O(nd)
+α
+q
+for part g, can you write the weight for v_i explicitely?
+🔹 Part (g): Computing Attention Weights for Ridge-Attention
+❓ Question Interpretation
+For ridge-attention, we need to compute the (possibly negative) weights that
+determine how much each value vector contributes to the output for a given query
+vector .q
+已思考（用时 190 秒）
+
+
+--- Page 34 ---
+🧠 Step-by-Step Solution
+In ridge-attention, the output for a query  is given by:
+where:
+ is the 
+ key matrix (each row is a key vector 
+)
+ is the 
+ value matrix (each row is a value vector 
+)
+ is the 
+ query vector
+ is the ridge parameter
+We want to express  as a linear combination of the value vectors:
+where 
+ are the attention weights (which can be negative).
+Using the dual form of ridge regression, the weights  can be computed as:
+Then the output is:
+which explicitly shows  as a weighted sum of the columns of 
+ (i.e., the value
+vectors 
+).
+Explicit formula for each weight:
+where 
+ is the weight for value vector 
+.
+✅ Self-Check
+The derivation uses the dual form of ridge regression, which is valid for multi-
+output regression.
+q
+o = (K K +
+⊤
+λI)
+K V q
+−1
+⊤
+K
+n × d
+k
+​i
+V
+n × d
+​v
+v
+​i
+q
+d × 1
+λ
+o
+o =
+​α
+​v
+​
+i=1
+∑
+n
+i i
+αi
+α
+α = (KK
++
+⊤
+λI)
+Kq
+−1
+o = V
+α
+⊤
+o
+V ⊤
+v
+​i
+α
+​ =
+i
+(KK
++ λI)
+Kq
+​
+[
+⊤
+−1
+]i
+αi
+v
+​i
+I gave him a hint, but he still 
+couldn't find the problem.
+
+
+--- Page 35 ---
+The weights 
+ can be negative because 
+ is positive definite but
+ can have negative components.
+This matches the intuition from kernel ridge regression where the solution is a
+α
+​i
+(KK
++
+⊤
+λI)−1
+Kq

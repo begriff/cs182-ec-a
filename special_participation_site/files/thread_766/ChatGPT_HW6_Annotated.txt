@@ -1,0 +1,1333 @@
+--- Page 1 ---
+Please read these screenshots in detail. Your job is to
+write solutions to each part of this question. Make sure to
+delineate which subpart you are working on, and make
+sure to show your work  adequately
+Thought for 7m …
+I’ll label the output of node
+at layer
+as
+.
+Let
+be the adjacency matrix and let
+be the matrix whose -th row
+is
+.
+(a) Output of the -th node at layer
+in terms of
+Inputs (layer
+):
+Node
+has input
+, the -th standard basis vector in
+.
+Thus
+.
+Update rule (sum aggregation with weights
+):
+In matrix form, with “nodes = rows”:
+j
+k
+h
+​ ∈
+j
+(k)
+Rn
+A ∈Rn×n
+H
+∈
+(k)
+Rn×n
+j
+h
+​
+j
+(k)⊤
+j
+k
+A
+0
+i
+h
+​ =
+i
+(0)
+e
+​i
+i
+Rn
+H
+=
+(0)
+I
+​n
+A
+​ij
+h
+​ =
+j
+(k+1)
+​A
+​h
+​.
+i=1
+∑
+n
+ij
+i
+(k)
+H
+=
+(k+1)
+A H
+.
+⊤
+(k)
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+1/13
+Even with minimal prompting, the 
+extended thinking time allows the 
+model to sort through all 
+of the problems anyway
+
+
+--- Page 2 ---
+Starting from
+,
+So the output of node
+at layer
+is the -th row of
+, i.e.
+Equivalently, as a column vector,
+so
+is the -th column of
+.
+(b) Show that the -th output of node
+at layer
+equals the number of
+length- paths from
+Let
+be the number of distinct paths of length exactly
+from
+to .
+From part (a),
+We’ll show
+by induction on
+.
+Base case
+.
+By convention, there is exactly one path of length 0 from a node to itself and none to
+any other node:
+Also
+, so
+Inductive step. Assume for some
+that
+Consider
+:
+H
+=
+(0)
+I
+H
+=
+(k)
+(A ) H
+=
+⊤k
+(0)
+(A ) .
+⊤k
+j
+k
+j
+(A )
+⊤k
+h
+​ =
+j
+(k)
+row
+​((A ) ).
+j
+⊤k
+h
+​ =
+j
+(k)⊤
+A e
+​,
+k
+j
+hj
+(k)
+j
+Ak
+i
+j
+k
+k
+itoj
+L
+​(i, j)
+k
+k
+i
+j
+(h
+​)
+​ =
+j
+(k)
+i
+(A )
+​.
+k
+ij
+(A )
+​ =
+k ij
+L
+​(i, j)
+k
+k
+k = 0
+L
+​(i, j) =
+0
+1
+​.
+i=j
+A =
+0
+I
+(A )
+​ =
+0
+ij
+δ
+​ =
+ij
+1
+​ =
+i=j
+L
+​(i, j).
+0
+k ≥0
+(A )
+​ =
+k
+iℓ
+L (i, ℓ)
+for all i, ℓ.
+k
+k + 1
+A
+=
+k+1
+A A
+⇒
+k
+(A
+)
+​ =
+k+1 ij
+​(A )
+​A
+​.
+ℓ=1
+∑
+n
+k iℓ
+ℓj
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+2/13
+Correct.
+
+
+--- Page 3 ---
+Interpretation of the sum:
+iff there is an edge (path of length 1) from
+to .
+is the number of paths of length
+from
+to
+.
+Thus each term
+counts the number of paths of length
+that go from
+to
+(length
+), then from
+to
+(one more edge). Summing over all intermediate nodes
+counts all length-
+paths from
+to :
+Therefore, for all
+,
+so the -th output channel of node
+at layer
+is exactly the number of length-
+paths
+from
+to .
+(c) Update function in matrix form
+We already wrote the layer-to-layer update as
+where the -th row of
+is the activation of node
+at layer
+.
+At the node level, the aggregation and update for node
+are
+So the aggregation is a weighted sum over neighbors, and the “update function” here is
+just the identity (no nonlinearity or learned matrix).
+(d) Interpretation with max aggregation instead of sum
+Now let the update be
+A
+​ =
+ℓj
+1
+ℓ
+j
+(A )
+​ =
+k iℓ
+L
+​(i, ℓ)
+k
+k
+i
+ℓ
+(A )
+​A
+​
+k iℓ
+ℓj
+k + 1
+i
+ℓ
+k
+ℓ
+j
+ℓ
+k + 1
+i
+j
+(A
+)
+​ =
+k+1
+ij
+​L
+​(i, ℓ)A
+​ =
+ℓ
+∑
+k
+ℓj
+L
+​(i, j).
+k+1
+k
+(h
+​)
+​ =
+j
+(k)
+i
+(A )
+​ =
+k
+ij
+L
+​(i, j),
+k
+i
+j
+k
+k
+i
+j
+H
+=
+(k+1)
+A H
+,
+⊤
+(k)
+i
+H(k)
+i
+k
+j
+​ =
+aggregated message
+​
+m
+​
+j
+(k)
+​A
+​h
+​,
+​ =
+i∈V (j)
+∑
+ij
+i
+(k)
+updated state
+​
+h
+​
+j
+(k+1)
+m
+​.
+j
+(k)
+h
+​[c] =
+j
+(k+1)
+​h
+​[c],
+i:A
+​=1
+ij
+max
+i
+(k)
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+3/13
+Correct.
+Correct, if not a bit strange in defining excessive variables
+
+
+--- Page 4 ---
+where
+is the -th channel.
+Layer
+:
+.
+So at layer 1,
+Inductively, max aggregation propagates “existence” instead of “count”:
+if there exists at least one path of length
+from
+to ;
+otherwise.
+So with max aggregation, node ’s output encodes a reachability indicator: for each ,
+does there exist a length-
+path from
+to ?
+(e) Molecule-breaking problem
+You want to predict which bond breaks first.
+(e.i) Graph representation
+Nodes: atoms.
+Node features include:
+element type (e.g., atomic number or one-hot over elements),
+possibly degree/valence, charge, etc.
+Edges: chemical bonds between atoms.
+Edge features include:
+bond length,
+bond type (single, double, etc.).
+Global state: properties of the whole molecule, e.g.
+molecule type (carbohydrate / protein / etc., one-hot),
+possibly temperature/pressure if known.
+Chemical bonds are inherently bidirectional, so the natural graph is undirected. In
+implementations that expect directed edges, you’d typically create two directed edges
+(one each way) with the same features.
+(e.ii) Using the last GNN layer to make the prediction
+[⋅]
+​c
+c
+0 h
+​ =
+i
+(0)
+e
+​i
+h
+​[i] =
+j
+(1)
+​
+​
+{
+1,
+0,
+∃ edge i →j
+otherwise.
+h
+​[i] =
+j
+(k)
+1
+k
+i
+j
+h
+​[i] =
+j
+(k)
+0
+j
+i
+k
+i
+j
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+4/13
+Correct.
+Correcct, but includes extra features not present in the
+problem (bond type, valence, temp/press)
+
+
+--- Page 5 ---
+This is an edge-level prediction task (which bond breaks). A common approach:
+1. Run the GNN for several layers to obtain final edge representations
+for each
+bond
+.
+2. Apply a small MLP or linear classifier to each edge embedding to produce a scalar
+score or a probability that that bond will break.
+3. Choose the bond with the highest score (or apply a threshold plus a “no bond
+breaks” option).
+If you want a single “which bond (or none)” prediction, you can also pool all edge scores
+into a global softmax.
+(e.iii) Encoding node representations for the input
+For each atom (node), construct a feature vector such as:
+Examples:
+One-hot vector over possible elements (C, H, O, N, …).
+Integer degree or one-hot over {1,2,3,4+}.
+Optional: formal charge, aromatic flag, etc.
+Edge features would include bond length as a scalar (possibly normalized) and bond
+type as one-hot.
+(f) CNN ↔ GNN analogies table
+Here is one reasonable way to fill in the table.
+CNN operation / task
+GNN analogue / interpretation
+Image classification
+Graph-level prediction problem (already given).
+Semantic segmentation / per-pixel
+classification
+Node-level prediction problem (already in GNN column).
+Color jitter data augmentation
+Randomly perturb node features (add noise / jitter to node
+attributes).
+Image flip data augmentation
+Apply graph isomorphisms / permutations (e.g., reflect
+node coordinates or randomly permute node indices) as
+e
+​
+uv
+(L)
+(u, v)
+x
+​ =
+v
+[one-hot(element),  (optional) degree/valence,  maybe other atomic properties].
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+5/13
+Does state the solution of softmax, but offers additional options as well
+Once again, the solution is a bit verbose, and has extra features not present in the problem.
+That being said, it is still correct.
+
+
+--- Page 6 ---
+CNN operation / task
+GNN analogue / interpretation
+data augmentation.
+Channel dropout
+Dropout on node feature channels (randomly zero some
+dimensions of node embeddings).
+Zero padding edges
+Treat missing neighbors as implicit zero-features;
+equivalently, aggregation over existing neighbors is like
+zero padding non-edges.
+ResNet skip connections
+Residual / skip connections between GNN layers (add
+previous node embedding to the updated one).
+Blurring an image
+Graph smoothing / diffusion: repeatedly averaging node
+features with neighbors (Laplacian smoothing/message
+passing).
+Image inpainting / predicting
+missing pixels
+Predicting missing values of nodes (already in GNN
+column).
+(There isn’t always a one-to-one perfect match; the key is the role each operation
+plays.)
+(g) Graph-level classification with missing node values
+You can still use the full graph:
+1. Initialize nodes with missing features using a special “unknown” embedding or
+zeros (possibly plus a binary mask feature indicating “missing”).
+2. Run the GNN normally:
+Message passing will propagate information from neighbors with known
+features into these missing nodes.
+3. Perform graph-level pooling (sum/mean/max over all node embeddings, or a
+learned global state) and feed that to a classifier to obtain the graph label.
+Optionally, you can jointly train the GNN to impute missing node features (a node-level
+auxiliary task) while also training for graph-level classification.
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+6/13
+Almost all entries match the staff solution. However there are some that differ slightly. For example
+ChatGPT's zero-padding explanation does state to treat non-neighbors as "implicit zero-features", but
+it is not nearly as concise or coherent as the staff solution.
+Stated the heart of the solution (initializing with a special token), but did not specify about randomly
+removing nodes from training graphs. So I would score this as half credit.
+
+
+--- Page 7 ---
+(h) Graph Nets architecture (Figure 2)
+We have node embeddings
+, edge embeddings
+, and (optionally) global state
+,
+and update functions
+.
+(h.i) Doubling the number of nodes
+Assume we only have node representations and no global state.
+Number of learned weights:
+The weights live in the shared update networks (e.g., the MLP implementing
+).
+These are reused for every node. Doubling the number of nodes does not change
+the number of parameters; it stays the same.
+Computation with same average degree:
+If the average degree is constant
+, then the number of edges
+scales like
+.
+Doubling
+roughly doubles
+, and message passing is
+.
+⇒ Total computation per layer roughly doubles.
+Computation if the graph is fully connected:
+For a fully connected graph on
+nodes,
+.
+Doubling nodes from
+to
+makes
+so the computation per layer becomes roughly 4× larger.
+(h.ii) Where are the learned weights?
+In the update functions
+,
+, and (if used)
+, which are typically MLPs.
+Also in any learned readout / pooling MLP applied to node, edge, or global
+representations at the end.
+All nodes (and edges) share the same
+(and
+) parameters.
+(h.iii) Incorporating directed edges
+Several equivalent ways; one standard approach:
+Represent each edge as an ordered pair
+with its own edge
+embedding.
+In message passing, aggregate incoming messages at each receiver node from all
+edges whose receiver is that node.
+For graphs that are originally undirected, you can model them as two directed edges
+(one in each direction) sharing the same features. For genuinely directed graphs, you
+V
+​n
+E
+​n
+Un
+f
+​, f
+​, f
+​
+V
+E
+U
+f
+​
+V
+d
+∣E∣
+d∣V ∣
+∣V ∣
+∣E∣
+O(∣V ∣+ ∣E∣)
+n
+∣E∣≈n2
+n
+2n
+∣E∣: n
+→
+2
+(2n) =
+2
+4n ,
+2
+f
+​
+V f
+​E
+f
+​
+U
+f
+​
+V
+f
+​E
+(sender, receiver)
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+7/13
+Correct.
+Correct.
+
+
+--- Page 8 ---
+just include the directed edges that actually exist, with asymmetric adjacency and
+possibly direction encoded in the edge features.
+Great work! Now do the same for the following problem:
+Thought for 8m …
+I’ll label the internal / “self” state of node
+at layer
+as
+, and the message from a
+neighbor to node
+at layer
+as
+.
+(a) Validity of proposed update rules
+Recall the requirements for a GNN on an undirected graph with unlabeled edges:
+The same function with the same parameters must be applied at every node
+(weight sharing).
+The function must be permutation-invariant w.r.t. the ordering of neighbors
+(because neighbors of an undirected node are an unordered set).
+We check each option.
+(a.i)
+Uses two scalars
+that are shared across all nodes.
+Aggregation over neighbors is a mean (sum divided by
+), which is permutation-
+invariant in the neighbors.
+✅Valid: respects weight sharing and permutation invariance.
+i
+ℓ
+s
+​i
+ℓ
+i
+ℓ−1
+m
+​
+i,j
+ℓ−1
+s
+​ =
+i
+ℓ
+w
+​s
+​ +
+1 i
+ℓ−1
+w
+​
+​
+​m
+​
+2 n
+​i
+1
+j=1
+∑
+n
+​i
+i,j
+ℓ−1
+w
+​, w
+​
+1
+2
+n
+​i
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+8/13
+Correct.
+Since the model was so accurate on the first question,
+I did not reprompt it and simply fed it the next question
+to see how well it did
+Correct.
+Interestingly this question is shorter and was submitted using less pictures
+but it took longer for ChatGPT to compute answers to the questions
+
+
+--- Page 9 ---
+(a.ii)
+(max taken componentwise)
+Issues:
+Each neighbor
+gets its own scalar
+.
+The number of weights depends on
+, the node’s degree.
+Two nodes with the same neighborhood structure but a different ordering of
+neighbors will use messages multiplied by different
+s. So the result depends on
+neighbor order, not just the set of neighbors.
+❌Not valid: breaks both permutation invariance and global weight sharing.
+(a.iii)
+(max taken componentwise)
+The neighbors all use the same scalar
+. So the number of parameters does not
+depend on degree.
+The max over the multiset
+is permutation-invariant w.r.t. neighbor
+order.
+✅Valid: respects permutation invariance and weight sharing.
+Summary:
+(i) valid
+(ii) not valid (degree- and order-dependent weights)
+(iii) valid
+(b) Training loss at the end of training
+We hold out nodes 1 and 4 for evaluation, so the training nodes are:
+s
+​ =
+i
+ℓ
+max (w
+​s
+​, w
+​m
+​, w
+​m
+​, … , w
+​m
+​)
+1
+ℓ
+i
+ℓ−1
+2
+i,1
+ℓ−1
+3
+i,2
+ℓ−1
+n
+​+1
+i
+i,ni
+ℓ−1
+j
+w
+​
+j+1
+n
+​i
+w
+​j
+s
+​ =
+i
+ℓ
+max (w
+​s
+​, w
+​m
+​, w
+​m
+​, … , w
+​m
+​)
+1
+ℓ
+i
+ℓ−1
+2
+i,1
+ℓ−1
+2
+i,2
+ℓ−1
+2
+i,n
+​i
+ℓ−1
+w
+​2
+{w
+​m
+​}
+​
+2
+i,j
+ℓ−1
+j
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+9/13
+Correct.
+Correct.
+
+
+--- Page 10 ---
+node 2, node 3, node 5.
+From the table:
+For average binary cross-entropy over
+training points:
+Here
+(nodes 2,3,5):
+Node 2:
+Contribution:
+.
+Node 3:
+Contribution:
+.
+Node 5:
+Contribution:
+.
+So
+Equivalently,
+(c) Update rule analysis
+We’re given the node-state update (for layer
+):
+with
+applied elementwise.
+(c.i) Design patterns
+​
+​
+​
+​
+​
+​
+node i
+y
+​i
+​
+​y^i
+1
+0
+a
+2
+1
+b
+3
+1
+c
+4
+1
+d
+5
+0
+e
+n
+L =
+​
+​(y(x) log
+​ +
+n
+1
+x
+∑
+​(x)
+y^
+1
+(1 −y(x)) log
+​)
+1 −
+​(x)
+y^
+1
+n = 3
+y
+​ =
+2
+1,
+​
+​ =
+y^2
+b
+log
+​b
+1
+y
+​ =
+3
+1,
+​
+​ =
+y^3
+c
+log
+​c
+1
+y
+​ =
+5
+0,
+​
+​ =
+y^5
+e
+log
+​
+1−e
+1
+​
+L
+​ =
+​( log
+​ + log
+​ + log
+​)
+train
+3
+1
+b
+1
+c
+1
+1 −e
+1
+L
+​ =
+train
+−
+​( log b +
+3
+1
+log c + log(1 −e)).
+ℓ
+s
+​ =
+i
+ℓ
+s
+​ +
+i
+ℓ−1
+W
+​
+​
+1
+n
+​i
+​tanh (W
+​m
+​)
+j=1
+∑
+n
+​i
+2
+i,j
+ℓ−1
+(1)
+tanh
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+10/13
+Correct.
+
+
+--- Page 11 ---
+Options:
+Residual connection?
+Yes:
+is a classic residual / skip connection.
+Batch normalization?
+No: there’s no normalization over a batch or even over nodes; we just average over
+neighbors.
+✅ It has a residual connection.
+❌ It does not use batch normalization.
+(c.ii) Dimensions of
+Assume:
+Node state
+.
+Message
+has same dimension (typical), so
+.
+Matrix
+has
+rows.
+Then
+must be
+so that
+.
+The neighbor-averaged term inside
+is also in
+.
+To add the result to
+,
+must map
+.
+So
+(c.iii) Explicit updates for nodes
+and
+Assumption: the message from node
+to any neighbor is just its previous-layer state:
+For node , incoming messages from neighbors are then
+From Figure 3 (simple undirected graph), the neighbor sets are:
+s
+​ =
+i
+ℓ
+s
+​ +
+i
+ℓ−1
+(something)
+W
+​1
+s
+​ ∈
+i
+ℓ
+Rd
+m
+​
+i,j
+ℓ−1
+m
+​ ∈
+i,j
+ℓ−1
+Rd
+W
+​2
+k
+W
+​2
+k × d
+W
+​m
+​ ∈
+2
+i,j
+ℓ−1
+Rk
+W
+​(⋅)
+1
+Rk
+s
+​ ∈
+i
+ℓ−1
+Rd W
+​1
+R →
+k
+Rd
+​.
+W
+​ ∈R
+1
+d×k
+i = 2
+i = 3
+r
+m
+​ =
+r
+ℓ−1
+s
+​.
+r
+ℓ−1
+i
+m
+​ =
+i,j
+ℓ−1
+s
+.
+neighbor
+​(i)
+j
+ℓ−1
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+11/13
+Correct.
+Correct.
+
+
+--- Page 12 ---
+So:
+Node
+Neighbors:
+.
+Using (1):
+So
+Node
+Neighbors: only
+, so
+.
+Using (1):
+So
+N(1) = {2, 4, 5}
+N(2) = {1, 4, 5}
+N(3) = {5}
+N(4) = {1, 2}
+N(5) = {1, 2, 3}
+n
+​ =
+2
+∣N(2)∣= 3
+n
+​ =
+3
+∣N(3)∣= 1
+i = 2
+1, 4, 5
+​
+​
+s
+​2
+ℓ= s
+​ + W
+​
+​
+​tanh(W
+​s
+​)
+2
+ℓ−1
+1 n
+​2
+1
+j∈N(2)
+∑
+2 j
+ℓ−1
+= s
+​ + W
+​
+​( tanh(W
+​s
+​) + tanh(W
+​s
+​) + tanh(W
+​s
+​)).
+2
+ℓ−1
+1 3
+1
+2 1
+ℓ−1
+2 4
+ℓ−1
+2 5
+ℓ−1
+​
+s
+​ = s
+​ +
+W
+​[ tanh(W
+​s
+​) + tanh(W
+​s
+​) + tanh(W
+​s
+​)].
+2
+ℓ
+2
+ℓ−1
+3
+1
+1
+2 1
+ℓ−1
+2 4
+ℓ−1
+2 5
+ℓ−1
+i = 3
+5
+n
+​ =
+3
+1
+​
+​
+s
+​3
+ℓ= s
+​ + W
+​
+​
+​tanh(W
+​s
+​)
+3
+ℓ−1
+1 1
+1
+j∈N(3)
+∑
+2 j
+ℓ−1
+= s
+​ + W
+​ tanh(W
+​s
+​).
+3
+ℓ−1
+1
+2 5
+ℓ−1
+​
+s
+​ = s
+​ + W
+​ tanh(W
+​s
+​).
+3
+ℓ
+3
+ℓ−1
+1
+2 5
+ℓ−1
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+12/13
+Correct.
+Correct.
+
+
+--- Page 13 ---
+(These expressions are fully expanded over neighbors and expressed in terms of earlier-
+layer states.)
+12/9/25, 5:58 PM
+Write solutions for question
+https://chatgpt.com/share/6938cd49-4f50-800d-9b68-0d641aa7e76a
+13/13
+Overall ChatGPT 5.1 Extended Thinking was extremely accurate on the HW problems and solved
+them quite efficiently, if sometimes overly verbose

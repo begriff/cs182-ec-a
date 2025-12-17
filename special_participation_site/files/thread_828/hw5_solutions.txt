@@ -1,0 +1,460 @@
+--- Page 1 ---
+EECS 182 Homework 5 Solutions
+Problems 1, 2, 3, 4
+Problem 1: Convolutional Networks
+Part (a): Two reasons to prefer convolutional layers
+over fully connected layers
+Answer:
+1. Weight-sharing and translation equivariance: Convolutional
+layers use the same ﬁlter weights across diﬀerent spatial locations in
+the image. This drastically reduces the number of parameters
+compared to fully connected layers. More importantly, convolutions
+build in translation invariance/equivariance - a feature detected in one
+part of an image can be detected anywhere else using the same
+learned weights. This is reasonable for images since the desired
+output for a translated image is closely related to the original image
+(e.g., a cat moved 10 pixels to the right is still a cat).
+For example, a fully connected layer connecting a 224×224×3 RGB
+image to a 1000-neuron hidden layer would require: - Parameters: 224
+× 224 × 3 × 1000 = 150,528,000 parameters
+A convolutional layer with 64 ﬁlters of size 3×3 would only require: -
+Parameters: 3 × 3 × 3 × 64 = 1,728 parameters
+This is a reduction by a factor of over 86,000!
+2. Locality and hierarchical structure: Convolutions with ﬁnite-
+sized ﬁlters respect the spatial locality inherent in images, where
+nearby pixels are typically more related than distant pixels. By
+stacking convolutional layers, we can capture hierarchical part-whole
+relationships naturally found in images: - Layer 1: edges and simple
+textures - Layer 2: corners and more complex patterns - Layer 3:
+object parts - Layer 4: objects
+This hierarchical composition allows the network to build complex
+features from simple ones in a structured way that matches the
+compositional nature of visual scenes.
+Additional valid reasons include: - There is biological inspiration
+from how the visual cortex works, with receptive ﬁelds and edge-
+detecting responses - Historical success of ﬁlterbanks and
+convolutional structures in hand-designed computer vision
+approaches - Convolutions naturally handle diﬀerent horizontal and
+vertical spatial relationships - Proven empirical success in the deep
+learning community
+Part (b): Finding the ﬁlter from convolution output
+Given: - Input signal: [1, 4, 0, -2, 3] - After convolution with length-3
+ﬁlter, no padding, stride=1 - Output: [-2, 2, 11] - Find the ﬁlter: [h₁, h₂,
+h₃]
+Solution:
+The convolution operation (without ﬂipping, as speciﬁed) at each
+position gives: - Position 0: 1·h₁ + 4·h₂ + 0·h₃ = -2 - Position 1: 4·h₁ +
+0·h₂ + (-2)·h₃ = 2 - Position 2: 0·h₁ + (-2)·h₂ + 3·h₃ = 11
+This gives us the system of equations:
+h₁ + 4h₂       = -2    ... (1)
+4h₁     - 2h₃  = 2     ... (2)
+
+
+--- Page 2 ---
+   -2h₂ + 3h₃ = 11    ... (3)
+Solving by substitution:
+From equation (1):
+h₁ = -2 - 4h₂
+From equation (3):
+-2h₂ + 3h₃ = 11
+3h₃ = 11 + 2h₂
+h₃ = (11 + 2h₂)/3
+Substitute both into equation (2):
+4(-2 - 4h₂) - 2((11 + 2h₂)/3) = 2
+-8 - 16h₂ - (22 + 4h₂)/3 = 2
+Multiply through by 3:
+-24 - 48h₂ - 22 - 4h₂ = 6
+-46 - 52h₂ = 6
+-52h₂ = 52
+h₂ = -1
+Back-substituting:
+h₁ = -2 - 4(-1) = -2 + 4 = 2
+h₃ = (11 + 2(-1))/3 = (11 - 2)/3 = 9/3 = 3
+Answer: [2, -1, 3]
+Veriﬁcation: - Position 0: 1(2) + 4(-1) + 0(3) = 2 - 4 + 0 = -2 ✓ -
+Position 1: 4(2) + 0(-1) + (-2)(3) = 8 + 0 - 6 = 2 ✓ - Position 2: 0(2) +
+(-2)(-1) + 3(3) = 0 + 2 + 9 = 11 ✓
+Part (c): Transpose convolution
+Given: - Input: [[-1, 2], [3, 1]] - Filter: [[+1, -1], [0, +1]] - Parameters:
+pad=0, stride=1
+Understanding transpose convolution:
+Transpose convolution is designed to upsample a signal. The key idea
+is that each input element is multiplied by the entire ﬁlter, and these
+responses are placed at shifted positions corresponding to the input
+location. Where responses overlap, they are summed.
+For a 2×2 input with a 2×2 ﬁlter, pad=0, stride=1: - Standard
+convolution would take a 3×3 input and produce a 2×2 output -
+Transpose convolution reverses this: 2×2 input → 3×3 output
+Calculation:
+Each input element contributes the ﬁlter shifted to its position:
+Contribution from input element (-1) at position (0,0):
+-1 × [[+1, -1],  =  [[-1, +1, 0],
+     [0, +1]]       [0, -1, 0],
+                    [0, 0, 0]]
+(Filter placed at top-left, extended to 3×3)
+Contribution from input element (2) at position (0,1):
+2 × [[+1, -1],  =  [[0, +2, -2],
+    [0, +1]]       [0, 0, +2],
+                   [0, 0, 0]]
+(Filter shifted one column right)
+Contribution from input element (3) at position (1,0):
+3 × [[+1, -1],  =  [[0, 0, 0],
+    [0, +1]]       [+3, -3, 0],
+
+
+--- Page 3 ---
+                   [0, +3, 0]]
+(Filter shifted one row down)
+Contribution from input element (1) at position (1,1):
+1 × [[+1, -1],  =  [[0, 0, 0],
+    [0, +1]]       [0, +1, -1],
+                   [0, 0, +1]]
+(Filter shifted one row down and one column right)
+Summing all contributions:
+ [[-1, +1, 0],     [[0, +2, -2],     [[0, 0, 0],      [[0, 0, 0],
+  [0, -1, 0],   +   [0, 0, +2],   +   [+3, -3, 0],  +  [0, +1, -1],
+  [0, 0, 0]]        [0, 0, 0]]        [0, +3, 0]]      [0, 0, +1]]
+=  [[-1, 3, -2],
+   [3, -3, 1],
+   [0, 3, 1]]
+Answer:
+[[-1,  3, -2],
+[ 3, -3,  1],
+[ 0,  3,  1]]
+Problem 2: Batch Normalization for CNN
+Part (a): Identifying normalization types
+Given diagram shows three diﬀerent normalization patterns: -
+Dimension N: mini-batch - Dimensions H, W: spatial dimensions
+(height, width) - Dimension C: channels
+Batch Normalization (Answer: A): - Normalizes across the batch
+dimension N - For each channel c and each spatial position (h, w),
+compute statistics over all N samples - This means all samples in the
+batch contribute to the mean and variance for that speciﬁc channel
+and position - Results in independent normalization for each (channel,
+spatial position) combination
+Layer Normalization (Answer: B): - Normalizes across channels C
+and spatial dimensions H, W - For each individual sample in the batch,
+compute statistics over all channels and all spatial positions - This
+means each sample is normalized independently using its own
+statistics - Results in normalization within each sample, independent
+of batch
+Why these assignments? - Batch norm was designed for CNNs to
+normalize activations across the batch, maintaining spatial and
+channel structure - Layer norm normalizes all activations for a single
+sample, making it batch-size independent (useful for RNNs and
+transformers)
+Part (b): Simpliﬁed batch normalization gradient
+Setup: - Input batch: [x₁, x₂, …, xₙ] - Mean: μ = (1/n)Σⱼxⱼ - De-meaned:
+x̂ᵢ = xᵢ - μ - Output: yᵢ = γx̂ᵢ + β - Loss: L (somewhere downstream)
+Goal: Calculate ∂L/∂xᵢ in terms of ∂L/∂yⱼ, γ, and β
+Solution:
+Since xᵢ aﬀects all outputs yⱼ through the mean μ, we need to sum over
+all output gradients:
+∂L/∂xᵢ = Σⱼ (∂L/∂yⱼ)(∂yⱼ/∂xᵢ)
+Calculate ∂yⱼ/∂xᵢ:
+
+
+--- Page 4 ---
+The output yⱼ can be written as:
+yⱼ = γ(xⱼ - μ) + β
+  = γ(xⱼ - (1/n)Σₖxₖ) + β
+  = γxⱼ - (γ/n)Σₖxₖ + β
+Taking the derivative with respect to xᵢ: - The term γxⱼ contributes γ
+when i = j, and 0 otherwise - The term -(γ/n)Σₖxₖ contributes -γ/n for
+all i (since xᵢ appears in the sum) - The constant β contributes 0
+Therefore:
+∂yⱼ/∂xᵢ = {  γ(1 - 1/n),  if i = j
+          {  γ(-1/n),    if i ≠ j
+Combining the sum:
+∂L/∂xᵢ = Σⱼ (∂L/∂yⱼ)(∂yⱼ/∂xᵢ)
+      = (∂L/∂yᵢ)·γ(1 - 1/n) + Σⱼ≠ᵢ (∂L/∂yⱼ)·γ(-1/n)
+      = γ(∂L/∂yᵢ) - (γ/n)(∂L/∂yᵢ) - (γ/n)Σⱼ≠ᵢ (∂L/∂yⱼ)
+      = γ(∂L/∂yᵢ) - (γ/n)[∂L/∂yᵢ + Σⱼ≠ᵢ (∂L/∂yⱼ)]
+      = γ(∂L/∂yᵢ) - (γ/n)Σⱼ (∂L/∂yⱼ)
+Final Answer:
+∂L/∂xᵢ = γ[∂L/∂yᵢ - (1/n)Σⱼ(∂L/∂yⱼ)]
+Special case when n = 1:
+∂L/∂x₁ = γ[∂L/∂y₁ - ∂L/∂y₁] = 0
+With a batch size of 1, the gradient with respect to the input is zero!
+This is because subtracting the mean from a single value always gives
+zero, so the operation has no gradient.
+Limiting case when n → ∞:
+As n approaches inﬁnity, the term (1/n)Σⱼ(∂L/∂yⱼ) becomes negligible
+(assuming bounded gradients), so:
+∂L/∂xᵢ → γ·(∂L/∂yᵢ)
+Interpretation: With larger batch sizes, batch normalization has the
+ideal eﬀect of isolating the gradients through each sample. The
+gradient for sample i depends primarily on its own downstream
+gradient, with decreasing inﬂuence from other samples in the batch
+as n grows. This helps stabilize training and reduces the coupling
+between samples in the batch.
+Problem 3: Depthwise Separable
+Convolutions
+Part (a): Traditional convolution parameters
+Given: - Input: 3 channels, 224×224 resolution - Kernel size: 3×3 -
+Output: 4 channels
+Calculation:
+For traditional convolution, each output channel requires a full 3D
+ﬁlter that processes all input channels: - Each ﬁlter has shape:
+(kernel_height × kernel_width × input_channels) - Each ﬁlter has: 3 ×
+3 × 3 = 27 weights - We need 4 such ﬁlters (one per output channel) -
+Total weights: 27 × 4 = 108
+Formula:
+Parameters = (output_channels) × (input_channels) × (kernel_height) 
+× (kernel_width)
+          = 4 × 3 × 3 × 3
+
+
+--- Page 5 ---
+          = 108
+Note: If we included biases, we would add 4 more parameters (one
+per output channel) for a total of 112 parameters. However, the
+problem states to ignore biases.
+Answer: 108 parameters
+Part (b): Depthwise separable convolution
+parameters
+Architecture: Depthwise separable convolution consists of two
+operations:
+1. Depthwise convolution: Apply a separate spatial ﬁlter to each
+input channel
+2. Pointwise convolution: Use 1×1 convolutions to combine
+channels
+Given: - Input: 3 channels, 224×224 - Depthwise: 3×3 spatial ﬁlters -
+Pointwise: 1×1 convolutions - Output: 4 channels
+Depthwise Convolution: - Each input channel gets its own 3×3 ﬁlter
+- No cross-talk between channels - Each ﬁlter has 3×3 = 9 weights -
+For 3 input channels: 3 × 9 = 27 weights - Output: still 3 channels
+(same as input)
+Pointwise Convolution: - Takes the 3-channel depthwise output -
+Uses 1×1 ﬁlters to combine channels - Each output channel needs
+weights to combine all 3 input channels: 3 × 1 × 1 = 3 weights - For 4
+output channels: 4 × 3 = 12 weights
+Total Parameters:
+Depthwise:  3 × 3 × 3 = 27
+Pointwise:  4 × 3 × 1 × 1 = 12
+Total:      27 + 12 = 39 parameters
+Answer: 39 parameters
+Comparison: - Traditional convolution: 108 parameters - Depthwise
+separable: 39 parameters - Reduction: 108/39 ≈ 2.77x fewer
+parameters
+This dramatic parameter reduction is why depthwise separable
+convolutions are popular in eﬀicient architectures like MobileNet and
+EﬀicientNet. They can be viewed as a low-rank approximation to
+traditional convolution, factoring the spatial and channel-wise
+operations.
+Note on biases: If we included biases: - Depthwise would add 3
+biases (one per channel) - Pointwise would add 4 biases (one per
+output channel) - However, since everything is linear, we only need
+biases on the ﬁnal output: 4 biases - Total with biases: 39 + 4 = 43
+parameters
+Alternatively, if we included biases at both stages: 39 + 3 + 4 = 46
+parameters.
+Problem 4: Regularization and Dropout
+Part (a): Manipulating the expectation to eliminate
+randomness
+Given: - Dropout objective: L(ŵ) = E_R[||y - (R ⊙ X)ŵ||²₂] - R is a
+random binary matrix with Rᵢⱼ ~ i.i.d. Bernoulli(p) - ⊙ denotes
+element-wise product
+Goal: Show that
+L(ŵ) = ||y - pXŵ||²₂ + p(1-p)||Γ̂ŵ||²₂
+
+
+--- Page 6 ---
+where Γ̂ is a diagonal matrix with j-th diagonal entry equal to the
+norm of the j-th column of X.
+Solution:
+Let P = R ⊙ X. Then:
+||y - Pŵ||²₂ = y^T y - 2ŵ^T P^T y + ŵ^T P^T P ŵ
+Taking expectations:
+L(ŵ) = E[y^T y - 2ŵ^T P^T y + ŵ^T P^T P ŵ]
+    = y^T y - 2ŵ^T E[P^T]y + ŵ^T E[P^T P]ŵ
+Step 1: Calculate E[P]
+Since P = R ⊙ X:
+E[Pᵢⱼ] = E[Rᵢⱼ · Xᵢⱼ]
+      = E[Rᵢⱼ] · Xᵢⱼ    (Rᵢⱼ and Xᵢⱼ are the same entry, not 
+independent random variables)
+      = p · Xᵢⱼ
+Therefore: E[P] = pX, and E[P^T] = pX^T
+This gives us:
+E[2ŵ^T P^T y] = 2pŵ^T X^T y
+Step 2: Calculate E[P^T P]
+The (i,j)-th entry of P^T P is:
+(P^T P)ᵢⱼ = Σₖ Pₖᵢ Pₖⱼ
+         = Σₖ (Rₖᵢ Xₖᵢ)(Rₖⱼ Xₖⱼ)
+         = Σₖ Rₖᵢ Rₖⱼ Xₖᵢ Xₖⱼ
+Taking expectations:
+E[(P^T P)ᵢⱼ] = Σₖ E[Rₖᵢ Rₖⱼ] Xₖᵢ Xₖⱼ
+We need to consider two cases:
+Case 1: i ≠ j Since Rₖᵢ and Rₖⱼ are independent Bernoulli(p):
+E[Rₖᵢ Rₖⱼ] = E[Rₖᵢ]E[Rₖⱼ] = p · p = p²
+Therefore:
+E[(P^T P)ᵢⱼ] = p² Σₖ Xₖᵢ Xₖⱼ = p²(X^T X)ᵢⱼ
+Case 2: i = j Now Rₖᵢ and Rₖⱼ are the same random variable:
+E[Rₖᵢ Rₖᵢ] = E[Rₖᵢ²]
+For Bernoulli(p): Rₖᵢ² = Rₖᵢ (since it’s 0 or 1), so:
+E[Rₖᵢ²] = E[Rₖᵢ] = p
+Therefore:
+E[(P^T P)ᵢᵢ] = p Σₖ Xₖᵢ² = p(X^T X)ᵢᵢ
+Step 3: Separate the diagonal
+We can write:
+E[P^T P] = p²(X^T X) + (p - p²)diag(X^T X)
+where diag(M) denotes the matrix with the same diagonal as M but
+zeros elsewhere.
+Step 4: Combine everything
+L(ŵ) = y^T y - 2pŵ^T X^T y + ŵ^T[p²(X^T X) + (p - p²)diag(X^T X)]ŵ
+    = y^T y - 2pŵ^T X^T y + p²ŵ^T X^T X ŵ + (p - p²)ŵ^T diag(X^T 
+X)ŵ
+Recognizing the ﬁrst three terms as a squared norm:
+
+
+--- Page 7 ---
+y^T y - 2pŵ^T X^T y + p²ŵ^T X^T X ŵ = ||y - pXŵ||²₂
+For the last term, note that ŵ^T diag(X^T X)ŵ = ||Γ̂ŵ||²₂ where Γ̂ is
+the diagonal matrix with:
+Γ̂ⱼⱼ = √[(X^T X)ⱼⱼ] = √[Σᵢ Xᵢⱼ²] = ||X_j||₂
+(the norm of the j-th column of X).
+Final Result:
+L(ŵ) = ||y - pXŵ||²₂ + p(1-p)||Γ̂ŵ||²₂
+This shows that dropout is equivalent to adding a special form of
+regularization where the regularization strength on each weight is
+proportional to the norm of its corresponding feature in the training
+data. ✓
+Part (b): Transform ŵ to standard form
+Goal: Find a transformation of ŵ that makes the dropout objective
+look like a standard Tikhonov regularized problem.
+From part (a):
+L(ŵ) = ||y - pXŵ||²₂ + p(1-p)||Γ̂ŵ||²₂
+Standard Tikhonov form:
+L(w) = ||y - Xw||²₂ + ||Γw||²₂
+Solution:
+Let w = pŵ, which means ŵ = w/p.
+Substituting into the dropout objective:
+L(w) = ||y - pX(w/p)||²₂ + p(1-p)||Γ̂(w/p)||²₂
+    = ||y - Xw||²₂ + p(1-p)/p² · ||Γ̂w||²₂
+    = ||y - Xw||²₂ + (1-p)/p · ||Γ̂w||²₂
+Factoring out (1-p)/p:
+L(w) = ||y - Xw||²₂ + ||√[(1-p)/p] · Γ̂w||²₂
+This is in standard Tikhonov form with:
+Γ = √[(1-p)/p] · Γ̂
+Answer: w = pŵ
+Interpretation: This transformation is exactly what’s done at
+inference time in dropout! During training with dropout probability p,
+we randomly keep each neuron with probability p. At inference, we
+scale the weights by p to compensate for the fact that all neurons are
+now active. This mathematical analysis shows that this scaling is not
+just a heuristic - it’s the correct transformation to relate the dropout
+objective to standard regularized regression.
+For example, if p = 0.5 (keeping each feature with 50% probability): -
+During training, we learn ŵ with dropout - At inference, we use w =
+0.5ŵ - The regularization strength is Γ = √[(1-0.5)/0.5] · Γ̂ = Γ̂
+Part (c): Change variables for ridge regression
+Given:
+L(w) = ||y - Xw||²₂ + ||Γw||²₂
+where Γ is invertible.
+Goal: Change variables to get classical ridge regression form:
+
+
+--- Page 8 ---
+L(w̃) = ||y - X̃w̃||²₂ + λ||w̃||²₂
+Solution:
+Let w̃  = Γw, which means w = Γ⁻¹w̃ .
+Substituting into the objective:
+L(w̃) = ||y - X(Γ⁻¹w̃)||²₂ + ||Γ(Γ⁻¹w̃)||²₂
+     = ||y - XΓ⁻¹w̃||²₂ + ||w̃||²₂
+This is exactly ridge regression form with λ = 1 and:
+X̃ = XΓ⁻¹
+Answer: XO = XΓ⁻¹
+Alternative with rescaling: If we want an arbitrary λ, we can
+include a constant factor:
+X̃ = (1/√λ)XΓ⁻¹
+Then:
+L(w̃) = ||y - (1/√λ)XΓ⁻¹w̃||²₂ + ||w̃||²₂
+     = (1/λ)||y - XΓ⁻¹w̃||²₂ + ||w̃||²₂
+Multiplying through by λ:
+λL(w̃) = ||y - XΓ⁻¹w̃||²₂ + λ||w̃||²₂
+So any positive rescaling of Xk = XΓ⁻¹ is acceptable.
+Interpretation: This variable change “pre-conditions” the features by
+Γ⁻¹. Features that had large regularization penalties (large entries in
+Γ) are scaled down, while features with small penalties are scaled up.
+This makes the regularization uniform across all transformed features.
+Part (d): Column norms of XO and relation to batch
+normalization
+Given: - Γ is diagonal and invertible - The j-th diagonal entry of Γ is
+proportional to ||f_j||₂ (norm of j-th column of X)
+From part (c): Xk = XΓ⁻¹
+Analysis:
+Let f_j denote the j-th column of X. Since Γ is diagonal:
+Γ = diag(γ₁, γ₂, ..., γ_d)
+where γⱼ ∝ ||f_j||₂.
+The j-th column of Xk is:
+f̃_j = (XΓ⁻¹)_j = f_j · (1/γⱼ) = f_j / γⱼ
+Since γⱼ is proportional to ||f_j||₂, we can write γⱼ = c||f_j||₂ for some
+constant c > 0.
+Therefore:
+f̃_j = f_j / (c||f_j||₂)
+The norm of this transformed column is:
+||f̃_j||₂ = ||f_j / (c||f_j||₂)||₂
+        = (1/(c||f_j||₂)) · ||f_j||₂
+        = 1/c
+Conclusion: All columns of Xk have the same norm: ||f k_j||₂ = 1/c for all
+j.
+Answer: All columns of XO have constant norm (speciﬁcally, 1/c
+where c is the proportionality constant).
+
+
+--- Page 9 ---
+Relationship to Batch Normalization:
+This is very similar to what batch normalization does:
+1. Feature Normalization:
+Dropout’s Γ transformation: scales features inversely to their
+magnitude
+Batch norm: standardizes each feature to have zero mean and
+unit variance
+2. Equalized Feature Scales:
+Dropout with Γ⁻¹: makes all features have the same ℓ² norm
+Batch norm: makes all features have the same variance (and
+mean)
+3. Adaptive Rescaling:
+Dropout: the regularization penalty ||Γw||² adapts to feature
+magnitudes
+Batch norm: the scale γ and shift β parameters adapt after
+normalization
+4. Training Stability:
+Both techniques prevent features with large magnitudes from
+dominating
+Both help optimization by working with normalized/scaled
+features
+Both reduce the dependence of gradient magnitudes on feature
+scales
+Key Insight: Dropout acts as an implicit feature normalization
+scheme. By regularizing features proportionally to their training data
+norms, dropout encourages the model to give equal “attention” to all
+features, similar to how batch normalization explicitly standardizes
+features. This helps explain why both techniques improve
+generalization and training stability.
+In fact, both dropout and batch normalization: - Reduce internal
+covariate shift - Make the loss landscape smoother - Help prevent
+certain features from dominating - Act as forms of regularization
+The mathematical connection revealed here shows that dropout’s
+regularization eﬀect has a geometric interpretation: it “spherizes” the
+eﬀective feature space.
+Summary
+This completes the detailed solutions for Problems 1, 2, 3, and 4:
+1. Convolutional Networks: Explained advantages of convolutions,
+solved for ﬁlter coeﬀicients, and computed transpose convolution
+output with detailed matrix calculations.
+2. Batch Normalization: Identiﬁed normalization types, derived
+gradients through batch norm showing how batch size aﬀects
+gradient coupling, with special cases for n=1 and n→∞.
+3. Depthwise Separable Convolutions: Calculated parameters for
+both traditional and depthwise separable convolutions, showing
+the dramatic parameter reduction (108 → 39 parameters).
+4. Regularization and Dropout:
+Showed dropout is equivalent to Tikhonov regularization with
+data-dependent penalties
+Derived the weight transformation w = pŵ for inference
+Changed variables to get ridge regression form
+Revealed dropout’s connection to feature normalization and
+batch normalization
+All solutions include detailed mathematical derivations, step-by-step
+calculations, and interpretations of the results.

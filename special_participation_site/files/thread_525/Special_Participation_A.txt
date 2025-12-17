@@ -1,0 +1,401 @@
+--- Page 1 ---
+I gave a 
+structured 
+way to give 
+the answer 
+since this 
+tends to 
+work best 
+with LLMs. 
+I wanted to 
+try having 
+it just use 
+the raw 
+PDF as 
+well, rather 
+than 
+individually 
+listing 
+questions.
+It correctly
+OCR’d the 
+PDF and 
+was able 
+to copy 
+the 
+question 
+correctly, 
+which was 
+nice.
+
+
+--- Page 2 ---
+This was a nice, structured 
+response to the question. The 
+answer is an order of magnitude 
+and didn’t include constants, 
+though, like the answer key did.
+It correctly identified the trick 
+here with changing the 
+multiplication order.
+
+
+--- Page 3 ---
+It correctly gave the order of 
+magnitude again. It seems it was 
+aiming more for big O runtime, 
+which makes sense as that is 
+usually how runtime is analyzed.
+I decided to prompt it to give a more precise answer
+
+
+--- Page 4 ---
+Now it gave the answer in the 
+answer key. I think it would have 
+gotten this first try had it been 
+more clear how specific the 
+runtime should be.
+
+
+--- Page 5 ---
+It solved this one correctly as well after 
+more clear instructions.
+Since this is a longer and more complicated problem, I decided to go one part at a time.
+This is the first conceptual question. It is doing pretty well so far (it is a simple 
+question, so this is expected). 
+
+
+--- Page 6 ---
+Unfortunately the rest of the answer got cut off in conversion, but there was a simple 
+summary there. The answer was very clear and showed good reasoning.
+
+
+--- Page 7 ---
+This recap of xavier initialization was good and probably helpful 
+as more context to help solve the problem. Mistral seems to be 
+very organized and structured here.
+
+
+--- Page 8 ---
+Not sure why it did this little code 
+block with this piece of text. It seems 
+to happen every once in a while after 
+an equation.
+Very clean and methodical answer! It correctly solved all the relationships and got the
+right answer.
+
+
+--- Page 9 ---
+Good bit of context building. These make the solutions all very clear.
+It tends to simplify the question into some objective expression, which is great
+Correct so far, correctly identifying the types of norms so that it’s not confused by 
+which norm it computed.
+
+
+--- Page 10 ---
+It was able to recall and use its previous 
+answer correctly here, which was very good.
+Solving everything, it got the correct answer clearly.
+
+
+--- Page 11 ---
+Again, this setup and definitions section is quite clear, informative, and all relevant.
+
+
+--- Page 12 ---
+It got the correct answer again by substituting in a previous answer and solving the 
+equation in clear steps. Doing well so far…
+
+
+--- Page 14 ---
+It got the correct answer, I believe (NOTE: as of 12/3, this doesn’t match the answer key, but I 
+posted on Ed about the answer key potentially being incorrect, as I believe this is the correct 
+answer, and I got this when solving it as well)
+
+
+--- Page 15 ---
+It had a long answer with a lot of different nuances here. It talked about a lot of 
+different factors that could lead to the scale being ignored, but then it finally 
+mentioned the one which we were focusing on in the problem.
+
+
+--- Page 16 ---
+Again, that box was cut off, but it had a summary right here. The final answer was 
+correct and focused on the point of the question, so it did well. Its overall answer was 
+maybe too long, but it got there in the end, without extra help.
+Its first mistake! Those should not be 1, those should be sqrt(d_in) and sqrt(d_out).
+
+
+--- Page 17 ---
+It is trying to show the accumulation of the magnitude change, which is valid
+
+
+--- Page 18 ---
+Another mistake here! It is forgetting that as a result of previous scaling factors, the 
+gradient passed in will already be scaled, so it doesn’t need to use L again. However, 
+it is also possible it was just assuming that the gradients passed back are unscaled.
+I prompted it to correct itself, providing minimal guidance to point it in the right 
+direction.
+Right here, it does the same mistake 
+without even redoing the work! It will get 
+the wrong answer again due to this.
+
+
+--- Page 19 ---
+This time, it corrected the use of L and just treated each layer as if the other layer 
+already scaled its gradient which it passed back. But due to the same other error, it’s 
+still wrong.
+Therefore, I here gave more specific guidance regarding that mistake. I told it where 
+it’s wrong but not what the answer is.
+
+
+--- Page 20 ---
+This time its answer is correct! I think it assumed the overall matrix was unit scaled, not 
+the individual weights. Now it will get the correct answer if it uses the same analysis.
+
+
+--- Page 21 ---
+It got the right answer now! These errors could be chalked up to misinterpreting less 
+specific parts of the problem, but it was clear enough that I think it is an error.
+I wanted to try to test it with a harder task again, solving the full problem. Problem 3 
+was pretty long and quite computation-heavy, so it would be interesting to see the 
+result.
+
+
+--- Page 22 ---
+It uses code to generate plots; failed the first time and then retries
+
+
+--- Page 23 ---
+It succeeded this time with the figure.
+
+
+--- Page 24 ---
+This plot is indeed correct (just ignoring 
+the extra lines and looking at the points).
+It stopped repeating the question here, which may have led to 
+it forgetting to explicitly compute the expression.
+This was a simple conceptual question, so it more or less got it.
+
+
+--- Page 25 ---
+This was completely wrong. I’m not sure what it was doing here to get these 
+answers…
+Now it seems to be using code to perform the convolutions
+
+
+--- Page 26 ---
+It seems it’s retrying part (c) using the code. This output cell was extremely confusing
+though.
+
+
+--- Page 27 ---
+It failed again, and it seems like it just repeated its old answer again.
+This is almost correct but negative. The code worked much better, but the 
+convolution convention is wrong.
+Again, the magnitudes are correct but just all negated. Checking its code, it is indeed 
+a convention problem.
+That was a complete disaster. I decided to ask it to do everything again while using 
+the old structure of also outputting the question, as that seemed to work better. I 
+specified what it missed in the questions for (a) and (b), and at this point I just asked 
+it to recheck (c) and (d). The goal of this part was to finish (a) and (b), and I thought 
+(c) and (d) may correct themselves. I hadn’t realized the potential for a convention flip 
+yet.
+
+
+--- Page 28 ---
+This time it’s actually computing the expression
+
+
+--- Page 29 ---
+It accurately found the expression for 7, which works. The plot was the same as earlier.
+It kept the same answer for part (b) and identified the time-shifting property, which is 
+good for this problem.
+
+
+--- Page 30 ---
+Here, it is showing its work a little bit, and here’s where I realized its 
+convention was flipped. This makes sense in the context of deep 
+learning since we typically assume it’s already flipped like Mistral did.
+
+
+--- Page 31 ---
+Again it completely fails, outputting the old wrong matrix. This is 
+because it didn’t use code for the math
+Now it’s also trying to not use code for part (d) which makes it fail 
+entirely
+
+
+--- Page 32 ---
+More failing due to not using code
+Now it actually uses its old function to compute the convolutions. This 
+gives the correct results for everything except for the convention, 
+which causes everything to be negated.
+
+
+--- Page 33 ---
+Its convention is just flipped but its magnitudes are correct. Now I 
+prompt it to use the mathematical definition of the convolution.
+
+
+--- Page 35 ---
+Now it got the correct answer, as it corrected its code.
+
+
+--- Page 39 ---
+It now got the correct answers for everything. It just needed a 
+convention correction, which again may be due to the context of deep 
+learning, where we generally assume the kernel is already flipped.
+I went back to asking for a part at a time, since this seemed to work better
+
+
+--- Page 40 ---
+It solved this one correctly in 1 go, which was expected but still good
+
+
+--- Page 41 ---
+It again solved this problem in 1 shot, which is good again (it was very 
+similar to the last part).
+
+
+--- Page 42 ---
+It’s doing really well on this question. It’s not very hard calculations so I 
+don’t expect a failure due to that, but it seems good conceptually.
+
+
+--- Page 43 ---
+It went in depth with its answer, but everything explained was relevant. 
+Another largely conceptual question, so it answered very well.
+
+
+--- Page 44 ---
+Since I haven’t used Mistral before, I was wondering how well it would do 
+with the table. It seems it’s good with tables and was able to accurately get 
+it from the PDF.
+
+
+--- Page 45 ---
+It’s doing some calculations, matching the expressions in the answer key. It 
+decided to fill in the blanks with the real number, but here we can see the 
+dimensions are correct.
+
+
+--- Page 46 ---
+All of this is correct
+
+
+--- Page 47 ---
+It did this part perfectly! It shows that it knows how to use a table, and it 
+also got the concepts from the question right.
+
+
+--- Page 48 ---
+Pretty long question, but it copies it correctly.
+
+
+--- Page 49 ---
+It gets the correct answers using the right reasoning. Doing very well so far 
+on this homework.
+
+
+--- Page 50 ---
+This is correct so far
+
+
+--- Page 51 ---
+This is the correct update, but it didn’t simplify it into a convolution.
+This is the proper weight update formula but it doesn’t plug it in (since it 
+doesn’t have a good formula).
+I try to prompt it to simplify.
+
+
+--- Page 52 ---
+This is also correct, but still not simplified in the form of the 
+convolution. It doesn’t seem to recognize this as a convolution 
+operation.
+
+
+--- Page 53 ---
+I saw that in the question this pattern was identified as a convolution, so I 
+thought that may help it.
+
+
+--- Page 54 ---
+It unfortunately gave the same answer as last time. I tried prompting it 
+again, choosing to ask it to repeat the context where it was identified as a 
+convolution as well, in case that helped it like it did before.
+
+
+--- Page 56 ---
+This still did not end up helping it! It does not seem to understand that this is a convolution operation.
+
+
+--- Page 57 ---
+Here, I just told it to turn it into a convolution to see if it would perform it without complaint.
+Here, I realized why it wasn’t turning it into a convolution before. It was 
+using the mathematical convolution operation, where the kernel is not 
+considered to be flipped beforehand, so it thought it had to flip dY to use it 
+in the convolution, which it does here since I forced it to use one.
+
+
+--- Page 58 ---
+Here, I corrected its convention. This wasn’t clear in the problem, and the 
+operation was used inconsistently in this homework, so I specified here.
+
+
+--- Page 59 ---
+Now it got to the answer, after quite a bit of prompting.
+This wasn’t even 7b. I’m not sure where it got this question from, but it 
+wasn’t correct, so I’ll skip analysis for this.
+
+
+--- Page 61 ---
+I try here to prompt it to get it back on track.
+
+
+--- Page 62 ---
+It again started talking about some completely different problem.
+
+
+--- Page 65 ---
+From here onward, I ended up separately screenshotting the question to 
+get it back on track. It seems to have lost track of the PDF information at 
+this point.
+
+
+--- Page 66 ---
+It’s doing well so far, finding that the mean is 0 and finding the variance of 
+each element
+
+
+--- Page 67 ---
+It now correctly moves towards finding the final answer using the 
+intermediate steps
+It solved the question correctly! It used variance calculations to correctly 
+identify the asymptotic growth of the standard deviation, and correctly 
+found the mean to be 0
+
+
+--- Page 68 ---
+Again, I provided a screenshot here. It had seemed to be doing a problem 
+similar to this one earlier in its attempts of 7b when it didn’t remember the 
+question.
+It gives good reasoning here, and correctly identifies that one of the 
+elements is nonzero while the rest are zero
+
+
+--- Page 69 ---
+This is correct for max pooling (It specified that the nonzero value will be 
+wherever the max value was, and just assumes it’s in the top left for sake of 
+demonstration here, as specified right after)
+
+
+--- Page 70 ---
+It did this part well and got the correct answers after good reasoning.
+Now this is just a basic conceptual question, which it’s probably seen in its 
+training data before. So no surprise that it gets it right.
+
+
+--- Page 71 ---
+ 
+Overall, it did pretty well on this homework, with a few fumbles.

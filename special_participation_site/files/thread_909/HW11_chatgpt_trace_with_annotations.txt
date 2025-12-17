@@ -1,0 +1,2658 @@
+--- Page 1 ---
+1/25
+HW11 answer explanation
+HW11 
+Answer this homework problem
+Here’s one way to answer each part.
+Setup:
+We write the adapted weight as
+(a) Model is underfitting – what to change in LoRA?
+Underfitting means the adaptation is not expressive enough.
+For LoRA the expressive power of the update 
+ is limited by its rank 
+.
+👉 I would increase the LoRA rank  (i.e., use larger A,B) so that 
+ can approximate
+a richer set of updates to 
+ and the model has more capacity to fit the training data.
+(You could also add LoRA to more layers, but the LoRA-specific knob here is .)
+(b) Both 
+ and 
+ initialized to all zeros
+At initialization,
+so we start exactly from the pretrained weights, which sounds fine.
+The problem is with the gradients.
+Let 
+. Using the chain rule,
+If 
+ and 
+ initially, then
+W = W
+​ +
+0
+AB,
+A ∈R
+, B ∈
+m×k
+R
+, k ≪
+k×ℓ
+min(m, ℓ).
+AB
+≤k
+k
+AB
+W
+k
+A
+B
+AB = 0
+⇒
+W = W
+​,
+0
+G =
+​
+∂W
+∂L
+​ =
+∂A
+∂L
+GB ,
+​ =
+⊤
+∂B
+∂L
+A G.
+⊤
+A = 0
+B = 0
+​ =
+∂A
+∂L
+G(0)
+=
+⊤
+0,
+​ =
+∂B
+∂L
+0 G =
+⊤
+0.
+correct
+correct
+I really like how this walks through the chain rule step-by-step to show why the gradients vanish. 
+It makes the mathematical reason for the failure very clear.
+
+
+--- Page 2 ---
+2/25
+So both gradients are zero, SGD will never move 
+ or 
+, and 
+ will stay equal to 
+forever. LoRA never actually fine-tunes the model.
+(c) Xavier init for both 
+ and 
+Now both 
+ and 
+ are random with non-tiny variance, so 
+ is also a non-negligible
+random matrix. That means at the start of fine-tuning
+is no longer close to the pretrained 
+; we have already added a sizable random low-
+rank perturbation.
+LoRA is supposed to start from the pretrained model and make small learned
+adjustments. With this initialization we effectively “damage” the good pretrained weights
+before learning even starts, so optimization behaves more like training from a poorly
+chosen initialization and can perform much worse.
+(Practically, people usually initialize one factor small or to zero so that 
+ initially.)
+(d) Memory cost of LoRA vs full-rank update
+Number of parameters in LoRA adaptation:
+: 
+ entries
+: 
+ entries
+Total entries: 
+.
+Using 4 bytes per float:
+A single full-rank adaptation matrix (same shape as 
+) has 
+ entries, so:
+Comparison: LoRA uses a fraction
+of the memory of a full-rank matrix. Since 
+, this fraction is much
+smaller than 1, so LoRA gives a large memory saving.
+A
+B
+W
+W
+​0
+A
+B
+python
+A = torch.nn.Parameter(torch.empty(m, k))
+B = torch.nn.Parameter(torch.empty(k, l))
+torch.nn.init.xavier_uniform_(A)
+torch.nn.init.xavier_uniform_(B)
+A
+B
+AB
+W = W
+​ +
+0
+AB
+W
+​0
+AB ≈0
+A m × k
+B k × ℓ
+mk + kℓ= k(m + ℓ)
+​
+LoRA memory = 4k(m + ℓ) bytes
+W
+mℓ
+​
+Full-rank memory = 4mℓ bytes
+​ =
+4mℓ
+4k(m + ℓ)
+​
+mℓ
+k(m + ℓ)
+k ≪min(m, ℓ)
+correct
+correct
+correct
+correct
+
+
+--- Page 3 ---
+3/25
+Answer this homework problem
+I’ll go part by part and keep the notation from the handout.
+(a) The Simplest Transformer (Zero-Layer Model)
+(i) Expression for the logits
+We first embed and then unembed:
+Residual stream at “layer 0”:
+Logits:
+So the required expression is
+(ii) What algorithm does this implement?
+For each position , the -th column of 
+ is the one-hot vector of the token at that
+position, call it 
+.
+The model does
+So:
+Each position is processed independently with the same matrix 
+.
+The prediction at position  depends only on which token is at position  (no
+context, no other tokens).
+Algorithmically: “for every token, look up its embedding and apply a fixed linear
+classifier to get logits.”
+This is the baseline behavior of the transformer with no attention or layers.
+X =
+0
+W
+​T ∈
+E
+R
+.
+d
+​×n
+​
+model
+context
+L = W
+​X =
+U
+0
+W
+​W
+​T ∈
+U
+E
+R
+.
+n
+​×n
+​
+vocab
+context
+​.
+L = W
+​W
+​T
+U
+E
+t
+t
+T
+e
+​
+w
+​t
+x
+​ =
+t
+0
+W
+​e
+​
+(lookup embedding),
+E w
+​t
+ℓ
+​ =
+t
+W
+​x
+​ =
+U
+t
+0
+W
+​W
+​e
+​
+(linear map to logits).
+U
+E w
+​t
+W
+​W
+​
+U
+E
+t
+t
+correct
+correct
+correct
+
+
+--- Page 4 ---
+4/25
+(b) Multi-Head Attention: Concatenation vs Addition
+We have 
+ heads, each producing value output
+(i) Show equivalence of the two views
+Concatenation view
+Stack the heads vertically:
+then apply a single large output matrix
+to get
+Additive & independent view
+Each head has its own output matrix
+and the total output is
+Construction of 
+:
+Write the big matrix as a horizontal concatenation of the per-head matrices:
+Then
+So the concatenation view and the additive-independent view give identical outputs for
+this choice of 
+.
+(ii) Advantage and disadvantage of each view
+Concatenation view
+Advantage: Matches standard implementations: all head outputs are
+concatenated and passed through a single linear layer. Convenient for coding
+and for thinking in terms of one big matrix.
+Disadvantage: Conceptually hides that each head is a separate “circuit” whose
+contribution is just added into the residual stream, making mechanistic
+H
+r ∈
+h
+R
+.
+d
+​×n
+​
+head
+context
+R
+=
+H
+​
+​
+​ ∈
+r1
+r2
+⋮
+rH
+R
+,
+(d
+​H)×n
+​
+head
+context
+W
+∈
+O
+H
+Rd
+​×(d
+​H)
+model
+head
+H = W
+​R .
+O
+H
+H
+W
+​ ∈
+O
+h
+R
+,
+d
+​×d
+model
+head
+H =
+​W
+​r .
+h=1
+∑
+H
+O
+h h
+W
+​
+O
+H
+W
+​ =
+O
+H
+[ W
+​ W
+​ ⋯W
+​ ] ∈
+O
+1
+O
+2
+O
+H
+R
+.
+d
+​×(d
+​H)
+model
+head
+W
+​R
+=
+O
+H
+H
+[W
+​ … W
+​]
+​
+​
+​ =
+O
+1
+O
+H
+r1
+⋮
+rH
+​W
+​r .
+h=1
+∑
+H
+O
+h h
+W
+​
+O
+H
+correct
+correct
+
+
+--- Page 5 ---
+5/25
+interpretation harder.
+Additive & independent view
+Advantage: Makes interpretability easier: each head has its own 
+ and
+contributes additively to the residual stream, so you can analyze heads one at a
+time as independent modules.
+Disadvantage: Less directly tied to the usual implementation and less compact
+to write; you have 
+ matrices instead of one.
+(c) The QK Circuit: Determining Attention Patterns
+We have
+and
+(i) Bilinear form and 
+Compute:
+So we can write
+This is a bilinear form in the residual vectors 
+ and 
+.
+(ii) Interpreting 
+ (toy 
+ case)
+Write 
+,
+.
+We always use
+(1) 
+Then 
+, the usual dot product.
+High attention score when 
+ and 
+ point in similar directions (large positive dot
+product).
+This head “looks for tokens whose residual vectors are similar to the query token in
+all dimensions.”
+(2) 
+We get
+and
+W
+​
+O
+h
+H
+Q
+​ =
+i
+W
+​X
+​,
+K
+​ =
+Q
+i
+j
+W
+​X
+​,
+K
+j
+S
+​ =
+ij
+Q
+​K
+​.
+i
+⊤
+j
+W
+​
+QK
+S
+​ =
+ij
+(W
+​X
+​) (W
+​X
+​) =
+Q
+i
+⊤
+K
+j
+X
+​W
+​W
+​X
+​.
+i
+⊤
+Q
+⊤
+K
+j
+S
+​ =
+ij
+X
+​W
+​X
+​
+with
+​.
+i
+⊤
+QK
+j
+W
+​ := W
+​W
+​ ∈R
+QK
+Q
+⊤
+K
+d
+​×d
+​
+model
+model
+X
+​i
+X
+​j
+W
+​
+QK
+d
+​ =
+model
+3
+X
+​ =
+i
+(x
+​, x
+​, x
+​)
+i1
+i2
+i3 ⊤
+X
+​ =
+j
+(x
+​, x
+​, x
+​)
+j1
+j2
+j3 ⊤
+S
+​ =
+ij
+X
+​W
+​X
+​.
+i
+⊤
+QK
+j
+W
+​ =
+QK
+I
+S
+​ =
+ij
+X
+​X
+​
+i
+⊤
+j
+X
+​i
+X
+​j
+W
+​ =
+QK
+​
+​
+​
+​
+​
+1
+0
+0
+0
+0
+0
+0
+0
+0
+W
+​X
+​ =
+QK
+j
+(x
+​, 0, 0)
+j1
+⊤
+correct
+correct
+The way this breaks down what different W_QK matrices mean is super helpful, 
+especially the negative identity case showing how attention can avoid similar tokens, 
+which I hadn't thought about before.
+
+
+--- Page 6 ---
+6/25
+High score when the first coordinates of 
+ and 
+ are similar and large.
+The second and third coordinates of 
+do not affect the score at all.
+So this head “looks only at similarity along dimension 1” and is blind to information
+in dimensions 2 and 3 (for deciding where to attend).
+(3) 
+Then
+Large 
+ when
+the first coordinates are similar (large positive 
+), and
+the third coordinates are opposite (so 
+ is large positive).
+Intuitively, the head “looks for tokens that match the query on feature 1 but differ on
+feature 3.”
+Compared to the identity case, feature 3 is treated as an “anti-similarity” dimension.
+(4) 
+Then
+For fixed norms, this is largest when 
+ and 
+ are most opposite (largest
+negative dot product in the original space).
+So this head “prefers tokens whose residual vectors are anti-aligned with the
+query.”
+After the softmax over , tokens most similar to the query (largest 
+) get the
+lowest scores (most negative 
+), while tokens that are most dissimilar get the
+highest attention weights.
+So 
+ encodes the question “what relationship between query and key vectors
+should lead to high attention?”
+(d) The OV Circuit: Reading and Writing Information
+We are given that head  has output
+where 
+ is the attention matrix.
+(i) Attention-weighted average
+We have:
+, columns 
+.
+, with 
+ = weight from destination  to source .
+S
+​ =
+ij
+X
+​(x
+​, 0, 0)
+=
+i
+⊤
+j1
+⊤
+x
+​x
+​.
+i1
+j1
+X
+​i
+X
+​j
+X
+​, X
+​
+i
+j
+W
+​ =
+QK
+​
+​
+​
+​
+​
+1
+0
+0
+0
+0
+0
+0
+0
+−1
+W
+X
+​ =
+QK
+j
+(x
+​, 0, −x ) ,
+j1
+j3
+⊤
+S
+​ =
+ij
+x
+​x
+​ −
+i1
+j1
+x
+​x
+​.
+i3
+j3
+S
+​
+ij
+x
+​x
+​
+i1
+j1
+−x
+​x
+​
+i3
+j3
+W
+​ =
+QK
+−I
+S
+​ =
+ij
+X
+​(−I)X
+​ =
+i
+⊤
+j
+−X
+​X
+​.
+i
+⊤
+j
+X
+​i
+X
+​j
+j
+X
+​X
+​
+i
+⊤
+j
+S
+​
+ij
+W
+​
+QK
+h
+h(X ) =
+0
+W
+​W
+​X A
+=
+O
+h
+V
+h
+0
+h⊤
+W
+​X A
+,
+OV
+h
+0
+h⊤
+Ah
+X ∈
+0
+Rd
+​×n
+​
+model
+context
+X
+​j
+0
+A ∈Rn
+​×n
+​
+context
+context
+A
+​
+ij
+i
+j
+correct
+
+
+--- Page 7 ---
+7/25
+So 
+ has entries 
+.
+The -th column of 
+ is
+Thus
+an attention-weighted average of the source token vectors.
+(ii) Final residual stream 
+With one attention layer and 
+ heads, the residual update is the sum of each head’s
+output, added to the original stream:
+That’s the desired expression in terms of 
+ and the heads’ weight matrices.
+(iii) Column-space property
+For a fixed head , its output is
+Let  be a destination position. The update vector written at position  is the -th
+column:
+Define
+Then
+By definition, the column space
+ is the set
+Since 
+ is exactly of this form, we have
+So each head can only write into a low-dimensional subspace of the 
+-dimensional
+residual stream.
+A⊤
+(A )
+​ =
+⊤ji
+A
+​
+ij
+i
+X A
+0
+⊤
+(X A )
+​ =
+0
+⊤
+i
+X (A e
+​) =
+0
+⊤
+i
+X
+​
+​
+​ =
+0
+A
+​
+i1
+A
+​
+i2
+⋮
+A
+​
+i n
+​
+context
+​A
+​X
+​.
+j=1
+∑
+n
+​
+context
+ij
+j
+0
+​,
+(X A )
+​ =
+​A
+​X
+​
+0
+⊤
+i
+j=1
+∑
+n
+​
+context
+ij
+j
+0
+Xfinal
+H
+X
+=
+final
+X +
+0
+​h (X ) =
+h=1
+∑
+H
+h
+0
+X +
+0
+​W
+​X A
+.
+h=1
+∑
+H
+OV
+h
+0
+h⊤
+X0
+h
+h
+​(X ) =
+h
+0
+W
+​X A
+.
+OV
+h
+0
+h⊤
+t
+t
+t
+h
+​(X )
+​ =
+h
+0
+t
+W
+​(X A
+)
+​.
+OV
+h
+0
+h⊤
+t
+v
+​ :=
+t
+(X A
+)
+​ ∈
+0
+h⊤
+t
+R
+.
+d
+​
+model
+h
+​(X )
+​ =
+h
+0
+t
+W
+​v
+​.
+OV
+h
+t
+Col(W
+​)
+OV
+h
+{ W
+​v :
+OV
+h
+v ∈R
+}.
+d
+​
+model
+h
+​(X )
+​
+h
+0 t
+​.
+h
+​(X )
+​ ∈Col(W
+​)
+h
+0
+t
+OV
+h
+d
+​
+model
+correct
+correct
+
+
+--- Page 8 ---
+8/25
+(e) Formalizing Read and Write Subspaces via SVD
+(i) Rank bound and low-rankness
+Recall 
+ with
+For any matrices, 
+. Hence
+In typical transformers, 
+ (e.g., 64 vs 768), so 
+ has rank much
+smaller than its dimension: it is a low-rank matrix.
+(ii) Decomposition via compact SVD
+Let the compact SVD be
+with
+,
+ (diagonal with positive singular values 
+),
+,
+.
+For a source token vector 
+,
+Let
+Then
+and multiplying by 
+:
+Thus
+as required.
+(iii) Read and write subspaces; orthogonal information
+From the decomposition
+W
+​ =
+OV
+W
+​W
+​
+O
+V
+W
+​ ∈
+O
+R
+,
+W
+​ ∈
+d
+​×d
+​
+model
+head
+V
+R
+.
+d
+​×d
+​
+head
+model
+rank(AB) ≤min(rank(A), rank(B))
+rank(W
+​) =
+OV
+rank(W
+​W
+​) ≤
+O
+V
+min (rank(W
+​), rank(W
+​)) ≤
+O
+V
+d
+​.
+head
+d
+​ ≪
+head
+dmodel
+W
+​
+OV
+W
+​ =
+OV
+UΣV
+,
+⊤
+U ∈Rd
+​×r
+model
+Σ ∈Rr×r
+σ
+​, … , σ
+​
+1
+r
+V ∈Rd
+​×r
+model
+r = rank(W
+​) ≤
+OV
+d
+​
+head
+X
+​ ∈
+src
+Rd
+​
+model
+W
+​X
+​ =
+OV
+src
+UΣV
+X
+.
+⊤
+src
+α = V
+X
+​ ∈
+⊤
+src
+R ,
+so
+α
+​ =
+r
+k
+V
+​X
+​.
+k
+⊤
+src
+Σα =
+​
+​
+​,
+σ
+​α
+​
+1
+1
+⋮
+σ
+​α
+​
+r
+r
+U
+UΣα =
+​(σ
+​α
+​)U
+​ =
+k=1
+∑
+r
+k
+k
+k
+​σ
+​(V
+​X
+​)U
+​.
+k=1
+∑
+r
+k
+k
+⊤
+src
+k
+​
+W
+​X
+​ =
+​σ
+​(V
+​X
+​)U
+​
+OV
+src
+k=1
+∑
+r
+k
+k
+⊤
+src
+k
+correct
+correct
+correct
+Type text here
+
+
+--- Page 9 ---
+9/25
+Read subspace: The head first projects 
+ onto the directions 
+ via 
+. So
+the head can only “read” components of 
+ lying in
+Write subspace: The output is a linear combination of the vectors 
+. So the head
+can only “write” into
+Information orthogonal to the read subspace:
+If 
+ is orthogonal to all 
+, then 
+ for all , so
+Thus any component of 
+ orthogonal to span
+ is completely ignored
+by the OV circuit (it cannot be read or propagated by this head).
+(iv) Connection to the value projection 
+The value vector is
+The first matrix that touches 
+ in the OV circuit is 
+, so:
+ can only “see” components of 
+ lying in the row space of 
+, which is the
+same as the column space of 
+ and has dimension at most 
+.
+The read subspace span
+ is a subspace of this row space, since
+ and the SVD’s 
+ lives inside the space of directions that affect
+.
+Therefore it is natural that the read subspace dimension 
+ is at most
+: the head cannot read more independent directions than can be encoded in its
+-dimensional value vector .
+(v) Synthesis: Heads as information-moving channels
+Conceptually, each attention head moves information “from the residual stream of one
+token to another.” The SVD
+gives a complete description of this movement:
+ defines which directions in the source residual stream can be read (the read
+subspace).
+ sets the strength or gain of each read-write channel (how strongly each feature
+is transmitted).
+ defines which directions in the destination residual stream those features are
+written into (the write subspace).
+The attention pattern 
+ from the QK circuit decides which tokens are read from and
+with what weights; the OV SVD tells us what content of each source token is extracted
+W
+​X
+​ =
+OV
+src
+​σ
+​(V
+​X
+​)U
+​,
+k=1
+∑
+r
+k
+k
+⊤
+src
+k
+X
+​
+src
+V
+​k
+V
+X
+​
+⊤
+src
+X
+​
+src
+​.
+Read subspace = span(V
+​, … , V
+​)
+1
+r
+U
+​k
+​.
+Write subspace = span(U
+​, … , U
+​)
+1
+r
+X
+​
+src
+V
+​k
+V
+​X
+​ =
+k
+⊤
+src
+0
+k
+W
+​X
+​ =
+OV
+src
+0.
+X
+​
+src
+(V
+​, … , V
+​)
+1
+r
+W
+​
+V
+v = W
+​X
+​ ∈
+V
+src
+R
+.
+d
+​
+head
+Xsrc
+W
+​
+V
+W
+​
+V
+X
+​
+src
+W
+​
+V
+W
+​
+V
+⊤
+d
+​
+head
+(V
+​, … , V
+​)
+1
+r
+W
+​ =
+OV
+W
+​W
+​
+O
+V
+V
+W
+​X
+​
+V
+src
+r = rank(W
+​)
+OV
+d
+​
+head
+d
+​
+head
+v
+W
+​ =
+OV
+UΣV ⊤
+V
+Σ
+U
+A
+correct
+correct
+
+
+--- Page 10 ---
+10/25
+and where it is written. Each singular triplet 
+ can be viewed as a specialized
+communication channel that transports one scalar feature from direction 
+ at the
+source token to direction 
+ at the destination token, scaled by 
+.
+(V
+​, σ
+​, U
+​)
+k
+k
+k
+V
+​k
+U
+​k
+σ
+​k
+Answer this homework problem HW11 Q4
+Here’s how I’d answer Q4 in words (you’ll still need to paste your actual plots from the
+notebook into your write-up):
+(a) Linear regression + SGD
+From the sweeps in the notebook:
+For each fixed batch size, the curve of learning rate vs. final MSE is U-shaped:
+very small learning rates give slow learning (high MSE), very large ones explode /
+diverge (high MSE), and there is an intermediate optimal learning rate where MSE
+is minimized.
+If we then plot optimal learning rate 
+ versus batch size 
+ across all the batch
+sizes, the points lie approximately on a straight line through the origin.
+So the scaling law is:
+i.e. the optimal learning rate grows roughly linearly with batch size (the “linear scaling
+rule”).
+(b) MLP instead of linear regression (still using SGD)
+Repeating the same experiment with a small MLP:
+For each batch size we again see a U-shaped curve of MSE vs. learning rate,
+though the curves are noisier and the “good” region of learning rates can be
+narrower.
+When we plot optimal learning rate 
+ versus batch size, the points still follow
+approximately a linear relationship, but with more scatter and some saturation at
+very large batch sizes.
+So the scaling law for the MLP is qualitatively similar to linear regression—optimal  still
+grows roughly linearly with 
+—but it is less clean and more approximate because of the
+η\*
+B
+η
+∝
+\*
+B,
+η\*
+η
+B
+Q4 is all correct
+
+
+--- Page 11 ---
+11/25
+non-convex training dynamics.
+(c) Using Adam instead of SGD
+When we redo the sweeps with Adam:
+The curves of MSE vs. learning rate for different batch sizes are much more similar
+to each other.
+The same learning rate works reasonably well over a wide range of batch sizes,
+and the plot of optimal 
+ vs. 
+ is almost flat (very weak dependence on 
+)
+instead of clearly linear.
+So with Adam, the scaling law changes: there is much weaker (almost no) need to
+scale the learning rate with batch size. Adaptive normalization of gradients in Adam
+partly cancels the effect of changing batch size, so the optimal learning rate is far less
+sensitive to 
+ than it is for vanilla SGD.
+η\*
+B
+B
+B
+Answer this homework problem HW11 Q5
+I’ll go sub-part by sub-part for Q5. I’ll keep the algebra but not over-explain every tiny
+step.
+(b) Chinchilla scaling law (symbolic + numeric)
+We minimize
+subject to the compute constraint
+Step 1: eliminate one variable
+From 
+ we can write
+Plug into 
+:
+L(N, D) =
+​ +
+N α
+A
+​ +
+Dβ
+B
+L
+​0
+C = C
+​ND
+(with fixed C).
+0
+C = C
+​ND
+0
+D =
+​.
+C
+​N
+0
+C
+L
+L(N) =
+​ +
+N α
+A
+B
+​
++
+( C
+C
+​N
+0
+)
+β
+L
+​ =
+0
+AN
++
+−α
+KN
++
+β
+L
+​,
+0
+Q5 is all correct
+The contrast between SGD and Adam here is clear.
+I like how Adam's adaptive normalization essentially 'cancels out' the batch size effect, 
+making it much more robust to hyperparameter choices.
+
+
+--- Page 12 ---
+12/25
+where 
+.
+Step 2: set derivative to zero
+So
+Thus
+Then 
+ comes from 
+:
+So in general,
+Step 3: plug in numbers
+Given
+we get numerically
+exponent on 
+ for 
+: 
+;
+exponent on 
+ for 
+: 
+;
+prefactors:
+So approximately
+(c) Using the fitted Chinchilla laws
+Now we switch to the empirically fitted laws (given in the problem):
+K = B C
+​/C
+0
+β
+β
+​ =
+dN
+dL
+−αAN
++
+−α−1
+βKN
+=
+β−1
+0.
+αAN
+=
+−α−1
+βKN β−1
+⇒αA = βKN α+β
+⇒N
+=
+α+β
+​ =
+βK
+αA
+​C .
+βBC
+​
+0
+β
+αA
+β
+​.
+N
+​(C) =
+​
+C
+opt
+(
+βBC
+​
+0
+β
+αA )
+​
+α+β
+1
+​
+α+β
+β
+D
+​
+opt
+C
+​ND =
+0
+C
+D
+​(C) =
+opt
+​ =
+C
+​N
+​(C)
+0
+opt
+C
+​
+​
+C
+.
+C
+​0
+1 ( αA
+βBC
+​
+0
+β
+)
+​
+α+β
+1
+​
+α+β
+α
+​
+​
+​
+N
+​(C)
+opt
+D
+​(C)
+opt
+=
+​
+C
+,
+(
+βBC
+​
+0
+β
+αA )
+​
+α+β
+1
+​
+α+β
+β
+=
+​
+​
+C
+.
+C
+​0
+1 ( αA
+βBC
+​
+0
+β
+)
+​
+α+β
+1
+​
+α+β
+α
+α = 0.34, β = 0.28, A = 406.4, B = 410.7, C
+​ =
+0
+6,
+C
+N
+​ ≈
+α + β
+β
+0.4516
+C
+D
+​ ≈
+α + β
+α
+0.5484
+c
+​ ≈
+N
+0.60,
+c
+​ ≈
+D
+0.28.
+​
+​
+​
+N
+​(C)
+opt
+D
+​(C)
+opt
+≈0.60 C
+,
+0.452
+≈0.28 C
+.
+0.548
+
+
+--- Page 13 ---
+13/25
+We want a model with
+From
+:
+Dataset size:
+tokens.
+Answer:
+Training compute:
+.
+Training tokens:
+.
+(d) Dataset size in books
+Take a round number of
+trillion tokens
+tokens.
+1. Words
+Each word ≈ 1.4 tokens, so:
+2. Pages and books
+400 words/page ⇒
+pages.
+300 pages/book ⇒
+books.
+So
+tokens is roughly 6 billion books.
+For comparison:
+Library of Congress has on the order of
+books.
+Google Books has digitized over 40 million books.
+So our training corpus would be ~150× the Library of Congress and ~150× all books in
+Google Books.
+(e) Memory requirement
+Each parameter is a 16-bit float ⇒ 2 bytes.
+1. 1 billion parameters
+2. GPT-6 with 1 trillion parameters
+N
+​(C) =
+opt
+0.1 C
+,
+D
+​(C) =
+0.5
+opt
+1.7 C
+.
+0.5
+N = 10
+parameters.
+14
+N = 0.1C0.5
+C
+=
+0.5
+=
+0.1
+N
+10N = 10
+⇒
+15
+C = (10 ) =
+15 2
+10  FLOPs.
+30
+D = 1.7C
+=
+0.5
+1.7 × 1015
+​
+C ≈10  FLOPs
+30
+​
+D ≈1.7 × 10  tokens
+15
+1000
+= 1015
+words ≈
+≈
+1.4
+1015
+7.1 × 10  words.
+14
+pages ≈
+≈
+400
+7.1 × 1014
+1.8 × 1012
+books ≈
+≈
+300
+1.8 × 1012
+6 × 109
+1015
+3–4 × 107
+N = 10 ,
+memory =
+9
+2 × 10  bytes ≈
+9
+2 GB.
+
+
+--- Page 14 ---
+14/25
+3. H200 GPUs (100 GB each) needed
+2 TB = 2000 GB ⇒
+(just to store the parameters, ignoring activations/optimizer state and overhead).
+(f) Memory cost (storage)
+Now use 100 trillion parameters, still 2 bytes each.
+Size = 
+ bytes
+≈ 
+ MB = 200 million MB
+≈ 200 TB.
+Using 2025 prices per MB:
+SSD/Flash: $0.00005 / MB
+Cost/year:
+DRAM: $0.0040 / MB
+Cost:
+So long-term SSD storage is “only” about $10k/year; keeping it live in DRAM
+continuously is ~$0.8M/year.
+(g) Memory bandwidth and latency
+Bandwidth of H200: 4.8 TB/s =
+bytes/s.
+GPT-6 with 100T parameters
+Parameters:
+.
+Size:
+bytes = 200 TB.
+Time to stream all parameters once (one forward pass):
+That’s the minimal latency per token in an autoregressive model (one forward per new
+token).
+Tokens per minute:
+So:
+GPT-3 (175B parameters)
+N = 10 ,
+memory =
+12
+2 × 10  bytes ≈
+12
+2 TB.
+#GPUs =
+≈
+100
+2000
+20 H200s
+2 × 1014
+2 × 108
+2 × 10 ×
+8
+5 × 10
+=
+−5
+1.0 × 10 ≈
+4
+​.
+$10,000 per year (SSD)
+2 × 10 ×
+8
+4 × 10
+=
+−3
+8 × 10 =
+5
+​.
+$800,000 per year (DRAM)
+4.8 × 1012
+1014
+2 × 1014
+t =
+≈
+4.8 × 1012
+2 × 1014
+41.7 s.
+≈
+41.7
+60
+1.4 tokens/min.
+t
+​ ≈42 s/token
+GPT-6
+≈1–2 tokens per minute
+
+
+--- Page 15 ---
+15/25
+Params: 
+Size: 
+ bytes ≈ 350 GB.
+So:
+≈ 14 tokens/s ≈ 820 tokens/min.
+(h) Training compute and dollar cost
+1 petaFLOP-day
+1 petaFLOP = 
+ FLOP/s.
+1 day = 86400 s.
+H200 “petaFLOP-days per hour”
+H200 speed = 1.98 petaFLOP/s.
+In one hour:
+So
+At $1.50 per GPU-hour:
+GPT-3 training
+Given 3640 PF-days:
+(Real training was much more expensive because older/slower hardware, lower
+utilization, and lots of restarts.)
+GPT-6 training (100T parameters)
+From part (c): 
+ FLOPs.
+Convert to PF-days:
+Cost at $18 per PF-day:
+≈ $210 billion in pure compute rent.
+1.75 × 1011
+3.5 × 1011
+t =
+​ ≈
+4.8 × 1012
+3.5 × 1011
+0.073 s.
+​
+t
+​ ≈0.07 s/token
+GPT-3
+1015
+1 petaFLOP-day = 10
+×
+15
+86400 = 8.64 × 10  FLOPs.
+19
+1.98 
+​ ×
+s
+PF
+3600 s = 7128 PF = 7128/86400 PF-days
+⇒1 H200-hour ≈0.0825 PF-day.
+1 PF-day ≈12.1 H200-hours.
+cost per PF-day ≈12.1 × 1.5 ≈
+​.
+$18
+cost ≈3640 × 18 ≈
+​.
+$6.6 × 10  ($66k)
+4
+C ≈1030
+PF-days =
+​ ≈
+8.64 × 1019
+1030
+1.16 × 10  PF-days.
+10
+cost ≈1.16 × 10
+×
+10
+18 ≈
+​
+2.1 × 10  USD
+11
+
+
+--- Page 16 ---
+16/25
+Wall-clock with 30M H200s
+Total H200-hours:
+With 30 million GPUs:
+So ~6 months of continuous perfect-utilization training.
+Scale of cost
+$210B is:
+More than the Apollo program (~$178B in 2022 dollars).
+Roughly an order of magnitude larger than a large commercial R&D project, and
+squarely in major-nation-state territory.
+So this hypothetical GPT-6 is at the scale of “large country or global consortium”, not a
+single typical tech company.
+(j) Inference cost
+Assume GPT-5 has 
+ parameters.
+Each token: about 2 FLOPs per parameter ⇒
+For 1 million tokens:
+H200 time and cost
+Speed: 
+ FLOP/s.
+Time:
+GPU-hours:
+per million tokens (at 100% utilization on one H200).
+Tokens to recoup $1B development cost
+OpenAI charges $120 / 1M tokens.
+Revenue per 1M tokens = $120. To recoup $1B:
+Tokens:
+1.16 × 10  PF-days ×
+10
+12.1 
+​ ≈
+PF-day
+H200-hr
+1.4 × 10  H200-hours.
+11
+wall-clock hours =
+​ ≈
+3 × 107
+1.4 × 1011
+4.7 × 10  hr ≈
+3
+195 days ≈0.53 years.
+1012
+FLOPs per token = 2 × 10 .
+12
+FLOPs = 2 × 10
+×
+12
+10 =
+6
+2 × 10 .
+18
+1.98 × 1015
+t =
+​ ≈
+1.98 × 1015
+2 × 1018
+1.01 × 10  s ≈
+3
+17 min.
+0.28 hr
+⇒
+cost ≈0.28 × $1.50 ≈
+​
+$0.42
+# of 1M-token batches =
+​ ≈
+120
+109
+8.33 × 10 .
+6
+8.33 × 10 ×
+6
+10 ≈
+6
+8.3 × 10  tokens.
+12
+
+
+--- Page 17 ---
+17/25
+Each essay: 1000 words × 1.4 tokens/word = 1400 tokens.
+Essays needed:
+So roughly 6 billion essays worth of usage just to pay back $1B in development/training.
+(k) Energetic cost (Landauer limit)
+Landauer energy per bit at room temperature (given):
+A 32-bit FLOP is modeled as losing 32 bits of information, so
+Minimal power for H200-class throughput
+Throughput: 1.98 PFLOP/s = 
+ FLOP/s.
+Minimal power:
+Actual H200 power is ~700 W, so the hardware runs about
+times above the Landauer limit (about 3–4 million× the theoretical minimum).
+(l) Environmental cost
+GPT-3 training emissions: 552 tCO .
+Carbon price: $112 per tCO .
+Carbon cost:
+≈ $62k.
+Training cost on A100 GPUs: $6M (given). So including a $62k carbon price increases
+cost by only about 1%, to ≈ $6.06M.
+Burger equivalent
+552 tCO  = 552,000 kg CO .
+1 kg beef → 50 kg CO . So:
+One burger has 113 g = 0.113 kg beef:
+​ ≈
+1400
+8.3 × 1012
+6.0 × 109
+E
+​ =
+bit
+k
+​T ln 2 ≈
+B
+3 × 10
+ J.
+−21
+E
+​ =
+FLOP
+32E
+​ ≈
+bit
+32 × 3 × 10
+=
+−21
+9.6 × 10
+ J/FLOP.
+−20
+1.98 × 1015
+P
+​ =
+min
+E
+​ ×
+FLOP
+FLOPs/s = 9.6 × 10
+×
+−20
+1.98 × 10
+≈
+15
+1.9 × 10
+ W.
+−4
+​ ≈
+1.9 × 10−4
+700
+3.7 × 106
+​2
+​2
+552 × 112 ≈
+​
+$6.2 × 104
+​2
+​2
+​2
+beef mass =
+​ =
+50
+552,000
+11,040 kg of beef.
+burgers ≈
+​ ≈
+0.113
+11,040
+9.8 × 10 .
+4
+
+
+--- Page 18 ---
+18/25
+So training GPT-3 is roughly equivalent to the emissions from about 
+ hamburgers.
+105
+Answer this homework problem HW11 Q6
+Here are concise answers for Q6.
+(a) Which output tokens go into the loss?
+We want the model to learn both the chain-of-thought reasoning and the final answer
+(plus the newline), but not to waste loss on the question or padding.
+Input positions:
+51–70: chain-of-thought tokens
+71: answer
+72: newline
+Because the target sequence is shifted left by 1, these correspond to target tokens 50–
+71.
+So the loss is computed only on output positions 50–71, i.e. those whose target tokens
+are the reasoning tokens, the answer token, and the newline. We do not include loss on
+prompt, question, or padding tokens.
+(b) How many parameters are trained?
+The base GPT model is frozen; only the soft prompt is trained.
+Soft prompt: 5 learned vectors at the input,
+each lives in the token-embedding space of dimension 
+.
+So the number of trainable parameters is
+(Independent of 
+; all of those correspond to frozen parameters.)
+(c) True/False with brief explanations
+(i) Precomputing prompt representations
+True.
+E
+​.
+5E
+S, V , H, L, D
+If you are using an autoregressive GPT model … it’s possible to precompute the
+representations at each layer for the indices corresponding to prompt tokens …
+
+
+--- Page 19 ---
+19/25
+With a causal mask, the first 
+ tokens (the prompt) can only attend to earlier prompt
+tokens, not to the question tokens that follow. Thus their hidden states at every layer
+depend only on the soft-prompt vectors themselves, not on the question. If the same
+soft prompt is used for all examples in a batch, we can compute those representations
+once per step and reuse them for all sequences; gradients from all examples then
+accumulate onto the same prompt parameters.
+(ii) Best hard prompt vs best soft prompt
+True.
+A hard prompt is just a special case of a soft prompt where each prompt vector equals
+one row of the embedding matrix (i.e. the embedding of some vocabulary token). The
+space of soft prompts strictly contains all hard prompts plus many others. Optimizing
+over a superset can only give equal or lower loss, so the best soft prompt is at least as
+good as the best hard prompt.
+(iii) Full finetuning is always better than soft prompting
+False.
+Full finetuning has more degrees of freedom, but that does not guarantee better
+validation performance: it can overfit, destabilize optimization, or destroy capabilities on
+other tasks (catastrophic forgetting). Soft prompting keeps the base model fixed and
+often acts as a strong regularizer; for some tasks it can generalize better than an
+unconstrained full-finetune.
+(iv) Catastrophic forgetting across tasks
+False.
+Catastrophic forgetting happens when you change the shared model parameters. In
+soft-prompt tuning the base GPT weights are frozen; only the Task-A prompt is updated.
+Task B uses its own prompt, and the underlying language model is unchanged, so Task-
+B performance does not degrade just because you trained a different prompt for Task A.
+(d) How to adapt MAML-style meta-learning to soft prompting?
+We have a family of related tasks, each solvable by the same frozen GPT model plus a
+task-specific soft prompt. We want to meta-learn so that, for a new task, we can get a
+good prompt with only a few gradient steps on a small dataset.
+K
+The best possible 
+-token soft prompt will always be equal or better than the best
+possible 
+-token hard prompt.
+K
+K
+If you are not constrained by computational cost, then fully finetuning the language
+model is always guaranteed to be a better choice than soft prompt tuning.
+If you train a soft prompt on Task A, then performance on Task B with its own soft
+prompt might decrease due to catastrophic forgetting.
+
+
+--- Page 20 ---
+20/25
+A MAML-style approach:
+1. Meta-parameters.
+Let  be the shared initialization of a 
+-vector soft prompt (or parameters of a
+small network that outputs such a prompt). GPT weights stay frozen.
+2. Inner loop (task-specific adaptation).
+For each training task 
+:
+Start from the meta-prompt .
+Using a small training set 
+, take a few gradient steps on  to obtain a
+task-specific prompt 
+ (updating only prompt vectors).
+This simulates how we would adapt to a new task at test time.
+3. Outer loop (meta-update).
+Evaluate 
+ on a separate validation split 
+ for each task, computing the
+loss of GPT + prompt 
+.
+Backpropagate through the inner-loop updates and update the meta-
+parameters  to minimize the average validation loss across tasks.
+4. At test time (new task from the family).
+Initialize its prompt with .
+Given a small dataset of examples for the new task, take a few gradient steps
+to get a new prompt 
+.
+Use GPT + 
+ to solve that task.
+Intuitively, meta-learning trains  to be a “good starting prompt” that already encodes
+general reasoning patterns shared across the task family, so that only a few gradient
+steps are needed to specialize it to a new math-problem style or instruction format.
+ϕ
+K
+T
+​i
+ϕ
+D
+​
+i
+train
+ϕ
+ϕ
+​i
+′
+ϕ
+​i
+′
+D
+​
+i
+val
+ϕ
+​i
+′
+ϕ
+ϕ
+ϕ
+​
+new
+′
+ϕ
+​
+new
+′
+ϕ
+Answer this homework problem HW11 Q7
+Here’s a clean set of answers for Q7.
+(a) Pruning
+(i) Common characteristics of the weight distributions
+Across layers, the histograms typically show:
+Zero-centered distributions (mean very close to 0).
+Approximately bell-shaped (roughly Gaussian / Laplacian).
+Most weights are small in magnitude, with only a small fraction of large positive or
+negative weights (heavy concentration near 0, long thin tails).
+(ii) How do these characteristics help pruning?
+
+
+--- Page 21 ---
+21/25
+Because most weights are very close to zero:
+We can set small-magnitude weights to exactly zero with little effect on the
+layer’s output (their contribution to activations is tiny).
+The signal is carried mostly by the relatively few large weights, so pruning small
+ones gives high sparsity with small accuracy loss.
+This makes magnitude-based pruning a reasonable heuristic: prune weights whose
+absolute value is below a threshold.
+(iii) Relationship between pruning sparsity and model accuracy
+From typical sensitivity curves:
+As sparsity increases, accuracy generally decreases.
+For low to moderate sparsity (e.g. up to some threshold like 50–80%, depending
+on the model), accuracy stays almost flat.
+Past a critical sparsity level, accuracy drops sharply because important weights or
+channels are being removed.
+So: accuracy is roughly stable at first, then degrades as sparsity becomes very high.
+(iv) Do all layers have the same sensitivity?
+No.
+Different layers have different sensitivities to pruning:
+Some layers can be pruned very aggressively with little effect on accuracy.
+Others cause a large accuracy drop even with modest pruning.
+So sensitivity is layer-dependent.
+(v) Which layer is most sensitive?
+In many CNN / vision models and small MLPs:
+The first layer (closest to raw input) and the final classifier layer are usually the
+most sensitive, because
+the first layer directly processes raw information, and
+the last layer directly maps to class logits.
+So the most sensitive layer is typically one of the early layers or the final layer; these
+should be pruned the least aggressively.
+(If your notebook labeled a specific layer as the worst, you can name that one explicitly
+in your write-up.)
+(vi) (Optional) Why does removing 30% of channels give ~50% compute
+reduction?
+For a convolutional (or linear) layer:
+FLOPs scale roughly with (input channels) × (output channels).
+
+
+--- Page 22 ---
+22/25
+If you prune 30% of channels, you’re reducing both the number of inputs and
+outputs for many layers.
+Roughly, compute scales like 
+, i.e. about half the original
+compute.
+So removing 30% of channels in both dimensions yields ~50% fewer MACs.
+(vii) (Optional) Why is latency reduction < computation reduction?
+Reasons:
+Hardware has fixed overheads (kernel launches, memory access, control logic) that
+don’t shrink with FLOP count.
+Parallel hardware (GPU / NPU) is often under-utilized after pruning; you don’t get
+perfect scaling with sparsity.
+Caches, memory bandwidth and framework overheads also limit speed.
+So even if computation is reduced by ~50%, wall-clock latency might only drop by, say,
+30–40%.
+(viii) (Optional) Fine-grained vs channel pruning
+Fine-grained pruning (individual weights):
+Pros
+Very high compression ratios (lots of zeros).
+Can preserve accuracy well if done carefully.
+Cons
+Irregular sparsity pattern; hard for standard hardware to exploit.
+Dense libraries (cuDNN, BLAS) can’t use it efficiently ⇒ small speedups without
+specialized sparse kernels / accelerators.
+Overhead for storing sparse indices.
+Channel / filter pruning (structured):
+Pros
+Removes entire channels / filters ⇒ resulting tensors are still dense but smaller.
+Works well with existing dense kernels ⇒ gives real speedups and latency
+gains.
+Easier to implement on commodity hardware (CPUs, mobile GPUs, NPUs).
+Cons
+Less flexible; pruning whole channels is coarser ⇒ can hurt accuracy more for
+the same parameter reduction.
+(ix) (Optional) Which pruning for smartphones?
+On a smartphone I’d choose channel (structured) pruning, because:
+Mobile hardware and libraries are optimized for dense convolutions / GEMMs, not
+irregular sparsity.
+Channel pruning reduces tensor shapes directly, so it translates to real latency and
+energy improvements.
+(0.7 × 0.7) = 0.49
+
+
+--- Page 23 ---
+23/25
+Fine-grained sparsity often needs special kernels that mobile NPUs/GPUs may not
+support well.
+(b) Quantization
+(i) 4-bit k-means quantization: how many unique values?
+4 bits can encode 
+ distinct indices, so:
+(ii) n-bit k-means quantization: how many unique values?
+Similarly, n bits can encode 
+ distinct centroids:
+(iii) Why does low-precision quantization work at all?
+Several reasons:
+Neural nets are over-parameterized and robust to noise; small quantization errors
+in weights/activations rarely change the final prediction.
+Redundancy: many weights are small or correlated; precise 32-bit values are not
+necessary to represent the function.
+Quantization-aware training lets the model adapt to the quantization noise,
+learning weight configurations that are stable under rounding.
+Activations and gradients often live in a limited dynamic range, so few bits can
+approximate them well.
+Thus even 4-bit (or 2-bit) precision is often enough to maintain high accuracy.
+(iv) Which S is correct in linear quantization?
+We have linear quantization:
+Subtracting:
+So
+Among the multiple-choice formulas, that’s the third one.
+(v) Which Z is correct?
+2 =
+4
+16
+​
+16 unique colors / quantized values.
+2n
+​
+2  unique values.
+n
+r = S(q −Z),
+r
+​ =
+max
+S(q
+​ −
+max
+Z),
+r
+​ =
+min
+S(q
+​ −
+min
+Z).
+r
+​ −
+max
+r
+​ =
+min
+S((q
+​ −
+max
+Z) −(q
+​ −
+min
+Z)) = S(q
+​ −
+max
+q
+​).
+min
+​.
+S =
+​
+q
+​ −q
+​
+max
+min
+r
+​ −r
+​
+max
+min
+
+
+--- Page 24 ---
+24/25
+From
+In integer quantization we round to the nearest integer:
+So conceptually both
+ (exact real) and
+ (integer implementation)
+are “correct”; the second listed option (with int(round(q_min - r_min/S)) ) is the
+practical integer formula.
+(vi) (Optional) Why is there no ReLU in the linear-quantized model?
+In a linear quantized model we:
+Restrict activations to a fixed integer range (e.g. 0…255 or −128…127) via
+quantization.
+For ReLU, which clips negative values to 0, the effect can be absorbed into the
+quantization range: choose 
+ (and corresponding q range) so that all
+negative values are already clipped before/when we quantize.
+Because the quantization step itself enforces clipping and range restriction, an explicit
+ReLU layer becomes redundant and is often fused away for efficiency.
+(vii) (Optional) k-means vs linear quantization
+k-means quantization:
+Uses a learned codebook of values (centroids), so levels are non-uniform.
+Pros
+Can match the data distribution better ⇒ higher accuracy for the same bit
+budget.
+Good compression for weights when combined with index coding.
+Cons
+Requires lookup tables and indirection; harder to run at high speed.
+Hardware support is limited; not as friendly to standard integer MAC units.
+More overhead in training and deployment.
+Linear quantization:
+Uniform spacing between quantized levels defined by scale  and zero-point 
+.
+Pros
+Very simple: integer add/multiply with fixed scaling, great hardware support
+(CPUs, GPUs, TPUs, mobile NPUs).
+Easy to fuse with other operations; low latency.
+Cons
+Uniform grid may be suboptimal if the real values are highly skewed.
+For the same bit width, can have slightly worse accuracy than a good non-
+uniform scheme such as k-means.
+r
+​ =
+min
+S(q
+​ −
+min
+Z)
+⇒
+q
+​ −
+min
+Z =
+​
+⇒
+S
+r
+​
+min
+Z = q
+​ −
+min
+​.
+S
+r
+​
+min
+​.
+Z = int(round(q
+​ −r
+​/S))
+min
+min
+Z = q
+​ −
+min
+r
+​/S
+min
+Z = int(round(q
+​ −
+min
+r
+​/S))
+min
+r
+​ ≥
+min
+0
+S
+Z
+
+
+--- Page 25 ---
+25/25
+So: k-means quantization often gives better compression/accuracy trade-off but is more
+complex and slower; linear quantization is simpler and much better supported in real
+hardware.

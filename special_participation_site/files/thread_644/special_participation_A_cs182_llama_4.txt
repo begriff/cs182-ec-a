@@ -1,0 +1,907 @@
+--- Page 1 ---
+Special Participation A: CS182 Homework 11
+Model: Google Gemini Pro 3
+Hiya Shah
+December 7, 2025
+Question 1: LoRA
+USER PROMPT:
+Please start by solving #1. (Parts a, b, c, d)
+GEMINI RESPONSE:
+Here is the solution for Question #1 from the Homework 11 PDF.
+Problem Statement
+1. LORA
+A common strategy for adapting a large pre-trained model to a new task is to update
+only a subset of its parameters, keeping the rest frozen. Low-Rank Adaptation (LoRA) o!ers
+a more ﬂexible approach to this idea. In this problem, we focus on a single weight matrix W
+with m rows and l columns, where W0 is the pre-trained value. During LoRA-based training,
+W is replaced by W0 + AB where W0 remains frozen and only A and B are learnable. Here,
+A is an m →k matrix and B is k →l matrix, typically with k ↑min(m, l).
+(a) Suppose you are using LORA to adapt a pretrained deep neural net to a new task
+and observe that the model is "underﬁtting" the training data. What would you try to
+adjust in the LoRA to get better performance?
+(b) Suppose both A and B are initialized to all zeros. Why will this cause problems for
+LoRA-based ﬁnetuning? Remember, this is going to be trained using SGD-style updates
+over a training set with a loss function.
+(c) Consider the following pseudocode for LoRA initialization:
+A = torch.nn.Parameter(torch.empty(m, k))
+B = torch.nn.Parameter(torch.empty(k, l))
+torch.nn.init.xavier_uniform_(A)
+torch.nn.init.xavier_uniform_(B)
+Why might LoRA ﬁne-tuning not work well with this initialization?
+(d) How much memory is required to store the LoRA adaptation weights (A and B)?
+Assume we are using ﬂoats (4 bytes per real number) and give your answer in bytes. How
+does this compare to storing a single full-rank adaptation matrix?
+1
+>
+Overall
+thoughts :
+- performed well
+on
+proof-based
+a 's
+- performed
+poorly
+on
+formula
+den'vature,
+especially
+for recent
+paper that
+may
+not
+be
+in its
+training
+data
+·
+- also
+performed
+poony
+on the apu
+calculations
+↓in
+an earlier
+prompt
+I asked the
+model
+to
+ourput the
+problem
+statement
+before solving
+the
+question.
+I also
+asked
+it to go
+part by partto avoid
+context rot
+.
+I
+found
+it
+interesting that the model generally
+did not
+nallusinate
+on
+the
+problem
+statement
+at
+all
+
+
+--- Page 2 ---
+Solutions and Explanations
+Part (a)
+Explanation: Underﬁtting occurs when the model lacks the capacity (complex-
+ity) to capture the underlying patterns in the training data. In the context of LoRA, the
+capacity of the adaptation is directly constrained by the rank k. A small k limits the update
+matrix !W = AB to a low-rank subspace, restricting the types of changes that can be made
+to the pre-trained weights. To allow the model to learn more complex adaptations and ﬁt
+the data better, you need to increase the expressiveness of the update.
+Answer: You should increase the rank k. Increasing k adds more trainable parameters
+and increases the capacity of the adaptation, allowing the model to ﬁt the training data
+more closely.
+Part (b)
+Explanation: The weight update is given by W = W0 +AB. During backprop-
+agation, we compute gradients with respect to A and B. By the chain rule (ignoring the
+loss function derivative term for a moment), the gradients for the matrices generally take
+the form:
+• Gradient w.r.t A: ωL
+ωA ↓ωL
+ωW BT
+• Gradient w.r.t B:
+ωL
+ωB ↓AT ωL
+ωW
+If both A and B are initialized to zero (A = 0, B = 0):
+1. The forward pass is e!ectively just the pre-trained model (W0 + 0), which is ﬁne.
+2. However, in the backward pass, the gradient for A depends on B (which is 0), resulting
+in ωL
+ωA = 0.
+3. Similarly, the gradient for B depends on A (which is 0), resulting in ωL
+ωB = 0.
+Since the gradients are zero, the parameters A and B will never be updated by SGD, and
+the model will remain at the initial state (W0) forever.
+Answer: Initializing both to zero causes the gradients for both A and B to be zero
+(vanishing gradients). Since the gradient of A depends on B and vice versa, if both are zero,
+no learning signal can backpropagate to updated the weights, and the model stays frozen at
+W0.
+Part (c)
+Explanation: The goal of LoRA is to start ﬁne-tuning from the pre-trained
+model’s performance. Ideally, at step 0, the model should be equivalent to the pre-trained
+model, implying we want the update AB to be zero initially. Standard LoRA initialization
+typically sets A to random Gaussian values and B to zero (or vice versa), ensuring that
+AB = 0. If you use Xavier (random) initialization for both A and B, the product AB will
+be a non-zero random matrix. This means:
+Winitial = W0 + RandomNoise
+This immediately perturbs the well-tuned pre-trained weights W0 with random noise. This
+can drastically degrade the model’s initial performance (increasing loss) and may lead to
+training instability or optimization di"culties, as the model has to "unlearn" this noise
+before it can improve.
+Answer: This initialization results in AB ↔= 0, adding random noise to the pre-trained
+weights W0 right at the start. This destroys the beneﬁt of starting from the optimal pre-
+trained state, likely causing a spike in loss and potential training instability.
+2
+correct
+- correct ,
+-) u +
+it doesn't
+mention
+when
+either
+A
+or B
+are
+o
+( +ne
+typical
+initializ
+approach
+&
+
+
+--- Page 3 ---
+Part (d)
+Explanation: We need to calculate the storage for matrices A and B:
+• Matrix A has dimensions m →k.
+• Matrix B has dimensions k →l.
+• Total elements = mk + kl = k(m + l).
+• Using 4-byte ﬂoats, total bytes = 4 →k(m + l).
+A full-rank adaptation matrix (updating W directly) would have dimensions m →l:
+• Total elements = ml.
+• Total bytes = 4ml.
+Comparing the two:
+Ratio = 4k(m + l)
+4ml
+= k
+!1
+l + 1
+m
+"
+Since k ↑m and k ↑l, the LoRA memory requirement is signiﬁcantly smaller.
+Answer:
+• Memory required: 4k(m + l) bytes (or 4(mk + kl) bytes).
+• Comparison: This is signiﬁcantly less memory than a single full-rank adaptation
+matrix (which requires 4ml bytes), as k ↑min(m, l).
+USER PROMPT:
+For part b, how are gradients for A and B usually initialized instead?
+GEMINI RESPONSE:
+For standard LoRA (Low-Rank Adaptation), the matrices A and B are usually initialized
+as follows:
+• Matrix A: Initialized with random Gaussian values (often using Kaiming/He
+initialization).
+• Matrix B: Initialized to exact zeros.
+Why is this done?
+1. Preserves Pre-trained Behavior (Solves Part C): The update rule is W = W0+AB.
+By setting B = 0, the product AB becomes a zero matrix initially.
+W = W0 + A · 0 = W0
+This ensures the model starts ﬁne-tuning *exactly* as the pre-trained model, without any
+added noise that might degrade performance in the ﬁrst few steps.
+2. Enables Learning (Solves Part B): This setup avoids the "vanishing gradient"
+problem seen when both are zero.
+3
+↓correct
+↓
+I decided
+to further
+m
+prompt
+it
+to give
+the
+typical initialization
+instead
+
+
+--- Page 4 ---
+• Gradient for B: The gradient ωL
+ωB depends on A (speciﬁcally ↓AT ωL
+ωW ). Since A is
+random (non-zero), the gradient for B is non-zero.
+• Result: B will move away from zero in the very ﬁrst update step. Once B is non-zero,
+the gradient for A (which depends on B) becomes non-zero, and both matrices begin
+to learn e!ectively.
+Question 2: Transformer Interpretability
+USER PROMPT:
+please solve question 2 part a
+GEMINI RESPONSE:
+Here is the solution for Question 2, Part (a) from the Homework 11 PDF.
+Problem Statement
+2. A Brief Introduction to Transformer Interpretability (a) The Simplest Trans-
+former (A Zero-Layer Model)
+i. Given a matrix of one-hot input tokens T ↗Rnvocab→ncontext, write the mathematical
+expression for the ﬁnal logits, L ↗Rnvocab→ncontext. Your expression should be in terms of T,
+the token embedding matrix WE and the unembedding matrix WU.
+ii. In simple terms, what algorithm does this zero-layer model implement? What infor-
+mation does the prediction for the token at position t depend on? This reveals the baseline
+functionality of the Transformer architecture before any contextual processing is introduced.
+Solutions and Explanations
+Part (a)(i)
+Answer:
+L = WUWET
+Explanation:
+1. Input: We start with the one-hot token matrix T of shape (nvocab →ncontext).
+2. Embedding: The embedding matrix WE has shape (dmodel →nvocab). To get the
+residual stream X0, we multiply the embedding matrix by the token matrix: X0 =
+WET.
+3. Unembedding: In a zero-layer model, the "ﬁnal" residual stream is simply the initial
+embedding (Xfinal = X0). The unembedding matrix WU has shape (nvocab →dmodel).
+To get the logits L, we project the residual stream back to the vocabulary size: L =
+WUXfinal = WU(WET).
+4
+na
+I correct ,
+but
+I
+would
+11k9
+it
+to
+show
+the
+2-step
+memod
+of arriving
+
+
+--- Page 5 ---
+Part (a)(ii)
+Answer:
+• Algorithm: This model implements a Bigram Model (or a lookup table). It learns
+the statistical likelihood of the next token based solely on the current token, without
+any context from the rest of the sequence. Speciﬁcally, the matrix product WUWE
+results in an (nvocab →nvocab) matrix where the entry (i, j) represents the "score" or
+probability of token i appearing given token j is the input.
+• Dependency: The prediction for the token at position t depends only on the input
+token at position t. Because there are no attention heads or mixing layers, there
+is no mechanism for information to move between di!erent positions (tokens) in the
+sequence.
+USER PROMPT:
+please solve question 2 part b
+GEMINI RESPONSE:
+Here is the solution for Question 2, Part (b) from the Homework 11 PDF.
+Problem Statement
+In the original Vaswani et al. paper... the outputs of all heads are concatenated and then
+multiplied by a single large output matrix. This question asks you to prove this is equivalent
+to an "additive and independent" view. (i) Show that these formulations are equivalent.
+Speciﬁcally, demonstrate how W H
+O can be constructed from the individual W h
+O matrices to
+make the two expressions for Hout identical. (ii) What is an advantage and disadvantage of
+each view?
+Solutions and Explanations
+Part (b)(i): Proof of Equivalence
+Answer: We can construct the large output matrix
+W H
+O by concatenating the individual head output matrices W h
+O horizontally:
+W H
+O =
+#
+W 1
+O
+W 2
+O
+· · ·
+W H
+O
+$
+Explanation: Using the concatenation formula Hout = W H
+O RH:
+Hout =
+#
+W 1
+O
+W 2
+O
+· · ·
+W H
+O
+$
+
+
+r1
+r2
+...
+rH
+
+
+According to the rules of block matrix multiplication:
+Hout = W 1
+Or1 + W 2
+Or2 + · · · + W H
+O rH =
+H
++
+h=1
+W h
+Orh
+This is exactly the expression for the "additive and independent" view.
+5
+f somehow the
+model associated
+this
+term
+even
+though
+the solutions
+didn't
+-
+mention
+it
+&
+this was
+↓perfectly
+solved
+and
+fully
+matched
+the solutions
+
+
+--- Page 6 ---
+Part (b)(ii):
+Advantages and Disadvantages
+Concatenation View (Original
+Vaswani et al.):
+• Advantage: Computational E!ciency. Concatenating operations allows the com-
+puter to perform one large matrix multiplication (GEMM) rather than many small
+ones. GPUs are highly optimized for large matrix operations.
+• Disadvantage: Obscures Interpretability. It treats the layer as a single monolithic
+transformation, making it harder to analyze the speciﬁc role or "circuit" of a speciﬁc
+head.
+Additive / Independent View (Elhage et al.):
+• Advantage: Interpretability. It explicitly models the Residual Stream as a com-
+munication channel where independent agents (heads) read and write information in
+parallel.
+• Disadvantage: Ine!cient Implementation. Writing code that loops over heads
+or performs H separate small matrix multiplications is generally slower on modern
+hardware.
+USER PROMPT:
+please solve question 2 part c
+GEMINI RESPONSE:
+Here is the solution for Question 2, Part (c) from the Homework 11 PDF.
+Problem Statement
+(i) Derive the expression for Sij as a bilinear form involving Xi and Xj and a single "virtual"
+weight matrix WQK. Explicitly deﬁne WQK in terms of WQ and WK. (ii) Consider a toy
+scenario where dModel = 3. Interpret WQK for: (1) Identity, (2) Single non-zero diagonal,
+(3) O!-diagonal, (4) Negative Identity.
+Solutions and Explanations
+Part (c)(i)
+Answer:
+Sij = XT
+i WQKXj
+WQK = W T
+QWK
+Derivation: Sij = QT
+i Kj = (WQXi)T (WKXj) = XT
+i W T
+QWKXj.
+Part (c)(ii)
+1. WQK = I (Identity Matrix)
+• Math: Sij = Xi · Xj.
+• Interpretation: The head looks for similarity. It attends to tokens Xj that are
+most similar (parallel) to the current query token Xi.
+2. WQK has 1 at (0, 0) and 0 elsewhere
+6
+es
+~vara
+Sa
+it
+toe
+&
+
+
+--- Page 7 ---
+• Math: Sij = xi,1 · xj,1.
+• Interpretation: The score depends only on the ﬁrst dimension. The head looks
+for tokens where the ﬁrst feature matches. Information in the 2nd and 3rd dimensions
+is ignored.
+3. O"-Diagonal / Interaction Case
+• Interpretation: This represents a cross-feature interaction. If WQK has a 1 at
+index (u, v), the head looks for tokens where the Key’s v-th feature matches the
+Query’s u-th feature.
+4. WQK = ↘I (Negative Identity)
+• Math: Sij = ↘(Xi · Xj).
+• Interpretation: The head looks for anti-similarity (vectors pointing in opposite
+directions).
+• E"ect on Softmax: It suppresses attention to similar tokens and focuses on
+dissimilar ones (since similar tokens produce large negative scores which softmax drives
+to zero).
+USER PROMPT:
+please solve question 2 part d
+GEMINI RESPONSE:
+Here is the solution for Question 2, Part (d) from the Homework 11 PDF.
+Problem Statement
+(i) Show that the i-th column of X0AT is an attention-weighted average of the source token
+vectors: (X0AT )i = ,ncontext
+j=1
+AijXj
+0. (ii) Write the full expression for the ﬁnal residual
+stream, Xfinal. (iii) Prove that the update vector hi(X0)t must lie within the column space
+of W i
+OV .
+Solutions and Explanations
+Part (d)(i)
+Proof: The element at row r and column i of X0AT is:
+Zr,i =
++
+k
+(X0)r,k(AT )k,i =
++
+k
+(X0)r,kAi,k
+The i-th column is the vector formed by these elements for all r:
+(X0AT )i =
+ncontext
++
+k=1
+Ai,kXk
+0
+Renaming k to j:
+(X0AT )i =
+ncontext
++
+j=1
+AijXj
+0
+7
+*
+
+
+--- Page 8 ---
+Part (d)(ii)
+Answer:
+Xfinal = X0 +
+H
++
+h=1
+W h
+OV X0(Ah)T
+Part (d)(iii)
+Proof: The update vector is the t-th column of hi(X0) = W i
+OV (X0(Ai)T ).
+Let vt be the t-th column of the weighted-sum matrix X0(Ai)T . Then the update vector is
+W i
+OV vt. By deﬁnition, Ax is a linear combination of the columns of A. Thus, W i
+OV vt lies in
+the span (column space) of W i
+OV .
+USER PROMPT:
+please solve question 2 part e
+GEMINI RESPONSE:
+Here is the solution for Question 2, Part (e) from the Homework 11 PDF.
+Problem Statement
+(i) Prove that rank(WOV ) ≃dhead. (ii) Show that WOV Xsrc = ,r
+k=1 ωk(V T
+k Xsrc)Uk. (iii)
+Deﬁne the read/write subspaces and what happens to orthogonal information. (iv) Explain
+the connection to WV .
+(v) Synthesis: Explain how the SVD characterizes information
+movement.
+Solutions and Explanations
+Part (e)(i)
+Proof: WOV = WOWV . The rank of a product is limited by the min rank
+of its factors: rank(WOV ) ≃min(rank(WO), rank(WV )) ≃dhead. This implies it is low-rank
+because typically dhead ↑dmodel.
+Part (e)(ii)
+Derivation: WOV Xsrc = (U”V T )Xsrc = U”(V T Xsrc). This expands to
+the sum ,r
+k=1 ωk(V T
+k Xsrc)Uk.
+Part (e)(iii)
+1. Read Subspace: Span of V (Row space). Directions in input the head can "see".
+2. Write Subspace: Span of U (Column space). Directions in output the head writes
+to.
+3. Orthogonal Info: It is zeroed out (multiplied by 0). The head cannot process it.
+Part (e)(iv)
+The read subspace is the subspace preserved by the projection WV . Since
+WV maps to Rdhead, it can preserve at most dhead dimensions. Thus the read subspace rank
+is naturally bounded by dhead.
+8
+sh
+those
+proofs
+largely
+follow the
+solutions
+
+
+--- Page 9 ---
+Part (e)(v)
+Synthesis:
+• V (Sensor): Reads the input by projecting onto speciﬁc features.
+• ” (Ampliﬁer): Determines the gain/strength of the transfer.
+• U (Writer): Writes the result as a feature vector to the destination.
+The attention pattern A acts as a router/volume knob determining which source tokens
+apply this transformation.
+Question 5: Fermi Estimation
+USER PROMPT:
+please solve question 5 part a
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (a) from the Homework 11 PDF.
+Answer: This part of the problem does not require a solution.
+As explicitly stated in the problem text ("This is not a question..."), Part (a) serves as
+context/reading material to establish the motivation for the subsequent calculations. It uses
+Fermi estimation to propose that a human-level AGI might require approximately 1015
+(1000 trillion) parameters.
+USER PROMPT:
+please solve question 5 part b
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (b) from the Homework 11 PDF.
+Solutions and Explanations
+1. Symbolic Derivation
+Step 1: From constraint C = C0ND, write D =
+C
+C0N .
+Step 2: Substitute into L(N) = AN ↑ε + B( C
+C0 )↑ϑNϑ + L0.
+Step 3: Di!erentiate w.r.t N and set to 0.
+εAN↑ε↑1 = ϑB( C
+C0
+)↑ϑNϑ↑1
+Solving for N:
+Nopt =
+!εA
+ϑB
+"
+1
+ω+ε ! C
+C0
+"
+ε
+ω+ε
+Step 4: Solve for Dopt using D = C/(C0N):
+Dopt =
+! C
+C0
+"
+ω
+ω+ε
+. . .
+9
+ammmu
+m
+these du
+&
+match
+MC
+nut
+solutions,
+and
+it did not
+plug
+in
+numerical values
+
+
+--- Page 10 ---
+2. Numerical Solution
+(The user asked for the symbolic derivation, but note that Part
+(c) provides the simpliﬁed numerical laws to use moving forward.)
+USER PROMPT:
+please solve question 5 part c
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (c) from the Homework 11 PDF.
+Problem Statement
+Using Chinchilla laws N = 0.1C0.5 and D = 1.7C0.5, calculate compute cost and dataset
+size for a 100 trillion parameter model (N = 1014).
+Solution
+1. Calculate Compute Cost (C):
+N = 0.1C0.5 =⇐10N = C0.5 =⇐C = 100N2
+C = 100 →(1014)2 = 100 →1028 = 1030 FLOPs
+2. Calculate Dataset Size (D):
+D = 1.7C0.5 = 1.7(10N) = 17N
+D = 17 →1014 = 1.7 →1015 tokens
+Answer:
+• Compute (C): 1030 FLOPs.
+• Dataset (D): 1.7 →1015 tokens (1.7 quadrillion).
+USER PROMPT:
+please solve question 5 part d
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (d) from the Homework 11 PDF.
+Problem Statement
+Assume 1.4 tokens/word, 400 words/page, 300 pages/book. How many words is 1000 trillion
+tokens? How many books? Compare to Library of Congress and Google Books.
+10
+w
+me
+
+
+--- Page 11 ---
+Solution
+1. Number of Words:
+1015 tokens/1.4 = 7.14 →1014 words
+(714 Trillion words).
+2. Number of Books: Words per book = 400 →300 = 120, 000.
+Books = 7.14 →1014
+120, 000
+↓5.95 →109 books
+(6 Billion books).
+3. Comparison:
+• Library of Congress: 32 million books. The dataset is 186x larger.
+• Google Books: 40 million scanned. The dataset is 150x larger.
+USER PROMPT:
+please solve question 5 part e
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (e) from the Homework 11 PDF.
+Problem Statement
+Given 16-bit parameters: 1. Memory for 1 billion params? 2. Memory for 1 trillion params?
+3. How many H200 GPUs (100 GB VRAM) for the 1T model?
+Solution
+1. 1 Billion Params: 109 →2 bytes = 2 GB.
+2. 1 Trillion Params: 1012 →2 bytes = 2 TB.
+3. H200 GPUs Required:
+Num GPUs = 2000 GB
+100 GB = 20 GPUs
+USER PROMPT:
+please solve question 5 part f
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (f) from the Homework 11 PDF.
+11
+mmm
+st
+
+
+--- Page 12 ---
+Problem Statement
+Cost to store 100 trillion parameter model for 1 year on SSD ($0.00005/MB) vs DRAM
+($0.0040/MB).
+Solution
+Model Size: 1014 params →2 bytes = 200 TB = 2 →108 MB.
+SSD Cost:
+2 →108 →$0.00005 = $10, 000
+DRAM Cost:
+2 →108 →$0.0040 = $800, 000
+USER PROMPT:
+please solve question 5 part g
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (g) from the Homework 11 PDF.
+Solution
+1. GPT-6 (100T Params): Size = 200 TB. Bandwidth = 4.8 TB/s.
+Latency = 200
+4.8 ↓41.7 seconds
+Throughput = 60/41.7 ↓1.44 tokens/min
+2. GPT-3 (175B Params): Size = 0.35 TB.
+Latency = 0.35
+4.8 ↓0.073 seconds (73ms)
+Throughput ↓823 tokens/min
+3. Batch Size for GPT-3: Activation size per token ↓23.6 MB. Model Size = 350,000
+MB.
+B = 350, 000
+23.6
+↓14, 830
+USER PROMPT:
+please solve question 5 part h
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (h) from the Homework 11 PDF.
+12
+mummm
+numum
+
+
+--- Page 13 ---
+Solution
+1. 1 PF-Day: 1015 →24 →3600 = 8.64 →1019 FLOPs.
+2. H200 Hours equivalent: 24/1.98 ↓12.12 hours.
+3. Cost of 1 PF-Day: 12.12 →$1.50 ↓$18.18.
+4. GPT-3 Cost (3640 PF-Days): 3640 →$18.18 ↓$66, 182.
+5. GPT-6 Cost (1030 FLOPs): PF-Days = 1030/8.64 →1019 ↓1.157 →1010. Cost ↓
+11.6 billion →$18.18 ↓$210 Billion.
+6. Comparison: More expensive than the Apollo Program ($178B).
+USER PROMPT:
+please solve question 5 part i
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (i) from the Homework 11 PDF.
+Answer: This part does not require a solution. It is a reading section describing how
+failures and restarts can triple the e!ective cost of training.
+USER PROMPT:
+please solve question 5 part j
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (j) from the Homework 11 PDF.
+Solution
+1. FLOPs for 1M tokens (1T param model): 2 →1012 →106 = 2 →1018 FLOPs.
+2.
+H200 Cost: Time = 2 →1018/1.98 →1015 ↓1010 sec ↓0.28 hours.
+Cost =
+0.28 →$1.50 ↓$0.42.
+3.
+Tokens to recoup $1B: Need $1B revenue at $120/1M tokens.
+Tokens =
+(109/120) →106 ↓8.33 Trillion tokens.
+4. Equivalent Essays: 8.33 Trillion/1400 ↓5.95 Billion essays.
+USER PROMPT:
+please solve question 5 part k
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (k) from the Homework 11 PDF.
+13
+194
+&BUS
+12 not
+mentioned
+meneu
+m
+cactually
+6.
+billion)
+Mu
+
+
+--- Page 14 ---
+Solution
+1. Min Energy: 32 →kBT ln 2 ↓9.6 →10↑20 Joules.
+2. Min Power: P = E →1.98 →1015 ↓1.9 →10↑4 Watts.
+3. Comparison: Actual 700W is ⇒3.7 million times higher than the theoretical limit.
+USER PROMPT:
+please solve question 5 part l
+GEMINI RESPONSE:
+Here is the solution for Question 5, Part (l) from the Homework 11 PDF.
+Solution
+1. Carbon Cost: 552 tons →$112 = $61, 824. This is ⇒1% of the $6M training cost.
+2. Burgers: 552, 000 kg CO2/(0.113 →50) ↓97, 700 burgers.
+for j-l, all Fermi estimates align with the solution values. Verdict: One-shot correct.
+Question 6: Soft Prompting
+USER PROMPT:
+please solve question 6 part a
+GEMINI RESPONSE:
+Here is the solution for Question 6, Part (a) from the Homework 11 PDF.
+Problem Statement
+If we want to train the soft-prompt to output correct reasoning and produce the correct
+answer, which output tokens will be used to compute the loss?
+Solution
+Answer: The loss should be computed on the output predictions corresponding to:
+1. The chain of thought reasoning (indices 51-70).
+2. The answer (index 71).
+3. The newline/stop token (index 72).
+Speciﬁcally, we use the model outputs at indices 50 through 71. We do not compute
+loss on the soft prompt (1-5) or the question (6-50).
+14
+mum
+correctly
+> or = orms
+call
+Ibut
+does
+not analyse
+this answer is
+incorrect
+.
+MS
+model
+may be
+experiencing
+degradation.
+tokens
+1- 4
+: soft-prompt
+mmmn
+· tokens
+5-49 : reasoning
+· tokens
+To :
+answer
+· token
+71 : newline
+· tokens
+72-100 :
+Padding
+
+
+--- Page 15 ---
+USER PROMPT:
+please solve question 6 part b
+GEMINI RESPONSE:
+Here is the solution for Question 6, Part (b) from the Homework 11 PDF.
+Problem Statement
+How many parameters are being trained in this model?
+Solution
+Answer: 5 →E (or 5 →H).
+Explanation: The model weights are frozen. The only learnable parameters are the 5
+soft prompt vectors prepended to the input. Each vector has dimension E (embedding
+size). Total = 5 →E.
+USER PROMPT:
+please solve question 6 part c (parts i ii iii iv)
+GEMINI RESPONSE:
+Here is the solution for Question 6, Part (c) from the Homework 11 PDF.
+Solutions
+(i) True Explanation: In an autoregressive model, attention is masked.
+The prompt
+tokens (positions 1-5) only attend to themselves/preceding tokens. They do not see the
+speciﬁc question tokens that come later. Thus, their activations are constant across the
+batch and can be cached.
+(ii) True Explanation: A soft prompt consists of continuous vectors. A hard prompt
+consists of discrete embeddings. The continuous space contains the discrete embeddings as
+a subset. Therefore, the optimal soft prompt is at least as good as the optimal hard prompt.
+(iii) False Explanation: Full ﬁne-tuning can overﬁt on small datasets or lead to catas-
+trophic forgetting.
+Soft prompt tuning acts as a regularizer, sometimes yielding better
+generalization.
+(iv) False Explanation: The model weights are frozen. Training a prompt for Task A
+only updates the prompt vectors, not the shared model weights. Therefore, Task B (using
+its own prompt and the shared frozen weights) is una!ected.
+USER PROMPT:
+please solve question 6 part d
+GEMINI RESPONSE:
+15
+nume
+correct
+m
+nowever,
+it doesn't note
+now
+it
+is
+done
+practically
+o
+I
+·
+m
+
+
+--- Page 16 ---
+Here is the solution for Question 6, Part (d) from the Homework 11 PDF.
+Problem Statement
+Describe how you would adapt a meta-learning approach like MAML for a family of tasks
+using a frozen GPT model and soft prompting.
+Solution
+To adapt MAML:
+1. What to Learn: Learn the initialization of the soft prompt vectors (Pinit).
+2. Inner Loop (Adaptation): For a sampled task, start at Pinit. Use the support set
+to perform gradient descent steps on the prompt vectors only to get P ↓
+i.
+3. Outer Loop (Meta-Update): Evaluate P ↓
+i on the query set. Update Pinit to mini-
+mize the query loss across tasks.
+Inference: When faced with a new task, initialize with the meta-learned Pinit and run a
+few gradient steps using the new task’s data to adapt.
+16
+here ,
+it is
+not
+as
+verboss;
+may
+be
+expriencing
+Context
+rol
+.
+While
+it mention
+ad ,
+it
+doesn't
+mention
+SGD specifically
+,
+It also doesnot
+do variation
+on the
+basic
+MAM2
+approach ,
+which the solutions do
+have

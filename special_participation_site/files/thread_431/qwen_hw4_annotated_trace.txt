@@ -1,0 +1,2239 @@
+--- Page 1 ---
+p(W) =
+ (3I
+ −
+2
+1
+d
+ 
+out
+WW )W
+T
+T
+12/2/25, 11:49 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+I start with a simple prompt and the entire pdf for homework 4 
+as a batch. I want Qwen to try to one shot all these problems 
+ﬁrst, then I probe each mistake it makes problem by problem. 
+NOTE: This is actually my third time trying this. Qwen 
+struggled with certain problems like 2 with more complex 
+prompting often regurgitating results continuously and giving 
+very long chat logs.
+Qwen one shots problem 1 no 
+problem. Across all my attempts with 
+this homework and Qwen, Qwen 
+impressively never struggled this 
+problem always giving total and 
+asymyptotic runtime.
+
+
+--- Page 2 ---
+p(W) =
+ (3I
+ −
+2
+1
+d
+ 
+out
+WW )W
+T
+WW T d
+ ×
+out
+d
+ 
+in
+d
+ ×
+in
+d
+ 
+out
+c ⋅d
+ ⋅
+out d
+ ⋅
+in
+d
+ =
+out
+c ⋅d
+ ⋅
+out
+2
+d
+ 
+in
+(3I
+ −
+d
+ 
+out
+WW )W
+T
+d
+ ×
+out
+d
+ 
+out
+d
+ ×
+out
+d
+ 
+in
+c ⋅
+d
+ ⋅
+out d
+ ⋅
+out d
+ =
+in
+c ⋅d
+ ⋅
+out
+2
+d
+ 
+in
+2c ⋅d
+ ⋅
+out
+2
+d
+ =
+in
+O(d
+ ⋅
+out
+2
+d
+ )
+in
+d
+ ≫
+out
+d
+ 
+in
+p(W)
+W W
+T
+p(W) =
+ (3I
+ −
+2
+1
+d
+ 
+out
+WW )W =
+T
+ (3W −
+2
+1
+W(W W))
+T
+W W
+T
+d
+ ×
+in
+d
+ 
+out
+d
+ ×
+out
+d
+ 
+in
+c ⋅d
+ ⋅
+in d
+ ⋅
+out d
+ =
+in
+c ⋅d
+ ⋅
+in
+2
+d
+ 
+out
+W(W W)
+T
+d
+ ×
+out
+din
+d
+ ×
+in
+d
+ 
+in
+c ⋅d
+ ⋅
+out d
+ ⋅
+in
+d
+ =
+in
+c ⋅d
+ ⋅
+out d
+ 
+in
+2
+2c ⋅d
+ ⋅
+out d
+ =
+in
+2
+O(d
+ ⋅
+out d
+ )
+in
+2
+d
+ ≫
+out
+d
+ 
+in d
+ ⋅
+out d
+ ≪
+in
+2
+d
+ ⋅
+out
+2
+d
+ 
+in
+N(0 1)
+12/2/25, 11:49 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+qwen gives total runtime and 
+asymptotic runtime after dropping the 
+scaling factors. Its nice to see both 
+answers.
+
+
+--- Page 3 ---
+d
+ ≫
+out
+d
+ 
+in d
+ ⋅
+out d
+ ≪
+in
+2
+d
+ ⋅
+out
+2
+d
+ 
+in
+N(0,1)
+1/
+ n
+N(0,1)
+y = cWx
+Var(y) = Var(x)
+x
+σ
+ x
+2
+W
+N(0,1)
+Var(Wx) = d
+ ⋅
+in σ
+ x
+2
+c ⋅
+2 d
+ ⋅
+in σ
+ =
+x
+2
+σ
+ x
+2
+c =
+ 
+ 
+d
+ 
+in
+1
+Δy = cΔWx
+≤1
+x
+∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+∥Δy∥
+ ≤
+2
+c ⋅∥ΔW∥
+ ⋅
+2 ∥x∥
+ 2
+∥x∥
+ =
+2
+ 
+d
+ 
+in
+c =
+ 
+ 
+d
+ 
+in
+1
+∥ΔW∥
+ ≤
+2
+ 
+d
+ 
+out
+sign(∇
+ L)
+W
+ 
+d
+ ⋅d
+ 
+out
+in
+α ⋅sign(∇
+ L)
+W
+α ⋅
+ ≤
+d
+⋅d
+ 
+out
+in
+ 
+d
+ 
+out
+α ≤
+ 
+ 
+d
+ 
+in
+1
+ΔW = α ⋅UV T
+UV T
+UV T
+≤
+d
+12/2/25, 11:49 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+Qwen does fairly well for problem 2 but struggles on part e neglecting to account for the 
+scaling factors. Still impressive though especially with its performance on parts f and g.
+Qwen does not just state using xavier would not utilize the full dynamic range of fp8 but also 
+gives mathematical reasoning without asking. Although it should specify what “n” is here 
+especially in fan in and fan out terms.
+Describes the goals of xavier initialization 
+(why we care) without asking. I ﬁnd this 
+very useful so I can keep track of the big 
+ideas behind all the topics in DL
+
+
+--- Page 4 ---
+α ≤
+ 
+ 
+d
+ 
+in
+1
+ΔW = α ⋅UV T
+UV T
+α ⋅UV T
+α ≤
+ 
+d
+ 
+out
+x
+ =
+n+1
+c
+ W
+ x
+ 
+n
+n
+n
+d
+ =
+out,n
+d
+ 
+in,n
+c
+ =
+n
+ 
+ 
+d
+ 
+in,n
+1
+d
+ >
+out
+1
+∥∇
+ L∥≤
+x
+ n
+2
+ ⋅
+d
+ 
+out,n ∥∇
+ L∥
+ 
+x
+ 
+n+1
+2
+ 
+ 
+d
+ 
+out,n
+1
+x(n)
+L = 7
+h(n) = (1/2) ⋅
+n u(n)
+y[n] = x[n] ∗h[n]
+y[n] = 0
+n < 0
+y[n] = 2 −(1/2)n
+0 ≤n < 6
+y[n] = 2
+⋅
+7−n (127/128)
+n ≥6
+n = 0
+n = 6
+n > 6
+12/2/25, 11:50 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+Problem 2e Qwen struggled with. In its ﬁrst pass it neglects to consider the 
+scaling factor present due to the constraints in part (c). I later correct this but in all 
+my experiments Qwen failed 2e.
+Qwen does well for parts f and g but should specify what the 
+d_out,n and d_in,n represent for clarity.
+Qwen one shots parts a and b but incorrectly computes 
+parts c and does not even provide answers for part d. This 
+will be revisited later. Qwen also did not use a lot of 
+intermediate reasoning regarding convolution 
+formulas.This makes some of its responses hard to 
+follow.
+
+
+--- Page 5 ---
+y[n] = 2
+(1/2)
+0 ≤n < 6
+y[n] = 2
+⋅
+7−n (127/128)
+n ≥6
+n = 0
+n = 6
+n > 6
+x
+ (n) =
+2
+x(n −5)
+y
+ (n) =
+2
+h(n) ∗x
+ (n)
+2
+y
+ (n) =
+2
+y(n −5)
+x =
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1
+6
+11
+16
+21
+2
+7
+12
+17
+22
+3
+8
+13
+18
+23
+4
+9
+14
+19
+24
+5
+10
+15
+20
+25
+h =
+ 
+ 
+ 
+ 
+ 
+−1
+0
+1
+−2
+0
+2
+−1
+0
+1
+3 × 3
+y =
+ 
+ 
+ 
+ 
+ 
+−40
+−120
+−200
+−48
+−144
+−240
+−32
+−96
+−160
+5 × 5
+7 × 7
+3 × 3
+7 × 7
+W × H × C
+2
+12/2/25, 11:50 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+I ﬁnd it interesting when asking Qwen a graphical question, it does attempt to give 
+a big picture graphical idea to visualize. I ﬁnd this very useful as a visual learner.
+Qwen fails the basic 2D convolution problem 
+in its ﬁrst pass. From inspecting its thinking 
+logs I found it second guess itseﬂ after 
+computing other entries as -40 almost 
+paranoid it cannot be the answer.
+Qwen does not even provide 
+resulting matrices for part di and dii. 
+This is strange as its simply a follow 
+up to part c but its possible the 
+simplicity in the probelm tricked it 
+up.
+
+
+--- Page 6 ---
+3 × 3
+7 × 7
+W × H × C
+K ⋅
+2 C ⋅F
+F
+F ⋅(K ⋅
+2 C + 1)
+ +
+⌊
+S
+W+2P−K ⌋
+1 ×
+ +
+⌊
+S
+H+2P−K ⌋
+1 × F
+ +
+⌊
+S
+W−K ⌋
+1 ×
+ +
+⌊
+S
+H−K ⌋
+1 × C
+L
+K
+(L ⋅(K −1) + 1) × (L ⋅(K −1) + 1)
+12/2/25, 11:50 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+Qwen one shots all of problem 4. This is 
+impressive but I wish it would have provided 
+more reasoning and explaination for part f.
+
+
+--- Page 7 ---
+x
+ 3
+x
+ 2
+g
+ =
+3
+g
+ =
+2
+[0,0.8,0]T
+x
+ 4
+x
+ 1
+g
+ =
+4
+g
+ =
+1
+[0.8,0,0]T
+dw
+ =
+h,l
+ =
+∂w
+ 
+h,l
+∂L
+ 
+ ⋅
+∑i,j ∂y
+ 
+i,j
+∂L
+ =
+∂w
+ 
+h,l
+∂y
+ 
+i,j
+ dy
+ ⋅
+∑i,j
+i,j x
+ 
+i+h−1,j+l−1
+η
+12/2/25, 11:50 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+As someone who found this problem very challenging, I 
+would have liked it if Qwen provided more intermediate 
+reasoning by default for this. Still it one shots the problem 
+impressively.
+
+
+--- Page 8 ---
+g
+ 3
+g
+ 2
+[0,0.8,0]
+x
+ 4
+x
+ 1
+g
+ =
+4
+g
+ =
+1
+[0.8,0,0]T
+dw
+ =
+h,l
+ =
+∂w
+ 
+h,l
+∂L
+ 
+ ⋅
+∑i,j ∂y
+ 
+i,j
+∂L
+ =
+∂w
+ 
+h,l
+∂y
+ 
+i,j
+ dy
+ ⋅
+∑i,j
+i,j x
+ 
+i+h−1,j+l−1
+η
+w
+ =
+new
+w
+−
+old
+η ⋅dw
+E[x
+ ] =
+i,j
+0 Var(x
+ ) =
+i,j
+σ
+ x
+2 E[dy
+ ] =
+i,j
+0 Var(dy
+ ) =
+i,j
+σ
+ g
+2
+E[dw
+ ] =
+h,l
+0
+Var(dw
+ ) =
+h,l
+(n −k + 1) ⋅
+2 σ
+ ⋅
+g
+2 σ
+ x
+2
+(n −k + 1) ⋅σ
+ ⋅
+g σ
+ =
+x
+O(n)
+x
+ 
+a,b
+yi,j
+ =
+∂x
+ 
+a,b
+∂L
+ 
+∂y
+ 
+i,j
+∂L
+ =
+∂x
+ 
+i,j
+∂L
+ ⋅
+4
+1
+ 
+∂y
+ 
+⌊i/2⌋,⌊j/2⌋
+∂L
+12/2/25, 11:51 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+Qwen one shots all of problem 7 but similar 
+to before does not provide nearly enough 
+reasoning by default. I ask it to give more 
+detail later on to really stress test this 
+problem and it performs well there.
+
+
+--- Page 9 ---
+12/2/25, 11:51 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+I attempt to give Qwen a hint to 
+re-examine 2e and take 
+account the scaling and spectral 
+norm constraint.
+
+
+--- Page 10 ---
+U,Σ,V
+=
+T
+SV D(∇
+ L)
+W
+ΔW = α ⋅UV T
+c =
+ 
+ 
+d
+ 
+in
+1
+Δy = cΔWx
+≤1
+x
+x
+∥x∥
+ =
+2
+ 
+d
+ 
+in
+Δy = cΔWx
+∥Δy∥
+ ≤
+2
+∣c∣⋅∥ΔW∥
+ ⋅
+2 ∥x∥
+ 2
+∥Δy∥
+ ≤
+2
+ ⋅
+ 
+d
+ 
+in
+1
+∥ΔW∥
+ ⋅
+2
+ =
+d
+ 
+in
+∥ΔW∥
+ 2
+Δy
+≤1
+ ≤
+ 
+d
+ 
+out
+∥Δy∥
+ 2
+1
+∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+∥ΔW∥
+ ≤
+2
+ 
+d
+ 
+out
+ΔW = α ⋅UV T
+∥ΔW∥
+ =
+2
+∥α ⋅UV ∥
+ =
+T
+2
+∣α∣⋅∥UV ∥
+ =
+T
+2
+∣α∣
+UV T
+12/2/25, 11:51 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 11 ---
+∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+∥ΔW∥
+ ≤
+2
+ 
+d
+ 
+out
+ΔW = α ⋅UV T
+∥ΔW∥
+ =
+2
+∥α ⋅UV ∥
+ =
+T
+2
+∣α∣⋅∥UV ∥
+ =
+T
+2
+∣α∣
+UV T
+∥ΔW∥
+ ≤
+2
+ 
+d
+ 
+out
+∣α∣≤
+ 
+d
+ 
+out
+α
+α ≤
+ 
+d
+ 
+out
+c
+12/2/25, 11:52 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+Despite being given a second chance Qwen still 
+does not consider the scaling factor sticking with 
+its ﬁnal result instead. This to me seems to 
+suggest a hallucination as I blatantly told it its 
+incorrect yet it comes back with the same 
+answer. To probe this failure more, I give Qwen 
+the solution to see how we can arrive to the 
+
+
+--- Page 12 ---
+c
+c =
+ 
+ 
+d
+ 
+in
+1
+Δy = cΔWx
+≤1
+x
+ ≤
+ 
+d
+ 
+out
+∥Δy∥
+ 2
+1
+∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+ΔW = α ⋅UV T
+UV T
+∥UV ∥
+ =
+T
+2
+1
+∥ΔW∥
+ =
+2
+∥α ⋅UV ∥
+ =
+T
+2
+∣α∣⋅∥UV ∥
+ =
+T
+2
+∣α∣
+∥Δy∥
+ =
+2
+∥cΔWx∥
+ ≤
+2
+∣c∣⋅∥ΔW∥
+ ⋅
+2 ∥x∥
+ 2
+12/2/25, 11:52 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 13 ---
+ ≤
+ 
+d
+ 
+out
+∥Δy∥
+ 2
+1
+∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+ΔW = α ⋅UV T
+UV T
+∥UV ∥
+ =
+T
+2
+1
+∥ΔW∥
+ =
+2
+∥α ⋅UV ∥
+ =
+T
+2
+∣α∣⋅∥UV ∥
+ =
+T
+2
+∣α∣
+∥Δy∥
+ =
+2
+∥cΔWx∥
+ ≤
+2
+∣c∣⋅∥ΔW∥
+ ⋅
+2 ∥x∥
+ 2
+x
+∥x∥
+ =
+2
+ 
+d
+ 
+in
+∥Δy∥
+ ≤
+2
+ ⋅
+ 
+d
+ 
+in
+1
+∣α∣⋅
+ =
+d
+ 
+in
+∣α∣
+∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+∣α∣≤
+ 
+d
+ 
+out
+UV T
+c
+ 
+ 
+d
+ 
+in
+1
+α
+ 
+d
+ ⋅d
+ 
+out
+in
+cΔW
+Δy
+x
+ΔW
+Δy
+cΔW
+∥cΔW∥=
+2
+∣c∣⋅∥ΔW∥=
+2
+⋅
+1
+∥ΔW∥2
+12/2/25, 11:52 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+Qwen now realizes its answer is 
+incorrect but begins spiraling trying 
+to ﬁx it and not hallucinate. This 
+happened every time I attempted 
+problem 2e with Qwen oftentimes 
+to an extreme amount (3 retries in 
+the same prompt).
+
+
+--- Page 14 ---
+Δy
+cΔW
+∥cΔW∥
+ =
+2
+∣c∣⋅∥ΔW∥
+ =
+2
+⋅
+din
+1
+∥ΔW∥
+ 2
+Δy = cΔWx
+≤1
+ ≤
+ 
+d
+ 
+out
+∥cΔWx∥
+ 2
+1
+∥cΔWx∥
+ ≤
+2
+ 
+d
+ 
+out
+∥cΔWx∥
+ 2
+x
+∥x∥
+ =
+2
+ 
+d
+ 
+in
+∥cΔWx∥
+ ≤
+2
+∥cΔW∥
+ ⋅
+2 ∥x∥
+ =
+2
+∥cΔW∥
+ ⋅
+2
+ 
+d
+ 
+in
+x
+∥cΔW∥
+ ⋅
+2
+ ≤
+d
+ 
+in
+ 
+d
+ 
+out
+∥cΔW∥
+ ≤
+2
+ 
+ 
+d
+ 
+in
+d
+ 
+out
+∥cΔW∥
+ =
+2
+ ⋅
+ 
+d
+ 
+in
+1
+∥ΔW∥
+ 2
+ ⋅
+ 
+d
+ 
+in
+1
+∥ΔW∥
+ ≤
+2
+ 
+ 
+d
+ 
+in
+d
+ 
+out
+∥ΔW∥
+ ≤
+2
+ 
+d
+ 
+out
+UV T
+c
+ 
+ 
+d
+ 
+in
+1
+α
+ 
+d
+ ⋅d
+ 
+out
+in
+c
+ 
+ 
+d
+ 
+in
+1
+cΔW
+∥cΔW∥
+ ≤
+2
+1
+12/2/25, 11:53 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 15 ---
+cΔW
+∥cΔW∥
+ ≤
+2
+1
+∥cΔW∥
+ ≤
+2
+1
+∥cΔW∥
+ ≤
+2
+1
+∣c∣⋅∥ΔW∥
+ ≤
+2
+1
+ ⋅
+ 
+d
+ 
+in
+1
+∥ΔW∥
+ ≤
+2
+1
+∥ΔW∥
+ ≤
+2
+ 
+d
+ 
+in
+cΔW
+≤
+ 
+d
+ 
+out
+∥cΔW∥
+ ≤
+2
+ 
+d
+ 
+out
+∣c∣⋅∥ΔW∥
+ ≤
+2
+ 
+d
+ 
+out
+ ⋅
+ 
+d
+ 
+in
+1
+∥ΔW∥
+ ≤
+2
+dout
+∥ΔW∥
+ ≤
+2
+ 
+d
+ ⋅d
+ 
+out
+in
+cΔW
+≤
+ 
+d
+ 
+out
+ΔW = α ⋅UV T
+∥ΔW∥
+ =
+2
+∥α ⋅UV ∥
+ =
+T
+2
+∣α∣⋅∥UV ∥
+ =
+T
+2
+∣α∣
+∣α∣≤
+ 
+d
+ ⋅d
+ 
+out
+in
+α
+α ≤
+ 
+d
+ ⋅d
+ 
+out
+in
+12/2/25, 11:53 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+Still is confused and lost 
+Qwen eventually arrives to the right answer but its after multiple rethinks in a 
+spiraling fashion. This feels more unique to Qwen then other LLMs in my 
+experience. Despite this, after it accounts for the scaling factor it does reason 
+its way to the correct solution.
+
+
+--- Page 16 ---
+α
+α ≤
+ 
+d
+ ⋅d
+ 
+out
+in
+cΔW
+≤
+ 
+d
+ 
+out
+cΔW
+∣c∣⋅∥ΔW∥
+ =
+2
+ ⋅
+ 
+d
+ 
+in
+1
+∥ΔW∥
+ 2
+ΔW = α ⋅UV T ∥ΔW∥
+ =
+2
+∣α∣
+ ⋅
+ 
+d
+ 
+in
+1
+∣α∣≤
+ 
+d
+ 
+out
+∣α∣≤
+ 
+d
+ ⋅d
+ 
+out
+in
+cΔW
+Δy
+α
+ 
+d
+ ⋅d
+ 
+out
+in
+12/2/25, 11:54 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 17 ---
+x =
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1
+6
+11
+16
+21
+2
+7
+12
+17
+22
+3
+8
+13
+18
+23
+4
+9
+14
+19
+24
+5
+10
+15
+20
+25
+h =
+ 
+ 
+ 
+ 
+ 
+−1
+0
+1
+−2
+0
+2
+−1
+0
+1
+ 
+ 
+ 
+ 
+ 
+1
+0
+−1
+2
+0
+−2
+1
+0
+−1
+(5 −3 + 1) × (5 −3 + 1) = 3 × 3
+y[0,0] = 1 ⋅1 + 2 ⋅2 + 1 ⋅3 + 0 ⋅6 + 0 ⋅7 + 0 ⋅8 + (−1) ⋅11 + (−2) ⋅12 + (−1) ⋅
+13 = −40
+y[0,1] = 1 ⋅2 + 2 ⋅3 + 1 ⋅4 + 0 ⋅7 + 0 ⋅8 + 0 ⋅9 + (−1) ⋅12 + (−2) ⋅13 + (−1) ⋅
+14 = −40
+y[0,2] = 1 ⋅3 + 2 ⋅4 + 1 ⋅5 + 0 ⋅8 + 0 ⋅9 + 0 ⋅10 + (−1) ⋅13 + (−2) ⋅14 +
+(−1) ⋅15 = −40
+12/2/25, 11:54 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 18 ---
+y[0,1] = 1 ⋅2 + 2 ⋅3 + 1 ⋅4 + 0 ⋅7 + 0 ⋅8 + 0 ⋅9 + (−1) ⋅12 + (−2) ⋅13 + (−1) ⋅
+14 = −40
+y[0,2] = 1 ⋅3 + 2 ⋅4 + 1 ⋅5 + 0 ⋅8 + 0 ⋅9 + 0 ⋅10 + (−1) ⋅13 + (−2) ⋅14 +
+(−1) ⋅15 = −40
+y[1,0] = 1 ⋅6 + 2 ⋅7 + 1 ⋅8 + 0 ⋅11 + 0 ⋅12 + 0 ⋅13 + (−1) ⋅16 + (−2) ⋅17 +
+(−1) ⋅18 = −40
+y[1,1] = 1 ⋅7 + 2 ⋅8 + 1 ⋅9 + 0 ⋅12 + 0 ⋅13 + 0 ⋅14 + (−1) ⋅17 + (−2) ⋅18 +
+(−1) ⋅19 = −40
+y[1,2] = 1 ⋅8 + 2 ⋅9 + 1 ⋅10 + 0 ⋅13 + 0 ⋅14 + 0 ⋅15 + (−1) ⋅18 + (−2) ⋅19 +
+(−1) ⋅20 = −40
+y[2,0] = 1 ⋅11 + 2 ⋅12 + 1 ⋅13 + 0 ⋅16 + 0 ⋅17 + 0 ⋅18 + (−1) ⋅21 + (−2) ⋅22 +
+(−1) ⋅23 = −40
+y[2,1] = 1 ⋅12 + 2 ⋅13 + 1 ⋅14 + 0 ⋅17 + 0 ⋅18 + 0 ⋅19 + (−1) ⋅22 + (−2) ⋅23 +
+(−1) ⋅24 = −40
+y[2,2] = 1 ⋅13 + 2 ⋅14 + 1 ⋅15 + 0 ⋅18 + 0 ⋅19 + 0 ⋅20 + (−1) ⋅23 + (−2) ⋅24 +
+(−1) ⋅25 = −40
+y =
+ 
+ 
+ 
+ 
+ 
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+(7 −3 + 1) × (7 −3 + 1) = 5 × 5
+12/2/25, 11:54 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+After redoing all its computations, Qwen arrives to the right answer.
+
+
+--- Page 19 ---
+(7 −3 + 1) × (7 −3 + 1) = 5 × 5
+y =
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+−19
+−30
+−30
+−30
+49
+−28
+−40
+−40
+−40
+68
+−32
+−40
+−40
+−40
+72
+−36
+−40
+−40
+−40
+76
+−29
+−30
+−30
+−30
+59
+ +
+⌊2
+7−3⌋
+1 = 3 × 3
+y =
+ 
+ 
+ 
+ 
+ 
+−19
+−30
+49
+−32
+−40
+72
+−29
+−30
+59
+12/2/25, 11:55 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+I found it interesting Qwen provided reasoning for the “all 
+-40” answer. Its almost as its convincing itself its okay the 
+answer is so simple and makes me call back to when it 
+was concerned why every entry is -40. 
+
+
+--- Page 20 ---
+X ∈Rn×n
+w ∈Rk×k
+Y ∈Rm×m
+m = n −k + 1
+y
+ =
+i,j
+ 
+ x
+ w
+ 
+∑h=1
+k
+∑l=1
+k
+i+h−1,j+l−1
+h,l
+dy
+ =
+i,j
+ 
+∂y
+ 
+i,j
+∂L
+w
+ 
+h,l
+ =
+∂w
+ 
+h,l
+∂L
+ 
+ 
+ ⋅
+∑i=1
+m ∑j=1
+m
+∂y
+ 
+i,j
+∂L
+ 
+∂w
+ 
+h,l
+∂y
+ 
+i,j
+=
+∂wh,l
+∂y
+ 
+i,j
+x
+ 
+i+h−1,j+l−1
+dw
+ =
+h,l
+ =
+∂w
+ 
+h,l
+∂L
+ 
+ dy
+ ⋅
+∑i=1
+m ∑j=1
+m
+i,j x
+ 
+i+h−1,j+l−1
+12/2/25, 11:55 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 21 ---
+dw
+ =
+h,l
+ =
+∂w
+ 
+h,l
+∂L
+ 
+ dy
+ ⋅
+∑i=1
+m ∑j=1
+m
+i,j x
+ 
+i+h−1,j+l−1
+w
+ 
+h,l
+η
+w
+ =
+new
+w
+−
+old
+η ⋅dw
+E[x
+ ] =
+i,j
+0
+Var(x
+ ) =
+i,j
+σ
+ x
+2
+E[dy
+ ] =
+i,j
+0
+Var(dy
+ ) =
+i,j
+σ
+ g
+2
+x
+ 
+i,j
+dy
+ 
+i,j
+dw
+ =
+h,l
+ 
+ dy
+ ⋅
+∑i=1
+m ∑j=1
+m
+i,j x
+ 
+i+h−1,j+l−1
+E[dy
+ ] =
+i,j
+0
+E[x
+ ] =
+i,j
+0
+E[dw
+ ] =
+h,l
+ 
+ E[dy
+ ] ⋅
+∑i=1
+m ∑j=1
+m
+i,j
+E[x
+ ] =
+i+h−1,j+l−1
+0
+Var(dw
+ ) =
+h,l
+E[dw
+ ] −
+h,l
+2
+(E[dw
+ ]) =
+h,l
+2
+E[dw
+ ]
+h,l
+2
+dw
+ 
+h,l
+2
+dw
+=
+h l
+2
+dy
+⋅x
+=
+(∑
+i j
+i+h 1 j+l 1)
+2
+dy
+⋅
+∑
+∑
+i j x
+⋅
+i+h 1 j+l 1 dy
+⋅
+i j
+′
+′
+12/2/25, 11:55 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 22 ---
+dw
+ 
+h,l
+2
+dw
+ =
+h,l
+2
+ dy
+ ⋅x
+ 
+=
+(∑i,j
+i,j
+i+h−1,j+l−1)
+2
+ 
+ dy
+ ⋅
+∑i,j ∑i ,j
+′
+′
+i,j x
+ ⋅
+i+h−1,j+l−1 dy
+ ⋅
+i ,j
+′
+′
+x
+ 
+i +h−1,j +l−1
+′
+′
+E[dw
+ ] =
+h,l
+2
+ E[dy
+ ] ⋅
+∑i,j
+i,j
+2
+E[x
+ ] +
+i+h−1,j+l−1
+2
+cross terms
+E[dy
+ ] =
+i,j
+0
+E[x
+ ] =
+i,j
+0
+(i,j) =(i ,j )
+′
+′
+E[dy
+ ] =
+i,j
+2
+Var(dy
+ ) =
+i,j
+σ
+ g
+2
+E[x
+ ] =
+i+h−1,j+l−1
+2
+Var(x
+ ) =
+i+h−1,j+l−1
+σ
+ x
+2
+Var(dw
+ ) =
+h,l
+ 
+ σ
+ ⋅
+∑i=1
+m ∑j=1
+m
+g
+2 σ
+ =
+x
+2
+m ⋅
+2 σ
+ ⋅
+g
+2 σ
+ x
+2
+m = n −k + 1
+Var(dw
+ ) =
+h,l
+(n −k + 1) ⋅
+2 σ
+ ⋅
+g
+2 σ
+ x
+2
+SD(dw
+ ) =
+h,l
+(n −k + 1) ⋅σ
+ ⋅
+g σ
+ =
+x
+O(n)
+n
+[x11
+x12]
+12/2/25, 11:56 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 23 ---
+X =
+ 
+ 
+[x
+ 
+11
+x
+ 
+21
+x
+ 
+12
+x
+ 
+22]
+y = max(x
+ ,x
+ ,x
+ ,x
+ )
+11
+12
+21
+22
+x
+ 
+11
+ =
+∂x
+ 
+11
+∂y
+1,
+ =
+∂x
+ 
+12
+∂y
+0,
+ =
+∂x
+ 
+21
+∂y
+0,
+ =
+∂x
+ 
+22
+∂y
+0
+dy =
+ 
+∂y
+∂L
+dx
+ =
+11
+dy ⋅
+ =
+∂x
+ 
+11
+∂y
+dy
+dx
+ =
+12
+dy ⋅
+ =
+∂x
+ 
+12
+∂y
+0
+dx
+ =
+21
+dy ⋅
+ =
+∂x
+ 
+21
+∂y
+0
+dx
+ =
+22
+dy ⋅
+ =
+∂x
+ 
+22
+∂y
+0
+dx
+ =
+i,j
+ 
+ 
+{dy
+ 
+⌊i/2⌋,⌊j/2⌋
+0
+if x
+  is the maximum in its pooling region
+i,j
+otherwise
+y =
+ 
+4
+x
+ +x
+ +x
+ +x
+ 
+11
+12
+21
+22
+=
+∂
+∂y
+=
+∂
+∂y
+=
+∂
+∂y
+=
+∂
+∂y
+4
+1
+12/2/25, 11:56 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 24 ---
+y
+4
+ =
+∂x
+ 
+11
+∂y
+ =
+∂x
+ 
+12
+∂y
+ =
+∂x
+ 
+21
+∂y
+=
+∂x22
+∂y
+ 4
+1
+dy =
+ 
+∂y
+∂L
+dx
+ =
+11
+dx
+ =
+12
+dx
+ =
+21
+dx
+ =
+22
+dy ⋅
+ =
+4
+1
+ 
+4
+dy
+dx
+ =
+i,j
+ ⋅
+4
+1
+dy
+ 
+⌊i/2⌋,⌊j/2⌋
+12/2/25, 11:57 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+
+
+--- Page 25 ---
+12/2/25, 11:57 PM
+Qwen Chat
+https://chat.qwen.ai/c/5bdbccf9-a62c-4454-b150-02aa8872eb38
+1/1
+Qwen one shot problem 7 originally, but when asking it to 
+give more detail and less sparsity it excels in ﬂying colors 
+giving easily understandable reasoning and solutions. Very 
+impressive!

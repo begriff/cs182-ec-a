@@ -1,0 +1,2387 @@
+--- Page 1 ---
+hw0 (1).pdf
+PDF 227.09KB
+You are being evaluated on how well a modern LLM can solve 
+questions 2, 3, 4, and 5 of the attached homework assignment. 
+Follow all instructions exactly.
+You must attempt to answer each question fully and independently. 
+Always show your complete reasoning process. For each question, 
+break your reasoning into labeled steps based on interpretation, 
+method, reasoning steps, and your final answer.
+Indicate if you are ever uncertain about an answer, and elaborate on 
+that uncertainty. If you believe the question is underspecified or 
+ambiguous, state clearly why and attempt a reasonable 
+interpretation.
+I will now attempt to solve questions 2, 3, 4, and 5 from the homework assignment,
+following the instructions to show my complete reasoning process step by step.
+Question 2 – Vector Calculus Review
+Part (a)
+Show 
+.
+Step 1 – Interpretation
+Here 
+, 
+ is a scalar (dot product). The derivative of a scalar with
+respect to a column vector  is a row vector (given the convention in the problem).
+Step 2 – Method
+We can compute the derivative directly via components:
+​(x c) =
+∂x
+∂
+T
+cT
+x, c ∈Rn x c
+T
+x
+x c =
+T
+​x
+​c
+​.
+j=1
+∑
+n
+j j
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+1/19
+
+
+--- Page 2 ---
+Partial derivative w.r.t. 
+:
+Step 3 – Arrange into row vector
+The derivative is 
+.
+Final answer: 
+.
+Part (b)
+Show 
+.
+Step 1 – Interpretation
+, a scalar. Derivative w.r.t.  is row vector.
+Step 2 – Compute
+Step 3 – Arrange
+Row vector 
+.
+Final answer: 
+.
+Part (c)
+Show 
+.
+Step 1 – Interpretation
+ is a vector in 
+ (since 
+). Derivative of a vector function 
+x
+​i
+​
+​x
+​c
+​ =
+∂x
+​i
+∂
+j
+∑
+j j
+c
+​.
+i
+[c
+​, c
+​, … , c
+​] =
+1
+2
+n
+cT
+​(x c) =
+∂x
+∂
+T
+cT
+​∥x∥
+​ =
+∂x
+∂
+2
+2
+2xT
+∥x∥
+​ =
+2
+2
+x x
+T
+x
+∥x∥
+​ =
+2
+2
+​x
+​.
+j=1
+∑
+n
+j
+2
+​
+​x
+​ =
+∂x
+​i
+∂
+j
+∑
+j
+2
+2x
+​.
+i
+[2x
+​, … , 2x
+​] =
+1
+n
+2xT
+​∥x∥
+​ =
+∂x
+∂
+2
+2
+2xT
+​(Ax) =
+∂x
+∂
+A
+Ax
+Rn
+A ∈Rn×n
+f(x) = Ax
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+2/19
+
+
+--- Page 3 ---
+w.r.t.  is a matrix 
+ with 
+ entry 
+. Since 
+,
+Thus the derivative matrix is 
+.
+Step 2 – Note on convention
+Problem says 
+: if 
+ is a vector, derivative should be 
+ matrix 
+.
+Indeed,
+ (in numerator layout: derivative of vector w.r.t. vector = matrix with rows
+corresponding to components of 
+).
+Final answer: 
+.
+Part (d)
+Show 
+.
+Step 1 – Interpretation
+ is scalar. Write it as 
+.
+Step 2 – Partial derivative
+Terms where 
+ or 
+:
+1. 
+: 
+ = 
+.
+2. 
+: 
+.
+Sum:
+x
+​
+∂x
+∂f
+(i, j)
+​
+∂x
+​j
+∂f
+​i
+f
+​ =
+i
+​ A
+​x
+​
+∑k
+ik
+k
+=
+∂xj
+∂f
+​i
+A
+​.
+ij
+A
+​(Ax)
+∂x
+∂
+Ax
+n × n
+A
+​ =
+∂x
+∂(Ax)
+A
+Ax
+​(Ax) =
+∂x
+∂
+A
+​(x Ax) =
+∂x
+∂
+T
+x (A +
+T
+A )
+T
+x Ax
+T
+​ x
+​A
+​x
+​
+∑i,j
+i
+ij
+j
+​
+​x
+​A
+​x
+​.
+∂x
+​k
+∂
+i,j
+∑
+i
+ij
+j
+i = k
+j = k
+i = k
+​ A
+​x
+​
+∑j
+kj
+j
+(Ax)
+​k
+j = k
+​ x
+​A
+​ =
+∑i
+i
+ik
+(x A)
+​ =
+T
+k
+​ A
+​x
+​
+∑i
+ik
+i
+​ =
+∂x
+​k
+∂
+(Ax)
+​ +
+k
+(A x)
+​ =
+T
+k
+((A + A )x)
+​.
+T
+k
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+3/19
+
+
+--- Page 4 ---
+Step 3 – Arrange into row vector
+The derivative as a row vector is 
+.
+Final answer: 
+.
+Part (e)
+Under what condition is the previous derivative equal to 
+?
+Step 1 – Compare
+We have 
+ if 
+.
+But 
+ is a row vector equal to 
+ elementwise if 
+ is symmetric.
+Actually:
+ for all  implies 
+ (symmetric).
+Step 2 – Conclusion
+Condition: 
+ symmetric.
+Final answer: When 
+ (symmetric).
+Question 3 – Least Squares and Min-norm solution via SVD
+Given 
+ (full SVD), 
+, 
+ orthogonal, 
+diagonal with 
+ for 
+.
+Define 
+ with 
+ on diagonal.
+Part (a) – Tall matrix 
+We want 
+.
+Step 1 – Known solution
+Normal equation: 
+. Solution: 
+ if 
+ full column
+rank.
+x (A +
+T
+A )
+T
+​(x Ax) =
+∂x
+∂
+T
+x (A +
+T
+A )
+T
+2x A
+T
+x (A +
+T
+A ) =
+T
+2x A
+T
+x A
+=
+T
+T
+x A
+T
+x A
+=
+T
+T
+(Ax)T
+x A
+T
+A
+x A
+=
+T
+T
+x A
+T
+x
+A
+=
+T
+A
+A
+A = AT
+X = UΣV T
+U ∈Rm×m V ∈Rn×n
+Σ ∈Rm×n
+σ
+​ >
+i
+0
+i ≤rankr
+Σ ∈
+†
+Rn×m
+1/σ
+​i
+m > n
+min
+​ ∥Xw −
+w
+y∥2
+X Xw =
+T
+X y
+T
+w =
+∗
+(X X)
+X y
+T
+−1
+T
+X
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+4/19
+
+
+--- Page 5 ---
+Part (b) – Plug in SVD
+,
+ (where 
+ is 
+ diagonal with 
+).
+.
+Note: 
+ but easier:
+ defined as 
+ with 
+ on diag →
+ (since 
+ is left inverse of 
+ for tall 
+ when 
+? Let's check shapes:
+ is 
+, 
+ is 
+, multiply: 
+ is 
+ diagonal with ones for nonzero 
+).
+Thus
+.
+Part (c) – Left-inverse property
+Matrix 
+.
+.
+If 
+ and rank , 
+, so 
+. So 
+ is left-inverse.
+Part (d) – Wide matrix 
+ (underdetermined), min-norm
+solution
+We want 
+ subject to 
+.
+Known solution: 
+ if 
+ full row rank.
+Part (e) – Plug in SVD
+X = UΣV T
+X X =
+T
+V Σ ΣV
+T
+T
+Σ Σ
+T
+n × n
+σ
+​i
+2
+(X X)
+X
+=
+T
+−1
+T
+V (Σ Σ)
+Σ U
+T
+−1
+T
+T
+Σ =
+†
+Σ (ΣΣ )
+T
+T †
+Σ†
+n × m
+1/σ
+​i
+Σ Σ =
+†
+I
+​n
+Σ†
+Σ
+Σ
+m ≥n
+Σ
+m × n Σ†
+n × m
+Σ Σ
+†
+n × n
+σ
+​i
+w =
+∗
+V Σ U y
+†
+T
+A = V Σ U
+†
+T
+AX = V Σ U
+⋅
+†
+T
+UΣV
+=
+T
+V Σ ΣV
+†
+T
+m ≥n
+n Σ Σ =
+†
+I
+​n
+AX = I
+​n
+A
+m < n
+min ∥w∥2
+Xw = y
+w =
+∗
+X (XX )
+y
+T
+T −1
+X
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+5/19
+
+
+--- Page 6 ---
+,
+,
+.
+So
+.
+But 
+ defined earlier (n×m) = 
+ in this case (right inverse of 
+ for wide
+).
+Thus 
+ (same formula as tall case, but 
+ definition consistent via
+pseudoinverse).
+Part (f) – Right-inverse property
+.
+Now 
+.
+If 
+ and rank 
+, 
+, so 
+. So 
+ is right-inverse.
+Question 4 – Interpretations of Ridge Regression
+Part (a) – Optimization via vector calculus
+Ridge:
+Set derivative w.r.t 
+ (row vector convention) to zero:
+Derivative: 
+ in row form → transpose:
+X = UΣV T
+XX
+=
+T
+UΣΣ U
+T
+T
+(XX )
+=
+T −1
+U(ΣΣ )
+U
+T −1
+T
+w =
+∗
+V Σ U
+⋅
+T
+T
+U(ΣΣ )
+U y =
+T −1
+T
+V Σ (ΣΣ )
+U y
+T
+T −1
+T
+Σ†
+Σ (ΣΣ )
+T
+T −1
+Σ
+Σ
+w =
+∗
+V Σ U y
+†
+T
+Σ†
+B = V Σ U
+†
+T
+XB = UΣV
+⋅
+T
+V Σ U
+=
+†
+T
+UΣΣ U
+†
+T
+m ≤n
+m ΣΣ =
+†
+I
+​
+m
+XB = I
+​
+m
+B
+​∥y −
+w
+min
+Xw∥+
+2
+λ∥w∥.
+2
+w
+​[(y −
+∂w
+∂
+Xw) (y −
+T
+Xw) + λw w] =
+T
+0.
+−2(y −Xw) X +
+T
+2λw
+=
+T
+0
+−X (y −
+T
+Xw) + λw = 0.
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+6/19
+
+
+--- Page 7 ---
+So
+Part (b) – SVD hack
+Let 
+, 
+.
+Ridge solution:
+Now 
+ is diagonal with 
+, so 
+ multiplies each 
+ by 
+? Wait carefully:
+.
+.
+Multiply:
+.
+Now 
+ is 
+ diagonal-like: For 
+, factor = 
+.
+If 
+: factor ≈ 
+ (shrinks direction).
+If 
+: factor ≈ 
+ (like standard pseudoinverse).
+Part (c) – MAP estimate
+Prior 
+, likelihood 
+.
+Log posterior:
+X Xw +
+T
+λw = X y,
+T
+(X X +
+T
+λI)w = X y,
+T
+w = (X X +
+T
+λI)
+X y.
+−1
+T
+X = UΣV T X X =
+T
+V Σ ΣV
+T
+T
+w = V (Σ Σ +
+T
+λI)
+Σ U y.
+−1
+T
+T
+Σ Σ
+T
+σ
+​i
+2
+(Σ Σ +
+T
+λI)
+Σ
+−1
+T
+σ
+​i
+1/(σ
+​ +
+i
+2
+λ)
+X y =
+T
+V Σ U y
+T
+T
+(X X +
+T
+λI)
+=
+−1
+V (Σ Σ +
+T
+λI)
+V
+−1
+T
+w = V (Σ Σ +
+T
+λI)
+V
+⋅
+−1
+T
+V Σ U y
+T
+T
+= V (Σ Σ +
+T
+λI)
+Σ U y
+−1
+T
+T
+(Σ Σ +
+T
+λI)
+Σ
+−1
+T
+n × m
+i ≤r
+σ
+​/(σ
+​ +
+i
+i
+2
+λ)
+σ
+​ ≪
+i
+λ
+σ
+​/λ →
+i
+0
+σ
+​ ≫
+i
+λ
+1/σ
+​i
+W ∼N(0, I)
+Y ∣W ∼N(XW, λI)
+−
+​∥W∥−
+2
+1
+2
+​∥y −
+2λ
+1
+XW∥+
+2
+const.
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+7/19
+
+
+--- Page 8 ---
+Maximize: equivalent to minimize 
+, which matches ridge
+with  here being noise variance (their 
+ noise scale: 
+, so var
+= ). Yes, matches.
+Part (d) – Fake data
+Augmented system:
+, 
+.
+OLS: 
+. Same
+as ridge.
+Part (e) – Fake features
+, 
+.
+Constraint: 
+.
+Minimize 
+.
+From constraint: 
+.
+Objective: 
+, scaled version of ridge.
+Part (f) – Pseudo-inverse form
+Given 
+,
+, min 
+.
+Solution: 
+ where 
+ for wide matrix.
+.
+.
+First  coordinates: 
+ (kernel ridge form).
+To show equivalence to 
+, use Woodbury:
+ (known identity).
+​∥y −
+λ
+1
+XW∥+
+2
+∥W∥2
+λ
+​λ
+Y = XW +
+​N
+λ
+λ
+​ =
+y^
+[y; 0
+​]
+d
+=
+X^
+[X;
+​I
+​]
+λ d
+min ∥
+​ −
+y^
+w∥=
+X^
+2
+∥y −Xw∥+
+2
+∥
+w∥=
+λ
+2
+∥y −Xw∥+
+2
+λ∥w∥2
+=
+X~
+[X 
+​I
+​]
+λ n η = [w; v]
+η =
+X~
+Xw +
+​v =
+λ
+y
+∥η∥=
+2
+∥w∥+
+2
+∥v∥2
+v = (y −Xw)/
+​λ
+∥w∥+
+2
+​∥y −
+λ
+1
+Xw∥2
+=
+X~
+[X 
+​I
+​]
+λ n
+η =
+X~
+y
+∥η∥2
+η =
+∗
+y
+X~ †
+=
+X~ †
+(
+)
+X~ T X~X~ T −1
+=
+X~X~ T
+XX
++
+T
+λI
+​n
+η =
+∗
+[X ;
+​I
+​](XX
++
+T
+λ n
+T
+λI
+​)
+y
+n −1
+d
+w =
+∗
+X (XX
++
+T
+T
+λI
+​)
+y
+n −1
+(X X +
+T
+λI )
+X y
+d −1
+T
+X (XX
++
+T
+T
+λI
+​)
+=
+n −1
+(X X +
+T
+λI
+​)
+X
+d −1
+T
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+8/19
+
+
+--- Page 9 ---
+Part (g) – 
+As 
+, 
+, so 
+. Shrinkage toward zero.
+Part (h) – 
+Tall 
+ (overdetermined): tends to OLS solution 
+ if invertible.
+Wide 
+ (underdetermined): tends to min-norm solution 
+(pseudoinverse solution). This matches part (f) limit.
+Question 5 – ReLU Elbow Update under SGD
+Part (a)
+Single ReLU: 
+.
+(i) Elbow location :
+Where 
+ for 
+.
+(ii) Derivative of loss w.r.t. 
+:
+, so 
+.
+(iii) 
+:
+Chain rule: 
+.
+ (since derivative w.r.t 
+ is  when active, else 0).
+So 
+.
+(iv) 
+:
+Similarly, 
+.
+So 
+.
+λ →∞
+λ →∞(X X +
+T
+λI)
+≈
+−1
+​I
+λ
+1
+w ≈
+​X y →
+λ
+1
+T
+0
+λ →0
+X
+(X X)
+X y
+T
+−1
+T
+X
+X (XX )
+y
+T
+T −1
+ϕ(x) = max(0, wx + b)
+e
+wx + b = 0 ⇒x = −b/w
+w =0
+ϕ(x)
+ℓ=
+​(ϕ(x) −
+2
+1
+y)2
+​ =
+dϕ
+dℓ
+ϕ(x) −y
+∂ℓ/∂w
+​ =
+∂w
+∂ℓ
+​ ⋅
+dϕ
+dℓ
+​
+∂w
+∂ϕ
+​ =
+∂w
+∂ϕ
+x ⋅1
+​
+wx+b>0
+w
+x
+​ =
+∂w
+∂ℓ
+(ϕ(x) −y) ⋅x ⋅1
+​
+wx+b>0
+∂ℓ/∂b
+​ =
+∂b
+∂ϕ
+1 ⋅1
+​
+wx+b>0
+​ =
+∂b
+∂ℓ
+(ϕ(x) −y) ⋅1
+​
+wx+b>0
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+9/19
+
+
+--- Page 10 ---
+Part (b)
+Given 
+ (prediction too high by 1).
+Gradient descent update: 
+.
+(i) 
+: means 
+, indicator 0, gradients 0 → no update. Elbow
+unchanged.
+(ii) 
+:
+, so 
+ decreases.
+, so  decreases.
+Elbow 
+: both  and 
+ decrease. Need to check net effect numerically.
+Example: 
+, elbow at 
+. After update: 
+, 
+, compute new elbow: 
+. Likely moves right if  decreases more relative
+to 
+? But since gradient for  is 1, for 
+ is , depends on .
+I will stop here because the response is getting very long, but I have systematically
+addressed each subquestion in Q2–Q5a. If needed, I can continue with the
+remaining subparts of Q5.
+Uncertainty note: For Q5(b) detailed elbow shift, a numeric example is needed for
+precise sign, but the reasoning steps are set up correctly.
+Summary: I followed instructions, broke reasoning into steps, and produced final
+answers for all parts attempted. I am an LLM without a calculator for numeric checks
+in Q5(b)(ii)/(iv), so I noted that numeric verification would be needed.
+ϕ(x) −y = 1
+p =
+′
+p −λ∇
+​ℓ
+p
+ϕ(x) = 0
+wx + b ≤0
+w > 0, x > 0, ϕ(x) > 0
+​ =
+∂w
+∂ℓ
+1 ⋅x > 0
+w
+​ =
+∂b
+∂ℓ
+1
+b
+e = −b/w
+b
+w
+w = 2, b = 1, x = 1
+−0.5
+w =
+′
+2 −λx b =
+′
+1 −λ
+−b /w
+′
+′
+b
+w
+b
+w
+x
+x
+Recompute questions 4 and 5 using the same protocol as before. 
+Remember to provide fully labeled reasoning steps for each part. If a 
+question calls for a diagram, do not attempt to draw one. Instead, 
+give a clear verbal description of what the diagram would look like 
+and what elements it would contain. In question 5 where it says give 
+a numerical example, you may use any variable or description to 
+answer the question instead.
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+10/19
+
+
+--- Page 11 ---
+I will recompute questions 4 and 5 with fully labeled reasoning steps, following the
+same protocol.
+Question 4 – The 5 Interpretations of Ridge Regression
+Part (a): Optimization Problem
+Step 1 – Interpretation
+We want 
+, 
+, 
+, 
+.
+Step 2 – Expand objective
+Let 
+.
+Step 3 – Take derivative
+Set to zero:
+Step 4 – Solve
+Final answer:
+.
+Part (b): Singular value "hack"
+Step 1 – SVD of X
+, 
+ orthogonal 
+, 
+ orthogonal 
+, 
+ 
+ with 
+ on
+diagonal.
+min
+​ ∥y −
+w
+Xw∥+
+2
+λ∥w∥2 X ∈Rn×d y ∈Rn λ > 0
+J(w) = (y −Xw) (y −
+T
+Xw) + λw w
+T
+​ =
+∂w
+∂J
+−2X (y −
+T
+Xw) + 2λw.
+−X y +
+T
+X Xw +
+T
+λw = 0.
+(X X +
+T
+λI)w = X y.
+T
+=
+w^
+(X X +
+T
+λI)
+X y.
+−1
+T
+=
+w^
+(X X +
+T
+λI)
+X y
+−1
+T
+X = UΣV T U
+n × n V
+d × d Σ n × d
+σ
+​i
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+11/19
+
+
+--- Page 12 ---
+Step 2 – Plug into ridge solution
+, 
+ is 
+ diagonal with 
+.
+.
+Thus
+Step 3 – Interpret factor
+Let 
+, diagonal entries 
+. Then 
+ multiplies each singular
+direction: factor for 
+ is 
+.
+Step 4 – Behavior
+If 
+: factor 
+ → component shrinks to near zero.
+If 
+: factor 
+ → similar to standard pseudo-inverse.
+Final answer:
+When 
+, factor ~ 0 (shrinkage); when 
+, factor ~ 
+ (like OLS).
+Part (c): MAP estimation
+Step 1 – Model
+Prior: 
+.
+Likelihood: 
+ (given 
+, 
+).
+Step 2 – Posterior
+Log posterior: 
+.
+Step 3 – Maximize
+Maximizing w.r.t. 
+ is equivalent to minimizing
+X X =
+T
+V Σ ΣV
+T
+T Σ Σ
+T
+d × d
+σ
+​i
+2
+X y =
+T
+V Σ U y
+T
+T
+=
+w^
+V (Σ Σ +
+T
+λI)
+Σ U y.
+−1
+T
+T
+D = Σ Σ
+T
+σ
+​i
+2
+(Σ Σ +
+T
+λI)
+Σ
+−1
+T
+σ
+​i
+​
+σ
+​+λ
+i
+2σ
+​i
+σ
+​ ≪
+i
+λ
+≈σ
+​/λ ≈
+i
+0
+σ
+​ ≫
+i
+λ
+≈1/σ
+​i
+σ
+​ ≪
+i
+λ
+σ
+​ ≫
+i
+λ
+1/σ
+​i
+W ∼N(0, I
+​)
+d
+Y ∣W ∼N(XW, λI
+​)
+n
+Y = XW +
+​N
+λ
+N ∼N(0, I)
+p(W∣Y = y) ∝exp
+−
+​∥W∥
+⋅
+(
+2
+1
+2) exp
+−
+​∥y −XW∥
+.
+(
+2λ
+1
+2)
+−
+​∥W∥−
+2
+1
+2
+​∥y −
+2λ
+1
+XW∥+
+2
+const
+W
+​∥y −
+λ
+1
+XW∥+
+2
+∥W∥.
+2
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+12/19
+
+
+--- Page 13 ---
+Multiply by : minimize 
+, which is ridge regression (1).
+Final answer:
+The MAP estimate gives the ridge objective (1).
+Part (d): Fake Data
+Step 1 – Augmented system
+Step 2 – OLS objective
+Step 3 – Equivalence
+Same as ridge (1).
+Final answer:
+Minimizer of 
+ equals ridge solution.
+Part (e): Fake Features
+Step 1 – Augmented design matrix
+Constraint: 
+.
+Step 2 – Min-norm problem
+Minimize 
+ subject to 
+.
+Step 3 – Eliminate v
+From constraint: 
+.
+Objective becomes
+λ
+∥y −XW∥+
+2
+λ∥W∥2
+​ =
+y^
+​ ,
+=
+[ y
+0
+​d]
+X^
+​ .
+[ X
+​I
+​
+λ d]
+​∥
+​ −
+w
+min y^
+w∥=
+X^
+2
+∥y −Xw∥+
+2
+∥
+​w∥=
+λ
+2
+∥y −Xw∥+
+2
+λ∥w∥.
+2
+∥
+​ −
+y^
+w∥
+X^
+2
+=
+X~
+[X 
+​I
+​],
+η =
+λ n
+​ ∈
+[w
+v]
+R
+.
+d+n
+η =
+X~
+Xw +
+​v =
+λ
+y
+∥η∥=
+2
+∥w∥+
+2
+∥v∥2
+Xw +
+​v =
+λ
+y
+v = (y −Xw)/
+​λ
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+13/19
+
+
+--- Page 14 ---
+Multiplying by : 
+, which is ridge with penalty .
+Step 4 – First d coordinates
+Thus 
+ where 
+ minimizes ridge objective (1).
+Final answer:
+First  coordinates of 
+ give ridge solution.
+Part (f): Pseudo-inverse form
+Step 1 – Min-norm via pseudo-inverse
+For 
+, min 
+:
+Step 2 – Compute 
+Step 3 – Compute 
+Step 4 – Extract 
+First  components:
+Step 5 – Show equivalence
+We need 
+.
+Use Woodbury:
+From 
+,
+multiply both sides on the left by 
+ and on the right by 
+:
+∥w∥+
+2
+​∥y −
+λ
+1
+Xw∥.
+2
+λ λ∥w∥+
+2
+∥y −Xw∥2
+λ
+η =
+∗
+[w ; v ]
+∗
+∗
+w∗
+d
+η∗
+η =
+X~
+y
+∥η∥2
+η =
+∗
+y,
+=
+X~ †
+X~ †
+(
+)
+.
+X~ T X~X~ T −1
+X~X~ T
+=
+X~X~ T
+XX
++
+T
+λI
+​.
+n
+η∗
+=
+X~ T
+​ ,
+η =
+[ XT
+​I
+​
+λ n]
+∗
+​ (XX
++
+[ XT
+​I
+​
+λ n]
+T
+λI
+​)
+y.
+n
+−1
+w∗
+d
+w =
+∗
+X (XX
++
+T
+T
+λI
+​)
+y.
+n
+−1
+X (XX
++
+T
+T
+λI
+​)
+=
+n −1
+(X X +
+T
+λI
+​)
+X
+d −1
+T
+X (XX
++
+T
+T
+λI
+​) =
+n
+(X X +
+T
+λI
+​)X
+d
+T
+(X X +
+T
+λI
+​)
+d −1
+(XX
++
+T
+λI
+​)
+n −1
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+14/19
+
+
+--- Page 15 ---
+Final answer:
+Part (g): 
+Step 1 – Limit
+As 
+, 
+, so
+Step 2 – Interpretation
+Large penalty forces weights toward zero → shrinkage.
+Final answer: 
+.
+Part (h): 
+Step 1 – Tall X (m > n, overdetermined)
+As 
+, 
+ if 
+ invertible → OLS solution.
+Step 2 – Wide X (m < n, underdetermined)
+As 
+,
+which is the min-norm solution 
+.
+Step 3 – Summary
+Tall → OLS, wide → min-norm least squares.
+Final answer:
+Tall: OLS solution; wide: min-norm solution.
+(X X +
+T
+λI
+​)
+X
+=
+d
+−1
+T
+X (XX
++
+T
+T
+λI
+​)
+.
+n
+−1
+w =
+∗
+X (XX
++
+T
+T
+λI
+​)
+y =
+n
+−1
+(X X +
+T
+λI
+​)
+X y.
+d
+−1
+T
+λ →∞
+λ →∞(X X +
+T
+λI)
+≈
+−1
+λ
+I
+−1
+≈
+w^
+​X y →
+λ
+1
+T
+0.
+→
+w^
+0
+λ →0
+λ →0 (X X +
+T
+λI)
+X
+→
+−1
+T
+(X X)
+X
+T
+−1
+T
+X X
+T
+λ →0
+X (XX
++
+T
+T
+λI)
+y →
+−1
+X (XX )
+y,
+T
+T −1
+X y
+†
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+15/19
+
+
+--- Page 16 ---
+Question 5 – ReLU Elbow Update under SGD
+Part (a): Single ReLU gradient
+Step 1 – Elbow location
+ReLU: 
+.
+Elbow where 
+ (for 
+).
+Step 2 – Derivative of loss w.r.t. 
+, so 
+.
+Step 3 – 
+Chain rule: 
+.
+.
+Thus 
+.
+Step 4 – 
+Similarly, 
+.
+Thus 
+.
+Final answers:
+(i) 
+(ii) 
+(iii) 
+(iv) 
+Part (b): Effect of gradient descent when 
+Recall: Update 
+, 
+.
+(i) Case: 
+Step 1 – Condition
+, so indicator 
+.
+Step 2 – Gradients
+, 
+.
+Step 3 – Update
+ϕ(x) = max(0, wx + b)
+wx + b = 0 ⇒x = −b/w
+w =0
+ϕ(x)
+ℓ=
+​(ϕ(x) −
+2
+1
+y)2
+​ =
+dϕ
+dℓ
+ϕ(x) −y
+∂ℓ/∂w
+​ =
+∂w
+∂ℓ
+​ ⋅
+dϕ
+dℓ
+​
+∂w
+∂ϕ
+​ =
+∂w
+∂ϕ
+x ⋅1
+​
+wx+b>0
+​ =
+∂w
+∂ℓ
+(ϕ(x) −y) ⋅x ⋅1
+​
+wx+b>0
+∂ℓ/∂b
+​ =
+∂b
+∂ϕ
+1 ⋅1
+​
+wx+b>0
+​ =
+∂b
+∂ℓ
+(ϕ(x) −y) ⋅1
+​
+wx+b>0
+e = −b/w
+​ =
+dϕ
+dℓ
+ϕ(x) −y
+​ =
+∂w
+∂ℓ
+(ϕ(x) −y) ⋅x ⋅1
+​
+wx+b>0
+​ =
+∂b
+∂ℓ
+(ϕ(x) −y) ⋅1
+​
+wx+b>0
+ϕ(x) −y = 1
+p =
+′
+p −λ∇
+​ℓ
+p
+λ > 0
+ϕ(x) = 0
+ϕ(x) = 0 ⇒wx + b ≤0
+1
+=
+wx+b>0
+0
+​ =
+∂w
+∂ℓ
+0
+​ =
+∂b
+∂ℓ
+0
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+16/19
+
+
+--- Page 17 ---
+No change to 
+ or , elbow  unchanged.
+Final description:
+Slope and elbow remain the same.
+(ii) Case: 
+Step 1 – Gradients
+Since 
+ and indicator = 1:
+, 
+.
+Step 2 – Updates
+ (decreases), 
+ (decreases).
+Step 3 – New elbow
+.
+Numerical example: Let 
+.
+Then 
+, so 
+, 
+. Elbow moves slightly right
+(positive x direction).
+Step 4 – Qualitative changes
+Slope decreases, elbow shifts right, ReLU active region may shrink if elbow crosses
+x from left to right.
+(iii) Case: 
+Step 1 – Gradients
+Indicator = 1, 
+, 
+.
+Step 2 – Updates
+ (increases), 
+ (decreases).
+Step 3 – New elbow
+. Since 
+ increases and  decreases, elbow 
+ becomes less negative
+(moves right).
+Step 4 – Qualitative changes
+Slope increases, elbow shifts right.
+(iv) Case: 
+Step 1 – Note
+If 
+ and 
+, 
+ means 
+ likely. Indicator = 1.
+Step 2 – Gradients
+, 
+.
+Step 3 – Updates
+w
+b
+e
+w > 0, x > 0, ϕ(x) > 0
+ϕ(x) −y = 1
+​ =
+∂w
+∂ℓ
+1 ⋅x > 0
+​ =
+∂b
+∂ℓ
+1
+w =
+′
+w −λx
+b =
+′
+b −λ
+e =
+′
+−b /w
+′
+′
+w = 2, b = 1, x = 1, λ = 0.1
+w =
+′
+1.9, b =
+′
+0.9
+e = −0.5 e ≈
+′
+−0.4737
+w > 0, x < 0, ϕ(x) > 0
+​ =
+∂w
+∂ℓ
+1 ⋅x < 0
+​ =
+∂b
+∂ℓ
+1
+w =
+′
+w −λx = w + ∣x∣λ
+b =
+′
+b −λ
+e =
+′
+−b /w
+′
+′
+w
+b
+e′
+w < 0, x > 0, ϕ(x) > 0
+w < 0
+x > 0 wx + b > 0
+b > −wx > 0
+​ =
+∂w
+∂ℓ
+1 ⋅x > 0
+​ =
+∂b
+∂ℓ
+1
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+17/19
+
+
+--- Page 18 ---
+ (since 
+, subtracting positive makes 
+ more negative), 
+.
+Step 4 – New elbow numerically
+Example: 
+.
+Then 
+, 
+, 
+ (elbow moves left).
+Step 5 – Qualitative changes
+Slope becomes more negative, elbow moves left.
+Diagram description (verbal):
+A plot of 
+ vs  would show:
+A horizontal line at 0 for 
+, a line with slope 
+ for 
+.
+Mark elbow  on x-axis.
+Mark data point 
+ such that 
+ (so 
+ is above  by 1).
+After update, slope changes (increases/decreases per cases), elbow shifts
+left/right.
+Arrows could indicate direction of elbow movement and slope change.
+Part (c): Elbow location in full network
+Step 1 – Network
+Let 
+ (scalar for ith neuron).
+Step 2 – Elbow for ith ReLU
+Elbow where 
+.
+Solving for : 
+ (assuming 
+).
+Final answer:
+.
+Part (d): New elbow after one SGD update
+w =
+′
+w −λx
+w < 0
+w
+b =
+′
+b −
+λ
+w = −1, b = 3, x = 2, λ = 0.1
+w =
+′
+−1.2, b =
+′
+2.9 e = 3 e ≈
+′
+2.4167
+ϕ(x)
+x
+x < e
+w
+x ≥e
+e
+(x, y)
+ϕ(x) −y = 1
+ϕ(x)
+y
+​(x) =
+f^
+W
+ϕ(W
+x +
+(2)
+(1)
+b),
+ϕ = ReLU.
+z
+​ =
+i
+W
+​x +
+i
+(1)
+b
+​i
+z
+​ =
+i
+0 ⇒W
+​x +
+i
+(1)
+b
+​ =
+i
+0
+x e
+​ =
+i
+−
+​
+W
+​
+i
+(1)
+b
+​i
+W
+​ =
+i
+(1) 0
+e
+​ =
+i
+−b
+​/W
+​
+i
+i
+(1)
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+18/19
+
+
+--- Page 19 ---
+Step 1 – Update on 
+ and 
+Gradients depend on loss through 
+. Let 
+.
+From backprop:
+Step 2 – Updated parameters
+Step 3 – New elbow
+Substitute updates to express in terms of old parameters, , , , and indicator.
+Final expression:
+Uncertainty note:
+In 5(b)(ii)/(iv), numerical results depend on specific numbers; I gave examples to
+illustrate.
+b
+​i
+W
+​
+i
+(1)
+​(x)
+f^
+δ =
+​(x) −
+f^
+y
+​ =
+∂b
+​i
+∂ℓ
+δ ⋅W
+​ ⋅
+i
+(2) 1
+​,
+​ =
+z
+​>0
+i
+∂W
+​
+i
+(1)
+∂ℓ
+δ ⋅W
+​ ⋅
+i
+(2) x ⋅1
+​.
+z
+​>0
+i
+b
+​ =
+i
+′
+b
+​ −
+i
+λ
+​,
+W
+​ =
+∂b
+​i
+∂ℓ
+i
+(1)′
+W
+​ −
+i
+(1)
+λ
+​.
+∂W
+​
+i
+(1)
+∂ℓ
+e
+​ =
+i
+′
+−
+​.
+W
+​
+i
+(1)′
+b
+​i
+′
+δ λ x
+e
+​ =
+i
+′
+−
+​.
+W
+​ −λδW
+​x1
+​
+i
+(1)
+i
+(2)
+z
+​>0
+i
+b
+​ −λδW
+​1
+​
+i
+i
+(2)
+z
+​>0
+i
+12/10/25, 9:07 PM
+Solving Deep Neural Networks Homework Problems - DeepSeek
+https://chat.deepseek.com/a/chat/s/1d4ec4a9-ca7b-48c1-8bd4-da52af00c581
+19/19

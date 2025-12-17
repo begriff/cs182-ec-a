@@ -1,0 +1,826 @@
+--- Page 1 ---
+CS182 Special Participation A: HW0
+Alena Chao
+December 5, 2025
+Executive Summary
+Because the problems in this homework are relatively “simple” and well-defined (mostly standard vector
+calculus identities, SVD manipulations, and linear least-squares derivations) the model is generally able
+to answer each part correctly in a single shot.
+The tasks have clear mathematical structure, fixed
+conventions, and well-known closed-form solutions, which reduces ambiguity and makes the model’s
+responses more stable and reliable.
+Across the problems, the model tends to follow a consistent pattern: it identifies the mathematical object
+being differentiated or solved for, checks shapes, rewrites expressions in a standard form (e.g., using the
+SVD or matrix calculus rules), and produces a clean final expression. For these kinds of textbook-style
+exercises, the model rarely makes conceptual errors.
+2. Vector Calculus Review
+User
+Let x, c ∈Rn and A ∈Rn×n. For the following parts, before taking any derivatives, identify what
+the derivative looks like (is it a scalar, vector, or matrix?) and how we calculate each term in the
+derivative. Then carefully solve for an arbitrary entry of the derivative, then stack/arrange all of
+them to get the final result.
+Note that the convention we will use going forward is that vector derivatives of a scalar (with
+respect to a column vector) are expressed as a row vector, i.e.,
+∂f
+∂x =
+ ∂f
+∂x1
+, ∂f
+∂x2
+, . . . , ∂f
+∂xn
+
+since a row acting on a column gives a scalar. You may have seen alternative conventions before,
+but the important thing is that you need to understand the types of objects and how they map
+to the shapes of the multidimensional arrays we use to represent those types.
+(a) Show
+∂
+∂x(xT c) = cT
+ChatGPT
+Type check and plan before differentiating:
+• x ∈Rn is a column vector.
+• c ∈Rn is a column vector.
+• xT c is a scalar.
+By the problem convention, the derivative of a scalar with respect to a column vector is a row
+vector:
+∂f
+∂x ∈R1×n.
+1
+
+
+--- Page 2 ---
+We will compute an arbitrary component
+∂
+∂xj (xT c) and then assemble those components into the
+row vector.
+Elementwise calculation:
+xT c =
+n
+X
+i=1
+xici
+Differentiate with respect to a single component xj:
+∂
+∂xj
+(xT c) =
+∂
+∂xj
+ n
+X
+i=1
+xici
+!
+=
+n
+X
+i=1
+ci
+∂xi
+∂xj
+=
+n
+X
+i=1
+ciδij = cj
+where δij is the Kronecker delta.
+Stacking the components: Stacking the components into the row vector (in the order j =
+1, . . . , n) gives:
+∂
+∂x(xT c) = [c1, c2, . . . , cn] = cT
+So,
+∂
+∂x(xT c) = cT
+User
+(b) Show
+∂
+∂x∥x∥2
+2 = 2xT
+ChatGPT
+Type check first:
+• x ∈Rn is a column vector.
+• ∥x∥2
+2 = xT x is a scalar.
+By the convention in the problem,
+∂
+∂x(scalar) ∈R1×n, so our final answer must be a row vector.
+Step 1: Write the function in coordinates
+∥x∥2
+2 = xT x =
+n
+X
+i=1
+x2
+i
+Step 2: Differentiate an arbitrary component Take derivative w.r.t. a specific component
+xj:
+∂
+∂xj
+ n
+X
+i=1
+x2
+i
+!
+=
+n
+X
+i=1
+∂
+∂xj
+(x2
+i ) =
+n
+X
+i=1
+2xiδij = 2xj
+Step 3: Stack all components The derivative (row vector) is:
+∂
+∂x∥x∥2
+2 = [2x1, 2x2, . . . , 2xn] = 2xT
+Final result:
+∂
+∂x∥x∥2
+2 = 2xT
+(If the problem used the column-vector convention, the answer would be 2x, but under this
+problem’s row-vector convention, the correct form is 2xT .)
+User
+(c) Show
+∂
+∂x(Ax) = A
+2
+
+
+--- Page 3 ---
+ChatGPT
+Let’s carefully follow the problem’s convention:
+• x ∈Rn is a column vector.
+• A ∈Rm×n.
+• Ax ∈Rm.
+The derivative
+∂
+∂x(Ax) must be an m × n matrix. (Why? Because each output component (Ax)i
+is scalar, and its derivative w.r.t. x is a row vector, so stacking m rows gives an m × n Jacobian).
+Step 1: Write components
+(Ax)i =
+n
+X
+j=1
+Aijxj
+Step 2: Derivative of a single component Take derivative with respect to a single coordinate
+xk:
+∂
+∂xk
+(Ax)i =
+∂
+∂xk
+
+
+n
+X
+j=1
+Aijxj
+
+=
+n
+X
+j=1
+Aijδjk = Aik
+So the (i, k)-entry of the derivative matrix is:
+∂(Ax)
+∂x
+
+ik
+= Aik
+Step 3: Stack all entries Every entry matches the corresponding entry of A. Thus the derivative
+is simply:
+∂
+∂x(Ax) = A
+User
+(d) Show
+∂
+∂x(xT Ax) = xT (A + AT )
+ChatGPT
+Let’s go through it cleanly using the problem’s convention that the vector derivative of a scalar
+w.r.t. a column vector is a row vector.
+Type Check:
+• x ∈Rn (column vector)
+• A ∈Rn×n
+• xT Ax is a scalar
+Thus
+∂
+∂x(xT Ax) ∈R1×n (a row vector).
+Step 1: Expand the expression elementwise
+xT Ax =
+n
+X
+i=1
+n
+X
+j=1
+xiAijxj
+Step 2: Take derivative w.r.t. a single component xk
+∂
+∂xk
+(xT Ax) =
+X
+i,j
+Aij
+∂
+∂xk
+(xixj)
+Use product rule:
+∂
+∂xk (xixj) = xjδik + xiδjk. So:
+∂
+∂xk
+(xT Ax) =
+X
+i,j
+Aij(xjδik + xiδjk)
+3
+
+
+--- Page 4 ---
+Simplify each term separately.
+Term 1:
+X
+i,j
+Aijxjδik =
+X
+j
+Akjxj = (Ax)k
+Term 2:
+X
+i,j
+Aijxiδjk =
+X
+i
+Aikxi = (AT x)k
+Step 3: Combine
+∂
+∂xk
+(xT Ax) = (Ax)k + (AT x)k
+Stacking all components into a row vector:
+∂
+∂x(xT Ax) = (Ax + AT x)T
+Factor out x:
+= xT (A + AT )
+Final Answer:
+∂
+∂x(xT Ax) = xT (A + AT )
+User
+Under what condition is
+∂
+∂x(xT Ax) equal to 2xT A?
+ChatGPT
+We previously showed that in general:
+∂
+∂x(xT Ax) = xT (A + AT )
+For this to equal 2xT A, we need:
+A + AT = 2A
+Subtract A from both sides:
+AT = A
+Condition: A must be symmetric.
+If A is symmetric, then A = AT , and the derivative simplifies:
+xT (A + AT ) = xT (A + A) = 2xT A
+3. Least Squares and the Min-norm problem from the Perspective
+of SVD
+ANNOTATION: For this section, I noticed that Chat often gave more details than expected. For example,
+in part (a) and (d) they already plugged in the SVD, so I didn’t have to ask part (b) and (e)
+User
+Least Squares and the Min-norm problem from the Perspective of SVD
+Consider the equation Xw = y, where X ∈Rm×n is a non-square data matrix, w is a weight
+vector, and y is a vector of labels corresponding to the datapoints in each row of X.
+4
+
+
+--- Page 5 ---
+Let’s say that X = UΣV T is the (full) SVD of X.
+Here, U and V are orthonormal square
+matrices, and Σ is an m × n matrix with non-zero singular values (σi) on the "diagonal". For
+this problem, we define Σ† as an n × m matrix with the reciprocals of the singular values (1/σi)
+along the "diagonal".
+(a) First, consider the case where m > n, i.e., our data matrix X has more rows than columns
+(tall matrix) and the system is overdetermined. How do we find the weights w that minimize the
+error between Xw and y? In other words, we want to solve minw ∥Xw −y∥2.
+ChatGPT
+(a) Overdetermined case (m > n)
+We want:
+min
+w ∥Xw −y∥2
+2
+Set the gradient to zero (normal equations):
+∂
+∂w∥Xw −y∥2
+2 = 2XT (Xw −y) = 0 =⇒XT Xw = XT y
+Using the full SVD X = UΣV T (with Σ ∈Rm×n and Σ† ∈Rn×m), the least-squares solution can
+be written with the (Moore–Penrose) pseudoinverse:
+wLS = X+y = V Σ†U T y
+Remarks / equivalent forms: If X has full column rank (rank(X) = n), then Σ has all n
+diagonal singular values nonzero and the solution is unique and equals:
+wLS = (XT X)−1XT y = V Σ−1U T y
+In the rank-deficient case, the set of minimizers is infinite; the pseudoinverse formula w = X+y
+picks the minimum-norm solution among them.
+The fitted vector is the projection of y onto the column space of X:
+XwLS = UΣV T V Σ†U T y = U(ΣΣ†)U T y = Pcol(X)y
+So the answer: the minimizer is wLS = X+y.
+User
+You’ll notice that the least-squares solution is in the form w∗= Ay. What happens if we left-
+multiply X by our matrix A? This is why the matrix A of the least-squares solution is called the
+left-inverse.
+ChatGPT
+If w∗= Ay is the least-squares solution and A is the pseudoinverse X+ = V Σ†U T , then consider:
+XA = XX+
+Using the SVD X = UΣV T :
+XA = UΣV T V Σ†U T = U(ΣΣ†)U T
+What is ΣΣ†? Σ is m × n with singular values σi on the diagonal. Σ† is n × m with 1/σi. Thus:
+ΣΣ† =
+
+
+1
+0
+...
+...
+1
+0
+0
+· · ·
+0
+0
+
+∈Rm×m
+5
+
+
+--- Page 6 ---
+It is the orthogonal projector onto the column space of X. Therefore, XA = Pcol(X).
+So why is A called a left-inverse? A true left-inverse A of X would satisfy AX = In. When
+m > n (tall matrix), X cannot have a two-sided inverse. However:
+• AX = In does hold for the pseudoinverse if X has full column rank.
+• XA = Pcol(X) acts as the identity on the column space of X.
+Thus, A = X+ behaves like a left inverse on the subspace where an inverse can exist.
+User
+Now, let’s consider the case where m < n, i.e. the data matrix X has more columns than rows
+and the system is underdetermined. There exist infinitely many solutions for w, but we seek the
+minimum-norm solution, i.e., we want to solve min ∥w∥2 s.t. Xw = y. What is the minimum
+norm solution?
+ChatGPT
+When m < n, the system Xw = y is underdetermined. The minimum-norm solution is the unique
+solution with the smallest Euclidean norm.
+Write the full SVD X = UΣV T . Partition V = [Vr V0] where Vr spans the row space and V0
+spans the nullspace. Any w can be written as:
+w = Vra + V0b
+The constraint Xw = y becomes:
+UrΣrV T
+r (Vra + V0b) = UrΣra = y =⇒a = Σ−1
+r U T
+r y
+Thus the general solution is:
+w = VrΣ−1
+r U T
+r y + V0b
+To minimize ∥w∥2
+2, choose b = 0. Therefore the minimum-norm solution is:
+wmin = X+y = V Σ†U T y
+If X has full row rank (r = m), this reduces to wmin = XT (XXT )−1y.
+Geometric facts: wmin lies in the row space of X (orthogonal to null(X)), and it is the unique
+solution of Xw = y with smallest ℓ2-norm.
+User
+You’ll notice that the min-norm solution is in the form w∗= By. What happens if we right-
+multiply X by our matrix B? This is why the matrix B of the min-norm solution is called the
+right-inverse.
+ChatGPT
+Since in the underdetermined case the minimum-norm solution is w∗= By = X+y, let’s
+examine what happens when we right-multiply X by B:
+XB = XX+
+In the underdetermined case (m < n), the rank is at most m. Using SVD to compute XX+:
+XX+ = (UΣV T )(V Σ†U T ) = U(ΣΣ†)U T
+In this case, Σ ∈Rm×n and Σ† ∈Rn×m result in:
+ΣΣ† = Im
+6
+
+
+--- Page 7 ---
+Therefore:
+XX+ = Im
+Why does this make B = X+ a right-inverse?
+A matrix B is a right-inverse of X if
+XB = Im. Indeed, XX+ = Im. The pseudoinverse gives the unique map that:
+1. Recovers exactly the original y (because XX+y = y).
+2. Returns the minimum-norm solution among all w satisfying Xw = y.
+4. The 5 Interpretations of Ridge Regression
+ANNOTATION: I notice that as the interpretations get more complex chat starts to diverge from the
+solutions more. For example in part (f) chat uses the Woodbury Identity which isn’t necessary to solve
+the problem.
+User
+(a) Perspective 1:
+Optimization Problem.
+Ridge regression can be understood as the
+unconstrained optimization problem:
+argminw ∥y −Xw∥2
+2 + λ∥w∥2
+2
+(1)
+where X ∈Rn×d is a data matrix, and y ∈Rn is the target vector. What’s new compared to
+simple OLS is the addition of the λ∥w∥2 term, which acts as a "penalty".
+Use vector calculus to expand the objective and solve this optimization problem for w.
+ChatGPT
+We want to minimize:
+J(w) = ∥y −Xw∥2
+2 + λ∥w∥2
+2
+First, expand the quadratic term:
+∥y −Xw∥2
+2 = (y −Xw)T (y −Xw) = yT y −2yT Xw + wT XT Xw
+So the objective is:
+J(w) = yT y −2yT Xw + wT XT Xw + λwT w
+Compute the gradient with respect to w.
+Using matrix derivative rules (∇w(aT w)
+=
+a, ∇w(wT Aw) = (A + AT )w), and noting XT X is symmetric:
+∇wJ(w) = −2XT y + 2XT Xw + 2λw
+Set the gradient to zero for a critical point:
+−2XT y + 2XT Xw + 2λw = 0 =⇒(XT X + λI)w = XT y
+Provided λ > 0 (making XT X + λI positive definite and invertible), the unique minimizer is:
+w⋆= (XT X + λI)−1XT y
+User
+(b) Perspective 2: "Hack" of shifting the Singular Values. Let X = UΣV T be the (full)
+SVD of X. Plug this into the Ridge Regression solution and simplify. What happens to the
+singular values of (XT X + λI)−1XT when σi ≪λ? What about when σi ≫λ?
+7
+
+
+--- Page 8 ---
+ChatGPT
+Step 1: Substitute the SVD into XT X + λI
+XT X + λI = (UΣV T )T (UΣV T ) + λI = V ΣT ΣV T + λI
+Since V is orthonormal, I = V V T , so we can factor V :
+= V (ΣT Σ + λI)V T
+Step 2: Invert and multiply by XT
+(XT X + λI)−1XT = [V (ΣT Σ + λI)V T ]−1(V ΣT U T )
+= V (ΣT Σ + λI)−1V T V ΣT U T = V (ΣT Σ + λI)−1ΣT U T
+The resulting matrix is diagonal with entries:
+σi
+σ2
+i + λ
+Step 3: Analyze the effect on singular values
+• Case 1 (σi ≪λ):
+σi
+σ2
+i + λ ≈σi
+λ ≪1
+Small singular values are heavily shrunk. Ridge suppresses directions of low variance (noise).
+• Case 2 (σi ≫λ):
+σi
+σ2
+i + λ ≈σi
+σ2
+i
+= 1
+σi
+Large singular values are almost unaffected (similar to OLS behavior).
+User
+(c) Perspective 3: MAP Estimation. Ridge Regression can be viewed as finding the MAP
+estimate when we apply a prior W ∼N(0, I) and view Y as generated by Y = XW +
+√
+λN where
+N ∼N(0, 1). Show that (1) is the MAP estimate for W given Y = y.
+ChatGPT
+Step 1: Likelihood and Prior Likelihood (Y |W ∼N(XW, λIn)):
+p(Y = y|W) ∝exp
+
+−1
+2λ∥y −XW∥2
+2
+
+Prior (W ∼N(0, Id)):
+p(W) ∝exp
+
+−1
+2∥W∥2
+2
+
+Step 2: Posterior
+p(W|Y ) ∝p(Y |W)p(W) ∝exp
+
+−1
+2λ∥y −XW∥2
+2 −1
+2∥W∥2
+2
+
+Step 3: MAP Optimization Maximizing the posterior is equivalent to minimizing the negative
+log-posterior:
+W ⋆= argminW
+ 1
+2λ∥y −XW∥2
+2 + 1
+2∥W∥2
+2
+
+Multiplying by 2λ:
+W ⋆= argminW ∥y −XW∥2
+2 + λ∥W∥2
+2
+This is exactly the Ridge Regression objective.
+8
+
+
+--- Page 9 ---
+User
+(d) Perspective 4: Fake Data. Consider the augmented measurement vector ˆy = [y; 0d] and
+data matrix ˆX = [X;
+√
+λId]. Show that the classical OLS optimization problem argminw ∥ˆy −
+ˆXw∥2
+2 has the same minimizer as (1).
+ChatGPT
+Expand the augmented objective:
+∥ˆy −ˆXw∥2
+2 =
+
+y
+0
+
+−
+ X
+√
+λId
+
+w
+
+2
+2
+=
+
+y −Xw
+−
+√
+λw
+
+2
+2
+Summing the squared norms of the blocks:
+= ∥y −Xw∥2
+2 + ∥
+√
+λw∥2
+2 = ∥y −Xw∥2
+2 + λ∥w∥2
+2
+This recovers the Ridge objective exactly. Adding
+√
+λId as "fake data" rows pulls w towards zero.
+User
+(e) Perspective 5: Fake Features. Construct an augmented design matrix ˇX = [X
+√
+λIn]
+(horizontal stacking). The problem is underdetermined. Show that the minimum-norm solution
+to ˇXη = y corresponds to Ridge regression.
+ChatGPT
+Let η = [w; z] where w ∈Rd and z ∈Rn. The constraint ˇXη = y becomes:
+Xw +
+√
+λz = y =⇒z =
+1
+√
+λ
+(y −Xw)
+We minimize ∥η∥2
+2:
+∥η∥2
+2 = ∥w∥2
+2 + ∥z∥2
+2 = ∥w∥2
+2 + 1
+λ∥y −Xw∥2
+2
+Multiplying by λ, we minimize:
+λ∥w∥2
+2 + ∥y −Xw∥2
+2
+This is the Ridge objective. The first d components of the min-norm solution η⋆give the Ridge
+estimator w⋆.
+User
+(f) Use the pseudo-inverse A† = AT (AAT )−1 on the augmented matrix from (e) to show that
+ˆw = XT (XXT + λI)−1y, and show this is equivalent to the standard formula.
+ChatGPT
+Step 1:
+Pseudo-inverse solution For
+ˇX = [X
+√
+λIn], the min-norm solution is η =
+ˇXT ( ˇX ˇXT )−1y. Compute ˇX ˇXT :
+ˇX ˇXT = [X
+√
+λIn]
+ XT
+√
+λIn
+
+= XXT + λIn
+Now compute ˇXT ( ˇX ˇXT )−1y:
+η =
+ XT
+√
+λIn
+
+(XXT + λIn)−1y
+9
+
+
+--- Page 10 ---
+The top part (corresponding to w) is:
+w⋆= XT (XXT + λI)−1y
+(Kernel Ridge Form)
+Step 2: Equivalence via Woodbury Identity Using the identity (I+AB)−1A = A(I+BA)−1
+(scaled appropriately):
+XT (XXT + λI)−1 = (XT X + λI)−1XT
+Thus, the min-norm solution on fake features is equivalent to the standard Ridge solution.
+User
+(g) What happens when λ →∞? Why is this called "shrinkage"?
+ChatGPT
+As λ →∞:
+wr = 1
+λ
+ 1
+λXT X + I
+−1
+XT y →0
+The regularization term λ∥w∥2 dominates the objective, forcing all weights to shrink toward zero.
+This reduces variance but introduces bias.
+User
+(h) What happens when λ →0 for tall vs. wide matrices?
+ChatGPT
+• Tall Matrix (n > d): XT X is generally invertible.
+lim
+λ→0 wr = (XT X)−1XT y
+This recovers the standard OLS solution.
+• Wide Matrix (n < d): XT X is singular.
+lim
+λ→0 wr = XT (XXT )−1y
+This recovers the minimum-norm solution to the underdetermined system Xw = y.
+5. ReLU Elbow Update under SGD
+User
+(a) Let’s start by examining the behavior of a single ReLU with a linear function of x as the
+input:
+ϕ(x) =
+(
+wx + b,
+wx + b > 0
+0,
+else
+We define a loss function ℓ(x, y, ϕ) = 1
+2∥ϕ(x) −y∥2
+2. Find the following: (i) The location of the
+‘elbow’ e of the function. (ii) The derivative of the loss w.r.t. ϕ(x), namely dℓ
+dϕ. (iii) The partial
+derivative of the loss w.r.t. w, namely
+∂ℓ
+∂w. (iv) The partial derivative of the loss w.r.t. b, namely
+∂ℓ
+∂b.
+10
+
+
+--- Page 11 ---
+ChatGPT
+(i) Location of the ‘elbow’ e The elbow is where the ReLU activates (wx + b = 0):
+e = −b
+w
+(ii) Derivative w.r.t. ϕ(x)
+dℓ
+dϕ = d
+dϕ
+1
+2(ϕ(x) −y)2 = ϕ(x) −y
+(iii) Partial derivative w.r.t. w Using the chain rule
+∂ℓ
+∂w = dℓ
+dϕ · dϕ
+dw:
+dϕ
+dw = x · I(wx + b > 0)
+∂ℓ
+∂w = (ϕ(x) −y) · x · I(wx + b > 0)
+(iv) Partial derivative w.r.t. b Using the chain rule ∂ℓ
+∂b = dℓ
+dϕ · dϕ
+db :
+dϕ
+db = 1 · I(wx + b > 0)
+∂ℓ
+∂b = (ϕ(x) −y) · I(wx + b > 0)
+User
+(b) Suppose we have a training point (x, y) such that ϕ(x)−y = 1 (we are too high). Describe what
+happens to the slope and elbow of ϕ(x) when we perform gradient descent in the following cases:
+(i) ϕ(x) = 0. (ii) w > 0, x > 0, ϕ(x) > 0. (iii) w > 0, x < 0, ϕ(x) > 0. (iv) w < 0, x > 0, ϕ(x) > 0.
+Draw and label ϕ(x), the elbow, and qualitative changes.
+ChatGPT
+The SGD update is p′ = p −λ ∂ℓ
+∂p. Since ϕ(x) −y = 1 > 0, the gradient attempts to decrease the
+output. Recall elbow e = −b/w. New elbow e′ = −b′/w′.
+(i) ϕ(x) = 0 (Inactive) Gradients are zero.
+No update occurs.
+Slope and elbow remain
+unchanged.
+(ii) w > 0, x > 0, ϕ(x) > 0
+• Gradients:
+∂ℓ
+∂w = x > 0, ∂ℓ
+∂b = 1 > 0.
+• Update: w decreases, b decreases.
+• Slope: Decreases (becomes less steep).
+• Elbow: Shifts slightly (typically right for small λ, as numerator and denominator both
+decrease).
+(iii) w > 0, x < 0, ϕ(x) > 0
+• Gradients:
+∂ℓ
+∂w = x < 0, ∂ℓ
+∂b = 1 > 0.
+• Update: w increases (becomes steeper), b decreases.
+• Slope: Increases.
+• Elbow: Shifts right (numerator decreases, denominator increases).
+(iv) w < 0, x > 0, ϕ(x) > 0
+11
+
+
+--- Page 12 ---
+• Gradients:
+∂ℓ
+∂w = x > 0, ∂ℓ
+∂b = 1 > 0.
+• Update: w decreases (becomes more negative), b decreases.
+• Slope: Becomes more negative.
+• Elbow: Shifts left (numerator decreases, denominator becomes more negative).
+User
+(c) Derive the location ei of the elbow of the i-th elementwise ReLU activation for the full network
+ˆf(x) = W (2)Φ(W (1)x + b).
+ChatGPT
+For the i-th hidden unit:
+ϕi(x) = ReLU(w(1)
+i
+x + bi)
+The elbow occurs where the argument is zero:
+w(1)
+i
+ei + bi = 0
+Solving for ei:
+ei = −bi
+w(1)
+i
+User
+(d) Derive the new elbow location e′
+i of the i-th elementwise ReLU activation after one stochastic
+gradient update with learning rate λ.
+ChatGPT
+Step 1: Gradients for the full network
+∂ℓ
+∂w(1)
+i
+= ( ˆf(x) −y) · W (2)
+i
+· x · I(active)
+∂ℓ
+∂bi
+= ( ˆf(x) −y) · W (2)
+i
+· I(active)
+Step 2: Parameter Updates
+w(1)′
+i
+= w(1)
+i
+−λ
+∂ℓ
+∂w(1)
+i
+b′
+i = bi −λ ∂ℓ
+∂bi
+Step 3: New Elbow Location
+e′
+i = −b′
+i
+w(1)′
+i
+Substituting the updates:
+e′
+i = −
+bi −λ( ˆf(x) −y)W (2)
+i
+I(w(1)
+i
+x + bi > 0)
+w(1)
+i
+−λ( ˆf(x) −y)W (2)
+i
+xI(w(1)
+i
+x + bi > 0)
+Interpretation: If the unit is inactive, the elbow does not move. If active, the shift depends on
+the error sign, the output weight W (2)
+i
+, and the input x.
+12

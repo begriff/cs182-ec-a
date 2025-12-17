@@ -1,0 +1,476 @@
+--- Page 1 ---
+Special Participation A: Homework 3 with Gemini Fast
+Gemini (AI Teaching Assistant)
+December 7, 2025
+Contents
+1
+Conversation Trace
+1
+1.1
+User Prompt 1
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1
+1.2
+TA Response 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1
+1.3
+User Prompt 2
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2
+1.4
+TA Response 2 (Indexing) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2
+1.5
+User Prompt 3
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3
+1.6
+TA Response 3 (Solution to Q1)
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3
+1.7
+User Prompt 4
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4
+1.8
+TA Response 4 (Solution to Q3)
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4
+1.9
+User Prompt 5
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5
+1.10 TA Response 5 (Solution to Q4a-c) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5
+1.11 User Prompt 6
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5
+1.12 TA Response 6 (Solution to Q4d-e) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5
+1.13 User Prompt 7
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6
+1.14 TA Response 7 (Solution to Q5)
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6
+1
+Conversation Trace
+1.1
+User Prompt 1
+You are a Teaching Assistant for a graduate-level Deep Learning course.
+Your role is to rigorously, completely, and correctly solve homework problems only when instructed.
+I will upload a PDF of the homework assignment.
+Your workflow should be:
+- Parse and analyze the PDF.
+- Identify and index all question numbers in order, without solving anything yet.
+- Wait for my explicit command: \Solve question X". When this command is given, solve only question X
+- All solutions must be written in clean, exportable LaTeX.
+- After producing each solution, verify correctness, check for hallucinations, and correct any weak o
+- Maintain an internal record of the entire conversation trace, including all my prompts and your out
+Do you understand?
+Please answer yes or no, and ask any clarifying questions if anything is ambiguous.
+1.2
+TA Response 1
+Yes. I understand my role as a Teaching Assistant for a graduate-level Deep
+Learning course and the specified workflow for handling the homework
+assignment.
+I will:
+* Parse and analyze the uploaded PDF.
+* Identify and index all question numbers in order.
+1
+5
+Gemini Fast
+Initial Prompt
+
+
+--- Page 2 ---
+* Wait for the explicit command "Solve question X" before providing a
+solution.
+* Write all solutions in clean, exportable \LaTeX.
+* Verify the correctness of each solution and reasoning.
+* Maintain a record of the entire conversation trace.
+* Provide the full trace in \LaTeX when requested.
+I have no clarifying questions at this time. I am ready for you to upload the
+homework PDF.
+1.3
+User Prompt 2
+Here is the pdf of the homework
+1.4
+TA Response 2 (Indexing)
+I have parsed and analyzed the uploaded PDF, "182\_hw3.pdf".
+Homework Question Index
+1.
+Maximal Update Parameterization
+* (a) Scaling of expected squared RMS norm of $y=Wx$ at initialization.
+* (b) Scaling of expected RMS norm squared of unscaled feature change during training.
+* (c) Why the update rule only depends on $d_1$.
+2.
+Visualizing Maximal Update Parameterization (Coding Question)
+3.
+Maximal Update Parameterization Research
+* (a) Analysis of Figure 1 from the paper.
+* (b) Analysis of Table 3 from the paper.
+* (c) Analysis of Desideratum 1 and Condition 1 from a research paper.
+4.
+Policy Gradient and the Reparameterization Gradient Estimator
+* (a) Express $\nabla_{\mu}\mathcal{F}(\mu)$ as an expectation for a Gaussian distribution (Poli
+* (b) Rewrite $\mathcal{F}(\mu)$ using an expectation over a standard normal distribution.
+* (c) Express $\nabla_{\mu}\mathcal{F}(\mu)$ using an expectation over $p_{\mu=0}(x)$ (Reparamete
+* (d) General Policy Gradient Estimator.
+* (e) General Reparameterization Gradient Estimator (Proof and special case).
+5.
+Tensor Rematerialization
+* (a) Number of forward operations in a single backward pass.
+* (b) Number of loadmem operations in a single backward pass.
+* (c) Required speed of loaddisk operation for equal time.
+6.
+Homework Process and Study Group
+* (a) Sources used.
+* (b) Collaborators.
+* (c) Time worked.
+I am now waiting for your explicit command to solve a specific question, such
+as "Solve question 1(a)".
+2
+Parsing of HW PDF
+
+
+--- Page 3 ---
+1.5
+User Prompt 3
+Solve question 1
+1.6
+TA Response 3 (Solution to Q1)
+(a) Scaling of expected squared RMS norm of y = Wx at initialization.
+The squared RMS norm of y →Rd2 is RMS2(y) =
+1
+d2
+!d2
+i=1 y2
+i . For yi = !d1
+j=1 Wijxj, where Wij ↑N(0, 1)
+and xj ↑N(0, 1) are i.i.d., the mean and variance of yi are:
+E[yi] =
+d1
+"
+j=1
+E[Wij]E[xj] = 0
+Var(yi) = E[y2
+i ] =
+d1
+"
+j=1
+E[(Wijxj)2] =
+d1
+"
+j=1
+E[W 2
+ij]E[x2
+j] =
+d1
+"
+j=1
+(1)(1) = d1
+The expected squared RMS norm is:
+E[RMS2(y)] = E
+#
+1
+d2
+d2
+"
+i=1
+y2
+i
+$
+= 1
+d2
+d2
+"
+i=1
+E[y2
+i ] = 1
+d2
+d2
+"
+i=1
+d1 = d1
+Results:
+• The expected squared RMS norm is E[RMS2(y)] = d1.
+• This scales linearly with the input dimension d1 (fan-in) and is independent of d2 (fan-out).
+• To ensure E[RMS2(cWx)] = 1, we need c2 · d1 = 1. The constant to multiply W by is c =
+1
+→d1 .
+(b) Scaling of expected RMS norm squared of unscaled feature change y↑= sign(xigT
+i )xi↓
+during training.
+The unscaled feature change is y↑= !Wxi, where !Wkj = sign(gikxij).
+The k-th component is
+y↑
+k = !d1
+j=1 !Wkjxij = !d1
+j=1 sign(gikxij)xij. The expected squared norm of y↑
+k is:
+E[(y↑
+k)2] = E
+
+
+d1
+"
+j=1
+d1
+"
+l=1
+sign(gikxij)xijsign(gikxil)xil
+
+
+Diagonal terms (j = l):
+d1
+"
+j=1
+E[(sign(gikxij)xij)2] =
+d1
+"
+j=1
+E[x2
+ij] = d1
+(since sign2(·) = 1 and E[x2
+ij] = 1)
+O!-diagonal terms (j ↓= l): The expectation factors due to independence of xij and xil (conditional
+on gik):
+Exij,xil[(sign(gikxij)xij)(sign(gikxil)xil) | gik] =
+)
+Exij[sign(gikxij)xij | gik]
+*2
+Since sign(gikxij)xij = sign(gik)|xij|, and E[|xij|] =
++
+2/ω:
+E[(y↑
+k)2] = d1 + d1(d1 ↔1) · Egik
+,-
+sign(gik)
++
+2/ω
+.2/
+= d1 + d1(d1 ↔1) 2
+ω
+The expected squared RMS norm is E[RMS2(y↑)] =
+1
+d2
+!d2
+k=1 E[(y↑
+k)2] = E[(y↑
+1)2]:
+E[RMS2(y↑)] = d1
+
+1 + (d1 ↔1) 2
+ω
+
+Results:
+• The expected RMS norm squared of the change in features scales quadratically with d1 for large
+d1 (approximately 2
+ωd2
+1).
+• It is independent of d2.
+3
+completely
+correct
+Doesn'tmentionXavierinit
+completely
+correctr
+V derivation is correctandGeminiwentbeyondthe
+postedsolutions byanalyzingoff diagonalentries
+minormistake didn'tincludethemultiplicate
+factor of
+inthefinalsolution
+
+
+--- Page 4 ---
+(c) Why the update rule only depends on d1.
+The total expected squared ε2 norm of the feature change is E[↗y↑↗2
+2] = d2 · E[(y↑
+1)2]. The RMS norm
+squared is deﬁned with a scaling factor of 1/d2:
+E[RMS2(y↑)] = 1
+d2
+E[↗y↑↗2
+2] = 1
+d2
+)
+d2 · E[(y↑
+1)2]
+*
+= E[(y↑
+1)2]
+Since E[(y↑
+1)2] only depends on the summation index limit d1 (the fan-in), the overall expected squared
+RMS norm of the feature change is independent of d2 (the fan-out). The deﬁnition of the RMS norm
+is speciﬁcally chosen to normalize away the dependence on the feature dimension d2.
+1.7
+User Prompt 4
+Solve question 3. Below, I will attach the "Tensor Programs V" paper and the
+"Spectral Condition for Feature Learning" papers.
+1.8
+TA Response 4 (Solution to Q3)
+(a) Analysis of Figure 1 from ”Tensor Programs V”
+• Left Figure (Standard Parameterization - SP): The optimal learning rate for minimizing
+training loss shifts signiﬁcantly (decreases) as the model width increases. This instability pre-
+vents zero-shot hyperparameter transfer.
+• Right Figure (Maximal Update Parameterization - µP): The optimal learning rate for
+minimizing training loss remains stable (or invariant) as the model width increases.
+The main observation is that µP stabilizes the optimal learning rate across di”erent model widths,
+enabling zero-shot hyperparameter transfer (µTransfer) from small to large models.
+(b) Analysis of Table 3 from ”Tensor Programs V”
+Under Standard Parameterization (SP), the required Adam LR for hidden layers is ϑSP = #(1/fanin).
+This scaling leads to feature updates !hε whose RMS norm vanishes in the inﬁnite-width limit (RMS(!hε) ↘
+1/≃fanin ⇐0 as fanin ⇐⇒). This forces the network into the Neural Tangent Kernel (NTK) or
+lazy training regime, where features are frozen and feature learning is prevented. The µP scheme
+ﬁxes this by ensuring ϑµP = #(1).
+(c) Analysis of Desideratum 1 and Condition 1 from ”A Spectral Condition for Feature
+Learning”
+1. Why Desideratum 1 is desired for Feature Learning. Desideratum 1 requires that both
+the feature norm ||hε(x)||2 and the feature update norm ||!hε(x)||2 must be #(≃nε), which is
+equivalent to requiring the Root Mean Square (RMS) norm of both to be ”(1). The require-
+ment RMS(!hε) = #(1) ensures that the feature vector changes by a non-vanishing amount
+relative to the element size in the large-width limit, which is the deﬁnition of feature learning.
+2. How Condition 1 implies ||!hε(x)||2 ⇑#(≃nε). The feature update norm satisﬁes the inequal-
+ity:
+||!hε(x)||2 ⇑||!Wε||spec · ||hε↔1(x)||2
+Condition 1 speciﬁes ||!Wε||spec = #(1).
+Desideratum 1 requires the input feature norm
+||hε↔1(x)||2 = #(≃nε↔1). Substituting these gives the upper bound:
+||!hε(x)||2 ⇑#(1) · #(≃nε↔1) = ”(≃nε)
+(assuming nε ⇓nε↔1)
+3. Key assumption for getting the lower bounds. The key assumption required to achieve
+the lower bound ||#hε(x)||2 = $(≃nε) (saturating the # requirement) is Spectral Alignment:
+The input feature vector hε↔1 must be su$ciently aligned with the principal singular vector of the
+weight update matrix !Wε.
+4
+V completely correct
+Geminisummarizedby
+e E
+thequestiontopartial
+correct
+madewrongassumption
+eadingto
+hallucination
+mummmmmmum
+
+
+--- Page 5 ---
+1.9
+User Prompt 5
+Solve question 4 parts (a), (b), and (c)
+1.10
+TA Response 5 (Solution to Q4a-c)
+The objective function is F(µ) = Ex↗pµ(x)[f(x)], where pµ(x) = N(x; µ, %) and % is ﬁxed.
+(a) Express ⇔µF(µ) as an expectation for a Gaussian distribution (Policy Gradient Estima-
+tor).
+Using the Policy Gradient Estimator (Log-Derivative Trick):
+⇔µF(µ) = Ex↗pµ(x) [f(x)⇔µ log pµ(x)]
+For pµ(x) = N(x; µ, %), the score function is ⇔µ log pµ(x) = %↔1(x ↔µ).
+⇔µF(µ) = Ex↗N (µ,!)
+
+f(x)%↔1(x ↔µ)
+
+(b) Rewrite F(µ) using an expectation over a standard normal distribution.
+Using the Reparameterization Trick, let x = g(µ, z) = µ + Lz, where z ↑N(0, I) and % = LLT .
+F(µ) = Ez↗N (0,I)[f(µ + Lz)]
+(c) Express ⇔µF(µ) using an expectation over pµ=0(z) = N(0, %) (Reparameterization Esti-
+mator).
+Using the reparameterization x = µ + z, with z ↑N(0, %):
+⇔µF(µ) = ⇔µEz↗N (0,!)[f(µ + z)] = Ez↗N (0,!)[⇔µf(µ + z)]
+By the chain rule, ⇔µf(µ + z) = ⇔xf(x)|x=µ+z.
+⇔µF(µ) = Ez↗N (0,!)[⇔xf(µ + z)]
+1.11
+User Prompt 6
+Solve question 4 parts (d), (e)
+1.12
+TA Response 6 (Solution to Q4d-e)
+(d) General Policy Gradient Estimator (PG).
+The formula is:
+⇔µF(µ) = Ex↗pµ(x) [f(x)⇔µ log pµ(x)]
+Advantage: Generality (Applicable to any di”erentiable distribution, including discrete distribu-
+tions). Disadvantage: High Variance (The product form leads to high variance samples).
+(e) General Reparameterization Gradient Estimator (RG).
+1. Proof of the General Estimator: For x = g(µ, z), z ↑q(z) independent of µ:
+⇔µF(µ) = ⇔µEz↗q(z)[f(g(µ, z))] = Ez↗q(z)[⇔µf(g(µ, z))]
+Using the chain rule, ⇔µf(g(µ, z)) = ⇔xf(g(µ, z)) · ⇔µg(µ, z):
+⇔µF(µ) = Ez↗q(z) [⇔xf(g(µ, z)) · ⇔µg(µ, z)]
+2. Special Case pµ(x) = N(x; µ, I): Here g(µ, z) = µ + z and ⇔µg(µ, z) = I.
+⇔µF(µ) = Ez↗N (0,I) [⇔xf(µ + z)]
+5
+V Correct
+V
+correct
+correct
+V correct but skipped
+derivation
+Correct
+
+
+--- Page 6 ---
+1.13
+User Prompt 7
+Solve question 5
+1.14
+TA Response 7 (Solution to Q5)
+Let L be the number of layers, and n be the operations/memory per layer. tfwd = 20 ns.
+(a) Number of forward operations in a single backward pass (Tensor Rematerialization).
+The total forward recomputations N bwd
+fwd is the sum of operations to recompute Al↔1 from A0 for layers
+l = 1 to L:
+N bwd
+fwd ⇓
+L
+"
+l=1
+l↔1
+"
+j=1
+n = n
+L↔1
+"
+j=0
+j = nL(L ↔1)
+2
+(b) Number of loadmem operations in a single backward pass.
+In a fully rematerialized scheme, activations A1, . . . , AL are recomputed, not loaded from fast memory
+(DRAM).
+Nloadmem = 0
+(c) Required speed of loaddisk operation for equal time.
+We equate the time for Tensor Rematerialization (TimeTR) and Disk Loading (TimeDL). Let Timestd
+bwd =
+Ln · tfwd be the standard backward computation time. M = Ln is the total memory.
+TimeTR = Timestd
+bwd + N bwd
+fwd · tfwd
+TimeDL = Timestd
+bwd + M · tdisk
+Setting TimeTR = TimeDL:
+N bwd
+fwd · tfwd = M · tdisk
+Substituting the values:
+
+nL(L ↔1)
+2
+
+· tfwd = (Ln) · tdisk
+Solving for tdisk:
+tdisk = L(L ↔1)
+2L
+· tfwd = L ↔1
+2
+· tfwd
+With tfwd = 20 ns:
+tdisk = L ↔1
+2
+· 20 ns = (L ↔1) · 10 ns
+The required speed of the loaddisk operation is (L ↔1) · 10 ns.
+6
+V Correct
+Incorrect Made bad
+assumption
+X Incorrectby extension
+fromPart b
+otherwise
+logic and formulas are
+correct

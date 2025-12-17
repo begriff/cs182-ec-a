@@ -1,0 +1,121 @@
+--- Page 1 ---
+Hey Grok! I'm looking for a helpful tutor to walk through the solutions for a deep learning 
+assignment. Based on the solutions we develop here, I'll share insights with the rest of 
+the class that go alongside the official assignment solutions. Can you help me?
+Sure, I'd be happy to help tutor you through your deep learning assignment! Deep learning is one of my 
+favorite topics—it's like giving machines a brain, but with way more math and fewer existential crises 
+(usually).
+To get started, could you share the details of the assignment? Things like the problem statement, any 
+provided code snippets, datasets, or specific questions you're working on would be super helpful. If it's 
+something involving coding (e.g., PyTorch or TensorFlow implementations), we can iterate on solutions 
+step by step, and I can even run code checks if needed.
+What's the first part you'd like to tackle?
+I'll begin by providing you with the entire file of the assignment, and then we can focus on 
+the questions one-by-one. For now, just focus on problem 1, the very first question which 
+takes a probabilistic view of the attention operation between key and value pairs within a 
+transformer. What would be solutions to parts a, b, and c?
+PDF
+Deep_NN_HW9.pdf
+Great! Let’s dive into Problem 1 — this is a classic motivation question for why we scale the dot product 
+by 1/√d_k in the original Transformer paper.
+We have two independent random vectors
+q, k ∼ N(μ, σ²I)  i.i.d. in ℝᵈ
+(each component is N(μ, σ)).
+Part (a)
+Find E[qᵀk] in terms of μ, σ, d.
+Since expectation is linear,
+E[qᵀk] = E[ ∑{i=1}^d q_i k_i ] = ∑{i=1}^d E[q_i k_i]
+Because q_i and k_i are independent and identically distributed,
+E[q_i k_i] = E[q_i] · E[k_i] = μ · μ = μ²
+So
+E[qᵀk] = ∑_{i=1}^d μ² = d μ²
+Answer (a): d μ²
+Part (b)
+Now assume the practical case μ = 0, σ = 1.
+Find Var(qᵀk) in terms of d.
+Since q and k are independent and μ = 0,
+Var(qᵀk) = Var( ∑{i=1}^d q_i k_i ) = ∑{i=1}^d Var(q_i k_i)
+(the cross terms vanish because coordinates are independent)
+For each term: q_i ∼ N(0,1), k_i ∼ N(0,1), independent → q_i k_i has variance
+Var(q_i k_i) = E[(q_i k_i)²] − (E[q_i k_i])² = E[q_i²]E[k_i²] − 0 = (1)(1) = 1
+Thus
+Var(qᵀk) = ∑_{i=1}^d 1 = d
+Answer (b): d
+Part (c)
+Still with μ = 0, σ = 1.
+We look at the scaled dot product: qᵀk / s
+11/24/25, 2:08 AM
+Deep Learning Assignment Tutoring Assistance - Grok
+https://grok.com/c
+1/3
+
+
+--- Page 2 ---
+We want
+E[qᵀk / s] = 0   (already true because E[qᵀk]=0)
+and
+Var(qᵀk / s) = 1
+From part (b), Var(qᵀk) = d, so
+Var(qᵀk / s) = Var(qᵀk)/s² = d / s²
+Set this equal to 1:
+d / s² = 1
+⇒ s² = d
+⇒ s = √d    (we take the positive root by convention)
+So the scaling factor should be √d (i.e., we divide by √d).
+Answer (c): s = √d
+(or equivalently, we compute the attention logits as qᵀk / √d)
+Summary of answers for Problem 1
+(a) d μ²
+(b) d
+(c) √d  (or s = √d)
+This is exactly the reasoning from the “Attention Is All You Need” paper (Vaswani et al., 2017, Section 
+3.2.1): when queries and keys are roughly zero-mean and unit-variance in each dimension, the raw dot 
+product has standard deviation √d, which grows with dimension and makes softmax produce extremely 
+peaked (or very flat) distributions. Scaling by 1/√d keeps the variance of the logits at 1, giving a much 
+more stable softmax.
+Let me know when you’re ready for Problem 2 (argmax attention) or any other part!
+Your responses to parts b and c look good, but I notice that there's an issue with part a. 
+What kind of object is mu?
+You're absolutely right — I missed a crucial detail in part (a), and thank you for catching it!
+Let's look carefully at the exact wording in the PDF:
+Suppose q, k ∈ ℝᵈ are two random vectors with q, k iid ∼ N(μ, σ²I), where μ ∈ ℝᵈ and σ ∈ ℝ⁺.
+So μ is a vector in ℝᵈ, not a scalar! That changes everything for part (a).
+Correct solution for Problem 1
+Part (a): E[qᵀk] in terms of μ, σ, and d
+Since q ∼ N(μ, σ²I) and k ∼ N(μ, σ²I) independently,
+E[qᵀk] = E[∑{i=1}^d qᵢ kᵢ] = ∑{i=1}^d E[qᵢ] E[kᵢ] = ∑{i=1}^d μᵢ ⋅ μᵢ = ∑{i=1}^d μᵢ² = ‖μ‖²
+Alternatively, in vector notation:
+E[qᵀk] = E[q]ᵀ E[k] = μᵀ μ = μᵀμ or ‖μ‖₂²
+So the correct answer is:
+Answer (a): μᵀμ  (or equivalently ‖μ‖² or μ · μ)
+(Definitely not d μ² — that would only be true if μ were a scalar. My earlier answer was wrong because I 
+misread μ as scalar.)
+Part (b): Still correct — when μ = 0 and σ = 1,
+Var(qᵀk) = d
+(because Var(qᵢkᵢ) = 1 for each i, and they’re independent)
+Part (c): Also still correct — we want Var(qᵀk / s) = 1
+⇒ d / s² = 1
+⇒ s = √d
+So scaling by 1/√d keeps the variance of the attention logits at 1 when inputs are zero-mean and unit-
+variance per dimension.
+11/24/25, 2:08 AM
+Deep Learning Assignment Tutoring Assistance - Grok
+https://grok.com/c
+2/3
+
+
+--- Page 3 ---
+Explain vector mean in attention
+Multi-head attention intuition
+Final corrected answers for Problem 1:
+(a) μᵀμ  (or ‖μ‖², or μ · μ)
+(b) d
+(c) √d
+Thanks again for the sharp catch — this is a really common trick in homework problems: they first give 
+the general case with vector mean to make you think carefully, then specialize to μ=0 later. Easy to miss 
+on a quick read!
+Ready for Problem 2 (argmax attention) whenever you are!
+11/24/25, 2:08 AM
+Deep Learning Assignment Tutoring Assistance - Grok
+https://grok.com/c
+3/3

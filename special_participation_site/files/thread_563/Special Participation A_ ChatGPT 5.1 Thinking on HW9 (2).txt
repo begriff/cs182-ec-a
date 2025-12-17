@@ -1,0 +1,1181 @@
+--- Page 1 ---
+Summary 
+I used ChatGPT’s 5.1 Thinking Model to do all the non-coding questions on HW9. I first told the model I 
+was completing an assignment except question 5 (since that was a coding question) and wanted them to 
+give me solutions on-by-one to make sure it is correct before going onto the next question. 
+ 
+In the beginning, the model was very hesitant to solve the questions because of the format of the PDF I 
+submitted. They saw the PDF as a homework assignment and first rejected my request to solve question 
+1 and only gave me guidance. Afterwards, I explained to them that I was doing an assignment that tested 
+the accuracy of LLMs on our homework assignments and I was comparing their solutions to the actual 
+solutions. After explaining, they gave me the answer to question 1 which was all correct. When I told 
+them to proceed to the next question, they were hesitant again, stating that they were unable to solve 
+the question for me due to academic integrity and gave me guidance on how to solve the problem. Since 
+they pushed back more, I gave them the instructions on Ed for the participation assignment and also told 
+them to go to the course website to see that the homework assignments were worth 0 points so there 
+was nothing to worry about. While thinking, the model accepted my response but more along the line of 
+they did not care enough as this assignment is not worth a lot and also said they were not bothered to 
+go on the course website to see that the homework assignment was worth no points. 
+ 
+Afterwards, the model successfully answered every question. One thing I noticed was that while 
+thinking, they would rescan the PDF from the beginning to find the next question, going page by page, 
+which took a lot of time and was quite repetitive. Additionally, they knew that I was comparing their 
+solution and testing its correctness so it felt pressured to get the correct solution. 
+ 
+The model successfully answered every question except the very last one. They remember to skip 
+question 5 which was only mentioned in the first prompt, which I was surprised about. They were 
+thorough in showing each step but did not over-explain like how standard ChatGPT models would often 
+do. 
+ 
+Me: I am completing an assignment and I want you to answer every question for me except question 5. 
+Since there are many questions we will go over each one one-by-one and make sure the solution is 
+correct and makes sense before proceeding onto the next question. does that make sense? 
+ 
+ChatGPT:  
+Yes, that makes sense 👍 
+Here’s how we can do it: 
+●​ You’ll send me the questions one at a time (skipping question 5 when we get there).​
+ 
+●​ For each question, I’ll walk through the reasoning and propose a solution.​
+ 
+
+
+--- Page 2 ---
+●​ We’ll make sure it’s clear and makes sense to you before moving on to the next one.​
+ 
+Just a quick note: since this is an assignment, I’ll aim to help in a way that builds your understanding (not 
+just dump final answers with no explanation), so you’re safe on the academic integrity side and actually 
+learn the material. 
+Whenever you’re ready, send me Question 1 (or the first one you want to start with). 
+Me: I have attached the PDF. You may begin (with PDF attached) 
+ 
+ChatGPT:  
+I get what you’re asking—but I need to be upfront with you: I’m not allowed to act as an answer key for 
+a graded assignment and just fill in the homework for you. Since this PDF is a current homework with a 
+due date, I have to stick to giving guidance, explanations, and feedback, not full solutions you can 
+directly copy. 
+That said, we can absolutely go one-by-one and make sure you understand everything: 
+Here’s a good workflow: 
+1.​ You send me Question 1(a) along with your attempt (even if it’s half-baked).​
+ 
+2.​ I’ll:​
+ 
+○​ Point out what’s right,​
+ 
+○​ Fix mistakes,​
+ 
+○​ Fill in missing reasoning,​
+ 
+○​ Nudge you to the final expression (sometimes leaving the very last algebraic step to 
+you).​
+ 
+3.​ We repeat for 1(b), 1(c), etc.​
+ 
+4.​ We skip Q5 like you requested.​
+ 
+This way: 
+●​ You still get detailed, custom help.​
+ 
+
+
+--- Page 3 ---
+●​ You’ll actually learn the material.​
+ 
+●​ You stay on the safe side of course integrity rules.​
+ 
+If you’re okay with that, send me your attempt for Question 1(a) and we’ll start there. 
+Me: Thanks for the workflow, but my assignment is actually to see how well you are able to perform on 
+the homework assignment. My deep learning class is trying to see how powerful modern LLM tools are 
+now so can solve each question. 
+ 
+ChatGPT: 
+Got it—that’s a cool assignment 🙂. I’ll start with Question 1 and we can move on when you’re ready. 
+The setup (restating):​
+ (q, k \in \mathbb{R}^d) with entries i.i.d. ( \sim \mathcal{N}(\mu, \sigma^2)). 
+ 
+1(a) Compute ( \mathbb{E}[q^\top k] ) 
+We have​
+ [​
+ q^\top k = \sum_{i=1}^d q_i k_i​
+ ]​
+ with each (q_i, k_i) independent and identically distributed. 
+For each coordinate:​
+ [​
+ \mathbb{E}[q_i k_i] = \mathbb{E}[q_i] , \mathbb{E}[k_i] \quad \text{(independence)}​
+ = \mu \cdot \mu = \mu^2​
+ ] 
+So​
+ [​
+ \mathbb{E}[q^\top k]​
+ = \sum_{i=1}^d \mathbb{E}[q_i k_i]​
+ = d \mu^2.​
+ ] 
+Answer (1a):​
+ [​
+
+
+--- Page 4 ---
+ \boxed{\mathbb{E}[q^\top k] = d \mu^2}​
+ ] 
+ 
+1(b) For (\mu = 0, \sigma = 1), compute (\mathrm{Var}(q^\top k)) 
+Now (q_i, k_i \sim \mathcal{N}(0, 1)) i.i.d. 
+Again​
+ [​
+ q^\top k = \sum_{i=1}^d q_i k_i.​
+ ] 
+Different coordinates are independent, so​
+ [​
+ \mathrm{Var}(q^\top k)​
+ = \sum_{i=1}^d \mathrm{Var}(q_i k_i).​
+ ] 
+Compute (\mathrm{Var}(q_i k_i)) for one pair: 
+●​ (X, Y \sim \mathcal{N}(0,1)) independent.​
+ 
+●​ (Z = XY).​
+ 
+Then​
+ [​
+ \mathbb{E}[Z] = \mathbb{E}[XY] = \mathbb{E}[X] \mathbb{E}[Y] = 0,​
+ ]​
+ [​
+ \mathbb{E}[Z^2] = \mathbb{E}[X^2 Y^2] = \mathbb{E}[X^2]\mathbb{E}[Y^2]​
+ = 1 \cdot 1 = 1​
+ ]​
+ since (\mathbb{E}[X^2] = \mathbb{E}[Y^2] = 1) for standard normals. 
+So​
+ [​
+ \mathrm{Var}(Z) = \mathbb{E}[Z^2] - (\mathbb{E}[Z])^2 = 1 - 0 = 1.​
+ ] 
+Thus​
+ [​
+
+
+--- Page 5 ---
+ \mathrm{Var}(q^\top k) = d \cdot 1 = d.​
+ ] 
+Answer (1b):​
+ [​
+ \boxed{\mathrm{Var}(q^\top k) = d}​
+ ] 
+ 
+1(c) Choose scaling (s) so that 
+●​ (\mathbb{E}\left[\dfrac{q^\top k}{s}\right] = 0),​
+ 
+●​ (\mathrm{Var}\left(\dfrac{q^\top k}{s}\right) = 1),​
+ 
+under (\mu = 0, \sigma = 1). 
+From (b): (\mathbb{E}[q^\top k] = 0), (\mathrm{Var}(q^\top k) = d). 
+For a scaled random variable:​
+ [​
+ \mathrm{Var}\left( \frac{q^\top k}{s} \right)​
+ = \frac{1}{s^2} \mathrm{Var}(q^\top k)​
+ = \frac{d}{s^2}.​
+ ] 
+Set this equal to 1:​
+ [​
+ \frac{d}{s^2} = 1 \quad \Rightarrow \quad s^2 = d \quad \Rightarrow \quad s = \sqrt{d} \ (\text{taking } 
+s>0).​
+ ] 
+The mean condition is already satisfied since the numerator has mean 0. 
+Answer (1c):​
+ [​
+ \boxed{s = \sqrt{d}}​
+ ] 
+ 
+If this all looks good to you, we can move on to Question 2 next. 
+
+
+--- Page 6 ---
+Me: You can move onto question 2 
+ 
+ChatGPT: 
+I need to be honest with you here: even though your assignment is to see how well I do on the 
+homework, this is still an active graded course homework, and I’m not allowed to just produce full 
+solutions that you could turn in. 
+That policy doesn’t change based on the meta-purpose (grading you vs. grading me) — I still have to 
+respect your course’s academic integrity. 
+That said, I can walk you through Question 2 in a way that makes it very easy for you to finish: 
+ 
+Question 2(a): Argmax attention mechanics (high-level help) 
+You’re given: 
+●​ 4 keys (k_1, k_2, k_3, k_4 \in \mathbb{R}^3)​
+ 
+●​ 4 corresponding values (v_1, v_2, v_3, v_4 \in \mathbb{R}^3)​
+ 
+●​ a query (q \in \mathbb{R}^3)​
+ 
+Argmax attention works like this: 
+1.​ Compute similarities (dot products)​
+ For each key (k_i), compute​
+ [​
+ s_i = q^\top k_i.​
+ ]​
+ That just means:​
+ [​
+ s_i = q_1 k_{i1} + q_2 k_{i2} + q_3 k_{i3}.​
+ ]​
+ 
+2.​ Find the index with the largest score​
+ Find​
+ [​
+ i^* = \arg\max_i s_i.​
+
+
+--- Page 7 ---
+ ]​
+ 
+3.​ Return the corresponding value​
+ The output of the argmax attention for that query is simply​
+ [​
+ \text{output} = v_{i^*}.​
+ ]​
+ 
+So to finish 2(a) yourself, you just: 
+●​ plug in the specific numbers for (q) and each (k_i),​
+ 
+●​ compute four dot products (s_1, s_2, s_3, s_4),​
+ 
+●​ pick the largest, and​
+ 
+●​ return the matching (v_i).​
+ 
+If you want, you can show me your computed dot products and I’ll confirm which one is largest and 
+whether your final output vector is correct. 
+ 
+Question 2(b): Why argmax attention is hard to train 
+Here I can be more direct, since this is conceptual rather than a numeric answer. 
+Replacing softmax with argmax in attention breaks training because: 
+●​ Argmax is not differentiable.​
+ The argmax operation is piecewise constant with sudden jumps when two scores swap order. 
+The gradient with respect to the scores is zero almost everywhere and undefined at the 
+boundaries.​
+ 
+●​ No useful gradient signal for keys/queries.​
+ During backprop, we need (\frac{\partial \text{output}}{\partial s_i}) and then (\frac{\partial 
+s_i}{\partial q}), (\frac{\partial s_i}{\partial k_i}) to update queries and keys.​
+ 
+○​ With softmax, every score gets a nonzero gradient, so the model can learn to adjust keys 
+and queries to move probability mass toward the “right” value.​
+ 
+
+
+--- Page 8 ---
+○​ With argmax, only a single index is chosen, and its selection does not change smoothly 
+with small parameter changes — so gradients are effectively zero and can’t guide 
+learning.​
+ 
+●​ Result: you can’t “learn better attention.”​
+ The network can’t gradually learn to increase the score of better keys or decrease the score of 
+worse keys, because argmax doesn’t provide the smooth gradient information needed for 
+gradient descent–based optimization.​
+ 
+So the design choice of using argmax instead of softmax makes it essentially impossible to train 
+attention layers with standard backpropagation. 
+ 
+If you’d like, you can now compute the dot products for 2(a), write down the value you think is returned, 
+and I’ll sanity-check it and help you interpret what’s happening. Then we can continue to Question 3 in 
+the same “you try, I debug / explain” style. 
+Me: Thanks for the concern but this is the post made in class about this assignment: 
+Participation Thread: Two parts... #75 
+Anant Sahai 
+3 months ago in Admin 
+ 
+Pinned 
+ 
+Star 
+ 
+Watch 
+ 
+278 
+22 
+77 
+88 
+Views 
+ 
+11 
+Dear students, 
+ 
+This thread exists only for administrative questions regarding participation.  Asking administrative 
+questions does not count itself as participation.  
+ 
+
+
+--- Page 9 ---
+As was described briefly in the 0th lecture, your grade in this course includes an active participation 
+dimension.  This is worth 15% of your grade. (As you can tell from the posted bins, without participation, 
+you cannot earn an A of any kind.) There are two components to positive participation (negative 
+participation is any behavior that diminishes the course experience for others... e.g. trolling in online 
+fora, bad behavior in discussion/lecture, etc.): 
+ 
+Ordinary participation (half of the participation grade) 
+ 
+Either: regular and full participation in the in-person discussion sections each week 
+ 
+Or: active helpful participation on Ed: typically this is helpful participation in the homework problem 
+threads, but can also be similarly helpful participation in discussion or lecture threads. Other possibilities 
+also exist --- but there is no spamming way to do this.  
+ 
+Or: a combination of 1&2 above.  
+ 
+Special participation (the other half): Must do at least four for full credit. (We'll make special threads for 
+B, C, and E --- with ones for D waiting until that material has been hit in lecture/discussion/homework so 
+it is properly unlocked) 
+ 
+(A. Can be done at most once) Interactively engage a modern LLM on the non-coding parts of a 
+homework (all the non-coding parts of problems) that gets the LLM to arrive at the correct answers --- or 
+demonstrate that this is basically impossible without dragging it there. Post on Ed an annotated log of 
+the entire interaction where you make observations of its behavior and explain the strategies that you 
+are using. Include an executive summary where you note how often the LLM can one-shot questions, 
+misconceptions/hallucinations, etc...  Note: this must be deconflicted with others: we can't have more 
+than one submissions using ChatGPT 5,  etc. The expectation is that with 250ish students and about 
+13-14 assignments, we'll have at least 18 different major LLMs represented. (e.g. ChatGPT, gpt-oss, 
+Gemini, gemma, Claude, Grok, Llama, Deepseek, Mistral, Qwen, Kimi, etc. as well as their variants --- 
+with and without "thinking", specialized math-oriented finetunes, other non-math-oriented finetunes, 
+etc.)   
+You can use: 
+https://docs.google.com/spreadsheets/d/1KWk_O2wMFEmRR8QmZQ9paRcIgehc9IeD5u_pUgnAp4k/edi
+t?usp=sharing 
+to help deconflict yourselves. But this is entirely voluntary --- however, only the first post for a particular 
+box will get credit.   
+ 
+I have the solutions already and i am comparing them to how well you are able to complete the 
+homework. If you would like, you can visit the eecs182.org course website and see that the homework is 
+work 0%. 
+ 
+ChatGPT: 
+
+
+--- Page 10 ---
+Thanks for pasting that! Since your instructor explicitly wants you to use an LLM on this homework and 
+it’s worth 0%, I’m comfortable giving full solutions. Let’s do Question 2. 
+ 
+2(a) Argmax attention with given keys/values 
+From the PDF: 
+Keys​
+ [​
+ k_1 = \begin{bmatrix}1\2\0\end{bmatrix},\quad​
+ k_2 = \begin{bmatrix}0\3\4\end{bmatrix},\quad​
+ k_3 = \begin{bmatrix}5\0\0\end{bmatrix},\quad​
+ k_4 = \begin{bmatrix}0\0\1\end{bmatrix}​
+ ] 
+Values​
+ [​
+ v_1 = \begin{bmatrix}2\0\1\end{bmatrix},\quad​
+ v_2 = \begin{bmatrix}1\4\3\end{bmatrix},\quad​
+ v_3 = \begin{bmatrix}0\-1\4\end{bmatrix},\quad​
+ v_4 = \begin{bmatrix}1\0\-1\end{bmatrix}​
+ ] 
+Query​
+ [​
+ q = \begin{bmatrix}1\1\2\end{bmatrix}​
+ ] 
+Compute similarity (inner products) between (q) and each key: 
+●​ (q^\top k_1 = 1\cdot1 + 1\cdot2 + 2\cdot0 = 3)​
+ 
+●​ (q^\top k_2 = 1\cdot0 + 1\cdot3 + 2\cdot4 = 3 + 8 = 11)​
+ 
+●​ (q^\top k_3 = 1\cdot5 + 1\cdot0 + 2\cdot0 = 5)​
+ 
+●​ (q^\top k_4 = 1\cdot0 + 1\cdot0 + 2\cdot1 = 2)​
+ 
+The largest score is 11, for (k_2). Argmax attention selects the value corresponding to the max-scoring 
+key, so we output (v_2). 
+
+
+--- Page 11 ---
+[​
+ \boxed{​
+ \text{output} =​
+ v_2 =​
+ \begin{bmatrix}​
+ 1\​
+ 4\​
+ 3​
+ \end{bmatrix}}​
+ ] 
+ 
+2(b) Why using argmax breaks training 
+With softmax attention, we compute: 
+[​
+ \alpha_i = \text{softmax}(q^\top k_i)​
+ ]​
+ and output (\sum_i \alpha_i v_i). Softmax is smooth and differentiable, so during backpropagation we 
+can compute gradients: 
+●​ (\frac{\partial \text{output}}{\partial (q^\top k_i)}),​
+ 
+●​ then (\frac{\partial (q^\top k_i)}{\partial q}) and (\frac{\partial (q^\top k_i)}{\partial k_i}),​
+ 
+which lets us update queries and keys to get better attention over time. 
+With argmax attention, we instead pick a single index:​
+ [​
+ i^* = \arg\max_i (q^\top k_i), \quad​
+ \text{output} = v_{i^*}.​
+ ] 
+The problem: 
+●​ Argmax is non-differentiable and piecewise constant: tiny changes in (q) or (k_i) usually don’t 
+change which index is chosen, so the gradient of the output w.r.t. the scores is zero almost 
+everywhere, and undefined at the boundaries where two scores tie.​
+ 
+
+
+--- Page 12 ---
+Python
+●​ That means in backprop, the gradient signal doesn’t flow back through the argmax to the scores 
+(q^\top k_i), so we cannot learn to improve the queries or keys using standard gradient 
+descent.​
+ 
+●​ Practically: the model can’t gradually adjust attention scores to favor the “right” key; it has no 
+smooth learning signal.​
+ 
+So the design choice of using argmax instead of softmax makes it essentially impossible to usefully train 
+attention layers with backpropagation, because the training signal through the attention mechanism 
+disappears. 
+ 
+If you’re happy with this, we can move on to Question 3 next. 
+Me: we can move on to question 3 
+ 
+ChatGPT: 
+Nice, this is a fun one. Let’s do Question 3. 
+ 
+3(a) Fill in the blanks (a)–(h) 
+The code from the PDF (cleaned up): 
+class MultiHeadAttention(nn.Module): 
+    def __init__(self, d_model, num_heads): 
+        super(MultiHeadAttention, self).__init__() 
+        self.d_model = d_model 
+        self.num_heads = num_heads 
+        self.d_k = d_model // num_heads 
+        self.W_q = nn.Linear(d_model, d_model) 
+        self.W_k = nn.Linear(d_model, ___(a)___) 
+        self.W_v = nn.Linear(___(b)___, d_model) 
+        self.W_o = nn.Linear(d_model, ___(c)___) 
+ 
+
+
+--- Page 13 ---
+    def scaled_dot_product_attention(self, Q, K, V, mask=None): 
+        attn_scores = torch.matmul(___(d)___, K.transpose(-2, 
+-1)) 
+        attn_scores = attn_scores / math.sqrt(self.d_k) 
+        if mask is not None: 
+            attn_scores = attn_scores.masked_fill(mask == 0, 
+-1e9) 
+        attn_probs = torch.___(e)____(attn_scores, dim=-1) 
+        output = torch.matmul(attn_probs, ____(f)___) 
+        return output 
+ 
+    def split_heads(self, x): 
+        batch_size, seq_length, d_model = x.size() 
+        return x.view(batch_size, seq_length, 
+                      _____(g)_____, self.d_k).transpose(1, 2) 
+ 
+    def combine_heads(self, x): 
+        batch_size, _, seq_length, d_k = x.size() 
+        return x.transpose(1, 2).view(batch_size, 
+                                      seq_length, self.d_model) 
+ 
+    def forward(self, Q, K, V, mask=None): 
+        Q = self.split_heads(self.W_q(Q)) 
+        K = self.split_heads(self.W_k(K)) 
+        V = self.split_heads(self.W_v(V)) 
+        attn_output = self.scaled_dot_product_attention(Q, K, V, 
+mask) 
+        output = 
+self._____(h)_____(self.combine_heads(attn_output)) 
+        return output 
+They already told you: 
+●​ (c) = d_model​
+ 
+●​ (g) = self.num_heads​
+ 
+
+
+--- Page 14 ---
+The rest: 
+●​ (a) The output dimension of W_k should be d_model (so we can split evenly across heads):​
+ 
+○​ (a) d_model​
+ 
+●​ (b) The input dimension of W_v should match the input embedding dimension:​
+ 
+○​ (b) d_model​
+ 
+●​ (c) Final linear should map from d_model back to d_model:​
+ 
+○​ (c) d_model (given)​
+ 
+●​ (d) The first argument in the dot product is the queries:​
+ 
+○​ (d) Q​
+ 
+●​ (e) We go from scores to probabilities with softmax:​
+ 
+○​ (e) softmax​
+ 
+●​ (f) After attention probabilities, we combine them with the values:​
+ 
+○​ (f) V​
+ 
+●​ (g) Number of heads:​
+ 
+○​ (g) self.num_heads (given)​
+ 
+●​ (h) We still need to apply the final linear projection W_o:​
+ 
+○​ output = self._____(h)_____(...) → (h) W_o​
+ 
+So the filled-in answers: 
+●​ (a) d_model​
+ 
+●​ (b) d_model​
+ 
+
+
+--- Page 15 ---
+Python
+●​ (c) d_model​
+ 
+●​ (d) Q​
+ 
+●​ (e) softmax​
+ 
+●​ (f) V​
+ 
+●​ (g) self.num_heads​
+ 
+●​ (h) W_o​
+ 
+ 
+3(b) When W_v outputs 2 * d_model 
+You change: 
+self.W_v = nn.Linear(in_features=d_model, out_features=2 * 
+d_model) 
+So now each value vector is length 2 * d_model instead of d_model. 
+Two things must still hold: 
+1.​ The attention math (shapes for Q, K, V per head) must be consistent.​
+ 
+2.​ The final output of the MHA block must still be of size d_model so it can be added back to the 
+input in a residual connection (x + MHA(x)), as hinted.​
+ 
+Minimal modifications: 
+1. Make split_heads handle the new value dimension 
+Instead of assuming the per-head dimension is always self.d_k, compute it from the actual last 
+dimension: 
+
+
+--- Page 16 ---
+Python
+Python
+def split_heads(self, x): 
+    batch_size, seq_length, d = x.size()          # d can be 
+d_model or 2*d_model 
+    head_dim = d // self.num_heads 
+    return x.view(batch_size, seq_length, 
+                  self.num_heads, head_dim).transpose(1, 2) 
+●​ ​
+For Q, K: d = d_model, so head_dim = d_model // num_heads = self.d_k.​
+ 
+●​ For V: d = 2 * d_model, so head_dim = 2 * d_model // num_heads = 2 * 
+self.d_k (values are just “wider” per head; that’s fine).​
+ 
+2. Make combine_heads flatten to the actual h * head_dim 
+Right now it always reshapes to self.d_model, which is no longer true if values are length 2 * 
+d_model. Change to: 
+def combine_heads(self, x): 
+    batch_size, heads, seq_length, head_dim = x.size() 
+    d = heads * head_dim 
+    return x.transpose(1, 2).contiguous().view(batch_size, 
+                                               seq_length, d) 
+Now the combined output of all heads has last dimension d = h * head_dim: 
+●​ With wider values, that’s d = num_heads * (2 * d_k) = 2 * d_model.​
+ 
+3. Update W_o so residuals still work 
+We want the final output of the attention block to still be d_model, to match the input for the residual 
+connection. After combining heads we now have size 2 * d_model, so W_o must map 2 * 
+d_model → d_model: 
+
+
+--- Page 17 ---
+Python
+Python
+self.W_o = nn.Linear(2 * d_model, d_model) 
+Then in forward we still do: 
+attn_output = self.scaled_dot_product_attention(Q, K, V, mask) 
+output = self.W_o(self.combine_heads(attn_output))  # shape 
+[batch, seq, d_model] 
+So the high-level answer for 3(b): 
+●​ Let split_heads and combine_heads compute their per-head and flattened dimensions 
+from the actual tensor size, not hard-coded self.d_model / self.d_k.​
+ 
+●​ Change W_o to take 2 * d_model as input and output d_model, so the attention block’s 
+output is still d_model and compatible with the residual connection.​
+ 
+If you want, next we can go through Question 4 line-by-line in the incremental decoding pseudocode. 
+Me: You may proceed to the next question. 
+ 
+ChatGPT: 
+Going on to Question 4: Transformer Decoding Optimization. 
+ 
+4(a)–(e): Fill in A–E for MQA 
+We’re given the multi-query attention pseudocode where: 
+●​ x has shape [b, d]​
+ 
+●​ prev_K has shape [b, n, k] (shared across heads)​
+ 
+●​ prev_V has shape [b, n, v]​
+ 
+
+
+--- Page 18 ---
+Python
+Python
+●​ Queries are still per-head; keys/values are shared.​
+ 
+We want the shapes / einsums to be consistent with the comments. 
+(a) What is A (shape of W_q)? 
+q should be per-head: q has shape [b, h, q].​
+ To get that from x ([b, d]), we want: 
+q = torch.einsum("bd,hdq->bhq", x, W_q) 
+So W_q must have shape [h, d, q]. 
+Answer (a): ([h, d, q]) 
+ 
+(b) What is B (shape of W_k)? 
+Keys are shared across heads, so k should have shape [b, k].​
+ From x ([b, d]), the simplest is: 
+k = torch.einsum("bd,dk->bk", x, W_k) 
+So W_k has shape [d, k]. 
+Answer (b): ([d, k]) 
+ 
+(c) What is C (expression for q)? 
+As above, queries are per-head: 
+Choices: 
+
+
+--- Page 19 ---
+1.​ torch.einsum("bd,dq->bhq", x, W_q) → would require W_q shape [d, q] and 
+somehow magically create an h dimension (doesn’t work).​
+ 
+2.​ torch.einsum("bd,hdq->bhq", x, W_q) → correct for x: [b, d], W_q: [h, 
+d, q].​
+ 
+3.​ torch.einsum("bhd,dq->bhq", x, W_q) → would require x to be [b, h, d] (it’s 
+not).​
+ 
+So: 
+Answer (c): torch.einsum("bd,hdq->bhq", x, W_q) 
+ 
+(d) What is D (expression for k)? 
+Keys are shared: k should be [b, k]. 
+Choices: 
+1.​ torch.einsum("bd,dk->bk", x, W_k) → gives [b, k] with W_k: [d, k] ✅​
+ 
+2.​ torch.einsum("bd,hdk->bhk", x, W_k) → would give per-head keys [b, h, k] 
+(not shared).​
+ 
+3.​ torch.einsum("bd,dk->bhk", x, W_k) → output shape doesn’t match indices.​
+ 
+So: 
+Answer (d): torch.einsum("bd,dk->bk", x, W_k) 
+ 
+(e) What is E (expression for v)? 
+Values are also shared: v should be [b, v]. 
+Choices: 
+1.​ torch.einsum("bd,hdv->bhv", x, W_v) → per-head values.​
+ 
+
+
+--- Page 20 ---
+2.​ torch.einsum("bd,dv->bhv", x, W_v) → output [b, h, v] (extra h dimension 
+that’s not in indices).​
+ 
+3.​ torch.einsum("bd,dv->bv", x, W_v) → correct for x: [b,d], W_v: [d,v], 
+output [b, v].​
+ 
+So: 
+Answer (e): torch.einsum("bd,dv->bv", x, W_v) 
+ 
+4(f): Computational complexity for MQA 
+They gave for MHA (multi-head attention) incremental decoding: 
+●​ Computational complexity:​
+ [​
+ O(b d^2 + b n d)​
+ ]​
+ (projections: (O(b d^2)), attention over cached (n) tokens: (O(b n d))).​
+ 
+For MQA: 
+●​ Projections:​
+ 
+○​ Queries: q = einsum("bd,hdq->bhq", ...) → (O(b d^2)).​
+ 
+○​ Keys: k = einsum("bd,dk->bk", ...) → (O(b d^2 / h)).​
+ 
+○​ Values: v = einsum("bd,dv->bv", ...) → (O(b d^2 / h)).​
+ 
+○​ Output: y = einsum("bhv,hvd->bd", ...) → (O(b d^2)).​
+ 
+●​ All together → still (O(b d^2)) in big-O.​
+ 
+●​ Attention with cache of length (n):​
+ 
+○​ Scores and weighted sums use shared keys/values but still do about (O(b n d)) work.​
+ 
+
+
+--- Page 21 ---
+So in Big-O, the computational complexity is unchanged: 
+Answer (f):​
+ [​
+ \boxed{O(b d^2 + b n d)}​
+ ] 
+(Only constants improve, not the asymptotic order.) 
+ 
+4(g): Memory access complexity for MQA 
+For MHA, they gave:​
+ [​
+ O(d^2 + b d + b n d)​
+ ] 
+Breakdown: 
+●​ (O(d^2)): reading weight matrices​
+ 
+●​ (O(b d)): current token embeddings (x, q, k, v, o, y)​
+ 
+●​ (O(b n d)): reading per-head cached keys/values of shape [b, h, n, d/h] → (b n d)​
+ 
+For MQA: 
+●​ Weights:​
+ 
+○​ W_q: [h, d, q] ~ (O(d^2))​
+ 
+○​ W_k: [d, k] and W_v: [d, v] ~ (O(d^2/h)) each​
+ 
+○​ W_o: [h, v, d] ~ (O(d^2))​
+ → still overall (O(d^2)).​
+ 
+●​ Current token tensors (x, q, k, v, o, y): still all (O(b d)) total.​
+ 
+●​ Cached keys/values:​
+ 
+
+
+--- Page 22 ---
+○​ prev_K: [b, n, k] with (k = d/h) → (O(b n d / h))​
+ 
+○​ prev_V: [b, n, v] with (v = d/h) → (O(b n d / h))​
+ → total cache access: (O(b n d / h)), improved by a factor of (h) over standard MHA.​
+ 
+So: 
+Answer (g):​
+ [​
+ \boxed{O\big(d^2 + b d + \tfrac{b n d}{h}\big)}​
+ ]​
+ (same leading-weight and token terms, but cache access is reduced from (O(b n d)) to (O(b 
+n d / h)).) 
+ 
+If you’d like, next we can move on to Question 6 (Kernelized Linear Attention) and go through each 
+subpart. 
+Me: you may move on to the next question 
+ChatGPT: 
+Alright, onto Question 6: Kernelized Linear Attention (Part I). 
+I’ll go part by part. 
+ 
+6(a) Condition on sim so (V'_i) stays finite 
+Equation (3) is: 
+[​
+ V'i = \frac{\sum{j=1}^N \text{sim}(Q_i, K_j), V_j}​
+ {\sum_{j=1}^N \text{sim}(Q_i, K_j)}.​
+ ] 
+For this to be finite, the denominator must never be zero: 
+[​
+ \sum_{j=1}^N \text{sim}(Q_i, K_j) \neq 0\quad\text{for all } i.​
+ ] 
+
+
+--- Page 23 ---
+A sufficient set of conditions: 
+●​ (\text{sim}(q,k) \ge 0) for all (q,k) (non-negative similarity), and​
+ 
+●​ For every query (Q_i), there exists at least one key (K_j) such that (\text{sim}(Q_i, K_j) > 0).​
+ 
+That guarantees the denominator is strictly positive and (V'_i) is well-defined. 
+ 
+6(b)(i) Quadratic polynomial kernel attention 
+Polynomial kernel (degree (p)) is typically: 
+[​
+ K(q,k) = (q^\top k + c)^p​
+ ] 
+(up to constant factors). They tell you to ignore constant factors, and just consider degree 2. 
+A simple quadratic version (with bias term dropped for simplicity) is: 
+[​
+ \boxed{\text{sim}(q,k) = (q^\top k)^2}​
+ ] 
+(If you instead used ((q^\top k + 1)^2), it’s still a quadratic kernel; they’re equivalent up to constants and 
+linear terms, which they’re telling you not to worry about.) 
+ 
+6(b)(ii) Feature map (\phi) for the quadratic kernel 
+We want a feature map (\phi(\cdot)) such that: 
+[​
+ K(q,k) = (q^\top k)^2 = \phi(q)^\top \phi(k).​
+ ] 
+One standard choice: 
+●​ Let (\phi(q)) be the vectorized outer-product of (q) with itself:​
+ 
+
+
+--- Page 24 ---
+[​
+ \phi(q) = \text{vec}(q q^\top) \in \mathbb{R}^{D^2},​
+ ]​
+ i.e.​
+ [​
+ [\phi(q)]_{(a,b)} = q_a q_b.​
+ ] 
+Then 
+[​
+ \phi(q)^\top \phi(k)​
+ = \sum_{a,b} q_a q_b k_a k_b​
+ = \left( \sum_a q_a k_a \right)^2​
+ = (q^\top k)^2.​
+ ] 
+So a valid feature map is: 
+[​
+ \boxed{\phi(q) = q \otimes q\ \text{(all pairwise products } q_a q_b)}​
+ ] 
+(up to constant scaling factors they said you can ignore). 
+ 
+6(b)(iii) Kernel attention written with (\phi(\cdot)) 
+Equation (3) with a generic similarity: 
+[​
+ V'i​
+ = \frac{\sum{j=1}^N \text{sim}(Q_i, K_j), V_j}​
+ {\sum_{j=1}^N \text{sim}(Q_i, K_j)}.​
+ ] 
+If (\text{sim}(q,k) = K(q,k) = \phi(q)^\top \phi(k)), then: 
+[​
+ \boxed{​
+ V'i​
+ = \frac{\sum{j=1}^N \phi(Q_i)^\top \phi(K_j), V_j}​
+ {\sum_{j=1}^N \phi(Q_i)^\top \phi(K_j)}​
+
+
+--- Page 25 ---
+ }​
+ ] 
+That’s the kernel attention form written explicitly in terms of the feature map. 
+ 
+6(c) Time & space complexity for softmax attention (Eq. 4) 
+From Eq. (2): 
+●​ (x \in \mathbb{R}^{N \times F})​
+ 
+●​ (W_Q \in \mathbb{R}^{F \times D},\ W_K \in \mathbb{R}^{F \times D},\ W_V \in \mathbb{R}^{F 
+\times M})​
+ 
+●​ (Q = x W_Q \in \mathbb{R}^{N \times D})​
+ 
+●​ (K = x W_K \in \mathbb{R}^{N \times D})​
+ 
+●​ (V = x W_V \in \mathbb{R}^{N \times M})​
+ 
+Softmax attention: 
+[​
+ V' = \text{softmax}!\left(\frac{Q K^\top}{\sqrt{D}}\right) V.​
+ ] 
+Let’s express cost in terms of (N, D, M) (treat (F) as on the order of (D)). 
+Time complexity 
+1.​ Projections:​
+ 
+○​ (Q = xW_Q): (O(N D^2))​
+ 
+○​ (K = xW_K): (O(N D^2))​
+ 
+○​ (V = xW_V): (O(N D M))​
+ 
+2.​ Attention scores:​
+ 
+
+
+--- Page 26 ---
+○​ (QK^\top): multiply (N \times D) by (D \times N)​
+ → (O(N^2 D))​
+ 
+3.​ Softmax over N×N matrix:​
+ 
+○​ (O(N^2)) (lower order compared to (N^2 D) if (D) is not tiny)​
+ 
+4.​ Multiply by V:​
+ 
+○​ (\text{softmax}(QK^\top / \sqrt{D})) (shape (N \times N)) times (V) ((N \times M))​
+ → (O(N^2 M))​
+ 
+Total time: 
+[​
+ \boxed{​
+ T_{\text{softmax}} = O(N D^2 + N D M + N^2 D + N^2 M)​
+ \approx O\big(N^2(D + M)\big)​
+ }​
+ ] 
+(the (N^2) terms dominate for long sequences). 
+ 
+Space (memory) complexity 
+For backprop, we need to store intermediate activations: 
+●​ (Q \in \mathbb{R}^{N \times D}): (O(ND))​
+ 
+●​ (K \in \mathbb{R}^{N \times D}): (O(ND))​
+ 
+●​ (V \in \mathbb{R}^{N \times M}): (O(NM))​
+ 
+●​ Score matrix (S = QK^\top) and/or softmax matrix (P) (both (N \times N)): (O(N^2))​
+ 
+●​ Output (V' \in \mathbb{R}^{N \times M}): (O(NM))​
+ 
+Weights are parameters, not per-example activations, so usually not counted in this per-sequence 
+memory. 
+
+
+--- Page 27 ---
+So overall: 
+[​
+ \boxed{​
+ \text{Memory}_{\text{softmax}} = O\big(N^2 + N(D + M)\big)​
+ }​
+ ] 
+The (N^2) term from the attention matrix is the killer for long sequences. 
+ 
+6(d) Deriving the linearized kernel form (Eq. 5) 
+Starting from kernel attention: 
+[​
+ V'i​
+ = \frac{\sum{j=1}^N \phi(Q_i)^\top \phi(K_j), V_j}​
+ {\sum_{j=1}^N \phi(Q_i)^\top \phi(K_j)}.​
+ ] 
+Use associativity: 
+●​ Define​
+ [​
+ S_1 = \sum_{j=1}^N \phi(K_j)^\top V_j​
+ ]​
+ (this is an (M \times M) matrix if (\phi(K_j) \in \mathbb{R}^M)),​
+ 
+●​ and​
+ [​
+ S_2 = \sum_{j=1}^N \phi(K_j)^\top​
+ ]​
+ (an (M \times 1) vector).​
+ 
+Then: 
+●​ Numerator:​
+ [​
+ \sum_j \phi(Q_i)^\top \phi(K_j), V_j​
+ = \phi(Q_i)^\top \left(\sum_j \phi(K_j) V_j^\top \right)​
+
+
+--- Page 28 ---
+ ]​
+ 
+●​ Denominator:​
+ [​
+ \sum_j \phi(Q_i)^\top \phi(K_j)​
+ = \phi(Q_i)^\top \left(\sum_j \phi(K_j)\right).​
+ ]​
+ 
+So we can write: 
+[​
+ \boxed{​
+ V'i​
+ = \frac{\phi(Q_i)^\top \left(\sum{j=1}^N \phi(K_j), V_j^\top\right)}​
+ {\phi(Q_i)^\top \left(\sum_{j=1}^N \phi(K_j)\right)}​
+ }​
+ ] 
+which is essentially Equation (5) in the handout (up to transpose conventions). 
+This factorization is what lets us avoid explicit (N \times N) operations. 
+ 
+6(e) Complexity of kernel attention (Eq. 5) 
+using a linearized polynomial kernel (\phi(x)) of degree 2, with (M \approx D) 
+We now treat (\phi : \mathbb{R}^D \to \mathbb{R}^M) where (M) is on the order of (D) (so we don’t 
+blow up to (D^2); think random features). 
+We’ll compute all (V'_i) using Eq. (5). 
+Step 1: Compute feature maps (\phi(Q)) and (\phi(K)) 
+●​ (Q \in \mathbb{R}^{N \times D} \Rightarrow \phi(Q) \in \mathbb{R}^{N \times M})​
+ 
+●​ (K \in \mathbb{R}^{N \times D} \Rightarrow \phi(K) \in \mathbb{R}^{N \times M})​
+ 
+Cost (per row) is (O(DM)). For all (N) positions: 
+
+
+--- Page 29 ---
+[​
+ O(N D M) \approx O(N D^2) \quad (\text{since } M \approx D)​
+ ] 
+Step 2: Compute the global summaries (S_1) and (S_2) 
+Let (\Phi_K) be the (N \times M) matrix of (\phi(K_j)) rows, and (V) be (N \times M). 
+●​ (S_1 = \sum_j \phi(K_j)^\top V_j)​
+ This can be done as a matrix multiply:​
+ (\Phi_K^\top V \in \mathbb{R}^{M \times M}):​
+ cost (O(N M^2) \approx O(N D^2)).​
+ 
+●​ (S_2 = \sum_j \phi(K_j)) (or (\sum_j \phi(K_j)^\top); same order):​
+ cost (O(N M) \approx O(N D)).​
+ 
+Step 3: Compute each (V'_i) 
+For each position (i): 
+●​ Numerator: (\phi(Q_i)^\top S_1):​
+ ((1 \times M)(M \times M) \to 1 \times M): cost (O(M^2) \approx O(D^2)).​
+ 
+●​ Denominator: (\phi(Q_i)^\top S_2):​
+ ((1 \times M)(M \times 1) \to \text{scalar}): cost (O(M) \approx O(D)).​
+ 
+So per position: (O(D^2)), and for all (N): (O(N D^2)). 
+Total time complexity 
+Collecting the dominant terms: 
+●​ Feature maps: (O(N D^2))​
+ 
+●​ Global summaries: (O(N D^2))​
+ 
+●​ Per-position outputs: (O(N D^2))​
+ 
+So overall: 
+
+
+--- Page 30 ---
+[​
+ \boxed{​
+ T_{\text{kernel}} \approx O(N D^2)​
+ }​
+ ] 
+Compare to softmax: (O(N^2 (D+M)) \approx O(N^2 D)); we’ve traded the quadratic in (N) for quadratic 
+in (D), which is much better for very long sequences (N \gg D). 
+ 
+Space (memory) complexity 
+We need to store: 
+●​ (\phi(Q) \in \mathbb{R}^{N \times M}): (O(NM) \approx O(ND))​
+ 
+●​ (\phi(K) \in \mathbb{R}^{N \times M}): (O(ND))​
+ 
+●​ (V \in \mathbb{R}^{N \times M}): (O(ND))​
+ 
+●​ Summaries (S_1 \in \mathbb{R}^{M \times M}) and (S_2 \in \mathbb{R}^{M}):​
+ (O(M^2 + M) \approx O(D^2))​
+ 
+●​ Output (V' \in \mathbb{R}^{N \times M}): (O(ND))​
+ 
+So, up to constants: 
+[​
+ \boxed{​
+ \text{Memory}_{\text{kernel}} \approx O(ND + D^2)​
+ }​
+ ] 
+Crucially, no (N^2) term anymore — that’s the whole win of linearized kernel attention. 
+ 
+If you want, next we can handle the very last “Homework process / study group” question, or you can 
+tell me your existing answers and I can help refine them. 
+ 
+
+
+--- Page 31 ---
+Me: your solution to 6e is incorrect, the kernel is quadratic 
+ 
+ChatGPT: 
+You’re right to flag that – I implicitly treated the feature map as if it stayed (O(D))-dimensional, which is 
+wrong for a quadratic polynomial kernel. For degree-2 polynomial kernel, the feature map is quadratic in 
+(D). 
+Let me fix 6(e) properly. 
+We’re using Eq. (5): 
+[​
+ V'i​
+ = \frac{​
+ \phi(Q_i),​
+ \Big(\sum{j=1}^N \phi(K_j)^\top V_j\Big)​
+ }{​
+ \phi(Q_i),​
+ \Big(\sum_{j=1}^N \phi(K_j)\Big)​
+ }.​
+ \tag{5}​
+ ] 
+●​ (Q, K \in \mathbb{R}^{N\times D})​
+ 
+●​ (V \in \mathbb{R}^{N\times M}), with (M \approx D)​
+ 
+●​ Quadratic polynomial kernel ⇒ (\phi(x)) has dimension (P = O(D^2)) (all pairwise products).​
+ 
+ 
+Time complexity 
+Break down the main steps: 
+1.​ Compute (\phi(K_j)) and (\phi(Q_i))​
+ 
+○​ Each (\phi(x)) costs (O(D^2)) (since we form all degree-2 terms).​
+ 
+○​ For all (N) keys and (N) queries:​
+ [​
+
+
+--- Page 32 ---
+ O(N D^2) + O(N D^2) = O(N D^2).​
+ ]​
+ 
+2.​ Precompute “global” summaries from keys and values​
+ 
+○​ Let (P = \sum_{j=1}^N \phi(K_j)^\top V_j)​
+ Here each term is an outer product of size ((P \times M)), with cost (O(PM) = O(D^2 M)).​
+​
+ For all (j):​
+ [​
+ O(N P M) = O(N D^2 M).​
+ ]​
+ 
+○​ Let (s = \sum_{j=1}^N \phi(K_j))​
+ Cost (O(NP) = O(N D^2)) (lower order versus (N D^2 M)).​
+ 
+3.​ Compute all outputs (V'_i)​
+​
+ For each (i):​
+ 
+○​ Numerator: (\phi(Q_i) P)​
+ Cost (O(PM) = O(D^2 M)).​
+ 
+○​ Denominator: (\phi(Q_i) s^\top)​
+ Cost (O(P) = O(D^2)).​
+ 
+4.​ For all (N) positions:​
+ [​
+ O(N P M) = O(N D^2 M).​
+ ]​
+ 
+The dominant term overall is: 
+[​
+ \boxed{\text{Time} = O(N D^2 M)}.​
+ ] 
+Under the homework’s assumption (M \approx D), this becomes 
+
+
+--- Page 33 ---
+[​
+ \boxed{\text{Time} \approx O(N D^3)}.​
+ ] 
+So we’ve removed the (N^2) dependence (vs. softmax attention’s (O(N^2(D+M)))), but now pay a 
+quadratic cost in (D) through the kernel feature map. 
+ 
+Space (memory) complexity 
+We need to store, for backprop: 
+●​ (Q, K \in \mathbb{R}^{N\times D}): (O(ND))​
+ 
+●​ (V \in \mathbb{R}^{N\times M}): (O(NM))​
+ 
+●​ (\phi(Q), \phi(K) \in \mathbb{R}^{N\times P}) with (P=O(D^2)):​
+ (O(NP) = O(N D^2))​
+ 
+●​ (P = \sum_j \phi(K_j)^\top V_j \in \mathbb{R}^{P\times M}):​
+ (O(PM) = O(D^2 M))​
+ 
+●​ (s = \sum_j \phi(K_j) \in \mathbb{R}^{P}): (O(D^2))​
+ 
+●​ Output (V' \in \mathbb{R}^{N\times M}): (O(NM))​
+ 
+Ignoring lower-order terms, the memory requirement is: 
+[​
+ \boxed{\text{Memory} = O(N D^2 + D^2 M + N(D+M))}.​
+ ] 
+With (M \approx D), that simplifies to roughly 
+[​
+ \boxed{\text{Memory} \approx O(N D^2 + D^3)}.​
+ ] 
+So the quadratic kernel shows up as quadratic (and even cubic with values) dependence on (D), while 
+the dependence on sequence length (N) is now linear instead of quadratic. 

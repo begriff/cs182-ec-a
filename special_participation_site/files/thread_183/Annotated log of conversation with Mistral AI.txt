@@ -1,0 +1,234 @@
+--- Page 1 ---
+Annotated log of conversation with 
+Mistral AI’s Le Chat interface for solving 
+HW3 
+Prompt 1:
+ 
+Le Chat’s answer: 
+ 
+
+
+--- Page 5 ---
+ 
+Comment 1: For question 1, Le Chat was able to arrive at the correct answer one shot. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 6 ---
+Prompt 3.1: 
+ 
+Le Chat’s answer: 
+ 
+
+
+--- Page 7 ---
+ 
+ 
+Comment 3.1: Le Chat seems to mistake the y-axis of table 1 in the mP paper by the 
+different norms. This is likely due to its context learning of the norms in Q1.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 8 ---
+Prompt 3.2: 
+ 
+Le Chat’s answer:
+ 
+ 
+
+
+--- Page 9 ---
+ 
+Comment 3.2: After insisting the correct y-axis is “training loss” instead of norms, Le 
+Chat was able to recorrect it’s reasoning to arrive at the correct answer.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 10 ---
+Prompt 3.3: 
+ 
+Le Chat’s answer: 
+ 
+ 
+
+
+--- Page 11 ---
+ 
+Comment 3.3: Le Chat was able to arrive at the correct answer one shot.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 12 ---
+Prompt 3.4: 
+ 
+Le Chat’s answer: 
+ 
+
+
+--- Page 13 ---
+ 
+ 
+Comment 3.4: Le Chat seems to do a good job on the first two parts of the problem. 
+However, for the third part, it seems to draw something parallel to what the problem is 
+asking.  
+
+
+--- Page 14 ---
+Prompt 4.1: 
+ 
+Le Chat’s answer: 
+ 
+
+
+--- Page 15 ---
+ 
+Comment 4.1: Le Chat was able to arrive at the correct answer one shot.  
+ 
+ 
+
+
+--- Page 16 ---
+ 
+Comment 4.2: Le Chat was able to arrive at the correct answer one shot.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 17 ---
+ 
+Comment 4.3: Le Chat was able to arrive at the correct answer one shot.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 18 ---
+ 
+Comment 4.4: Le Chat was able to arrive at the correct answer one shot.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 19 ---
+ 
+Comment 4.5: Le Chat was able to arrive at the correct answer one shot.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 20 ---
+Prompt 5.1:  
+ 
+Le chat’s answer:
+ 
+
+
+--- Page 21 ---
+ 
+Comment 5.1: Le Chat was able to arrive at the correct answer one shot.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 22 ---
+ 
+ 
+ 
+Comment 5.2: Le Chat seems to load activations for layer 5 twice.   
+ 
+
+
+--- Page 24 ---
+ 
+Comment 5.3: Le Chat seems to misunderstand the number of loadmem operations. 

@@ -1,0 +1,585 @@
+--- Page 1 ---
+Homework 8 - Deep Learning Course: Full Conversation Trace
+Teaching Assistant: Gemini
+December 5, 2025
+Conversation Trace
+User Prompt (Initial Request)
+You are a Teaching Assistant and for a Deep Learning Course, who will rigorously and completely
+solve a homework assignment.
+I will upload a PDF of the homework assignment. First, please analyze the document and
+index the question numbers. We will solve one problem at a time. DO NOT solve the entire
+homework until prompted with "Solve question [number]". Please use LaTex formatting so that
+your solutions are easily exportable. After solving each problem, please double check your
+work to check for hallucinations. Please keep account of your entire trace of this
+conversation, including my prompts. I will ask for the full trace in Latex form. Do you
+understand? Please respond yes / no and ask any clarifying questions if the prompt is unclear.
+Agent Response (Initial Setup)
+Yes, I understand. I will analyze the document, index the question numbers, and wait for the prompt
+“Solve question [number]” before providing a solution for each problem. I will use LaTeX formatting
+for the solutions and double-check my work. I will also keep an account of our entire conversation trace.
+Homework Question Index
+Based on the provided PDF, the questions are indexed as follows:
+• Question 1: SSM Convolution Kernel
+• Question 2: Coding SSM Forward
+• Question 3: Self-Supervised Linear Puriﬁcation
+• Question 4: Ridge-Attention
+• Question 5: Homework Process and Study Group
+Which question would you like to start with?
+User Prompt (Solve Question 1)
+Solve question 1
+Agent Response (Solution to Question 1: SSM Convolution Kernel)
+(a) Convolution Kernel and the Output Equation
+The discrete-time State-Space Model (SSM) equations are:
+xk+1 = Axk + Buk
+(1)
+yk = Cxk + Duk
+(2)
+1
+?
+gem in i
+2 5
+fast
+note
+:V
+=
+correctly
+one -
+sno + +ed
+X
+=
+wrong
+answer
+initia
+prompting
+with
+PDF
+given
+State
+the
+problem
+
+
+--- Page 2 ---
+Assuming x0 = 0, the state xk can be unrolled:
+xk =
+k→1
+!
+l=0
+Ak→1→lBul
+Substituting into yk (Eq. 2):
+yk = C
+"k→1
+!
+l=0
+Ak→1→lBul
+#
++ Duk = Duk +
+k
+!
+l=1
+CAl→1Buk→l
+By comparing this to the convolution form yk = $L
+l=0 Kluk→l, we ﬁnd the kernel K:
+Kl =
+
+
+
+
+
+D
+if l = 0
+CAl→1B
+if 1 →l →L
+0
+if l > L
+(b) Concrete Examples
+i. Scalar Case (A = 0.8, B = 1, C = 1.5)
+Assuming D = 0:
+K0 = D = 0
+Kl = CAl→1B = 1.5 · (0.8)l→1 · 1,
+for l ↑1
+For L = 4:
+K1 = 1.5 · (0.8)0 = 1.5
+K2 = 1.5 · (0.8)1 = 1.2
+K3 = 1.5 · (0.8)2 = 0.96
+K4 = 1.5 · (0.8)3 = 0.768
+The kernel up to L = 4 is K = {0, 1.5, 1.2, 0.96, 0.768}.
+ii. 2D Case
+A =
+)0.7
+0.1
+0.2
+0.6
+*
+,
+B =
+)1
+0
+*
+,
+C =
++
+1
+0
+,
+,
+D = 0
+K0 = D = 0
+K1 = CA0B =
++1
+0, )1
+0
+*
+= 1
+K2 = CA1B =
++
+1
+0
+, )0.7
+0.2
+*
+= 0.7
+K3 = CA2B = C(A(AB)) =
++1
+0, )
+0.51
+0.26
+*
+= 0.51
+The kernel up to L = 3 is K = {0, 1, 0.7, 0.51}.
+(c) E!cient Computation with Convolutions
+• Convolution Output (yk): The computation yk = $L
+l=0 Kluk→l is independent for each k. The
+summation can be parallelized using a binary tree reduction (parallel preﬁx sum).
+• Minimum Critical Path (Convolution): O(log L) (dominated by the summation depth).
+• Naive Recurrence Unrolling: The computation of xk+1 depends directly on xk, creating a
+sequential dependency chain: x0 ↓x1 ↓· · · ↓xL.
+• Minimum Critical Path (Recurrence): O(L).
+The convolution-based approach achieves a shorter critical path (O(log L) vs O(L)), enabling signiﬁcantly
+greater parallelization.
+2
+quickly
+jumps
+to
+expression , doesn't
+necessarily
+show
+ー
+5m
+alle r
+examples
+{
+√
+written
+more
+concisely
+比h 的以
+solutions
+which
+is
+nice
+to
+see
+\
+⑤
+not
+explicitly
+set
+in
+problem ,
+good
+assumption
+made
+notes
+:
+answer
+is
+thorough
+and
+correct
+√
+√
+-> or got
+to
+- actor
+in
+mat
+mus
+Critica (
+path
+X
+again
+forgot
+to
+-> actor
+in
+mat
+mo(
+
+
+--- Page 3 ---
+(d) E!cient Kernel Computation
+To compute all L kernel elements Kl = CAl→1B, the dominant task is computing Al→1. The most
+parallel approach is to use a Parallel Preﬁx Product (or Blelloch Scan) on the sequence of matrices
+[A, A, . . . , A].
+• Method: Compute A1, A2, . . . , AL by applying a binary tree reduction/scan structure.
+• Critical Path Length: This involves O(log L) sequential matrix-matrix multiplications. Since
+matrix multiplication is O(n3), the critical path is O(log L · n3).
+(e) Diagonal Matrix A
+If A = diag(ω1, . . . , ωn), the powers simplify: Al→1 = diag(ωl→1
+1
+, . . . , ωl→1
+n
+). The kernel term becomes a
+sum of n scalar terms:
+Kl = CAl→1B =
+n
+!
+i=1
+ciωl→1
+i
+bi
+• E!ciency Gain: Computing Al→1 is O(n). Computing Kl is O(n).
+• Total Complexity (all L kernels): O(Ln). This is much faster than the O(L log L · n3) work
+for the general case.
+(f) DPLR Structure (A = In + pp↑)
+Using the rank-1 update identity: Al→1 = (In + pp↑)l→1 = In + fl→1pp↑, where fl→1 = (1+p→p)l↑1→1
+p→p
+(a
+scalar). The kernel computation simpliﬁes:
+Kl = CAl→1B = C(In + fl→1pp↑)B =
+CB
+-./
+scalar/vector
++fl→1 (Cp)
+-./
+scalar
+(p↑B)
+- ./ 
+scalar
+• E!ciency Gain: The terms CB, Cp, and p↑B are pre-computed in O(n).
+• Kernel Computation Cost: For each l, computing the scalar fl→1 involves O(log L) exponenti-
+ation, and the rest is O(1) scalar arithmetic.
+• Total Complexity (all L kernels): O(n + L log L). This is extremely e!cient when n is large.
+User Prompt (Solve Question 3)
+Solve question 3
+Agent Response (Solution to Question 3: Self-Supervised Linear Puriﬁ-
+cation)
+The objective function is L2(W; X, ω) = ||X ↔WX||2
+F + ω||W||2
+F .
+(a) Concrete Examples
+i. Compute Losses and Fill Table
+For W (ω) = I:
+– Reconstruction Loss ||X ↔W (ω)X||2
+F = ||X ↔IX||2
+F = 0.
+– Regularization Loss ||W (ω)||2
+F = ||I||2
+F = 12 + 12 = 2 (for m = 2).
+Encoder
+Reconstruction Loss ||X ↔WX||2
+F
+Regularization Loss ||W||2
+F
+ε
+0
+2
+ϑ
+0.001
+Rε (Unknown)
+3
+right
+idea
+of
+log
+structure
+-
+tree/
+→
+d ir ide
+and
+conquer
+X
+wrong
+max
+depth
+for
+\
+mat
+mul
+->
+should
+compute
+in
+ocus
+time
+-
+>
+highlights
+d idgonal form
+bower
+correcf
+~ea 2 . za tio n
+야
+hervel
+&
+->
+computing
+a
+hervacs
+instead
+of
+length
+√
+/
+←
+Unable
+to
+solve
+
+
+--- Page 4 ---
+ii. Value of ω where L2(W (ω)) > L2(W (ε))
+We assume W (ε) is a better regularized solution,
+so Rε < 2. We require:
+L2(W (ω)) > L2(W (ε))
+0 + ω · 2 > 0.001 + ω · Rε
+ω(2 ↔Rε) > 0.001
+ω > 0.001
+2 ↔Rε
+The identity matrix W (ω) is penalized more than W (ε) when ω is above the threshold
+0.001
+2→Rω .
+(b) Derivation of Optimal Weight Matrix ˆW
+i. Fill in the Expression
+ˆW = U
+
+
+
+
+ϑ2
+1
+ϑ2
+1+ϖ
+...
+ϑ2
+m
+ϑ2m+ϖ
+
+
+
+U↑
+ii.
+Derive the Expression
+ˆW
+Using the orthogonal invariance of the Frobenius norm, we
+transform the problem using X = U”V ↑and ˜W = U ↑WU.
+min
+˜
+W
+L2 = ||” ↔˜W”||2
+F + ω|| ˜W||2
+F
+Since ” is diagonal, the loss decouples, forcing ˜W to be diagonal ( ˜Wij = 0 for i ↗= j). For the
+diagonal entries ˜wi:
+min
+˜
+wi
+Li = ϖ2
+i (1 ↔˜wi)2 + ω ˜w2
+i
+Setting the derivative w.r.t. ˜wi to zero:
+ϱLi
+ϱ ˜wi
+= ↔2ϖ2
+i (1 ↔˜wi) + 2ω ˜wi = 0
+=↘ˆ˜wi =
+ϖ2
+i
+ϖ2
+i + ω
+Substituting back ˆW = U ˆ˜WU ↑yields the result.
+(c) Guaranteeing Attenuation and Preservation
+The shrinkage factor is si =
+ϑ2
+i
+ϑ2
+i +ϖ. We use the critical (worst-case) singular values for each con-
+straint.
+1. Preservation (First 3 ↑80%):
+Critical ϖ3 = 4.
+42
+16 + ω ↑0.8 =↘16 ↑12.8 + 0.8ω =↘3.2 ↑0.8ω =↘ω →4
+2. Attenuation (Remaining →50%):
+Critical ϖ4 = 1.
+12
+1 + ω →0.5 =↘1 →0.5(1 + ω) =↘0.5 →0.5ω =↘ω ↑1
+Conclusion:
+To satisfy both constraints, the hyperparameter ω must be in the range:
+1 →ω →4
+4
+⑥
+→
+appears
+Unable
+to
+calc
+regularization
+loss
+o
+W(B)
+before
+√
+ㆃ
+work
+shown ,
+simply
+Following
+the
+instructions
+to
+Gill
+」
+-
+decoupled
+approach
+.
+minimizing
+individual
+wi
+⑥
+-
+>
+never
+explicitly
+defined
+√
+√
+√
+follows
+solution
+exactly
+
+
+--- Page 5 ---
+User Prompt (Solve Question 4)
+Solve question 4
+Agent Response (Solution to Question 4: Ridge-Attention)
+(a) E!cient Update of Simple Averaging
+The new average m↓of n + 1 points in terms of the old average m of n points is:
+m↓=
+n
+n + 1m +
+1
+n + 1xn+1
+(b) Ridge-Regression Components
+The optimal weight vector is w↔= (A↑A + ωI)→1A↑y.
+1. (A↑A + ωI) = ωI + $n
+i=1 xix↑
+i
+2. A↑y = $n
+i=1 xiyi
+(c) Computational Cost of Non-Causal Ridge Self-Attention
+The output Z is computed as Z = QW, where W = (K↑K + ωI)→1K↑V .
+– K↑K and K↑V : O(nd2) each.
+– Matrix inversion (K↑K + ωI)→1: O(d3).
+– W: O(d3) matrix multiplication.
+– Z = QW: O(nd2) matrix multiplication.
+Assuming d < n, the total cost is dominated by O(nd2):
+O(nd2)
+(d) Backpropagation Gradients
+The backpropagation successfully passes gradients to the parameters that deﬁne the layer’s output
+function Z(Q, K, V ):
+– The queries (Q): Q appears directly in Z = QW.
+– The keys (K): K appears in W (in K↑K and K↑V ).
+– The values (V ): V appears in W (in K↑V ).
+Gradients pass to **The keys**, **The values**, and **The queries**.
+(e) Computational Cost of Sherman-Morrison Formula
+(M + uv↑)→1 = M →1 ↔
+1
+1 + v↑M →1u(M →1u)(v↑M →1)
+The cost is dominated by the two matrix-vector multiplications (M →1u and v↑M →1), both O(d2).
+O(d2)
+5
+√
+no
+vigorous
+work
+shown
+√
+again
+,
+no
+work
+Sho wn
+}
+q
+"ery品品
+/
+长
+does
+no t
+λ
+Choose
+1
+/
+correctly
+notes
+both
+are
+o (d
+8
+
+
+--- Page 6 ---
+(f) E!cient Causal Ridge-Self-Attention
+For a causal implementation, we compute the output zt at step t using data up to t:
+Mt = Mt→1 + ktk↑
+t
+and
+Rt = Rt→1 + ktv↑
+t
+1. Update M →1
+t
+: Use the Sherman-Morrison formula: O(d2) per step t.
+2. Update Rt: Compute outer product ktv↑
+t and add: O(d2) per step t.
+3. Compute Output zt: zt = Wtqt = (M →1
+t
+Rt)qt. The product M →1
+t
+Rt is O(d3).
+The total complexity over n steps is n ≃O(d3) = O(nd3).
+(g) Computing Weights for Ridge-Attention
+The output z for a query q is a linear combination of the value vectors vi: z = $n
+i=1 viεi. Using
+the dual form of ridge regression, the vector of weights ε ⇐Rn↗1 is:
+ε = (ωI + KK↑)→1Kq
+where K ⇐Rn↗d is the key matrix, q ⇐Rd↗1 is the query vector, and I ⇐Rn↗n is the identity
+matrix. The ﬁnal output is z = V ↑ε (if V rows are v↑
+i ) or z = V ε (if V is d ≃n, and vi are d ≃1).
+The i-th element of ε is the weight εi applied to the i-th value vector vi.
+6
+-
+>
+reference
+from
+above
+X
+doesn'
+realize
+matrix
+vector
+produces
+can
+be
+u sed
+using
+the
+U
+√
+Matrix
+instead
+of
+A

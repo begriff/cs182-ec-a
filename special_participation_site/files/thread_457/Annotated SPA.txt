@@ -1,0 +1,4965 @@
+--- Page 1 ---
+You are an AI assistant helping me think through conceptual, 
+mathematical, and analytical questions from my deep learning 
+homework.  Important rules: • You must attempt each question using 
+your own reasoning. • Show your full reasoning clearly. • If you are 
+uncertain, explicitly state your uncertainty. • If you do not know 
+something, do not invent or hallucinate facts. Say so honestly. • Do 
+not rely on external resources or unstated theorems. • Keep variable 
+names exactly as written in the question. • Do not change definitions 
+unless asked.  My goal is to evaluate how well you can solve non-
+coding deep learning questions without being guided. Do not ask me 
+to solve steps or supply missing equations — attempt the solution 
+yourself even if it might be wrong.  Confirm you understand these 
+rules, then wait for my first question.
+I understand the rules clearly:
+I must attempt each question using my own reasoning.
+I will show my full reasoning clearly.
+If uncertain, I will explicitly state my uncertainty.
+If I don't know something, I will say so honestly.
+I will not rely on external resources or unstated theorems.
+I will keep variable names exactly as written.
+I will not change definitions unless asked.
+I will not ask you to solve steps or supply missing equations.
+I'm ready for your first question. Please proceed.
+hw8 (1).pdf
+PDF 225.65KB
+please solve all parts of problem 1 from this homework. look to one 
+shot it
+I'll solve problem 1 from the homework. Let me go through each part systematically.
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+1/34
+prompt
+,
+instal
+if
+11I
+resting
+Despear
+follow struct
+ano hallvanate
+↓full reasmy
+constants
+
+
+--- Page 2 ---
+Problem 1: SSM Convolution Kernel
+(a) Convolution Kernel and the Output Equation
+We have the state-space model:
+with 
+.
+We need to express 
+ as a convolution:
+where 
+ (zero-padding).
+Let me compute 
+ recursively:
+By induction:
+for 
+, and 
+.
+Now substitute into 
+:
+Let me re-index: set 
+, so 
+. Then:
+x
+ =
+k+1
+Ax
+ +
+k
+Bu
+ ,
+y
+ =
+k
+k
+Cx
+ +
+k
+Du
+ k
+x
+ =
+0
+0
+y
+ k
+y
+ =
+k
+ K
+ u
+ 
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+u
+ =
+≤0
+0
+x
+ k
+x
+ =
+0
+0
+x
+ =
+1
+Ax
+ +
+0
+Bu
+ =
+0
+Bu
+ 0
+x
+ =
+2
+Ax
+ +
+1
+Bu
+ =
+1
+ABu
+ +
+0
+Bu
+ 1
+x
+ =
+3
+Ax
+ +
+2
+Bu
+ =
+2
+A Bu
+ +
+2
+0
+ABu
+ +
+1
+Bu
+ 2
+x
+ =
+k
+ A
+Bu
+ 
+ℓ=0
+∑
+k−1
+k−1−ℓ
+ℓ
+k ≥1
+x
+ =
+0
+0
+y
+ =
+k
+Cx
+ +
+k
+Du
+ k
+y
+ =
+k
+C
+ A
+Bu
+ 
++
+(
+ℓ=0
+∑
+k−1
+k−1−ℓ
+ℓ)
+Du
+ k
+j = k −1 −ℓ
+ℓ= k −1 −j
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+2/34
+
+
+--- Page 3 ---
+Alternatively, write as:
+where 
+.
+Let me define the kernel 
+:
+For 
+: coefficient of 
+ is 
+. So 
+.
+For 
+: coefficient of 
+ is 
+. So 
+ for 
+.
+But note: in the convolution sum 
+, when 
+, 
+. So
+effectively for each , the sum runs up to 
+.
+Thus the kernel 
+ is:
+with
+So:
+with 
+, 
+ for 
+.
+(b) Concrete Examples
+i. Scalar Case
+y
+ =
+k
+ CA Bu
+ +
+j=0
+∑
+k−1
+j
+k−1−j
+Du
+ k
+y
+ =
+k
+Du
+ +
+k
+ CA
+Bu
+ 
+m=1
+∑
+k
+m−1
+k−m
+m = j + 1
+K
+ ℓ
+ℓ= 0
+u
+ k
+D
+K
+ =
+0
+D
+ℓ≥1
+u
+ 
+k−ℓ
+CA
+B
+ℓ−1
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+ℓ≥1
+y
+ =
+k
+ K
+ u
+ 
+∑ℓ=0
+L
+ℓ
+k−ℓ
+k −ℓ< 0 u
+ =
+k−ℓ
+0
+k
+ℓ= k
+K
+K = {K
+ }
+ 
+ℓℓ=0
+L
+K
+ =
+0
+D,
+K
+ =
+ℓ
+CA
+B for ℓ=
+ℓ−1
+1, 2, … , L
+y
+ =
+k
+ K
+ u
+ 
+ℓ=0
+∑
+min(k,L)
+ℓ
+k−ℓ
+K
+ =
+0
+D K
+ =
+ℓ
+CA
+B
+ℓ−1
+ℓ≥1
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+3/34
+&
+rectana
+
+
+--- Page 4 ---
+Given 
+, 
+, 
+, 
+, 
+. The problem
+doesn't specify , but I'll assume 
+ unless stated otherwise (since in the 2D
+case they set 
+). Wait, they gave  but didn't specify a value. Actually, they
+said "set 
+" and then "use 
+"
+but didn't give . I'll check: In the scalar case, they might want a general expression,
+but they ask to "compute the kernel up to 
+". I'll assume 
+ for simplicity
+(like in the 2D case). Actually, they might want us to keep  as a parameter. Let me
+look: They wrote "set 
+" and then "use 
+". They didn't specify , so perhaps  is also a parameter? I'll check part
+(a) formula: 
+, 
+. So:
+Thus kernel up to 
+: 
+.
+But since  isn't given, maybe they expect 
+. In many SSMs, 
+. I'll note
+both.
+ii. 2D Case
+Given:
+Compute kernels up to 
+:
+ (scalar since output is scalar? Wait, 
+ is 
+, 
+ is 
+, so 
+ is
+scalar.)
+n = 1 A = α = 0.8 B = β = 1 C = γ = 1.5 D = δ
+δ
+δ = 0
+D = 0
+δ
+A = α, B = β, C = γ, D = δ
+α = 0.8, β = 1, γ = 1.5
+δ
+L = 4
+δ = 0
+δ
+A = α, B = β, C = γ, D = δ
+α = 0.8, β =
+1, γ = 1.5
+δ
+δ
+K
+ =
+0
+D = δ K
+ =
+ℓ
+CA
+B =
+ℓ−1
+γα
+β
+ℓ−1
+K
+ =
+0
+δ
+K
+ =
+1
+γα β =
+0
+1.5 × 1 × 1 = 1.5
+K
+ =
+2
+γα β =
+1
+1.5 × 0.8 × 1 = 1.2
+K
+ =
+3
+γα β =
+2
+1.5 × 0.64 × 1 = 0.96
+K
+ =
+4
+γα β =
+3
+1.5 × 0.512 × 1 = 0.768
+L = 4 K = [δ, 1.5, 1.2, 0.96, 0.768]
+δ
+δ = 0
+D = 0
+A =
+ 
+ 
+,
+B =
+(0.7
+0.2
+0.1
+0.6)
+ 
+,
+C =
+(1
+0)
+ 
+ ,
+D =
+(1
+0)
+0
+L = 3
+K
+ =
+0
+D = 0
+C
+1 × 2 B
+2 × 1
+K
+ ℓ
+K
+ =
+1
+CA B =
+0
+CB =
+ 
+ 
+ 
+=
+(1
+0) (1
+0)
+1
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+4/34
+correct
+answer
+calthough
+stopped me power to
+D
+earsy) , reasurable
+work
+, I shof
+
+
+--- Page 5 ---
+: first compute 
+, then 
+: compute 
+. Then 
+. Then 
+So kernel: 
+.
+Discussion: The kernel captures the "impulse response" because if we input 
+and 
+ for 
+ (a discrete impulse at time 0), then the output 
+ (since
+convolution with impulse gives the kernel). So 
+ is the output at time  when an
+impulse is applied at time 0. This is exactly the impulse response of the linear
+system.
+(c) Efficient Computation with Convolutions
+If we know kernel 
+ of length 
+, and we have input sequence 
+ of length 
+(or 
+? The problem says length 
+, but earlier they said input: 
+which is length 
+. Let's assume input length 
+. Actually careful:
+"input sequence 
+ of length 
+" — so length 
+ means 
+ elements?
+Possibly they mean 
+ time steps from 0 to 
+. I'll treat length as 
+ samples.
+The convolution 
+ (with zero-padding for negative indices) is a 1D
+convolution. We can compute it using FFT-based convolution, which parallelizes
+across the entire sequence.
+Parallelization: With FFT, we can compute the convolution in 
+ time with
+high parallelism. The critical path length is 
+ for the FFT steps (assuming
+enough parallel processors).
+Naive direct computation: From the unrolled recursion 
+, we
+have a sequential dependency: to compute 
+ we need 
+. So the critical path
+K
+ =
+2
+CAB
+AB =
+ 
+ 
+ 
+=
+(0.7
+0.2
+0.1
+0.6) (1
+0)
+ 
+(0.7
+0.2)
+C(AB) =
+ 
+ 
+ 
+=
+(1
+0) (0.7
+0.2)
+0.7
+K
+ =
+3
+CA B
+2
+A =
+2
+A ⋅A =
+ 
+ 
+=
+(0.7
+0.2
+0.1
+0.6)
+2
+ 
+ 
+=
+(0.49 + 0.02
+0.14 + 0.12
+0.07 + 0.06
+0.02 + 0.36)
+ 
+ 
+(0.51
+0.26
+0.13
+0.38)
+A B =
+2
+ 
+ 
+ 
+=
+(0.51
+0.26
+0.13
+0.38) (1
+0)
+ 
+(0.51
+0.26)
+C(A B) =
+2
+ 
+ 
+ 
+=
+(1
+0) (0.51
+0.26)
+0.51
+K = [0, 1, 0.7, 0.51]
+u
+ =
+0
+1
+u
+ =
+k
+0
+k > 0
+y
+ =
+k
+K
+ k
+K
+ ℓ
+ℓ
+K
+L + 1
+{u
+ }
+k
+L
+L + 1
+L
+(u
+ , ⋯, u
+ )
+0
+L
+L + 1
+N = L + 1
+{u
+ } ∈
+k
+Rd
+L
+L
+L
+L
+L −1
+L
+y
+ =
+k
+ K
+ u
+ 
+∑ℓ=0
+L
+ℓ
+k−ℓ
+O(L log L)
+O(log L)
+x
+ =
+k+1
+Ax
+ +
+k
+Bu
+ k
+x
+ 
+k+1
+x
+ k
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+5/34
+↑
+en
+,
+
+
+--- Page 6 ---
+length is 
+ (sequential steps). We cannot parallelize across time steps because
+of recurrence.
+Thus convolution approach reduces critical path from 
+ to 
+.
+(d) Efficient Kernel Computation
+Given 
+, we need to compute 
+ for 
+, and 
+.
+A naive way is to compute powers of 
+ sequentially: compute 
+,
+each requiring matrix multiplication 
+ per power, total 
+.
+But we can parallelize using exponentiation by squaring (binary exponentiation).
+Since 
+, we can compute 
+ for 
+ by repeated squaring:
+. This requires 
+ sequential steps, but each squaring can
+be parallelized internally (matrix multiplication parallelizable). Then to get any 
+,
+we multiply the appropriate powers corresponding to binary representation of 
+.
+Since we need all  from 1 to 
+, we can compute all needed powers in parallel after
+computing the 
+ matrices.
+Alternatively, we can compute the kernel via convolution in the frequency domain?
+Not directly, because kernel is defined via matrix powers.
+Another approach: The kernel is the impulse response, we could simulate the
+system with an impulse input 
+ for 
+ and compute outputs — but
+that's sequential.
+Given 
+, a divide-and-conquer method: To compute 
+, note that:
+First half: 
+ are 
+ for 
+.
+Second half: 
+ are 
+ for 
+. But 
+. So if we compute 
+, then second half kernel can be
+computed as 
+ where 
+. This suggests recursion:
+compute kernel for length 
+, compute 
+, then compute second half as
+ but careful: kernel entries are scalars, but 
+O(L)
+O(L)
+O(log L)
+A, B, C
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+ℓ= 1, … , L
+K
+ =
+0
+D
+A
+A, A , A , … , A
+2
+3
+L−1
+O(n )
+3
+O(Ln )
+3
+L = 2N
+A2k
+k = 0, 1, … , N −1
+A
+=
+2k+1
+(A )
+2k 2
+N = log
+ L
+2
+Aℓ−1
+ℓ−1
+ℓ
+L
+A2k
+u
+ =
+0
+1, u
+ =
+k
+0
+k > 0
+L = 2N
+K
+ , … , K
+ 
+1
+2N
+K
+ , … , K
+ 
+1
+2N−1
+CA B
+j
+j = 0, … , 2
+−
+N−1
+1
+K
+ , … , K
+ 
+2
++1
+N−1
+2N
+CA B
+j
+j = 2
+, … , 2
+−
+N−1
+N
+1
+A =
+j
+A
+⋅
+2N−1
+Aj−2N−1
+M = A2N−1
+CMA B
+j′
+j =
+′
+0, … , 2
+−
+N−1
+1
+2N−1
+M
+(CM) ⋅(kernel for length 2
+)
+N−1
+CM
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+6/34
+incorrect
+-
+=
+will nudge inth
+right
+director
+
+
+--- Page 7 ---
+is a row vector, and kernel for first half are scalars 
+. Actually, 
+, not simply 
+. So maybe not straightforward.
+Better: Use parallel prefix scan type approach? Possibly compute all powers 
+ for
+ using parallel prefix. Given 
+, we want 
+. This
+can be done with 
+ parallel steps using a binary tree: compute pairwise
+products, etc.
+But the problem asks for strategies to parallelize kernel computation. One way:
+Compute 
+ for 
+ via repeated squaring (sequential steps 
+). Then for each , compute 
+ by multiplying the appropriate subset of these
+matrices (binary representation). The multiplications for different  can be done in
+parallel across . So total parallel time is 
+assuming unlimited processors.
+(e) Adding structure to 
+ (diagonal)
+If 
+ is diagonal, say 
+, then 
+. Then
+ becomes:
+Let 
+ be column vector 
+, 
+ be row vector 
+. Then
+So each 
+ is a weighted sum of exponentials 
+. We can compute all 
+ for 
+ in parallel by computing each term 
+ in parallel across  and .
+This is 
+ work but can be parallelized to 
+ depth using parallel
+prefix for powers.
+Alternatively, we can compute 
+ via convolution of vectors? Actually, note that 
+is like an inner product between 
+ and 
+. Since 
+ is elementwise 
+,
+we can compute all  for each  by computing geometric sequences 
+. Computing
+geometric sequence for each 
+ can be done in parallel across , and for each , we
+can compute powers via repeated squaring or parallel prefix. Overall parallel time
+.
+CA B
+j′
+CMA B =
+j′
+(CM)(A B)
+j′
+(CM) × (scalar)
+Aj
+j = 0, … , L −1
+A
+A, A , A , … , A
+2
+3
+L−1
+O(log L)
+Ap
+p = 1, 2, 4, 8, … , 2N−1
+N
+ℓ
+Aℓ−1
+ℓ
+ℓ
+O(N ⋅matrix multiplication time)
+A
+A
+A = diag(a
+ , … , a
+ )
+1
+n
+A =
+ℓ
+diag(a
+ , … , a
+ )
+1
+ℓ
+n
+ℓ
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+B
+[b
+ , … , b
+ ]
+1
+n T C
+[c
+ , … , c
+ ]
+1
+n
+K
+ =
+ℓ
+ c
+ a
+ b
+ =
+i=1
+∑
+n
+i
+i
+ℓ−1
+i
+ (c
+ b
+ )a
+ 
+i=1
+∑
+n
+i i
+i
+ℓ−1
+K
+ ℓ
+a
+ 
+i
+ℓ−1
+K
+ ℓ
+ℓ=
+1, … , L
+(c
+ b
+ )a
+ 
+i i
+i
+ℓ−1
+i
+ℓ
+O(nL)
+O(log n + log L)
+K
+ ℓ
+K
+ ℓ
+C
+A
+B
+ℓ−1
+A
+B
+ℓ−1
+b
+ a
+ 
+i
+i
+ℓ−1
+ℓ
+i
+a
+ i
+ℓ
+a
+ i
+i
+i
+O(log L)
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+7/34
+the idea isessentially
+the
+same
+a
+the soluti ,both we binary
+exponentiate
+& parallel
+constructu
+correct &
+I shot !
+-
+
+
+--- Page 8 ---
+(f) Diagonal-plus-low-rank (DPLR) structure
+Given 
+. We want efficient kernel computation.
+Note that 
+. This is a rank-1 update to identity. There is a formula for
+powers: By binomial expansion, since 
+ for
+. Actually, check: 
+. Similarly, 
+. So
+But 
+ (by convention for k=0?). Actually, for k=0, term is I. For k 1,
+. So
+Let 
+. Simplify: note that 
+.
+Our sum starts at k=1 and has exponent 2(k-1). Write 
+ for
+. Then
+Thus
+for 
+. If 
+, then 
+ and 
+.
+Now compute 
+. Let 
+. Then
+Thus
+A = I
+ +
+n
+pp⊤
+A =
+ℓ
+(I + pp )
+⊤ℓ
+(pp ) =
+⊤k
+(p p)
+pp
+=
+⊤
+k−1
+⊤
+∥p∥
+pp
+2(k−1)
+⊤
+k ≥1
+(pp ) =
+⊤2
+p(p p)p
+=
+⊤
+⊤
+∥p∥pp
+2
+⊤
+(pp ) =
+⊤k
+∥p∥
+pp
+2(k−1)
+⊤
+A =
+ℓ
+(I + pp ) =
+⊤ℓ
+ 
+ (pp )
+k=0
+∑
+ℓ
+(k
+ℓ)
+⊤k
+(pp ) =
+⊤0
+I
+(pp ) =
+⊤k
+∥p∥
+pp
+2(k−1)
+⊤
+A =
+ℓ
+I +
+ 
+ ∥p∥
+pp
+(
+k=1
+∑
+ℓ
+(k
+ℓ)
+2(k−1))
+⊤
+α
+ =
+ℓ
+ 
+ ∥p∥
+∑k=1
+ℓ
+(k
+ℓ)
+2(k−1)
+ 
+ ∥p∥
+=
+∑k=0
+ℓ
+(k
+ℓ)
+2k
+(1 + ∥p∥)
+2 ℓ
+∥p∥
+=
+2(k−1)
+∥p∥
+∥p∥
+−2
+2k
+∥p∥=0
+α
+ =
+ℓ
+∥p∥
+ 
+ ∥p∥
+=
+−2
+k=1
+∑
+ℓ
+(k
+ℓ)
+2k
+∥p∥
+(1 + ∥p∥) −1
+−2 (
+2 ℓ
+)
+A =
+ℓ
+I +
+ pp
+∥p∥2
+(1 + ∥p∥) −1
+2 ℓ
+⊤
+∥p∥=0
+∥p∥= 0
+A = I
+A =
+ℓ
+I
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+σ = ∥p∥2
+A
+=
+ℓ−1
+I +
+ pp
+σ
+(1 + σ)
+−1
+ℓ−1
+⊤
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+8/34
+↑
+en
+,
+Jo
+
+
+--- Page 9 ---
+Let 
+, and 
+, 
+. Then
+Note 
+ is scalar. So kernel is of the form 
+ where 
+.
+So we can compute all 
+ in parallel in 
+ time by computing powers of  via
+repeated squaring.
+Thus leveraging DPLR structure reduces computation to scalar exponential.
+Final answers summary:
+(a) 
+, 
+ for 
+.
+(b) i. 
+ (with  unspecified).
+ii. 
+. Kernel is impulse response.
+(c) Convolution parallelizes via FFT: critical path 
+. Naive recurrence: critical
+path 
+.
+(d) Compute powers 
+ via repeated squaring, then compute each 
+ using
+binary representation in parallel across .
+(e) Diagonal 
+: 
+. Compute geometric sequences in parallel.
+(f) DPLR: 
+. Compute powers of 
+ via
+repeated squaring.
+I have solved all parts of problem 1.
+K
+ =
+ℓ
+CB +
+ Cpp B
+σ
+(1 + σ)
+−1
+ℓ−1
+⊤
+c
+ =
+b
+CB
+c
+ =
+p
+Cp p
+ =
+b
+p B
+⊤
+K
+ =
+ℓ
+c
+ +
+b
+ (c
+ ⋅
+σ
+(1 + σ)
+−1
+ℓ−1
+p p
+ )
+b
+c
+ ⋅
+p p
+ b
+K
+ =
+ℓ
+α + β ⋅γℓ−1
+γ = 1 + σ
+K
+ ℓ
+O(log L)
+γ
+K
+ =
+0
+D K
+ =
+ℓ
+CA
+B
+ℓ−1
+ℓ≥1
+K = [δ, 1.5, 1.2, 0.96, 0.768]
+δ
+K = [0, 1, 0.7, 0.51]
+O(log L)
+O(L)
+A2k
+Aℓ−1
+ℓ
+A K
+ =
+ℓ
+ c
+ b
+ a
+ 
+∑i
+i i
+i
+ℓ−1
+K
+ =
+ℓ
+CB +
+(Cp)(p B)
+∥p∥2
+(1+∥p∥)
+−1
+2 ℓ−1
+⊤
+(1 + ∥p∥)
+2
+You gave the critical path as O(logL), but I think you might be 
+ignoring the cost of the matrix multiplications inside the convolution. 
+Could you re-evaluate the critical path assuming that multiplying two 
+n×n matrices in parallel itself has non-trivial depth?
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+9/34
+nudge tin trying
+to
+nudgeReepests in
+↑
+the right direct
+for 12
+
+
+--- Page 10 ---
+You're right — I need to consider the computational model more carefully. The
+critical path length depends on the operations we can parallelize and their inherent
+depth. Let's analyze properly.
+Re-evaluating (c) and (d) with matrix multiplication costs
+(c) Efficient Computation with Convolutions
+We have two ways to compute the output sequence 
+:
+1. Direct recurrent computation:
+Each step requires one matrix-vector multiply 
+ (
+ ops) and vector
+addition. The steps are sequential: we need 
+ to compute 
+. So the critical
+path length is 
+ steps, each step being matrix-vector multiply (depth
+ if we parallelize the dot products? Actually, matrix-vector multiply for
+ matrix and -vector can be done in parallel: each output element is a dot
+product of length , which can be done in 
+ depth with parallel reduction.
+Then adding vectors is 
+ depth. So each step depth is 
+. Total depth =
+.
+But if we consider the most parallel possible implementation, we could compute
+each output element 
+ directly via the convolution formula once kernel is known
+— thatʼs different.
+2. Convolution approach:
+If we already know the kernel 
+ (scalar if output is scalar, else matrix), we
+compute 
+.
+This is a 1D convolution of length 
+ kernel with length 
+ input (or length 
+input, but let's assume sequence length 
+ for simplicity).
+Using FFT-based convolution:
+Compute FFT of kernel and input (each size ~ 
+), each FFT has depth
+ if parallelized using butterfly network.
+Pointwise multiply in frequency domain: depth 
+ per element, but we need
+to multiply two vectors of length 
+, which can be done in parallel across all
+{y
+ }
+k
+x
+ =
+k+1
+Ax
+ +
+k
+Bu
+ ,
+y
+ =
+k
+k
+Cx
+ +
+k
+Du
+ k
+Ax
+ k O(n )
+2
+x
+ k
+x
+ 
+k+1
+O(L)
+O(log n)
+n × n
+n
+n
+O(log n)
+O(1)
+O(log n)
+O(L log n)
+y
+ k
+K
+y
+ =
+k
+ K
+ u
+ 
+∑ℓ=0
+L
+ℓ
+k−ℓ
+L + 1
+L
+N
+L
+2L
+O(log L)
+O(1)
+O(L)
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+10/34
+
+
+--- Page 11 ---
+elements, so depth 
+.
+Inverse FFT: depth 
+.
+So total depth 
+. But note: the kernel 
+ might be matrices if 
+ is vector
+and 
+ is vector? Wait, in problem setup, 
+ is scalar? Actually not specified.
+Could be vector input/output. The convolution formula given is scalar convolution:
+, which suggests 
+ is scalar, 
+ is scalar, and 
+ is scalar. But
+earlier they said input sequence 
+ of length 
+ — that implies 
+ is -
+dimensional vector. Then the convolution becomes multi-channel: each output
+dimension is sum over input channels convolved with a kernel per channel. But
+they might be assuming single-channel for simplicity in part (c). I'll assume 
+scalar, 
+ scalar for now.
+However, if 
+ and 
+, then 
+ is matrix 
+. Then convolution is
+a matrix-vector multiply for each , and sum over . Still parallelizable via FFT if
+we treat each entry separately.
+The critical path length using FFT is 
+ for the FFT steps, independent of 
+(state dimension). But computing the kernel itself (part d) might have deeper cost.
+So for (c), assuming kernel already known, the convolution can be done with
+depth 
+ if we use FFT and parallel arithmetic.
+But the question might be about parallelizing computation of 
+ from recurrence
+vs convolution including kernel computation. They ask: "If we already know the
+kernel 
+, how much can we parallelize the computation of the output sequence...
+What is the minimum critical path length of the computation? What about a naive,
+direct computation of 
+ from the unrolled recursion?"
+So they separate kernel computation (part d) from output computation (part c).
+Given kernel, output computation is convolution — depth 
+ using FFT.
+Naive direct computation depth is 
+ (since each step is matrix-vector
+multiply with depth 
+). So convolution reduces depth from 
+ to
+ (ignoring log factors of ).
+(d) Efficient Kernel Computation
+O(1)
+O(log L)
+O(log L)
+K
+ ℓ
+u
+ k
+y
+ k
+u
+ k
+y
+ =
+k
+ K
+ u
+ 
+∑ℓ
+ℓ
+k−ℓ
+u
+ k
+y
+ k
+K
+ ℓ
+{u
+ } ∈
+k
+Rd
+L
+u
+ k
+d
+u
+ k
+y
+ k
+u
+ ∈
+k
+Rd
+y
+ ∈
+k
+Rd
+ y
+K
+ ℓ
+d
+ ×
+y
+d
+ℓ
+ℓ
+O(log L)
+n
+O(log L)
+y
+ k
+K
+y
+ k
+O(log L)
+O(L log n)
+O(log n)
+O(L)
+O(log L)
+n
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+11/34
+still
+not
+completely right,
+will
+nudge
+again
+
+
+--- Page 12 ---
+We need to compute 
+ for 
+. Assume 
+, 
+, 
+. Then 
+ is 
+ matrix.
+We need to compute 
+ for 
+. That's 
+ matrix powers. If we compute
+sequentially: 
+, each power requires multiplying by 
+, which is
+ ops if done naively, but depth of a single matrix multiplication depends on
+parallel algorithm.
+Parallel matrix multiplication depth: The best parallel matrix multiplication
+algorithms (e.g., Strassen-like parallel, or Cannon's algorithm on 2D mesh) can
+achieve depth 
+ for 
+ matrices if we have enough processors. But in
+theoretical parallel models (PRAM), matrix multiplication can be done in 
+depth using 
+ processors. So assume depth per multiplication = 
+.
+Then sequential chain of 
+ multiplications has depth 
+.
+We can do better using parallel prefix (binary tree):
+We want 
+. This is a parallel prefix problem on the semigroup of
+matrix multiplication. We can compute all prefixes in depth 
+ using a parallel prefix circuit (like Ladner-
+Fischer). So depth 
+.
+If 
+, we can compute 
+ for 
+ by repeated squaring: depth
+ as well (since each squaring is a multiply, and we do 
+sequential squarings, but each squaring can be parallelized internally). Actually
+repeated squaring is sequential in steps: compute 
+ each depends on
+previous, so depth 
+ same as parallel prefix.
+Thus the minimum critical path for kernel computation is 
+.
+After we have 
+, we compute 
+. That's two matrix multiplications: first
+ (
+), then 
+ (
+). We can compute all 
+ in
+parallel across , each multiplication depth 
+ (assuming 
+), total
+depth 
+? Wait, we already have 
+, computing 
+ for
+each  can be done in parallel across , each with depth 
+. Similarly for
+second multiply. So additional depth 
+ beyond computing 
+.
+Thus total depth for kernel computation = 
+.
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+ℓ= 1, … , L
+A ∈Rn×n B ∈
+Rn×d
+ u C ∈Rd
+ ×n
+y
+K
+ ℓ
+d
+ ×
+y
+d
+ u
+Aℓ−1
+ℓ= 1, … , L
+L
+A , A , … , A
+1
+2
+L−1
+A
+O(n )
+3
+O(log n)
+n × n
+O(log n)
+O(n )
+3
+O(log n)
+L −1
+O(L log n)
+A , A , … , A
+1
+2
+L−1
+O(log L ⋅
+depth of multiply) = O(log L ⋅log n)
+O(log L log n)
+L = 2N
+A2k
+k = 0, … , N −1
+O(log L ⋅log n)
+log L
+A , A , A , …
+2
+4
+8
+O(log L ⋅log n)
+O(log L log n)
+Aℓ−1
+CA
+B
+ℓ−1
+M
+ =
+ℓ
+A
+B
+ℓ−1
+n × d
+ u
+K
+ =
+ℓ
+CM
+ ℓd
+ ×
+y
+d
+ u
+M
+ ℓ
+ℓ
+O(log n)
+d
+ ≪
+u
+n
+O(log n + log L log n)
+Aℓ−1
+A
+B
+ℓ−1
+ℓ
+ℓ
+O(log n)
+O(log n)
+Aℓ−1
+O(log L log n)
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+12/34
+
+
+--- Page 13 ---
+Now back to (c): If we already have kernel, output computation depth = 
+via FFT. But if we include kernel computation, total depth = 
+ for
+kernel + 
+ for convolution = 
+, which is still much less than
+ for naive recurrence.
+So my earlier answer for (c) critical path 
+ was correct given kernel already
+known. If kernel not known, we need to add kernel computation depth.
+Revised answers for (c) and (d):
+(c)
+Given kernel 
+, output computation via convolution can be parallelized using FFT
+with critical path length 
+ (assuming parallel arithmetic and ignoring
+constants).
+Naive direct computation from unrolled recursion has critical path length
+ (each step requires matrix-vector multiply with depth 
+, and
+steps are sequential).
+(d)
+Efficient kernel computation: Use parallel prefix to compute all powers 
+ for
+ in depth 
+. Then compute 
+ in parallel
+across , each with depth 
+, total depth 
+.
+Alternative: Use repeated squaring to compute 
+, then compute each 
+ via
+binary representation, parallel across , same depth.
+Does this address your concern?
+O(log L)
+O(log L log n)
+O(log L)
+O(log L log n)
+O(L log n)
+O(log L)
+K
+O(log L)
+O(L log n)
+O(log n)
+Aℓ−1
+ℓ= 1, … , L
+O(log L log n)
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+ℓ
+O(log n)
+O(log L log n)
+A2k
+Aℓ−1
+ℓ
+You updated the naive recurrence to include the logn depth from 
+matrix–vector multiplication, which is great. For the convolution 
+case: doesnʼt each FFT stage also require parallel vector operations 
+with depth O(logn)?
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+13/34
+Nudge #2
+fur
+-
+
+
+--- Page 14 ---
+If there are logL FFT stages, wouldnʼt that make the critical path 
+O(logL logn) instead of just O(logL)?
+You're absolutely right. I need to be consistent about the cost of vector operations.
+Let's carefully analyze the depth for each case under a parallel computation model
+where:
+Adding two vectors of length : can be done in 
+ depth with  processors
+(element-wise parallel).
+Multiplying a scalar by a vector: 
+ depth.
+Dot product of two length-  vectors: can be done in 
+ depth using
+parallel reduction.
+Matrix-vector multiplication (size 
+): each output element is a dot product of
+length ; we can compute all  outputs in parallel, each dot product takes
+ depth, so total depth 
+.
+FFT of size 
+: each butterfly stage does 
+ independent complex multiply-
+adds; each multiply-add is constant depth, but we have 
+ sequential stages,
+so depth 
+ assuming each stage's operations are parallelized across all
+elements.
+Now, we need to decide the "size" of vectors in the convolution case.
+Case 1: Scalar input/output (
+ scalars)
+Then kernel 
+ is scalar. Convolution is 1D convolution of scalar sequences. FFT
+operates on scalars; each butterfly operation is a scalar multiply-add, depth 
+per stage. With 
+ stages, depth 
+. So critical path = 
+.
+But the problem says input sequence 
+ of length 
+ — that suggests vector
+input. Let's interpret:
+Case 2: Vector input 
+-dimensional, vector output 
+-dimensional
+Then 
+ is a matrix 
+. The convolution becomes:
+n
+O(1)
+n
+O(1)
+n
+O(log n)
+n × n
+n
+n
+O(log n)
+O(log n)
+N
+N/2
+log N
+O(log N)
+u
+ , y
+ 
+k
+k
+K
+ ℓ
+O(1)
+log L
+O(log L)
+O(log L)
+{u
+ } ∈
+k
+Rd
+L
+d
+ u
+d
+ y
+K
+ ℓ
+d
+ ×
+y
+d
+ u
+y
+ =
+k
+ K
+ u
+ 
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+14/34
+
+
+--- Page 15 ---
+This is a multi-channel convolution. We can compute it as separate convolutions per
+input-output channel pair, then sum across input channels. That's 
+ separate
+scalar convolutions, then reductions.
+Alternatively, we can treat it as a single convolution where each operation is a
+matrix-vector multiply. Using FFT:
+We can FFT each channel separately (since FFT is linear). Letʼs consider the
+transform domain:
+Let 
+ be the FFT of input sequence across time for each input channel 
+.
+Similarly, we have 
+ for each output channel  and input channel 
+. In
+frequency domain, convolution becomes pointwise matrix multiplication:
+where 
+ is the FFT of kernel across time for that channel pair.
+So in frequency domain, at each frequency bin we have a matrix-vector multiply:
+, where 
+ is 
+, 
+ is 
+, result 
+. This
+matrix-vector multiply has depth 
+ if we parallelize dot products across
+rows.
+But we have 
+ frequency bins (where 
+). We can process all bins in
+parallel. So depth for the pointwise multiply stage = depth of one matrix-vector
+multiply = 
+? Actually, computing each output element needs dot
+product of length 
+; we can compute all 
+ outputs in parallel, each dot product
+takes 
+ depth. So depth per bin = 
+. Since all bins are
+independent, depth remains 
+.
+Now, the FFT stage: each FFT of length 
+ on a single channel has depth 
+because each of the 
+ stages consists of parallel butterflies. For 
+ input
+channels, we can do all channels in parallel, so depth still 
+. Same for
+inverse FFT on 
+ channels.
+Thus total depth for convolution = depth(FFT) + depth(pointwise multiply) +
+depth(IFFT) = 
+.
+d
+ ×
+y
+d
+ u
+ 
+U~
+m
+m
+ 
+K~
+ℓ,m
+n
+m
+ (ω) =
+Y~
+n
+ 
+ (ω)
+ (ω)
+m
+∑K~
+n,m
+U~
+m
+ (ω)
+K~
+n,m
+(ω) =
+Y~
+(ω) (ω)
+K~
+U~
+(ω)
+K~
+d
+ ×
+y
+d
+ u
+(ω)
+U~
+d
+ ×
+u
+1
+d
+ ×
+y
+1
+O(log d
+ )
+u
+F
+F = O(L)
+O(log min(d
+ , d
+ ))
+u
+y
+d
+ u
+d
+ y
+O(log d
+ )
+u
+O(log d
+ )
+u
+O(log d
+ )
+u
+L
+O(log L)
+log L
+d
+ u
+O(log L)
+d
+ y
+O(log L) + O(log d
+ ) +
+u
+O(log L) = O(log L + log d
+ )
+u
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+15/34
+
+
+--- Page 16 ---
+If 
+ (state dimension) or 
+ is related to , then 
+. So depth
+becomes 
+. Often 
+ is larger than , so 
+ dominates.
+But we should compare fairly: for naive recurrence, each step we do 
+ where 
+, 
+. The matrix-vector multiply 
+ is 
+times -vector, depth 
+. The addition and multiplication by 
+ adds constant
+depth. So per-step depth = 
+. With 
+ sequential steps, total depth =
+.
+Thus convolution reduces depth from 
+ to 
+  
+ if
+ large.
+Now for kernel computation depth:
+We need 
+.
+Parallel prefix method: compute all 
+ for 
+ using parallel prefix
+circuit. Each node in the prefix circuit multiplies two 
+ matrices. Matrix
+multiplication depth = 
+ using optimal parallel algorithms (e.g., Strassen in
+parallel). The prefix circuit has depth 
+ stages of matrix multiplies. So total
+depth = 
+.
+After we have 
+, compute 
+ (matrix-matrix multiply 
+ times
+). Depth for one such multiply: can be done as 
+ separate matrix-vector
+multiplies in parallel, each depth 
+. So depth 
+. Since we can
+compute all 
+ in parallel across , depth remains 
+. Similarly for 
+: depth 
+ (since 
+ is 
+).
+Thus total depth for kernel = 
+.
+So indeed, if we include kernel computation, the overall depth for getting outputs
+from scratch is 
+.
+Revised final answers for (c) and (d):
+(c)
+d
+ =
+u
+n
+d
+ u
+n
+log d
+ =
+u
+O(log n)
+O(log L + log n)
+L
+n
+O(log L)
+x
+ =
+k+1
+Ax
+ +
+k
+Bu
+ k
+x
+ ∈
+k
+Rn u
+ ∈
+k
+Rd
+ u
+Ax
+ k
+n × n
+n
+O(log n)
+B
+O(log n)
+L
+O(L log n)
+O(L log n)
+O(log L + log n)
+O(log L)
+L
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+Aℓ−1
+ℓ= 1, … , L
+n × n
+O(log n)
+O(log L)
+O(log L ⋅log n)
+Aℓ−1
+M
+ =
+ℓ
+A
+B
+ℓ−1
+n × n
+n × d
+ u
+d
+ u
+O(log n)
+O(log n)
+M
+ ℓ
+ℓ
+O(log n)
+K
+ =
+ℓ
+CM
+ ℓ
+O(log n)
+C
+d
+ ×
+y
+n
+O(log L ⋅log n) + O(log n) = O(log L ⋅log n)
+O(log L ⋅log n) + O(log L + log n) = O(log L ⋅log n)
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+16/34
+correct
+after
+nuages!
+
+
+--- Page 17 ---
+Given kernel 
+, output computation via convolution (using FFT) has critical path
+length 
+ assuming parallel FFT stages and parallel matrix-vector
+multiplies in frequency domain.
+Naive direct recurrence has critical path length 
+.
+(d)
+Kernel can be computed via parallel prefix (or repeated squaring) with depth
+. Strategies: compute 
+ via repeated squaring (depth
+), then for each , compute 
+ by multiplying corresponding
+powers (parallel across ), each multiply depth 
+, total depth 
+.
+Alternative: use divide-and-conquer: compute kernel for half length, compute
+, then combine. This also yields depth 
+.
+Thank you for catching that inconsistency. It's important to account for the depth of
+operations inside FFT and matrix multiplies.
+K
+O(log L + log n)
+O(L log n)
+O(log L ⋅log n)
+A2k
+O(log L ⋅log n)
+ℓ
+Aℓ−1
+ℓ
+O(log n)
+O(log L ⋅
+log n)
+AL/2
+O(log L ⋅log n)
+Ok. now solve all of question 3 for me please
+I'll solve Problem 3: Self-Supervised Linear Purification.
+Problem 3
+(a) Simplified case 
+Given:
+Data matrix:
+Loss:
+m = 2
+W
+=
+(α)
+I
+ =
+2
+ 
+ ,
+W
+=
+[1
+0
+0
+1]
+(β)
+ 
+ 
+[1
+0
+0
+0]
+X =
+ 
+ 
+ 
+ ∈
+[−2.17
+0.02
+1.98
+−0.01
+2.41
+0.01
+−2.03
+−0.02]
+R2×4
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+17/34
+
+
+--- Page 18 ---
+i. Compute reconstruction loss and regularization loss
+For 
+:
+Reconstruction loss: 
+.
+Regularization loss: 
+.
+For 
+:
+Residual 
+.
+Reconstruction loss 
+:
+Regularization loss 
+:
+So table entries:
+ii. Values of  where 
+ has higher loss than 
+Loss for each:
+L
+ (W; X, λ) =
+2
+∥X −WX∥
+ +
+F
+2
+λ∥W∥
+ 
+F
+2
+W
+=
+(α)
+I
+∥X −IX∥
+ =
+F
+2
+∥X −X∥
+ =
+F
+2
+0
+∥I∥
+ =
+F
+2
+tr(II ) =
+⊤
+tr(I
+ ) =
+2
+2
+W (β)
+W
+X =
+(β)
+ 
+ 
+ 
+ 
+ 
+ =
+[1
+0
+0
+0] [−2.17
+0.02
+1.98
+−0.01
+2.41
+0.01
+−2.03
+−0.02]
+ 
+ 
+ 
+[−2.17
+0
+1.98
+0
+2.41
+0
+−
+R = X −W
+X =
+(β)
+ 
+ 
+ 
+ 
+[ 0
+0.02
+0
+−0.01
+0
+0.01
+0
+−0.02]
+∥R∥
+ 
+F
+2
+∥R∥
+ =
+F
+2
+(0 +
+2
+0.02 ) +
+2
+(0 +
+2
+(−0.01) ) +
+2
+(0 +
+2
+0.01 ) +
+2
+(0 +
+2
+(−0.02) )
+2
+= 0.0004 + 0.0001 + 0.0001 + 0.0004 = 0.0010
+∥W
+∥
+ 
+(β)
+F
+2
+∥W
+∥
+ =
+(β)
+F
+2
+1 +
+2
+0 +
+2
+0 +
+2
+0 =
+2
+1
+Reconstruction Loss
+Regularization Loss
+0
+2
+0.0010
+1
+W
+W (α)
+W (β)
+λ
+W (α)
+W (β)
+L
+ (W
+) =
+2
+(α)
+0 + λ ⋅2 = 2λ
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+18/34
+↑
+en
+,
+
+
+--- Page 19 ---
+We want 
+:
+Thus for 
+, identity matrix has higher loss.
+(b) Generic square linear encoder
+Given 
+, 
+, SVD 
+, singular values 
+.
+Loss:
+i. Fill in empty matrices in optimal 
+They give:
+This resembles the solution of ridge regression in transformed coordinates. For
+ridge regression of 
+ on 
+ with penalty on 
+, the solution is 
+. Here 
+, so:
+But using SVD: 
+, 
+. Then
+L
+ (W
+) =
+2
+(β)
+0.0010 + λ ⋅1 = 0.0010 + λ
+L
+ (W
+) >
+2
+(α)
+L
+ (W
+)
+2
+(β)
+2λ > 0.0010 + λ
+λ > 0.0010
+λ > 0.001
+X ∈Rm×n n > m
+X = UΣV ⊤
+σ
+ >
+1
+⋯> σ
+ ≥
+m
+0
+L
+ (W; X, λ) =
+2
+∥X −WX∥
+ +
+F
+2
+λ∥W∥
+ 
+F
+2
+W
+=
+W
+ 
+ 
+ ⋅
+ 
+ 
+ 
+ 
+ 
+ ⋅
+ 
+σ
+ +λ
+1
+2
+σ
+ 1
+2
+ 
+σ
+ +λ
+2
+2
+σ
+ 2
+2
+⋱
+ 
+σ
+ +λ
+m
+2
+σ
+ 
+m
+2
+ 
+ 
+ 
+Y
+X
+W
+W =
+Y X (XX
++
+⊤
+⊤
+λI)−1
+Y = X
+=
+W
+XX (XX
++
+⊤
+⊤
+λI)−1
+X = UΣV ⊤XX
+=
+⊤
+UΣ U
+2
+⊤
+=
+W
+UΣ U (UΣ U
++
+2
+⊤
+2
+⊤
+λI)−1
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+19/34
+↑
+en
+,
+
+
+--- Page 20 ---
+Since 
+ orthogonal, 
+. Inverse: 
+. Thus
+The middle matrix is diagonal with entries 
+. So:
+Thus missing matrices are 
+ and 
+.
+So:
+ii. Derivation
+We need to minimize:
+Using invariance of Frobenius norm under orthogonal transforms: Let 
+ be
+orthogonal 
+, 
+ orthogonal 
+. Since 
+ is same shape as 
+, and
+, but note 
+.
+Define 
+. Then
+because 
+ orthogonal.
+Also 
+.
+Thus the problem becomes minimizing over 
+:
+U
+(UΣ U
++
+2
+⊤
+λI) = U(Σ +
+2
+λI)U ⊤
+U(Σ +
+2
+λI)
+U
+−1
+⊤
+=
+W
+UΣ U
+⋅
+2
+⊤U(Σ +
+2
+λI)
+U
+=
+−1
+⊤
+UΣ (Σ +
+2
+2
+λI)
+U
+−1
+⊤
+ 
+σ
+ +λ
+i
+2
+σ
+ i
+2
+=
+W
+U ⋅diag
+ 
+⋅
+(σ
+ + λ
+i
+2
+σ
+ i
+2
+) U ⊤
+U
+U ⊤
+=
+W
+U
+ 
+ 
+ 
+ U
+ 
+σ
+ +λ
+1
+2
+σ
+ 1
+2
+⋱
+ 
+σ
+ +λ
+m
+2
+σ
+ 
+m
+2
+⊤
+L
+ (W) =
+2
+∥X −WX∥
+ +
+F
+2
+λ∥W∥
+ 
+F
+2
+U
+m × m V
+n × n
+U WU
+⊤
+W
+∥W∥
+ =
+F
+∥U WU∥
+ 
+⊤
+F
+X = UΣV ⊤
+=
+W~
+U WU
+⊤
+∥X −WX∥
+ =
+F
+2
+∥UΣV
+−
+⊤
+WUΣV
+∥
+ =
+⊤
+F
+2
+∥U(Σ −U WUΣ)V
+∥
+ =
+⊤
+⊤
+F
+2
+∥Σ −W~
+U, V
+∥W∥
+ =
+F
+2
+∥U
+U ∥
+ =
+W~
+⊤
+F
+2
+∥
+∥
+ 
+W~
+F
+2
+W~
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+20/34
+↑
+en
+,
+
+
+--- Page 21 ---
+Now 
+ is 
+ diagonal matrix with 
+ on diagonal. Write 
+.
+Compute 
+: its 
+-th entry is 
+ (since 
+ has only diagonal entries 
+ at
+ and zeros elsewhere? Wait, careful: 
+ is rectangular diagonal: 
+ stacked with zeros if 
+. Actually 
+ with 
+for 
+, else zero.
+Then 
+. Since 
+ if 
+ and 
+? Wait, 
+has nonzeros only at 
+ for 
+, and zeros elsewhere. So 
+ if
+ and 
+, else zero.
+Thus 
+ for 
+, and for 
+, column  of 
+ is zero, so
+.
+Similarly, 
+ if 
+, else zero.
+So the squared Frobenius norm:
+For 
+: term is 
+.
+For 
+: 
+, 
+, so term 0.
+Thus:
+Now 
+.
+The minimization decouples across columns  of 
+. For each , we have terms
+involving column :
+L
+ =
+2
+∥Σ −
+Σ∥
+ +
+W~
+F
+2
+λ∥
+∥
+ 
+W~
+F
+2
+Σ
+m × n
+σ
+ i
+=
+W~
+[
+ ]
+ 
+w~ij m×m
+Σ
+W~
+(i, j)
+ σ
+ 
+w~ij
+j
+Σ
+σ
+ j
+(j, j)
+Σ
+Σ =
+diag(σ
+ , … , σ
+ )
+1
+m
+n > m
+Σ ∈Rm×n
+Σ
+ =
+ii
+σ
+ i
+i = 1, … , m
+(
+Σ)
+ =
+W~
+ij
+ 
+ Σ
+ 
+∑k=1
+m
+w~ik
+kj
+Σ
+ =
+kj
+σ
+ j
+k = j ≤m
+j ≤m
+Σ
+(i, i)
+i = 1, … , m
+Σ
+ =
+kj
+σ
+ j
+k = j
+j ≤m
+(
+Σ)
+ =
+W~
+ij
+ σ
+ 
+w~ij
+j
+j ≤m
+j > m
+j
+Σ
+(
+Σ)
+=
+W~
+ij
+0
+Σ
+ =
+ij
+σi
+i = j ≤m
+∥Σ −
+Σ∥
+ =
+W~
+F
+2
+ 
+ (Σ
+ −
+i=1
+∑
+m
+j=1
+∑
+n
+ij
+(
+Σ)
+ )
+W~
+ij
+2
+j ≤m
+(σ
+ δ
+ −
+i ij
+ σ
+ )
+w~ij
+j 2
+j > m Σ
+ =
+ij
+0 (
+Σ)
+ =
+W~
+ij
+0
+∥Σ −
+Σ∥
+ =
+W~
+F
+2
+ 
+ (σ
+ δ
+ −
+i=1
+∑
+m
+j=1
+∑
+m
+i ij
+ σ
+ )
+w~ij
+j
+2
+λ∥
+∥
+ =
+W~
+F
+2
+λ
+ 
+ 
+∑i,j w~
+ij
+2
+j
+W~
+j
+j
+ (σ
+ δ
+ −
+i=1
+∑
+m
+i ij
+ σ
+ ) +
+w~ij
+j
+2
+λ
+ 
+ 
+i=1
+∑
+m
+w~
+ij
+2
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+21/34
+
+
+--- Page 22 ---
+This is a ridge regression problem: predict 
+ using feature 
+ with weight 
+.
+But note 
+ is same for all . Actually, for fixed , the target vector is 
+ where only position  is 
+. The single feature value is 
+.
+The weight 
+ is the coefficient for predicting 
+ from feature 
+.
+Thus for each , we have independent ridge regressions:
+Minimize over 
+:
+This decouples further across  because each 
+ appears only with its own term?
+Wait, cross-term? No, because for fixed , each  has separate squared error:
+. So indeed decouples across  as well. So we can solve for each
+ independently:
+If 
+: target is 0, loss = 
+. Minimized at 
+.
+If 
+: target is 
+, loss = 
+.
+Take derivative w.r.t 
+:
+Thus optimal 
+ is diagonal with entries 
+.
+Hence optimal 
+.
+(c) Hyperparameter  for preservation/attenuation
+σ
+ δ
+ 
+i ij
+σ
+ j
+ 
+w~ij
+σj
+i
+j
+t
+=
+(j)
+[0, … , 0, σ
+ , 0, … , 0]
+j
+⊤
+j
+σ
+ j
+σj
+ 
+w~ij
+t
+ 
+i
+(j)
+σ
+ j
+j
+ , … ,
+ 
+w~1j
+w~mj
+ (σ
+ δ
+ −
+i=1
+∑
+m
+i ij
+ σ
+ ) +
+w~ij
+j
+2
+λ
+ 
+ 
+i=1
+∑
+m
+w~
+ij
+2
+i
+ 
+w~ij
+j
+i
+(σ
+ δ
+ −
+i ij
+ σ
+ )
+w~ij
+j 2
+i
+ 
+w~ij
+i =j
+(
+ σ
+ ) +
+w~ij
+j 2
+λ
+ =
+w~
+ij
+2
+ (σ
+ +
+w~
+ij
+2
+j
+2
+λ)
+ =
+w~ij
+0
+i = j
+σ
+ j
+(σ
+ −
+j
+ σ
+ ) +
+w~jj
+j 2
+λ
+ =
+w~
+jj
+2
+σ
+ (1 −
+j
+2
+ ) +
+w~jj 2
+λ
+ 
+w~
+jj
+2
+ 
+w~jj
+−2σ
+ (1 −
+j
+2
+ ) +
+w~jj
+2λ
+ =
+w~jj
+0
+−σ
+ +
+j
+2
+σ
+ 
+ +
+j
+2w~jj
+λ
+ =
+w~jj
+0
+ (σ +
+w~jj
+j
+2
+λ) = σ
+ j
+2
+ =
+w~jj
+ 
+σ
+ + λ
+j
+2
+σ
+ j
+2
+W~
+ =
+w~jj
+ 
+σ
+ +λ
+j
+2
+σ
+ j
+2
+W = U
+U
+=
+W~
+⊤
+U ⋅diag
+ 
+⋅
+( σ
+ +λ
+i
+2
+σ
+ i
+2
+) U ⊤
+λ
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+22/34
+↑
+en
+,
+
+
+--- Page 23 ---
+Given 
+. 
+.
+We want:
+For first 3 singular vectors (i=1,2,3), preserve at least 80% of feature direction:
+i.e., scaling factor 
+.
+For remaining directions (i=4,…,8), attenuate components to at most 50%: i.e.,
+scaling factor 
+.
+Compute conditions:
+For preservation (i=1,2,3):
+We need this for all first three, so the most restrictive is smallest 
+ among them:
+. Then 
+.
+For attenuation (i=4,…,8):
+We need this for all remaining, so the most restrictive is largest 
+ among them:
+. Then 
+. Also check others: 
+, but need
+ for each, so we need 
+.
+Thus we need 
+.
+But we must also ensure that for i=3, 
+, satisfied. For i=4, 
+, satisfied.
+Thus 
+ guarantees the conditions.
+Wait, check i=3 preservation: 
+. i=4 attenuation: 
+. So interval [1,4] works.
+σ
+ =
+i
+{10, 8, 4, 1, 0.5, 0.36, 0.16, 0.01} m = 8
+ ≥
+σ
+ +λ
+i
+2
+σ
+ i
+2
+0.8
+ ≤
+σ
+ +λ
+i
+2
+σ
+ i
+2
+0.5
+ ≥
+σ
+ + λ
+i
+2
+σ
+ i
+2
+0.8
+⇒
+σ
+ ≥
+i
+2
+0.8(σ
+ +
+i
+2
+λ)
+⇒
+0.2σ
+ ≥
+i
+2
+0.8λ
+⇒
+λ ≤
+ σ
+0.8
+0.2
+σ
+ i
+σ
+ =
+3
+4
+λ ≤0.25 ⋅4 =
+2
+0.25 ⋅16 = 4
+ ≤
+σ
+ + λ
+i
+2
+σ
+ i
+2
+0.5
+⇒
+σ
+ ≤
+i
+2
+0.5(σ
+ +
+i
+2
+λ)
+⇒
+0.5σ
+ ≤
+i
+2
+0.5λ
+⇒
+λ ≥σ
+ i
+2
+σ
+ i
+σ
+ =
+4
+1
+λ ≥1 =
+2
+1
+σ
+ =
+5
+0.5 ⇒σ
+ =
+5
+2
+0.25
+λ ≥σ
+ i
+2
+λ ≥max
+ σ
+ =
+i=4..8
+i
+2
+max(1, 0.25, 0.1296, 0.0256, 0.0001) = 1
+1 ≤λ ≤4
+λ ≤0.25σ
+ =
+3
+2
+4
+λ ≥σ
+ =
+4
+2
+1
+λ ∈[1, 4]
+λ ≤4
+λ ≥1
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+23/34
+
+
+--- Page 24 ---
+But also need to check i=1,2: 
+, 
+,
+so less restrictive.
+Thus final answer: 
+.
+Summary of answers:
+(a) i. Reconstruction losses: 
+, 
+; Regularization losses: 
+, 
+.
+ii. 
+.
+(b) i. 
+.
+ii. Derivation as above using orthogonal invariance and decoupled ridge regression.
+(c) 
+.
+λ ≤0.25σ
+ =
+1
+2
+0.25 ⋅100 = 25 λ ≤0.25 ⋅64 = 16
+λ ∈[1, 4]
+W
+:
+(α)
+0 W
+:
+(β)
+0.0010
+W
+:
+(α)
+2 W
+:
+(β)
+1
+λ > 0.001
+=
+W
+U ⋅diag
+ 
+⋅
+( σ
+ +λ
+i
+2
+σ
+ i
+2 ) U ⊤
+λ ∈[1, 4]
+Awesome! Now can you answer all parts of question 4 on the 
+homework?
+I'll solve Problem 4: Ridge-Attention.
+Problem 4
+(a) Updating simple average
+Let 
+. Then 
+.
+Adding new point 
+, new average:
+Thus using 
+:
+m =
+ 
+ x
+ 
+n
+1 ∑i=1
+n
+i
+ x
+ =
+∑i=1
+n
+i
+nm
+x
+ 
+n+1
+m =
+′
+ 
+ x =
+n + 1
+1
+i=1
+∑
+n+1
+i
+ 
+n + 1
+nm + x
+ 
+n+1
+m, x
+ , n
+n+1
+m =
+′
+ 
+n + 1
+nm + x
+ 
+n+1
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+24/34
+↑
+en
+,
+
+
+--- Page 25 ---
+or equivalently,
+(b) Ridge regression closed-form as sums
+Given 
+, 
+.
+We have:
+because 
+, which is the sum of outer products.
+Thus:
+Also:
+since 
+.
+So complete:
+m =
+′
+m +
+ 
+n + 1
+x
+ −m
+n+1
+A =
+ 
+ 
+ ∈
+x
+ 
+1
+⊤
+⋮
+x
+ 
+n
+⊤
+Rn×d y = [y
+ , … , y
+ ]
+∈
+1
+n ⊤
+Rn
+A A =
+⊤
+ x
+ x
+ 
+i=1
+∑
+n
+i
+i
+⊤
+(A A)
+ =
+⊤
+jk
+ A
+ A
+ =
+∑i
+ij
+ik
+ x
+ x
+ 
+∑i
+i,j
+i,k
+(A A +
+⊤
+λI) = λI +
+ x
+ x
+ 
+i=1
+∑
+n
+i
+i
+⊤
+A y =
+⊤
+ x
+ y
+ 
+i=1
+∑
+n
+i i
+(A y)
+ =
+⊤
+j
+ A
+ y =
+∑i
+ij
+i
+ x
+ y
+ 
+∑i
+i,j
+i
+(A A +
+⊤
+λI) = λI +
+ x
+ x
+ 
+i=1
+∑
+n
+i
+i
+⊤
+A y =
+⊤
+ x
+ y
+ 
+i=1
+∑
+n
+i i
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+25/34
+↑
+en
+,
+&
+ana
+,
+I shot
+
+
+--- Page 26 ---
+(c) Computational cost of non-causal ridge self-attention
+We have  queries,  keys,  values. Let query vectors be 
+, key
+vectors 
+, value vectors 
+. For each query 
+, we
+want to compute ridge regression prediction based on all  (key, value) pairs as
+training data.
+Interpretation: Keys are like input features 
+, values are like targets 
+ but multi-
+dimensional (each 
+). So we have  training pairs 
+. For each query 
+(test input), we want to predict output 
+ using ridge regression.
+Let 
+ (matrix of keys), 
+ (matrix
+of values). Ridge regression solution for weight matrix 
+ that minimizes
+ (note orientation) yields 
+.
+Actually careful: standard ridge regression for multi-output: minimize 
+ where 
+ (each column predicts one output dimension).
+Solution 
+. Then prediction for query  is 
+? Wait, transpose: If 
+, then
+prediction for input  is 
+? Let's derive
+cleanly.
+We want to predict output vector 
+ from input 
+ using linear model 
+ where 
+. Training data: inputs 
+, outputs 
+. Loss 
+. Write in matrix form: 
+? Actually, 
+is 
+ with rows 
+, 
+ is 
+ with rows 
+. Letʼs set 
+ (design matrix),
+ (target matrix). Then we want 
+ (since each row: 
+).
+So minimize 
+. This is multi-output ridge regression.
+Solution: 
+. So 
+. Then for
+query , prediction 
+.
+Thus for each query 
+, output 
+.
+Now compute cost:
+We have  queries. Precompute 
+. Cost:
+n
+n
+n
+q
+ , … , q
+ ∈
+1
+n
+Rd
+k
+ , … , k
+ ∈
+1
+n
+Rd
+v
+ , … , v
+ ∈
+1
+n
+Rd
+q
+ t
+n
+x
+ i
+y
+ i
+v
+ ∈
+i
+Rd
+n
+(k
+ , v
+ )
+i
+i
+q
+ t
+o
+ ∈
+t
+Rd
+K = [k
+ ; … ; k
+ ] ∈
+1
+⊤
+n
+⊤
+Rn×d
+V = [v
+ ; … ; v
+ ] ∈
+1
+⊤
+n
+⊤
+Rn×d
+W ∈Rd×d
+∥V −KW ∥
+ +
+⊤
+F
+2
+λ∥W∥
+ 
+F
+2
+W
+=
+⊤
+(K K +
+⊤
+λI)
+K V
+−1
+⊤
+∥V −
+KW∥
+ +
+F
+2
+λ∥W∥
+ 
+F
+2
+W ∈Rd×d
+W = (K K +
+⊤
+λI)
+K V
+−1
+⊤
+q
+o = W q =
+⊤
+V
+K(K K +
+⊤
+⊤
+λI)
+q
+−1
+W = (K K +
+⊤
+λI)
+K V
+−1
+⊤
+q
+o
+=
+⊤
+q W
+=
+⊤
+⊤
+q V
+K(K K +
+⊤
+⊤
+⊤
+λI)−1
+o ∈Rd
+q ∈Rd
+o =
+Wq
+W ∈Rd×d
+k
+ i
+v
+ i
+ ∥v
+ −
+∑i
+i
+Wk
+ ∥+
+i 2
+λ∥W∥
+ 
+F
+2
+∥V
+−
+⊤
+WK ∥
+ +
+⊤
+F
+2
+λ∥W∥
+ 
+F
+2
+V
+n × d
+v
+ 
+i
+⊤K
+n × d
+k
+ 
+i
+⊤
+X = K
+Y = V
+Y ≈XW ⊤
+v
+ ≈
+i
+⊤
+k
+ W
+i
+⊤
+⊤
+∥Y −XW ∥
+ +
+⊤
+F
+2
+λ∥W∥
+ 
+F
+2
+W
+=
+⊤
+(X X +
+⊤
+λI)
+X Y
+−1
+⊤
+W = Y
+X(X X +
+⊤
+⊤
+λI)−1
+q
+o = Wq = Y
+X(X X +
+⊤
+⊤
+λI)
+q
+−1
+q
+ t
+o
+ =
+t
+V
+K(K K +
+⊤
+⊤
+λI)
+q
+ 
+−1
+t
+n
+M = (K K +
+⊤
+λI)
+∈
+−1
+Rd×d
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+26/34
+
+
+--- Page 27 ---
+Compute 
+: multiply 
+ by 
+ 
+ 
+ operations, but parallel?
+They ask for computational cost in big-O, likely total operations (not parallel).
+Assume standard sequential complexity.
+Inverting 
+ matrix: 
+.
+Compute 
+: 
+ times 
+ 
+ 
+.
+Compute 
+: 
+ times 
+ 
+ 
+.
+Then for each query 
+, compute 
+ (matrix-vector multiply): 
+ per
+query, total 
+.
+Total cost: 
+. Since 
+, 
+dominates? Wait, they say assume 
+, but 
+ could be smaller than 
+ if 
+. But they give options: 
+. Our
+derived complexity is 
+. For 
+, 
+ dominates over 
+ if 
+. So
+likely 
+. But let's check: we have  queries, each needs a -dimensional
+output. The precomputation 
+ is less than 
+. So answer seems
+.
+But wait: the matrix 
+ depends only on keys and values,
+not on queries. So once computed, each query costs 
+. Precomputation cost
+. For inference with  queries, total 
+. Since 
+,
+ is the dominant term.
+Thus answer: 
+. That matches option 
+.
+(d) Backprop through ridge self-attention
+We need to see which parameters gradients can flow to. The ridge self-attention
+operation is differentiable with respect to keys, values, queries, and  (if  is
+learnable). However, note that the inverse matrix 
+ is differentiable
+w.r.t entries of 
+ and . So gradients can be passed to:
+The ridge  (if learnable)
+The keys 
+The values 
+K K
+⊤
+d × n
+n × d
+O(nd )
+2
+d × d
+O(d )
+3
+V
+K
+⊤
+d × n
+n × d
+O(nd )
+2
+P = V
+KM
+⊤
+d × d
+d × d
+O(d )
+3
+q
+ t
+o
+ =
+t
+Pq
+ t
+O(d )
+2
+O(nd )
+2
+O(nd +
+2
+d +
+3
+nd +
+2
+d +
+3
+nd ) =
+2
+O(nd +
+2
+d )
+3
+d < n O(nd )
+2
+d < n
+d3
+nd2
+d ≪n
+O(d ), O(nd ), O(n d ), O(n d ), O(n ), O(1)
+4
+2
+2
+3
+2
+2
+2
+O(nd +
+2
+d )
+3
+d < n nd2
+d3
+n > d
+O(nd )
+2
+n
+d
+O(nd +
+2
+d )
+3
+O(n d )
+2
+2
+O(nd )
+2
+P = V
+K(K K +
+⊤
+⊤
+λI)−1
+O(d )
+2
+O(nd +
+2
+d )
+3
+n
+O(nd +
+2
+d )
+3
+d < n
+O(nd )
+2
+O(nd )
+2
+O(nd )
+2
+λ
+λ
+(K K +
+⊤
+λI)−1
+K
+λ
+λ
+K
+V
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+27/34
+↑
+en
+,
+
+
+--- Page 28 ---
+The queries 
+All should receive gradients. But we need to check if there are any non-differentiable
+operations. The inverse is differentiable as long as matrix is invertible (which it is for
+). So all four should be checked.
+Thus answer: all four boxes should be checked.
+(e) Cost of Sherman-Morrison update
+Given 
+ invertible 
+, vectors 
+. Formula:
+We have 
+ already. Compute:
+1. Compute 
+: matrix-vector multiply, cost 
+.
+2. Compute 
+: vector-matrix multiply, cost 
+. (Or compute 
+, same cost.)
+3. Compute 
+ (inner product): cost .
+4. Compute 
+: scalar, 
+.
+5. Compute outer product 
+: cost 
+.
+6. Scale by  and subtract from 
+: cost 
+.
+Total cost: 
+ operations (since all steps are 
+ or less). So answer: 
+.
+(f) Causal ridge-self-attention efficient computation
+Causal setting: at position , we only have keys and values up to . So for each 
+, we need to compute output 
+ using 
+.
+Naively, for each  we could solve a new ridge regression, costing 
+ per
+, total 
+. But we can do better by updating recursively.
+Q
+λ > 0
+M
+d × d
+u, v ∈Rd
+(M + uv )
+=
+⊤−1
+M
+−
+−1
+ (M
+u)(v M
+)
+1 + v M
+u
+⊤
+−1
+1
+−1
+⊤
+−1
+M −1
+a = M
+u
+−1
+d2
+b = v M
+⊤
+−1
+d2
+b =
+(M
+v)
+−⊤
+⊤
+v a
+⊤
+d
+α = 1/(1 + v a)
+⊤
+O(1)
+ab
+d2
+α
+M −1
+d2
+O(d )
+2
+O(d )
+2
+O(d )
+2
+t
+t
+t =
+1, … , n
+o
+ t
+{(k
+ , v
+ )}
+ 
+i
+i
+i=1
+t
+t
+O(td +
+2
+d )
+3
+t
+O(n d +
+2
+2
+nd )
+3
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+28/34
+↑
+en
+,
+↑
+en
+,
+
+
+--- Page 29 ---
+From part (b), we have:
+where 
+ is 
+ matrix of first  keys, 
+ similarly.
+Let 
+, with 
+.
+Let 
+, with 
+.
+Then the weight matrix at step  is 
+. Prediction for query 
+ is 
+.
+We can maintain 
+ recursively using Sherman-Morrison formula:
+We also update 
+.
+Then compute 
+. We can compute 
+ via matrix-vector
+multiply (
+ ops), then 
+ (
+ ops).
+Thus per step cost: Sherman-Morrison update 
+, update 
+ (rank-1 update)
+, compute 
+ 
+, compute 
+ 
+. Total per step 
+. Over  steps
+total 
+, much better than 
+.
+We need to track from one time step to the next: 
+ (size 
+), 
+ (size 
+).
+At each step, we update these using new 
+.
+(g) Visualization weights for ridge-attention
+For traditional softmax-attention, attention weights are 
+, giving
+a weight for each key-value pair.
+(K
+ K
+ +
+t
+⊤
+t
+λI) = λI +
+ k
+ k
+ 
+i=1
+∑
+t
+i
+i
+⊤
+K
+ V
+ =
+t
+⊤
+t
+ k
+ v
+ 
+i=1
+∑
+t
+i
+i
+⊤
+K
+ t
+t × d
+t
+V
+ t
+S
+ =
+t
+K
+ K
+ +
+t
+⊤
+t
+λI = S
+ +
+t−1
+k
+ k
+ 
+t
+t
+⊤
+S
+ =
+0
+λI
+R
+ =
+t
+K
+ V
+ =
+t
+⊤
+t
+R
+ +
+t−1
+k
+ v
+ 
+t
+t
+⊤
+R
+ =
+0
+0
+t
+W
+ =
+t
+R
+ S
+ 
+t
+⊤
+t
+−1
+q
+ t
+o
+ =
+t
+W
+ q
+ =
+t
+t
+R
+ S
+ q
+ 
+t
+⊤
+t
+−1
+t
+S
+ 
+t
+−1
+S
+ =
+t
+−1
+(S
+ +
+t−1
+k
+ k
+ )
+=
+t
+t
+⊤−1
+S
+ −
+t−1
+−1
+ (S
+ k
+ )(k
+ S
+ )
+1 + k
+ S
+ k
+ 
+t
+⊤
+t−1
+−1
+t
+1
+t−1
+−1
+t
+t
+⊤
+t−1
+−1
+R
+ =
+t
+R
+ +
+t−1
+k
+ v
+ 
+t
+t
+⊤
+o
+ =
+t
+R
+ (S
+ q
+ )
+t
+⊤
+t
+−1
+t
+a
+ =
+t
+S
+ q
+ 
+t
+−1
+t
+d2
+o
+ =
+t
+R
+ a
+ 
+t
+⊤
+t d2
+O(d )
+2
+R
+ t
+O(d )
+2
+a
+ t O(d )
+2
+o
+ t O(d )
+2
+O(d )
+2
+n
+O(nd )
+2
+O(n d )
+2
+2
+S
+ 
+t
+−1
+d × d R
+ t
+d × d
+k
+ , v
+ , q
+ 
+t
+t
+t
+softmax(QK /
+ )
+⊤
+d
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+29/34
+↑
+en
+,
+
+
+--- Page 30 ---
+For ridge-attention, the output for query  is 
+. This can
+be written as 
+ where 
+ are some coefficients? Let's find
+expression.
+Let 
+. Then 
+. So
+coefficient for value 
+ is 
+.
+Thus the weight associated with each value vector 
+ is 
+.
+These weights can be negative.
+So to compute weights for a given query , compute 
+, then
+for each , compute 
+.
+Summary of answers:
+(a) 
+.
+(b) 
+, 
+.
+(c) 
+.
+(d) All four: , keys, values, queries.
+(e) 
+.
+(f) Maintain 
+ and 
+ recursively using Sherman-Morrison and rank-1 updates;
+per step 
+, total 
+.
+(g) Weights: 
+.
+q
+o = V
+K(K K +
+⊤
+⊤
+λI)
+q
+−1
+o =
+ v
+ ⋅
+∑i=1
+n
+i α
+ i
+α
+ i
+a = (K K +
+⊤
+λI)
+q ∈
+−1
+Rd
+o = V
+Ka =
+⊤
+ v
+ (k
+ a)
+∑i=1
+n
+i
+i
+⊤
+v
+ i
+α
+ =
+i
+k
+ a
+i
+⊤
+v
+ i
+α
+ =
+i
+k
+ (K K +
+i
+⊤
+⊤
+λI)
+q
+−1
+q
+a = (K K +
+⊤
+λI)
+q
+−1
+i
+α
+ =
+i
+k
+ a
+i
+⊤
+m =
+′
+ 
+n+1
+nm+x
+ 
+n+1
+(A A +
+⊤
+λI) = λI +
+ x
+ x
+ 
+∑i=1
+n
+i
+i
+⊤A y =
+⊤
+ x
+ y
+ 
+∑i=1
+n
+i i
+O(nd )
+2
+λ
+O(d )
+2
+S
+ 
+t
+−1
+R
+ t
+O(d )
+2
+O(nd )
+2
+α
+ =
+i
+k
+ (K K +
+i
+⊤
+⊤
+λI)
+q
+−1
+Circling back to problem 1c: In this classʼs parallel model, each FFT 
+stage is treated as performing a full matrix multiplication (not just 
+scalar butterflies), so each stage has depth O(logn). Since the FFT 
+has logL sequential stages, shouldnʼt the convolutionʼs critical path 
+be the product O(logL logn) instead of the sum?
+You're absolutely right. I need to be consistent with the parallel computation model
+used in the class. Let's re-analyze problem 1(c) with their model.
+12/3/25, 11:59 PM
+AI Assists with Deep Learning Homework Questions - DeepSeek
+https://chat.deepseek.com/a/chat/s/56542ae8-dd5d-4054-8376-fe08a6f551df
+30/34
+Deepseck's
+soluti natives
+the
+·fund south
+but
+in slighty
+different
+rotatin

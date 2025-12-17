@@ -1,0 +1,96 @@
+--- Page 1 ---
+ 
+ 
+It might be more convenient to upload the entire document. 
+However, uploading the entire document can make the answer very 
+long and each subpart answer too concise. Therefore I upload it by 
+copy-paste from the homework a question at a time.
+The model gives me the shape of the derivative, which is helpful for warm-up.
+
+
+--- Page 3 ---
+ 
+Le Chat answers question 2 correctly. 
+It is not suprising since question 2 is basic calculus and 
+the conclusion is mostly given in the question.
+
+
+--- Page 7 ---
+ 
+The AI clearly gives me the dimension of the 
+matrices, allowing me to track my calculations, 
+which is very helpful for beginners.
+Also the question cautions me about 
+dimensions. Mistral AI is careful with that.
+
+
+--- Page 8 ---
+ 
+Mistral AI does not give the interpretations as the 
+homework solution do. But the answer is still correct and 
+concise.
+
+
+--- Page 9 ---
+ 
+Mistral AI gives very helpful summaries at the end.
+In this way I can really gain insight and intuition of 
+pseudoinverse.
+I am a little bit rusty on SVD when doing HW0.
+
+
+--- Page 11 ---
+ 
+I understood, so no follow-up on SVD. (Comment: next time I should work through a concrete example)
+Mistral AI gives explanation of FULL SVD, which is just what the homework asks me to perform.
+After careful computation, I find the solution of this example to be:
+I was not patient enough to calculate this previously.
+I did not prompt Mistral AI again since this is brute force
+computation (no need for AI).
+
+
+--- Page 14 ---
+ 
+The model correctly describes the shrinkage effect but doesn't connect it intuitively to the problem of ill-conditioning. 
+It misses the opportunity to explain that λ acts as a stabilizer, preventing the term (σ_i² + λ)⁻¹ from blowing up when σ_i is very small.
+
+
+--- Page 16 ---
+ 
+The model's solution is overly terse. It states "Using the Woodbury identity..." without showing the steps. 
+A strong solution would explicitly show the equivalence: w = Xᵀ(XXᵀ + λI)⁻¹y = (XᵀX + λI)⁻¹Xᵀy.
+I understand this identity from my statistics course, but using it directly may defeat the purpose of this hw.
+Deriving this equivalence is non-trivial and is the key to understanding the connection between the primal 
+and dual forms of Ridge Regression. (The model provides the "what" but often skips the "why" or the "how"
+for the more challenging steps. It treats non-trivial linear algebra identities as black boxes, which hinders 
+deep understanding.)
+
+
+--- Page 17 ---
+ 
+One-shot correct answer.
+Mistral AI’s explanation is not as detailed as the homework solution, but I 
+understand it. That is probably because the question is very long. 
+Which means giving it the entire homework is not a great idea.
+
+
+--- Page 20 ---
+ 
+For part b, Mistral AI does not consider the 
+magnitude of the movement, resulting in 
+neglected scenarios.
+
+
+--- Page 23 ---
+ 
+ 
+I hinted Mistral AI to redo part b with case-by-case analysis. Mistral AI gives 
+the correct answer this time.
+
+
+--- Page 24 ---
+ 
+This problem requires a careful, quantitative analysis of how the ratio -b/w (the elbow) changes. 
+The model's initial failure and subsequent correction highlight that it can struggle with problems requiring 
+conditional reasoning based on the interaction of multiple parameters. Its language also lacks the precision 
+required for rigorous mathematical communication.

@@ -1,0 +1,4216 @@
+--- Page 1 ---
+x
+ =
+k+1
+Ax
+ +
+k
+Bu
+ ,
+y
+ =
+k
+k
+Cx
+ +
+k
+Du
+ ,
+k
+L
+(u
+ , … , u
+ )
+0
+L
+(y
+ , … , y
+ )
+0
+L
+x
+ =
+0
+0
+y
+ =
+k
+ K
+ u
+ ,
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+K
+x
+ =
+0
+0
+ 
+ 
+x
+ 1
+x
+ 2
+x
+ 3
+= Ax
+ + Bu
+ = Bu
+ ,
+0
+0
+0
+= Ax
+ + Bu
+ = ABu
+ + Bu
+ ,
+1
+1
+0
+1
+= Ax
+ + Bu
+ = A Bu
+ + ABu
+ + Bu
+ .
+2
+2
+2
+0
+1
+2
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+1/51
+ 
+
+
+--- Page 2 ---
+x
+ =
+k
+ A B u
+ .
+ℓ=0
+∑
+k−1
+ℓ
+k−1−ℓ
+x
+ =
+k
+ A
+B u
+ .
+ℓ=1
+∑
+k
+ℓ−1
+k−ℓ
+y
+ =
+k
+Cx
+ +
+k
+Du
+ k
+ 
+ 
+y
+ k = C
+ A
+B u
+ 
++ Du
+ 
+(
+ℓ=1
+∑
+k
+ℓ−1
+k−ℓ)
+k
+=
+ CA
+B u
+ + Du
+ 
+ℓ=1
+∑
+k
+ℓ−1
+k−ℓ
+k
+u
+ k
+ℓ= 0
+D
+ℓ≥1
+CA
+B
+ℓ−1
+ 
+K
+ = D,
+K = CA
+B for ℓ≥1.
+0
+ℓ
+ℓ−1
+y
+ =
+k
+ K
+ u
+ ,
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+u
+ =
+k−ℓ
+0
+k −ℓ< 0
+ 
+K = { K
+ , K
+ , … , K
+ },
+K
+ = D,
+K
+ = CA
+B for ℓ≥1.
+0
+1
+L
+0
+ℓ
+ℓ−1
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+2/51
+correctonfirsttry
+withreasonablework
+shown
+
+
+--- Page 3 ---
+K
+ =
+0
+D,
+K
+ =
+ℓ
+CA
+B
+(ℓ≥
+ℓ−1
+1).
+n = 1
+A = α = 0.8
+B = β = 1
+C = γ = 1.5
+D = δ
+L = 4 K
+ , K
+ , K
+ , K , K
+ 
+0
+1
+2
+3
+4
+K
+ =
+0
+D = δ,
+K
+ =
+ℓ
+CA
+B =
+ℓ−1
+γα
+β,
+ℓ≥
+ℓ−1
+1.
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+3/51
+
+
+--- Page 4 ---
+γ = 1.5 α = 0.8 β = 1
+ℓ= 1
+K
+ =
+1
+1.5 ⋅0.8 ⋅
+0 1 = 1.5.
+ℓ= 2
+K
+ =
+2
+1.5 ⋅0.8 ⋅
+1 1 = 1.5 ⋅0.8 = 1.2.
+ℓ= 3
+K
+ =
+3
+1.5 ⋅0.8 =
+2
+1.5 ⋅0.64 = 0.96.
+ℓ= 4
+K
+ =
+4
+1.5 ⋅0.8 =
+3
+1.5 ⋅0.512 = 0.768.
+ 
+K
+ = δ, K
+ = 1.5, K
+ = 1.2, K
+ = 0.96, K
+ = 0.768
+0
+1
+2
+3
+4
+∣A∣= 0.8 < 1
+C
+A =
+ 
+ ,
+B =
+[0.7
+0.2
+0.1
+0.6]
+ ,
+C =
+[1
+0]
+ 
+ ,
+D =
+[1
+0]
+0.
+L = 3 K
+ , K
+ , K
+ , K
+ 
+0
+1
+2
+3
+K
+ =
+0
+D = 0,
+K
+ =
+ℓ
+CA
+B
+(ℓ≥
+ℓ−1
+1).
+K
+ ℓ
+C
+1 × 2
+Aℓ−1
+2 × 2
+B
+2 × 1
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+4/51
+Ioftnof.fiatatf
+included
+IiiL Eira
+as
+
+
+--- Page 5 ---
+ℓ= 1 A =
+0
+I
+A B =
+0
+IB = B =
+ ,
+K
+ =
+[1
+0]
+1
+C(A B) =
+0
+ 
+ 
+ =
+[1
+0] [1
+0]
+1.
+ℓ= 2
+A =
+1
+A
+AB =
+ 
+ 
+ =
+[0.7
+0.2
+0.1
+0.6] [1
+0]
+ .
+[0.7
+0.2]
+K
+ =
+2
+C(AB) =
+ 
+ 
+ =
+[1
+0] [0.7
+0.2]
+0.7.
+ℓ= 3
+A B
+2
+A2
+A =
+2
+AA =
+ 
+ .
+[0.51
+0.26
+0.13
+0.38]
+A B =
+2
+ 
+ 
+=
+[0.51
+0.26
+0.13
+0.38] [1
+0]
+ .
+[0.51
+0.26]
+K
+ =
+3
+C(A B) =
+2
+ 
+ 
+ =
+[1
+0] [0.51
+0.26]
+0.51.
+ 
+K
+ = 0, K
+ = 1, K
+ = 0.7, K
+ = 0.51.
+0
+1
+2
+3
+u
+ =
+0
+1
+u
+ =
+k
+0
+k ≥1
+y
+ =
+0
+K
+ u
+ =
+0
+0
+0,
+y
+ =
+1
+K
+ u
+ =
+1
+0
+1,
+y
+ =
+2
+K
+ u
+ =
+2
+0
+0.7,
+y
+ =
+3
+K
+ u
+ =
+3
+0
+0.51, …
+(K
+ , K
+ , K
+ , K
+ , … )
+0
+1
+2
+3
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+5/51
+8T spotistrywithreasonable
+
+
+--- Page 6 ---
+K
+ =
+0
+0
+D = 0
+K
+ =
+1
+1
+K
+ =
+2
+0.7 K
+ =
+3
+0.51
+A
+A
+< 1
+K
+y
+ =
+k
+ K
+ u
+ ,
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+{u
+ }
+k
+{K
+ }
+ℓ
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+6/51
+correctlyemphasize
+keyconcept
+
+
+--- Page 7 ---
+K
+{y
+ }
+k
+{u } ∈
+k
+Rd
+L
+y
+ k
+k
+y
+ =
+k
+ K
+ u
+ 
+ℓ=0
+∑
+k
+ℓ
+k−ℓ
+k
+u
+y
+ k
+v
+ =
+ℓ
+K
+ u
+ 
+ℓ
+k−ℓ
+ℓ∈{0, … , k}
+k + 1
+O(1)
+k + 1
+v
+ , v
+ , … , v
+ 
+0
+1
+k
+O(log k)
+k ≤L
+O(log L)
+y
+ k
+K
+y
+ , … , y
+ 
+0
+L
+O(log L)
+ 
+critical path = O(log L)
+d
+O(L log L)
+O(log L)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+7/51
+
+
+--- Page 8 ---
+x
+ =
+k+1
+Ax
+ +
+k
+Bu
+ ,
+y
+ =
+k
+k
+Cx
+ +
+k
+Du
+ .
+k
+x
+ 
+k+1
+x
+ k x
+ k
+x
+ 
+k−1
+x
+ 0
+x
+ 
+k+1
+x
+ k
+L + 1
+O(log n)
+ 
+critical path (naive recursion) = O(L)
+K
+y
+ k
+y
+ k
+L + 1
+O(log L)
+ 
+O(log L)
+x
+ =
+k+1
+Ax
+ +
+k
+Bu
+ k
+ 
+O(L)
+O(L)
+O(log L)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+8/51
+incorrectonfirsttrydidnotaccount
+forlogninbothcasesonthe
+righttrackhowever
+
+
+--- Page 9 ---
+n × n
+L
+n
+n
+n × n
+n
+O(log n)
+n × n
+O(log n)
+O(log n)
+K
+x
+ =
+k+1
+Ax +
+k
+Bu
+ k
+y
+ =
+k
+ K
+ u
+ ,
+ℓ=0
+∑
+L
+ℓ
+k−ℓ
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+9/51
+isnotnecessary
+
+
+--- Page 10 ---
+K
+ ℓ
+n × n
+u
+ 
+k−ℓ
+n
+y
+ k
+v
+ =
+ℓ
+K
+ u
+ 
+ℓ
+k−ℓ
+ℓ
+K
+ u
+ 
+ℓ
+k−ℓ
+n × n
+O(log n)
+(L + 1)
+depth = O(log n).
+(L + 1)
+{v
+ , … , v
+ }
+0
+L
+y
+ k
+n
+L + 1
+O(log L)
+depth = O(log L).
+y
+ , … , y
+ 
+0
+L
+K
+ 
+critical path (convolution) = O(log n + log L) = O(log(nL)).
+x
+ =
+k+1
+Ax
+ +
+k
+Bu
+ ,
+y
+ =
+k
+k
+Cx
+ +
+k
+Du
+ .
+k
+k
+Ax
+ k
+n × n
+O(log n)
+Bu
+ k
+y
+ k
+O(log n)
+x
+ 
+k+1
+x
+ k
+x
+ 
+k−1
+x
+ 
+k+1
+x
+ k
+L
+O(log n)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+10/51
+
+
+--- Page 11 ---
+ 
+critical path (naive recursion) = O(L log n).
+n × n
+ 
+critical path = O(log n + log L) = O(log(nL)).
+ 
+critical path = O(L log n).
+O(L)
+O(log L)
+O(log n)
+n × n
+n
+n × n
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+11/51
+iii
+9915austan
+the
+stepswego
+throughandnow
+theyrunare
+organized
+
+
+--- Page 12 ---
+n × n
+O(log n)
+O(log L)
+L
+O(log L)
+n × n
+n × n
+n
+O(log n)
+ℓ+ 1
+ℓ
+ .
+critical path (naive) = O(L log n)
+ .
+critical path = O(log L ⋅log n)
+ .
+critical path = O(L log n)
+O(log L)
+O(log n)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+12/51
+onthethirdtryitgotthe
+entiresubpartcorrect Itreally
+neededguidanceespeciallyonthe
+convolutionapproach
+promptguidedit
+
+
+--- Page 13 ---
+K
+ =
+0
+D,
+K
+ =
+ℓ
+CA
+B
+(ℓ≥
+ℓ−1
+1).
+v
+ :=
+ℓ
+A
+B ∈
+ℓ−1
+R ,
+ℓ=
+n
+1, … , L,
+C
+K
+ =
+ℓ
+Cv
+ ℓ
+n
+L = 2N
+n × n
+O(log n)
+v
+ =
+1
+B
+v
+ =
+ℓ+1
+Av
+ ℓ
+ℓ= 1, … , L −1
+K
+ =
+ℓ
+Cv
+ ℓ
+ℓ
+O(log n)
+L
+ .
+naive kernel computation depth = O(L log n)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+13/51
+
+
+--- Page 14 ---
+{v
+ }
+ℓ
+v
+ =
+ℓ+1
+Av
+ .
+ℓ
+A
+L = 2N
+A
+A , A , A , … , A
+1
+2
+4
+2N−1
+A =
+2
+A ⋅A
+A =
+4
+(A )
+2 2
+…
+A
+=
+2j+1
+(A )
+2j 2
+n × n
+n × n
+O(log n)
+N = log
+ L
+2
+ .
+depth to precompute powers = O(log L ⋅log n)
+A
+B
+1, … , L
+2N
+v
+ =
+ℓ
+A
+B
+ℓ−1
+v
+ , … , v
+ 
+1
+L
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+14/51
+
+
+--- Page 15 ---
+2k
+2k
+v
+ 
+start
+A2k
+[1, 2 ]
+N
+2N
+v
+ =
+1
+B
+[1, 2
+]
+N−1
+[2
++
+N−1
+1, 2 ]
+N
+[1, 2
+]
+N−1
+v
+ 1
+v
+ , … , v
+ 
+1
+2N−1
+[2
++
+N−1
+1, 2 ]
+N
+v
+ =
+2
++1
+N−1
+A
+v
+ =
+2N−1
+1
+A
+B,
+2N−1
+A2N−1
+A2k−1
+v
+ =
+mid+1
+A
+v
+ .
+2k−1
+start
+n × n
+O(log n)
+T(N)
+v
+ ℓ
+2N
+A
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+15/51
+
+
+--- Page 16 ---
+2N
+O(log n)
+2N−1
+T(N) = T(N −1) + O(log n).
+T(0) = O(log n)
+T(N) = O(N log n) = O(log L ⋅log n).
+v
+ ℓ
+K
+ =
+ℓ
+Cv
+ ,
+ℓ
+ℓ
+O(log n)
+ 
+critical path (efficient kernel computation) = O(log L ⋅log n).
+A, B, C
+L = 2N
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+A
+O(log L ⋅log n)
+A2k
+K
+ ℓO(log L log n)
+O(L log n)
+L
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+16/51
+andrecursion
+
+
+--- Page 17 ---
+A
+A
+K
+K
+ =
+0
+D,
+K
+ =
+ℓ
+CA
+B
+(ℓ≥
+ℓ−1
+1).
+n
+A ∈Rn×n
+A = diag(λ
+ , … , λ
+ ),
+1
+n
+B ∈Rn×d
+ 
+in
+C ∈Rd
+ ×n
+out
+A
+A
+A
+=
+ℓ−1
+diag(λ
+ , … , λ
+ ).
+1
+ℓ−1
+n
+ℓ−1
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+17/51
+
+
+--- Page 18 ---
+K
+ =
+ℓ
+CA
+B =
+ℓ−1
+C diag(λ
+ , … , λ
+ )B.
+1
+ℓ−1
+n
+ℓ−1
+Aℓ−1
+v
+ :=
+ℓ
+A
+B
+ℓ−1
+i
+v
+ ℓ
+(v
+ )
+ =
+ℓi,:
+λ
+ B
+ .
+i
+ℓ−1
+i,:
+n × n
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+ℓ= 1, … , L
+λ
+ i
+i ∈{1, … , n}
+λ
+ , λ
+ , … , λ
+ .
+i
+0
+i
+1
+i
+L−1
+p
+ =
+i,0
+1,
+p
+ =
+i,ℓ+1
+λ
+ p
+ 
+i i,ℓ
+O(L)
+i
+ℓ
+L
+λ
+ i
+ℓ
+O(log L)
+n
+i
+O(log L)
+P ∈R
+,
+P
+ =
+n×L
+i,ℓ−1
+λ
+ .
+i
+ℓ−1
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+18/51
+
+
+--- Page 19 ---
+A
+B
+ℓ−1
+ℓ
+i
+A
+B
+ℓ−1
+(A
+B)
+ =
+ℓ−1
+i,:
+λ
+ B
+ =
+i
+ℓ−1
+i,:
+P
+ ⋅
+i,ℓ−1 B
+ .
+i,:
+B
+P
+ 
+i,ℓ−1
+i
+ℓ
+O(1)
+V
+ :=
+ℓ
+A
+B ∈
+ℓ−1
+R
+,
+ℓ=
+n×d
+ 
+in
+1, … , L.
+C
+K
+ =
+ℓ
+CV
+ ,
+ℓ=
+ℓ
+1, … , L.
+C
+d
+ ×
+out
+n
+V
+ ℓ
+n × d
+ 
+in
+d
+ =
+out
+d
+ =
+in
+1
+n
+ℓ
+K
+ ℓ
+d
+ ×
+out
+d
+ 
+in
+n
+O(log n)
+ℓ
+O(log n).
+A
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+19/51
+
+
+--- Page 20 ---
+n × n
+depth = O(L log n)
+depth = O(log L ⋅log n)
+A
+λ
+ i
+depth = O(log L)
+B
+A
+B
+ℓ−1
+depth = O(1)
+C
+K
+ ℓ
+depth = O(log n).
+ 
+critical path (diagonal A) = O(log L + log n).
+O(1)
+L
+ 
+time-depth in L = O(log L)
+O(L)
+n
+C
+n × n
+A
+x
+ =
+k+1,i
+λ
+ x
+ +
+i
+k,i
+B
+ u
+ .
+i,:
+k
+λ
+ 
+i
+ℓ−1
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+20/51
+correcttimecomplexity
+
+
+--- Page 21 ---
+C
+A = I
+ +
+n
+pp⊤A ∈R
+, p ∈
+n×n
+Rn
+K
+K
+ =
+0
+D,
+K
+ =
+ℓ
+CA
+B (ℓ≥
+ℓ−1
+1).
+A
+B
+v
+ :=
+ℓ
+A
+B,
+K
+ =
+ℓ−1
+ℓ
+Cv .
+ℓ
+A = I + pp⊤
+s := ∥p∥=
+2
+p p.
+⊤
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+21/51
+5
+nitwitleverage
+thestructure
+
+
+--- Page 22 ---
+x
+x = x
+ +
+∥
+x
+ ,
+⊥
+x
+ :=
+∥
+ p
+(projection onto the span of p),
+s
+p x
+⊤
+x
+ :=
+⊥
+x −x
+ 
+(component orthogonal to p).
+∥
+A
+x
+Ax = (I + pp )x =
+⊤
+x + p(p x).
+⊤
+x
+ 
+⊥
+p x
+ =
+⊤
+⊥
+0
+Ax
+ =
+⊥
+x
+ .
+⊥
+p
+x
+ ∥
+x
+ =
+∥
+ p
+s
+p x
+⊤
+Ax
+ =
+∥
+x
+ +
+∥
+p(p x
+ ) =
+⊤
+∥
+x
+ +
+∥
+p(p
+ p) =
+⊤
+s
+p x
+⊤
+x
+ +
+∥
+ (p p)p =
+s
+p x
+⊤
+⊤
+x
+ +
+∥
+(p x)p =
+⊤
+(1
+A
+1 + s
+p
+n −1
+A
+A x =
+k
+1 x
+ +
+k
+⊥
+(1 + s) x
+ =
+k
+∥
+x
+ +
+⊥
+(1 + s) x
+ .
+k
+∥
+Ak
+P :=
+ pp
+(projection onto span(p)),
+s
+1
+⊤
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+22/51
+definitelyawaymore
+complicatedapproach
+thanthesolutionguide
+
+
+--- Page 23 ---
+x
+ =
+∥
+Px x
+ =
+⊥
+(I −P)x
+A x =
+k
+(I −P)x + (1 + s) Px =
+k
+[I + ((1 + s) −
+k
+1)P]x.
+ 
+for k ≥
+A = I +
+ pp
+k
+s
+(1 + s) −1
+k
+⊤
+0.
+k = 0
+A =
+0
+I
+B
+A
+B
+ℓ−1
+ℓ= 1, … , L
+A
+B =
+ℓ−1
+(I +
+ pp )B =
+s
+(1 + s)
+−1
+ℓ−1
+⊤
+B +
+ p(p B).
+s
+(1 + s)
+−1
+ℓ−1
+⊤
+s = ∥p∥2
+ 
+in
+r := p B ∈
+⊤
+R
+.
+1×d
+ 
+in
+B
+ :=
+∥
+ pr =
+s
+1
+ p(p B),
+B
+:=
+s
+1
+⊤
+⊥
+B −B
+ .
+∥
+A
+B =
+ℓ−1
+B
+ +
+⊥
+(1 + s)
+B
+ .
+ℓ−1
+∥
+n × n
+A
+B
+B
+ ∥
+B
+ 
+⊥
+(1 + s)ℓ−1
+ℓ
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+23/51
+correctlyidentifiesthereis
+nomatrixmultiplicationinvolved
+
+
+--- Page 24 ---
+ 
+K
+ = CA
+B = CB
+ + (1 + s)
+CB
+ ,
+ℓ≥1,
+K
+ = D.
+ℓ
+ℓ−1
+⊥
+ℓ−1
+∥
+0
+L
+n
+s = p p
+⊤
+O(n)
+O(log n)
+r = p B
+⊤
+B ∈Rn×d
+ 
+in
+d
+ 
+in
+n
+O(log n)
+B
+ =
+∥
+ pr
+s
+1
+B
+ =
+⊥
+B −B
+ ∥
+O(1)
+CB
+ ∥
+CB
+ 
+⊥
+O(log n)
+U := CB
+ ,
+V :=
+⊥
+CB
+ .
+∥
+K
+ =
+ℓ
+U + (1 + s)
+V .
+ℓ−1
+α := 1 + s.
+α , α , … , α
+0
+1
+L−1
+O(log L)
+ℓ
+K
+ =
+ℓ
+U + α
+V ,
+ℓ−1
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+24/51
+
+
+--- Page 25 ---
+O(1)
+O(log n)
+O(log L)
+K
+ ℓ
+O(1)
+ 
+critical path (DPLR A = I + pp ) = O(log n + log L).
+⊤
+A
+O(log L ⋅log n).
+A
+O(log L + log n).
+A = I + pp⊤
+O(log L + log n),
+p
+α = 1 + ∥p∥2
+A = I + pp⊤
+p
+p
+p
+(1 + s)
+Ak
+O(log n)
+O(log L)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+25/51
+
+
+--- Page 26 ---
+A = I + pp⊤
+A = I + pp⊤
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+A
+s = ∥p∥=
+2
+p p
+⊤
+A = I + pp⊤
+p
+1 + s
+1
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+26/51
+Intagatathegnideathe
+sincetheapproachwas
+waymorecomplexthan
+neededsoIaskedfor
+amore
+condensedsummary
+
+
+--- Page 27 ---
+A =
+k
+I +
+ pp .
+s
+(1 + s) −1
+k
+⊤
+Ak
+(1 + s)
+n × n
+Aℓ−1
+B
+A
+B =
+ℓ−1
+B +
+ p(p B).
+s
+(1 + s)
+−1
+ℓ−1
+⊤
+r = p B
+⊤
+B
+ =
+∥
+ pr
+s
+1
+B
+ =
+⊥
+B −B
+ .
+∥
+A
+B =
+ℓ−1
+B
+ +
+⊥
+(1 + s)
+B
+ .
+ℓ−1
+∥
+(1 + s)ℓ−1
+K
+ =
+ℓ
+CA
+B
+ℓ−1
+ 
+K
+ = CB
+ + (1 + s)
+CB
+ ,
+for ℓ≥1.
+ℓ
+⊥
+ℓ−1
+∥
+p B
+⊤
+pr⊤
+(1 + s)
+C
+n × n
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+27/51
+
+
+--- Page 28 ---
+O(log L ⋅log n)
+ 
+O(log n + log L).
+s = p p
+⊤
+p B
+⊤
+CB
+ , CB
+ 
+∥
+⊥
+O(log n)
+(1 + s)ℓ−1
+ℓ
+O(log L)
+A
+(1 + s)k
+p
+n × n
+O(log n + log L)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+28/51
+is
+termsofthespiritofthe
+
+
+--- Page 29 ---
+m = 2
+W(α) =
+ 
+ =
+[1
+0
+0
+1]
+I
+ ,
+W(β) =
+2
+ 
+ ,
+[1
+0
+0
+0]
+X =
+ 
+ 
+ 
+ .
+[−2.17
+0.02
+1.98
+−0.01
+2.41
+0.01
+−2.03
+−0.02]
+L (W; X) =
+1
+∥X −WX∥
+ 
+(reconstruction loss)
+F
+2
+L
+ (W; X, λ) =
+2
+∥X −WX∥
+ +
+F
+2
+λ∥W∥
+ 
+(reconstruction + regularization).
+F
+2
+∥X −WX∥
+ 
+F
+2
+∥W∥
+ 
+F
+2
+W(α) = I
+ 2
+WX = I
+ X =
+2
+X
+⇒
+X −WX = X −X = 0.
+∥X −W(α)X∥
+ =
+F
+2
+0.
+∥W(α)∥
+ =
+F
+2
+∥I
+ ∥
+ =
+2 F
+2
+1 +
+2
+1 =
+2
+2.
+W(α)
+0
+2
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+29/51
+
+
+--- Page 30 ---
+W(β) =
+ 
+ 
+[1
+0
+0
+0]
+W(β)X
+W(β)X =
+ 
+ 
+ 
+ .
+[−2.17
+0
+1.98
+0
+2.41
+0
+−2.03
+0
+]
+X −W(β)X =
+ 
+ 
+ 
+ −
+[−2.17
+0.02
+1.98
+−0.01
+2.41
+0.01
+−2.03
+−0.02]
+ 
+ 
+ 
+ 
+[−2.17
+0
+1.98
+0
+2.41
+0
+−2.03
+0
+]
+∥X −W(β)X∥
+ =
+F
+2
+0.02 +
+2
+(−0.01) +
+2
+0.01 +
+2
+(−0.02) =
+2
+0.0004 + 0.0001 + 0.
+W(β) = diag(1, 0)
+∥W(β)∥
+ =
+F
+2
+1 +
+2
+0 =
+2
+1.
+W(β)
+0.001
+1
+ 
+ 
+ 
+ 
+Encoder
+α
+β
+Reconstruction Loss
+0
+0.001
+Regularization Loss
+2
+1
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+30/51
+Einstein'sYork
+
+
+--- Page 31 ---
+λ
+W(α)
+W(β)
+L
+ (W; X, λ) =
+2
+∥X −WX∥
+ +
+F
+2
+λ∥W∥
+ .
+F
+2
+W(α)
+L
+ (W(α); X, λ) =
+2
+0 + λ ⋅2 = 2λ.
+W(β)
+L
+ (W(β); X, λ) =
+2
+0.001 + λ ⋅1 = 0.001 + λ.
+λ
+W(α)
+W(β)
+L
+ (W(α); X, λ) >
+2
+L
+ (W(β); X, λ).
+2
+2λ > 0.001 + λ.
+2λ −λ > 0.001
+⇒
+λ > 0.001.
+ 
+For all λ > 0.001, W(α) = I
+  has higher regularized loss L
+  than W(β).
+2
+2
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+31/51
+note
+
+
+--- Page 32 ---
+W ∈Rm×m
+L
+ (W; X, λ) =
+2
+∥X −WX∥
+ +
+F
+2
+λ∥W∥
+ ,
+F
+2
+X ∈Rm×n
+X = UΣV
+,
+Σ =
+⊤
+ 
+ ,
+σ
+ >
+[diag(σ
+ , … , σ
+ )
+1
+m
+0]
+1
+⋯> σ
+ ≥
+m
+0.
+W
+ c
+W
+ =
+c
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.
+[
+]
+ 
+σ
+ + λ
+1
+2
+σ
+ 1
+2
+⋱
+ 
+σ
+ + λ
+m
+2
+σ
+ 
+m
+2
+[
+]
+ 
+W
+ = U
+ 
+ 
+ 
+ 
+ U
+c
+ 
+σ
+ +λ
+1
+2
+σ
+ 1
+2
+⋱
+ 
+σ
+ +λ
+m
+2
+σ
+ 
+m
+2
+⊤
+U
+U ⊤
+ ∥X −
+W
+min
+WX∥
+ +
+F
+2
+λ∥W∥
+ .
+F
+2
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+32/51
+Ea's asset.iswith
+
+
+--- Page 33 ---
+X = UΣV ⊤
+W :=
+′
+U WU.
+⊤
+U
+∥W∥
+ =
+F
+2
+∥W ∥
+ 
+′
+F
+2
+WX = W(UΣV
+) =
+⊤
+(WU)ΣV
+=
+⊤
+U(U WU)ΣV
+=
+⊤
+⊤
+UW ΣV
+.
+′
+⊤
+X −WX = UΣV
+−
+⊤
+UW ΣV
+=
+′
+⊤
+U(Σ −W Σ)V
+.
+′
+⊤
+∥X −WX∥
+ =
+F
+∥U(Σ −W Σ)V
+∥
+ =
+′
+⊤
+F
+∥Σ −W Σ∥
+ .
+′
+F
+L
+ (W; X, λ) =
+2
+∥Σ −W Σ∥
+ +
+′
+F
+2
+λ∥W ∥
+ ,
+′
+F
+2
+W =
+′
+U WU
+⊤
+W ′
+W
+W
+ =
+c
+UW
+ U
+c
+′
+⊤
+Σ
+Σ
+σ
+ , … , σ
+ 
+1
+m
+m
+m
+Σ
+w(i)
+i
+W ′
+Rm
+i
+Σ
+1 ≤i ≤m
+σ
+ e
+ 
+i i
+e
+ i
+i
+i
+W Σ
+′
+W (σ
+ e
+ ) =
+′
+i i
+σ
+ W e
+ =
+i
+′
+i
+σ
+ w
+.
+i
+(i)
+i
+Σ −W Σ
+′
+σ
+ e
+ −
+i i
+σ
+ w
+=
+i
+(i)
+σ
+ (e
+ −
+i
+i
+w
+).
+(i)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+33/51
+
+
+--- Page 34 ---
+∥Σ −W Σ∥
+ =
+′
+F
+2
+ ∥σ
+ (e
+ −
+i=1
+∑
+m
+i
+i
+w
+)∥
+ =
+(i)
+2
+2
+ σ
+ ∥e
+ −
+i=1
+∑
+m
+i
+2
+i
+w
+∥
+ .
+(i)
+2
+2
+∥W ∥
+ =
+′
+F
+2
+ ∥w
+∥
+ .
+i=1
+∑
+m
+(i)
+2
+2
+L
+ (W ; X, λ) =
+2
+′
+ [σ
+ ∥e
+ −
+i=1
+∑
+m
+i
+2
+i
+w
+∥
+ +
+(i)
+2
+2
+λ∥w
+∥
+ ].
+(i)
+2
+2
+i
+w
+∈
+(i)
+Rm
+J
+ (w
+) =
+i
+(i)
+σ
+ ∥e
+ −
+i
+2
+i
+w
+∥
+ +
+(i)
+2
+2
+λ∥w
+∥
+ .
+(i)
+2
+2
+w(i)
+e
+ i
+σ
+ i
+2
+λ
+∇
+ J
+ =
+w(i)
+i
+2σ
+ (w
+−
+i
+2
+(i)
+e
+ ) +
+i
+2λw
+=
+(i)
+2(σ
+ +
+i
+2
+λ)w
+−
+(i)
+2σ
+ e
+ .
+i
+2
+i
+(σ
+ +
+i
+2
+λ)w
+=
+(i)
+σ
+ e
+ 
+⇒
+i
+2
+i
+w
+=
+(i)
+ e
+ .
+σ
+ + λ
+i
+2
+σ
+ i
+2
+i
+w(i)
+e
+ i
+W ′
+W
+ =
+c
+′
+diag
+ , … ,
+ 
+.
+(σ
+ + λ
+1
+2
+σ
+ 1
+2
+σ
+ + λ
+m
+2
+σ
+ 
+m
+2
+)
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+34/51
+
+
+--- Page 35 ---
+W = UW U
+′
+⊤
+ 
+W
+ = U
+ 
+ 
+ 
+ 
+ U .
+c
+ 
+σ
+ +λ
+1
+2
+σ
+ 1
+2
+⋱
+ 
+σ
+ +λ
+m
+2
+σ
+ 
+m
+2
+⊤
+X
+σ
+ i
+σ
+ i
+λ
+W
+ =
+c
+U diag
+ , … ,
+ 
+U ,
+(σ
+ + λ
+1
+2
+σ
+ 1
+2
+σ
+ + λ
+m
+2
+σ
+ 
+m
+2
+)
+⊤
+i
+g
+ (λ) =
+i
+ .
+σ
+ + λ
+i
+2
+σ
+ i
+2
+σ = {10, 8, 4, 1, 0.5, 0.36, 0.16, 0.01}.
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+35/51
+In I
+ftp.iantYIffgeraet.Efffehatag
+itthelogicseemstomakesenseandproduce
+thecorrectanswer
+
+
+--- Page 36 ---
+i = 1, 2, 3
+g
+ (λ) ≥
+i
+0.8.
+i = 4, … , 8
+g
+ (λ) ≤
+i
+0.5.
+i ∈{1, 2, 3}
+ ≥
+σ
+ + λ
+i
+2
+σ
+ i
+2
+0.8.
+λ
+ ≥
+σ
+ + λ
+i
+2
+σ
+ i
+2
+0.8 ⟹σ
+ ≥
+i
+2
+0.8(σ
+ +
+i
+2
+λ)
+⟹σ
+ ≥
+i
+2
+0.8σ
+ +
+i
+2
+0.8λ ⟹0.2σ
+ ≥
+i
+2
+0.8λ ⟹λ ≤
+ σ
+ =
+0.8
+0.2
+i
+2
+0.25σ
+ .
+i
+2
+i = 1 σ
+ =
+1
+10 ⇒σ
+ =
+1
+2
+100
+⇒λ ≤0.25 ⋅100 = 25
+i = 2 σ
+ =
+2
+8 ⇒σ
+ =
+2
+2
+64
+⇒λ ≤0.25 ⋅64 = 16
+i = 3 σ
+ =
+3
+4 ⇒σ
+ =
+3
+2
+16
+⇒λ ≤0.25 ⋅16 = 4
+ 
+λ ≤4.
+i ∈{4, … , 8}
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+36/51
+
+
+--- Page 37 ---
+ ≤
+σ
+ + λ
+i
+2
+σ
+ i
+2
+0.5.
+ ≤
+σ
+ + λ
+i
+2
+σ
+ i
+2
+0.5 ⟹σ
+ ≤
+i
+2
+0.5(σ
+ +
+i
+2
+λ)
+⟹σ
+ ≤
+i
+2
+0.5σ
+ +
+i
+2
+0.5λ ⟹0.5σ
+ ≤
+i
+2
+0.5λ ⟹λ ≥σ
+ .
+i
+2
+i = 4 σ
+ =
+4
+1 ⇒σ
+ =
+4
+2
+1
+i = 5 σ
+ =
+5
+0.5 ⇒σ
+ =
+5
+2
+0.25
+i = 6 σ
+ =
+6
+0.36 ⇒σ
+ =
+6
+2
+0.1296
+i = 7 σ
+ =
+7
+0.16 ⇒σ
+ =
+7
+2
+0.0256
+i = 8 σ
+ =
+8
+0.01 ⇒σ
+ =
+8
+2
+0.0001
+max{σ
+ , … , σ
+ } =
+4
+2
+8
+2
+σ
+ =
+4
+2
+1.
+ 
+λ ≥1.
+λ ≤4
+λ ≥1
+λ
+ 
+1 ≤λ ≤4.
+λ
+[1, 4]
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+37/51
+If sofirstrywithreasonable
+
+
+--- Page 38 ---
+n
+m =
+ 
+ x
+ 
+n
+1
+i=1
+∑
+n
+i
+x
+ 
+n+1
+n + 1
+m =
+′
+ 
+ x
+ 
+n + 1
+1
+i=1
+∑
+n+1
+i
+m′
+m x
+ 
+n+1
+n
+m
+m =
+ 
+ x
+ 
+⇒
+n
+1
+i=1
+∑
+n
+i
+ x
+ =
+i=1
+∑
+n
+i
+nm.
+m =
+′
+ 
+ x
+ =
+n + 1
+1
+i=1
+∑
+n+1
+i
+ 
+ x
+ + x
+ 
+.
+n + 1
+1
+(
+i=1
+∑
+n
+i
+n+1)
+ x
+ =
+∑i=1
+n
+i
+nm
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+38/51
+
+
+--- Page 39 ---
+m =
+′
+ nm + x
+ .
+n + 1
+1
+(
+n+1)
+ 
+m =
+ 
+′
+n + 1
+nm + x
+ 
+n+1
+x
+ i
+m
+n
+x
+ 
+n+1
+(x
+ , y
+ )
+i
+i
+x
+ ∈
+i
+Rd y
+ ∈
+i
+R
+A =
+ 
+ 
+ ∈
+x
+ 
+1
+⊤
+x
+ 
+2
+⊤
+⋮
+x
+ 
+n
+⊤
+R
+,
+n×d
+y =
+ 
+ 
+ ∈
+y
+ 1
+y
+ 2
+⋮
+y
+ n
+R .
+n
+w =
+∗
+(A A +
+⊤
+λI)
+A y.
+−1
+⊤
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+39/51
+8ftShtistrywithreasonable
+
+
+--- Page 40 ---
+A A +
+⊤
+λI
+A y
+⊤
+(x
+ , y
+ )
+i
+i
+A A +
+⊤
+λI
+A A
+⊤
+A
+x
+ 
+i
+⊤
+A =
+ 
+ 
+ 
+⇒
+x
+ 
+1
+⊤
+x
+ 
+2
+⊤
+⋮
+x
+ 
+n
+⊤
+A A =
+⊤
+x
+ x
+ .
+i=1
+∑
+n
+i
+i
+⊤
+A A +
+⊤
+λI = λI +
+ x
+ x
+ .
+i=1
+∑
+n
+i
+i
+⊤
+ 
+(A A + λI) = λI +
+ x
+ x
+ .
+⊤
+i=1
+∑
+n
+i
+i
+⊤
+A y
+⊤
+A y
+⊤
+A y =
+⊤
+ 
+ 
+ 
+ 
+ 
+ 
+ =
+[x
+ 1
+x
+ 2
+⋯
+x
+ n]
+y
+ 1
+y
+ 2
+⋮
+y
+ n
+ x
+ y
+ .
+i=1
+∑
+n
+i i
+ 
+A y =
+ x
+ y
+ .
+⊤
+i=1
+∑
+n
+i i
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+40/51
+atSean's
+t
+95
+reachSean's
+
+
+--- Page 41 ---
+(A A +
+⊤
+λI) = λI +
+ x
+ x
+ ,
+A y =
+i=1
+∑
+n
+i
+i
+⊤
+⊤
+ x
+ y
+ .
+i=1
+∑
+n
+i i
+n
+d
+d < n
+d × d
+O(d )
+3
+d × d
+O(d )
+3
+d × d
+d
+d2
+x
+ ∈
+i
+Rd
+A ∈Rn×d
+x
+ 
+i
+⊤
+v
+ ∈
+i
+Rd
+Y ∈Rn×d
+v
+ 
+i
+⊤
+W
+=
+∗
+(A A +
+⊤
+λI)
+A Y ∈
+−1
+⊤
+R
+.
+d×d
+q
+ ∈
+j
+Rd
+z
+ =
+j
+W
+q
+ 
+(or W q
+  up to orientation).
+∗⊤j
+∗j
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+41/51
+
+
+--- Page 42 ---
+W ∗
+W ∗
+A A +
+⊤
+λI = λI +
+ x
+ x
+ ,
+A Y =
+i=1
+∑
+n
+i
+i
+⊤
+⊤
+ x
+ v
+ .
+i=1
+∑
+n
+i i
+⊤
+A A
+⊤
+x
+ x
+ 
+i
+i
+⊤
+d × d
+O(d )
+2
+n
+O(nd )
+2
+λI O(d )
+2
+nd2
+A A +
+⊤
+λI d × d
+O(d )
+3
+A Y
+⊤
+x
+ v
+ 
+i i
+⊤
+d × d
+O(d )
+2
+n
+O(nd )
+2
+(A A +
+⊤
+λI)
+(A Y )
+−1
+⊤
+d × d
+d × d
+O(d )
+3
+W ∗
+O(nd ) +
+2
+O(d ) +
+3
+O(nd ) +
+2
+O(d ) =
+3
+O(nd +
+2
+d ).
+3
+W ∗
+n
+d
+W q
+ 
+∗j
+d × d
+O(d )
+2
+n
+O(nd )
+2
+O(nd +
+2
+d ) +
+3
+O(nd ) =
+2
+O(nd +
+2
+d ).
+3
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+42/51
+correctfirststep
+correctsecondstep
+correcthirdstep
+correctfourthstep
+
+
+--- Page 43 ---
+d < n
+n
+nd2
+d3
+ 
+Cost of non-causal ridge self-attention = O(nd ).
+2
+O(nd )
+2
+A
+x
+ 
+i
+⊤
+Y
+v
+ 
+i
+⊤
+W
+=
+∗
+(A A +
+⊤
+λI)
+A Y ,
+−1
+⊤
+q
+z = W
+q
+(up to orientation).
+∗⊤
+λ
+W
+=
+∗
+(A A +
+⊤
+λI)
+A Y .
+−1
+⊤
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+43/51
+correctlyrecognizesthis
+correctonfirsttrywith
+reasonablelogiclogicstep
+bystepmatchesanswer
+
+
+--- Page 44 ---
+λ
+λ
+A
+A A +
+⊤
+λI
+A Y
+⊤
+x
+ x
+ 
+i
+i
+⊤
+x
+ v
+ 
+i i
+⊤
+Y
+A Y
+⊤
+z = W
+q.
+∗⊤
+q
+λ
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+44/51
+Estatefistictrywith
+
+
+--- Page 45 ---
+(M + uv )
+=
+⊤−1
+M
+−
+−1
+ (M
+u)(v M
+),
+1 + v M
+u
+⊤
+−1
+1
+−1
+⊤
+−1
+M −1
+d × d
+d
+d2
+uv⊤
+d2
+d
+a = M
+u
+−1
+d2
+b
+=
+⊤
+v M
+⊤
+−1
+(M
+) v
+−1 ⊤
+d2
+1 + v M
+u =
+⊤
+−1
+1 + v a.
+⊤
+v a
+⊤
+d
+(M
+u)(v M
+) =
+−1
+⊤
+−1
+ab⊤
+ab⊤
+d2
+M −1
+O(d )
+2
+d2
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+45/51
+correctfirststep
+correctsecondstep
+correcthirdstep
+correctfourthstep
+pty
+explicitlymentionedinanswer
+
+
+--- Page 46 ---
+M −1
+ 
+O(d ).
+2
+n
+t
+t
+t
+O(n )
+2
+x
+ ∈
+i
+Rd
+y
+ ∈
+i
+Rd
+A
+ ∈
+t
+Rt×d
+x
+ , … , x
+ 
+1
+⊤
+t
+⊤
+Y
+ ∈
+t
+Rt×d
+y
+ , … , y
+ 
+1
+⊤
+t
+⊤
+t
+W
+ =
+t
+∗
+(A
+ A
+ +
+t
+⊤
+t
+λI)
+A
+ Y
+ ∈
+−1
+t
+⊤
+t
+R
+.
+d×d
+q
+ ∈
+t
+Rd
+t
+z
+ =
+t
+W
+ q
+ ∈
+t
+∗⊤t
+R .
+d
+z
+ , … , z
+ 
+1
+n
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+46/51
+correctonfirsttrywith
+reasonablelogiclogicalmost
+stepbystepmatchesanswer
+
+
+--- Page 47 ---
+M
+ :=
+t
+A
+ A
+ +
+t
+⊤
+t
+λI = λI +
+ x
+ x
+ 
+(d ×
+i=1
+∑
+t
+i
+i
+⊤
+d),
+B
+ :=
+t
+A
+ Y
+ =
+t
+⊤
+t
+ x
+ y
+ 
+(d ×
+i=1
+∑
+t
+i i
+⊤
+d).
+W
+ =
+t
+∗
+M
+ B
+ .
+t
+−1
+t
+S
+ :=
+t
+M
+ 
+t
+−1
+d × d
+B
+ t
+d × d
+t −1
+t
+M
+ 
+t
+−1
+M
+ =
+t
+λI +
+ x
+ x
+ =
+i=1
+∑
+t
+i
+i
+⊤
+M
+ +
+t−1
+x
+ x
+ .
+t
+t
+⊤
+M
+ =
+t
+M
+ +
+t−1
+uv
+with u =
+⊤
+x
+ , v =
+t
+x
+ .
+t
+S
+ =
+t−1
+M
+ 
+t−1
+−1
+M
+ =
+t
+−1
+S
+ =
+t
+S
+ −
+t−1
+ .
+1 + x
+ S
+ x
+ 
+t
+⊤
+t−1
+t
+(S
+ x
+ )(x
+ S
+ )
+t−1
+t
+t
+⊤
+t−1
+u
+ =
+t
+S
+ x
+ 
+t−1
+t
+O(d )
+2
+c
+ =
+t
+1 + x
+ u
+ 
+t
+⊤
+t
+O(d)
+S
+ =
+t
+S
+ −
+t−1
+ u
+ u
+ 
+c
+ t
+1
+t
+t
+⊤
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+47/51
+
+
+--- Page 48 ---
+O(d )
+2
+O(d )
+2
+M
+ =
+0
+λI ⇒S
+ =
+0
+ I
+λ
+1
+B
+ t
+B
+ =
+t
+ x
+ y
+ =
+i=1
+∑
+t
+i i
+⊤
+B
++
+t−1
+x
+ y
+ .
+t t
+⊤
+x
+ y
+ 
+t t
+⊤
+B
+ 
+t−1
+O(d )
+2
+B
+ t
+O(d )
+2
+B
+ =
+0
+0
+W
+ =
+t
+∗
+S
+ B
+ 
+t
+t
+O(d )
+3
+z
+ =
+t
+W
+ q
+ =
+t
+∗⊤
+t
+B
+ S q
+ .
+t
+⊤
+t
+⊤
+t
+u
+ =
+t
+S
+ q
+ 
+t
+⊤t
+O(d )
+2
+z
+ =
+t
+B
+ u
+ 
+t
+⊤
+t
+O(d )
+2
+z
+ t
+(S
+ , B
+ , q
+ )
+t
+t
+t
+O(d )
+2
+S
+ =
+0
+ I
+ 
+λ
+1
+d
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+48/51
+
+
+--- Page 49 ---
+B
+ =
+0
+0
+ 
+d×d
+t = 1, … , n
+(x
+ , y
+ )
+t
+t
+u
+ =
+t
+S
+ x
+ 
+t−1
+t
+c
+ =
+t
+1 + x
+ u
+ 
+t
+⊤
+t
+S
+ =
+t
+S
+ −
+t−1
+ u
+ u
+ 
+c
+ t
+1
+t
+t
+⊤
+B
+ =
+t
+B
+ +
+t−1
+x
+ y
+ 
+t t
+⊤
+q
+ t
+t
+u
+ =
+t
+′
+S
+ q
+ 
+t
+⊤t
+z
+ =
+t
+B
+ u
+ 
+t
+⊤
+t
+′
+{(x
+ , y
+ )}
+ 
+i
+i
+i≤t
+S
+ , B
+ 
+t
+t
+q
+ t
+O(n )
+2
+t
+S
+ t O(d )
+2
+B
+ t O(d )
+2
+z
+ t O(d )
+2
+O(d )
+2
+n
+ 
+Total cost = O(nd ),
+2
+O(n d )
+2
+2
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+49/51
+
+
+--- Page 50 ---
+M
+ 
+t
+−1
+B
+ t
+M
+ 
+t
+−1
+B
+ t
+z
+ t
+t
+O(nd )
+2
+O(n )
+2
+x
+ ∈
+i
+Rd i = 1, … , n
+v
+ ∈
+i
+Rd
+A ∈Rn×d
+Y ∈Rn×d
+W
+=
+∗
+(A A +
+⊤
+λI)
+A Y
+∈
+−1
+⊤
+R
+.
+d×d
+q ∈Rd
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+50/51
+
+
+--- Page 51 ---
+z(q) = W
+q ∈
+∗⊤
+R .
+d
+z(q)
+z(q) = W
+q =
+∗⊤
+Y
+A(A A +
+⊤
+⊤
+λI)
+q.
+−1
+a(q) := A(A A +
+⊤
+λI)
+q
+∈
+−1
+R .
+n
+z(q) = Y
+a(q) =
+⊤
+ a
+ (q) v
+ .
+i=1
+∑
+n
+i
+i
+{v
+ }
+i
+q
+12/4/25, 1:58 AM
+Answer question 1a
+https://chatgpt.com/c/69314804-e7bc-832f-83fd-ccdfe0fec5e4
+51/51
+PDFwascutoffsohereis ascreenshotoftherest
+correctonfirsttryjustdidnotgiveasdetailed
+orthoughtfulinterpretationasthesolutionguide

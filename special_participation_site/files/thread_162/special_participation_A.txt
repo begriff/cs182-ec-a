@@ -1,0 +1,1227 @@
+--- Page 1 ---
+Deep Neural Networks: Written Questions (HW5)
+Special Participation A
+Anders Vestrum (3041972833)
+October 2025
+Overview of Grok Performance
+I evaluated Grok’s responses across all questions, treating each subpart (e.g., 1a, 1b) as a separate task.
+Each task is assigned to exactly one of the following categories:
+1. One-Shot Correct: Answered correctly on the first attempt without any nudging.
+2. Minor Misconception / Hallucination: Small errors or missteps that require minor nudging
+or clarification.
+3. Larger Error: Significant errors in reasoning or calculations that require multiple clarifications.
+4. Did Not Solve: Unable to produce the correct solution even after multiple prompts.
+Performance Summary by Task
+Task
+Category
+1a
+Minor Misconception / Hallucination
+1b
+One-Shot Correct
+1c
+One-Shot Correct
+2a
+One-Shot Correct
+2b
+One-Shot Correct
+3a
+One-Shot Correct
+3b
+One-Shot Correct
+3c
+One-Shot Correct
+4a
+Minor Misconception / Hallucination
+4b
+One-Shot Correct
+4c
+One-Shot Correct
+4d
+One-Shot Correct
+Overall Summary of Strengths and Weaknesses
+Very impressed with the answers. A major strength is that Grok consistently includes conceptual in-
+tuition sections, providing a clear overview of the key ideas in each problem. For example, in 3b, it
+highlighted that depthwise separable convolutional networks implement convolutional nets with fewer
+parameters for faster training. In 4b, it made clear how dropout mimics Tikhonov regularization. These
+insights go beyond simply performing algebraic transformations or derivations, with it emphasizing the
+underlying principles and the ”why” behind the mathematics. Another strength is Grok’s adaptabil-
+ity: when prompted about conventions (e.g., the factor of 1/2 in the loss or the scaling of norms),
+it quickly corrected its approach and provided accurate, detailed derivations. It also integrates com-
+parisons, such as relating generalized transpose convolutions to standard convolutions without explicit
+instructions, helping to reinforce understanding. On the weaker side, some outputs occasionally included
+more computation or explanation than necessary, covering basic concepts that may be obvious to an
+expert audience. A few steps could have been highlighted more explicitly (e.g., the derivation of diago-
+nal vs. off-diagonal elements in the dropout regularization), which would make the reasoning easier to
+follow. Additionally, while conceptual intuition was strong, some outputs could have included formulas
+
+
+--- Page 2 ---
+or general expressions more explicitly for convenience, though this did not affect correctness. Overall,
+Grok’s strengths lie in its consistent focus on intuition, clear identification of core ideas, and accurate
+derivations, while minor weaknesses are related to occasional over-explanation and not always highlight-
+ing certain steps explicitly. Its responses provide both correct solutions and conceptual clarity, making
+them highly valuable for learning and understanding the material.
+Recommendation and Tips for Using Grok
+Based on my experience, Grok is a powerful tool for learning and understanding complex topics, partic-
+ularly in deep learning and mathematical derivations. Its strength lies in consistently providing correct
+solutions while emphasizing conceptual intuition, helping to clarify the underlying principles behind each
+problem. To get the most out of Grok, it is important to prompt it clearly and specifically, guiding it
+toward the desired level of detail or focus. Iteratively checking conventions, asking for clarifications,
+or probing certain steps, such as scaling factors or weight transformations, ensures that their responses
+align with expectations. Additionally, giving context or pointing out when a high-level abstraction is
+preferred helps produce concise, insightful explanations. Using it interactively in this way maximizes
+both correctness and conceptual clarity, making it an effective learning and problem solving assistant.
+2
+
+
+--- Page 3 ---
+1
+Introduction
+ME: You are an assistant helping a student understand theoretical questions in Deep Neural Networks.
+The questions explore core topics in deep learning such as convolutional networks, batch normalization,
+dropout, depthwise separable convolutions, and regularization techniques, focusing on how these methods
+affect learning dynamics and model behavior.
+At this stage, do not solve or preview any question.
+You will later receive only non-coding, theory-based questions; when solving, provide clear, step-by-step
+reasoning and concise conceptual explanations at a graduate level, emphasizing intuition, derivation, and
+interpretation without any implementation or code. Begin solving only after the user sends a specific
+question.
+GROK: Got it! I’m here to help you with theoretical questions on Deep Neural Networks. Please send
+me the specific question you’d like me to explain.
+3
+
+
+--- Page 4 ---
+2
+Problem 1: Convolutional Networks
+Part (a)
+ME: Question 1: Convolutional Networks.
+Throughout this problem, we use the convention of not
+flipping the filter before applying it over the signal (this matches the standard neural network convention
+where the filter is already flipped). (a) List two reasons why convolutional layers are typically preferred
+over fully connected layers when working with image data.
+GROK: To address why convolutional layers are typically preferred over fully connected layers for image
+data, let’s dive into the conceptual advantages of convolutional layers, focusing on their design and how
+they align with the properties of images. Below, I’ll provide two key reasons with clear, step-by-step
+reasoning and intuitive explanations tailored for a graduate-level understanding.
+Reason 1: Parameter Efficiency and Local Connectivity
+Convolutional layers exploit the spatial structure of images by using local connectivity, which sig-
+nificantly reduces the number of parameters compared to fully connected layers. In a fully connected
+layer, every input pixel is connected to every neuron in the next layer, leading to a dense weight matrix.
+For an image of size H × W × C (height, width, and channels), a fully connected layer with K output
+units requires H × W × C × K weights, which grows quadratically with the image size and becomes
+computationally infeasible for large images (e.g., a 224×224 RGB image has 150,528 pixels, leading to
+millions of parameters even for a modest K).
+In contrast, a convolutional layer uses a small, shared filter (e.g., 3 × 3 × C) that slides across the
+image, connecting each output unit to only a local region of the input (the receptive field). This filter
+is shared across all spatial locations, meaning the number of parameters depends only on the filter size
+and the number of filters, not the image size. For example, a 3 × 3 × C filter with F filters requires
+3 × 3 × C × F + F parameters (including biases), which is orders of magnitude smaller. This parameter
+efficiency reduces memory requirements, speeds up computation, and mitigates overfitting by limiting
+model complexity.
+Intuition: Images have local spatial patterns (e.g., edges, textures) that are consistent across different
+regions. Convolutional layers capture these patterns efficiently by learning shared filters, whereas fully
+connected layers treat each pixel independently, ignoring spatial relationships and requiring excessive
+parameters to model them.
+Reason 2: Translation Invariance
+Convolutional layers inherently incorporate translation invariance, making them well-suited for image
+data where patterns can appear anywhere in the image. Because the same filter is applied across all
+spatial locations, a convolutional layer detects features (e.g., edges, corners) regardless of their position in
+the image. This property allows the network to recognize objects in different parts of the image without
+needing to learn separate weights for each location.
+In contrast, fully connected layers lack this property, as each input pixel is tied to specific weights,
+meaning the same feature in a different location would require relearning entirely new weights. This
+translation invariance is further enhanced in convolutional neural networks (CNNs) through pooling
+layers (e.g., max pooling), which aggregate features over local regions, making the network robust to
+small translations or distortions. Fully connected layers, by treating the input as a flattened vector, lose
+spatial information and cannot naturally generalize across translations without significantly increasing
+the number of parameters.
+Intuition: In image recognition, an object like a cat looks the same whether it’s in the top-left or
+bottom-right corner. Convolutional layers naturally handle this by sharing weights across locations, while
+fully connected layers would need to learn the cat’s appearance separately for every possible position,
+which is inefficient and impractical.
+Summary
+1. Parameter Efficiency and Local Connectivity: Convolutional layers use small, shared fil-
+ters to exploit local spatial correlations in images, drastically reducing the number of parameters
+compared to fully connected layers, which connect every input to every output.
+2. Translation Invariance: Convolutional layers apply the same filters across the image, enabling
+them to detect features regardless of their spatial location, unlike fully connected layers, which lack
+this property and require relearning features for different positions.
+4
+
+
+--- Page 5 ---
+These properties make convolutional layers computationally efficient and better aligned with the spa-
+tial and hierarchical nature of image data, enabling effective feature extraction and robust generalization.
+ME: Good explanation. Could you express the same reasoning more concisely, emphasizing the con-
+ceptual intuition rather than numerical examples?
+GROK: Reason 1: Parameter Efficiency via Local Connectivity
+Convolutional layers are preferred for images because they use small, shared filters that focus on local
+pixel patterns, drastically reducing parameters compared to fully connected layers, which connect every
+input to every output.
+Intuition: Images have local structures like edges that repeat across regions. Convolutions efficiently
+capture these by sharing weights, while fully connected layers redundantly model each pixel indepen-
+dently, inflating complexity.
+Reason 2: Translation Invariance
+Convolutional layers apply the same filter across an image, detecting features like edges or textures
+regardless of their position, unlike fully connected layers, which treat pixels as unrelated and lose spatial
+context.
+Intuition: Objects in images (e.g., a dog) look the same anywhere in the frame.
+Convolutions
+naturally generalize across locations, while fully connected layers require relearning features for each
+position, making them less effective.
+Reflection
+The response could have been prompted more efficiently from the start, avoiding unnecessary
+explanations of fairly fundamental concepts. However, the output was accurate and would pro-
+vide valuable insights for someone less familiar with CNN architectures. Overall, the summary
+effectively captured the key ideas at a high level of abstraction, which was appropriate for this
+question.
+Part (b)
+ME: Thanks, that was helpful! Now for the part b: Consider the following 1D signal: [1, 4, 0, −2, 3].
+After convolution with a length-3 filter, no padding, stride=1, we get the following sequence: [−2, 2, 11].
+What was the filter?
+(Hint: Just to help you check your work, the first entry in the filter that you should find is 2. However,
+if you try to use this hint directly to solve for the answer, you will not get credit since this hint only
+exists to help you check your work.)
+GROK: To find the length-3 filter used in the 1D convolution of the given signal [1, 4, 0, −2, 3] that
+produces the output [−2, 2, 11] with no padding and stride=1, we need to set up and solve a system
+of equations based on the convolution operation. Below, I’ll provide a clear, step-by-step derivation
+with concise conceptual explanations, emphasizing the intuition behind the process, as requested for a
+graduate-level understanding.
+Step 1: Understand the Convolution Operation
+In 1D convolution with no padding and stride=1, a filter of length k slides over the input signal,
+computing the dot product of the filter with each valid window of k consecutive input elements. The
+input signal is [x1, x2, x3, x4, x5] = [1, 4, 0, −2, 3], and the filter is of length 3, denoted as [f1, f2, f3].
+The output sequence is [y1, y2, y3] = [−2, 2, 11]. Since there’s no padding, only “valid” convolutions are
+computed, where the filter fully overlaps with the input.
+For an input of length n = 5 and filter of length k = 3, the output length is given by:
+n −k + 1 = 5 −3 + 1 = 3
+This matches the output length of 3, confirming our setup.
+The convolution operation at position i of the output is:
+yi =
+k
+X
+j=1
+xi+j−1 · fj
+5
+
+
+--- Page 6 ---
+Since the problem specifies that the filter is not flipped (following the neural network convention), we
+directly use the filter coefficients [f1, f2, f3] in the dot product.
+Step 2: Set Up the Convolution Equations
+For each output element, the filter slides over a window of 3 input elements:
+• First output (y1 = −2): The filter [f1, f2, f3] is applied to the input window [x1, x2, x3] = [1, 4, 0]:
+y1 = x1f1 + x2f2 + x3f3 = 1 · f1 + 4 · f2 + 0 · f3 = f1 + 4f2 = −2
+• Second output (y2 = 2): The filter slides to [x2, x3, x4] = [4, 0, −2]:
+y2 = x2f1 + x3f2 + x4f3 = 4 · f1 + 0 · f2 + (−2) · f3 = 4f1 −2f3 = 2
+• Third output (y3 = 11): The filter slides to [x3, x4, x5] = [0, −2, 3]:
+y3 = x3f1 + x4f2 + x5f3 = 0 · f1 + (−2) · f2 + 3 · f3 = −2f2 + 3f3 = 11
+This gives us the system of linear equations:
+1. f1 + 4f2 = −2
+2. 4f1 −2f3 = 2
+3. −2f2 + 3f3 = 11
+Step 3: Solve the System of Equations
+• From Equation 3:
+3f3 = 11 + 2f2 =⇒f3 = 11 + 2f2
+3
+• From Equation 2:
+4f1 −2f3 = 2 =⇒4f1 = 2 + 2f3 =⇒f1 = 1 + f3
+2
+Substitute f3 = 11+2f2
+3
+:
+f1 = 7 + f2
+3
+• From Equation 1:
+f1 + 4f2 = −2 =⇒7 + f2
+3
++ 4f2 = −2
+Multiply through by 3:
+7 + f2 + 12f2 = −6 =⇒13f2 = −13 =⇒f2 = −1
+• Solve for f1:
+f1 = 7 + (−1)
+3
+= 2
+• Solve for f3:
+f3 = 11 + 2(−1)
+3
+= 3
+Thus, the filter is [f1, f2, f3] = [2, −1, 3].
+Step 4: Verify the Solution
+• First output: [1, 4, 0] · [2, −1, 3] = −2
+• Second output: [4, 0, −2] · [2, −1, 3] = 2
+• Third output: [0, −2, 3] · [2, −1, 3] = 11
+The output matches [−2, 2, 11], confirming the filter is correct. Additionally, the first entry f1 = 2
+aligns with the hint provided.
+Intuition
+The convolution process slides a filter over the input, computing weighted sums to produce the output.
+By setting up equations based on these sums, we reverse-engineer the filter that transforms the input
+into the given output. The no-flip convention simplifies the dot product, and the system of equations
+ensures a unique solution since we have three equations for three unknowns.
+Final Answer
+The filter is [2, −1, 3].
+6
+
+
+--- Page 7 ---
+Reflection
+A very good response overall, though some of the variable computations were more detailed than
+necessary.
+Part (c)
+ME: Thanks for the answer. Your solution is correct, but computing each variable step by step was
+excessive; it could be more concise by directly solving the linear system and briefly verifying the result.
+Now we move on to part c: transpose convolution is an operation to help us upsample a signal (increase
+the resolution). For example, if our original signal were [a, b, c] and we perform transpose convolution
+with pad=0 and stride=2, with the filter [x, y, z], the output would be
+[ax, ay, az + bx, by, bz + cx, cy, cz]
+Notice that the entries of the input are multiplied by each of the entries of the filter. Overlaps are
+summed. Also notice how for a fixed filter size and stride, the dimensions of the input and output are
+swapped compared to standard convolution. (For example, if we did standard convolution on a length-7
+sequence with filter size of 3 and stride=2, we would output a length-3 sequence.)
+If our 2D input is
+−1
+2
+3
+1
+
+and the 2D filter is
+1
+−1
+0
+1
+
+,
+what is the output of transpose convolution with pad=0 and stride=1?
+GROK:
+The transpose convolution with stride=1 and pad=0 upsamples the 2 × 2 input to a 3 × 3
+output, as per the formula
+O = S(I −1) + K = 1(2 −1) + 2 = 3.
+Each input element scales the entire filter, and these scaled filters are placed starting at output
+positions (stride×input row, stride×input col), with overlaps summed. Following the no-flip convention,
+the computation yields:
+
+
+−1
+3
+−2
+3
+−3
+1
+0
+3
+1
+
+
+ME: Thank you for the clear and concise explanation. Could you provide an example illustrating how
+the output dimensions are computed using non-square (rectangular) matrices as input?
+GROK:
+To illustrate how output dimensions are computed for a transpose convolution (also called
+deconvolution) with a non-square input, consider the following:
+Setup: Input size Ih × Iw = 3 × 5, filter size Kh × Kw = 3 × 3, stride S = 2, padding P = 0.
+Output dimension formula:
+Oh = S(Ih −1) + Kh −2P,
+Ow = S(Iw −1) + Kw −2P
+Compute output dimensions:
+Oh = 2(3 −1) + 3 −0 = 7,
+Ow = 2(5 −1) + 3 −0 = 11
+Thus, the output is 7 × 11.
+Intuition: Each input element “plants” a 3 × 3 filter in the output. Stride S determines spacing
+between these contributions. The first row’s 5 elements produce filters at output columns 0,2,4,6,8, each
+adding 3 columns, reaching column 10. Similarly, the 3 input rows produce filters at output rows 0,2,4,
+each adding 3 rows, reaching row 6. Hence, 7 × 11.
+7
+
+
+--- Page 8 ---
+Comparison to standard convolution: A standard convolution with the same filter, stride, and
+no padding on a 7 × 11 input gives
+Oh = ⌊7 −3
+2
+⌋+ 1 = 3,
+Ow = ⌊11 −3
+2
+⌋+ 1 = 5
+recovering the original input size. This shows how transpose convolution reverses dimensionality reduc-
+tion.
+Summary: Transpose convolution upsamples by spacing out input contributions and adding the
+filter span, effectively expanding the input dimensions, unlike standard convolution which reduces them.
+This property is useful for tasks like image upsampling in generative models.
+Reflection
+Effectively shows the solution and demonstrates clear adaptation to previous feedback. It compared
+the transpose convolution to standard convolution without explicit prompting, which strengthened
+the explanation by highlighting the upsampling property. After I asked an additional question to
+encourage generalization, it successfully expanded the solution while maintaining focus and clarity.
+8
+
+
+--- Page 9 ---
+3
+Problem 2: Batch Normalization for CNN
+Part (a)
+ME:
+Consider the following diagram where the shaded blocks represent entries participating in one
+normalization step for a CNN-type architecture.
+N represents the mini-batch, H, W represent the
+spatial dimensions (pixels), and C represents channels.
+• Which one denotes the process of batch normalization? Please use for your selection.
+A
+B
+C
+• Which one denotes layer normalization? Please use for your selection.
+A
+B
+C
+GROK: To determine which diagram represents batch normalization and which represents layer nor-
+malization, we need to understand the key differences in how these normalization techniques operate
+within a CNN architecture. The diagrams show 3D grids with axes labeled N (mini-batch), H (height),
+W (width), and C (channels), where the shaded blue regions indicate the entries participating in a single
+normalization step.
+Conceptual Intuition
+• Batch Normalization (BN) normalizes across the mini-batch dimension (N) for each feature
+map, treating all pixels (H ×W) and channels (C) within a single mini-batch sample together. The
+statistics (mean and variance) are computed over the N samples for a given (H, W, C) position.
+• Layer Normalization (LN) normalizes across the feature dimension (C) for each spatial location
+(H, W), treating all channels at a single pixel position, regardless of the mini-batch.
+Analysis of Diagrams
+• Diagram A: Shaded region spans the entire H × W plane for one channel (C) and all N samples
+— aligns with batch normalization.
+• Diagram B: Shaded region spans all C channels for one spatial location (H, W) and all N samples
+— aligns with layer normalization.
+• Diagram C: Shaded region spans N for one channel (C) and a thin slice along H or W — does
+not match standard BN or LN.
+Final Answer
+• Which one denotes the process of batch normalization? ■A □B □C
+• Which one denotes layer normalization? □A ■B □C
+Reflection
+A strong answer with a clear and structured explanation. The inclusion of conceptual intuition
+before diving into the detailed analysis was great. It arrived at the correct solution, and after
+providing the figures, the model interpreted them accurately and integrated them well into the
+reasoning.
+9
+
+
+--- Page 10 ---
+Part (b)
+ME: That was a well-structured answer. Now move on to part B: Consider a simplified batch normal-
+ization where we do not divide by the standard deviation of the data batch. Instead, we just de-mean
+our data batch before applying the scaling factor γ and shifting factor β.
+For simplicity, consider scalar data in an n-sized batch: [x1, x2, . . . , xn]. Specifically, we let ˆxi = xi−µ,
+where µ = 1
+n
+Pn
+j=1 xj, and output [y1, y2, . . . , yn] where yi = γˆxi + β to the next layer. Assume we have
+a final loss L somewhere downstream.
+Calculate ∂L
+∂xi in terms of ∂L
+∂yj for j = 1, . . . , n as well as γ and β as needed. Numerically, what is
+∂L
+∂x1
+when n = 1 and our input batch just consists of [x1] with an output batch of [y1]? (Your answer should
+be a real number. No need to justify.)
+What happens when n →∞? (Feel free to assume here that all relevant quantities are bounded.)
+GROK:
+We need to compute the partial derivative
+∂L
+∂xi for a simplified batch normalization (BN)
+process where the data is de-meaned but not divided by the standard deviation. The output is then
+scaled and shifted with γ and β. Let’s proceed step-by-step with clear reasoning and intuition.
+Step-by-Step Reasoning
+Problem Setup
+• Input batch: [x1, x2, . . . , xn], batch size n.
+• Mean: µ = 1
+n
+Pn
+j=1 xj.
+• De-meaned value: ˆxi = xi −µ.
+• Output: yi = γˆxi + β, with learnable γ and β.
+• Final loss: L, function of [y1, y2, . . . , yn].
+• Goal: compute
+∂L
+∂xi in terms of
+∂L
+∂yj for j = 1, . . . , n, γ, and β.
+Derivative Computation
+By the chain rule:
+∂L
+∂xi
+=
+n
+X
+j=1
+∂L
+∂yj
+· ∂yj
+∂xi
+.
+Relating yj to xi:
+yj = γˆxj + β,
+ˆxj = xj −µ.
+Since µ depends on all xk,
+∂µ
+∂xi = 1
+n. Thus,
+∂ˆxj
+∂xi
+= ∂xj
+∂xi
+−∂µ
+∂xi
+= δji −1
+n.
+Hence,
+∂yj
+∂xi
+= γ ∂ˆxj
+∂xi
+= γ
+
+δji −1
+n
+
+.
+Applying the chain rule:
+∂L
+∂xi
+=
+n
+X
+j=1
+∂L
+∂yj
+· γ
+
+δji −1
+n
+
+= γ
+
+∂L
+∂yi
+−1
+n
+n
+X
+j=1
+∂L
+∂yj
+
+.
+Conceptual Intuition
+The derivative accounts for the direct effect of xi on yi and the indirect effect
+via the batch mean µ, scaled by γ.
+10
+
+
+--- Page 11 ---
+Numerical Case: n = 1
+• Input batch: [x1], so µ = x1.
+• De-meaned: ˆx1 = 0.
+• Output: y1 = β.
+• Using the formula:
+∂L
+∂x1
+= γ
+ ∂L
+∂y1
+−1
+1
+∂L
+∂y1
+
+= 0.
+3.0.1
+Limit as n →∞
+∂L
+∂xi
+≈γ
+ ∂L
+∂yi
+−E
+ ∂L
+∂yj
+
+,
+where E denotes the expectation over the batch. The derivative stabilizes and depends on the deviation
+of the local gradient from the batch-averaged gradient.
+Final Answer
+∂L
+∂xi
+= γ
+
+∂L
+∂yi
+−1
+n
+n
+X
+j=1
+∂L
+∂yj
+
+,
+∂L
+∂x1
+= 0 for n = 1,
+∂L
+∂xi
+≈γ
+ ∂L
+∂yi
+−E
+ ∂L
+∂yj
+
+as n →∞.
+Reflection
+The response is correct, thorough, and well-structured
+11
+
+
+--- Page 12 ---
+4
+Problem 3: Depthwise Separable Convolutions
+Part (a)
+ME: Okay, now for Question 3 about Depthwise Separable Convolutions: Depthwise separable convo-
+lutions are a type of convolutional operation used in deep learning for image processing tasks. Unlike
+traditional convolutional operations, which perform both spatial and channel-wise convolutions simul-
+taneously, depthwise separable convolutions decompose the convolution operation into two separate
+operations: Depthwise convolution and Pointwise convolution.
+This can be viewed as a low-rank approximation to a traditional convolution. For simplicity, through-
+out this problem, we will ignore biases while counting learnable parameters.
+(a) Suppose the input is a three-channel 224×224-resolution image, the kernel size of the convolutional
+layer is 3 × 3, and the number of output channels is 4.
+What is the number of learnable parameters in the traditional convolution layer?
+GROK: To determine the number of learnable parameters in a traditional convolution layer, we need
+to analyze the structure of the operation and the given specifications. Since biases are ignored as per
+the problem statement, we focus solely on the weights.
+Step-by-Step Reasoning
+1. Understand Traditional Convolution:
+• In a traditional convolution layer, a single filter (or kernel) operates on the input by sliding over
+both the spatial dimensions (height and width) and the channel dimension simultaneously.
+• The filter has a spatial size (kernel size) and a depth equal to the number of input channels. It
+produces a single output channel per filter.
+• The total number of filters determines the number of output channels.
+2. Extract Problem Details:
+• Input: 3-channel image (e.g., RGB), with resolution 224 × 224. The number of channels (3) is the
+depth of the input.
+• Kernel size: 3 × 3, meaning each filter has a 3 × 3 spatial footprint.
+• Output channels: 4, meaning there are 4 filters, each producing one output channel.
+3. Calculate Parameters per Filter:
+• Each filter has a depth of 3 (to match the 3 input channels).
+• The spatial size of the filter is 3 × 3, so the number of weights per filter is 3 × 3 × 3 = 27.
+• This 27-element filter is applied to the input to produce one output channel.
+4. Account for Multiple Filters:
+• Since there are 4 output channels, we need 4 such filters.
+• The total number of parameters is the number of weights per filter multiplied by the number of
+filters: 27 × 4 = 108.
+5. Verify Intuition:
+• In a traditional convolution, all input channels are convolved together by a single filter to produce
+an output channel. The parameter count reflects the interaction of the kernel size with the input
+depth and the number of desired outputs.
+• The 224 × 224 resolution affects the output size but not the number of parameters, as parameters
+depend only on the filter design (kernel size, input channels, output channels).
+Final Answer
+The number of learnable parameters in the traditional convolution layer is 108.
+12
+
+
+--- Page 13 ---
+Reflection
+Correct solution. It could have included the general formula explicitly for convenience, but the
+step-by-step derivation was accurate and error-free.
+Part (b)
+ME: That is correct. Now for part (b): Depthwise separable convolution consists of two parts: depthwise
+convolutions followed by pointwise convolutions. Suppose the input is still a three-channel 224 × 224-
+resolution image.
+The input first goes through depthwise convolutions, where the number of output channels is the
+same as the number of input channels, and there is no “cross talk” between different channels. Then,
+this intermediate output goes through pointwise convolutions, which is basically a traditional convolution
+with the filter size being 1 × 1. Assume that we have 4 output channels.
+What is the total number of learnable parameters of the depthwise separable convolution layer which
+consists of both depthwise and pointwise convolutions?
+GROK: To calculate the total number of learnable parameters in a depthwise separable convolution
+layer, we need to determine the parameters for both the depthwise convolution and the pointwise convo-
+lution separately, then sum them. Since biases are ignored as per the problem statement, we focus only
+on the weights.
+Step-by-Step Reasoning
+1. Understand Depthwise Separable Convolution
+• Depthwise Convolution: Applies a separate 3 × 3 filter to each input channel, producing the
+same number of output channels as input channels. There is no “cross talk” between channels,
+meaning each channel is convolved independently.
+• Pointwise Convolution: A 1×1 convolution applied to the output of the depthwise convolution,
+combining the channels to produce the desired number of output channels (4 in this case). It acts
+as a linear combination across channels.
+2. Extract Problem Details
+• Input: 3-channel 224 × 224 image.
+• Depthwise convolution: Uses 3×3 filters, with the number of output channels equal to the number
+of input channels (3).
+• Pointwise convolution: Uses 1 × 1 filters, with 4 output channels.
+• The spatial resolution (224 × 224) affects the output size but not the parameter count.
+3. Calculate Parameters for Depthwise Convolution
+• Each of the 3 input channels is convolved with its own 3 × 3 filter.
+• Number of parameters per filter: 3 × 3 = 9.
+• Total parameters for 3 filters: 9 × 3 = 27.
+4. Calculate Parameters for Pointwise Convolution
+• Pointwise convolution uses 1 × 1 filters to combine the 3 channels from the depthwise output into
+4 output channels.
+• Each 1 × 1 filter has depth equal to the number of input channels (3), so parameters per filter:
+1 × 1 × 3 = 3.
+• With 4 output channels, total parameters: 3 × 4 = 12.
+13
+
+
+--- Page 14 ---
+5. Total Parameters
+Total = 27 + 12 = 39
+6. Verify Intuition
+Depthwise separable convolution reduces parameters compared to a traditional convolution (108 from
+part a) by separating spatial and channel-wise operations. The depthwise step handles spatial filtering
+per channel, while the pointwise step handles channel mixing, resulting in a lower-rank approximation
+that is computationally efficient.
+Final Answer
+The total number of learnable parameters of the depthwise separable convolution layer is 39.
+Reflection
+Correct answer, and it verified the intuition behind depthwise separable convolutional networks
+by comparing the number of learnable parameters with the standard convolutional network from
+part (a). This reinforces the understanding by comparing the results and the motivation behind
+this approach.
+14
+
+
+--- Page 15 ---
+5
+Problem 4: Regularization and Dropout
+5.1
+Part (a)
+ME:
+Correct! Now on to question 4 about regularization and dropout, part (a): Recall that linear
+regression optimizes the following learning objective:
+L(w) = ∥y −Xw∥2
+2
+One way of using dropout during SGD on the d-dimensional input features xi involves keeping each
+feature at random ∼i.i.d Bernoulli(p) (and zeroing it out if not kept) and then performing a traditional
+SGD step. It turns out that such dropout makes our learning objective effectively become
+L( ˘w) = ER∼Bernoulli(p)
+h
+∥y −(R ⊙X) ˘w∥2
+2
+i
+where ⊙is the element-wise product and the random binary matrix R ∈{0, 1}n×d is such that Ri,j ∼
+i.i.d Bernoulli(p). We use ˘w to remind you that this is learned by dropout.
+Recalling how Tikhonov-regularized (generalized ridge-regression) least-squares problems involve solv-
+ing:
+L(w) = ∥y −Xw∥2
+2 + ∥Γw∥2
+2
+for some suitable matrix Γ, it turns out we can manipulate (2) to eliminate the expectations and get:
+L( ˘w) = ∥y −pX ˘w∥2
+2 + p(1 −p)∥˘Γ ˘w∥2
+2
+with ˘Γ being a diagonal matrix whose j-th diagonal entry is the norm of the j-th column of the training
+matrix X.
+(a) Show that we can manipulate (2) to eliminate the expectations and get:
+L( ˘w) = ∥y −pX ˘w∥2
+2 + p(1 −p)∥˘Γ ˘w∥2
+2
+with ˘Γ being a diagonal matrix whose j-th diagonal entry is the norm of the j-th column of the training
+matrix X.
+GROK: To show that the expected loss from dropout regularization (Equation 2) can be manipulated to
+eliminate the expectation and yield the form in Equation 5, we need to derive the expression step-by-step.
+The goal is to transform the expected loss
+L( ˆw) = ER∼Bernoulli(p)
+1
+2∥y −(R ⊙X) ˆw∥2
+2
+
+into
+1
+2∥y −pX ˆw∥2
+2 + 1
+2p(1 −p)∥ˆΓ ˆw∥2
+2,
+where ˆΓ is a diagonal matrix with its j-th diagonal entry being the norm of the j-th column of the
+training matrix X. Let’s proceed with clear reasoning and intuition.
+Step-by-Step Reasoning
+1. Define the Problem:
+• Input data: X is an n × d matrix, where n is the number of samples and d is the number of
+features.
+• Target: y is an n × 1 vector.
+• Random matrix: R is an n × d binary matrix with Ri,j ∼Bernoulli(p), meaning each element
+is 1 with probability p and 0 with probability 1 −p, independently.
+• Dropout operation: R ⊙X is the element-wise product, where each feature Xi,j is kept with
+probability p and zeroed otherwise.
+• Loss with dropout:
+L( ˆw) = ER∼Bernoulli(p)
+1
+2∥y −(R ⊙X) ˆw∥2
+2
+
+,
+where ˆw is the weight vector learned with dropout.
+15
+
+
+--- Page 16 ---
+• Target form:
+L( ˆw) = 1
+2∥y −pX ˆw∥2
+2 + 1
+2p(1 −p)∥ˆΓ ˆw∥2
+2,
+with ˆΓ diagonal and its j-th entry being ∥X·,j∥2, the L2 norm of the j-th column of X.
+2. Expand the Expected Loss:
+1
+2∥y −(R ⊙X) ˆw∥2
+2 = 1
+2(y −(R ⊙X) ˆw)T (y −(R ⊙X) ˆw),
+= 1
+2yT y −yT (R ⊙X) ˆw + 1
+2 ˆwT (R ⊙X)T (R ⊙X) ˆw.
+3. Since yT y is constant with respect to R, the expectation is
+L( ˆw) = 1
+2yT y −ER[yT (R ⊙X) ˆw] + 1
+2ER[ ˆwT (R ⊙X)T (R ⊙X) ˆw].
+4. Compute the Linear Term:
+ER[yT (R ⊙X) ˆw] = yT (pX) ˆw = pyT X ˆw.
+Hence,
+−ER[yT (R ⊙X) ˆw] = −pyT X ˆw.
+5. Compute the Quadratic Term:
+1
+2ER[ ˆwT (R ⊙X)T (R ⊙X) ˆw] = 1
+2 ˆwT 
+p2XT X + p(1 −p)diag(∥X·,j∥2
+2)
+ ˆw.
+6. Combine Terms:
+L( ˆw) = 1
+2yT y −pyT X ˆw + 1
+2p2 ˆwT XT X ˆw + 1
+2p(1 −p) ˆwT diag(∥X·,j∥2
+2) ˆw.
+1
+2yT y −pyT X ˆw + 1
+2p2 ˆwT XT X ˆw = 1
+2∥y −pX ˆw∥2
+2,
+1
+2p(1 −p) ˆwT diag(∥X·,j∥2
+2) ˆw = 1
+2p(1 −p)∥ˆΓ ˆw∥2
+2.
+7. Final Form:
+L( ˆw) = 1
+2∥y −pX ˆw∥2
+2 + 1
+2p(1 −p)∥ˆΓ ˆw∥2
+2.
+Conceptual Intuition
+Dropout introduces randomness by zeroing features, which, in expectation, scales the input by p and
+adds a regularization effect. The first term 1
+2∥y −pX ˆw∥2
+2 accounts for the scaled input effect, while the
+second term 1
+2p(1 −p)∥ˆΓ ˆw∥2
+2 reflects the variance-induced penalty, proportional to the column norms of
+X, mimicking Tikhonov regularization.
+Final Answer
+We have shown that
+L( ˆw) = ER∼Bernoulli(p)
+1
+2∥y −(R ⊙X) ˆw∥2
+2
+
+can be manipulated to eliminate the expectations and yield
+L( ˆw) = 1
+2∥y −pX ˆw∥2
+2 + 1
+2p(1 −p)∥ˆΓ ˆw∥2
+2,
+where ˆΓ is a diagonal matrix with its j-th diagonal entry being the norm of the j-th column of the
+training matrix X.
+16
+
+
+--- Page 17 ---
+ME: Could you use the convention used in the problem description?
+GROK: To adjust the derivation to match the convention of the problem description by removing the
+factor of 1
+2 from both the expected loss and the target form, we re-derive the expression step-by-step.
+The goal is to transform the expected loss
+L( ˆw) = ER∼Bernoulli(p)
+
+∥y −(R ⊙X) ˆw∥2
+2
+
+into
+∥y −pX ˆw∥2
+2 + p(1 −p)∥ˆΓ ˆw∥2
+2,
+where ˆΓ is a diagonal matrix with its j-th diagonal entry being the norm of the j-th column of the
+training matrix X.
+Step-by-Step Reasoning
+1. Define the Problem:
+• Input data: X is an n × d matrix.
+• Target: y is an n × 1 vector.
+• Random matrix: R is an n × d binary matrix with Ri,j ∼Bernoulli(p).
+• Dropout operation: R ⊙X is the element-wise product.
+• Loss with dropout:
+L( ˆw) = ER
+
+∥y −(R ⊙X) ˆw∥2
+2
+
+.
+• Target form:
+L( ˆw) = ∥y −pX ˆw∥2
+2 + p(1 −p)∥ˆΓ ˆw∥2
+2.
+2. Expand the Expected Loss:
+∥y −(R ⊙X) ˆw∥2
+2 = yT y −2yT (R ⊙X) ˆw + ˆwT (R ⊙X)T (R ⊙X) ˆw.
+Taking expectation:
+L( ˆw) = yT y −2ER[yT (R ⊙X) ˆw] + ER[ ˆwT (R ⊙X)T (R ⊙X) ˆw].
+3. Compute the Linear Term:
+ER[yT (R ⊙X) ˆw] = yT (pX) ˆw = pyT X ˆw,
+−2ER[yT (R ⊙X) ˆw] = −2pyT X ˆw.
+4. Compute the Quadratic Term:
+ER[ ˆwT (R ⊙X)T (R ⊙X) ˆw] = p2 ˆwT XT X ˆw + p(1 −p) ˆwT diag(∥X·,j∥2
+2) ˆw.
+5. Combine Terms:
+L( ˆw) = yT y −2pyT X ˆw + p2 ˆwT XT X ˆw + p(1 −p) ˆwT diag(∥X·,j∥2
+2) ˆw.
+The first three terms form:
+∥y −pX ˆw∥2
+2,
+and the last term is:
+p(1 −p)∥ˆΓ ˆw∥2
+2.
+6. Final Form:
+L( ˆw) = ∥y −pX ˆw∥2
+2 + p(1 −p)∥ˆΓ ˆw∥2
+2.
+Conceptual Intuition
+Dropout randomly zeros features, scaling the input by p in expectation and introducing a regularization
+effect. The term ∥y−pX ˆw∥2
+2 reflects the loss with scaled inputs, while p(1−p)∥ˆΓ ˆw∥2
+2 acts as a variance-
+based regularization penalty proportional to the column norms of X.
+17
+
+
+--- Page 18 ---
+Final Answer
+L( ˆw) = ∥y −pX ˆw∥2
+2 + p(1 −p)∥ˆΓ ˆw∥2
+2.
+ME: That is better. Could you also highlight where the (1-p) facor comes from in the expression?
+GROK: We manipulate the dropout-regularized objective
+L( ˆw) = ER∼Bernoulli(p)
+
+∥y −(R ⊙X) ˆw∥2
+2
+
+to obtain
+L( ˆw) = ∥y −pX ˆw∥2
+2 + p(1 −p)∥ˆΓ ˆw∥2
+2,
+where ˆΓj,j = ∥X:,j∥2.
+Step 1: Expand the Expectation
+∥y −(R ⊙X) ˆw∥2
+2 =
+n
+X
+i=1
+
+yi −
+d
+X
+j=1
+Ri,jXi,j ˆwj
+
+
+2
+.
+Let zi = Pd
+j=1 Ri,jXi,j ˆwj:
+(yi −zi)2 = y2
+i −2yizi + z2
+i ,
+ER[(yi −zi)2] = y2
+i −2ER[yizi] + ER[z2
+i ].
+Step 2: Compute Expectations
+ER[zi] = p(X ˆw)i,
+ER[yizi] = yip(X ˆw)i.
+z2
+i =
+d
+X
+j=1
+d
+X
+k=1
+Ri,jRi,kXi,jXi,k ˆwj ˆwk
+ER[z2
+i ] =
+d
+X
+j=1
+pX2
+i,j ˆw2
+j+
+d
+X
+j=1
+X
+k̸=j
+p2Xi,jXi,k ˆwj ˆwk =
+d
+X
+j=1
+(p−p2)X2
+i,j ˆw2
+j+p2(X ˆw)2
+i = p(1−p)
+d
+X
+j=1
+X2
+i,j ˆw2
+j+p2(X ˆw)2
+i .
+Origin of (1 −p): The (1 −p) factor arises from p −p2 = p(1 −p), which is the variance of Ri,j,
+i.e., Var(Ri,j) = p(1 −p). This reflects the stochastic variability introduced by dropout in the squared
+predictions.
+ER[(yi −zi)2] = y2
+i −2pyi(X ˆw)i + p2(X ˆw)2
+i + p(1 −p)
+d
+X
+j=1
+X2
+i,j ˆw2
+j.
+Step 3: Sum Over i
+L( ˆw) = ∥y −pX ˆw∥2
+2 + p(1 −p)
+d
+X
+j=1
+ˆw2
+j∥X:,j∥2
+2.
+Step 4: Relate to ˆΓ
+∥ˆΓ ˆw∥2
+2 =
+d
+X
+j=1
+∥X:,j∥2
+2 ˆw2
+j,
+L( ˆw) = ∥y −pX ˆw∥2
+2 + p(1 −p)∥ˆΓ ˆw∥2
+2.
+Thus, the (1 −p) factor, combined with p, forms the coefficient p(1 −p) scaling the regularization
+term due to dropout’s stochasticity.
+18
+
+
+--- Page 19 ---
+Reflection
+The answer initially used an incorrect
+1
+2 factor in the loss, but corrected it immediately after
+feedback. The model likely included the 1
+2 factor by default because it has learned the common
+MSE convention from training, where this factor simplifies derivatives, even though the problem
+did not specify it. I asked again specifically to check whether it would stick to the convention I
+wanted, and it successfully retraced the independent computations of the diagonal and off-diagonal
+elements of XT X, deriving the (1 −p) part of the scaling on the diagonal.
+Part (b)
+ME: Okay, thanks a lot! Now for part b: How should we transform the ˆw we learn using Equation (5)
+(i.e., with dropout) to get something that looks like a solution to the traditionally regularized problem
+(3)?
+(Hint: This is related to how we adjust weights learned using dropout training for using them at
+inference time. PyTorch by default does this adjustment during training itself, but here, we are doing
+dropout slightly differently with no adjustments during training.)
+GROK: To determine how to transform the weight vector ˆw learned using the dropout-modified loss
+(Equation 5) to resemble a solution to the traditionally regularized problem (Equation 3), we need to
+bridge the two formulations. The hint suggests a connection to inference-time adjustments for dropout,
+where weights are typically scaled to account for the dropout probability p. Let’s derive the transforma-
+tion step-by-step with clear reasoning and intuition.
+Step-by-Step Reasoning
+1. Recap the Losses:
+• Dropout-Modified Loss (Equation 5):
+L( ˆw) = ∥y −pX ˆw∥2
+2 + p(1 −p)∥ˆΓ ˆw∥2
+2,
+where ˆw is learned with dropout, p is the keep probability, and ˆΓ is a diagonal matrix with
+ˆΓj,j = ∥X·,j∥2.
+• Tikhonov-Regularized Loss (Equation 3):
+L(w) = ∥y −Xw∥2
+2 + ∥Γw∥2
+2,
+where w is the weight vector, and Γ is a suitable regularization matrix.
+2. Interpret the Dropout Effect:
+• The term ∥y −pX ˆw∥2
+2 suggests that the effective input during training is scaled by p due to
+dropout.
+• The regularization term p(1 −p)∥ˆΓ ˆw∥2
+2 arises from the variance of the dropout mask.
+• At inference, dropout is typically disabled, and weights learned with dropout are scaled by
+1/p to compensate for reduced input magnitude during training.
+3. Relate to Traditional Regularization:
+• To match Equation 3, transform ˆw so that the data term becomes ∥y −Xw∥2
+2 and the
+regularization term aligns with ∥Γw∥2
+2.
+• The scaling factor p in ∥y −pX ˆw∥2
+2 indicates that ˆw was optimized for a scaled input. To
+undo this scaling, adjust ˆw by 1/p.
+4. Derive the Transformation:
+w = ˆw
+p
+⇒
+∥y −Xw∥2
+2 = ∥y −X · ˆw
+p ∥2
+2.
+This restores the data term to the unscaled input.
+19
+
+
+--- Page 20 ---
+For the regularization term:
+∥Γw∥2
+2 =
+Γ · ˆw
+p
+
+2
+2
+= 1
+p2 ∥Γ ˆw∥2
+2.
+In Equation 5, the regularization is p(1 −p)∥ˆΓ ˆw∥2
+2. Matching forms implies Γ = ˆΓ
+q
+1−p
+p , but the
+primary weight transformation is w = ˆw/p.
+5. Inference-Time Adjustment Insight:
+• During training, the input is effectively pX. The learned weights ˆw fit this scaled input.
+• Scaling ˆw by 1/p at inference compensates for the full input X, so w = ˆw/p predicts y ≈Xw.
+• The regularization term transforms to 1−p
+p ∥ˆΓw∥2
+2, resembling a Tikhonov penalty with Γ =
+ˆΓ
+q
+1−p
+p .
+6. Final Transformation:
+w = ˆw
+p .
+This adjusts the weights learned with dropout to fit the unscaled input, aligning the data term
+with Equation 3.
+Conceptual Intuition
+Dropout trains ˆw on a stochastically reduced input (pX). Scaling ˆw by 1/p restores the model’s sensitiv-
+ity to the full input X, mimicking the unregularized part of the Tikhonov problem. The regularization
+term naturally adjusts to a form comparable to ∥Γw∥2
+2 with an appropriate Γ, reflecting dropout’s
+implicit regularization.
+Final Answer
+To transform the weight ˆw learned using Equation 5 to resemble a solution to the traditionally regularized
+problem (Equation 3), set
+w = ˆw
+p .
+Reflection
+correct answer and well-structured. Good part about the conceptual intuition.
+Part(c)
+ME: That is correct! Now for part (c): With the understanding that the Γ in (3) is an invertible matrix,
+change variables in (3) to make the problem look like classical ridge regression:
+L( ˜w) = ∥y −˜X ˜w∥2
+2 + λ∥˜w∥2
+2
+(6)
+Explicitly, what is the changed data matrix ˜X in terms of the original data matrix X and Γ?
+GROK: To transform the Tikhonov-regularized least-squares problem (Equation 3) into the form of
+classical ridge regression (Equation 6) by changing variables, we need to redefine the weight vector and
+data matrix such that the regularization term becomes a simple L2 norm of the new weights, scaled by
+a hyperparameter λ. Since Γ is invertible, we can use this property to perform the variable substitution.
+Let’s derive the solution step-by-step with clear reasoning and intuition.
+20
+
+
+--- Page 21 ---
+Step-by-Step Reasoning
+1. Recap the Original Problem:
+L(w) = ∥y −Xw∥2
+2 + ∥Γw∥2
+2,
+where X is the n × d data matrix, y is the n × 1 target vector, w is the d × 1 weight vector, and Γ is an
+invertible d × d matrix.
+The goal is to rewrite this as:
+L( ˜w) = ∥y −˜X ˜w∥2
+2 + λ∥˜w∥2
+2,
+where ˜w is the new weight vector, ˜X is the transformed data matrix, and λ is the ridge regression
+penalty.
+2. Change of Variables: Define
+˜w = Γw
+⇒
+w = Γ−1 ˜w.
+Substitute into the original loss:
+Xw = XΓ−1 ˜w,
+∥y −Xw∥2
+2 = ∥y −XΓ−1 ˜w∥2
+2,
+∥Γw∥2
+2 = ∥ΓΓ−1 ˜w∥2
+2 = ∥˜w∥2
+2.
+3. Form the Transformed Loss:
+L( ˜w) = ∥y −XΓ−1 ˜w∥2
+2 + ∥˜w∥2
+2.
+4. Adjust Regularization Parameter: To generalize, we can introduce λ to scale the regulariza-
+tion term:
+L( ˜w) = ∥y −˜X ˜w∥2
+2 + λ∥˜w∥2
+2,
+with ˜X = XΓ−1.
+5.
+Conceptual Intuition: The transformation w = Γ−1 ˜w rotates and scales the weight space
+so that the original regularization ∥Γw∥2
+2 becomes a standard L2 norm on ˜w. The data matrix X is
+adjusted by Γ−1 to maintain consistency with the new weight space, aligning the problem with classical
+ridge regression.
+Final Answer
+The changed data matrix ˜X in terms of the original data matrix X and Γ is:
+˜X = XΓ−1.
+Reflection
+Correct answer with a clear explanation, showing how the regularization parameter λ is effectively
+incorporated through the scaling of the Γ matrix.
+Part (d)
+ME: Correct! Now for part d: Continuing the previous part, with the further understanding that Γ is
+a diagonal invertible matrix with the j-th diagonal entry proportional to the norm of the j-th column in
+X, what can you say about the norms of the columns of the effective training matrix ˜X and speculate
+briefly on the relationship between dropout and batch-normalization.
+GROK: The norms of the columns of the effective training matrix ˜X are all equal, specifically
+q
+p
+1−p
+for each column.
+Speculatively, this reveals a connection between dropout and batch normalization: dropout’s regu-
+larization implicitly rescales input features to uniform norms in the transformed space (akin to whiten-
+ing), which mirrors batch normalization’s standardization of activations to unit variance across batches.
+Both techniques introduce noise—multiplicative for dropout, additive via batch statistics for batch
+norm—mitigating covariate shift, stabilizing gradients, and enhancing generalization in deep networks.
+21
+
+
+--- Page 22 ---
+Reflection
+Answers the question very well, keeping the speculative discussion brief yet concise.
+22

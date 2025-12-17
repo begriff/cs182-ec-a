@@ -1,0 +1,1061 @@
+--- Page 1 ---
+File
+Shared files can't be displayed
+Solve the given question from a deep learning homework 
+assignment. Along with the solution, be sure to include all of your 
+steps.
+Solution
+(i) First-Order Optimality Conditions
+We minimize the loss function:
+where 
+, 
+, 
+, and 
+. Expanding the Frobenius
+norm:
+Let 
+, which is symmetric. Then:
+We compute the gradients with respect to 
+ and 
+ using matrix calculus.
+Gradient with respect to 
+:
+Using the identities:
+with 
+, 
+, we obtain:
+L(W
+​, W
+​; X) =
+1
+2
+∥X −W
+​W
+​X∥
+​,
+2
+1
+F
+2
+X ∈Rm×n W
+​ ∈
+1
+Rk×m W
+​ ∈
+2
+Rm×k
+k < m
+L = tr((X −W
+​W
+​X)(X −
+2
+1
+W
+​W
+​X) ).
+2
+1
+⊤
+C = XX⊤
+L = tr(C) −2 tr(W
+​W
+​C) +
+2
+1
+tr(W
+​W
+​CW
+​W
+​).
+2
+1
+1
+⊤
+2
+⊤
+W
+​1
+W
+​2
+W
+​1
+​ =
+∂W
+​1
+∂L
+−2
+​ tr(W
+​W
+​C) +
+∂W
+​1
+∂
+2
+1
+​ tr(W
+​W
+​CW
+​W
+​).
+∂W
+​1
+∂
+2
+1
+1
+⊤
+2
+⊤
+​ tr(AWB) =
+∂W
+∂
+A B ,
+​ tr(AWBW A ) =
+⊤
+⊤
+∂W
+∂
+⊤
+⊤
+2A AWB
+(if B is sym
+⊤
+A = W
+​2 B = C
+Thought for 153 seconds
+
+
+--- Page 2 ---
+Thus,
+which simplifies to:
+Gradient with respect to 
+:
+Now treat 
+ as constant. Using:
+with 
+, we get:
+Thus,
+which simplifies to:
+The first-order optimality conditions are:
+​ tr(W
+​W
+​C) =
+∂W
+​1
+∂
+2
+1
+W
+​C,
+2
+⊤
+​ tr(W
+​W
+​CW
+​W
+​) =
+∂W
+​1
+∂
+2
+1
+1
+⊤
+2
+⊤
+2W
+​W
+​W
+​C.
+2
+⊤
+2
+1
+​ =
+∂W
+​1
+∂L
+−2W
+​C +
+2
+⊤
+2W
+​W
+​W
+​C =
+2
+⊤
+2
+1
+0,
+W
+​(W
+​W
+​ −
+2
+⊤
+2
+1
+I)C = 0.
+(1)
+W
+​2
+​ =
+∂W
+​2
+∂L
+−2
+​ tr(W
+​W
+​C) +
+∂W
+​2
+∂
+2
+1
+​ tr(W
+​W
+​CW
+​W
+​).
+∂W
+​2
+∂
+2
+1
+1
+⊤
+2
+⊤
+W
+​C
+1
+​ tr(WM) =
+∂W
+∂
+M ,
+​ tr(WMW ) =
+⊤
+∂W
+∂
+⊤
+2WM
+(if M is symmetric),
+M = W
+​CW
+​
+1
+1
+⊤
+​ tr(W
+​W C) =
+∂W
+​2
+∂
+2
+1
+(W
+​C)
+=
+1
+⊤
+CW
+​,
+1
+⊤
+​ tr(W
+​W
+​CW
+​W
+​) =
+∂W
+​2
+∂
+2
+1
+1
+⊤
+2
+⊤
+2W W
+​CW
+​.
+2
+1
+1
+⊤
+​ =
+∂W
+​2
+∂L
+−2CW
+​ +
+1
+⊤
+2W
+​W
+​CW
+​ =
+2
+1
+1
+⊤
+0,
+(W
+​W
+​ −
+2
+1
+I)CW
+​ =
+1
+⊤
+0.
+(2)
+
+
+--- Page 3 ---
+(ii) Verification for Principal Components
+Let 
+ be the matrix whose columns are the top-  eigenvectors of 
+,
+corresponding to eigenvalues 
+. Choose:
+Then 
+. The eigendecomposition of 
+ is:
+where 
+ is orthogonal, and 
+.
+Note that 
+.
+Check condition (1):
+Compute:
+Multiplying by 
+ on the left:
+Since 
+ (the first  rows of the identity), the product with the diagonal
+matrix (whose first  diagonal entries are zero) yields zero. Thus, condition (1) holds.
+Check condition (2):
+Using the same expression for 
+, multiply by 
+ on the right:
+​.
+W
+​(W
+​W
+​ −I)XX
+= 0
+and
+(W
+​W
+​ −I)XX W
+​ = 0
+2
+⊤
+2
+1
+⊤
+2
+1
+⊤
+1
+⊤
+U
+​ ∈
+k
+Rm×k
+k
+XX⊤
+σ
+​ >
+1
+2
+σ
+​ >
+2
+2
+⋯> σ
+​ >
+k
+2
+0
+W
+​ =
+1
+U
+​,
+W
+​ =
+k
+⊤
+2
+U
+​.
+k
+W
+​W
+​ =
+2
+1
+U
+​U
+​
+k
+k
+⊤
+XX⊤
+XX
+=
+⊤
+UΛU ,
+⊤
+U = [U
+​ U
+​]
+k
+−k
+Λ = diag(σ
+​, … , σ
+​, σ
+​, … , σ
+​)
+1
+2
+k
+2
+k+1
+2
+m
+2
+U
+​U
+​ =
+k
+⊤
+k
+I
+​k
+W
+​(W
+​W
+​ −
+2
+⊤
+2
+1
+I)XX
+=
+⊤
+U
+​(U
+​U
+​ −
+k
+⊤
+k
+k
+⊤
+I)XX .
+⊤
+(U
+​U
+​ −
+k
+k
+⊤
+I)XX
+=
+⊤
+(U
+​U
+​ −
+k
+k
+⊤
+I)UΛU
+=
+⊤
+U([I
+​ 0;  0 0] −
+k
+I)ΛU
+=
+⊤
+U diag
+U
+​
+k
+⊤
+U
+​U diag(0, … , 0, −σ
+​, … , −σ
+​)U .
+k
+⊤
+k+1
+2
+m
+2
+⊤
+U
+​U =
+k
+⊤
+[I
+​ 0]
+k
+k
+k
+(W
+​W
+​ −
+2
+1
+I)XX W
+​ =
+⊤
+1
+⊤
+(U
+​U
+​ −
+k
+k
+⊤
+I)XX U
+​.
+⊤
+k
+(U
+​U
+​ −
+k
+k
+⊤
+I)XX⊤
+U
+​k
+U diag(0, … , 0, −σ
+​, … , −σ
+​)U U
+​.
+k+1
+2
+m
+2
+⊤
+k
+
+
+--- Page 4 ---
+But 
+ (the first  columns of the identity). The diagonal matrix
+multiplied by this gives zero because for 
+, the -th row of the diagonal matrix is
+multiplied by the zero entries in 
+. Hence, condition (2) holds.
+Therefore, the principal components 
+ satisfy the first-order optimality conditions.
+U U
+​ =
+⊤
+k
+[I
+​;  0]
+k
+k
+i > k
+i
+U U
+​
+⊤
+k
+U
+​k
+​
+With W
+​ = U
+​ and W
+​ = U
+​,  both conditions (1) and (2) are satisfied.
+1
+k
+⊤
+2
+k
+4. Read a Blog Post: How to train your Resnet
+In previous homeworks, we saw how memory and compute 
+constraints on GPUs put limits on the architecture and the 
+hyperparameters (e.g., batch size) we can use to train our models. 
+To train better models, we could scale up by using multiple GPUs, 
+but most distributed training techniques scale sub-linearly and often 
+we simply don’t have as many GPU resources at our disposal. This 
+raises a natural question - how can we make model training more 
+efficient on a single GPU? The blog series How to train your Resnet 
+explores how to train ResNet models efficiently on a single GPU. It 
+covers a range of topics, including architecture, weight decay, batch 
+normalization, and hyperparameter tuning. In doing so, it provides 
+valuable insights into the training dynamics of neural networks and 
+offers lessons that can be applied in other settings. Read the blog 
+series and answer the questions below.
+(a) What is the baseline training time and accuracy the authors 
+started with? What was the final
+training time and accuracy achieved by the authors?
+(b) Comment on what you have learnt. (≈ 100 words)
+(c) Which approach taken by the authors interested you the most? 
+Why? (≈ 100 words)
+(the blog post link is here: 
+https://web.archive.org/web/20200208203128/https://myrtle.ai/how
+-to-train-your-resnet-1-baseline//)
+I was unable to locate the specific "How to Train Your ResNet" blog post you
+mentioned on the provided Wayback Machine link. The linked page appears to be
+Read 10 web pages
+
+
+--- Page 5 ---
+offline and was not captured in the search results I have access to.
+While I cannot directly answer your specific questions about the baseline and final
+accuracy/training time from that blog, I can provide general insights based on the
+broader discussion of training a ResNet effectively on a single GPU. This information
+might still be helpful for your assignment.
+💡 Core Techniques for Efficient Single-GPU Training
+From the available literature, the key to training models like ResNet efficiently on a
+single GPU is not a single trick, but a combination of architectural, optimization, and
+procedural refinements, often called a "training recipe." Below are some common,
+powerful techniques often used together:
+Technique Category
+Key Methods
+Purpose/Effect
+Architecture Tweaks
+ResNet-B, ResNet-C,
+ResNet-D (e.g., modifying
+stride and stem
+convolutions)
+Minor adjustments that
+improve accuracy without
+significantly increasing
+computational cost
+.
+Training Refinements
+Cosine Learning Rate
+Decay: Smoothly
+decreases LR
+.
+Label Smoothing:
+Regularizes the model to
+prevent
+overconfidence
+.
+Knowledge Distillation:
+Uses a larger "teacher"
+model to guide training
+.
+Stabilizes training,
+improves generalization,
+and often leads to higher
+final accuracy.
+Efficient & Large-Batch
+Training
+Linear Scaling + Warmup:
+Scales LR with batch size
+and uses a warmup
+phase
+.
+Mixed Precision (FP16):
+Uses lower precision
+Enables the use of larger
+batch sizes on a single
+GPU, improving
+throughput and training
+speed.
+8
+7
+8
+8
+8
+8
+
+
+--- Page 6 ---
+A well-known example is the "Bag of Tricks" paper
+, which applied many of these
+methods to ResNet-50, achieving notable improvements over the original baseline.
+Later work, such as "ResNet Strikes Back"
+, pushed accuracy even higher (e.g.,
+from ~75.3% to ~80.4% top-1 accuracy on ImageNet) using similar comprehensive
+recipes involving advanced loss functions, heavy augmentation, and extensive
+hyperparameter tuning.
+✍️ How to Approach Your Assignment
+Since the original blog post is unavailable, I suggest you take the following steps to
+complete your assignment:
+1. Find an Alternative Source: Search for the blog series using its exact title, "How
+to Train Your ResNet," on other platforms or AI research hubs. The authors (likely
+from 
+) may have published it elsewhere.
+2. Use General Principles: If you cannot find the source, you can frame your
+answers using the widely recognized principles of efficient training. For example:
+Technique Category
+Key Methods
+Purpose/Effect
+arithmetic to speed up
+training and reduce
+memory use
+.
+Zero Gamma Initialization:
+Initializes BatchNorm
+layers to make the initial
+network shallower and
+easier to train
+.
+Advanced Data
+Augmentation
+MixUp/CutMix: Creates
+synthetic training
+examples by blending
+images and labels
+.
+RandAugment:
+Automatically selects a
+sequence of augmentation
+transforms
+.
+Drastically increases data
+diversity, acting as a
+powerful regularizer to
+improve model
+robustness.
+8
+9
+8
+5
+8
+5
+8
+5
+Myrtle.ai
+
+
+--- Page 7 ---
+For part (a), you could state that common ResNet-50 baselines on ImageNet
+achieve around 75-76% top-1 accuracy, and that modern recipes (like those
+above) can push this to 79-81% or higher.
+For parts (b) and (c), discuss the importance of the holistic training recipe over
+just the model architecture, or explain why a specific technique like Cosine
+Annealing LR schedules
+ or Mixed Precision Training
+ is crucial for
+efficiency.
+I hope this general guidance helps you continue with your work. If you manage to
+find a live link to the specific blog, I would be glad to take another look and provide a
+more targeted analysis.
+10 web pages
+7
+8
+File
+Shared files can't be displayed
+I've saved the web page as a PDF and uploaded it here. Use it to 
+answer the questions.
+Hmm, the user has uploaded the PDF content of the first blog post in the "How to Train Your
+ResNet" series and wants me to answer the three questions based on this specific material. I
+need to focus strictly on what's in this PDF, not on general knowledge about ResNet training.
+The first question asks for baseline and final training times and accuracies. Looking through
+the PDF, I can see the authors started by reproducing the DAWNBench baseline of 341
+seconds to 94% accuracy, then made several optimizations to reach 297 seconds while
+maintaining the same 94% accuracy. I should quote these numbers directly from the text.
+For the second question about what I've learned, I need to summarize the key insights from
+this blog post in about 100 words. The main lessons are about computational efficiency
+bottlenecks beyond just FLOPs, practical debugging approaches, and data preprocessing
+optimizations. I should mention the theoretical 40-second limit they calculated and how their
+optimizations closed part of that gap.
+The third question asks which approach interested me most and why. I'm particularly struck
+by their data preprocessing optimizations - specifically how they identified that launching
+fresh processes for each iteration was costly for small datasets. This shows important
+Thought for 11 seconds
+
+
+--- Page 8 ---
+Based on the provided PDF of "How to Train Your ResNet 1: Baseline," here are the
+answers to your questions.
+📊 (a) Baseline vs. Final Training Time and Accuracy
+Baseline: The authors started by reproducing the state-of-the-art DAWNBench
+entry. This baseline trained a ResNet to 94% test accuracy on CIFAR-10 in 341
+seconds (or 356 seconds in their reproduction runs) on a single V100 GPU.
+Final Result (in this post): Through a series of optimizations focused on removing
+inefficiencies in the training code and data preprocessing pipeline, they reduced
+the training time to 297 seconds while maintaining the same 94% test accuracy.
+💡 (b) Key Learnings
+The blog post highlights that achieving peak hardware FLOP/s is not the sole
+determinant of training speed. The authors demonstrate that significant
+performance gains can be found by scrutinizing and optimizing the software
+framework and data pipeline. Key lessons include:
+1. Theoretical vs. Real Speed: A large gap (341s vs. a theoretical 40s) often exists
+between actual training time and 100% hardware utilization, revealing substantial
+room for optimization.
+2. System-Level Debugging: Profiling and thoughtful code changes—like removing
+redundant operations in the network and, more importantly, overhauling the data
+loader to minimize process overhead and random number generation calls—can
+yield major time savings without altering the core algorithm.
+⚙️ (c) Most Interesting Approach
+practical insight about matching system architecture to problem scale. I'll explain why this is
+interesting in about 100 words, emphasizing the system-level thinking rather than just
+algorithm tweaks.
+I'll structure the answer clearly with the requested sections, making sure to cite specific parts
+of the PDF where the numbers and methods are mentioned. The tone should be analytical
+but accessible, reflecting the blog's practical engineering focus.
+
+
+--- Page 9 ---
+The most interesting approach was the detailed optimization of the data
+preprocessing pipeline. The authors identified that PyTorch's dataloader (at the
+time) launched new processes for each epoch, creating significant overhead for a
+small dataset like CIFAR-10. By pre-computing static operations and reducing the
+number of processes, they saved 15 seconds. They further saved 11 seconds by
+optimizing random number generation and removing process overhead entirely. This
+highlights a crucial, often overlooked principle: for small-scale tasks, sophisticated,
+multi-process systems can introduce more overhead than they save. The solution
+of simplifying to a single thread was a brilliant example of matching system
+complexity to the problem's scale.
+I hope this detailed analysis is helpful for your assignment. If you have similar
+questions about other parts in the blog series, feel free to ask!
+File
+Shared files can't be displayed
+Here is a step-by-step solution to the machine translation problem.
+(a) Problem with Vertically Stacked Encoder-Decoder
+The proposed design of passing the encoder's hidden state 
+ directly as input to
+decoder timestep  creates a fundamental alignment mismatch.
+The Problem: The encoder and decoder operate on sequences of different
+lengths and at different paces. The encoder processes the entire source sentence
+(e.g., Spanish) and finishes its work before the decoder begins generating the
+target sentence (e.g., English). Feeding the encoder's state from an intermediate
+Spanish word into the decoder at the moment it's generating an English word
+makes no semantic sense—there is no guarantee of alignment between source
+word position  and target word position .
+(b) Decoder Inputs During Training (Teacher Forcing)
+h
+​t
+t
+t
+t
+Thought for 11 seconds
+
+
+--- Page 10 ---
+During training, we use teacher forcing. This means the decoder is trained to predict
+the next word (
+) given the previous ground truth word (
+) from the target
+sequence.
+The target sequence for "I see a dog" with special tokens is:
+<sos> I see a dog <eos>
+Therefore, the five tokens passed into the decoder ( 
+ to 
+ ) are:
+Why?: At step 1, the decoder receives <sos>  and is trained to output "I". At step 2, it
+receives the correct previous word "I" and is trained to output "see", and so on.
+(c) Decoder Inputs During Evaluation/Generation
+At evaluation time, we don't have the ground truth target sentence. The decoder
+must generate the translation autoregressively, meaning it uses its own previous
+output as the input for the next step.
+The process starts with the <sos>  token. Therefore, the five tokens passed into the
+decoder are:
+Why?:
+1. 
+ to start the sequence.
+2. The decoder generates "I" (its first, albeit incorrect, output in this example).
+3. "I" becomes 
+, and the decoder then generates "saw".
+4. "saw" becomes 
+, and the decoder generates "a".
+5. "a" becomes 
+, and the decoder generates "dog".
+6. (The <eos>  token would be generated next, ending the sequence).
+I hope this detailed breakdown helps clarify the training and inference mechanics of
+a basic encoder-decoder model. If you have further questions, feel free to ask.
+y
+​
+t+1
+y
+​t
+w
+​1
+w
+​5
+​
+w
+​ =< sos >,
+w
+​ = I,
+w
+​ = see,
+w
+​ = a,
+w
+​ = dog
+1
+2
+3
+4
+5
+​
+w
+​ =< sos >,
+w
+​ = I,
+w
+​ = saw,
+w
+​ = a,
+w
+​ = dog
+1
+2
+3
+4
+5
+w
+​ =<
+1
+sos >
+w
+​2
+w
+​3
+w
+​4
+
+
+--- Page 11 ---
+File
+Shared files can't be displayed
+(a) Implementing the Autoencoder in PyTorch
+(i) How many linear layers do you need?
+2
+The model consists of two distinct linear transformations: the encoder W1  (from
+dimension 
+ to ) and the decoder W2  (from  back to 
+). In PyTorch, these are
+represented as two separate nn.Linear  layers.
+(ii) What is the loss function that you will be using?
+nn.MSELoss
+The first term in objective (6) is the mean squared error (MSE) between the original
+data 
+ and its reconstruction 
+. PyTorch's nn.MSELoss  computes exactly
+this.
+(iii) Which of the following would you need to optimize (6) exactly as it is written?
+Weight Decay, SGD optimizer
+Weight Decay: The terms 
+ are equivalent to L2 regularization
+(weight decay) on both weight matrices. In an SGD optimizer, this is implemented
+via the weight_decay  parameter.
+SGD optimizer: The problem specifies "SGD-style training," making the SGD
+optimizer a necessary component.
+Dropout, Layer Norm, Batch Norm: These are not part of the objective in equation
+(6) and are not needed.
+(b) Inductive Bias from Weight Decay
+Yes, using a small nonzero  introduces an inductive bias towards finding a 
+matrix with approximately orthonormal columns.
+Reasoning:
+Consider the singular value decompositions (SVDs) of the optimal weight matrices.
+For the product 
+ to minimize the reconstruction error, its singular values
+m
+k
+k
+m
+X
+W
+​W
+​X
+2
+1
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​
+2 F
+2
+λ
+W
+​2
+M = W
+​W
+​
+2
+1
+Thought for 255 seconds
+
+
+--- Page 12 ---
+ should be close to 1 (approaching the top-  projection). The regularization terms
+, for a fixed 
+, are minimized when the singular values of 
+and 
+ are equal and balanced, i.e., 
+ (this follows from minimizing
+ subject to 
+).
+For small , the optimal 
+ (where 
+ are the data eigenvalues), which is
+close to 1. Consequently,
+. A matrix with all singular values equal
+s
+​i
+k
+λ(∥W
+​∥
+​ +
+1 F
+2
+∥W
+​∥
+​)
+2 F
+2
+M
+W
+​1
+W
+​2
+a
+​ =
+i
+b
+​ =
+i
+​s
+​i
+a
+​ +
+i
+2
+b
+​i
+2
+a
+​b
+​ =
+i i
+s
+​i
+λ
+s
+​ ≈
+i
+1 −λ/λ
+​i
+λi
+a ≈
+i
+b ≈
+i
+≈
+si
+1

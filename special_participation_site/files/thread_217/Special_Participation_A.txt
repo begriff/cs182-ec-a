@@ -1,0 +1,77 @@
+--- Page 1 ---
+These examples turn out to mislead the LLM to 
+give partially correct answers. When asked the 
+questions of specific optimizers, Gemini tends to 
+cover all of them deliberately.
+This part is for Gemini to give a well-organized
+ answer with clear structure and detailed 
+explanations.
+Each problem is provided in a text form. I tried 
+to simply use the textual content to lead the 
+LLM to give correct answers instead of feeding
+ it with the whole document or the screenshot 
+of the problem.
+However the last problem contains a image 
+which is necessary for LLM to understand.
+
+
+--- Page 2 ---
+The form of the formula turns out to be not a 
+problem. Gemini can understand and restate it
+ quite well.
+
+
+--- Page 3 ---
+Here's the partially correct answer. Actually GD
+ is enough, but Gemini seems want to cover 
+every example(in the next part it used the other 
+2 examples) given in the original prompt.
+Actually this happens in normal 
+communications too, when you want to help the
+ LLM form a better point of view to some 
+problems, it's not a good choice to give them 
+specific examples. Although I mean to help it 
+understand better with the provided examples, it
+ actually misleads it.
+
+
+--- Page 4 ---
+Same problem as above. 
+Gemini misuses the examples in
+ the prompt.
+Correct Gemini's behavior
+ for the remaining 
+problems.
+
+
+--- Page 6 ---
+Wrong analysis!
+The optimizers don't converge to the unique 
+value. The above reasoning process is right and
+ will actually lead Gemini to a correct answer. 
+However, it gives the wrong answer simply 
+based on the original one.
+But this optimizer mistake is not a 
+hallucination, it's a reasoning or mathematical 
+error.
+
+
+--- Page 7 ---
+Give hints for Gemini to fix its problem.
+But the formula's code seems to lead Gemini to 
+produce bad formulas which can not shown 
+correctly.(see the below result)
+
+
+--- Page 8 ---
+Still, Gemini is able to fix its 
+problem based on my hint.
+Have to provide it with the image.
+But the form in this problem is expressed 
+in a textual way, and Gemini reproduces it 
+quite well.
+
+
+--- Page 10 ---
+Comprehensive reasoning process and correct 
+answers in the right form.

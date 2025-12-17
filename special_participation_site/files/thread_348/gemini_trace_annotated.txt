@@ -1,0 +1,562 @@
+--- Page 1 ---
+This is the 'pre-prompt' produced by GPT-5.1 
+Thinking. It has been seen that beginning 
+your conversation with a ‘roleplay’ of a 
+character and describing what you want in 
+extreme detail usually leads to better, more 
+reliable responses
+
+
+--- Page 2 ---
+For these questions, I 
+simply copy + pasted 
+the text directly from 
+the homework since I 
+assume the LLM can 
+adapt and understand 
+the unformatted text
+What I often get mixed up 
+with is using row vs 
+column vector notation 
+when doing gradients. 
+However, Gemini gets the 
+notation correctly as 
+stated in the solution
+Writing out explicitly how 
+the problems should be 
+should be solved appears 
+to have a similar to ‘think 
+step by step, be careful’
+Treating c as a column 
+vector, it correctly 
+assembles the solution as 
+a row vector (i.e. c^T)
+
+
+--- Page 3 ---
+Scalar expansion -> 
+partial derivative seems to 
+be the common  theme 
+with with these written 
+solutions
+I never formally learned 
+how to do derivatives of 
+vectors, so seeing how we 
+need to treat scalars and 
+vectors for partial 
+derivatives is a key insight 
+for me
+Again a clear and correct 
+solution
+
+
+--- Page 4 ---
+The delta 
+appears to be a 
+very helpful tool 
+in solving these 
+problems. I 
+personally 
+would get lost 
+after trying to 
+do the ‘product 
+rule’ on x_j * 
+x_k, since the 
+indexing gets 
+confusing. 
+However, 
+Gemini seems 
+to clearly 
+identify the next 
+correct steps
+Here is just 
+simple algebra, 
+I’m sure this 
+solution is 
+straightforward 
+to most people
+
+
+--- Page 5 ---
+CUDA_VISIBLE_DEVICES=0 wand
+At times, it is 
+unclear 
+whether one 
+should use the 
+full SVD or 
+compact SVD, 
+but in this 
+question, 
+Gemini 
+correctly uses 
+the full SVD to 
+answer the 
+problem, 
+breaking it 
+down case by 
+case
+
+
+--- Page 6 ---
+Gemini seems 
+to understand 
+when we want 
+our values as 
+rows and 
+columns. Here 
+it takes the 
+transpose of 
+the row vector 
+to get the form 
+into a column 
+vector
+Labeling the U 
+* Sigma * V^T 
+as X seems to 
+be unclear in 
+this situation. I 
+am not sure 
+why it did that
+We can take 
+the inverse 
+since V is 
+orthonormal 
+since we use 
+the full SVD 
+form
+Gemini even 
+provides a 
+clear definition 
+of ‘Sigma - 
+pseudo’ 
+depending on 
+the dimensions 
+of sigma. This 
+is not 
+something I 
+would have 
+considered 
+when doing 
+this problem
+
+
+--- Page 7 ---
+Here is 
+standard EECS 
+127 Lagrangian 
+duality. 
+Quadratic 
+program 
+subject to 
+linear 
+constraint.
+Gemini 
+understands 
+that if X has full 
+row rank, X 
+X^T is 
+invertible, this 
+is correct
+Here I don’t see 
+the purpose of 
+labeling U Sigma 
+V^T as X, but I 
+suppose it might 
+clarify what it was 
+before 
+substitution, 
+though that might 
+make the left and 
+right labels 
+inconsistent
+
+
+--- Page 8 ---
+We arrive at the 
+exact same 
+answer, but 
+using the other 
+definition of 
+sigma-pseudo
+
+
+--- Page 9 ---
+This is 
+standard 
+optimization. 
+Gemini just 
+takes the 
+derivative and 
+solves for w*
+Everything is 
+correct here 
+symbolically
+
+
+--- Page 10 ---
+The trick in this 
+problem is 
+replacing I with 
+VIV^T, and 
+Gemini easily 
+identifies this to 
+factor out the 
+Vs on the left 
+and right, 
+isolating the 
+term in the 
+middle which 
+can be used to 
+identify the 
+singular values
+This case 
+analysis is 
+interesting yet 
+nonetheless 
+correct as it 
+derived the 
+interpretations 
+and limits on 
+Google Sheets
+We now 
+evaluate 
+Gemini’s skills 
+on probability. 
+This question 
+was hard for 
+me when I first 
+attempted it.
+Gemini is 
+correct in first 
+writing out the 
+probabilities in 
+terms of log 
+since we can 
+expand it out 
+via a sum
+
+
+--- Page 11 ---
+Personally, it 
+appears 
+unclear how we 
+got to this line, 
+but to someone 
+with a stronger 
+probability 
+background, I 
+assume this 
+would make 
+more sense. It 
+would be 
+clearer if 
+Gemini gave an 
+explanation of 
+this derivation. 
+The following 
+algebra 
+simplification is 
+correct - flip 
+the objective 
+into a minimum 
+and multiplying 
+out via a 
+common factor
+This is a 
+standard EECS 
+127 problem, 
+and Gemini 
+correctly 
+performs 
+algebraic 
+expansions to 
+demonstrate 
+equality in the 
+objectives
+It is nice how in 
+the block 
+matrix form of 
+the 
+expressions, 
+we are able to 
+identify the 
+dimensions of 
+the blocks via 
+Gemini’s 
+notation
+
+
+--- Page 12 ---
+Specifying the 
+dimensions of 
+the block 
+matrices 
+(again) allows a 
+clear 
+identification of 
+our solution 
+here: the first d 
+components of 
+n* = w*
+Gemini’s solution is 
+a lot more 
+algebraically 
+involved than the 
+staff solution, 
+deriving block 
+matrices instead of 
+utilizing previous 
+answers to simplify 
+the problem. 
+However, this 
+solution is still 
+insightful in 
+providing another 
+approach to solving 
+the problem
+I have never 
+heard of this 
+theorem, though 
+in EECS 127 I 
+only learned the 
+specific version 
+(that applies to 
+this problem). The 
+staff solutions do 
+not use this 
+identify but 
+instead show 
+equality via 
+simple matrix 
+multiplication. To 
+someone who 
+might be 
+unfamiliar with 
+matrix algebra, 
+this theorem 
+poses some 
+intimidation as it 
+might seem like 
+Gemini is ‘pulling 
+tricks’ out without 
+much 
+justification. 
+Nonetheless, the 
+problem is 
+correctly solved
+
+
+--- Page 13 ---
+Here is 
+standard 
+algebra, finding 
+the limit as 
+lambda 
+approaches 
+infinity -> 0
+Gemini also 
+provides 
+context for this 
+problem, 
+identifying 
+ridge 
+regularization 
+as ‘shrinkage’.
+Gemini breaks this up 
+into two cases: 
+overdetermined and 
+underdetermined. This 
+is probably more 
+specific than how I 
+would have solved this 
+problem, but Gemini’s 
+solution provides 
+valuable information
+I was actually not aware 
+that we have to keep track 
+of invertibility, so Gemini’s 
+solution is very helpful here. 
+However one thing that 
+becomes unclear from this 
+solution is how (X^T X)^-1 
+X^T simplifies to the 
+pseudo inverse as Gemini 
+came up with that without 
+derivation, though again it 
+might have assumed prior 
+knowledge from the 
+previous questions
+
+
+--- Page 14 ---
+This question 
+involves a 
+graph, but 
+obviously LLMs 
+are limited to 
+only textual 
+responses, so 
+it cannot draw 
+out the graphs 
+for the second 
+part of this 
+question
+Gemini 
+recognizes that 
+the phi function 
+is a ReLU
+Gemini 
+correctly uses 
+chain rule to 
+evaluate the 
+partial 
+derivative. 
+Additionally, 
+Gemini uses 
+the indicator 
+variable rather 
+than a 
+piecewise 
+function as 
+seen in the 
+staff solution. 
+This indicator 
+variable is a lot 
+simpler and 
+compact, 
+which I prefer
+
+
+--- Page 15 ---
+This update 
+rule is the 
+exact same as 
+that seen in the 
+staff solution, 
+using e’ and b’ 
+and w’
+Case 0 is 
+algebraically 
+correct, yet 
+Gemini cannot 
+draw the 
+graphs
+Here is Gemini’s 
+first mistake in this 
+problem set, the 
+elbow can move 
+left or right 
+depending on the 
+bias and step size. 
+However, Gemini 
+states that the 
+elbow shifts right.
+(ii) The slope gets shallower but the
+∂ℓ
+∂w = 1x > 0 =⇒ w > w − λx
+∂ℓ
+∂b = 1 =⇒ b > b − λ
+Thus, the elbow moves from −
+b
+w
+to −
+b−λ
+w−λx . The elbow moves right if and
+−
+b
+w
+<
+b − λ
+w − λx
+⇒
+λ(bx − w)
+w(w − λx)
+< 0
+⇒
+b −
+w
+x
+w
+The incorrect 
+assumption was 
+that w>bx even 
+though that is not 
+necessarily true
+Hello! I'm happy to help you rigorou
+Again Gemini was 
+incorrect for (iii), 
+since the elbow 
+moves right. 
+Gemini stated that 
+increasing 
+denominator and 
+decreasing 
+numerator causes 
+elbow to decrease, 
+but the expression 
+is actually negative 
+so it becomes less 
+negative -> moves 
+right
+
+
+--- Page 16 ---
+While Gemini 
+arrived at the 
+correct answer, 
+there is an 
+inconsistency in its 
+proof sketch. More 
+specifically, Gemini 
+ends up with a 
+condition w>bx, 
+but that is not 
+correct. The 
+correct 
+comparison should 
+be -w > 0 -> e’ < e 
+(assuming b’ > 0)
+This solution is correct, but 
+the notation in the staff 
+solution is x_i = - b_i / W(1)_i
+
+
+--- Page 17 ---
+This problem was very 
+complex, but Gemini was able 
+to correctly solve the problem 
+using deltas and indices over 
+the matrix expansion in the 
+staff solution
+
+
+--- Page 18 ---
+After guiding Gemini a little 
+bit, it proceeds step by step 
+and corrects 2 of its 3 
+incorrect problems
+
+
+--- Page 23 ---
+This case is still incorrect, it 
+makes nonsense assumptions 
+without verifying them
+
+
+--- Page 24 ---
+Prompting Gemini one more 
+time by being explicit with 
+steps, it is able to solve the 
+problem correctly
+
+
+--- Page 25 ---
+This is the correct solution
+
+
+--- Page 26 ---
+By having it test its own proof 
+with numerical examples, 
+Gemini is able to refactor its 
+approach and correctly guide 
+itself to the correct answer

@@ -1,0 +1,1300 @@
+--- Page 1 ---
+Homework 09 Question…
+PDF
+can you please solve problem 1 in this PDF?
+Please restate the problem exactly as written, and then
+solve the problem. Solve all parts of that specific
+question unless I specify a, b, c, etc
+Thought for 12s
+Problem 1 — Justifying Scaled-Dot Product Attention
+(quoted verbatim from the PDF)
+Homework 09 Question
+Solution
+(a) 
+Write the dot product as a sum of coordinate-wise products:
+Suppose
+ are two random vectors with
+, where 
+ and 
+.
+In other words, each component 
+ of  is drawn from a normal distribution with
+mean  and standard deviation , and the same is true for .
+(a) Define 
+ in terms of 
+ and .
+(b) Considering a practical case where 
+ and 
+, define
+ in terms of .
+(c) Continue to use the setting in part (b), where 
+ and 
+.
+Let  be the scaling factor on the dot product.
+Suppose we want 
+ and
+.
+What should  be in terms of ?
+q, k ∈Rd
+q, k ∼
+iid N(μ, σ I)
+2
+μ ∈Rd
+σ ∈R
+​
++
+q
+​i
+q
+μ
+σ
+k
+E[ q k ]
+T
+μ, σ,
+d
+μ = 0
+σ = 1
+Var(q k)
+T
+d
+μ = 0
+σ = 1
+s
+E[
+​] =
+s
+q k
+T
+0
+Var(
+​) =
+s
+q k
+T
+σ = 1
+s
+d
+E[ q k ]
+T
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+1/18
+When I prompted the LLM with Question 1, it restated the setting correctly: 
+q and k are iid Gaussian vectors in R^d with mean μ and variance σ². For 
+part (a), the LLM derived E[q^T k] by summing E[q_i k_i], concluding that 
+each expectation equals μ², giving E[q^T k] = ||μ||². This matches the 
+solution 
+. For part (b), with μ=0 and σ=1, the LLM computed Var(q^T k) by noting 
+that the variance of the product of two independent N(0,1) variables is 1, 
+giving Var(q^T k) = d. This is again identical to the official answer. For part 
+(c), the LLM reasoned that scaling by s makes Var((q^T k)/s) = d/s², leading 
+to s = √d. The official solution shows the same reasoning and the same value 
+of s, so the LLM's work for the entire problem was fully correct and aligned.
+
+
+--- Page 2 ---
+Because the vectors are drawn independently and every pair
+is independent
+with
+,
+Hence
+(b)
+for
+With zero mean, the expectation from part (a) is ; variance is therefore
+Because different coordinates are independent and
+, all cross-terms vanish:
+Thus
+(c)
+Scaling factor  so that the variance equals 1
+We need
+Solving for :
+q k =
+T
+q
+​ k
+i=1
+∑
+d
+i
+i
+(q
+​, k
+​)
+i
+i
+E[q
+​] =
+i
+E[k
+​] =
+i
+μ
+E[q
+​ k
+​] =
+i
+i
+E[q
+​] E[k
+​] =
+i
+i
+μ .
+2
+E[ q k ] = d μ
+T
+2
+Var(q k)
+T
+μ = 0, σ = 1
+0
+Var(q k) =
+T
+E[(q k) ].
+T
+2
+E[q
+​k
+​] =
+i
+i
+0
+E[(q k) ]
+T
+2 =
+​E[q
+​k
+​] =
+​E[q
+​] E[k
+​]
+i=1
+∑
+d
+i
+2
+i
+2
+i=1
+∑
+d
+i
+2
+i
+2
+=
+​(1)(1) = d.
+i=1
+∑
+d
+Var(q k) = d
+T
+s
+Var(
+​) =
+s
+q k
+T
+Var(q k) =
+s2
+1
+T
+=
+s2
+d
+1.
+s
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+2/18
+
+
+--- Page 3 ---
+Therefore
+This is exactly the
+ scaling used in the “scaled-dot-product attention” found in
+Transformers.
+s =
+​.d
+s =
+d
+d
+1
+now solve 2
+Thought for 20s
+Problem 2 — Argmax Attention
+(quoted verbatim from the PDF)
+2. Argmax Attention
+Recall from lecture that we can think about attention as being queryable softmax
+pooling. In this problem, we ask you to consider a hypothetical argmax version of
+attention where it returns exactly the value corresponding to the key that is most
+similar to the query, where similarity is measured using the traditional inner-product.
+(a) Perform argmax attention with the following keys and values:
+Keys:
+Corresponding Values:
+using the following query
+{
+​
+,
+​
+,
+​
+,
+​
+​}
+1
+2
+0
+0
+3
+4
+5
+0
+0
+0
+0
+1
+{
+​
+,
+​
+,
+​
+,
+​}
+2
+0
+1
+1
+4
+3
+0
+−1
+4
+1
+0
+−1
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+3/18
+
+
+--- Page 4 ---
+Solution
+(a)
+Compute the argmax-attention output
+1. Dot-product similarities between the query  and each key 
+:
+2. Identify the maximum score.
+(achieved by key 2).
+3. Return the value associated with that key.
+(b)
+Why argmax hurts end-to-end training
+The argmax operator is non-differentiable and piece-wise constant. During back-
+propagation its gradient is zero almost everywhere, so errors cannot flow through it to
+update the query, key, or value projection parameters. In other words, the model cannot
+What would be the output of the attention layer for this query?
+(b) Note that instead of using softmax we used argmax to generate outputs from the
+attention layer. How does this design choice affect our ability to usefully train models
+involving attention? (Hint: think about how the gradients flow through the network in
+the backward pass. Can we learn to improve our queries or keys during the training
+process?)
+2:file1†L29-L33
+2:file1†L34-L73
+2:file1†L77-L116
+2:file1†L120-L130
+2:file0†L3-L6
+q =
+​
+.
+1
+1
+2
+q
+k
+​i
+s1
+s2
+s3
+s4
+= q k
+​ = (1)(1) + (1)(2) + (2)(0) = 3,
+⊤
+1
+= q k
+​ = (1)(0) + (1)(3) + (2)(4) = 11,
+⊤
+2
+= q k
+​ = (1)(5) + (1)(0) + (2)(0) = 5,
+⊤
+3
+= q k
+​ = (1)(0) + (1)(0) + (2)(1) = 2.
+⊤
+4
+max
+​ s
+​ =
+i
+i
+11
+Output =
+​
+1
+4
+3
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+4/18
+
+
+--- Page 5 ---
+learn better similarity representations using standard gradient-based optimization.
+Softmax, by contrast, is smooth and provides useful gradients that let the network
+adjust queries and keys during training. Therefore replacing softmax with argmax
+effectively blocks learning unless special tricks (e.g.\ straight-through estimators or
+reinforcement-learning objectives) are introduced.
+Solve 3
+Thought for 42s
+Problem 3 — Ordinary Softmax Multi-Head Attention Implementation
+(quoted verbatim from the PDF)
+3. “Ordinary Softmax Multihead Attention Implementation
+(a) Complete the incomplete lines in the implementation of multi-head
+attention (with a final linear layer on top) by filling in (on the following page)
+what (a), (b), (c), etc. should be in the code below.”
+python
+class MultiHeadAttention(nn.Module):
+    def __init__(self, d_model, num_heads):
+super(MultiHeadAttention, self).__init__()
+self.d_model = d_model
+self.num_heads = num_heads
+self.d_k = d_model // num_heads
+self.W_q = nn.Linear(d_model, d_model)
+self.W_k = nn.Linear(d_model, ___(a)___)
+self.W_v = nn.Linear(___(b)___, d_model)
+self.W_o = nn.Linear(d_model, ___(c)___)
+    def scaled_dot_product_attention(self, Q, K, V, mask=None):
+attn_scores = torch.matmul(___(d)___, K.transpose(-2, -1))
+attn_scores = attn_scores / math.sqrt(self.d_k)
+if mask is not None:
+attn_scores = attn_scores.masked_fill(mask == 0, -1e9)
+attn_probs = torch.___(e)____(attn_scores, dim=-1)
+Copy code
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+5/18
+When I asked the LLM to perform argmax attention, it computed all four inner products between the 
+query [1,1,2] and the four keys and obtained 3, 11, 5, and 2, respectively—the same values as the sols. It 
+then applied argmax correctly and selected the second key, returning the value vector [1,4,3]. This is the 
+same output in the official solution. For part (b), the LLM stated that argmax attention does not allow 
+gradients to flow back through most parameters because argmax is insensitive to small changes, making 
+gradients zero for almost all keys and queries. The official solution explains the same reasoning: almost 
+no parameters update because the selected index does not change under infinitesimal perturbations. So the 
+LLM’s reasoning and conclusions were fully consistent with the official answer.
+
+
+--- Page 6 ---
+Solution
+(a) Filled-in blanks
+blank
+correct code / value
+reasoning
+(a)
+d_model
+keys have the same dimension as the
+model
+(b)
+d_model
+the value projection takes
+-wide
+vectors as input
+(c)
+d_model  (given)
+keeps the output in the residual path’s
+dimension
+Fill in the missing blanks…
+(b) Suppose that you want to update the initialization W_v  in this way:
+self.W_v = nn.Linear(in_features=d_model, out_features=2 * d_model)
+This increases the length of the value vectors that we get. What other minimal
+modifications should you apply to the code to make the code run? (Hint: remember
+that in transformers we typically use attention blocks with residual connections
+around them. What does that require?)
+output = torch.matmul(attn_probs, ____(f)___)
+return output
+    def split_heads(self, x):
+batch_size, seq_length, d_model = x.size()
+return x.view(batch_size, seq_length,
+_____(g)_____, self.d_k).transpose(1, 2)
+    def combine_heads(self, x):
+batch_size, _, seq_length, d_k = x.size()
+return x.transpose(1, 2).view(batch_size,
+seq_length, self.d_model)
+    def forward(self, Q, K, V, mask=None):
+Q = self.split_heads(self.W_q(Q))
+K = self.split_heads(self.W_k(K))
+V = self.split_heads(self.W_v(V))
+attn_output = self.scaled_dot_product_attention(Q, K, V, mas
+output = self._____(h)_____(self.combine_heads(attn_output))
+return output
+d
+​
+model
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+6/18
+
+
+--- Page 7 ---
+blank
+correct code / value
+reasoning
+(d)
+Q
+attention scores are
+(e)
+softmax
+convert scores to probabilities
+(f)
+V
+probabilities weight the value vectors
+(g)
+self.num_heads  (given)
+one slice per head when reshaping
+(h)
+W_o
+final linear layer projects concatenated
+heads back to
+With the blanks filled, the critical lines become:
+(b) Making the doubled-value variant work
+Changing
+means each head now emits twice as many value features. Two shape-dependent
+spots must be updated so the tensor sizes still line up with the residual connection:
+QK⊤
+dmodel
+python
+self.W_k = nn.Linear(d_model, d_model)
+# (a)
+self.W_v = nn.Linear(d_model, d_model)
+# (b)
+...
+attn_scores = torch.matmul(Q, K.transpose(-2, -1))   # (d)
+attn_probs  = torch.softmax(attn_scores, dim=-1)     # (e)
+output      = torch.matmul(attn_probs, V)
+# (f)
+...
+return x.view(batch_size, seq_length,
+self.num_heads, self.d_k).transpose(1, 2)   # (g)
+...
+output = self.W_o(self.combine_heads(attn_output))   # (h)
+Copy code
+python
+self.W_v = nn.Linear(d_model, 2 * d_model)
+Copy code
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+7/18
+
+
+--- Page 8 ---
+1. Output projection: it must now accept a vector of length
+and map it back
+to
+so that the block’s output can still be added to the residual input.
+2. Head recombination: after splitting and transposing, each head has 
+ features.
+Replace the hard-coded reshape in combine_heads  (or introduce self.d_v = 2 *
+d_model // num_heads ) so the concatenation produces 
+ features:
+These two minimal adjustments preserve dimensional consistency, allowing the forward
+pass (and the surrounding residual connection) to run without further changes.
+2dmodel
+dmodel
+python
+self.W_o = nn.Linear(2 * d_model, d_model)
+Copy code
+2 d
+​k
+2d
+​
+model
+python
+def combine_heads(self, x):
+    batch_size, _, seq_length, d_v = x.size()   # d_v = 2 * self.d_
+    return x.transpose(1, 2).reshape(batch_size,
+seq_length, 2 * self.d_model)
+Copy code
+solve 4
+Thought for 51s
+Problem 4 — Transformer Decoding Optimization
+(quoted verbatim from the PDF)
+4. Transformer Decoding Optimization
+Consider a multi-head attention (MHA) layer in a transformer decoder performing
+incremental decoding.
+The attention layer operates on a batch of b sequences, each with dimension d.
+For each of the h heads the query, key and value projection sizes are
+.
+The following pseudocode shows the one-step MHA used during decoding:
+q = k = v =
+​h
+d
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+8/18
+For the multi-head attention code in PyTorch, the LLM filled in all blanks: W_k takes input 
+d_model, W_v takes input d_model, W_o outputs d_model, the attention uses Q in the scores, 
+softmax in the probability conversion, V in the weighted sum, self.num_heads in the reshape, and 
+W_o in the final projection. Every one of these matches the official sols 
+ 
+. In part (b), the LLM originally proposed several dimension adjustments when W_v is expanded to 
+output 2d_model, but the official answer clarifies that the minimal change required is simply 
+updating W_o to take 2d_model as input. The LLM’s solution wasn’t incorrect, but it wasn’t 
+minimal. Once pointed out, though, it easily recognized the simpler adjustment.
+
+
+--- Page 9 ---
+Multi-Query Attention (MQA) uses a single shared key and value stream for all
+heads:
+python
+def multihead_attention_incremental(x, prev_K, prev_V, W_q, W_k, W_v
+    """Multi-head Self-Attention (one step)."""
+    q = torch.einsum("bd,hdq->bhq",  x, W_q)   # [b,h,q]
+    k = torch.einsum("bd,hdk->bhk",  x, W_k)   # [b,h,k]
+    v = torch.einsum("bd,hdv->bhv",  x, W_v)   # [b,h,v]
+    new_K = torch.cat([prev_K, k.unsqueeze(2)], dim=2)  # [b,h,n+1,k
+    new_V = torch.cat([prev_V, v.unsqueeze(2)], dim=2)  # [b,h,n+1,v
+    logits  = torch.einsum("bhq,bhnk->bhn", q, new_K)   # [b,h,n+1]
+    weights = torch.nn.functional.softmax(logits, dim=-1)
+o = torch.einsum("bhn,bhnv->bhv", weights, new_V)   # [b,h,v]
+y = torch.einsum("bhv,hvd->bd", o, W_o)             # [b,d]
+return y
+Copy code
+python
+def multiquery_attention_incremental(x, prev_K, prev_V, W_q, W_k, W_
+    """Multi-query Self-Attention (one step)"""
+    # shapes to fill in ↓↓↓
+    W_q: _____A____        W_k: _____B____
+    # projections ↓↓↓
+    q = _____C_____        k = _____D_____        v = _____E_____
+    new_K = torch.cat([prev_K, k.unsqueeze(1)], dim=1)  # [b,n+1,k]
+    new_V = torch.cat([prev_V, v.unsqueeze(1)], dim=1)  # [b,n+1,v]
+    logits  = torch.einsum("bhk,bnk->bhn", q, new_K)
+    weights = torch.nn.functional.softmax(logits, dim=-1)
+o = torch.einsum("bhn,bnv->bhv", weights, new_V)
+y = torch.einsum("bhv,hvd->bd", o, W_o)
+return y
+Copy code
+First, fill in the blanks above by picking one option for each item.
+(a) What is A? ○ [h, d, q] ○ [d, q] ○ [h, q]
+(b) What is B? ○ [h, d, k] ○ [d, k] ○ [h, k]
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+9/18
+
+
+--- Page 10 ---
+Solution
+item
+correct answer
+explanation
+A
+[h, d, q]
+we still learn a distinct query projection
+per head, so the weight tensor carries an h
+dimension.
+B
+[d, k]
+keys are shared across heads, so only one
+projection matrix of size d × k is required.
+C
+torch.einsum("bd,hdq-
+>bhq", x, W_q)
+multiplies every token (b,d) with the per-
+head weights (h,d,q), yielding queries of
+shape (b,h,q).
+D
+torch.einsum("bd,dk-
+>bk", x, W_k)
+produces a single key vector per token of
+shape (b,k), matching B.
+E
+torch.einsum("bd,dv-
+>bv", x, W_v)
+likewise yields a single value vector per
+token (b,v).
+(c) What is C? ○ torch.einsum("bd,dq->bhq", x,W_q)
+           ○ torch.einsum("bd,hdq->bhq", x,W_q)
+           ○ torch.einsum("bhd,dq->bhq", x,W_q)
+(d) What is D? ○ torch.einsum("bd,dk->bk", x,W_k)
+           ○ torch.einsum("bd,hdk->bhk", x,W_k)
+           ○ torch.einsum("bd,dk->bhk", x,W_k)
+(e) What is E? ○ torch.einsum("bd,hdv->bhv", x,W_v)
+           ○ torch.einsum("bd,dv->bhv", x,W_v)
+           ○ torch.einsum("bd,dv->bv", x,W_v)
+(f) For MHA, generating one token with a cache of n tokens costs
+.
+What is the computational complexity for MQA?
+(g) What is the memory-access complexity for MQA?
+O(bd +
+2
+bnd)
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+10/18
+
+
+--- Page 11 ---
+(f) Computational complexity for MQA
+Projections
+Queries:
+(same as MHA).
+Keys + Values: each
+because they are computed once, not per head.
+Output projection:
+.
+Dominant term:
+.
+Attention
+The dot-product and weighting still require
+.
+Hence
+(the same big-O as MHA, though constant factors are lower for keys/values).
+(g) Memory-access complexity for MQA
+Weight reads: 
+ (unchanged).
+Current-token tensors (x, q, k, v, o, y): 
+.
+Cached keys/values: now shared across heads →
+.
+Therefore
+Compared with MHA’s
+, the cache-related term is reduced by the
+factor 
+, giving MQA its memory-efficiency advantage while leaving arithmetic cost
+nearly unchanged.
+O(bd )
+2
+O(bd /h)
+2
+O(bd )
+2
+O(bd )
+2
+O(bhnk) = O(bnd)
+O(bd + bnd)
+2
+O(d )
+2
+O(bd)
+O(bnd/h)
+O(d + bd +
+)
+2
+h
+bnd
+O(d +
+2
+bd + bnd)
+1/h
+for g) just to confirm, the solution is O(d^22 + bd + bnk)
+is that the same as your answer with them just making
+k=b/h?
+Thought for 5s
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+11/18
+
+
+--- Page 12 ---
+Yes—we’re saying the same thing.
+In my notation the cache term was 
+.
+If you denote the per-head key (and value) width by
+, that term is
+.
+So your expression
+is exactly equivalent (ignoring your extra “2” on 
+, which looks like a typo).
+O(
+​)
+h
+bnd
+k ≡d/h
+O(bnk)
+O(d +
+2
+bd + bnk)
+d2
+now do question 6 (skip 5)
+Thought for 34s
+Problem 6 — Kernelized Linear Attention (Part I)
+(quoted verbatim from the PDF)
+6. “Kernelized Linear Attention (Part I)
+The softmax attention is widely adopted in transformers, however the
+ ( 
+ stands for the sequence length ) complexity in memory and
+computation often makes it less desirable for processing long document like a
+book or a passage, where the 
+ could be beyond thousands. There is a large
+body of the research studying how to resolve this .”
+Under this context, this question presents a formulation of attention via the lens of
+the kernel .
+We first review the building block in the transformer … (equations for soft-max
+attention are introduced) …
+A more general attention can be written as
+O(N )
+2
+N
+N
+Q = xW
+​,
+K =
+Q
+xW
+​,
+V =
+K
+xW
+​,
+A(x) =
+V
+V =
+′
+softmax(
+​)V
+​
+D
+QKT (2)
+V
+​ =
+i
+′
+​.
+sim(Q
+​, K
+​)
+∑j=1
+N
+i⋅
+j⋅
+sim(Q
+​, K
+​) V
+​
+∑j=1
+N
+i⋅
+j⋅
+j⋅
+(3)
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+12/18
+For the decoding-optimization question, the LLM read the pseudocode and selected dimensions 
+for A, B, C, D, and E. It chose A = [h, d, q] and C = torch.einsum("bd,hdq->bhq"), which match 
+the official sols 
+. It also identified B = [d, k], D = torch.einsum("bd,dk->bk"), and E = torch.einsum("bd,dv-
+>bv", which again align exactly with the official answers. On the computational and memory 
+complexity questions, the LLM independently derived forms equivalent to those in the official 
+solution—O(b d^2 + b n d) for compute and O(d^2 + b d + b n k) for memory. Even though it 
+used slightly different notation at first, after substituting k = d/h, both matched the official 
+expressions perfectly.
+
+
+--- Page 13 ---
+Solution
+(a) Conditions on sim for a finite denominator
+For every query
+the denominator
+must be strictly positive.
+A sufficient set of conditions is
+1. Non-negativity:
+for all
+.
+2. Positivity for at least one key: for every  there exists some  such that
+.
+These ensure the sum is never zero, so
+remains finite.
+(b) Quadratic-kernel attention
+(i) Similarity function
+A degree-2 homogeneous polynomial kernel is
+(a) Identify the conditions that need to be met by the sim function to ensure that the
+denominator in (3) never reaches zero .
+(b) The definition in (3) is generic.
+(i) For a quadratic kernel attention (degree 2 polynomial kernel), derive
+.
+(ii) Derive the corresponding feature map
+.
+(iii) Rewrite (3) using the feature map  .
+(c) For the soft-max attention in (4), derive the time complexity and space
+complexity (memory needed for forward + back-prop) in terms of
+.
+(d) Using the linearized polynomial kernel of degree 2 with 
+, rewrite
+attention as in equation (5) and derive its computational cost and memory
+requirement .
+sim(q, k)
+ϕ(⋅)
+ϕ
+N, D, M
+M ≈D
+q = Qi⋅
+sim(q, K
+​)
+∑j=1
+N
+j⋅
+sim(q, k) ≥0
+q, k
+q
+k
+sim(q, k) > 0
+Vi
+′
+​.
+sim(q, k) = (q k)
+T
+2
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+13/18
+For part (a) on kernelized attention, the LLM stated that the denominator must be strictly positive, 
+and one sufficient condition is that sim(q,k) is always non-negative and at least one term is 
+positive. The official solution on page 10 says that the denominator must never be zero and that 
+the similarity function must keep the same sign—particularly considering kernels that produce 
+positive values only. These two statements are aligned: the LLM’s sufficient condition is simply a 
+stricter version of the official’s requirement. So part (a) was correct. 
+
+
+--- Page 14 ---
+(ii) Feature map
+Because
+,
+define
+(using a
+scale on off-diagonal components if one prefers an orthonormal basis).
+Then
+(iii) Kernel-attention form
+Plugging
+into (3):
+(c) Complexity of soft-max attention
+Forward time
+Computing
+: 
+Soft-max over each row:
+Multiplying by 
+: 
+Total:
+.
+Memory (activations kept for back-prop)
+: 
+Attention logits / probs:
+Dominant term:
+.
+(d) Quadratic-kernel (degree 2) with linearization
+For the quadratic kernel 
+.
+Pre-computations (once per sequence)
+(q k) =
+T
+2
+​
+​ q
+​q
+​k
+​k
+​
+∑a ∑b
+a b
+a
+b
+ϕ(q) = { q
+​q
+​ ∣1 ≤
+a b
+a ≤b ≤D } ∈R
+,
+D(D+1)/2
+2
+sim(q, k) = ϕ(q) ϕ(k).
+T
+K(q, k) = ϕ(q) ϕ(k)
+T
+V
+​ =
+i
+′
+.
+ϕ(Q
+​)
+ϕ(K
+​)
+i⋅T ∑j=1
+N
+j⋅
+ϕ(Q
+​)
+ϕ(K
+​)V
+i⋅T ∑j=1
+N
+j⋅
+j⋅
+QKT O(N D)
+2
+O(N )
+2
+V O(N M)
+2
+O(N (D +
+2
+M))
+Q, K, V O(N(D + D + M))
+O(N )
+2
+O(N +
+2
+N(D + M))
+P =
+:
+dim ϕ = O(D )
+2
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+14/18
+
+
+--- Page 15 ---
+Cost: 
+.
+Per-query work (for all 
+ positions)
+Each  needs 
+ and 
+:
+ per token → 
+.
+Total time:
+Memory:
+Store : 
+.
+Store : 
+.
+Store 
+: 
+.
+Dominant term: 
+.
+Compared with soft-max, the quadratic kernel replaces the 
+ dependence with linear
+ but introduces a 
+ factor, which is advantageous when 
+.
+S =
+​ϕ(K
+​) V
+​ (shape P ×
+j=1
+∑
+N
+j
+T
+j
+M),
+z =
+​ϕ(K
+​) (shape P).
+j=1
+∑
+N
+j
+O(N P M) = O(ND M)
+2
+N
+i
+ϕ(Q
+​) S
+i T
+ϕ(Q
+​) z
+i T
+O(PM + P)
+O(ND M)
+2
+​
+(with M ≈
+O(ND M)
+2
+D, this is O(ND )).
+3
+S O(PM) = O(D )
+3
+z O(P) = O(D )
+2
+Q, K, V O(N(D + M))
+​
+O(D + ND)
+3
+N 2
+N
+D3
+N ≫D2
+You previously solved a homework problem involving
+kernelized attention, but I need you to reconsider two
+parts of your answer.
+Do not give me new solutions immediately. Instead, walk
+through your reasoning and correct any issues you find.
+Please do the following:
+Revisit part (b)(i):
+The problem statement refers to polynomial kernel
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+15/18
+
+
+--- Page 16 ---
+attention and then a quadratic kernel attention
+specifically.
+Make sure you are using the standard degree-2
+polynomial kernel used in machine learning textbooks—
+not just the homogeneous kernel.
+Reflect on whether you included the correct
+constant/bias term that appears in the usual polynomial
+kernel definition.
+Do your earlier assumptions match the standard
+definition?
+Revisit part (b)(ii):
+Once you settle the correct kernel form from step (1),
+derive the corresponding feature map.
+Ensure the dimensionality and structure match the known
+expansion of a degree-2 polynomial kernel.
+Carefully check whether your earlier feature map would
+expand to the kernel you are now using.
+After you reason through both steps, state what parts of
+your earlier answer would need modification
+Thought for 11s
+Re-examining my earlier answer for part (b)
+(1) Polynomial-kernel definition I should have used
+Standard reference (textbook) form
+For a degree-2 polynomial kernel the standard form is
+K(q, k) = (q k +
+T
+c) ,
+2
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+16/18
+
+
+--- Page 17 ---
+where the bias  is usually set to 1. Thus
+Expanding gives
+Where my previous answer differed
+Earlier I wrote the homogeneous version
+(i.e. I implicitly set
+).
+That omits the constant and linear-interaction terms and is not the canonical polynomial
+kernel.
+So part (b)(i) needs to be corrected to include the “
+” bias term.
+(2) Consequences for the feature map
+A feature map 
+must satisfy
+.
+With
+we need  to produce all three pieces:
+1. Constant term:
+2. Linear terms:
+3. Quadratic terms:
+A common explicit map is
+The first component “1” reproduces the constant 
+.
+The 
+ components ensure 
+ yields 
+.
+The quadratic block (diagonals un-scaled, cross-terms scaled by
+) reproduces
+.
+This map has dimensionality
+c
+K(q, k) = (q k + 1)
+T
+2
+(q k +
+T
+1) =
+2
+(q k) +
+T
+2
+2 q k +
+T
+1.
+(q k)
+T
+2
+c = 0
++1
+ϕ(⋅)
+K(q, k) = ϕ(q) ϕ(k)
+T
+K(q, k) = (q k +
+T
+1)2
+ϕ
+1
+2 q k
+T
+(q k)
+T
+2
+ϕ(q) = [ 1 ;
+q
+​, … ,
+q
+​ ; q
+​,
+q
+​q
+​, … ,
+​q
+​q
+​, q
+​] .
+2
+1
+2
+D
+1
+2
+2
+1 2
+2
+D−1 D
+D
+2
+T
++1
+​ q
+​
+2
+i
+ϕ(q) ϕ(k)
+T
+2q k
+T
+​2
+(q k)
+T
+2
+1 + D +
+=
+2
+D(D + 1)
+,
+2
+(D + 1)(D + 2)
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+17/18
+
+
+--- Page 18 ---
+whereas my earlier answer contained only the 
+ quadratic part.
+Therefore part (b)(ii) also needs revision: the constant and linear components (with the
+scaling) must be added, and the stated dimensionality updated accordingly.
+Summary of required modifications
+Section
+What must change
+Why
+(b)(i)
+Replace
+with
+.
+The standard degree-2
+polynomial kernel includes the
+bias term 
+.
+(b)(ii)
+Expand the feature map to include:
+• a constant “1” component,
+•
+linear components,
+• quadratic components
+(off-diagonals scaled
+by
+)
+These extra components are
+required so that
+reproduces the full
+expansion.
+​
+2
+D(D+1)
+2
+sim(q, k) = (q k)
+T
+2
+​
+(q k + 1)
+T
+2
++1
+​ q
+2
+i
+q
+​q
+i j
+2
+ϕ(q) ϕ(k)
+T
+(q k +
+T
+1)2
+12/3/25, 12:51 AM
+ChatGPT - Fa25
+https://chatgpt.com/g/g-p-68b62501b8808191b36a9bc2f7ac6da4-fa25/c/692fd060-5f2c-8327-abc6-172e477bbdd2
+18/18
+Its main mistake was in part (b). It had used the homogeneous 
+quadratic kernel K(q, k) = (q^T k)^2 instead of the standard polynomial 
+kernel K(q, k) = (q^T k + 1)^2. Because of that, its feature map only 
+included the quadratic terms like q_i q_j and completely missed the 
+constant term and the linear terms that come from expanding (q^T k + 
+1)^2 = (q^T k)^2 + 2(q^T k) + 1. To fix this without giving away the 
+answer, I wrote a prompt designed to get the LLM to question whether 
+it had used the correct polynomial kernel definition and to check 
+whether its feature map truly matched the kernel it claimed. 
+ 
+After I fed that corrective prompt to the LLM, it re-examined its 
+reasoning and identified the exact issues on its own. It recognized that 
+the kernel should have been (q^T k + 1)^2 and therefore the feature 
+map needed to include the constant 1, the linear components 2 q_i, 
+and the quadratic components q_i^2 and 2 q_i q_j. Once it 
+reconstructed the full feature map and stated the correct 
+dimensionality (D+1)(D+2)/2, I checked that everything matched the 
+official solution. Throughout the process, I relied on prompting 
+strategies that pushed the model toward self-correction—having it 
+revisit assumptions, compare definitions, and inspect whether its earlier 
+expressions could actually expand into the form required—without 
+ever directly supplying the missing terms.

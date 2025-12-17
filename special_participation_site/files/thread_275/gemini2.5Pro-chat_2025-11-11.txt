@@ -1,0 +1,2409 @@
+--- Page 1 ---
+Gemini Chat
+I want you to solve some problems on the basics of
+CNNs. First let's look at a problem involving the
+convolution and transpose convolution operation. Can
+you solve the attached problem?
+Here are the solutions to the problems from the image.
+(a) Convolutional vs. Fully Connected Layers
+Here are two primary reasons why convolutional layers are
+preferred over fully connected (FC) layers for image data:
+1. Parameter Sharing: A convolutional layer uses the same
+small filter (e.g., 3x3) across the entire image. This single
+filter, which might have only 9 weights, is responsible for
+detecting a specific feature (like a vertical edge)
+everywhere. In an FC layer, every input pixel would be
+connected to every output neuron with a unique weight.
+For a 1-megapixel image, this would result in an
+astronomical number of parameters, making the model
+
+
+--- Page 2 ---
+impossibly large to train and extremely prone to
+overfitting.
+2. Spatial Locality (Local Connectivity): Convolutional
+layers operate on small, local patches of the input. This is
+based on the observation that in images, pixels are highly
+correlated with their neighbors (they form local
+structures like textures, edges, and corners). FC layers,
+by contrast, connect every input pixel to every output
+neuron, losing this crucial spatial hierarchy and treating a
+pixel in the top-left corner as equally related to a pixel in
+the bottom-right as it is to its immediate neighbor.
+(b) Finding the 1D Filter
+Let the input signal be 
+ and the unknown
+filter of length 3 be 
+. The output is 
+.
+The convolution is performed with padding=0  and
+stride=1 , and the problem states not to flip the filter (this is
+standard cross-correlation). We can find the filter weights by
+setting up a system of linear equations based on the sliding
+dot product.
+1. First output element (
+): The filter 
+ is applied to the
+first patch 
+. 
+2. Second output element ( ): The filter slides one step to
+the patch 
+. 
+S = [1, 4, 0, −2, 3]
+F = [w
+​, w
+​, w
+​]
+1
+2
+3
+O =
+[−2, 2, 11]
+−2
+F
+[1, 4, 0] (1 ⋅w
+​) +
+1
+(4 ⋅w
+​) +
+2
+(0 ⋅w
+​) =
+3
+−2
+w
+​ +
+1
+4w
+​ =
+2
+−2
+2
+[4, 0, −2] (4 ⋅w
+​) +
+1
+(0 ⋅w
+​) +
+2
+(−2 ⋅
+w
+​) =
+3
+2
+4w
+​ −
+1
+2w
+​ =
+3
+2
+I think these are 
+good answers
+since it’s pointing 
+out the advantages 
+of weight sharing
+and the benefits of 
+respecting locality
+Have nicely 
+incorporated 
+information from the 
+intro on not flipping 
+the filter
+
+
+--- Page 3 ---
+3. Third output element (
+): The filter slides again to the
+patch 
+. 
+We are given the hint that 
+. Let's use this to solve the
+system:
+Using the first equation: 
+Using the second equation: 
+We can check our answer with the third equation: 
+. This matches.
+Therefore, the filter was 
+.
+(c) 2D Transpose Convolution Output
+Transpose convolution (with stride=1  and pad=0 ) works by
+scaling the filter by each element of the input and "painting" it
+onto an output canvas, summing the values where they
+overlap.
+Input:
+Filter:
+The output size for a 2x2 input, 2x2 filter, pad=0 , and
+stride=1  will be 3x3. We start with a 3x3 output matrix of
+zeros.
+1. Process 
+: Multiply the filter by 
+ and
+place it at the top-left of the output. 
+Output so far:
+11
+[0, −2, 3] (0 ⋅w ) +
+1
+(−2 ⋅w
+​) +
+2
+(3 ⋅w
+​) =
+3
+11
+−2w
+​ +
+2
+3w
+​ =
+3
+11
+w
+​ =
+1
+2
+(2) + 4w
+​ =
+2
+−2 4w
+​ =
+2
+−4
+w
+​ =
+2
+−1
+4(2) −2w
+​ =
+3
+2 8 −
+2w
+​ =
+3
+2 6 = 2w
+​3 w
+​ =
+3
+3
+−2(−1) +
+3(3) = 2 + 9 = 11
+[2, −1, 3]
+I =
+​
+​
+[−1
+3
+2
+1]
+F =
+​
+​
+[1
+0
+−1
+1 ]
+I(0, 0) = −1
+−1
+−1 ⋅F =
+​
+​
+[−1
+0
+1
+−1]
+​
+​
+​
+​
+​
+−1
+0
+0
+1
+−1
+0
+0
+0
+0
+Minor instruction 
+following blunder - It 
+incorporated the 
+hint when the hint 
+explicitly mentions 
+to only use it to 
+sanity check rather 
+than within the 
+calculation itself. 
+Nice concise 
+description of what 
+happens with 
+transpose 
+convolution
+
+
+--- Page 4 ---
+for part b) why did you use the hint when they've
+specifically mentioned to not to use the hint for the
+calculation process and to only use it as a sanity
+check?
+2. Process 
+: Multiply the filter by  and place it
+at position 
+ (stride 1 to the right). 
+Add to output:
+3. Process 
+: Multiply the filter by  and place it
+at position 
+ (stride 1 down). 
+Add
+to output:
+4. Process 
+: Multiply the filter by  and place it
+at position 
+. 
+Add to output:
+The final output of the transpose convolution is:
+I(0, 1) = 2
+2
+(0, 1)
+2 ⋅F =
+​
+​
+[2
+0
+−2
+2 ]
+​
+​
+​
+​
+​ +
+−1
+0
+0
+1
+−1
+0
+0
+0
+0
+​
+​
+​
+​
+​ =
+0
+0
+0
+2
+0
+0
+−2
+2
+0
+​
+​
+​
+​
+​
+−1
+0
+0
+3
+−1
+0
+−2
+2
+0
+I(1, 0) = 3
+3
+(1, 0)
+3 ⋅F =
+​
+​
+[3
+0
+−3
+3 ]
+​
+​
+​
+​
+​ +
+−1
+0
+0
+3
+−1
+0
+−2
+2
+0
+​
+​
+​
+​
+​ =
+0
+3
+0
+0
+−3
+3
+0
+0
+0
+​
+​
+​
+​
+​
+−1
+3
+0
+3
+−4
+3
+−2
+2
+0
+I(1, 1) = 1
+1
+(1, 1) 1 ⋅F =
+​
+​
+[1
+0
+−1
+1 ]
+​
+​
+​
+​
+​ +
+−1
+3
+0
+3
+−4
+3
+−2
+2
+0
+​
+​
+​
+​ =
+0
+0
+0
+0
+1
+0
+0
+−1
+1
+​
+​
+​
+​
+​
+−1
+3
+0
+3
+−3
+3
+−2
+1
+1
+​
+​
+​
+​
+​
+−1
+3
+0
+3
+−3
+3
+−2
+1
+1
+You are absolutely right! My apologies. I took a shortcut by
+using the hint to solve, which explicitly violates the problem's
+Clearly gets to the 
+right answer step-
+by-step.
+When I pointed out the 
+mistake it made by using 
+the given hint in the 
+calculation, it was able to 
+get to the answer by 
+solving the 3 equations 
+through substitution 
+without using the hint.
+
+
+--- Page 5 ---
+instructions.
+Thank you for catching that. Here is the correct way to solve
+part (b) by setting up and solving the system of equations
+without using the hint.
+(b) Finding the 1D Filter (Correct Method)
+Let the input signal be 
+ and the unknown
+filter be 
+. The output is 
+.
+The operation is a convolution with padding=0 , stride=1 ,
+and no filter flipping.
+We can set up a system of three linear equations:
+1. First output (
+):
+2. Second output ( ):
+(We can simplify this to 
+)
+3. Third output (
+):
+Now we solve this 3x3 system:
+From (1):
+From (2):
+From (3):
+S = [1, 4, 0, −2, 3]
+F = [w
+​, w
+​, w
+​]
+1
+2
+3
+O = [−2, 2, 11]
+−2 [1, 4, 0] ⋅[w
+​, w
+​, w
+​] =
+1
+2
+3
+−2 1w
+​ +
+1
+4w
+​ +
+2
+0w
+​ =
+3
+−2
+w
+​ +
+1
+4w
+​ =
+2
+−2
+2 [4, 0, −2] ⋅[w
+​, w
+​, w
+​] =
+1
+2
+3
+2
+4w
+​ +
+1
+0w
+​ −
+2
+2w
+​ =
+3
+2
+4w
+​ −
+1
+2w
+​ =
+3
+2
+2w
+​ −
+1
+w
+​ =
+3
+1
+11 [0, −2, 3] ⋅[w
+​, w
+​, w
+​] =
+1
+2
+3
+11
+0w
+​ −
+1
+2w
+​ +
+2
+3w
+​ =
+3
+11
+−2w
+​ +
+2
+3w
+​ =
+3
+11
+w
+​ =
+1
+−2 −4w
+​2
+w
+​ =
+3
+2w
+​ −
+1
+1
+2w
+​ =
+2
+3w
+​ −
+3
+11 ⟹w
+​ =
+2
+(3w
+​ −
+3
+11)/2
+
+
+--- Page 6 ---
+Let's move on to the next question which will be on
+normalization methods used in CNN-type
+architectures. Please solve the attached problem.
+Let's substitute (1) into (2) to relate 
+ and 
+: 
+Now substitute this new expression for 
+ into equation (3):
+Now we can back-substitute to find the other weights:
+Find 
+ (using 
+): 
+Find 
+ (using 
+): 
+So, the filter is 
+.
+Sanity Check: The hint says, "the first entry in the filter that
+you should find is 2." Our calculated 
+ is 2. This confirms our
+solution is correct.
+w
+​3
+w
+​2 w
+​ =
+3
+2(−2 −4w
+​) −
+2
+1 w
+​ =
+3
+−4 −8w
+​ −
+2
+1
+w
+​ =
+3
+−5 −8w
+​2
+w
+​3
+−2w
+​ +
+2
+3(−5 −8w
+​) =
+2
+11 −2w
+​ −
+2
+15 −24w
+​ =
+2
+11
+−26w
+​ =
+2
+26 w
+​ =
+2
+−1
+w
+​3
+w
+​ =
+3
+−5 −8w
+​2 w =
+3
+−5 −8(−1)
+w
+​ =
+3
+−5 + 8 w
+​ =
+3
+3
+w
+​1
+w
+​ =
+1
+−2 −4w
+​2 w =
+1
+−2 −4(−1)
+w
+​ =
+1
+−2 + 4 w
+​ =
+1
+2
+[2, −1, 3]
+w
+​1
+Here are the solutions to the problems on normalization.
+Also did the sanity 
+check to ensure it was 
+the right answer
+
+
+--- Page 7 ---
+(a) Normalization Methods
+Which one denotes the process of batch
+normalization?
+Reason: Batch Normalization (BN)
+computes a mean and variance for each channel
+independently. The statistics are calculated across the
+batch dimension (
+) and the spatial dimensions (
+). Diagram A shows normalization over the 
+, 
+,
+and 
+ dimensions for a single channel slice 
+.
+Which one denotes layer normalization?
+Reason:
+Layer Normalization (LN) computes a mean and variance
+for each item in the batch independently. The statistics
+are calculated across the channel dimension (
+) and
+the spatial dimensions (
+). Diagram B shows
+normalization over the 
+, 
+, and 
+ dimensions for a
+single batch slice 
+.
+(b) Simplified Batch Normalization
+We are given the following:
+Mean: 
+De-meaned: 
+Output: 
+We need to find the gradients 
+, 
+, and 
+ using the chain
+rule.
+📈 Gradient Calculations
+1. Gradient with respect to  (
+)
+The loss 
+ depends on all 
+, and each 
+ depends on .
+We find the local partial derivative: 
+​
+A
+N
+H, W
+N H
+W
+C
+​
+B
+C
+H, W
+C H
+W
+N
+μ =
+​
+​ x
+​
+n
+1 ∑j=1
+n
+j
+​ =
+x^i
+x
+​ −
+i
+μ
+y
+​ =
+i
+γ
+​ +
+x^i
+β
+​
+∂γ
+∂L
+​
+∂β
+∂L
+​
+∂x
+​i
+∂L
+β
+​
+∂β
+∂L
+L
+y
+​j
+y
+​j
+β
+​ =
+∂β
+∂L
+​
+​
+​
+∑j=1
+n
+∂y
+​j
+∂L
+∂β
+∂y
+​j
+​ =
+∂β
+∂y
+​j
+​(γ
+​ +
+∂β
+∂
+x^j
+β) = 1
+Correct answer with 
+correct reasoning
+For this question I 
+think step 1 and 2 of  
+deriving the gradient 
+w.r.t. gamma and beta 
+was unnecessary. I 
+would’ve first written 
+out the chain rule as in 
+step 3 (basically start 
+with step 3) and go 
+from there. Because 
+that would show what 
+gradients to we 
+actually need to 
+calculate to answer 
+the question.
+
+
+--- Page 8 ---
+Plugging this in:
+2. Gradient with respect to  (
+)
+Similarly, the loss 
+ depends on all 
+, and each 
+ depends
+on . 
+We find the local partial derivative: 
+Plugging this in:
+3. Gradient with respect to 
+ (
+)
+This is the most complex part, as 
+ affects the loss 
+ through
+all
+ (because 
+ affects , which in turn affects all 
+).
+We need to find 
+. First, let's find the partials of 
+ w.r.t 
+:
+The derivative of the mean  w.r.t 
+ is: 
+. The derivative 
+ is  if 
+ and 
+if 
+.
+Case 1 (
+):
+Case 2 (
+):
+Now we can find 
+:
+Case 1 (
+):
+Case 2 (
+):
+​ =
+∂β
+∂L
+​
+​
+j=1
+∑
+n
+∂y
+​j
+∂L
+γ
+​
+∂γ
+∂L
+L
+y
+​j
+y
+​j
+γ
+​ =
+∂γ
+∂L
+​
+​
+​
+∑j=1
+n
+∂y
+​j
+∂L
+∂γ
+∂y
+​j
+​ =
+∂γ
+∂y
+​j
+​(γ
+​ +
+∂γ
+∂
+x^j
+β) =
+​
+x^j
+​ =
+∂γ
+∂L
+​
+​
+​
+j=1
+∑
+n
+∂y
+​j
+∂L x^j
+x
+​i
+​
+∂x
+​i
+∂L
+x
+​i
+L
+y
+​j
+x
+​i
+μ
+​
+x^j
+​ =
+∂x
+​i
+∂L
+​
+​
+​
+∑j=1
+n
+∂y
+​j
+∂L
+∂x
+​i
+∂y
+​j
+​
+∂x
+​i
+∂y
+​j
+​
+x^j
+x
+​i
+​ =
+∂x
+​i
+∂
+​
+x^j
+​(x
+​ −
+∂x
+​i
+∂
+j
+μ) =
+​ −
+∂x
+​i
+∂x
+​j
+​
+∂x
+​i
+∂μ
+μ
+xi
+​ =
+∂x
+​i
+∂μ
+​
+​
+​ x
+​ =
+∂x
+​i
+∂( n
+1 ∑k=1
+n
+k)
+​n
+1
+​
+∂x
+​i
+∂x
+​j
+1
+j = i
+0
+j =i
+j = i
+​ =
+∂x
+​i
+∂
+​
+x^i
+​ −
+∂x
+​i
+∂x
+​i
+​ =
+∂x
+​i
+∂μ
+1 −
+​n
+1
+j =i
+​ =
+∂x
+​i
+∂
+​
+x^j
+​ −
+∂x
+​i
+∂x
+​j
+​ =
+∂x
+​i
+∂μ
+0 −
+​ =
+n
+1
+−
+​n
+1
+​ =
+∂x
+​i
+∂y
+​j
+​(γ
+​ +
+∂x
+​i
+∂
+x^j
+β) = γ
+​
+∂x
+​i
+∂
+​
+x^j
+j = i
+​ =
+∂x
+​i
+∂y
+​i
+γ(1 −
+​)
+n
+1
+j =i
+​ =
+∂x
+​i
+∂y
+​j
+γ(−)
+n
+1
+
+
+--- Page 9 ---
+Finally, we assemble the full gradient by splitting the sum:
+Factoring out : 
+The term in the parenthesis is just the sum over all :
+🔢 Numerical Case: 
+What is 
+ when 
+?
+If 
+, the input batch is just 
+.
+1. The mean is: 
+2. The de-meaned input is: 
+3. The output is: 
+The output 
+ is always equal to , regardless of the value of
+. The input 
+ has no influence on the output 
+. Therefore,
+the gradient of the loss 
+ (which depends on 
+) with respect
+to 
+ must be zero.
+Using our derived formula also gives this: 
+The answer is 0.
+♾️ Limiting Case: 
+What happens when 
+?
+​ =
+∂x
+​i
+∂L
+​
+​ +
+∂y
+​i
+∂L
+∂x
+​i
+∂y
+​i
+​
+​
+​
+∑j=i
+
+∂y
+​j
+∂L
+∂x
+​i
+∂y
+​j
+​ =
+∂x
+​i
+∂L
+​ γ(1 −
+​) +
+∂y
+​i
+∂L (
+n
+1 )
+​ γ(−
+​)
+∑j=i
+
+∂y
+​j
+∂L (
+n
+1 )
+γ
+​ =
+∂x
+​i
+∂L
+γ
+​ −
+​
+​ −
+​
+​
+​
+[ ∂y
+​i
+∂L
+n
+1
+∂y
+​i
+∂L
+n
+1 ∑j=i
+
+∂y
+​j
+∂L ]
+​ =
+∂x
+​i
+∂L
+γ
+​ −
+​
+​ +
+​
+​
+[ ∂y
+​i
+∂L
+n
+1 ( ∂y
+​i
+∂L
+∑j=i
+
+∂y
+​j
+∂L )]
+j
+​ =
+∂x
+​i
+∂L
+γ
+​ −
+​
+​
+(∂y
+​i
+∂L
+n
+1
+j=1
+∑
+n
+∂y
+​j
+∂L )
+n = 1
+​
+∂x
+​1
+∂L
+n = 1
+n = 1
+[x
+​]
+1
+μ =
+​x
+​ =
+1
+1
+1
+x1
+​ =
+x^1
+x
+​ −
+1
+μ = x
+​ −
+1
+x
+​ =
+1
+0
+y
+​ =
+1
+γ
+​ +
+x^1
+β = γ(0) + β = β
+y
+​1
+β
+x
+​1
+x
+​1
+y
+​1
+L
+y
+​1
+x
+​1
+​ =
+∂x
+​1
+∂L
+​
+​ =
+∂y
+​1
+∂L
+∂x
+​1
+∂y
+​1
+​ ⋅
+∂y
+​1
+∂L
+0 = 0
+​ =
+∂x
+​1
+∂L
+γ
+​ −
+​
+​
+​
+=
+( ∂y
+​1
+∂L
+1
+1 ∑j=1
+1
+∂y
+​j
+∂L )
+γ
+​ −
+​
+=
+( ∂y
+​1
+∂L
+∂y
+​1
+∂L )
+0
+n →∞
+n →∞
+Lengthier answer by 
+checking the case 
+from the definitions 
+and then also getting 
+to the answer from the 
+derived formula 
+above.
+
+
+--- Page 10 ---
+Let's analyze the influence of 
+ on the components of the
+gradient. 
+The key is to see what happens to the local partials as 
+:
+Path from 
+ to 
+:
+. As 
+, 
+, so 
+.
+Path from 
+ to 
+ (where 
+):
+. As
+, 
+, so 
+.
+Intuition: As the batch size becomes infinitely large, a single
+input 
+ has a negligible (zero) effect on the batch mean .
+The mean  effectively becomes a constant with respect to
+any single 
+.
+Because the "crosstalk" paths from 
+ to all other 
+ (where
+) vanish, the only gradient path that remains is the direct
+one from 
+ to 
+.
+Therefore, the sum simplifies: 
+This leaves:
+The gradient simply becomes the local gradient from its
+corresponding output, scaled by .
+x
+​i
+​ =
+∂x
+​i
+∂L
+​
+​
+​
+∑j=1
+n
+∂y
+​j
+∂L
+∂x
+​i
+∂y
+​j
+n →
+∞
+x
+​i
+y
+​i
+​ =
+∂x
+​i
+∂y
+​i
+γ(1 −
+​)
+n
+1
+n →∞
+​ →
+n
+1
+0
+​ →
+∂x
+​i
+∂y
+​i
+γ
+x
+​i
+y
+​j
+j =i
+​ =
+∂xi
+∂y
+​j
+γ(−
+​)
+n
+1
+n →∞
+​ →
+n
+1
+0
+​ →
+∂x
+​i
+∂y
+​j
+0
+x
+​i
+μ
+μ
+x
+​i
+x
+​i
+y
+​j
+j =i
+x
+​i
+y
+​i
+lim
+​
+​ =
+n→∞∂x
+​i
+∂L
+​ ⋅
+∂y
+​i
+∂L
+(lim
+​
+​) +
+n→∞∂x
+​i
+∂y
+​i
+​
+​ ⋅
+∑j=i
+
+∂y
+​j
+∂L
+(lim
+​
+​)
+n→∞∂x
+​i
+∂y
+​j lim
+​
+​ =
+n→∞∂x
+​i
+∂L
+​ ⋅
+∂y
+​i
+∂L
+(γ) +
+​
+​ ⋅
+∑j=i
+
+∂y
+​j
+∂L
+(0)
+​
+​ =
+n→∞
+lim ∂x
+​i
+∂L
+γ
+​
+∂y
+​i
+∂L
+γ
+Again takes the longer 
+route to the answer by 
+taking limits at the 
+definition of the partial 
+derivative instead of at 
+the derived formula 
+which would simply 
+show that the 
+summation term goes 
+to 0.
+Correct observation of 
+isolating gradients 
+through each sample
+
+
+--- Page 11 ---
+Next let's look at questions on Depthwise Separable
+Convolutions. Solve questions (a) and (b).
+Here are the solutions for calculating the learnable parameters
+in both convolutional layers.
+(We are ignoring biases as instructed.)
+(a) Traditional Convolution Layer
+In a traditional convolutional layer, each output channel is
+generated by a filter that has the same depth as the number
+of input channels.
+Input Channels (
+): 3
+Output Channels (
+): 4
+Kernel Size (
+): 3x3
+Each of the 4 output channels requires a unique filter. Each of
+these filters must have a size of 
+ (to process the 3
+input channels).
+The calculation is: 
+The traditional convolution layer has 108 learnable
+parameters.
+(b) Depthwise Separable Convolution Layer
+This operation is a two-step process. We calculate the
+parameters for each step and add them together.
+C
+​
+in
+C
+​
+out
+K
+​ ×
+h
+K
+​
+w
+3 × 3 × 3
+(Kernel Height × Kernel Width ×
+Input Channels) × Output Channels (3 × 3 × 3) ×
+4 = 27 × 4 = 108
+Overall correct answers 
+and reasoning for this 
+question.
+
+
+--- Page 12 ---
+1. Depthwise Convolution: This step applies a single 2D filter
+to each input channel independently.
+Input Channels: 3
+Kernel Size: 3x3 (inferred from the diagram and standard
+practice)
+Number of Filters: 3 (one 
+ filter for each of the 3
+input channels)
+Calculation: 
+2. Pointwise Convolution: This step is a 
+ convolution
+that combines the 3-channel output from the depthwise step
+into the desired number of final output channels.
+Input Channels (from step 1): 3
+Output Channels (desired): 4
+Kernel Size: 1x1
+Calculation: 
+Total Parameters:
+The depthwise separable convolution layer has a total of 39
+learnable parameters.
+(This comparison highlights the computational efficiency of
+depthwise separable convolutions: 
+ parameters vs. 
+ for
+a standard convolution.)
+3 × 3
+(Kernel Height × Kernel Width) ×
+Input Channels (3 × 3) × 3 = 27 parameters
+1 × 1
+(Kernel Height × Kernel Width ×
+Input Channels) × Output Channels (1 × 1 × 3) ×
+4 = 12 parameters
+Total = Parameters (Depthwise) +
+Parameters (Pointwise) Total = 27 + 12 = 39
+39
+108
+
+
+--- Page 13 ---
+Finally let's look at Dropout. Please solve this 4-
+part question.
+Here are the solutions to the 4-part problem on regularization
+and dropout.
+(a) Show the manipulation of Equation (2)
+Our goal is to show that 
+becomes Equation (5).
+1. Expand the L2 Norm: We first expand the squared norm
+inside the expectation: 
+2. Apply Linearity of Expectation: We take the
+expectation of each term. Let 
+. 
+3. Evaluate Each Term:
+Term 1:
+ is constant, so 
+.
+Term 2 (Linear Term):
+.
+Since 
+, 
+. 
+. So, 
+.
+The linear term becomes: 
+.
+Term 3 (Quadratic Term):
+. Let's find the 
+-th entry of the
+matrix 
+. 
+L(
+) =
+w~
+E
+​
+y −(R ⊙X)
+​
+R [∥
+w~∥2
+2]
+y −(R ⊙X)
+​ =
+∥
+w~∥2
+2
+y −(R ⊙X)
+y −(R ⊙X)
+(
+w~)T (
+w~) = y y −
+T
+2y (R ⊙
+T
+X)
++
+w~
+(R ⊙
+w~ T
+X) (R ⊙
+T
+X)w~
+Z = (R ⊙X) L(
+) =
+w~
+E[y y] −
+T
+2E[y Z
+] +
+T
+w~
+E[
+Z Z
+]
+w~ T
+T
+w~
+y
+E[y y] =
+T
+y y
+T
+E[y Z
+] =
+T
+w~
+y E[Z]
+T
+w~
+R
+​ ∼
+ij
+Bernoulli(p) E[R
+​] =
+ij
+p E[Z]
+​ =
+ij
+E[R X
+​] =
+ij
+ij
+X
+​E[R
+​] =
+ij
+ij
+pX
+​
+ij
+E[Z] = pX
+y (pX)
+T
+w~
+E[
+Z Z
+] =
+w~ T
+T
+w~
+E[Z Z]
+w~ T
+T
+w~
+(j, k)
+A = E[Z Z]
+T
+(Z Z)
+​ =
+T
+jk
+​(Z)
+​(Z)
+​ =
+∑i=1
+n
+ij
+ik
+​(R
+​X
+​)(R
+​X
+​) =
+∑i=1
+n
+ij
+ij
+ik
+ik
+​ R
+​R
+​X
+​X
+​
+∑i=1
+n
+ij
+ik
+ij
+ik A
+​ =
+jk
+E[(Z Z)
+​] =
+T
+jk
+​ X
+​X
+​E[R
+​R
+​]
+∑i=1
+n
+ij
+ik
+ij
+ik
+
+
+--- Page 14 ---
+Case 1: 
+ (Diagonal):
+ and 
+ are the
+same variable. 
+ (since 
+). 
+ (where
+ is the -th column of 
+).
+Case 2: 
+ (Off-Diagonal):
+ and 
+ are
+independent. 
+. 
+.
+We can write 
+ as the sum of 
+ and a
+diagonal correction matrix: 
+, where 
+ is the diagonal
+matrix from the problem with 
+. The
+quadratic term is: 
+.
+4. Re-assemble the Objective:
+The terms in the parenthesis are the expansion of 
+. The last term is 
+.
+This completes the proof.
+(b) How to transform 
+We want to relate the solution 
+ from (5) to the solution 
+from (3).
+Eq 5 (Dropout):
+Eq 3 (Tikhonov):
+j = k
+R
+​
+ij
+R
+​
+ik
+E[R
+​R
+​] =
+ij
+ij
+E[R
+​] =
+ij
+2
+E[R ] =
+ij
+p
+1 =
+2
+1, 0 =
+2
+0 A
+=
+jj
+​ X
+​p =
+∑i=1
+n
+ij
+2
+p
+​ X
+​ =
+∑i=1
+n
+ij
+2
+p∥x
+​∥
+​
+j
+2
+2
+x
+​j
+j
+X
+j =k
+R
+​
+ij
+R
+​
+ik
+E[R
+​R
+​] =
+ij
+ik
+E[R
+​]E[R
+​] =
+ij
+ik
+p ⋅
+p = p2 A
+​ =
+jk
+​ X
+​X
+​p =
+∑i=1
+n
+ij
+ik
+2
+p (X X)
+​
+2
+T
+jk
+A
+p X X
+2
+T
+A = p X X +
+2
+T
+diag((p −p )∥x
+​∥
+​, ..., (p −
+2
+1 2
+2
+p )∥x
+​∥
+​)
+2
+d 2
+2 A =
+p X X +
+2
+T
+p(1 −p)Γ~2
+Γ~
+​ =
+Γ~
+jj
+∥x
+​∥
+​
+j
+2
+(p X X +
+w~ T
+2
+T
+p(1 −p)
+)
+Γ~2 w~
+L(
+) =
+w~
+y y −
+T
+2py X
++
+T
+w~
+(p X X)
++
+w~ T
+2
+T
+w~
+(p(1 −
+w~ T
+p)
+)
+Γ~2 w~
+L(
+) =
+w~
+(y y −
+T
+2y (pX)
++
+T
+w~
+(pX
+) (pX
+)) +
+w~ T
+w~
+p(1 −p)w~ TΓ~2w~
+∥y −
+pX
+∥
+​
+w~
+2
+2
+p(1 −p)∥
+∥
+​
+Γ~w~
+2
+2
+L(
+) =
+w~
+∥y −pX
+∥
+​ +
+w~
+2
+2
+p(1 −p)∥
+∥
+​
+Γ~w~
+2
+2
+w~
+w~
+w
+L(
+) =
+w~
+∥y −X(p
+)∥
+​ +
+w~
+2
+2
+p(1 −
+p)∥
+∥
+​
+Γ~w~
+2
+2
+L(w) = ∥y −Xw∥
+​ +
+2
+2
+∥Γw∥
+​2
+2
+Clear one-shot derivation 
+of the formula
+
+
+--- Page 15 ---
+By comparing the data-fitting term 
+ with 
+, we can see a direct correspondence. If we make
+the substitution 
+, the data terms become identical.
+This implies that the weight vector 
+ learned using the
+dropout objective (5) is a scaled version of the weight vector
+ from the traditional regularized problem (3).
+To get the solution 
+ for (3) from the solution 
+ we learned
+from (5), we must apply the transformation: 
+This is the standard inference-time scaling for dropout: the
+weights learned during training are multiplied by the keep
+probability  when used for inference.
+(c) Change of variables
+We want to transform 
+ into
+the standard ridge form 
+.
+Let's define a new variable 
+ to simplify the regularization
+term. The most direct substitution is: 
+Since 
+ is invertible, we can express 
+ in terms of 
+: 
+Now, substitute this back into Equation (3):
+Data Term:
+Reg Term:
+Combining these gives the new objective: 
+This perfectly matches the form of Equation (6), where 
+and the changed data matrix 
+ is:
+∥y −Xw∥
+​2
+2
+∥y −
+X(p
+)∥
+​
+w~
+2
+2
+w = pw~
+w~
+w
+w
+w~
+w = p ⋅w~
+p
+L(w) = ∥y −Xw∥
+​ +
+2
+2
+∥Γw∥
+​2
+2
+L(
+) =
+w~
+∥y −
+∥
+​ +
+X~w~
+2
+2
+λ∥
+∥
+​
+w~
+2
+2
+w~
+=
+w~
+Γw
+Γ
+w
+w~ w =
+Γ−1w~
+∥y −Xw∥
+​ =
+2
+2
+∥y −X(Γ
+)∥
+​ =
+−1w~
+2
+2
+∥y −(XΓ
+)
+∥
+​
+−1 w~
+2
+2
+∥Γw∥
+​ =
+2
+2
+∥
+∥
+​
+w~
+2
+2
+L(
+) =
+w~
+∥y −
+(XΓ
+)
+∥
+​ +
+−1 w~
+2
+2
+1 ⋅∥
+∥
+​
+w~
+2
+2
+λ = 1
+X~
+Correct answer. 
+However, it seems like 
+Gemini didn’t look at 
+the second term at 
+all…so there’s no 
+mention of sqrt((1-p)/p) 
+being absorbed into 
+the gamma matrix.
+Correct answer for 
+lambda = 1
+
+
+--- Page 16 ---
+(d) Column norms and Batch Normalization
+We are given that 
+ is a diagonal matrix where 
+ is
+proportional to the norm of the -th column of 
+, 
+. Let
+ for some constant .
+Since 
+ is diagonal, its inverse 
+ is also diagonal, with
+entries: 
+From part (c), the new data matrix is 
+. Let's find
+its -th column, 
+. When we right-multiply 
+ by a diagonal
+matrix, we scale each column of 
+: 
+Now let's find the norm of this new column: 
+Since 
+ is a unit vector, its norm is 1. 
+Conclusion: All columns of the effective training matrix 
+have the same constant norm (
+).
+Speculation and Relationship to Batch Normalization: The
+Tikhonov regularization in (3), which we showed is equivalent
+to dropout in (2), acts as an implicit feature normalizer. By
+changing variables, we see the problem is equivalent to
+standard L2 (ridge) regression on a new data matrix 
+ where
+every feature column has been normalized (divided by its
+norm).
+This is conceptually similar to Batch Normalization (BN). A
+key function of BN is to standardize the activations (or inputs)
+by subtracting the mean and dividing by the standard
+deviation. This ensures that all features are on a similar scale,
+=
+X~
+XΓ−1
+Γ
+Γ
+​
+jj
+j
+X ∥x
+​∥
+​
+j
+2
+Γ
+​ =
+jj
+c∥x
+​∥
+​
+j
+2
+c
+Γ
+Γ−1
+(Γ
+)
+​ =
+−1 jj
+​ =
+Γ
+​
+jj
+1
+​
+c∥x
+​∥
+​
+j
+2
+1
+=
+X~
+XΓ−1
+j
+​
+x~j
+X
+X
+​ =
+x~j
+x
+​ ⋅
+j
+(Γ
+)
+​ =
+−1 jj
+x
+​ ⋅
+j
+​ =
+c∥x
+​∥
+​
+j
+2
+1
+​
+​
+c
+1 ( ∥x
+​∥
+​
+j
+2
+x
+​j )
+∥
+​∥
+​ =
+x~j
+2
+​
+​
+​
+​
+​ =
+c
+1 ( ∥x
+​∥
+​
+j
+2
+x
+​j )
+2
+​
+​
+​
+​
+​
+∣c∣
+1
+∥x
+​∥
+​
+j
+2
+x
+​j
+2
+​
+∥x
+​∥
+​
+j
+2
+x
+​j
+∥
+​∥
+​ =
+x~j
+2
+​
+∣c∣
+1
+X~
+1/∣c∣
+X~
+
+
+--- Page 17 ---
+which stabilizes training and prevents the model from
+becoming overly reliant on features that just happen to have a
+large numerical magnitude.
+In this problem, the dropout-derived regularization (5)
+achieves a similar effect: it penalizes weights for features with
+larger norms more heavily (via the 
+ term). This entire process
+is equivalent to performing standard ridge regression on
+features that have already been normalized. Therefore, both
+dropout (in this formulation) and batch normalization serve to
+regularize the model by making it robust to the scaling of the
+input features.
+Γ~
+Makes the right 
+argument about the 
+“rescaling of features” 
+behavior similar to 
+what batch norm does.

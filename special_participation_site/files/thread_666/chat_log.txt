@@ -1,0 +1,105 @@
+--- Page 1 ---
+Prompt for preparation.
+
+
+--- Page 2 ---
+Fully correct! The 
+square in the bottom is 
+a pdf conversion error 
+and was not present in 
+the chat.
+Fully correct construction 
+(calculating W^tW first), 
+and fully correct answer. 
+(the square in the bottom is 
+another conversion error).
+
+
+--- Page 3 ---
+Correct! I think the model 
+looked at the link for this 
+one.
+Fully correct!
+
+
+--- Page 4 ---
+Fully correct; does the 
+bound how we usually do it.
+Latex had no error on the 
+original website. Derivation 
+is correct.
+
+
+--- Page 5 ---
+This is different from the solution, but as far 
+as I can see, it is correct. The constant c 
+should be irrelevant here (alternatively, we 
+already accounted for it when deriving the 
+bound for delta W’s norm), so I think 
+Gemini is right here.
+Fully correct!
+Fully correct as well!
+
+
+--- Page 6 ---
+Slightly less general than the actual solution, but 
+clear that the model knows what it’s doing.
+Anecdotally, I made the same assumption when I 
+did this homework.
+
+
+--- Page 7 ---
+Fully correct!
+
+
+--- Page 8 ---
+This is fully correct, and did not have display 
+bugs on the website.
+This is also fully correct, and did not have display 
+bugs on the website.
+
+
+--- Page 9 ---
+Fully correct!
+Fully correct!
+One of the two reasonable approaches. Didn’t 
+turn into big O notation but otherwise good.
+
+
+--- Page 10 ---
+It looks like Gemini didn’t include the fact that 
+we usually double the amount of channels here 
+above? Otherwise correct.
+Fully correct (numbers on the left are just 
+multiplied out).
+It looks like Gemini didn’t see x_3 and x_4 in 
+the actual question?
+
+
+--- Page 11 ---
+Image of x_3 and x_4
+fully correct!
+
+
+--- Page 12 ---
+fully correct!
+This is fully correct, except it didn’t write it as a 
+cross-correlation.
+
+
+--- Page 13 ---
+Fully correct! The squared for the sigmas are 
+actually displayed as squares on the original 
+website.
+This part is actually the fully correct solution.
+This part is fully correct as well.
+
+
+--- Page 14 ---
+Good explanations! The Invariance and 
+Information Preservation parts match the 
+solution.
+I was curious whether or not Gemini could 
+write part a. as a cross-correlation (and notice 
+that it’s a cross-correlation as well).
+Correct cross-correlation!

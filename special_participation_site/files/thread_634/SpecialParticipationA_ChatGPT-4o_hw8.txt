@@ -1,0 +1,45 @@
+--- Page 1 ---
+The model was able to oneshot all problems, but 
+even though I prompted the model to go step by step,
+for some of the questions it just straight gave the answer 
+without going through logic.
+
+
+--- Page 2 ---
+It didn’t take a look at the runtime based on n
+and i tried to prompt it alot to kind of ﬁgure out the correct run
+time based on n
+This wasn’t that explanative, but it got it correct
+They didn’t go that explicit into how fast 
+/the runtime of this method for computation
+
+
+--- Page 5 ---
+Text
+I wanted to prod the model to  give more insight
+ into what they were thinking.
+
+
+--- Page 7 ---
+Even after prompting the model to look at the 
+dimensionality, it still wasn’t able to ﬁgure out the log n 
+component
+
+
+--- Page 10 ---
+Text
+
+
+--- Page 17 ---
+I had to push the model alot towards the computation time using parallel operations
+
+
+--- Page 20 ---
+after prodding the model for a better explanation it hit the correct runtime complexity
+
+
+--- Page 29 ---
+Model started hallucinating the problems when 
+asking for it to be outputted in a latex ﬁle which is interesting. also it
+just truncated all the messages even though i asked 
+it to give me the whole conversation history. 

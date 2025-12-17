@@ -1,0 +1,835 @@
+--- Page 1 ---
+Special Participation A
+hw2.pdf
+PDF
+You are a deep learning tutor. This homework has 
+already been released, but we are going to evaluate 
+your capabilities for one-shot questions. I will guide you 
+towards the correct answer should you make a mistake. 
+Please solve the written questions on this worksheet: 1, 
+2, and 5. Answer one question one response by 
+response (with all its subparts).
+Thought for 1m 33s
+Question 1 (Optimizers as Penalized Linear Improvement) 
+We’re solving, at each step, an update  (i.e., 
+) that minimizes a linearized loss
+plus a distance penalty. 
+(a) Euclidean (squared 
+) penalty 
+Problem:
+This is a convex quadratic. Take gradient w.r.t. 
+ and set to zero:
+So the update is:
+hw2
+u
+Δθ⋆
+hw2
+ℓ
+​2
+hw2
+u = arg
+​ g Δθ +
+Δθ
+min
+⊤
+​∥Δθ∥
+​.
+α
+1
+2
+2
+Δθ
+∇
+​
+g Δθ +
+​∥Δθ∥
+​
+=
+Δθ ( ⊤
+α
+1
+2
+2)
+g +
+​Δθ =
+α
+2
+0
+⇒Δθ =
+⋆
+−
+​g.
+2
+α
+α
+🚀 Powered by ChatGPT Exporter
+1 / 8
+
+
+--- Page 2 ---
+Optimizer recovered: vanilla gradient descent / SGD step (just with learning rate
+).
+(b) 
+ penalty 
+Problem as written:
+Let 
+. For a fixed , the best (most loss-decreasing) choice is to push every
+coordinate to the boundary with the sign opposite the gradient:
+which gives
+So the objective becomes
+From this:
+If 
+, the minimum is at 
+ 
+.
+If 
+, the objective is unbounded below as 
+ (no finite minimizer).
+If 
+, any 
+ with 
+ ties.
+Direction-wise, the solution (when it’s finite/meaningful) is the sign direction
+, i.e. the steepest-descent direction under an 
+ notion of step size—this is
+the idea behind signSGD / sign-based updates.
+(If the intended penalty was the squared version 
+ to guarantee a finite
+optimum, then you’d get 
+ and 
+, which is an explicit
+sign-based optimizer.)
+u = −
+​ g.
+2
+α
+α/2
+ℓ
+​
+∞
+hw2
+u = arg
+​ g Δθ +
+Δθ
+min
+⊤
+​∥Δθ∥
+​.
+α
+1
+∞
+r = ∥Δθ∥
+​
+∞
+r
+Δθ
+​ =
+i
+−r sign(g
+​),
+i
+g Δθ =
+⊤
+−r
+∣g
+​∣=
+i
+∑
+i
+−r∥g∥
+​,
+∥Δθ∥
+​ =
+1
+∞
+r.
+ϕ(r) = −r∥g∥
+​ +
+1
+​r =
+α
+1
+r
+​ −∥g∥
+​
+.
+(α
+1
+1)
+∥g∥
+​ <
+1
+​α
+1
+r = 0 ⇒u = 0
+∥g∥
+​ >
+1
+​α
+1
+r →∞
+∥g∥
+​ =
+1
+​α
+1
+r ≥0
+Δθ = −r sign(g)
+−sign(g)
+ℓ
+​
+∞
+​∥Δθ∥
+​
+α
+1
+∞
+2
+r =
+⋆
+​∥g∥
+​
+2
+α
+1
+u
+​ =
+i
+−
+​∥g∥
+​ sign(g
+​)
+2
+α
+1
+i
+🚀 Powered by ChatGPT Exporter
+2 / 8
+Document parser reads off L1 penalty instead of 
+L2 penalty, but catches ambiguity and provides 
+correct result anyways 
+
+
+--- Page 3 ---
+If you want, I’ll move on to Question 2 next (all subparts) in the next message.
+α1​∥Δθ∥∞
+Correct! I think you had a parsing error here, because 
+this indeed was the desired penalty. However, you got 
+the right answer in the end. Let's move on to Question 
+2.
+Thought for 1m 4s
+Question 2 (Optimizers and their convergence) 
+Let 
+ and 
+. 
+Then 
+.
+(a) Vanilla SGD ( 
+ ) 
+From 
+, every update is proportional to , so 
+. Write 
+. At
+convergence we need 
+, i.e.
+So SGD converges to
+(b) Simplified Adam 
+ 
+hw2
+a = [1, 0.1, 0.01]⊤
+f(θ) = (1 −a θ)
+⊤
+2
+hw2
+∇f(θ) = −2(1 −a θ) a
+⊤
+M
+​ =
+t
+I,  α
+​ =
+t
+α
+hw2
+θ
+​ =
+0
+0
+a
+θ
+​ ∈
+t
+span(a)
+θ
+​ =
+t
+c
+​a
+t
+a θ =
+⊤
+1
+a (ca) =
+⊤
+c ∥a∥
+​ =
+2
+2
+1
+⇒
+c =
+​.
+∥a∥
+​2
+2
+1
+∥a∥
+​ =
+2
+2
+1 +
+2
+0.1 +
+2
+0.01 =
+2
+1.0101.
+​
+θ
+​ =
+​[1, 0.1, 0.01]
+≈[0.99000099, 0.099000099, 0.0099000099] .
+SGD
+⋆
+1.0101
+1
+⊤
+⊤
+O
+hw2
+🚀 Powered by ChatGPT Exporter
+3 / 8
+
+
+--- Page 4 ---
+Here 
+ example per epoch, so the “mean squared gradient over the epoch” for
+coordinate  is just 
+. Thus
+But 
+, and all entries of  are positive, so all coordinates share the
+same sign. Therefore the iterate stays on the line 
+. At convergence we
+must satisfy 
+:
+So (with step sizes 
+ chosen to actually converge) Adam 
+ converges to
+\boxed{\theta_{O}^\star = \frac{1}{1.11}[1,\;1,\;1]^\top \approx
+[0.9009009,\;0.9009009,\;0.9009009]^\top.} \] :contentReference[oaicite:4]
+{index=4} --- #### (c) Feature rescale to unit second moment → SGD → map back
+:contentReference[oaicite:5]{index=5} With one training point, the (empirical) second
+moment of feature \(i\) is \(a_i^2\). Rescaling to unit second moment means divide
+feature \(i\) by \(|a_i|\), giving a rescaled feature vector \[ z = \left[\frac{1}
+{1},\frac{0.1}{0.1},\frac{0.01}{0.01}\right]^\top = [1,1,1]^\top.
+Run SGD from 0 on 
+. By the same logic as part (a), it converges to
+Mapping back to original coordinates uses 
+ (here 
+), so 
+:
+If you want, I’ll do Question 5 next (all its subparts) in the next response.
+n = 1
+i
+g
+​
+t,i
+2
+M
+​ =
+t
+diag
+​,
+​,
+​
+⇒
+(∣g
+​∣
+t,1
+1
+∣g
+​∣
+t,2
+1
+∣g
+​∣
+t,3
+1
+)
+M
+​g =
+t t
+sign(g
+​) (elementwise).
+t
+g
+​ =
+t
+−2(1 −a θ
+​)a
+⊤t
+a
+θ
+​ =
+t
+v
+​[1, 1, 1]
+t
+⊤
+a θ =
+⊤
+1
+v(1 + 0.1 + 0.01) = v ⋅1.11 = 1 ⇒v =
+​.
+1.11
+1
+α
+​t
+O
+(1 −z ϕ)
+⊤
+2
+ϕ =
+⋆
+​z =
+∥z∥
+​2
+2
+1
+​[1, 1, 1] .
+3
+1
+⊤
+ϕ
+​ =
+i
+∣a
+​∣θ
+​
+i
+i
+a
+​ >
+i
+0
+θ
+​ =
+i
+ϕ
+​/a
+​
+i
+i
+​
+θ =
+, 
+​, 
+​
+=
+​, 
+​, 
+​
+≈[0.3333,  3.3333,  33.3333] .
+⋆
+[ 1
+1/3
+0.1
+1/3
+0.01
+1/3 ]
+⊤
+[3
+1
+3
+10
+3
+100]
+⊤
+⊤
+🚀 Powered by ChatGPT Exporter
+4 / 8
+LaTeX error! But correct result.
+
+
+--- Page 5 ---
+\\boxed{\\theta\_{O}^\\star = \\frac{1}{1.11}\[1,\\;1,\\;1\]^\\top \\approx \
+[0.9009009,\\;0.9009009,\\;0.9009009\]^\\top.} \\\] :contentReference\[oaicite:4\]{index=4}
+--- #### (c) Feature rescale to unit second moment → SGD → map back :contentReferenc…
+You had a LaTeX error! But your answers are otherwise 
+correct. Can you rewrite your answer for 2) before we 
+move on?
+Question 2 (rewritten cleanly)
+Given
+the gradient is
+(a) Vanilla SGD 
+Starting from 
+, every update is a scalar multiple of , so 
+. Write
+. At convergence, we need 
+, so
+Compute
+Therefore
+(b) Simplified Adam 
+a =
+​
+​
+​,
+f(θ) =
+1
+0.1
+0.01
+(1 −a θ) ,
+⊤
+2
+∇f(θ) = −2(1 −a θ) a.
+⊤
+(M
+​ =
+t
+I,  α
+​ =
+t
+α)
+θ
+​ =
+0
+0
+a
+θ
+​ ∈
+t
+span(a)
+θ
+​ =
+t
+c
+​a
+t
+a θ =
+⊤
+1
+a (ca) =
+⊤
+c∥a∥
+​ =
+2
+2
+1
+⇒
+c =
+​.
+∥a∥
+​2
+2
+1
+∥a∥
+​ =
+2
+2
+1 +
+2
+0.1 +
+2
+0.01 =
+2
+1 + 0.01 + 0.0001 = 1.0101.
+θ
+​ =
+SGD
+⋆
+​
+​
+​
+​ ≈
+1.0101
+1
+1
+0.1
+0.01
+​
+​
+​.
+0.99000099
+0.099000099
+0.0099000099
+O
+🚀 Powered by ChatGPT Exporter
+5 / 8
+
+
+--- Page 6 ---
+With one data point per epoch, the “mean squared gradient over the epoch” in
+coordinate  is just 
+, so
+which implies elementwise
+But
+and all entries of  are positive, so all coordinates of 
+ share the same sign. Hence
+each step moves along the 
+ direction, meaning 
+ with 
+.
+At convergence we need 
+:
+So
+(c) Rescale features to unit second moment, run SGD, then map back
+With one example, the empirical second moment of feature  is 
+. To make each
+feature have unit second moment, rescale coordinate  by dividing by 
+. The
+rescaled feature vector is
+Run SGD from 0 on 
+. By the same reasoning as (a), it converges to
+i
+g
+​
+t,i
+2
+M
+​ =
+t
+diag
+​,
+​,
+​
+,
+(∣g
+​∣
+t,1
+1
+∣g
+​∣
+t,2
+1
+∣g
+​∣
+t,3
+1
+)
+(M
+​g
+​)
+​ =
+t t i
+​ =
+∣g
+​∣
+t,i
+g
+​
+t,i
+sign(g
+​).
+t,i
+g
+​ =
+t
+−2(1 −a θ
+​) a,
+⊤t
+a
+g
+​t
+[1, 1, 1]⊤
+θ
+​ =
+t
+v
+​1
+t
+1 = [1, 1, 1]⊤
+a θ =
+⊤
+1
+a (v1) =
+⊤
+v(1 + 0.1 + 0.01) = v ⋅1.11 = 1
+⇒
+v =
+​.
+1.11
+1
+θ
+​ =
+O
+⋆
+​
+​
+​
+​ ≈
+1.11
+1
+1
+1
+1
+​
+​
+​.
+0.9009009
+0.9009009
+0.9009009
+i
+a
+​i
+2
+i
+∣a
+​∣
+i
+z =
+​
+​
+​ =
+1/1
+0.1/0.1
+0.01/0.01
+​
+​
+​.
+1
+1
+1
+(1 −z ϕ)
+⊤
+2
+ϕ =
+⋆
+​z =
+∥z∥
+​2
+2
+1
+​
+​
+​
+​.
+3
+1
+1
+1
+1
+🚀 Powered by ChatGPT Exporter
+6 / 8
+
+
+--- Page 7 ---
+Mapping back: since we scaled features by 
+ and here 
+, the
+parameter relationship is 
+, so 
+. Therefore
+Ready for Question 5.
+z
+​ =
+i
+a
+​/∣a
+​∣
+i
+i
+a
+​ >
+i
+0
+ϕ
+​ =
+i
+a
+​θ
+​
+i i
+θ
+​ =
+i
+ϕ
+​/a
+​
+i
+i
+θ =
+⋆
+​
+​
+​ =
+(1/3)/1
+(1/3)/0.1
+(1/3)/0.01
+​
+​
+​ ≈
+1/3
+10/3
+100/3
+​
+​
+​.
+0.3333
+3.3333
+33.3333
+Looks good. Let's move on to Question 5, then.
+Thought for 45s
+Question 5 (Analyzing Distributed Training) 
+Assume  workers, model has  parameters, and  divisible by . The filled-in
+communication costs per iteration are:
+Paradigm
+Total # messages sent
+Size of each message
+All-to-All
+Parameter Server
+Ring All-Reduce
+Explanation (one-liners):
+All-to-All: each worker sends its full gradient (size ) to each of the other 
+workers 
+ sends total.
+Parameter Server: each worker sends a gradient to the server and receives
+updated weights back 
+ messages, each of size .
+Ring All-Reduce: gradients are split into  chunks of size 
+; there are 
+passes and each worker sends one chunk per pass 
+ messages of
+size 
+. 
+hw2
+n
+p
+p
+n
+n(n −1)
+p
+2n
+p
+n ⋅2(n −1)
+p/n
+p
+n −1
+⇒n(n −1)
+⇒2n
+p
+n
+p/n
+2(n −1)
+⇒n ⋅2(n −1)
+p/n
+hw2
+🚀 Powered by ChatGPT Exporter
+7 / 8
+
+
+--- Page 8 ---
+Perfect!
+Nice — if you have any follow-ups (e.g., deriving bandwidth/time per iteration under a
+network model, or comparing asymptotics), throw them at me.
+🚀 Powered by ChatGPT Exporter
+8 / 8

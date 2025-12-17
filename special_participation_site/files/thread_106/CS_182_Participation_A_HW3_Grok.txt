@@ -1,0 +1,1383 @@
+--- Page 1 ---
+Homework 3 - Grok AI LLM Conversation
+Bruno Vieira
+3038484295
+Week: 09/19/25 - 09/26/25
+Conversation
+1)
+Me:
+I will give you a 3-part machine learning / math question about a dense layer
+and RMS norms. Do not compute anything yet; only outline the steps and
+the variables you will treat as random and which as fixed. I will give you the
+question soon.
+Grok:
+Understood!
+Please provide the 3-part machine learning/math question
+about a dense layer and RMS norms, and I’ll outline the steps to solve it
+along with specifying which variables I’ll treat as random and which as fixed.
+To ensure clarity, I’ll wait for your question and then:
+• Identify the key components of each part of the question.
+• Outline the steps required to address each part systematically.
+• Specify which variables are treated as random (e.g., inputs, weights, or
+noise terms) and which are fixed (e.g., layer dimensions, constants, or
+hyperparameters).
+• Avoid any computations until you provide specific values or further
+instructions.
+Please go ahead and share the question!
+1
+
+
+--- Page 2 ---
+1) (a)
+Me:
+Consider a dense layer with input x ∈Rd1, weights W ∈Rd2×d1, where W is
+initialized with i.i.d. standard Gaussian entries, and entries of x are sampled
+from an i.i.d. unit Gaussian. What is the expected squared RMS norm of the
+output features y = Wx? How does this scale with d1 or d2? What constant
+should we multiply W by to ensure that the expected squared RMS norm of
+Wx is 1, regardless of d1 and d2?
+Hint: Consider a simplified dense layer with a single output feature, W ∈
+R1×d1. What is the distribution of the scalar y = Wx? What is its variance?
+Grok:
+Part 1: Expected Squared RMS Norm of y = Wx
+The RMS norm of the output vector y ∈Rd2 is defined as
+∥y∥RMS =
+v
+u
+u
+t 1
+d2
+d2
+X
+j=1
+y2
+j.
+Thus, the squared RMS norm is
+∥y∥2
+RMS = 1
+d2
+d2
+X
+j=1
+y2
+j.
+To find the expected value E
+h
+1
+d2
+Pd2
+j=1 y2
+j
+i
+:
+yj =
+d1
+X
+k=1
+Wjkxk.
+Since Wjk ∼N(0, 1) and xk ∼N(0, 1) i.i.d. and independent, each term
+Wjkxk has variance
+Var(Wjkxk) = E[W 2
+jk]E[x2
+k] = 1.
+The terms are independent across k, so
+Var(yj) =
+d1
+X
+k=1
+1 = d1.
+2
+
+
+--- Page 3 ---
+Since yj is a sum of independent Gaussian products, yj ∼N(0, d1), and
+E[y2
+j] = Var(yj) = d1.
+Therefore,
+E
+"
+1
+d2
+d2
+X
+j=1
+y2
+j
+#
+= 1
+d2
+d2
+X
+j=1
+E[y2
+j] = d1.
+Part 2: Scaling with d1 or d2
+The expectation scales linearly with d1 and is independent of d2.
+Part 3: Constant to Multiply W By
+Let W ′ = cW, so y′ = W ′x = cy. Then
+∥y′∥2
+RMS = c2∥y∥2
+RMS.
+To ensure E[∥y′∥2
+RMS] = 1, set
+c2d1 = 1
+⇒
+c =
+1
+√d1
+.
+Me:
+Good work, can you expand on why E[squared RMS of y′] = c2E[squared RMS of y]?
+Grok:
+To explain why
+E[∥y′∥2
+RMS] = c2E[∥y∥2
+RMS],
+let’s break it down step-by-step.
+Definitions and Setup
+The output of the dense layer is y = Wx, with x ∈Rd1 and W ∈Rd2×d1,
+with i.i.d. Gaussian entries. The RMS norm is
+∥y∥RMS =
+v
+u
+u
+t 1
+d2
+d2
+X
+j=1
+y2
+j,
+∥y∥2
+RMS = 1
+d2
+d2
+X
+j=1
+y2
+j.
+Consider a scaled weight matrix W ′ = cW, giving y′ = W ′x = cy. Then
+each component scales as y′
+j = cyj, and the squared RMS norm is
+∥y′∥2
+RMS = 1
+d2
+d2
+X
+j=1
+(y′
+j)2 = 1
+d2
+d2
+X
+j=1
+(cyj)2 = c2∥y∥2
+RMS.
+3
+
+
+--- Page 4 ---
+Taking expectations:
+E[∥y′∥2
+RMS] = E[c2∥y∥2
+RMS] = c2E[∥y∥2
+RMS],
+since c2 is a constant.
+Verification with Single Output Hint
+For W ∈R1×d1, y = Pd1
+k=1 Wkxk, Var(y) = d1, so E[y2] = d1. Scaling gives
+y′ = cy, hence E[(y′)2] = c2d1, consistent with the multi-output case.
+Conclusion
+Scaling the weights by c scales the output vector linearly, and the squared
+RMS norm introduces a factor of c2. The expectation preserves this scaling,
+making
+E[∥y′∥2
+RMS] = c2E[∥y∥2
+RMS].
+1) (b)
+Me:
+Good work, now on to the next question: We will now consider how to ensure
+that RMS norms of features update at a constant rate during training, again
+regardless of layer width. Assume we are using the SignGD optimizer (which
+is a simplified version of Adam). Unlike at initialization, where we assume
+weights and inputs are independent, the updates to weights during training
+are very much correlated with the inputs. For simplicity, assume that the
+minibatch training input xi ∈Rd1 are sampled from an i.i.d. unit Gaussian,
+and the raw gradient ∇Wf(W) is an outer product of the input and a constant
+backpropagated vector gi ∈Rd2.
+Wt+1 ←Wt + η sign(xigT
+i ).
+What is the expected RMS norm squared of the (unscaled) change in features
+y′ = sign(xigT
+i )xi? How does this scale with d1 or d2? What constant should
+we multiply the update by to ensure that the expected RMS norm of y′ is 1,
+regardless of d1 and d2?
+Grok:
+Part 1: Expected Squared RMS Norm of y′ = sign(gixT
+i )xi
+To compute the expected squared RMS norm
+E[∥y′∥2
+RMS],
+where the expectation is over the random input xi ∼N(0, Id1) (i.i.d. unit
+Gaussian components), and gi ∈Rd2 is a fixed (constant) vector with all
+nonzero components:
+4
+
+
+--- Page 5 ---
+The raw gradient is
+∇Wf(W) = gixT
+i ∈Rd2×d1,
+(gixT
+i )jk = gi,jxi,k.
+The sign is applied elementwise:
+sign(gi,jxi,k) = sign(gi,j) sign(xi,k),
+since sign(ab) = sign(a)sign(b) for a, b ∈R (assuming no zeros, which have
+probability zero for Gaussians).
+Thus,
+y′
+j =
+d1
+X
+k=1
+sign(gi,jxi,k)xi,k = sign(gi,j)
+d1
+X
+k=1
+sign(xi,k)xi,k.
+Note that sign(xi,k)xi,k = |xi,k|. Let
+z =
+d1
+X
+k=1
+|xi,k|,
+then y′
+j = sign(gi,j)z. Since all gi,j ̸= 0, sign(gi,j)2 = 1 for all j.
+The squared L2 norm is
+∥y′∥2
+2 =
+d2
+X
+j=1
+y′
+j
+2 =
+d2
+X
+j=1
+sign(gi,j)2z2 = d2z2.
+The squared RMS norm is
+∥y′∥2
+RMS = 1
+d2
+∥y′∥2
+2 = z2.
+Therefore,
+E[∥y′∥2
+RMS] = E[z2].
+Each |xi,k| is half-normal:
+E[|xi,k|] =
+r
+2
+π,
+E[|xi,k|2] = 1 (since |x|2 = x2).
+Since the |xi,k| are i.i.d.,
+E[z2] = Var(z) + (E[z])2 = d1
+
+1 −2
+π
+
++ d2
+1
+2
+π = d1 + 2
+πd1(d1 −1).
+5
+
+
+--- Page 6 ---
+Alternatively, directly:
+E[z2] = E
+
+
+ X
+k
+|xk|
+!2
+=
+X
+k
+E[|xk|2]+
+X
+k̸=l
+E[|xk|]E[|xl|] = d1·1+d1(d1−1)·2
+π.
+The expected squared RMS norm is
+d1 + 2
+πd1(d1 −1).
+Part 2: Scaling with d1 or d2
+From the expression above:
+• The expectation scales quadratically with d1 (the leading term is 2
+πd2
+1
+for large d1).
+• It does not depend on d2 (constant with respect to d2). This follows
+because z depends only on the input dimension d1, and the averaging
+in the RMS norm cancels the d2 dependence when all components of
+gi are nonzero.
+Part 3: Constant to Multiply the Update By for Expected RMS
+Norm of 1
+Let the scaled update be y′′ = cy′, where c is the constant multiplier on the
+update.
+The RMS norm scales linearly:
+∥y′′∥RMS = |c|∥y′∥RMS
+(assuming c > 0).
+From above, ∥y′∥RMS =
+√
+z2 = z (since z > 0), so
+E[∥y′′∥RMS] = cE[z].
+E[z] = d1
+r
+2
+π.
+To ensure E[∥y′′∥RMS] = 1 regardless of d1 and d2, set
+cE[z] = 1
+⇒
+c =
+1
+d1
+q
+2
+π
+=
+p
+π/2
+d1
+.
+6
+
+
+--- Page 7 ---
+Note that this is independent of d2, as expected from Part 2.
+1) (c)
+Me:
+That looks good as well good job! The final question of the subpart is: You
+may notice that the above update rule only depends on d1. Why is this the
+case?
+Grok:
+The update rule for the expected squared RMS norm of the change in features
+y′ = sign(gixT
+i )xi
+depends only on d1 and not on d2. Let’s explore why this is the case by
+analyzing the mathematical structure of the problem.
+Key Components:
+• The input xi ∈Rd1 has i.i.d. unit Gaussian entries, xi,k ∼N(0, 1).
+• The backpropagated vector gi ∈Rd2 is a fixed (constant) vector with
+all nonzero components.
+• The raw gradient is
+∇Wf(W) = gixT
+i ∈Rd2×d1,
+and the update is based on its sign:
+sign(gixT
+i ).
+• The change in features is
+y′ = sign(gixT
+i )xi ∈Rd2.
+• The squared RMS norm is
+∥y′∥2
+RMS = 1
+d2
+d2
+X
+j=1
+y′2
+j ,
+and we compute its expectation over the randomness in xi.
+7
+
+
+--- Page 8 ---
+Derivation of y′ and RMS Norm:
+For each component of y′:
+y′
+j =
+d1
+X
+k=1
+sign(gi,jxi,k)xi,k.
+Since
+sign(gi,jxi,k) = sign(gi,j)sign(xi,k),
+and gi,j is a fixed nonzero constant, we get:
+y′
+j = sign(gi,j)
+d1
+X
+k=1
+|xi,k|.
+Define
+z =
+d1
+X
+k=1
+|xi,k|,
+which depends only on the input dimension d1 and the random variables xi,k.
+Thus,
+y′
+j = sign(gi,j)z,
+and since sign(gi,j)2 = 1,
+y′2
+j = z2.
+The squared L2 norm is:
+∥y′∥2
+2 =
+d2
+X
+j=1
+y′2
+j =
+d2
+X
+j=1
+z2 = d2z2.
+The squared RMS norm is:
+∥y′∥2
+RMS = 1
+d2
+∥y′∥2
+2 = 1
+d2
+· d2z2 = z2.
+The expected squared RMS norm is:
+E[∥y′∥2
+RMS] = E[z2] = E
+
+
+ d1
+X
+k=1
+|xi,k|
+!2
+.
+Since z = Pd1
+k=1 |xi,k|, and |xi,k| ∼N(0, 1) half-normal, the expectation
+E[z2] depends only on d1, the dimension of the input.
+Why No Dependence on d2:
+8
+
+
+--- Page 9 ---
+• Role of gi: The vector gi affects only the sign of each component y′
+j.
+The magnitude y′2
+j = z2 is independent of gi,j’s specific values, as long
+as they are nonzero. The dimension d2 influences the number of output
+components but not their individual magnitudes.
+• Averaging in RMS Norm: The RMS norm computes the mean of
+squared components across d2. Each y′2
+j = z2, so summing over d2 and
+dividing by d2 cancels the d2 dependence.
+• Randomness in xi: The variable z is a function of d1 alone.
+Its
+moments (like E[z2]) depend only on d1.
+• Structure of the Update: The update sign(gixT
+i )xi produces com-
+ponents y′
+j that all share the same random variable z, scaled by deter-
+ministic signs. This ensures RMS averaging eliminates d2 dependence.
+Intuition:
+The lack of d2 dependence arises because the RMS norm normalizes by d2.
+Each component y′
+j has the same magnitude z, so the average squared mag-
+nitude across d2 is simply z2, which depends only on d1. The backpropagated
+vector gi only determines the direction (via signs), not the magnitude.
+Verification:
+Compute:
+z =
+d1
+X
+k=1
+|xi,k|,
+E[|xi,k|] =
+r
+2
+π,
+E[|xi,k|2] = E[x2
+i,k] = 1
+E[z2] =
+d1
+X
+k=1
+E[|xi,k|2] +
+X
+k̸=l
+E[|xi,k|]E[|xi,l|] = d1 · 1 + d1(d1 −1) · 2
+π,
+consistent with
+E[∥y′∥2
+RMS] = d1 + 2
+πd1(d1 −1).
+Conclusion:
+The expected squared RMS norm depends only on d1 because the magnitude
+of the update is determined by z, a function of the input dimension d1. The
+output dimension d2 is canceled out by RMS averaging, and the fixed vector
+gi only contributes signs, not magnitudes, to y′.
+9
+
+
+--- Page 10 ---
+Me:
+Great work, next time make sure your work is less messy.
+Less is more
+sometimes. For example, no need to derive y′ to arrive at the answer. This
+may trick you up on more complex and extensive problems.
+Grok:
+Thank you for the feedback! I appreciate the guidance to keep responses
+more concise and avoid unnecessary derivations, like re-deriving y′, to focus
+on the core reasoning. I’ll aim for a cleaner, more streamlined approach in
+future responses, especially for complex problems, to ensure clarity and effi-
+ciency. If you have another question or want me to revisit any part of this
+one, just let me know!
+3) (a)
+Me:
+This question is called “Maximal Update Parameterization Research”. This
+homework problem talks about the research papers behind “maximal update
+parameterization,” also called µP in the community. This idea is discussed in
+detail in the paper: https://arxiv.org/pdf/2203.03466. Understanding
+the full paper is out of scope of the class and requires sophistication that is
+not a prerequisite, but we want to highlight some points.
+(a) Look at Figure 1 of the paper. What are the two side-by-side figures
+plotting? What is the observation you make about the width of a matrix?
+Grok:
+Description of Figure 1:
+The two side-by-side figures in Figure 1 plot the training loss against the
+learning rate (on a log2 scale) for Transformer models of varying widths
+(dmodel = 128, 256, 512, 1024, 2048, 4096, 8192), trained with Adam on the
+WikiText-2 dataset for 5 epochs. Each curve in both plots corresponds to a
+different model width, showing how loss varies with learning rate.
+Left figure: Standard Parametrization (SP).
+Right figure: Maximal Update Parametrization (µP).
+Observation on the Width of a Matrix:
+In SP (left), the optimal learning rate shifts with increasing matrix width
+(dmodel), and wider networks do not always outperform narrower ones after
+tuning (curves cross, and performance can degrade for very wide models). In
+µP (right), the optimal learning rate is stable across widths, and performance
+improves monotonically with width (curves do not cross, and wider models
+10
+
+
+--- Page 11 ---
+consistently achieve lower loss).
+Me:
+Why do you think µP on the right has performance improve monotonically
+with width and that is not the case on the left?
+Grok:
+To understand why Maximal Update Parametrization (µP) on the right side
+of Figure 1 shows performance improving monotonically with model width,
+while Standard Parametrization (SP) on the left does not, let’s analyze the
+key differences focusing on training dynamics and scaling behavior.
+Key Concepts:
+Standard Parametrization (SP): Weights are typically initialized with
+fixed variance (e.g., ∼N(0, σ2)), and learning rates are tuned without ad-
+justments for layer width. As width (dmodel) increases, output magnitudes
+and gradient updates may scale improperly, causing instability or suboptimal
+training.
+Maximal Update Parametrization (µP): Designed to maintain consis-
+tent training dynamics across widths by scaling weight initializations, learn-
+ing rates, and other hyperparameters based on layer width. This ensures the
+maximal update during training remains stable as width increases.
+Analysis of Figure 1 Observations:
+Left (SP): Training loss vs. learning rate curves for different widths (dmodel =
+128, 256, . . . , 8192) show:
+• Optimal learning rate shifts smaller as width increases.
+• Curves cross; very wide models may perform worse than narrower ones
+at certain learning rates.
+• Non-monotonic behavior arises from suboptimal scaling of activations
+or gradients.
+Right (µP):
+• Optimal learning rate is nearly constant across widths.
+• Loss decreases monotonically with increasing width; curves do not
+cross.
+• Wider models fully utilize their increased capacity without destabilizing
+training.
+11
+
+
+--- Page 12 ---
+Why Does µP Achieve Monotonic Improvement?
+Proper Scaling of Weight Initializations: SP stabilizes activations at
+initialization but not updates, causing exploding or vanishing activations/gradients
+as width grows. In µP, weights are initialized such that the maximal update
+remains constant.
+Learning Rate Scaling: SP tunes learning rate empirically; µP scales it
+explicitly with width, keeping effective step sizes consistent.
+Control of Feature and Gradient Magnitudes: SP allows RMS norms
+of features or gradients to scale with width, causing mismatched scales. µP
+keeps feature and gradient magnitudes constant in expectation across widths.
+Monotonic Capacity Increase: Wider models have greater expressive
+power. In µP, stable dynamics allow this capacity to translate into lower
+loss. In SP, improper scaling prevents wider models from fully utilizing ca-
+pacity, leading to non-monotonic performance.
+Intuition: SP requires retuning hyperparameters with width, which may
+lead to divergence or slow convergence. µP makes training dynamics invari-
+ant to width, so wider models consistently benefit from increased capacity.
+Supporting Evidence from Figure 1:
+SP (Left): Crossing curves and shifting optimal learning rates indicate wider
+models need smaller learning rates; even then, performance may be worse
+than narrower models.
+µP (Right): Aligned curves and monotonic improvement show stable training
+at near-constant learning rates, leveraging wider models’ capacity.
+Conclusion:
+µP achieves monotonic performance improvement with width because weight
+initializations, learning rates, and parameters are scaled to maintain consis-
+tent training dynamics across widths. This stability allows wider models to
+utilize their increased capacity, unlike SP where improper scaling leads to
+non-monotonic performance.
+Me:
+Again, way too much information, so let’s keep it more concise for the future
+- but definitely makes sense thank you.
+Grok:
+Got it, thanks for the feedback! I’ll keep responses tighter and more focused
+going forward. If you have another question or need anything else, just let
+me know!
+12
+
+
+--- Page 13 ---
+3 (b)
+Me: Look at Table 3 in the paper. In lecture, we gave an elementary argu-
+ment to support the 1/fanin scaling for Adam LR for the hidden layers, the
+rightmost entry in the bottom row of the paper. What does the table say is
+the corresponding standard parameterization?
+Grok: Table 3 in the paper provides the scaling rules for hyperparame-
+ters in Maximal Update Parametrization (P) and Standard Parametrization
+(SP) for a Transformer model. The table includes entries for various hy-
+perparameters, including the learning rate (LR) for different optimizers and
+layers.
+For the Adam learning rate for hidden layers (rightmost entry in the
+bottom row, labeled ”Adam LR (hidden)”), the table specifies:
+• P: Scales as
+1
+√
+d, where d is the fan-in (e.g., input dimension or width
+of the layer).
+• SP: Scales as constant (i.e., does not scale with width).
+Explanation: In P, the learning rate for hidden layers is scaled inversely
+with the square root of the fan-in ( 1
+√
+d) to ensure stable training dynamics
+as model width increases, maintaining consistent update magnitudes. In SP,
+the learning rate is typically kept constant (not scaled with width), which
+can lead to suboptimal training dynamics for wider models, as discussed in
+the context of Figure 1.
+3 (c)
+Me: Ok, nice. Next question is look at the paper https://arxiv.org/abs/2310.17813
+which presents the same scaling using elementary linear algebra. While un-
+derstanding the entirety of the paper is out of scope of the class, we presented
+some simplified arguments in lecture. Look at Desideratum 1. Why is this
+behavior desired for feature learning? Can you rewrite this Desideratum in
+terms of the RMS norm? Similarly, rewrite Condition 1 in terms of the RMS
+norm as well. How does Condition 1 imply that ∥hℓ(x)∥2 ≤Θ(√nℓ) and that
+∥∆hℓ(x)∥2 ≤Θ(√nℓ)? What is the key assumption that allows us to also
+get the lower bounds on ∥hℓ(x)∥2 and ∥∆hℓ(x)∥2?
+13
+
+
+--- Page 14 ---
+Grok:
+Why Desideratum 1 is Desired for Feature Learning: Desider-
+atum 1 ensures that internal representations (features) evolve nontrivially
+during training, maintaining stable magnitudes with typical element sizes
+of Θ(1). This prevents vanishing or exploding features at large widths, en-
+abling effective activation function behavior and optimal task performance,
+as opposed to suboptimal regimes like neural tangent kernels where features
+remain static.
+Rewrite of Desideratum 1 in Terms of RMS Norm: The RMS
+norm is defined as
+∥hℓ∥RMS =
+r
+1
+nℓ
+∥hℓ∥2
+2 = ∥hℓ∥2
+√nℓ
+.
+Thus, Desideratum 1 (∥hℓ∥2 = Θ(√nℓ) and ∥∆hℓ∥2 = Θ(√nℓ)) is equivalent
+to
+∥hℓ∥RMS = Θ(1),
+∥∆hℓ∥RMS = Θ(1).
+Rewrite of Condition 1 in Terms of RMS Norm: Condition 1
+requires the spectral norms
+∥Wℓ∥∗= Θ
+r nℓ
+nℓ−1
+
+,
+∥∆Wℓ∥∗= Θ
+r nℓ
+nℓ−1
+
+.
+In terms of RMS norm, this ensures that when the input features hℓ−1 have
+RMS norm Θ(1), the output features
+hℓ= Wℓhℓ−1
+and
+∆hℓ≈∆Wℓhℓ−1
+also have RMS norm Θ(1), preserving stable feature scales across layers.
+How Condition 1 Implies ∥hℓ(x)∥2 ≤Θ(√nℓ) and ∥∆hℓ(x)∥2 ≤
+Θ(√nℓ): By submultiplicativity of norms,
+∥hℓ∥2 = ∥Wℓhℓ−1∥2 ≤∥Wℓ∥∗∥hℓ−1∥2.
+Assuming the prior layer satisfies ∥hℓ−1∥2 = Θ(√nℓ−1), Condition 1 gives
+∥hℓ∥2 ≤Θ
+r nℓ
+nℓ−1
+
+· Θ(√nℓ−1) = Θ(√nℓ).
+Similarly, the feature update approximates
+∆hℓ≈∆Wℓhℓ−1,
+14
+
+
+--- Page 15 ---
+so
+∥∆hℓ∥2 ≤∥∆Wℓ∥∗∥hℓ−1∥2 = Θ
+r nℓ
+nℓ−1
+
+· Θ(√nℓ−1) = Θ(√nℓ).
+Key Assumption for Lower Bounds on ∥hℓ(x)∥2 and ∥∆hℓ(x)∥2:
+The lower bounds require that the input features hℓ−1(x) align with the top
+singular vector of Wℓ(or ∆Wℓ), ensuring
+∥hℓ∥2 ≈∥Wℓ∥∗∥hℓ−1∥2 = Θ(√nℓ),
+and similarly for updates. This alignment assumption is justified under ran-
+domness or isotropy of feature directions during training, where vectors are
+not orthogonal to principal singular directions.
+Me: Mathematically, what conditions must be imposed on W and ∆W?
+Grok: To ensure the lower bounds on
+∥hℓ(x)∥2 = Θ(√nℓ)
+and
+∥∆hℓ(x)∥2 = Θ(√nℓ)
+as stated in Desideratum 1 of the paper, we need to impose specific math-
+ematical conditions on the weight matrix Wℓand its update ∆Wℓ. These
+conditions relate to their spectral norms and the alignment of input features
+with their principal singular directions. Below, I outline these conditions
+concisely.
+Context and Setup:
+• hℓ(x) = Wℓhℓ−1(x), where hℓ−1(x) ∈Rnℓ−1 is the input feature vector,
+Wℓ∈Rnℓ×nℓ−1 is the weight matrix, and hℓ(x) ∈Rnℓis the output
+feature vector.
+• ∆hℓ(x) ≈∆Wℓhℓ−1(x) (first-order approximation for small updates).
+• Desideratum 1 requires
+∥hℓ(x)∥2 = Θ(√nℓ),
+∥∆hℓ(x)∥2 = Θ(√nℓ).
+• Condition 1 specifies
+∥Wℓ∥∗= Θ
+r nℓ
+nℓ−1
+
+,
+∥∆Wℓ∥∗= Θ
+r nℓ
+nℓ−1
+
+,
+where ∥· ∥∗is the spectral norm.
+15
+
+
+--- Page 16 ---
+• RMS Norm: ∥hℓ∥RMS = ∥hℓ∥2
+√nℓ, so Desideratum 1 implies
+∥hℓ∥RMS = Θ(1),
+∥∆hℓ∥RMS = Θ(1).
+Conditions for Upper Bounds:
+• Spectral Norm of Weights: ∥Wℓ∥∗= Θ
+q
+nℓ
+nℓ−1
+
+∥hℓ∥2 = ∥Wℓhℓ−1∥2 ≤∥Wℓ∥∗∥hℓ−1∥2
+⇒∥hℓ∥2 ≤Θ(√nℓ)
+• Spectral Norm of Weight Updates: ∥∆Wℓ∥∗= Θ
+q
+nℓ
+nℓ−1
+
+∥∆hℓ∥2 ≤∥∆Wℓ∥∗∥hℓ−1∥2 = Θ(√nℓ)
+Conditions for Lower Bounds:
+• Spectral Norm Conditions (from Condition 1):
+∥Wℓ∥∗= Θ
+r nℓ
+nℓ−1
+
+,
+∥∆Wℓ∥∗= Θ
+r nℓ
+nℓ−1
+
+• Alignment Condition: The input hℓ−1 must have a non-negligible pro-
+jection onto the top singular vector v1 of Wℓ(and similarly for ∆Wℓ):
+|⟨hℓ−1/∥hℓ−1∥2, v1⟩| = Θ(1)
+• Randomness or Isotropy Assumption: hℓ−1 is sufficiently random or
+isotropic, so with high probability, it projects non-negligibly onto v1.
+• Non-degeneracy of Weight Matrices: Wℓand ∆Wℓmust not be rank-
+deficient or have singular values pathologically smaller than the spectral
+norm.
+Summary of Conditions:
+• For Wℓ:
+– Spectral norm: ∥Wℓ∥∗= Θ(
+p
+nℓ/nℓ−1)
+16
+
+
+--- Page 17 ---
+– Non-degenerate singular values
+– Input alignment: hℓ−1 projects onto v1, ensured by isotropy/randomness
+• For ∆Wℓ:
+– Spectral norm: ∥∆Wℓ∥∗= Θ(
+p
+nℓ/nℓ−1)
+– Non-degenerate singular values
+– Input alignment: same as above
+Me: Again, way too much information was just asking for a 3-4 line
+answer, but thank you onto the next one.
+Grok: Thanks for the feedback! I’ll keep it concise (3-4 lines) for the
+next question. Please go ahead with your question!
+4 (a)
+Me: In this question, I will have you derive two gradient estimators given
+the objective function:
+F(θ) = Ex∼pθf(x),
+where x is a random variable that follows the probability distribution of
+pθ : X 7→∆(X) parameterized by θ ∈RP, and f : X 7→R is a function.
+(a) Let x be a k-D multivariate Gaussian random variable parameterized
+by the mean µ ∈Rk under the distribution
+pµ(x) = (2πσ2)−k/2 exp
+
+−∥x −µ∥2
+2
+2σ2
+
+,
+where σ ∈R is a scalar constant. Express ∇µF(µ) as an expectation un-
+der pµ(x) (i.e., find g(x) in ∇F(µ) = Ex∼pµg(x)).
+(Hint: Ex∼pθf(x) =
+R
+pθ(x)f(x) dx)
+Grok: The gradient is
+∇µF(µ) = Ex∼pµ
+
+f(x)∇µ log pµ(x)
+
+,
+where
+∇µ log pµ(x) = x −µ
+σ2
+.
+17
+
+
+--- Page 18 ---
+Thus,
+g(x) = f(x) · x −µ
+σ2
+.
+Me: Please show work with the expectation leading to an integral and
+expand it out.
+Grok: To derive the gradient estimator ∇µF(µ) = Ex∼pµ[g(x)] for F(µ) =
+Ex∼pµf(x), where x ∼pµ(x), we start with:
+Step-by-Step Derivation
+1. Express the Objective as an Integral:
+F(µ) = Ex∼pµf(x) =
+Z
+Rk pµ(x)f(x) dx,
+where
+pµ(x) = (2πσ2)−k/2 exp
+
+−∥x −µ∥2
+2
+2σ2
+
+is the density of a k-dimensional Gaussian with mean µ and covariance
+σ2Ik.
+2. Compute the Gradient:
+∇µF(µ) = ∇µ
+Z
+Rk pµ(x)f(x) dx =
+Z
+Rk ∇µ[pµ(x)f(x)] dx =
+Z
+Rk f(x)∇µpµ(x) dx.
+3. Rewrite Using the Score Function:
+∇µ log pµ(x) = ∇µpµ(x)
+pµ(x)
+⇒
+∇µpµ(x) = pµ(x)∇µ log pµ(x).
+Substituting,
+∇µF(µ) =
+Z
+Rk f(x)[pµ(x)∇µ log pµ(x)] dx = Ex∼pµ[f(x)∇µ log pµ(x)].
+Hence, the gradient estimator is
+g(x) = f(x)∇µ log pµ(x).
+4. Compute the Score Function:
+log pµ(x) = −k
+2 log(2πσ2) −∥x −µ∥2
+2
+2σ2
+⇒
+∇µ log pµ(x) = x −µ
+σ2
+.
+18
+
+
+--- Page 19 ---
+5. Final Gradient Estimator:
+g(x) = f(x) · x −µ
+σ2
+,
+∇µF(µ) = Ex∼pµ
+
+f(x) · x −µ
+σ2
+
+.
+Verification: This is the score function method (or REINFORCE). The
+term x−µ
+σ2 is the score function for a Gaussian with mean µ, allowing Monte
+Carlo estimation by sampling x ∼pµ(x).
+Me: Ok nice thank you. I think this question requires a bit more algebra
+so for these ones expand it out if needed to. Otherwise, let’s keep it concise.
+Grok: Got it! Thanks for the clarification. For questions requiring more
+algebra, like this one, I’ll expand the derivations as needed to ensure clarity.
+For others, I’ll keep responses concise (3-4 lines when possible). Ready for
+the next part of the question or any new one—just let me know!
+4 (b)
+Me: Rewrite the expression in F(µ) with an expectation with the distribu-
+tion over a standard normal N(0, I).
+Grok: Using the hint that if x ∼pµ(x) = N(µ, σ2Ik), then x −µ ∼
+N(0, σ2Ik), we can rewrite the gradient estimator
+∇µF(µ) = Ex∼pµ
+
+f(x) · x −µ
+σ2
+
+with an expectation over a standard normal z ∼N(0, Ik).
+Derivation:
+1. Let y = x −µ, so y ∼N(0, σ2Ik). Then the gradient becomes
+∇µF(µ) = Ey∼N(0,σ2Ik)
+h
+f(µ + y) · y
+σ2
+i
+.
+2. Express y in terms of a standard normal: y = σz, where z ∼N(0, Ik).
+Then x = µ + σz, and
+x −µ
+σ2
+= σz
+σ2 = z
+σ.
+19
+
+
+--- Page 20 ---
+3. Substituting, the gradient estimator becomes
+∇µF(µ) = Ez∼N(0,Ik)
+h
+f(µ + σz) · z
+σ
+i
+.
+Final Answer:
+∇µF(µ) = Ez∼N(0,Ik)
+ 1
+σf(µ + σz)z
+
+.
+4 (c)
+Me: Using the expression you obtained from the previous part, can you ex-
+press ∇µF(µ) in a similar way (i.e., with an expectation with the distribution
+over pµ=0(x))?
+Grok: To express
+∇µF(µ) = Ez∼N(0,Ik)
+ 1
+σf(µ + σz)z
+
+with an expectation over the distribution
+pµ=0(x) = N(0, σ2Ik) = (2πσ2)−k/2 exp
+
+−∥x∥2
+2
+2σ2
+
+,
+we relate z ∼N(0, Ik) to x ∼pµ=0(x) by setting x = σz, so z = x
+σ.
+Derivation:
+1. From the previous part:
+∇µF(µ) = Ez∼N(0,Ik)
+ 1
+σf(µ + σz)z
+
+.
+2. Substitute z = x
+σ, where x ∼N(0, σ2Ik):
+f(µ + σz) = f(µ + σ · x
+σ) = f(µ + x),
+and
+1
+σf(µ + σz)z = 1
+σf(µ + x) · x
+σ = 1
+σ2f(µ + x)x.
+20
+
+
+--- Page 21 ---
+3. Therefore, the expectation becomes:
+∇µF(µ) = Ex∼pµ=0
+ 1
+σ2f(µ + x)x
+
+.
+Final Answer:
+∇µF(µ) = Ex∼pµ=0
+ 1
+σ2f(µ + x)x
+
+.
+4 (d)
+Me: In the general case, can you still write ∇F(θ) as an expectation under
+pθ(x)?
+Grok: Yes. For a general distribution pθ(x) with a well-defined gradient
+∇θpθ(x):
+∇θF(θ) = ∇θEx∼pθf(x) = ∇θ
+Z
+pθ(x)f(x) dx.
+Since f(x) does not depend on θ, we have:
+∇θF(θ) =
+Z
+f(x)∇θpθ(x) dx.
+Using the score function trick:
+∇θpθ(x) = pθ(x)∇θ log pθ(x)
+⇒
+∇θF(θ) =
+Z
+f(x)∇θ log pθ(x) pθ(x) dx = Ex∼pθ [f(x)∇θ log
+Final Answer:
+∇θF(θ) = Ex∼pθ [f(x)∇θ log pθ(x)] .
+21
+
+
+--- Page 22 ---
+4 (e)
+Me: Assume there exists a function g(z, θ) : Z ×RP →X and a distribution
+over z, p(z), such that g(z, θ) has the same distribution as x ∼pθ(x). Prove
+that
+∇θF(θ) = Ez∼Z
+h
+(∇θg(z, θ))⊤∇xf
+
+x=g(z,θ)
+i
+.
+Proof: Since g(z, θ) ∼pθ(x) with z ∼p(z) independent of θ, we can
+rewrite the objective:
+F(θ) = Ex∼pθf(x) = Ez∼p(z)f(g(z, θ)).
+Taking the gradient (interchanging gradient and expectation):
+∇θF(θ) = Ez∼p(z)∇θ[f(g(z, θ))].
+By the chain rule:
+∇θ[f(g(z, θ))] = (∇θg(z, θ))⊤(∇xf|x=g(z,θ)),
+where ∇θg(z, θ) is the Jacobian of g with respect to θ. Thus:
+∇θF(θ) = Ez∼p(z)
+
+(∇θg(z, θ))⊤(∇xf|x=g(z,θ))
+
+.
+Special Case (Gaussian): For the Gaussian case from parts (b) and
+(c), we have:
+g(z, θ) = θ + σz,
+z ∼N(0, Ik),
+θ = µ,
+or equivalently (from part (c)):
+g(z, θ) = θ + z,
+z ∼N(0, σ2Ik).
+22
+
+
+--- Page 23 ---
+5) Tensor Rematerialization
+Me: Next question will be on tensor rematerialization so I will give you a
+small blurb to introduce the question:
+5. Tensor Rematerialization You want to train a neural network on a new
+chip designed at UC Berkeley. Your model is a 10 layer network, where each
+layer has the same fixed input and output size of s. The chip your model will
+be trained on is heavily specialized for model evaluation. It can run forward
+passes through a layer very fast. However, it is severely memory constrained,
+and can only fit in memory the following items (slightly more than twice of
+the data necessary for performing a forward pass): (a) the inputs; (b) 2s
+activations in memory; (c) optimizer states necessary for performing the for-
+ward pass through the current layer. To train despite this memory limitation,
+your friend suggests using a training method called tensor rematerialization.
+She proposes using SGD with a batch size of 1, and only storing the activa-
+tions of every 5th layer during an initial forward pass to evaluate the model.
+During backpropagation, she suggests recomputing activations on-the-fly for
+each layer by loading the relevant last stored activation from memory, and
+rerunning forward through layers up till the current layer. Figure 1 illustrates
+this approach. Activations for Layer 5 and Layer 10 are stored in memory
+from an initial forward pass through all the layers. Consider when weights
+in layer 7 are to be updated during backpropagation. To get the activations
+for layer 7, we would load the activations of layer 5 from memory, and then
+run them through layer 6 and layer 7 to get the activations for layer 7. These
+activations can then be used (together with the gradients from upstream) to
+compute the gradients to update the parameters of Layer 7, as well as get
+ready to next deal with layer 6.
+Grok: The total number of forward layer computations required for one
+training iteration (forward pass plus backpropagation) using the proposed
+method is 30. To arrive at this solution: The initial forward pass through
+the 10-layer network requires 10 forward layer computations (one per layer).
+During backpropagation, activations are recomputed on-the-fly for each layer
+from the nearest previous stored activation (at layers 0/inputs, 5, and 10).
+For layers 1–5, the recompute distances d (number of forward layer compu-
+tations needed) are: layer 1 (d = 1), layer 2 (d = 2), layer 3 (d = 3), layer 4
+(d = 4), layer 5 (d = 0). Sum = 1 + 2 + 3 + 4 + 0 = 10. For layers 6–10, the
+recompute distances d are: layer 6 (d = 1), layer 7 (d = 2), layer 8 (d = 3),
+layer 9 (d = 4), layer 10 (d = 0). Sum = 1 + 2 + 3 + 4 + 0 = 10. Total extra
+23
+
+
+--- Page 24 ---
+forward layer computations during backpropagation: 10 + 10 = 20. Grand
+total: 10 (initial) + 20 (extra) = 30.
+5 (a)
+Me: Wait now I’m going to give you the first sub part show all your work
+wait for further instructions.
+Assume a forward pass of a single layer is
+called a fwd operation. How many fwd operations are invoked when running
+a single backward pass through the entire network? Do not count the initial
+forward passes required to compute the loss, and don’t worry about any extra
+computation beyond activations to actually backprop gradients.
+Grok: To compute the number of forward (fwd) operations invoked dur-
+ing a single backward pass through the entire 10-layer network using the
+tensor rematerialization strategy described, we focus only on the fwd oper-
+ations needed to recompute activations during backpropagation. We do not
+count the initial forward pass used to compute the loss, nor any computations
+beyond those needed for activations (e.g., gradient computations).
+Analysis: During backpropagation, we process layers in reverse order
+(from layer 10 to layer 1). For each layer i, we need its activations to compute
+gradients. Since only the activations for layers 0, 5, and 10 are stored, we
+must recompute the activations for layers 1, 2, 3, 4, 6, 7, 8, and 9 as needed.
+The number of fwd operations for each layer depends on how many layers
+must be recomputed starting from the nearest stored activation.
+Let’s break it down by layer, considering the backward pass:
+• Layer 10: Activations are stored from the initial forward pass, so no
+recomputation is needed. Fwd operations = 0.
+• Layer 9: Activations are not stored. The nearest stored activation is
+from layer 10. However, to compute gradients for layer 9, we need the
+activations of layer 9 (output of layer 9, which is the input to layer 10).
+Starting from the stored layer 10 activations, we cannot go backward to
+recompute layer 9 activations directly. Instead, we must start from the
+nearest stored activation before layer 9, which is layer 5’s activations.
+To get layer 9’s activations:
+– Load layer 5 activations.
+– Run forward through layers 6, 7, 8, and 9 (i.e., layers 6 to 9).
+24
+
+
+--- Page 25 ---
+This requires 4 fwd operations (one for each layer: 6, 7, 8, 9).
+• Layer 8: Need layer 8 activations (output of layer 8). Start from layer
+5 activations: Run forward through layers 6, 7, and 8. This requires 3
+fwd operations (layers 6, 7, 8).
+• Layer 7: Need layer 7 activations. Start from layer 5: Run forward
+through layers 6 and 7. This requires 2 fwd operations (layers 6, 7).
+• Layer 6: Need layer 6 activations. Start from layer 5: Run forward
+through layer 6. This requires 1 fwd operation (layer 6).
+• Layer 5: Activations are stored, so no recomputation is needed. Fwd
+operations = 0.
+• Layer 4: Need layer 4 activations. The nearest stored activation is from
+layer 0 (inputs). Start from layer 0: Run forward through layers 1, 2,
+3, and 4. This requires 4 fwd operations (layers 1, 2, 3, 4).
+• Layer 3: Need layer 3 activations. Start from layer 0: Run forward
+through layers 1, 2, and 3. This requires 3 fwd operations (layers 1, 2,
+3).
+• Layer 2: Need layer 2 activations. Start from layer 0: Run forward
+through layers 1 and 2. This requires 2 fwd operations (layers 1, 2).
+• Layer 1: Need layer 1 activations. Start from layer 0: Run forward
+through layer 1. This requires 1 fwd operation (layer 1).
+Total Fwd Operations: Now, sum the fwd operations for each layer
+during the backward pass: Layer 10: 0 Layer 9: 4 Layer 8: 3 Layer 7: 2
+Layer 6: 1 Layer 5: 0 Layer 4: 4 Layer 3: 3 Layer 2: 2 Layer 1: 1
+Total = 0 + 4 + 3 + 2 + 1 + 0 + 4 + 3 + 2 + 1 = 20.
+Verification: The pattern suggests two groups of layers (1–4 and 6–
+9) requiring recomputation from their nearest stored checkpoints (layer 0
+and layer 5, respectively). Each group follows a sequence: For layers 1–4:
+1 + 2 + 3 + 4 = 10 fwd operations. For layers 6–9: 1 + 2 + 3 + 4 = 10 fwd
+operations. Layers 5 and 10 require 0 fwd operations (stored). This confirms
+the total: 10 + 10 = 20.
+Memory Constraint Check: The chip can hold the inputs, 2s activa-
+tions (enough for one layer’s input and output), and optimizer states for the
+25
+
+
+--- Page 26 ---
+current layer’s forward pass. When recomputing activations (e.g., for layer
+9, running from layer 5 through 6, 7, 8, to 9), we process one layer at a
+time, needing only the input and output of the current layer (fitting within
+2s). The stored activations (layer 0, 5, or 10) are loaded as needed, and
+intermediate activations can be discarded after use, satisfying the memory
+constraint.
+Final Answer: The number of fwd operations invoked during a single
+backward pass through the entire network is 20.
+5) (b)
+Me: Looks good to me, the next question is: assume that each memory
+access to fetch activations or inputs is called a loadmem operation.
+How
+many loadmem operations are invoked when running a single backward pass?
+Grok: To determine the number of loadmem operations invoked during
+a single backward pass through the 10-layer neural network using the tensor
+rematerialization strategy, we need to count the number of times stored ac-
+tivations (or inputs) are fetched from memory. Each memory access to fetch
+activations or inputs is defined as a loadmem operation. We focus only on the
+backward pass, excluding the initial forward pass, and consider the strategy
+described: activations are stored only for the inputs (layer 0), layer 5, and
+layer 10, and other activations are recomputed on-the-fly during backpropa-
+gation.
+Analysis:
+During the backward pass, we process layers in reverse order (10 to 1). For
+each layer, we need its activations. If the activations are stored (layers 5
+and 10), we fetch them directly, incurring one loadmem operation. If not
+(layers 1, 2, 3, 4, 6, 7, 8, 9), we recompute them by loading the nearest
+stored activation (from layer 0, 5, or 10) and running forward. We need to
+determine how many times we access stored activations or inputs.
+Let’s analyze each layer in the backward pass:
+• Layer 10: Activations are stored (output of layer 10). To compute
+gradients for layer 10, we need its activations.
+Fetch layer 10 activations from memory.
+Loadmem operations:
+1.
+26
+
+
+--- Page 27 ---
+• Layer 9: Activations are not stored. To compute gradients for layer
+9, we need the output of layer 9 (input to layer 10). We start from the
+nearest stored activation before layer 9, which is layer 5’s activations:
+Fetch layer 5 activations from memory.
+Run forward through layers 6, 7, 8, and 9 to get layer 9 activations.
+Only the initial fetch of layer 5 activations counts as a loadmem opera-
+tion.
+Loadmem operations:
+1.
+• Layer 8: Need layer 8 activations. Start from layer 5:
+Fetch layer 5 activations from memory.
+Run forward through layers 6, 7, and 8.
+Loadmem operations:
+1.
+• Layer 7: Need layer 7 activations. Start from layer 5:
+Fetch layer 5 activations from memory.
+Run forward through layers 6 and 7.
+Loadmem operations:
+1.
+• Layer 6: Need layer 6 activations. Start from layer 5:
+Fetch layer 5 activations from memory.
+Run forward through layer 6.
+Loadmem operations:
+1.
+• Layer 5: Activations are stored.
+Fetch layer 5 activations from memory.
+Loadmem operations:
+1.
+• Layer 4: Need layer 4 activations. The nearest stored activation is
+layer 0 (inputs):
+Fetch layer 0 inputs from memory.
+Run forward through layers 1, 2, 3, and 4.
+Loadmem operations:
+1.
+• Layer 3: Need layer 3 activations. Start from layer 0:
+Fetch layer 0 inputs from memory.
+Run forward through layers 1, 2, and 3.
+Loadmem operations:
+1.
+27
+
+
+--- Page 28 ---
+• Layer 2: Need layer 2 activations. Start from layer 0:
+Fetch layer 0 inputs from memory.
+Run forward through layers 1 and 2.
+Loadmem operations:
+1.
+• Layer 1: Need layer 1 activations. Start from layer 0:
+Fetch layer 0 inputs from memory.
+Run forward through layer 1.
+Loadmem operations:
+1.
+Total Loadmem Operations:
+Now, sum the loadmem operations for each layer:
+Layer 10: 1
+Layer 9: 1
+Layer 8: 1
+Layer 7: 1
+Layer 6: 1
+Layer 5: 1
+Layer 4: 1
+Layer 3: 1
+Layer 2: 1
+Layer 1: 1
+Total: 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = 10
+Verification:
+Each of the 10 layers in the backward pass requires exactly one loadmem
+operation:
+For layers 5 and 10, we load their stored activations directly.
+For layers 1–4, we load the layer 0 inputs to start recomputation.
+For layers 6–9, we load the layer 5 activations to start recomputation.
+This results in exactly one memory access per layer.
+The recomputation
+process for non-stored layers involves forward passes through intermediate
+layers, but these use the activations already loaded or computed in memory,
+not requiring additional loadmem operations.
+The memory constraint (2s
+28
+
+
+--- Page 29 ---
+activations for input and output) supports this, as we only need the input
+and output of one layer at a time during recomputation.
+Final Answer:
+The number of loadmem operations invoked during a single backward pass
+through the entire network is 10.
+5) (c)
+Me: Also looks good, but please be more concise. The final question is that
+say you have access to a local disk which offers practically infinite storage
+for activations and a loaddisk operation for loading activations. You decide
+to not use tensor rematerialization and instead store all activations on this
+disk, loading each activation when required. Assuming each fwd operation
+takes 20 ns and each loadmem operation (which loads from memory, not local
+disk) takes 10 ns for tensor rematerialization, how fast (in ns) should each
+loaddisk operation be to take the same time for one backward pass as tensor
+rematerialization? Assume activations are directly loaded to the processor
+registers from disk (i.e., they do not have to go to memory first), only one
+operation can be run at a time, ignore any caching and assume latency of
+any other related operations is negligible.
+Grok: The time for one backward pass using tensor rematerialization is
+calculated as follows:
+20 fwd operations, each taking 20 ns: 20 × 20 = 400 ns.
+10 loadmem operations, each taking 10 ns: 10 × 10 = 100 ns.
+Total: 400 + 100 = 500 ns.
+In the alternative approach without tensor rematerialization, all activa-
+tions are stored on disk, and there are no fwd operations during the backward
+pass. Instead, there are 10 loaddisk operations (one to load the required
+activation for each of the 10 layers).
+To match the 500 ns time, let t be the time per loaddisk operation.
+Then: 10 × t = 500, so t = 50.
+The loaddisk operation should take 50 ns.
+29
+
+
+--- Page 30 ---
+Me: All done here thank you Grok, mostly your answers were well ex-
+plained and correct.
+Grok: Glad I could help! Thanks for the kind words. If you’ve got more
+questions or want to dive into something else, just let me know.
+30

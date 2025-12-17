@@ -1,0 +1,1547 @@
+--- Page 1 ---
+Claude HW13 output
+You will be answering a series of homework questions from a deep learning
+class. I will input multiple subquestions as a screenshots, and questions with
+the same number will build upon previous subquestions. Some questions may
+take multiple screenshots so make sure to answer all subquestions. You will
+need to use context from the first image. Avoid hallucinating or making up
+definitions if information is missing; explicitly say so. Answer with clear math
+notation and concise justification. Do not skip derivation steps. If the problem
+contains multiple subparts (a), (b), (c), or (i),(ii), answer each clearly.
+12/9/2025, 4:42:31 PM
+I understand! I'm ready to help you with your deep learning homework questions.
+I'll:
+1. Answer each subquestion clearly and completely
+2. Use proper mathematical notation
+3. Provide concise justifications without skipping derivation steps
+4. Build upon context from previous subquestions when needed
+5. Explicitly state if information is missing rather than making assumptions
+6. Address all parts (a), (b), (c) or (i), (ii), etc. separately
+Please go ahead and share the screenshots of your homework questions, and I'll
+work through them systematically.
+12/9/2025, 4:42:35 PM
+🚀 Powered by Claude Exporter
+1 / 18
+
+
+--- Page 2 ---
+🚀 Powered by Claude Exporter
+2 / 18
+
+
+--- Page 3 ---
+here is 1a-h
+12/9/2025, 4:43:17 PM
+I'll work through each part systematically.
+Problem 1: DDPM/DDIM Fun - From a Gaussian
+Setup: Target distribution is 
+ where 
+. Forward process starts at
+ and adds independent Gaussian noise with variance 
+ at
+each step from 
+ to 
+.
+(a) What is the distribution of 
+?
+N(0, σ )
+2
+σ ≪
+2
+1
+X
+​ ∼
+0
+N(0, σ )
+2
+Δt ≪σ2
+t = 0
+t = 1
+X
+​1
+🚀 Powered by Claude Exporter
+3 / 18
+
+
+--- Page 4 ---
+We can think of 
+ as the result of 
+ steps of adding independent Gaussian
+noise to 
+.
+Starting with 
+, after adding 
+ independent Gaussian noises each with
+variance 
+:
+where 
+ are independent.
+Since the sum of independent Gaussians is Gaussian:
+Mean: 
+Variance: 
+(b) Marginal distributions of 
+ and 
+By the same reasoning as part (a), at any time  we've added 
+ noise steps:
+(c) Simplify the variance of the conditional distribution
+Given: 
+We need to simplify the variance 
+ when 
+.
+X
+​1
+T =
+​
+Δt
+1
+X
+​0
+X
+​ ∼
+0
+N(0, σ )
+2
+T
+Δt
+X
+​ =
+1
+X
+​ +
+0
+​ϵ
+​
+i=1
+∑
+T
+i
+ϵ
+​ ∼
+i
+N(0, Δt)
+0 + 0 = 0
+σ +
+2
+T ⋅Δt = σ +
+2
+​ ⋅
+Δt
+1
+Δt = σ +
+2
+1
+​
+X
+​ ∼N(0, σ + 1)
+1
+2
+X
+​
+t−Δt
+X
+​t
+t
+(t/Δt)
+​
+X
+​ ∼N(0, σ + t)
+t
+2
+​
+X
+​ ∼N(0, σ + t −Δt)
+t−Δt
+2
+(X
+​∣X
+​ =
+t−Δt
+t
+x
+​) ∼
+t
+N
+​x
+​,
+​
+(
+σ +t
+2
+σ +t−Δt
+2
+t
+σ +t
+2
+(σ +t−Δt)Δt
+2
+)
+​
+σ +t
+2
+(σ +t−Δt)Δt
+2
+Δt ≪σ ≪
+2
+1
+​ =
+σ + t
+2
+(σ + t −Δt)Δt
+2
+​ =
+σ + t
+2
+(σ + t)Δt −(Δt)
+2
+2
+Δt −
+​
+σ + t
+2
+(Δt)2
+🚀 Powered by Claude Exporter
+4 / 18
+
+
+--- Page 5 ---
+Since 
+ and 
+, we have 
+ and 
+.
+Therefore: 
+(d) Naive reverse denoising without stochastic noise
+Start with 
+ and iteratively apply conditional mean mapping backward
+with 
+ steps.
+At each step: 
+After 
+ steps from 
+ to 
+:
+Since 
+:
+Telescoping: Notice the product telescopes - most terms cancel, leaving only
+.
+Since 
+, the variance 
+, which is far too small
+compared to the desired 
+.
+(e) Variance with added stochastic noise
+Δt ≪σ ≪
+2
+1
+t ∈[0, 1]
+(Δt) ≪
+2
+Δt
+σ +
+2
+t ≥σ >
+2
+0
+​ ≪
+σ +t
+2
+(Δt)2
+Δt
+​
+Variance ≈Δt
+​ ∼
+X^1
+N(0, 1)
+T =
+​
+Δt
+1
+​ =
+X^t−Δt
+​
+​
+σ +t
+2
+σ +t−Δt
+2
+X^t
+T
+t = 1
+t = 0
+​ =
+X^0
+​
+​ ⋅
+k=0
+∏
+T−1
+σ + 1 −kΔt
+2
+σ + 1 −(k + 1)Δt
+2
+​
+X^1
+=
+​
+​
+σ + 1
+2
+σ2
+X^1
+​ ∼
+X^1
+N(0, 1)
+​
+​ ∼N
+0,
+​
+X^0
+(
+(σ + 1
+2
+σ2
+)
+2
+)
+​ =
+σ +1
+2
+σ +0
+2
+​
+σ +1
+2
+σ2
+σ ≪
+2
+1
+​
+≈
+( σ +1
+2
+σ2 )
+2
+(σ ) =
+2 2
+σ ≪
+4
+σ2
+σ2
+🚀 Powered by Claude Exporter
+5 / 18
+
+
+--- Page 6 ---
+Given the variance formula: $$\text{Var}(\hat{X}0) = \left(\frac{\sigma^2}
+{\sigma^2 + 1}\right)^2 + \Delta t \sum{k=0}^{T-1} \left(\frac{\sigma^2}
+{\sigma^2 + k\Delta t}\right)^2$$
+Taking 
+ (so T \to \infty$), convert the sum to an integral with $k\Delta t \to s:
+Evaluate the integral: $$\int_0^1 \frac{\sigma^4}{(\sigma^2 + s)^2} ds =
+\sigma^4 \int_0^1 \frac{1}{(\sigma^2 + s)^2} ds$$
+Using the hint 
+:
+Therefore: $$\text{Var}(\hat{X}_0) = \frac{\sigma^4}{(\sigma^2 + 1)^2} +
+\frac{\sigma^2}{\sigma^2 + 1}$$
+Since 
+, the first term 
+:
+This matches the desired variance 
+!
+(f) Training a neural network for DDIM
+Given dataset 
+ drawn from 
+, we want to train a neural net to
+estimate 
+.
+Inputs to the neural net: 
+ where 
+ is a noisy sample and  is the
+time/noise level.
+Δt →0
+Var(
+​) =
+X^0
+​
++
+(σ + 1
+2
+σ2
+)
+2
+​
+​
+ds
+∫
+0
+1
+(σ + s
+2
+σ2
+)
+2
+​dt =
+∫(1+t)2
+1
+C −
+​
+1+t
+1
+= σ
+−
+​
+​ =
+4 [
+σ + s
+2
+1
+]
+0
+1
+σ
+−
+​ +
+​
+4 (
+σ + 1
+2
+1
+σ2
+1 )
+= σ ⋅
+4
+​ =
+σ (σ + 1)
+2
+2
+(σ + 1) −σ
+2
+2
+​ =
+σ (σ + 1)
+2
+2
+σ4
+σ + 1
+2
+σ2
+σ ≪
+2
+1
+≈σ ≪
+4
+σ2
+​
+Var(
+​) ≈
+​ ≈σ (1 −σ ) ≈σ
+X^0
+σ + 1
+2
+σ2
+2
+2
+2
+σ2
+s
+​, s
+​, … , s
+​
+1
+2
+n
+N(0, σ )
+2
+g(x
+​, t) =
+t
+​x
+​
+σ +t
+2σ2
+t
+(x
+​, t)
+t
+x
+​t
+t
+🚀 Powered by Claude Exporter
+6 / 18
+
+
+--- Page 7 ---
+Generating a batch:
+1. Sample 
+ from the dataset
+2. Sample random time 
+3. Generate noisy version: 
+ where 
+4. Batch consists of pairs 
+ with targets 
+Loss function: Mean squared error between network output 
+ and target
+:
+(g) Approximate the DDIM step for 
+Given 
+ and the DDIM update with 
+.
+The DDIM step is: 
+When 
+, approximate 
+:
+Using 
+ for small :
+Therefore:
+s
+​i
+t ∼Uniform(0, 1)
+x
+​ =
+t
+s
+​ +
+i
+ϵ
+ϵ ∼N(0, t)
+(x
+​, t)
+t
+g(x
+​, t) =
+t
+​x
+​
+σ +t
+2
+σ2
+t
+f
+​(x
+​, t)
+θ
+t
+​x
+​
+σ +t
+2σ2
+t
+​
+L = E
+​
+​f
+​(x
+​, t) −
+​x
+​
+​
+s
+​,t,ϵ
+i
+[
+θ
+t
+σ + t
+2
+σ2
+t
+2
+]
+Δt ≪t
+g(x
+​, t) =
+t
+​x
+​
+σ +t
+2
+σ2
+t
+η(t, Δt) =
+​
+​+
+​
+t−Δt
+t
+​t
+x
+​ =
+t−Δt
+DDIM
+x
+​ +
+t
+η(t, Δt) ⋅(deterministic DDPM step)
+Δt ≪t
+η(t, Δt)
+η(t, Δt) =
+​ =
+​ +
+​
+t −Δt
+t
+​t
+​
+​
+​ +
+​
+t
+1 −Δt/t
+t
+​t
+​ ≈
+1 −x
+1 −x/2
+x
+≈
+​ =
+​(1 −Δt/(2t)) +
+​
+t
+t
+​t
+​ ≈
+2 −Δt/(2t)
+1
+​2
+1
+​
+x
+​ ≈x
+​ −
+​x
+​
+t−Δt
+DDIM
+t
+2(σ + t)
+2
+Δt
+t
+🚀 Powered by Claude Exporter
+7 / 18
+
+
+--- Page 8 ---
+(h) Compute 
+ from 
+ via DDIM
+Applying the DDIM step from part (g) iteratively:
+After 
+ steps, expressing as a product:
+Taking logarithm and converting to sum:
+Using 
+ for small :
+Taking 
+, convert to integral with 
+:
+Therefore: $$\hat{X}_0 = \hat{X}_1 \cdot \exp\left(-\frac{1}{2}\ln\frac{\sigma^2
++ 1}{\sigma^2}\right) = \hat{X}_1 \cdot \sqrt{\frac{\sigma^2}{\sigma^2 +
+1}}$$
+Since 
+:
+This matches the desired distribution!
+12/9/2025, 4:44:08 PM
+​
+X^0
+​ ∼
+X^1
+N(0, 1)
+x
+​ =
+t−Δt
+x
+​
+1 −
+​
+t (
+2(σ + t)
+2
+Δt
+)
+T
+​ =
+X^0
+​
+​
+1 −
+​
+X^1
+k=0
+∏
+T−1
+(
+2(σ + 1 −kΔt)
+2
+Δt
+)
+ln(
+​/
+​) =
+X^0 X^1
+​ln
+1 −
+​
+k=0
+∑
+T−1
+(
+2(σ + 1 −kΔt)
+2
+Δt
+)
+ln(1 −x) ≈−x
+x
+≈−
+​
+​
+k=0
+∑
+T−1
+2(σ + 1 −kΔt)
+2
+Δt
+Δt →0
+s = 1 −kΔt
+→−
+​
+​ds =
+∫
+0
+1
+2(σ + s)
+2
+1
+−
+​[ln(σ +
+2
+1
+2
+s)]
+​ =
+0
+1
+−
+​ ln
+​
+2
+1
+σ2
+σ + 1
+2
+​ ∼
+X^1
+N(0, 1)
+​
+​ ∼N
+0,
+​
+≈N(0, σ )
+X^0
+(
+σ + 1
+2
+σ2
+)
+2
+🚀 Powered by Claude Exporter
+8 / 18
+
+
+--- Page 9 ---
+🚀 Powered by Claude Exporter
+9 / 18
+
+
+--- Page 10 ---
+🚀 Powered by Claude Exporter
+10 / 18
+
+
+--- Page 11 ---
+🚀 Powered by Claude Exporter
+11 / 18
+
+
+--- Page 12 ---
+here is 2a-g
+12/9/2025, 4:45:06 PM
+I'll work through each part of Problem 2 on Direct Preference Optimization (DPO).
+Problem 2: Honey, Where's My Reward Model?
+🚀 Powered by Claude Exporter
+12 / 18
+
+
+--- Page 13 ---
+Context: RLHF pipeline has 3 phases: SFT → Reward Modeling → RL Fine-Tuning.
+DPO bypasses the explicit reward model and RL loop.
+(a) Find the optimal 
+ for 
+Given: $$\mathbb{D}{\text{KL}}(p | q) = \mathbb{E}{x \sim p(x)} \log \frac{p(x)}
+{q(x)} = \sum_x p(x) \log \frac{p(x)}{q(x)} \geq 0$$
+To minimize, we use the method of Lagrange multipliers with the constraint
+:
+Taking the derivative with respect to 
+: $$\frac{\partial \mathcal{L}}{\partial
+p(x)} = \log \frac{p(x)}{q(x)} + 1 - \lambda = 0$$
+This gives: $$\log p(x) - \log q(x) = \lambda - 1$$ $$p(x) = e^{\lambda - 1} q(x)$$
+Using the constraint 
+: $$e^{\lambda - 1} \sum_x q(x) = e^{\lambda -
+1} \cdot 1 = 1$$ $$e^{\lambda - 1} = 1$$
+Therefore: $$\boxed{p^*(x) = q(x)}$$
+The KL divergence is minimized when  equals , giving 
+.
+(b) Show that the optimal solution 
+ takes the given
+form
+We want to maximize: $$\max_{\pi_\theta} \mathbb{E}{x \sim \mathcal{D}, y \sim
+\pi\theta(y|x)} [r_\phi(x,y)] - \beta \mathbb{D}{\text{KL}}[\pi\theta(y|x) |
+\pi_{\text{ref}}(y|x)]$$
+p∗
+min
+​ D
+​(p∥q)
+p∈P
+KL
+​ p(x) =
+∑x
+1
+L =
+​p(x) log
+​ −
+x
+∑
+q(x)
+p(x)
+λ
+​p(x) −1
+(
+x
+∑
+)
+p(x)
+​ p(x) =
+∑x
+1
+p
+q
+D
+​(p ∥q) =
+KL
+∗
+0
+π
+​(y∣x)
+θ∗
+🚀 Powered by Claude Exporter
+13 / 18
+
+
+--- Page 14 ---
+For fixed , this is: $$\max_{\pi_\theta(\cdot|x)} \sum_y \pi_\theta(y|x) r_\phi(x,y) -
+\beta \sum_y \pi_\theta(y|x) \log \frac{\pi_\theta(y|x)}{\pi_{\text{ref}}(y|x)}$$
+Rearranging: $$\max_{\pi_\theta(\cdot|x)} \sum_y \pi_\theta(y|x) \left[r_\phi(x,y) -
+\beta \log \frac{\pi_\theta(y|x)}{\pi_{\text{ref}}(y|x)}\right]$$
+This is equivalent to minimizing: $$\mathbb{D}{\text{KL}}\left[\pi\theta(\cdot|x) |
+\frac{1}{Z(x)} \pi_{\text{ref}}(y|x) \exp\left(\frac{1}{\beta}
+r_\phi(x,y)\right)\right]$$
+From part (a), the optimal 
+ equals the target distribution:
+where 
+ is the partition function.
+(c) Why is this representation hard to utilize in practice?
+Answer: The output space 
+ can be extremely large (or even infinite for text
+generation).
+For language models, 
+ consists of all possible sequences of tokens, which grows
+exponentially with sequence length. Computing the partition function 
+ requires summing over all possible outputs, which is
+computationally intractable.
+(d) Express the reward function 
+ in terms of 
+, 
+,
+and 
+x
+=
+​
+​π
+​(y∣x)
+​r
+​(x, y) + log π
+​(y∣x) −
+π
+​(⋅∣x)
+θ
+max
+y
+∑
+θ
+[β
+1
+ϕ
+ref
+]
+β
+π
+​(y∣x) log π
+​(y∣x)
+y
+∑
+θ
+θ
+π
+​
+θ∗
+​
+π
+​(y∣x) =
+​π
+​(y∣x) exp
+​r
+​(x, y)
+θ∗
+Z(x)
+1
+ref
+(β
+1
+ϕ
+)
+Z(x) =
+​ π
+​(y∣x) exp
+​r
+​(x, y)
+∑y
+ref
+( β
+1
+ϕ
+)
+Y
+Y
+Z(x) =
+​ π
+​(y∣x) exp
+​r
+​(x, y)
+∑y
+ref
+( β
+1
+ϕ
+)
+r
+​(x, y)
+ϕ
+π
+​
+θ∗π
+​
+ref
+Z(x)
+🚀 Powered by Claude Exporter
+14 / 18
+
+
+--- Page 15 ---
+From part (b): $$\pi_{\theta^*}(y|x) = \frac{1}{Z(x)} \pi_{\text{ref}}(y|x)
+\exp\left(\frac{1}{\beta} r_\phi(x,y)\right)$$
+Taking logarithms: $$\log \pi_{\theta^*}(y|x) = -\log Z(x) + \log \pi_{\text{ref}}
+(y|x) + \frac{1}{\beta} r_\phi(x,y)$$
+Solving for 
+: $$\frac{1}{\beta} r_\phi(x,y) = \log \pi_{\theta^*}(y|x) - \log
+\pi_{\text{ref}}(y|x) + \log Z(x)$$
+(e) Substitute into Bradley-Terry model and show that 
+cancels
+The Bradley-Terry model is: $$p^(y_w \succ y_l | x) = \frac{\exp(r^(x, y_w))}
+{\exp(r^(x, y_w)) + \exp(r^(x, y_l))}$$
+Substituting 
+:
+The 
+ terms cancel:
+Why is this desirable? We no longer need to compute the intractable partition
+function 
+! The preference probability depends only on the ratio of policies,
+r
+​(x, y)
+ϕ
+​
+r
+​(x, y) = β log
+​ + β log Z(x)
+ϕ
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ∗
+Z(x)
+r
+​(x, y) =
+ϕ
+β log
+​ +
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ∗
+β log Z(x)
+p (y
+​ ≻
+∗
+w
+y
+​∣x) =
+l
+​
+exp β log
+​ + β log Z(x)
++ exp β log
+​ + β log Z(x)
+(
+π
+​(y
+​∣x)
+ref
+w
+π
+​(y
+​∣x)
+θ∗
+w
+)
+(
+π
+​(y
+​∣x)
+ref
+l
+π
+​(y
+​∣x)
+θ∗
+l
+)
+exp β log
+​ + β log Z(x)
+(
+π
+​(y
+​∣x)
+ref
+w
+π
+​(y
+​∣x)
+θ∗
+w
+)
+=
+​
+Z(x)
+​
++ Z(x)
+​
+β ( π
+​(y
+​∣x)
+ref
+w
+π
+​(y
+​∣x)
+θ∗
+w
+)
+β
+β ( π
+(y
+​∣x)
+ref
+l
+π
+​(y
+​∣x)
+θ∗
+l
+)
+β
+Z(x)
+​
+β ( π
+​(y
+​∣x)
+ref
+w
+π
+​(y
+​∣x)
+θ∗
+w
+)
+β
+Z(x)β
+​
+p (y
+​ ≻y
+​∣x) =
+​
+∗
+w
+l
+​
++
+​
+( π
+​(y
+​∣x)
+ref
+w
+π
+​(y
+​∣x)
+θ∗
+w
+)
+β
+( π
+​(y
+​∣x)
+ref
+l
+π
+​(y
+​∣x)
+θ∗
+l
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+w
+π
+​(y
+​∣x)
+θ∗
+w
+)
+β
+Z(x)
+🚀 Powered by Claude Exporter
+15 / 18
+
+
+--- Page 16 ---
+which we can compute directly.
+(f) Derive the gradient of DPO loss and interpret the
+weighting term
+Given implicit reward: 
+The DPO loss is: $$\mathcal{L}{\text{DPO}}(\pi\theta; \pi_{\text{ref}}) = -
+\mathbb{E}{(x, y_w, y_l) \sim \mathcal{D}} \left[\log \sigma\left(\beta \log
+\frac{\pi\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}
+{\pi_{\text{ref}}(y_l|x)}\right)\right]$$
+Let 
+Then 
+.
+Using 
+ and the chain rule:
+Now: $$\frac{\partial z}{\partial \theta} = \beta \frac{\nabla_\theta
+\pi_\theta(y_w|x)}{\pi_\theta(y_w|x)} - \beta \frac{\nabla_\theta \pi_\theta(y_l|x)}
+{\pi_\theta(y_l|x)}$$
+Therefore: $$\boxed{\nabla_\theta \mathcal{L}{\text{DPO}} = -\beta \sigma(-z)
+[\nabla\theta \log \pi_\theta(y_w|x) - \nabla_\theta \log \pi_\theta(y_l|x)]}$$
+where 
+.
+Interpretation of weighting term 
+:
+When 
+ (model is correct, strongly prefers winner):
+, so gradient is small → updates less
+​(x, y) =
+r^θ
+β log
+​
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ
+z = β log
+​ −
+π
+(y
+​∣x)
+ref
+w
+π
+​(y
+​∣x)
+θ
+w
+β log
+​ =
+π
+​(y
+​∣x)
+ref
+l
+π
+​(y
+​∣x)
+θ
+l
+​(x, y
+​) −
+r^θ
+w
+​(x, y
+​)
+r^θ
+l
+L = −log σ(z)
+σ (z) =
+′
+σ(z)(1 −σ(z)) = σ(z)σ(−z)
+​ =
+∂θ
+∂L
+−
+​
+​ =
+σ(z)
+σ (z)
+′
+∂θ
+∂z
+−σ(−z)
+​
+∂θ
+∂z
+= β∇
+​ log π
+​(y
+​∣x) −
+θ
+θ
+w
+β∇
+​ log π
+​(y
+​∣x)
+θ
+θ
+l
+z =
+​(x, y
+​) −
+r^θ
+w
+​(x, y
+​)
+r^θ
+l
+σ(
+​(x, y
+​) −
+r^θ
+l
+​(x, y
+​))
+r^θ
+w
+​(x, y
+​) ≫
+r^θ
+w
+​(x, y
+​)
+r^θ
+l
+σ(−z) ≈0
+🚀 Powered by Claude Exporter
+16 / 18
+
+
+--- Page 17 ---
+When 
+ (model is incorrect, prefers loser): 
+, so
+gradient is large → updates more
+The gradient update is larger when the model is incorrect, providing adaptive
+learning that focuses on mistakes.
+(g) Plackett-Luce model - show 
+ cancels
+Given the Plackett-Luce probability for ranking : $$p_{\theta^*}(\tau | y_1, \ldots,
+y_K, x) = \prod_{k=1}^{K} \frac{\exp(r_\phi(x, y_{\tau(k)}))}{\sum_{j=k}^{K}
+\exp(r_\phi(x, y_{\tau(j)}))}$$
+Using the implicit reward from part (d): 
+Substituting: $$\exp(r_\phi(x,y)) = Z(x)^\beta \left(\frac{\pi_{\theta^*}(y|x)}
+{\pi_{\text{ref}}(y|x)}\right)^\beta$$
+Each term in the product becomes: $$\frac{\exp(r_\phi(x, y_{\tau(k)}))}
+{\sum_{j=k}^{K} \exp(r_\phi(x, y_{\tau(j)}))} = \frac{Z(x)^\beta
+\left(\frac{\pi_{\theta^}(y_{\tau(k)}|x)}{\pi_{\text{ref}}
+(y_{\tau(k)}|x)}\right)^\beta}{\sum_{j=k}^{K} Z(x)^\beta
+\left(\frac{\pi_{\theta^}(y_{\tau(j)}|x)}{\pi_{\text{ref}}
+(y_{\tau(j)}|x)}\right)^\beta}$$
+The 
+ cancels from numerator and denominator:
+Therefore, the final Plackett-Luce probability is:
+​(x, y
+​) ≪
+r^θ
+w
+​(x, y
+​)
+r^θ
+l
+σ(−z) ≈1
+Z(x)
+τ
+r
+​(x, y) =
+ϕ
+β log
+​ +
+π
+​(y∣x)
+ref
+π
+​(y∣x)
+θ∗
+β log Z(x)
+Z(x)β
+=
+​
+​
+​
+∑j=k
+K
+( π
+​(y
+​∣x)
+ref
+τ(j)
+π
+​(y
+​∣x)
+θ∗
+τ(j)
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+τ(k)
+π
+​(y
+​∣x)
+θ∗
+τ(k)
+)
+β
+​
+p
+​(τ∣y
+​, … , y
+​, x) =
+​
+​
+θ∗
+1
+K
+k=1
+∏
+K
+​
+​
+∑j=k
+K
+( π
+​(y
+​∣x)
+ref
+τ(j)
+π
+​(y
+​∣x)
+θ∗
+τ(j)
+)
+β
+​
+( π
+​(y
+​∣x)
+ref
+τ(k)
+π
+​(y
+​∣x)
+θ∗
+τ(k)
+)
+β
+🚀 Powered by Claude Exporter
+17 / 18
+
+
+--- Page 18 ---
+This is solely in terms of 
+ and 
+, with no partition function 
+!
+The corresponding DPO loss becomes: $$\mathcal{L}{\text{DPO}}(\pi\theta;
+\pi_{\text{ref}}) = -\mathbb{E}{(\tau, y_1, \ldots, y_K, x\tau) \sim \mathcal{D}}
+\left[\log \sigma\left(\beta \log \frac{\pi\theta(y_{\tau(k)}|x)}{\pi_{\text{ref}}
+(y_{\tau(k)}|x)} - \beta \log \frac{\pi_\theta(y_{\tau(j)}|x)}{\pi_{\text{ref}}
+(y_{\tau(j)}|x)}\right)\right]$$
+for appropriate pairs in the ranking.
+12/9/2025, 4:46:02 PM
+π
+​
+θ∗
+π
+​
+ref
+Z(x)
+🚀 Powered by Claude Exporter
+18 / 18
+
+
+--- Page 19 ---
+​Question 1​
+​(a) Correct​
+​Claude correctly used the steps of adding independent Gaussians to solve the problem.​
+​(b) Correct​
+​Claude correctly extended the logic from (a) to obtain X_{t-Δt} ~ N(0, σ² + t - Δt) and X_t ~ N(0,​
+​σ² + t) by recognizing variance accumulates linearly with time in the forward diffusion process.​
+​(c) Correct​
+​Claude properly simplified (σ² + t - Δt)Δt/(σ² + t) by factoring and recognizing that when Δt ≪ σ²​
+​≪ 1, the term Δt/(σ² + t) is negligible, yielding the approximation Var ≈ Δt. The algebraic steps​
+​were clear and justified.​
+​(d) Correct​
+​Claude successfully demonstrated the telescoping product X̂ ₀ = X₁ · ∏(σ² + 1 - kΔt)/(σ² + 1 -​
+​(k+1)Δt), correctly identified this telescopes to (σ²/(σ² + 1))·X₁, and concluded Var(X̂ ₀) ≈ σ⁴ ≪ σ².​
+​The explanation clearly identified why this is problematic. The variance collapses too much​
+​without stochastic noise.​
+​(e) Correct, good derivation.​
+​Claude set up the Riemann sum correctly, converted to the integral ∫₀¹ σ⁴/(σ² + s)² ds, and then​
+​performed the integration correctly and explicitly.​
+​●​ ​Applied the hint ∫ 1/(1+t)² dt = C - 1/(1+t)​
+​●​ ​Evaluated σ⁴[1/(σ² + s)]₀¹ = σ⁴(1/σ² - 1/(σ² + 1))​
+​●​ ​Simplified to σ²·[(σ² + 1) - σ²]/(σ² + 1) = σ²/(σ² + 1)​
+​●​ ​Combined with the deterministic term (σ²/(σ² + 1))² to get total variance​
+​●​ ​Showed the first term ≈ σ⁴ ≪ σ² when σ² ≪ 1​
+​●​ ​Concluded Var(X̂ ₀) ≈ σ²/(σ² + 1) ≈ σ²​
+​(f) Correct with good procedure​
+​1.​ ​Specified inputs: (x_t, t) pairs​
+​2.​ ​Detailed batch generation procedure:​
+​○​ ​Sample s_i from dataset​
+​○​ ​Sample t ~ Uniform(0,1)​
+​○​ ​Generate x_t = s_i + ε where ε ~ N(0,t)​
+​○​ ​Form pairs (x_t, t) with targets g*(x_t, t) = σ²/(σ² + t)·x_t​
+​3.​ ​Specified loss function: MSE between network output f_θ(x_t, t) and target​
+
+
+--- Page 20 ---
+​4.​ ​Clear objective: L = E[|f_θ(x_t, t) - σ²/(σ² + t)·x_t|²]​
+​Claude gave a good level of specificity (which is what the problem requested) and gave​
+​actionable implementation details.​
+​(g) Correct​
+​Claude approximated η(t, Δt) = √t/(√(t-Δt) + √t) for Δt ≪ t:​
+​●​ ​Factored as √t/(√t(√(1-Δt/t) + 1))​
+​●​ ​Approximated √(1-Δt/t) ≈ 1 - Δt/(2t) using √(1-x) ≈ 1 - x/2​
+​●​ ​Obtained η ≈ 1/(2 - Δt/(2t)) ≈ 1/2​
+​●​ ​Derived final form: x_{t-Δt} ≈ x_t(1 - Δt/(2(σ² + t)))​
+​The approximation was properly justified and the algebraic steps were shown clearly.​
+​(h) Correct​
+​Claude provided the complete calculation:​
+​1.​ ​Started with the product: X̂ ₀ = X̂ ₁ ∏(1 - Δt/(2(σ² + 1 - kΔt)))​
+​2.​ ​Took logarithms: ln(X̂ ₀/X̂ ₁) = Σ ln(1 - Δt/(2(σ² + 1 - kΔt)))​
+​3.​ ​Applied ln(1-x) ≈ -x: ≈ -Σ Δt/(2(σ² + 1 - kΔt))​
+​4.​ ​Converted to Riemann integral: → -∫₀¹ ds/(2(σ² + s))​
+​5.​ ​Evaluated: = -(1/2)[ln(σ² + s)]₀¹ = -(1/2)ln((σ² + 1)/σ²)​
+​6.​ ​Exponentiated: X̂ ₀ = X̂ ₁·√(σ²/(σ² + 1))​
+​7.​ ​Concluded: X̂ ₀ ~ N(0, σ²/(σ² + 1)) ≈ N(0, σ²)​
+​Claude showed every step of converting the product to a sum, sum to integral, evaluating the​
+​integral, and exponentiating back.​
+​Questions 2:​
+​(a) Correct​
+​Claude correctly solved using Lagrange multipliers, took derivatives with respect to p(x), set​
+​equal to zero, and obtained p*(x) = q(x). The derivation was complete and properly showed that​
+​e^(λ-1) = 1 from the normalization constraint.​
+​(b) Correct​
+​Claude was able to solve this correctly with explicit derivation.​
+​1.​ ​Wrote out the objective for fixed x: max Σ π_θ(y|x)[r_φ(x,y) - β log(π_θ(y|x)/π_ref(y|x))]​
+​2.​ ​Rearranged to show it's equivalent to minimizing KL divergence from​
+​(1/Z(x))π_ref(y|x)exp((1/β)r_φ(x,y))​
+​3.​ ​Applied result from part (a) to conclude the optimal policy equals this distribution​
+
+
+--- Page 21 ---
+​4.​ ​Identified Z(x) as the partition function​
+​One thing I noticed is that Claude did not show every Lagrange multiplier calculation step but it​
+​did show the connection to KL minimization and showing how the optimal form emerges. This​
+​demonstrates understanding of the constrained optimization structure.​
+​(c) Correct​
+​Claude correctly identified that computing Z(x) = Σ_y π_ref(y|x)·exp(r_φ(x,y)/β) is intractable for​
+​large output spaces like text generation.​
+​(d) Correct​
+​Claude correctly rearranged: log π_θ*(y|x) = -log Z(x) + log π_ref(y|x) + (1/β)r_φ(x,y), then​
+​solved to get r_φ(x,y) = β log(π_θ*(y|x)/π_ref(y|x)) + β log Z(x). The algebra was shown​
+​step-by-step.​
+​(e) Correct​
+​Claude substituted the reward parametrization into the Bradley-Terry formula, showed that​
+​exp(r_φ(x,y)) = Z(x)^β·(π_θ*(y|x)/π_ref(y|x))^β, demonstrated the Z(x)^β terms cancel from​
+​numerator and denominator, and clearly explained why this is desirable.​
+​(f) Correct​
+​1.​ ​Defined z = r̂_θ(x,y_w) - r̂_θ(x,y_l) and L = -log σ(z)​
+​2.​ ​Applied chain rule: ∂L/∂θ = -(σ'(z)/σ(z))·∂z/∂θ​
+​3.​ ​Used σ'(z) = σ(z)σ(-z) to get ∂L/∂θ = -σ(-z)·∂z/∂θ​
+​4.​ ​Computed ∂z/∂θ = β∇_θ log π_θ(y_w|x) - β∇_θ log π_θ(y_l|x)​
+​5.​ ​Combined to get final form: ∇_θ L_DPO = -β σ(r̂_θ(x,y_l) - r̂_θ(x,y_w))·(∇_θ log​
+​π_θ(y_w|x) - ∇_θ log π_θ(y_l|x))​
+​Claude explicitly showed the chain rule application and intermediate steps. The interpretation of​
+​the sigmoid weighting was also correct: large gradient when model is wrong (σ(-z) ≈ 1), small​
+​when correct (σ(-z) ≈ 0).​
+​(g) Correct​
+​Claude substituted r_φ(x,y) = β log(π_θ*(y|x)/π_ref(y|x)) + β log Z(x) into the Plackett-Luce​
+​formula, showed that exp(r_φ(x,y)) = Z(x)^β·(π_θ*(y|x)/π_ref(y|x))^β, demonstrated that Z(x)^β​
+​appears in both numerator and denominator of each term in the product and cancels, and wrote​
+​the final probability depending only on π_θ* and π_ref. The algebra was thorough and correct.​
+
+
+--- Page 22 ---
+​Summary​
+​Overall, I am very impressed with how Claude did on this homework. I was expecting it to solve​
+​most of the earlier parts correctly (which it did) but I was pleasantly surprised it was able to do​
+​the full derivations for the later parts correctly and (mostly) in full. I think some of the solutions​
+​could have used a little more detail, such as in 2b, but overall definitely very good. I would say it​
+​solved every question correctly. All the derivations were very explicit and easy to understand,​
+​and Claude rarely skipped steps in the process even when the traces were getting long. All of​
+​this was in one attempt.​
+​For example In part 1(e), the integral evaluation required several non-trivial steps: recognizing​
+​the Riemann sum structure, applying the substitution correctly, evaluating the antiderivative at​
+​the bounds, and then combining terms. And claude was able to execute each step well.​
+​Similarly, in part 1(h), the product-to-integral conversion involved taking logarithms, applying a​
+​first-order approximation, recognizing the Riemann sum, evaluating the integral, and​
+​exponentiating back. This is a long chain of reasoning where earlier mistakes could cascade​
+​through the rest of the calculation, but Claude was able to maintain accuracy throughout.​
+​Part 2(b) reveals an interesting aspect of Claude's approach. While it didn't write out every​
+​single step of the Lagrange multiplier calculation (taking derivatives, setting to zero, solving the​
+​system), it showed the key conceptual insight: recognizing that the constrained optimization​
+​problem is equivalent to KL minimization from a specific target distribution. This suggests​
+​Claude prioritizes conveying the mathematical structure and reasoning over mechanical symbol​
+​manipulation.​

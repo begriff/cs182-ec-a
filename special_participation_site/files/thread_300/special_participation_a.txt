@@ -1,0 +1,21 @@
+--- Page 1 ---
+Valid answer
+Correct answer
+Correct answer
+Simple prompts like this 
+work well.
+Was able to analyze image 
+and select correct option!
+Hallucinated “covariance 
+analysis”
+Had to reprompt and 
+restate the question.
+Got the limit wrong by 
+including the extra sample 
+mean of gradients.
+One shot fron pure text and no image input.
+Asked only first part
+Correct answer + proof
+Correct answer
+Correct answer
+Correct answer (used c=1 from earlier)

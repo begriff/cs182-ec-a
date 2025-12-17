@@ -1,0 +1,1143 @@
+--- Page 1 ---
+Problem 2 solution
+File: CS182hw0.pdf
+Can you solve problem 2 for me?
+12/9/2025, 5:42:48 PM
+I'll solve Problem 2 (Vector Calculus Review) for you step by step.
+Problem 2: Vector Calculus Review
+Given: x, c ∈ ℝⁿ and A ∈ ℝⁿˣⁿ
+Convention: Vector derivatives of a scalar with respect to a column vector are
+expressed as a row vector: ∂f/∂x = [∂f/∂x₁, ∂f/∂x₂, ..., ∂f/∂xₙ]
+(a) Show ∂/∂x(xᵀc) = cᵀ
+Type of derivative: The function xᵀc is a scalar, and we're differentiating with
+respect to a column vector x, so the result is a row vector.
+Solution:
+xᵀc = Σᵢ xᵢcᵢ (a scalar)
+The i-th entry of the derivative: ∂(xᵀc)/∂xᵢ = cᵢ
+Arranging all entries: ∂/∂x(xᵀc) = [c₁, c₂, ..., cₙ] = cᵀ ✓
+(b) Show ∂/∂x(‖x‖₂²) = 2xᵀ
+🚀 Powered by Claude Exporter
+1 / 30
+Justin Yang
+3040126209
+CS182 Special Participation A
+Using Claude 4.5 Sonnet
+Did problems 2-5
+
+
+--- Page 2 ---
+Type of derivative: ‖x‖₂² is a scalar, so the derivative is a row vector.
+Solution:
+‖x‖₂² = xᵀx = Σᵢ xᵢ²
+The i-th entry: ∂(‖x‖₂²)/∂xᵢ = 2xᵢ
+Arranging all entries: ∂/∂x(‖x‖₂²) = [2x₁, 2x₂, ..., 2xₙ] = 2xᵀ ✓
+(c) Show ∂/∂x(Ax) = A
+Type of derivative: Ax is a vector (n-dimensional), and we're differentiating with
+respect to a column vector x, so the result is a matrix (n×n).
+Solution:
+Let y = Ax, so yⱼ = Σₖ Aⱼₖxₖ
+The (j,i)-th entry of the derivative (Jacobian): ∂yⱼ/∂xᵢ = Aⱼᵢ
+Therefore, the Jacobian matrix is A itself ✓
+(d) Show ∂/∂x(xᵀAx) = xᵀ(A + Aᵀ)
+Type of derivative: xᵀAx is a scalar, so the derivative is a row vector.
+Solution:
+xᵀAx = Σᵢ Σⱼ xᵢAᵢⱼxⱼ
+Taking the partial derivative with respect to xₖ:
+∂(xᵀAx)/∂xₖ = Σⱼ Aₖⱼxⱼ + Σᵢ xᵢAᵢₖ
+(The first term comes from when i=k, the second from when j=k)
+This can be written as: (Ax)ₖ + (Aᵀx)ₖ
+🚀 Powered by Claude Exporter
+2 / 30
+
+
+--- Page 3 ---
+Arranging all entries: ∂/∂x(xᵀAx) = (Ax)ᵀ + (Aᵀx)ᵀ = xᵀAᵀ + xᵀA = xᵀ(A + Aᵀ) ✓
+(e) Under what condition is the previous derivative equal
+to 2xᵀA?
+We need: xᵀ(A + Aᵀ) = 2xᵀA
+This simplifies to: xᵀAᵀ = xᵀA for all x
+This is true when Aᵀ = A, i.e., when A is symmetric ✓
+12/9/2025, 5:43:08 PM
+🚀 Powered by Claude Exporter
+3 / 30
+All answers are correct for question 2. 
+The explanations are also correct and easy to follow.
+One-shotted.
+
+
+--- Page 4 ---
+Can you solve problem 3 for me while showing your thought processes and
+work?
+12/9/2025, 5:44:55 PM
+I'll solve Problem 3 step by step, showing all my reasoning and work.
+Problem 3: Least Squares and the Min-norm
+problem from the Perspective of SVD
+Setup: We have X****w = y, where:
+X ∈ ℝᵐˣⁿ (non-square data matrix)
+w is a weight vector
+y is a vector of labels
+X = UΣVᵀ is the full SVD
+Σ† is n×m with reciprocals 1/σᵢ on the diagonal
+(a) Overdetermined case (m > n): Find w that minimizes
+min_w ‖X****w - y‖²
+Thought process: This is the classic least squares problem. We have more
+equations than unknowns (tall matrix), so generally there's no exact solution. We
+need to minimize the squared error.
+Solution: To minimize ‖X****w - y‖², we take the derivative with respect to w
+and set it to zero:
+∂/∂w(‖X****w - y‖²) = 0
+Expanding: ∂/∂w[(X****w - y)ᵀ(X****w - y)] = 0
+🚀 Powered by Claude Exporter
+4 / 30
+Formatting issues starting on this problem
+
+
+--- Page 5 ---
+∂/∂w[wᵀXᵀX****w - 2wᵀXᵀy + yᵀy] = 0
+Using results from Problem 2: 2wᵀXᵀX - 2yᵀX = 0
+Taking transpose: XᵀX****w = Xᵀy
+Therefore, the least squares solution is: w = (XᵀX)⁻¹Xᵀ*y ✓
+(b) Plug in the SVD X = UΣVᵀ and simplify
+Thought process: I need to substitute the SVD decomposition and use the
+orthonormality properties: UᵀU = I and VᵀV = I.
+Solution: Starting with w = (XᵀX)⁻¹Xᵀ*y:
+Substitute X = UΣVᵀ:
+w = [(UΣVᵀ)ᵀ(UΣVᵀ)]⁻¹(UΣVᵀ)ᵀy*
+= [V****ΣᵀUᵀUΣVᵀ]⁻¹V****ΣᵀUᵀy
+Since UᵀU = I:
+= [V****ΣᵀΣ****Vᵀ]⁻¹V****ΣᵀUᵀy
+Using the property (ABC)⁻¹ = C⁻¹B⁻¹A⁻¹:
+= V(ΣᵀΣ)⁻¹VᵀV****ΣᵀUᵀy
+Since VᵀV = I:
+= V(ΣᵀΣ)⁻¹ΣᵀUᵀy
+Dimensional check: For m > n (tall matrix):
+Σ is m×n with singular values on the diagonal
+Σᵀ is n×m
+🚀 Powered by Claude Exporter
+5 / 30
+Does dimensionality check because question stated 
+"Be careful with dimentions!".
+
+
+--- Page 6 ---
+ΣᵀΣ is n×n with σᵢ² on the diagonal
+(ΣᵀΣ)⁻¹ is n×n with 1/σᵢ² on the diagonal
+(ΣᵀΣ)⁻¹Σᵀ is n×m with 1/σᵢ on the diagonal = Σ†
+Therefore: w = VΣ*†Uᵀy ✓
+(c) What is A and what happens when we left-multiply X
+by A?
+Thought process: From part (b), we have w = Ay* where A = V****Σ†Uᵀ. Let me
+see what X****A gives us.
+Solution: We have A = V****Σ†Uᵀ = (XᵀX)⁻¹Xᵀ
+Left-multiplying X by A:
+X****A = XVΣ†Uᵀ
+= UΣVᵀV****Σ†Uᵀ
+= UΣΣ†Uᵀ
+For the tall case (m > n), Σ****Σ† is an m×m matrix that looks like:
+[I_n×n | 0  ]
+[  0   | 0  ]
+So X****A projects onto the column space of X.
+More specifically, if we compute XAX:
+XAX = XVΣ†UᵀUΣVᵀ = XVΣ†Σ****Vᵀ = XVVᵀ = X
+So A is the left-inverse of X because A****X = Iₙ (in the column space). ✓
+🚀 Powered by Claude Exporter
+6 / 30
+
+
+--- Page 7 ---
+(d) Underdetermined case (m < n): Find the minimum
+norm solution
+Thought process: Now we have more unknowns than equations (wide matrix),
+so there are infinitely many solutions. We want the one with smallest ‖w‖.
+Solution: We want to solve: min ‖w‖² subject to X****w = y
+Using Lagrange multipliers: ℒ(w, λ) = ½‖w‖² + λᵀ(X****w - y)
+Taking derivatives: ∂ℒ/∂w = wᵀ + λᵀX = 0 ⟹ w = -Xᵀλ
+∂ℒ/∂λ = X****w - y = 0
+Substituting w = -Xᵀλ into the constraint: X(-Xᵀλ) = y -X****Xᵀλ = y λ = -
+(X****Xᵀ)⁻¹y
+Therefore: w = -Xᵀλ = Xᵀ(X****Xᵀ)⁻¹*y ✓
+(e) Plug in the SVD X = UΣVᵀ and simplify
+Thought process: Similar to part (b), but now with X****Xᵀ instead of XᵀX.
+Solution: Starting with w = Xᵀ(X****Xᵀ)⁻¹*y:
+w = (UΣVᵀ)ᵀ[(UΣVᵀ)(UΣVᵀ)ᵀ]⁻¹y*
+= V****ΣᵀUᵀ[UΣVᵀV****ΣᵀUᵀ]⁻¹y
+Since VᵀV = I:
+= V****ΣᵀUᵀ[UΣΣᵀUᵀ]⁻¹y
+= V****ΣᵀUᵀU(Σ****Σᵀ)⁻¹Uᵀy
+Since UᵀU = I and U****Uᵀ = I (U is square orthonormal):
+🚀 Powered by Claude Exporter
+7 / 30
+
+
+--- Page 8 ---
+= V****Σᵀ(Σ****Σᵀ)⁻¹Uᵀy
+Dimensional check: For m < n (wide matrix):
+Σ is m×n
+Σ****Σᵀ is m×m with σᵢ² on the diagonal
+(Σ****Σᵀ)⁻¹ is m×m with 1/σᵢ² on the diagonal
+Σᵀ(Σ****Σᵀ)⁻¹ is n×m with 1/σᵢ on the diagonal = Σ†
+Therefore: w = VΣ*†Uᵀy ✓
+(f) What is B and what happens when we right-multiply X
+by B?
+Thought process: From part (e), B = V****Σ†Uᵀ = Xᵀ(X****Xᵀ)⁻¹. Let me see
+what happens with B****X.
+Solution: We have B = V****Σ†Uᵀ = Xᵀ(X****Xᵀ)⁻¹
+Right-multiplying X by B:
+B****X = V****Σ†UᵀUΣVᵀ
+= V****Σ†Σ****Vᵀ
+For the wide case (m < n), Σ†Σ is an n×n matrix that looks like:
+[I_m×m | 0 ]
+[  0   | 0 ]
+So B****X projects onto the row space of X.
+More specifically, if we compute XBX:
+XBX = UΣVᵀV****Σ†UᵀUΣVᵀ = UΣΣ†Σ****Vᵀ = UΣVᵀ = X
+🚀 Powered by Claude Exporter
+8 / 30
+
+
+--- Page 9 ---
+So B is the right-inverse of X because X****B = Iₘ (in the row space). ✓
+Summary: Notice that in both cases (overdetermined and underdetermined), we
+get the same form w = VΣ*†Uᵀy, which is the Moore-Penrose pseudoinverse
+solution!
+12/9/2025, 5:45:38 PM
+🚀 Powered by Claude Exporter
+9 / 30
+All answers and explanations are correct for question 3. 
+Formatting issues make explanations a little hard to read (not due to exporting), but overall it's ok.
+Explanations are quite long for the left/right inverse justifications.
+One-shotted.
+
+
+--- Page 10 ---
+can you solve problem 4 while showing your work and thought processes?
+12/9/2025, 5:51:57 PM
+I'll solve Problem 4 (The 5 Interpretations of Ridge Regression) step by step with
+detailed work and reasoning.
+Problem 4: The 5 Interpretations of Ridge
+Regression
+(a) Perspective 1: Optimization Problem
+Given: Ridge regression as: $$\text{argmin}_{\mathbf{w}} |\mathbf{y} -
+\mathbf{X}\mathbf{w}|_2^2 + \lambda|\mathbf{w}|_2^2$$
+where X ∈ ℝⁿˣᵈ and y ∈ ℝⁿ.
+Thought process: This is an unconstrained optimization problem. I need to
+expand the objective function and take the derivative with respect to w, then set
+it to zero.
+Solution:
+Let's denote the objective function as: $$J(\mathbf{w}) = |\mathbf{y} -
+\mathbf{X}\mathbf{w}|_2^2 + \lambda|\mathbf{w}|_2^2$$
+Expanding the first term: $$|\mathbf{y} - \mathbf{X}\mathbf{w}|_2^2 =
+(\mathbf{y} - \mathbf{X}\mathbf{w})^T(\mathbf{y} -
+\mathbf{X}\mathbf{w})$$ $$= \mathbf{y}^T\mathbf{y} -
+\mathbf{y}^T\mathbf{X}\mathbf{w} - \mathbf{w}^T\mathbf{X}^T\mathbf{y}
++ \mathbf{w}^T\mathbf{X}^T\mathbf{X}\mathbf{w}$$ $$=
+\mathbf{y}^T\mathbf{y} - 2\mathbf{w}^T\mathbf{X}^T\mathbf{y} +
+\mathbf{w}^T\mathbf{X}^T\mathbf{X}\mathbf{w}$$
+🚀 Powered by Claude Exporter
+10 / 30
+This is an export issue, the latex is compiled correctly in the actual chat
+
+
+--- Page 11 ---
+(since yᵀX****w is a scalar, it equals its transpose wᵀXᵀy)
+Expanding the second term: $$\lambda|\mathbf{w}|_2^2 =
+\lambda\mathbf{w}^T\mathbf{w}$$
+So the full objective is: $$J(\mathbf{w}) = \mathbf{y}^T\mathbf{y} -
+2\mathbf{w}^T\mathbf{X}^T\mathbf{y} +
+\mathbf{w}^T\mathbf{X}^T\mathbf{X}\mathbf{w} +
+\lambda\mathbf{w}^T\mathbf{w}$$
+Taking the derivative with respect to w (using results from Problem 2):
+$$\frac{\partial J}{\partial \mathbf{w}} = 0 - 2\mathbf{y}^T\mathbf{X} +
+2\mathbf{w}^T\mathbf{X}^T\mathbf{X} + 2\lambda\mathbf{w}^T$$
+Setting equal to zero and taking transpose: $$-2\mathbf{X}^T\mathbf{y} +
+2\mathbf{X}^T\mathbf{X}\mathbf{w} + 2\lambda\mathbf{w} = 0$$
+$$\mathbf{X}^T\mathbf{X}\mathbf{w} + \lambda\mathbf{w} =
+\mathbf{X}^T\mathbf{y}$$ $$(\mathbf{X}^T\mathbf{X} +
+\lambda\mathbf{I})\mathbf{w} = \mathbf{X}^T\mathbf{y}$$
+Therefore: $$\boxed{\mathbf{w}^* = (\mathbf{X}^T\mathbf{X} +
+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}}$$ ✓
+(b) Perspective 2: "Hack" of shifting the Singular Values
+Given: X = UΣVᵀ is the full SVD. Plug this into the ridge solution.
+Thought process: I need to substitute the SVD and simplify using
+orthonormality. Then analyze what happens to singular values in different
+regimes.
+Solution:
+Starting with w = (XᵀX + λ*I)⁻¹Xᵀy:
+Substitute X = UΣVᵀ:
+🚀 Powered by Claude Exporter
+11 / 30
+For some reason, the latex failed in both the export and the original chat just for the final answer. 
+It is correct though, if you parse the answer.
+
+
+--- Page 12 ---
+w = [(UΣVᵀ)ᵀ(UΣVᵀ) + λI]⁻¹(UΣVᵀ)ᵀy*
+= [V****ΣᵀUᵀUΣVᵀ + λI]⁻¹V****ΣᵀUᵀy
+Since UᵀU = I:
+= [V****ΣᵀΣ****Vᵀ + λI]⁻¹V****ΣᵀUᵀy
+Note that I = VIVᵀ (since V****Vᵀ = I):
+= [V****ΣᵀΣ****Vᵀ + λVIVᵀ]⁻¹V****ΣᵀUᵀy
+= [V(ΣᵀΣ + λI)Vᵀ]⁻¹V****ΣᵀUᵀy
+Using (ABC)⁻¹ = C⁻¹B⁻¹A⁻¹:
+= V(ΣᵀΣ + λI)⁻¹VᵀV****ΣᵀUᵀy
+Since VᵀV = I:
+Analysis of singular values:
+Now, ΣᵀΣ is a d×d diagonal matrix with σᵢ² on the diagonal (for the first min(n,d)
+entries).
+So (ΣᵀΣ + λI)⁻¹ has entries 1/(σᵢ² + λ) on the diagonal.
+Therefore, (ΣᵀΣ + λI)⁻¹Σᵀ has entries σᵢ/(σᵢ² + λ) on the diagonal.
+Case 1: σᵢ << λ (small singular values)
+The contribution of this direction is heavily damped - approximately scaled by σᵢ/λ
+which is very small. This prevents overfitting to noise in directions with small
+singular values.
+Case 2: σᵢ >> λ (large singular values)
+​
+w = V(Σ Σ + λI)
+Σ U y
+∗
+T
+−1
+T
+T
+​ ≈
+σ
+​ + λ
+i
+2
+σ
+​i
+​λ
+σ
+​i
+🚀 Powered by Claude Exporter
+12 / 30
+
+
+--- Page 13 ---
+The contribution is approximately 1/σᵢ, which is the same as ordinary least
+squares. The regularization has minimal effect on directions with large singular
+values. ✓
+(c) Perspective 3: Maximum A Posteriori (MAP) estimation
+Given:
+Prior: W ~ 𝒩(0, I)
+Model: Y = XᵀW + √λN, where N ~ 𝒩(0, 1) i.i.d.
+At vector level: Y = X****W + √λN
+Thought process: For MAP estimation, I need to find argmax P(W|Y=y). Using
+Bayes' rule: $$P(\mathbf{W}|\mathbf{Y}=\mathbf{y}) \propto
+P(\mathbf{Y}=\mathbf{y}|\mathbf{W})P(\mathbf{W})$$
+Taking the log and maximizing is equivalent to minimizing the negative log.
+Solution:
+The prior distribution: $$P(\mathbf{W}) = \frac{1}{(2\pi)^{d/2}}\exp\left(-
+\frac{1}{2}|\mathbf{W}|^2\right)$$
+The likelihood (given W, Y = X****W + √λN where N ~ 𝒩(0, Iₙ)):
+$$P(\mathbf{Y}=\mathbf{y}|\mathbf{W}) = \frac{1}
+{(2\pi\lambda)^{n/2}}\exp\left(-\frac{1}{2\lambda}|\mathbf{y} -
+\mathbf{X}\mathbf{W}|^2\right)$$
+The posterior: $$P(\mathbf{W}|\mathbf{Y}=\mathbf{y}) \propto
+P(\mathbf{Y}=\mathbf{y}|\mathbf{W})P(\mathbf{W})$$
+Taking the negative log: $$-\log P(\mathbf{W}|\mathbf{Y}=\mathbf{y}) = -\log
+P(\mathbf{Y}=\mathbf{y}|\mathbf{W}) - \log P(\mathbf{W}) + \text{const}$$
+​ ≈
+σ
+​ + λ
+i
+2
+σ
+​i
+​ =
+σ
+​i
+2
+σ
+​i
+​
+σ
+​i
+1
+🚀 Powered by Claude Exporter
+13 / 30
+
+
+--- Page 14 ---
+To maximize the posterior, we minimize the negative log posterior:
+$$\text{argmin}_{\mathbf{W}} \left[\frac{1}{2\lambda}|\mathbf{y} -
+\mathbf{X}\mathbf{W}|^2 + \frac{1}{2}|\mathbf{W}|^2\right]$$
+Multiplying by 2λ: $$\text{argmin}_{\mathbf{W}} \left[|\mathbf{y} -
+\mathbf{X}\mathbf{W}|^2 + \lambda|\mathbf{W}|^2\right]$$
+This is exactly the ridge regression objective (1)! ✓
+(d) Perspective 4: Fake Data
+Given: Augmented data: $$\hat{\mathbf{y}} = \begin{bmatrix} \mathbf{y} \
+\mathbf{0}_d \end{bmatrix}, \quad \hat{\mathbf{X}} = \begin{bmatrix}
+\mathbf{X} \ \sqrt{\lambda}\mathbf{I}_d \end{bmatrix}$$
+Thought process: I need to show that solving OLS with the augmented data
+gives the same solution as ridge regression.
+Solution:
+The OLS problem with augmented data: $$\text{argmin}_{\mathbf{w}}
+|\hat{\mathbf{y}} - \hat{\mathbf{X}}\mathbf{w}|^2$$
+Expanding: $$\left|\begin{bmatrix} \mathbf{y} \ \mathbf{0}_d \end{bmatrix} -
+\begin{bmatrix} \mathbf{X} \ \sqrt{\lambda}\mathbf{I}_d
+\end{bmatrix}\mathbf{w}\right|^2 = \left|\begin{bmatrix} \mathbf{y} -
+\mathbf{X}\mathbf{w} \ -\sqrt{\lambda}\mathbf{w} \end{bmatrix}\right|^2$$
+This is exactly the ridge regression objective! Therefore, they have the same
+minimizer. ✓
+=
+​∥y −
+2λ
+1
+XW∥+
+2
+​∥W∥+
+2
+1
+2
+const
+= ∥y −Xw∥+
+2
+∥−
+​w∥
+λ
+2
+= ∥y −Xw∥+
+2
+λ∥w∥2
+🚀 Powered by Claude Exporter
+14 / 30
+This explanation looks much more correct in the original chat.
+
+
+--- Page 15 ---
+Interpretation: We're adding d fake data points at the origin with "features" that
+are the identity matrix scaled by √λ. This forces the weights to stay small.
+(e) Perspective 5: Fake Features
+Given: Augmented design matrix: $$\check{\mathbf{X}} = [\mathbf{X} \quad
+\sqrt{\lambda}\mathbf{I}_n]$$
+This is now an n×(d+n) matrix (wide), so we solve:
+$$\text{argmin}_{\boldsymbol{\eta}} |\boldsymbol{\eta}|^2 \quad \text{s.t.}
+\quad \check{\mathbf{X}}\boldsymbol{\eta} = \mathbf{y}$$
+Thought process: This is a min-norm problem. I need to partition η = [wᵀ, zᵀ]ᵀ
+where w ∈ ℝᵈ and z ∈ ℝⁿ, then show that w satisfies the ridge regression
+equation.
+Solution:
+Let η = [wᵀ, zᵀ]ᵀ where w ∈ ℝᵈ and z ∈ ℝⁿ.
+The constraint becomes: $$\check{\mathbf{X}}\boldsymbol{\eta} = [\mathbf{X}
+\quad \sqrt{\lambda}\mathbf{I}_n]\begin{bmatrix} \mathbf{w} \ \mathbf{z}
+\end{bmatrix} = \mathbf{X}\mathbf{w} + \sqrt{\lambda}\mathbf{z} =
+\mathbf{y}$$
+Therefore: z = (y - X****w)/√λ
+The objective becomes: $$|\boldsymbol{\eta}|^2 = |\mathbf{w}|^2 +
+|\mathbf{z}|^2 = |\mathbf{w}|^2 + \frac{1}{\lambda}|\mathbf{y} -
+\mathbf{X}\mathbf{w}|^2$$
+We want to minimize this subject to the constraint (which is automatically
+satisfied by our expression for z): $$\text{argmin}_{\mathbf{w}}
+\left[|\mathbf{w}|^2 + \frac{1}{\lambda}|\mathbf{y} -
+\mathbf{X}\mathbf{w}|^2\right]$$
+🚀 Powered by Claude Exporter
+15 / 30
+
+
+--- Page 16 ---
+Multiplying by λ: $$\text{argmin}_{\mathbf{w}} \left[\lambda|\mathbf{w}|^2 +
+|\mathbf{y} - \mathbf{X}\mathbf{w}|^2\right]$$
+This is exactly the ridge regression objective (1)! The first d coordinates of η are
+w, the ridge regression solution. ✓
+(f) Use pseudo-inverse to show equivalence of two ridge
+forms
+Given: For underdetermined system A****η = z, the pseudo-inverse is A† =
+Aᵀ(A****Aᵀ)⁻¹.
+Thought process: I'll apply the pseudo-inverse formula to Xˇ to get the min-
+norm solution, then show it equals the standard ridge formula.
+Solution:
+The pseudo-inverse of Xˇ = [X √λIₙ] is: $$\check{\mathbf{X}}^{\dagger} =
+\check{\mathbf{X}}^T(\check{\mathbf{X}}\check{\mathbf{X}}^T)^{-1}$$
+First, compute Xˇ****Xˇᵀ: $$\check{\mathbf{X}}\check{\mathbf{X}}^T =
+[\mathbf{X} \quad \sqrt{\lambda}\mathbf{I}_n]\begin{bmatrix} \mathbf{X}^T \
+\sqrt{\lambda}\mathbf{I}_n \end{bmatrix} = \mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{I}_n$$
+Therefore: $$\check{\mathbf{X}}^{\dagger} = \begin{bmatrix} \mathbf{X}^T \
+\sqrt{\lambda}\mathbf{I}_n \end{bmatrix}(\mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{I}_n)^{-1}$$
+The solution is η = Xˇ†y: $$\boldsymbol{\eta}^ = \begin{bmatrix}
+\mathbf{X}^T \ \sqrt{\lambda}\mathbf{I}_n \end{bmatrix}
+(\mathbf{X}\mathbf{X}^T + \lambda\mathbf{I}_n)^{-1}\mathbf{y}$$
+The first d coordinates (which correspond to ŵ) are: $$\boxed{\hat{\mathbf{w}}
+= \mathbf{X}^T(\mathbf{X}\mathbf{X}^T +
+🚀 Powered by Claude Exporter
+16 / 30
+
+
+--- Page 17 ---
+\lambda\mathbf{I}_n)^{-1}\mathbf{y}}$$
+This is the Kernel Ridge Form.
+Now showing equivalence to standard form:
+We need to show: $$\mathbf{X}^T(\mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{I}_n)^{-1}\mathbf{y} = (\mathbf{X}^T\mathbf{X} +
+\lambda\mathbf{I}_d)^{-1}\mathbf{X}^T\mathbf{y}$$
+Using the Woodbury Matrix Identity (Push-Through Identity):
+The Woodbury identity states: $$(\mathbf{A} + \mathbf{UCV})^{-1} =
+\mathbf{A}^{-1} - \mathbf{A}^{-1}\mathbf{U}(\mathbf{C}^{-1} +
+\mathbf{VA}^{-1}\mathbf{U})^{-1}\mathbf{VA}^{-1}$$
+Or more specifically for our case, the push-through identity:
+$$\mathbf{X}^T(\mathbf{X}\mathbf{X}^T + \lambda\mathbf{I}_n)^{-1} =
+(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I}_d)^{-1}\mathbf{X}^T$$
+Verification of push-through identity:
+Let's verify by multiplying both sides by (X****Xᵀ + λIₙ) on the right:
+Left side: $$\mathbf{X}^T(\mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{I}_n)^{-1}(\mathbf{X}\mathbf{X}^T + \lambda\mathbf{I}_n)
+= \mathbf{X}^T$$
+Right side: $$(\mathbf{X}^T\mathbf{X} +
+\lambda\mathbf{I}_d)^{-1}\mathbf{X}^T(\mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{I}_n)$$ $$= (\mathbf{X}^T\mathbf{X} +
+\lambda\mathbf{I}_d)^{-1}(\mathbf{X}^T\mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{X}^T)$$ $$= (\mathbf{X}^T\mathbf{X} +
+\lambda\mathbf{I}_d)^{-1}\mathbf{X}^T(\mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{I}_n)$$
+Hmm, let me try the direct approach. Multiply the right side by (XᵀX + λI_d):
+(X X +
+T
+λI
+​)
+X ⋅
+d
+−1
+T
+(X X +
+T
+λI
+​) =
+d
+XT
+🚀 Powered by Claude Exporter
+17 / 30
+
+
+--- Page 18 ---
+And multiply the left side by (XᵀX + λI_d):
+Let M = (X****Xᵀ + λIₙ)⁻¹. Then: $$=
+\mathbf{X}^T[\mathbf{M}\mathbf{X}^T\mathbf{X} + \lambda\mathbf{M}] =
+\mathbf{X}^T\mathbf{M}(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I}_n)$$
+Wait, but M = (X****Xᵀ + λIₙ)⁻¹, so M(X****Xᵀ + λIₙ) = Iₙ.
+Actually, the cleanest way is to note that this is a well-known identity. Applying it:
+This shows the kernel form equals the standard form! ✓
+(g) What happens when λ → ∞?
+Thought process: As λ gets very large, the regularization term dominates.
+Solution:
+The ridge solution is: $$\hat{\mathbf{w}}_r = (\mathbf{X}^T\mathbf{X} +
+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$$
+We can rewrite this as: $$\hat{\mathbf{w}}_r = \left(\frac{1}
+{\lambda}\mathbf{X}^T\mathbf{X} + \mathbf{I}\right)^{-1}\frac{1}
+{\lambda}\mathbf{X}^T\mathbf{y}$$
+As λ → ∞:
+(1/λ)XᵀX → 0
+X (XX +
+T
+T
+λI
+​)
+⋅
+n
+−1 (X X +
+T
+λI
+​)
+d
+= X (XX +
+T
+T
+λI
+​)
+(X X +
+n
+−1
+T
+λI
+​)
+d
+= X (XX +
+T
+T
+λI
+​)
+X X +
+n
+−1
+T
+λX (XX +
+T
+T
+λI
+​)
+n
+−1
+= X [(XX +
+T
+T
+λI
+​)
+X X +
+n
+−1
+T
+λ(XX +
+T
+λI
+​)
+]
+n
+−1
+​
+X (XX + λI
+​)
+y = (X X + λI
+​)
+X y
+T
+T
+n
+−1
+T
+d
+−1
+T
+🚀 Powered by Claude Exporter
+18 / 30
+This is the same answer as the solution but with the y appended. 
+It took a lot longer to get here than the official solution.
+
+
+--- Page 19 ---
+The inverse approaches I⁻¹ = I
+(1/λ)Xᵀy → 0
+Therefore: $$\lim_{\lambda \to \infty} \hat{\mathbf{w}}_r = \mathbf{0}$$
+Interpretation: The penalty on ‖w‖² becomes so strong that the optimal solution
+is to shrink all weights to zero. This is why ridge regression is called "shrinkage" -
+it shrinks weights toward zero, and in the limit, all the way to zero. ✓
+(h) What happens when λ → 0?
+Thought process: As λ → 0, the regularization disappears. The behavior depends
+on whether XᵀX is invertible.
+Solution:
+Case 1: X is tall (n > d) - Overdetermined system
+When X has full column rank (rank d), XᵀX is invertible.
+As λ → 0: $$\lim_{\lambda \to 0} (\mathbf{X}^T\mathbf{X} +
+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y} =
+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
+This is exactly the ordinary least squares (OLS) solution! ✓
+Case 2: X is wide (n < d) - Underdetermined system
+When n < d, XᵀX is a d×d matrix but has rank at most n < d, so it's not
+invertible.
+However, (XᵀX + λI) remains invertible for any λ > 0.
+Using the kernel form: $$\hat{\mathbf{w}}_r =
+\mathbf{X}^T(\mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{I})^{-1}\mathbf{y}$$
+🚀 Powered by Claude Exporter
+19 / 30
+
+
+--- Page 20 ---
+As λ → 0: $$\lim_{\lambda \to 0} \mathbf{X}^T(\mathbf{X}\mathbf{X}^T +
+\lambda\mathbf{I})^{-1}\mathbf{y} =
+\mathbf{X}^T(\mathbf{X}\mathbf{X}^T)^{-1}\mathbf{y}$$
+(Here X****Xᵀ is n×n with rank n, so it's invertible)
+This is exactly the minimum norm solution from Problem 3(d)! ✓
+Summary:
+Tall X (overdetermined): Ridge → OLS as λ → 0
+Wide X (underdetermined): Ridge → Min-norm solution as λ → 0
+The ridge regression smoothly interpolates between zero solution (λ → ∞) and the
+appropriate unregularized solution (λ → 0). ✓
+This problem beautifully shows how ridge regression can be understood from
+multiple perspectives - as regularized optimization, as manipulating singular
+values, as Bayesian inference, and as solving modified least squares problems
+with fake data or fake features!
+12/9/2025, 5:53:35 PM
+🚀 Powered by Claude Exporter
+20 / 30
+All answers and explanations are correct for question 4. 
+Most of the formatting issues are with the PDF export, not the actual chat, so the solutions are clear.
+Explanations was very long for part f, but ended up with the same solution.
+I think Claude is very good at explaining its steps, but sometimes it uses random facts/theorems that it takes for granted.
+One-shotted.
+
+
+--- Page 21 ---
+Can you solve problem 5 while showing your work and thought processes?
+For the problems that require you to draw figures, can you try generating
+graphs? If not, can you describe what to draw?
+12/9/2025, 5:59:51 PM
+I'll solve Problem 5 step by step with detailed work and create visualizations
+where possible.
+Problem 5: ReLU Elbow Update under SGD
+Setup: We have a 1D function with a 1-hidden layer network: $$\hat{f}(x) =
+\mathbf{W}^{(2)}\Phi(\mathbf{W}^{(1)}x + \mathbf{b})$$
+where x, y ∈ ℝ, b ∈ ℝᵈ, W⁽¹⁾ ∈ ℝᵈˣ¹, W⁽²⁾ ∈ ℝ¹ˣᵈ
+Loss: ℓ(x, y, W⁽¹⁾, b, W⁽²⁾) = ½‖f̂(x) - y‖²₂
+ReLU gradient at 0 is defined as 0.
+(a) Single ReLU analysis
+Given: $$\phi(x) = \begin{cases} wx + b, & wx + b > 0 \ 0, & \text{else}
+\end{cases}$$
+Loss: ℓ(x, y, φ) = ½‖φ(x) - y‖²₂
+Thought process: I need to find the elbow location, then compute derivatives
+carefully considering the ReLU's piecewise nature.
+(i) Location of the 'elbow' e
+🚀 Powered by Claude Exporter
+21 / 30
+
+
+--- Page 22 ---
+The elbow is where the function transitions from 0 to non-zero, i.e., where wx + b
+= 0.
+✓
+(assuming w ≠ 0)
+(ii) Derivative dℓ/dφ
+Using the chain rule: $$\frac{d\ell}{d\phi} = \phi(x) - y$$
+✓
+(iii) Partial derivative ∂ℓ/∂w
+Thought process: I need to use the chain rule: ∂ℓ/∂w = (dℓ/dφ)(∂φ/∂w)
+First, find ∂φ/∂w: $$\phi(x) = \begin{cases} wx + b, & wx + b > 0 \ 0, &
+\text{else} \end{cases}$$
+Using the chain rule: $$\frac{\partial \ell}{\partial w} = \frac{d\ell}{d\phi} \cdot
+\frac{\partial \phi}{\partial w} = [\phi(x) - y] \cdot \begin{cases} x, & wx + b > 0
+​
+e = −
+​
+w
+b
+ℓ=
+​[ϕ(x) −
+2
+1
+y]2
+​
+​ = ϕ(x) −y
+dϕ
+dℓ
+​ =
+∂w
+∂ϕ
+​
+​
+{x,
+0,
+wx + b > 0
+wx + b ≤0
+🚀 Powered by Claude Exporter
+22 / 30
+Interestingly, this doesn't compile correct on the actual chat.
+
+
+--- Page 23 ---
+\ 0, & \text{else} \end{cases}$$
+✓
+(iv) Partial derivative ∂ℓ/∂b
+Thought process: Similar to above, but ∂φ/∂b is different.
+✓
+(b) Training point with φ(x) - y = 1 (prediction is 1 unit too
+high)
+Given: φ(x) - y = 1, so we want to pull the function downward.
+SGD update: p' = p - λ∇ₚ(ℓ), λ > 0
+Let me create visualizations for each case:
+​
+​ =
+​
+​
+∂w
+∂ℓ
+{[ϕ(x) −y] ⋅x,
+0,
+wx + b > 0
+else
+​ =
+∂b
+∂ϕ
+​
+​
+{1,
+0,
+wx + b > 0
+wx + b ≤0
+​ =
+∂b
+∂ℓ
+​ ⋅
+dϕ
+dℓ
+​ =
+∂b
+∂ϕ
+[ϕ(x) −y] ⋅
+​
+​
+{1,
+0,
+wx + b > 0
+else
+​
+​ =
+​
+​
+∂b
+∂ℓ
+{ϕ(x) −y,
+0,
+wx + b > 0
+else
+🚀 Powered by Claude Exporter
+23 / 30
+
+
+--- Page 24 ---
+(i) Case: φ(x) = 0
+Thought process: If φ(x) = 0, then we're in the "off" region where wx + b ≤ 0.
+But we're told φ(x) - y = 1, so y = -1.
+Since wx + b ≤ 0, both gradients are:
+∂ℓ/∂w = 0
+∂ℓ/∂b = 0
+Updates:
+w' = w - λ·0 = w (no change)
+b' = b - λ·0 = b (no change)
+e' = -b'/w' = -b/w = e (no change)
+Conclusion: The slope and elbow don't change. The ReLU is "off" at this point,
+so gradient descent can't adjust it. This is the "dead ReLU" problem! ✓
+Let me create a visualization:
+Create File: Create a Python script to visualize the ReLU cases 
+for problem 5b
+Bash Tool: Run the visualization script to generate the ReLU 
+update figures
+present_files
+Request
+{
+  "filepaths": [
+    "/mnt/user-data/outputs/relu_elbow_updates.png"
+🚀 Powered by Claude Exporter
+24 / 30
+
+
+--- Page 25 ---
+  ]
+}
+Response
+Great! Now let me continue with the detailed analysis of each case:
+(ii) Case: w > 0, x > 0, φ(x) > 0
+Gradients:
+∂ℓ/∂w = [φ(x) - y]·x = 1·x = x > 0 (positive)
+∂ℓ/∂b = φ(x) - y = 1 > 0 (positive)
+Updates:
+w' = w - λx < w (slope decreases)
+b' = b - λ < b (intercept decreases)
+Elbow movement:
+Since both numerator and denominator decrease, let me analyze numerically with
+w=1, b=-1, x=3, λ=0.3:
+e_before = -(-1)/1 = 1
+w' = 1 - 0.3(3) = 0.1
+b' = -1 - 0.3 = -1.3
+e' = -(-1.3)/0.1 = 13
+The elbow moves to the RIGHT (from 1 to 13).
+e =
+′
+−
+​ =
+w′
+b′
+−
+​
+w −λx
+b −λ
+🚀 Powered by Claude Exporter
+25 / 30
+
+
+--- Page 26 ---
+Physical interpretation: The slope decreases (flattens), and the function shifts
+down. To pull down the prediction at x=3, the network flattens the slope and shifts
+the entire function down. The elbow moves right as the function "stretches" to the
+right. ✓
+(iii) Case: w > 0, x < 0, φ(x) > 0
+Gradients:
+∂ℓ/∂w = [φ(x) - y]·x = 1·x < 0 (negative, since x < 0)
+∂ℓ/∂b = φ(x) - y = 1 > 0 (positive)
+Updates:
+w' = w - λx > w (slope increases, since -λx is positive when x < 0)
+b' = b - λ < b (intercept decreases)
+Elbow movement: Using w=1, b=3, x=-1, λ=0.3:
+e_before = -3/1 = -3
+w' = 1 - 0.3(-1) = 1.3
+b' = 3 - 0.3 = 2.7
+e' = -2.7/1.3 ≈ -2.08
+The elbow moves to the RIGHT (from -3 to -2.08).
+Physical interpretation: Since x < 0, we're on the left side of the elbow. To
+reduce φ(x), the network increases the slope (makes it steeper) and decreases the
+intercept. The steeper slope with lower intercept causes the elbow to shift right. ✓
+(iv) Case: w < 0, x > 0, φ(x) > 0
+🚀 Powered by Claude Exporter
+26 / 30
+
+
+--- Page 27 ---
+Gradients:
+∂ℓ/∂w = [φ(x) - y]·x = 1·x > 0 (positive)
+∂ℓ/∂b = φ(x) - y = 1 > 0 (positive)
+Updates:
+w' = w - λx < w (slope becomes more negative, i.e., steeper descent)
+b' = b - λ < b (intercept decreases)
+Elbow movement: Using w=-1, b=4, x=1, λ=0.3:
+e_before = -4/(-1) = 4
+w' = -1 - 0.3(1) = -1.3
+b' = 4 - 0.3 = 3.7
+e' = -3.7/(-1.3) ≈ 2.85
+The elbow moves to the LEFT (from 4 to 2.85).
+Physical interpretation: With negative slope, the ReLU is active for x < e. To
+pull down the prediction at x=1 (which is less than the elbow), the network makes
+the negative slope steeper and reduces the intercept. This causes the elbow to
+move left. ✓
+Summary Table for Part (b):
+Case
+w sign
+x sign
+Slope change
+Intercept change
+Elbow movement
+(i)
+any
+any
+No change
+No change
+No change
+(ii)
++
++
+Decreases
+Decreases
+Moves RIGHT
+(iii)
++
+-
+Increases
+Decreases
+Moves RIGHT
+(iv)
+-
++
+More negative
+Decreases
+Moves LEFT
+🚀 Powered by Claude Exporter
+27 / 30
+
+
+--- Page 28 ---
+(c) Elbow location eᵢ for the i-th ReLU in the full network
+Thought process: The full network is ŷ = W⁽²⁾Φ(W⁽¹⁾x + b), where Φ applies
+ReLU elementwise.
+For the i-th hidden unit, the input to the ReLU is: $$z_i = W^{(1)}_i x + b_i$$
+where W⁽¹⁾ᵢ is the i-th entry of W⁽¹⁾ (which is d×1, so it's a column vector, and W⁽¹⁾ᵢ
+is the i-th scalar).
+The elbow is where zᵢ = 0: $$W^{(1)}_i x + b_i = 0$$
+✓
+(d) New elbow location e'ᵢ after one SGD update
+Thought process: I need to compute the gradients ∂ℓ/∂W⁽¹⁾ᵢ and ∂ℓ/∂bᵢ, then apply
+the updates.
+Loss:
+Let me denote:
+z = W⁽¹⁾x + b (pre-activation)
+a = Φ(z) (post-activation)
+ŷ = W⁽²⁾a (output)
+Backpropagation:
+​
+e
+​ = −
+​
+i
+W
+​
+i
+(1)
+b
+​i
+ℓ=
+​
+​(x) −y
+=
+2
+1 [f^
+]
+2
+​ W
+Φ(W
+x + b) −y
+2
+1 [
+(2)
+(1)
+]
+2
+🚀 Powered by Claude Exporter
+28 / 30
+
+
+--- Page 29 ---
+Output layer gradient: $$\frac{\partial \ell}{\partial \hat{y}} = \hat{y} - y$$
+Hidden layer gradient (before activation): $$\frac{\partial \ell}{\partial a_i} =
+\frac{\partial \ell}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_i} =
+(\hat{y} - y) \cdot W^{(2)}_i$$
+Pre-activation gradient: $$\frac{\partial \ell}{\partial z_i} = \frac{\partial \ell}
+{\partial a_i} \cdot \frac{\partial a_i}{\partial z_i} = (\hat{y} - y) \cdot W^{(2)}_i
+\cdot \mathbb{1}[z_i > 0]$$
+where 𝟙[zᵢ > 0] is the ReLU derivative.
+Parameter gradients:
+SGD Updates:
+New elbow location:
+Substituting: $$e'_i = -\frac{b_i - \lambda (\hat{y} - y) \cdot W^{(2)}_i \cdot
+\mathbb{1}[z_i > 0]}{W^{(1)}_i - \lambda (\hat{y} - y) \cdot W^{(2)}_i \cdot
+\mathbb{1}[z_i > 0] \cdot x}$$
+Simplifying notation: Let δᵢ = λ(ŷ - y)W⁽²⁾ᵢ𝟙[zᵢ > 0]
+where δᵢ = λ(ŷ - y)W⁽²⁾ᵢ𝟙[zᵢ > 0] ✓
+​ =
+∂W
+​
+i
+(1)
+∂ℓ
+​ ⋅
+∂z
+​i
+∂ℓ
+​ =
+∂W
+​
+i
+(1)
+∂z
+​i
+(
+​ −
+y^
+y) ⋅W
+​ ⋅
+i
+(2) 1[z
+​ >
+i
+0] ⋅x
+​ =
+∂b
+​i
+∂ℓ
+​ ⋅
+∂z
+​i
+∂ℓ
+​ =
+∂b
+​i
+∂z
+​i
+(
+​ −
+y^
+y) ⋅W
+​ ⋅
+i
+(2) 1[z
+​ >
+i
+0] ⋅1
+(W
+​) =
+i
+(1) ′
+W
+​ −
+i
+(1)
+λ(
+​ −
+y^
+y) ⋅W
+​ ⋅
+i
+(2) 1[z
+​ >
+i
+0] ⋅x
+b
+​ =
+i
+′
+b
+​ −
+i
+λ(
+​ −
+y^
+y) ⋅W
+​ ⋅
+i
+(2) 1[z
+​ >
+i
+0]
+e
+​ =
+i
+′
+−
+​
+(W
+​)
+i
+(1) ′
+b
+​i
+′
+​
+e
+​ = −
+​
+i
+′
+W
+​ −δ
+​ ⋅x
+i
+(1)
+i
+b
+​ −δ
+​
+i
+i
+🚀 Powered by Claude Exporter
+29 / 30
+Using indicator variables rather than piecewise function.
+Did a substitution to make it look clean.
+Also final answer is not in terms of e_i
+
+
+--- Page 30 ---
+Special cases:
+If zᵢ ≤ 0 (ReLU is off): δᵢ = 0, so e'ᵢ = eᵢ (no change, like part b.i)
+If zᵢ > 0 (ReLU is on): The elbow moves according to the sign of x and W⁽¹⁾ᵢ,
+similar to the patterns in part (b)
+Summary
+This problem beautifully illustrates how SGD adjusts ReLU neurons:
+1. Dead ReLUs (when φ(x) = 0): No gradient flows, so no learning occurs
+2. Active ReLUs: The elbow and slope adjust based on:
+The error (φ(x) - y)
+The sign of the weight w
+The sign of the input x
+The learning rate λ
+The key insight is that ReLU elbows move during training to better fit the
+data. When the prediction is too high, gradient descent adjusts both the slope and
+the elbow location to pull the function down at that point. The direction of elbow
+movement depends on whether we're on the left or right side of the elbow and the
+sign of the slope.
+12/9/2025, 6:01:45 PM
+🚀 Powered by Claude Exporter
+30 / 30
+All answers and explanations are correct for question 5. 
+Really surprised it could answer part (b) correctly. Claude also generated an accurate image of the plots.
+Claude's answer for part (d) is correct, but in a much different form than the solution's. 
+I like how Claude always calls the problems beautiful lol.
+One-shotted.
+
+
+--- Page 31 ---
+Generated by Claude!

@@ -1,0 +1,1801 @@
+--- Page 1 ---
+Special Participation A - HW8
+Hanna Roed
+EECS 282A - Deep Neural Networks
+November 17, 2025
+This is my report on using Qwen3-Max on the written part of homework 8.
+Concise summary of my findings:
+Problem
+Outcome
+1(a)
+one-shot
+1(b)
+one-shot
+1(c)
+one-shot
+1(d)
+minor correction
+1(e)
+extensive correction
+1(f)
+minor correction
+2 (coding)
+N/A
+3(a)
+one-shot
+3(b)
+one-shot
+3(c)
+one-shot
+4(a)
+one-shot
+4(b)
+one-shot
+4(c)
+one-shot
+4(d)
+one-shot
+4(e)
+one-shot
+4(f)
+one-shot
+4(g)
+one-shot
+Overall, I’m very impressed by Qwen3-Max’s performance on this homework. It seems like it
+really does well on the questions where it needs to fill in or do multiple choice, i. e., problems
+3 and 4. The main issues I had were in the second half of problem 1, which was regarding
+computational efficiency; it had a hard time accurately responding in text along with giving
+a mathematical reasoning.
+Therefore, my strategy after doing problem 1, was to start a new chat session with the same
+intro prompt that I gave it the first time in order to have a clean slate after the back and
+forth from the errors it made.
+1
+
+
+--- Page 2 ---
+Introduction
+Prompt:
+You will be assisting a graduate student with a problem set on deep neural networks. Do not
+answer any problem at this time, only when I give you a problem. The following problems
+will be only theory based, so no coding should be done at any point. For the solutions you
+need to provide short, but sitll clear step-by-step derivation of your solution.
+Response:
+Understood. Please provide the first theory-based problem.
+1
+SSM Convolution Kernel
+1.1
+a)
+Prompt:
+1. SSM Convolution Kernel
+Background and Setup: Consider a discrete-time State-Space Model (SSM) of the form
+xk+1 = Axk + Buk,
+yk = Cxk + Duk,
+where xk ∈Rn, uk ∈Rd, yk ∈Rm.
+a) Convolution Kernel and the Output Equation. Given that the sequence length is
+L (input: (u0, . . . , uL), output: (y0, . . . , yL)) and assume x0 = 0, show that the output yk
+can be expressed as a convolution of the input sequence {uℓ}L
+ℓ=0 with a kernel K = {Kℓ}L
+ℓ=0:
+yk =
+L
+X
+ℓ=0
+Kℓuk−ℓ,
+where any uj with a negative index j < 0 is set to 0 (zero-padding). Also, find K.
+Response:
+We are given a discrete-time linear time-invariant (LTI) state-space model (SSM):
+xk+1 = Axk + Buk,
+yk = Cxk + Duk,
+with initial state x0 = 0, and we are to show that the output yk can be written as a
+convolution of the input sequence {uℓ} with a kernel K = {Kℓ}, and to find that kernel.
+—
+2
+
+
+--- Page 3 ---
+Step 1: Unroll the state equation
+Since x0 = 0, we can unroll the state recursion:
+x1 = Ax0 + Bu0 = Bu0,
+x2 = Ax1 + Bu1 = ABu0 + Bu1,
+x3 = Ax2 + Bu2 = A2Bu0 + ABu1 + Bu2,
+...
+xk =
+k−1
+X
+ℓ=0
+Ak−1−ℓBuℓ.
+This can be written compactly as:
+xk =
+k−1
+X
+ℓ=0
+Ak−1−ℓBuℓ,
+for k ≥1,
+x0 = 0.
+—
+Step 2: Plug into output equation
+Now substitute into the output equation:
+yk = Cxk + Duk = C
+ k−1
+X
+ℓ=0
+Ak−1−ℓBuℓ
+!
++ Duk.
+Change index of summation: let j = k −ℓ⇒ℓ= k −j. When ℓ= 0, j = k; when ℓ= k −1,
+j = 1. So:
+yk =
+k
+X
+j=1
+CAj−1Buk−j + Duk.
+Now include the Duk term as the j = 0 term:
+yk =
+k
+X
+j=0
+Kjuk−j,
+where we define:
+Kj =
+(
+D,
+j = 0,
+CAj−1B,
+j ≥1.
+—
+Step 3: Extend to full convolution over length L
+For a sequence of length L + 1 (indices 0 to L), and using zero-padding for uj when j < 0,
+we can write for all k = 0, . . . , L:
+yk =
+L
+X
+ℓ=0
+Kℓuk−ℓ,
+3
+
+
+--- Page 4 ---
+with the convention uj = 0 for j < 0 or j > L.
+Thus, the system acts as a convolution with kernel K = {Kℓ}L
+ℓ=0 given by:
+K0 = D,
+Kℓ= CAℓ−1B for ℓ= 1, 2, . . . , L.
+This completes the derivation.
+Evaluation: Correct, one-shot.
+1.2
+b)
+Prompt:
+Concrete Examples.
+1. Scalar Case: Let n = 1, and set A = α, B = β, C = γ, D = δ. Use α = 0.8, β = 1,
+γ = 1.5 and compute the kernel up to L = 4.
+2. 2D Case: Let A ∈R2×2 be, for instance,
+A =
+0.7
+0.1
+0.2
+0.6
+
+,
+B =
+1
+0
+
+,
+C =
+
+1
+0
+
+,
+D = 0.
+Compute kernels up to L = 3 and briefly discuss how the kernel captures the “impulse
+response”.
+Response:
+We now compute the convolution kernels for two concrete SSM instances using the formula
+derived in part (a):
+K0 = D,
+Kℓ= CAℓ−1B for ℓ≥1.
+—
+(i) Scalar Case
+Given: - A = α = 0.8,B = β = 1,C = γ = 1.5,D = δ (not explicitly given, so assume
+D = 0 unless stated; but since they ask to “compute the kernel” and give all other values,
+we assume D = 0 unless otherwise indicated — however, note: if D were nonzero, it would
+appear in K0. Since D is not specified numerically, we assume D = 0.)
+But actually—wait: the problem does list D = δ, but does not give a numeric value for δ.
+However, in standard examples like this, if D is omitted numerically, it is often taken as 0.
+To be safe, we will assume D = 0 unless the problem implies otherwise. Let’s proceed with
+D = 0.
+Then for ℓ≥1:
+Kℓ= CAℓ−1B = γ · αℓ−1 · β = 1.5 · (0.8)ℓ−1 · 1 = 1.5 · (0.8)ℓ−1.
+Compute up to L = 4:
+- K0 = D = 0
+4
+
+
+--- Page 5 ---
+- K1 = 1.5 · (0.8)0 = 1.5
+- K2 = 1.5 · (0.8)1 = 1.5 · 0.8 = 1.2
+- K3 = 1.5 · (0.8)2 = 1.5 · 0.64 = 0.96
+- K4 = 1.5 · (0.8)3 = 1.5 · 0.512 = 0.768
+Thus, the kernel is:
+K =
+
+0, 1.5, 1.2, 0.96, 0.768
+
+(If D ̸= 0, say D = δ, then K0 = δ; but since no value is given, we take D = 0.)
+—
+(ii) 2D Case
+Given:
+A =
+0.7
+0.1
+0.2
+0.6
+
+,
+B =
+1
+0
+
+,
+C =
+
+1
+0
+
+,
+D = 0.
+We compute Kℓ= CAℓ−1B for ℓ= 1, 2, 3. Since D = 0, K0 = 0.
+Step 1: ℓ= 1 A0 = I, so:
+K1 = CIB = CB = [1 0]
+1
+0
+
+= 1.
+Step 2: ℓ= 2 Compute AB:
+AB =
+0.7
+0.1
+0.2
+0.6
+ 1
+0
+
+=
+0.7
+0.2
+
+.
+Then:
+K2 = C(AB) = [1 0]
+0.7
+0.2
+
+= 0.7.
+Step 3: ℓ= 3 Compute A2B = A(AB) = A
+0.7
+0.2
+
+:
+A2B =
+0.7
+0.1
+0.2
+0.6
+ 0.7
+0.2
+
+=
+0.7 · 0.7 + 0.1 · 0.2
+0.2 · 0.7 + 0.6 · 0.2
+
+=
+0.49 + 0.02
+0.14 + 0.12
+
+=
+0.51
+0.26
+
+.
+Then:
+K3 = C(A2B) = [1 0]
+0.51
+0.26
+
+= 0.51.
+So the kernel up to L = 3 is:
+K =
+
+0, 1, 0.7, 0.51
+
+—
+Impulse Response Interpretation
+The kernel K = {Kℓ} is precisely the impulse response of the system: it is the output
+sequence yk when the input is a unit impulse u0 = 1, uk = 0 for k > 0, and zero initial state.
+- In the scalar case, the impulse response decays exponentially, as expected for a stable first-
+order system (|α| < 1). - In the 2D case, even though the state is 2-dimensional, the output
+5
+
+
+--- Page 6 ---
+only observes the first state component (C = [1 0]), and the dynamics mix both states via
+A. The kernel values (1, 0.7, 0.51, . . . ) reflect how the initial impulse propagates through
+the internal state and leaks out over time.
+Thus, the kernel captures how past inputs influence the current output via the hidden dy-
+namics, and is fully determined by (A, B, C, D).
+Evaluation: Correct, one-shot.
+Note: For the scalar case given in this problem Qwen uses D = 0 as the first element of the
+kernel which i believe in correct according to what the solution is in part a) of this problem
+(contrary to the first element of the kernel being 1.5 in the handed out solution proposal).
+1.3
+c)
+Prompt:
+Efficient Computation with Convolutions.
+If we already know the kernel K, how
+much can we parallelize the computation of the output sequence {yk} for an input sequence
+{uk} ∈Rd of length L? What is the minimum critical path length of the computation?
+What about a naive, direct computation of yk from the unrolled recursion?
+Response:
+We analyze the computational structure of generating the output sequence {yk}L
+k=0 from an
+input {uk}L
+k=0 in two ways: (1) using the precomputed convolution kernel K, and (2) via the
+naive unrolled state-space recursion.
+—
+1. Using the Precomputed Kernel K: Convolution View
+From part (a), we have:
+yk =
+k
+X
+ℓ=0
+Kℓuk−ℓ,
+with K0 = D, Kℓ= CAℓ−1B for ℓ≥1.
+This is a causal convolution of input u with kernel K.
+- The full output sequence y = (y0, ..., yL) can be computed as the discrete convolution
+y = K ∗u, restricted to valid causal indices (with zero-padding for negative time indices).
+- Convolution is a linear, shift-invariant operation and all outputs yk can be computed
+independently once K and u are known. - Therefore, the computation is fully parallelizable
+across time steps: each yk is a dot product between a slice of u and K.
+Critical Path Length: - Each yk requires a sum of up to k + 1 ≤L + 1 terms. - Assuming
+vector operations (e.g., dot products) can be done in O(1) time with sufficient parallelism
+(e.g., using parallel reduction), the critical path for each yk is O(log L) due to summation
+depth. - However, since all yk are independent, the overall critical path of the entire sequence
+computation is just the time to compute the slowest single yk, i.e., O(log L). - In practice,
+6
+
+
+--- Page 7 ---
+with fixed-size dot products and hardware that computes them in constant time, the critical
+path is considered O(1) in a parallel model.
+Conclusion (kernel-based): - Highly parallelizable: all yk computed simultaneously. - Critical
+path length: O(log L) (or O(1) under unit-cost dot product assumption).
+—
+2. Naive Direct Computation via State Recursion
+The state-space equations are:
+xk+1 = Axk + Buk,
+yk = Cxk + Duk,
+x0 = 0.
+- To compute yk, we must first compute xk.
+- But xk depends on xk−1, which depends on xk−2, etc.
+- Thus, the state must be computed sequentially: x0 →x1 →· · · →xL.
+Even if matrix-vector multiplications Axk are parallelized internally, the recurrence creates
+a data dependency chain across time.
+Critical Path Length:
+- Each step requires: (i) compute Axk, (ii) add Buk, (iii) compute yk = Cxk + Duk.
+- Assuming each step takes O(1) time (with parallel matrix-vector ops), the total critical
+path is the number of time steps: L + 1.
+- So critical path length is O(L).
+Conclusion (naive recursion):
+- Not parallelizable across time: inherently sequential.
+- Critical path length: O(L).
+—
+Thus, knowing the kernel enables full parallelization, drastically reducing the critical path
+compared to the sequential state-space rollout. This is the key insight behind models like
+S4 and SSM-based sequence models, which leverage kernel convolution for efficient train-
+ing/inference.
+Evaluation: Correct, one-shot.
+Note: It recognizes the paralellization which is the import part of uderstanding this sub-
+problem.
+1.4
+d)
+Prompt:
+Efficient Kernel Computation. Given A, B, C, how can we compute the kernel K ef-
+ficiently? What are some strategies to parallelize kernel computation? You may assume
+L = 2N for some N for simplicity.
+7
+
+
+--- Page 8 ---
+Response:
+Yes—divide-and-conquer provides a clean and powerful way to compute the SSM convolution
+kernel K = {Kℓ= CAℓ−1B}L
+ℓ=1 in parallel, especially when L = 2N. Here’s a step-by-step
+derivation of such a method.
+—
+Key Idea: Block Structure of the Kernel via State Propagation
+The SSM can be viewed as a causal linear system: an impulse at time 0 produces output
+K1, K2, . . .. Now consider splitting the time horizon [0, L) into two halves: left [0, M) and
+right [M, L), where M = L/2.
+- The kernel on the left half is simply {CAℓ−1B}M
+ℓ=1. - For the right half, note that the state
+at time M due to an impulse at time 0 is xM = AMB. - Then, for ℓ= M + r (with r ≥1),
+KM+r = CAM+r−1B = CAr−1(AMB).
+That is, the right-half kernel is the impulse response of the same system, but with initial
+state x′
+0 = AMB instead of input B.
+However, since the system is linear and time-invariant, the response to initial state x′
+0 is
+CAr−1x′
+0, which is not the same as convolving with B—unless we reinterpret.
+But here’s a better perspective:
+—
+Divide-and-Conquer via “Segmented” State Transitions
+Define the transition matrix over a block of length τ as:
+Φ(τ) = Aτ.
+Also define the block convolution response over length τ as:
+Ψ(τ) =
+
+
+CB
+CAB
+...
+CAτ−1B
+
+∈Rτ×d.
+Now, suppose we want Ψ(2τ). We can write:
+Ψ(2τ) =
+
+
+Ψ(τ)
+CAτB
+CAτ+1B
+...
+CA2τ−1B
+
+
+=
+
+
+Ψ(τ)
+CAτB
+CAτ(AB)
+...
+CAτ(Aτ−1B)
+
+
+=
+
+Ψ(τ)
+(CAτ)
+
+B
+AB
+· · ·
+Aτ−1B
+
+
+.
+But note: CAτ+rB = (CAτ)(ArB). So the second half is:
+Second half = ˜C ·
+
+B
+AB
+· · ·
+Aτ−1B
+
+,
+where ˜C = CAτ.
+Thus, if we precompute: - Φ(τ) = Aτ, - Ψ(τ) = {CAℓ−1B}τ
+ℓ=1,
+8
+
+
+--- Page 9 ---
+then we can compute: - Φ(2τ) = Φ(τ) · Φ(τ) = A2τ, - Ψ(2τ) =
+
+Ψ(τ)
+˜C · [B, AB, . . . , Aτ−1B]
+
+,
+but the second term is just { ˜CAℓ−1B}τ
+ℓ=1, i.e., the kernel of the same system with output
+matrix ˜C = CAτ.
+So we recursively compute:
+Kernel(C, A, B, 2τ) = concat
+
+Kernel(C, A, B, τ), Kernel(CAτ, A, B, τ)
+
+.
+—
+Recursive Algorithm (Assume L = 2N)
+Define a function ‘ComputeKernel(C, A, B, L)‘:
+- If L = 1: return [CB].
+- Else:
+1. Recursively compute Kleft = ComputeKernel(C, A, B, L/2).
+2. Compute AL/2 (via repeated squaring or from prior recursion).
+3. Compute ˜C = CAL/2.
+4. Recursively compute Kright = ComputeKernel( ˜C, A, B, L/2).
+5. Return concat(Kleft, Kright).
+To avoid redundant matrix power computations, we also return AL from each recursive call.
+Thus, each level of recursion:
+- Performs one matrix multiplication (AL/2 · AL/2) to get AL,
+- Performs one matrix-vector (or matrix-matrix) multiplication to get ˜C = CAL/2,
+- Makes two recursive calls in parallel.
+Since the two recursive calls are independent, they can be executed in parallel.
+—
+Complexity and Parallelism
+- Recursion depth: log2 L.
+- At each level, only constant sequential work (matrix multiplies), but the two halves are
+parallel.
+- Critical path: O(log L) matrix multiplications.
+- Total work: O(Ln2) (same as naive), but parallel depth is O(log L).
+If A has structure (e.g., diagonal), matrix powers are cheap (O(n)), making this extremely
+efficient.
+—
+Conclusion
+The divide-and-conquer strategy recursively splits the kernel into left and right halves, using
+the semigroup property Ai+j = AiAj and the linearity of the output map. By propagating
+a modified output matrix CAmid to the right half, the method enables logarithmic-depth
+parallel computation of the full kernel.
+This is the foundation of fast SSM kernel algorithms (e.g., in S4, Structured State Space
+models), where such recursion (often combined with diagonalization) yields near-linear or
+9
+
+
+--- Page 10 ---
+linear-time kernel generation with high parallelism.
+Evaluation: Correct, after minor correction.
+Note: I found that it was providing me with many methods and not really focusing on the
+details of the different approaches. I followed up with this prompt: What about applying a
+divide-and-conquer idea? And so it gave me a very in-depth divide and conquer idea similar
+to what was given in the solution proposal (perhaps a little too much detail).
+1.5
+e)
+Prompt:
+Adding structure to A. Suppose A is a diagonal matrix. How can we leverage this struc-
+ture to compute the kernel K more efficiently? Answer clearly and short.
+Response:
+When A is diagonal, we do not need to precompute or store the matrices I, A, A2, . . . , AL−1.
+Instead, we exploit the fact that:
+Kℓ=
+n
+X
+i=1
+(CiBi) λℓ−1
+i
+,
+ℓ= 1, . . . , L.
+So the entire kernel is a linear combination of n geometric sequences {λℓ−1
+i
+}L
+ℓ=1.
+Computational Advantage:
+- Precomputation: For each eigenvalue λi, precompute the vector
+v(i) =
+
+1, λi, λ2
+i , . . . , λL−1
+i
+⊤∈RL.
+This can be done in O(L) time per mode (or O(log L) depth with parallel prefix/pow).
+- Combine: Compute
+K[1 : L] =
+n
+X
+i=1
+(CiBi) v(i),
+which is a weighted sum of n length-L vectors—fully parallelizable.
+Savings:
+- Memory: Store only n scalars CiBi and n length-L vectors (or generate on the fly).
+- Time: O(nL) total work, vs. O(n2L) for naive matrix powers.
+- No matrix multiplications: Avoids O(n3 log L) cost of repeated squaring.
+Thus, diagonal A reduces kernel computation to scalar exponentiation and vector scaling,
+enabling highly efficient and parallelizable precomputation of the full kernel.
+Evaluation: Correct, after extensive correction.
+10
+
+
+--- Page 11 ---
+Note: I needed to explicitly ask for it to actually give me a relevant answer regarding the
+way we could use the diagonal aspect as an advantage, and I also needed to mention the
+idea of precomputing (I, A, ..., AL−1) for it to provide any relevant response.
+1.6
+f)
+Prompt:
+Diagonal-plus-low-rank (DPLR) structure. Now if A has the following form:
+A = In + pp⊤,
+where A ∈Rn×n, p ∈Rn. How can we leverage this structure to compute the kernel K more
+efficiently?
+Response:
+Start with the binomial expansion of AL, where A = In + pp⊤:
+AL = (In + pp⊤)L.
+Since pp⊤is rank-1, it satisfies (pp⊤)k = (p⊤p)k−1pp⊤= ∥p∥2(k−1)pp⊤for all k ≥1. Thus,
+all powers of pp⊤are scalar multiples of pp⊤, and In commutes with pp⊤. Therefore, the
+binomial expansion simplifies to:
+AL = In +
+L
+X
+k=1
+L
+k
+
+(pp⊤)k
+= In +
+L
+X
+k=1
+L
+k
+
+∥p∥2(k−1)pp⊤
+= In +
+ L
+X
+k=1
+L
+k
+
+∥p∥2(k−1)
+!
+pp⊤.
+Factor out ∥p∥−2 (assuming p ̸= 0):
+L
+X
+k=1
+L
+k
+
+∥p∥2(k−1) =
+1
+∥p∥2
+L
+X
+k=1
+L
+k
+
+∥p∥2k = (1 + ∥p∥2)L −1
+∥p∥2
+.
+Hence,
+AL = In +
+ (1 + ∥p∥2)L −1
+ pp⊤
+∥p∥2 · ∥p∥2 = In +
+ (1 + ∥p∥2)L −1
+
+pp⊤.
+So we obtain the closed-form:
+AL = In + βL pp⊤,
+where βL = (1 + ∥p∥2)L −1.
+11
+
+
+--- Page 12 ---
+Now, for the kernel Kℓ= CAℓ−1B (ℓ≥1):
+Kℓ= C
+ In + βℓ−1pp⊤
+B
+= CB + βℓ−1(Cp)(p⊤B).
+Let γ = 1 + ∥p∥2, a = CB, b = (Cp)(p⊤B). Then:
+Kℓ= a + b
+ γℓ−1 −1
+
+= (a −b) + b γℓ−1.
+Thus, the entire kernel is a linear combination of a constant and a single geometric sequence,
+computable in O(n) precomputation and O(L) total time (or parallelizable in O(log L)
+depth). This leverages the DPLR structure for extreme efficiency.
+Evaluation: Correct, after minor correction.
+Note: I needed to make a minor correction by saying: Can you start with this: AL =
+(In + ppT)L so it does not go crazy with long mathematical derivations.
+2
+Coding SSM Forward
+Coding question →skip
+3
+Self-Supervised Linear Purification
+3.1
+a)
+Prompt:
+3. Self-Supervised Linear Purification
+Consider a linear encoder—square weight matrix W ∈Rm×m—that we want to be a “purifi-
+cation” operation on m-dimensional feature vectors from a particular problem domain. We
+do this by using self-supervised learning to reconstruct n points of training data X ∈Rm×n
+by minimizing the loss:
+L1(W; X) = ∥X −WX∥2
+F.
+(1)
+While the trivial solution W = I can minimize the reconstruction loss (1), we will now see
+how weight-decay (or equivalently in this case, ridge-style regularization) can help us achieve
+non-trivial purification.
+L2(W; X, λ) = ∥X −WX∥2
+F
+|
+{z
+}
+Reconstruction Loss
++λ
+∥W∥2
+F
+| {z }
+Regularization Loss
+(2)
+Note above that λ controls the relative weighting of the two losses in the optimization.
+a) Consider the simplified case for m = 2 with the following two candidate weight matrices:
+W (α) =
+1
+0
+0
+1
+
+,
+W (β) =
+1
+0
+0
+0
+
+.
+12
+
+
+--- Page 13 ---
+The training data matrix X is also given to you as follows:
+X =
+−2.17
+1.98
+2.41
+−2.03
+0.02
+−0.01
+0.01
+−0.02
+
+.
+1. Compute the reconstruction loss and the regularization loss for the two encoders, and
+fill in the missing entries in the table below.
+Encoder
+Reconstruction Loss
+Regularization Loss
+α
+β
+0.001
+2. For what values of the regularization parameter λ is the identity matrix W (α) higher
+loss L2 in (2), as compared to W (β)?
+Response:
+We are given a self-supervised linear purification problem with two candidate weight matrices
+and a data matrix X ∈R2×4. The goal is to compute the reconstruction and regularization
+losses for two encoders and then determine for which values of λ the regularized loss L2
+favors W (β) over W (α).
+—
+(a)(i) Compute losses
+Definitions
+- Reconstruction loss: ∥X −WX∥2
+F - Regularization loss: ∥W∥2
+F = P
+i,j W 2
+ij
+Given:
+X =
+−2.17
+1.98
+2.41
+−2.03
+0.02
+−0.01
+0.01
+−0.02
+
+—
+Encoder W (α) = I:
+- Reconstruction loss:
+X −W (α)X = X −X = 0 ⇒∥0∥2
+F = 0
+- Regularization loss:
+∥W (α)∥2
+F = 12 + 02 + 02 + 12 = 2
+So for α: - Reconstruction loss = 0 - Regularization loss = 2
+—
+Encoder W (β) =
+1
+0
+0
+0
+
+:
+- Apply W (β) to X:
+W (β)X =
+1
+0
+0
+0
+ "
+x(1)
+1
+x(2)
+1
+x(3)
+1
+x(4)
+1
+x(1)
+2
+x(2)
+2
+x(3)
+2
+x(4)
+2
+#
+=
+
+x(1)
+1
+x(2)
+1
+x(3)
+1
+x(4)
+1
+0
+0
+0
+0
+
+13
+
+
+--- Page 14 ---
+So the difference X −W (β)X is:
+ 0
+0
+0
+0
+0.02
+−0.01
+0.01
+−0.02
+
+- Reconstruction loss:
+∥X−W (β)X∥2
+F = (0.02)2+(−0.01)2+(0.01)2+(−0.02)2 = 0.0004+0.0001+0.0001+0.0004 = 0.001
+(This matches the given value.)
+- Regularization loss:
+∥W (β)∥2
+F = 12 + 02 + 02 + 02 = 1
+So for β: - Reconstruction loss = 0.001 (given) - Regularization loss = 1
+—
+Fill in the table:
+Encoder
+Reconstruction Loss
+Regularization Loss
+α
+0
+2
+β
+0.001
+1
+—
+(a)(ii) For what λ is L2(W (α)) > L2(W (β))?
+Compute total losses:
+- L2(W (α)) = 0 + λ · 2 = 2λ - L2(W (β)) = 0.001 + λ · 1 = 0.001 + λ
+We want:
+2λ > 0.001 + λ
+Subtract λ from both sides:
+λ > 0.001
+Answer: For all λ > 0.001, the identity encoder W (α) has higher total loss than W (β).
+—
+Final Answers:
+(i) Table: - α: Reconstruction = 0, Regularization = 2 - β: Reconstruction = 0.001, Regu-
+larization = 1
+(ii) λ > 0.001
+Evaluation: Correct, one-shot.
+3.2
+b)
+Prompt:
+14
+
+
+--- Page 15 ---
+Now consider a generic square linear encoder W ∈Rm×m and the regularized objective L2
+reproduced below for your convenience:
+L2(W; X, λ) = ∥X −WX∥2
+F
+|
+{z
+}
+Reconstruction Loss
++λ
+∥W∥2
+F
+| {z }
+Regularization Loss
+.
+Assume σ1 > · · · > σm ≥0 are the m singular values in X, that the number of training
+points n is larger than the number of features m, and that X can be expressed in SVD
+coordinates as X = UΣV ⊤.
+1. You are given that the optimizing weight matrix for the regularized objective L2 above
+takes the following form. Fill in the empty matrices below.
+c
+W = [
+] ·
+
+
+σ2
+1
+σ2
+1 + λ
+σ2
+2
+σ2
+2 + λ
+...
+σ2
+m
+σ2
+m + λ
+
+
+·
+
+
+(5)
+2. Derive the above expression.
+(Hint: Can you understand L2(W; X, λ) as a sum of m completely decoupled ridge-
+regression problems?)
+(Hint: The Frobenius norm is equal to ∥A∥2
+F := tr(AA⊤), and it is invariant under
+orthogonal transform. That is, ∥A∥2
+F = ∥UAV ⊤∥2
+F for any orthogonal matrices U, V ,
+and any rectangular matrix A, as long as U, A, V have compatible shapes.)
+Response:
+We are given a regularized self-supervised loss:
+L2(W; X, λ) = ∥X −WX∥2
+F + λ∥W∥2
+F,
+with X ∈Rm×n, W ∈Rm×m, and SVD X = UΣV ⊤, where U ∈Rm×m, Σ = diag(σ1, . . . , σm) ∈
+Rm×m, and V ∈Rn×m has orthonormal columns (V ⊤V = Im).
+We aim to find the minimizer c
+W of L2.
+—
+(b)(i) Fill in the empty matrices
+We claim the optimal c
+W has the form:
+c
+W = U
+
+
+σ2
+1
+σ2
+1 + λ
+...
+σ2
+m
+σ2
+m + λ
+
+
+U ⊤.
+15
+
+
+--- Page 16 ---
+So the blanks are:
+- First bracket: U - Second bracket: U ⊤
+Answer:
+c
+W = U · diag
+
+σ2
+i
+σ2
+i + λ
+m
+i=1
+· U ⊤.
+—
+(b)(ii) Derivation
+We minimize:
+L2(W) = ∥X −WX∥2
+F + λ∥W∥2
+F.
+Step 1: Use SVD of X. Let X = UΣV ⊤. Since U is orthogonal (U ⊤U = I), define a change
+of variable:
+f
+W = U ⊤WU.
+Then W = Uf
+WU ⊤. Because the Frobenius norm is invariant under orthogonal transforma-
+tions:
+- ∥W∥2
+F = ∥f
+W∥2
+F - ∥X −WX∥2
+F = ∥UΣV ⊤−Uf
+WU ⊤UΣV ⊤∥2
+F = ∥U(Σ −f
+WΣ)V ⊤∥2
+F =
+∥Σ −f
+WΣ∥2
+F
+(because multiplying by orthogonal matrices U and V ⊤preserves Frobenius norm).
+So the loss becomes:
+L2 = ∥Σ −f
+WΣ∥2
+F + λ∥f
+W∥2
+F.
+Step 2: Analyze structure. Note: Σ ∈Rm×m is diagonal with entries σi. Let f
+W = [ ewij].
+Then:
+- (f
+WΣ)ij = ewijσj - So (Σ −f
+WΣ)ij =
+(
+σi −ewiiσi,
+i = j
+−ewijσj,
+i ̸= j
+Then the squared Frobenius norm is:
+∥Σ −f
+WΣ∥2
+F =
+m
+X
+i=1
+(σi −ewiiσi)2 +
+X
+i̸=j
+( ewijσj)2.
+Add regularization:
+L2 =
+m
+X
+i=1
+(σi(1 −ewii))2 +
+X
+i̸=j
+( ewijσj)2 + λ
+ m
+X
+i=1
+ew2
+ii +
+X
+i̸=j
+ew2
+ij
+!
+.
+Step 3: Minimize w.r.t. each entry.
+- For off-diagonal entries i ̸= j: the term is ( ewijσj)2 + λ ew2
+ij = ew2
+ij(σ2
+j + λ). This is minimized
+at ewij = 0.
+- For diagonal entries i = j: minimize (σi(1 −ewii))2 + λ ew2
+ii.
+Take derivative w.r.t. ewii:
+d
+d ewii
+
+σ2
+i (1 −ewii)2 + λ ew2
+ii
+
+= −2σ2
+i (1 −ewii) + 2λ ewii.
+Set to zero:
+16
+
+
+--- Page 17 ---
+−σ2
+i (1 −ewii) + λ ewii = 0 ⇒−σ2
+i + σ2
+i ewii + λ ewii = 0 ⇒ewii(σ2
+i + λ) = σ2
+i ⇒ewii =
+σ2
+i
+σ2
+i + λ.
+Step 4: Assemble solution.
+Thus, f
+W is diagonal with entries
+σ2
+i
+σ2
+i +λ, and off-diagonals zero. Therefore,
+c
+W = Uf
+WU ⊤= U · diag
+
+σ2
+i
+σ2
+i + λ
+
+· U ⊤.
+This completes the derivation.
+Interpretation via hint: Each row of W solves a ridge regression problem to predict the
+corresponding row of X from X itself. Because X = UΣV ⊤, the input covariance in the
+rotated basis is diagonal (Σ2), decoupling the problems—exactly ridge regression per mode,
+yielding shrinkage factors
+σ2
+i
+σ2
+i +λ.
+—
+Final Answers:
+(i)
+c
+W = U · diag
+
+σ2
+1
+σ2
+1 + λ, . . . ,
+σ2
+m
+σ2
+m + λ
+
+· U ⊤.
+(ii) Derived by changing variables to f
+W = U ⊤WU, using orthogonal invariance of Frobenius
+norm, showing off-diagonal entries are zero at optimum, and solving 1D ridge regression for
+each diagonal entry, yielding the stated shrinkage factors.
+Evaluation: Correct, one-shot.
+3.3
+c)
+Prompt:
+You are given that the data matrix X ∈R8×n has the following singular values:
+{σi} = {10, 8, 4, 1, 0.5, 0.36, 0.16, 0.01}.
+For what set of hyperparameter values λ can we guarantee that the learned purifier c
+W will
+preserve at least 80% of the feature directions corresponding to the first 3 singular vectors
+of X, while attenuating components in the remaining directions to at most 50% of their
+original strength?
+(Hint: What are the two critical singular values to focus on?)
+Response:
+We are given:
+- X ∈R8×n with singular values:
+σ1 = 10, σ2 = 8, σ3 = 4, σ4 = 1, σ5 = 0.5, σ6 = 0.36, σ7 = 0.16, σ8 = 0.01.
+17
+
+
+--- Page 18 ---
+- From part (b), the optimal linear purifier is:
+c
+W = U diag (αi) U ⊤,
+where αi =
+σ2
+i
+σ2
+i + λ.
+The action of c
+W on the i-th singular direction (i.e., ui) is to scale it by αi. So:
+- Preservation: For i = 1, 2, 3, we require αi ≥0.8. - Attenuation: For i = 4, . . . , 8, we
+require αi ≤0.5.
+We seek all λ > 0 satisfying both conditions.
+—
+Step 1: Preservation condition (first 3 directions)
+Require for i = 1, 2, 3:
+σ2
+i
+σ2
+i + λ ≥0.8
+⇐⇒
+σ2
+i ≥0.8(σ2
+i + λ)
+⇐⇒
+0.2σ2
+i ≥0.8λ
+⇐⇒
+λ ≤0.2
+0.8σ2
+i = 1
+4σ2
+i .
+So for each i = 1, 2, 3:
+- i = 1: λ ≤1
+4(102) = 25 - i = 2: λ ≤1
+4(82) = 16 - i = 3: λ ≤1
+4(42) = 4
+The most restrictive is λ ≤4.
+So preservation requires:
+λ ≤4.
+—
+Step 2: Attenuation condition (remaining directions)
+Require for i = 4, . . . , 8:
+σ2
+i
+σ2
+i + λ ≤0.5
+⇐⇒
+σ2
+i ≤0.5(σ2
+i + λ)
+⇐⇒
+0.5σ2
+i ≤0.5λ
+⇐⇒
+λ ≥σ2
+i .
+So for each i = 4, . . . , 8:
+- i = 4: λ ≥12 = 1 - i = 5: λ ≥(0.5)2 = 0.25 - i = 6: λ ≥(0.36)2 = 0.1296 - i = 7:
+λ ≥(0.16)2 = 0.0256 - i = 8: λ ≥(0.01)2 = 0.0001
+The most restrictive (largest lower bound) is λ ≥1.
+So attenuation requires:
+λ ≥1.
+—
+Step 3: Combine conditions
+We need:
+1 ≤λ ≤4.
+Thus, the set of hyperparameter values λ that satisfy both requirements is:
+λ ∈[1, 4] .
+Critical singular values: - σ3 = 4 (smallest of the top-3 →sets upper bound) - σ4 = 1 (largest
+of the bottom-5 →sets lower bound)
+These are the two critical values, as hinted.
+Evaluation: Correct, one-shot.
+18
+
+
+--- Page 19 ---
+4
+Ridge-Attention
+4.1
+a)
+Prompt:
+4. Ridge-Attention
+In lecture, you saw how the standard softmax-attention mechanism can be viewed as a
+softened version of something akin to a nearest-neighbor model in which the value returned
+for a query reflects a weighted combination of the values that correspond to the keys closest
+to the query. In this view, the (key, value) pairs in the memory represent a kind of in-context
+“training data” and the query is a test input for which we want to predict the right output
+given that data.
+To start, let us think about why it is possible to efficiently update simple averaging. Let
+m = 1
+n
+n
+X
+i=1
+xi
+be the average of n points. Use m, xn+1, n and simple arithmetic operations to compute
+m′ =
+1
+n + 1
+n+1
+X
+i=1
+xi
+—the average of all points including the new point xn+1.
+(Hint: Start by multiplying m by n.)
+Response:
+We are given the current average of n points:
+m = 1
+n
+n
+X
+i=1
+xi
+⇒
+n
+X
+i=1
+xi = nm
+We want to compute the updated average after adding a new point xn+1:
+m′ =
+1
+n + 1
+n+1
+X
+i=1
+xi =
+1
+n + 1
+ n
+X
+i=1
+xi + xn+1
+!
+=
+1
+n + 1(nm + xn+1)
+Final expression:
+m′ = nm + xn+1
+n + 1
+This allows efficient updating of the mean without storing all previous data points.
+Evaluation: Correct, one-shot.
+19
+
+
+--- Page 20 ---
+4.2
+b)
+Prompt:
+Let us now shift to thinking about traditional ridge-regression with n training pairs (xi, yi)
+where xi are d-dimensional vectors and yi are scalars. Let
+A =
+
+
+x⊤
+1
+x⊤
+2...
+x⊤
+n
+
+,
+y =
+
+
+y1
+y2
+...
+yn
+
+
+so that we can find the familiar closed-form solution
+w∗= (A⊤A + λI)−1A⊤y
+(3)
+that allows us to make scalar predictions on any new test input x by computing w∗⊤x.
+First, write the two terms (A⊤A + λI) and A⊤y as sums involving the xi and yi. That is,
+complete:
+(A⊤A + λI) = λI +
+n
+X
+i=1
+A⊤y =
+n
+X
+i=1
+.
+Response:
+We are given the data matrix A ∈Rn×d whose rows are x⊤
+i , and label vector y ∈Rn.
+Recall that:
+- A⊤A = Pn
+i=1 xix⊤
+i , because
+A⊤A =
+n
+X
+i=1
+(xi)(x⊤
+i )
+(outer product of each input with itself, summed over all data points).
+- A⊤y = Pn
+i=1 yixi, because the j-th entry of A⊤y is Pn
+i=1 xijyi, which is exactly the j-th
+component of P
+i yixi.
+Thus, we complete the expressions as:
+(A⊤A + λI) = λI +
+n
+X
+i=1
+xix⊤
+i
+A⊤y =
+n
+X
+i=1
+yixi
+Final answer:
+- First blank: xix⊤
+i
+- Second blank: yixi
+Evaluation: Correct, one-shot.
+20
+
+
+--- Page 21 ---
+4.3
+c)
+Prompt:
+Suppose we wanted to do ridge-self-attention (non-causal—“encoder-style”) with a context
+length of n and d-dimensional query, key, and value vectors. Recall that this is the style of
+attention where each of the n queries is applied to the same pool of n (key, value) pairs. The
+goal is to calculate multi-dimensional ridge-regression predictions, after “training” on the
+pool of (key, value) pairs, and given the query as a kind of “test” input. (Note: the keys are
+playing the role of the A matrix in ridge-regression, each query is like the x we are testing
+on, and in place of the scalar yi, we have an entire value vector for a multi-dimensional
+ridge-regression problem so the y vector is replaced with a matrix that has a row for each
+value vector.)
+Assume that the cost of inverting a d × d matrix is O(d3) and the cost of multiplying two
+such matrices is also O(d3). Assume that a d × d matrix times either a d-dimensional row
+or column vector costs d2 operations. You should assume d < n.
+What is the computational cost of a non-causal ridge self-attention layer?
+• ◦O(d4)
+• ◦O(nd2)
+• ◦O(n2d3)
+• ◦O(n2d2)
+• ◦O(n2)
+• ◦O(1)
+(Hint: Do not forget that for a single d-dimensional query vector q, attention needs to return
+a d-dimensional result.)
+Response:
+We are asked to compute the computational cost of non-causal ridge self-attention, where:
+- There are n tokens in the context. - Each token has a d-dimensional query qi, key ki, and
+value vi. - We treat the set of n (key, value) pairs as training data for ridge regression: keys
+K ∈Rn×d (each row is k⊤
+i ), values V ∈Rn×d (each row is v⊤
+i ). - For each query qj ∈Rd, we
+compute a prediction via multivariate ridge regression, i.e., solve:
+w∗
+j = (K⊤K + λI)−1K⊤v(j)
+and output w∗
+j
+⊤qj. But because each output must be d-dimensional (since values are d-
+dimensional), and ridge regression is linear, we can compute all predictions at once.
+—
+Key Insight: Multivariate Ridge Regression
+21
+
+
+--- Page 22 ---
+In multivariate ridge regression, the solution for predicting all d output dimensions is:
+W ∗= (K⊤K + λI)−1K⊤V
+∈Rd×d
+Then, for a query qj, the prediction is:
+outputj = W ∗⊤qj ∈Rd
+Since we have n queries Q = [q1, . . . , qn]⊤∈Rn×d, the full output is:
+Output = QW ∗∈Rn×d
+So the steps are:
+1. Form K⊤K ∈Rd×d Cost: K⊤K = Pn
+i=1 kik⊤
+i →each outer product is O(d2), total O(nd2)
+2. Add λI →negligible
+3. Invert (K⊤K + λI) ∈Rd×d Cost: O(d3)
+4. Multiply by K⊤V : - First compute K⊤V ∈Rd×d: K⊤V = Pn
+i=1 kiv⊤
+i
+→each outer
+product kiv⊤
+i
+is O(d2), total O(nd2) - Then multiply: (K⊤K + λI)−1(K⊤V ) →matrix-
+matrix multiply: O(d3)
+5. Multiply Q ∈Rn×d by W ∗∈Rd×d Cost: O(nd2)
+—
+Total Cost:
+- O(nd2) (for K⊤K) - O(nd2) (for K⊤V ) - O(d3) (matrix inversion) - O(d3) (multiply inverse
+by K⊤V ) - O(nd2) (final multiplication with queries)
+Since d < n, the dominant term is O(nd2), and d3 is lower-order.
+Total computational cost: O(nd2)
+But wait! Important: In non-causal self-attention, each position attends to all n (key, value)
+pairs, but in standard attention, you compute a separate prediction per query. However, in
+ridge attention, the ridge solution W ∗is shared across all queries, because the training set
+(keys and values) is the same for all.
+Thus, we do not solve a separate ridge problem per query — only one regression model is
+trained on the full (key, value) set, and all queries are tested on it.
+Therefore, the cost is not O(n · cost per query), but rather one global fit + n predictions.
+As shown above, that totals O(nd2).
+Answer: O(nd2)
+So the correct choice is:
+- ◦O(nd2)
+Evaluation: Correct, one-shot.
+4.4
+d)
+Prompt:
+Assume that a ridge self-attention layer is used in a Transformer architecture and there is a
+downstream loss. For which of these will backprop successfully pass gradients if we use ridge
+self-attention?
+22
+
+
+--- Page 23 ---
+• □The ridge λ viewed as a learnable parameter for the self-attention layer.
+• □The keys
+• □The values
+• □The queries
+Response:
+We consider a ridge self-attention layer in a Transformer, where the output for queries Q is
+computed as:
+Output = Q W ∗,
+where
+W ∗= (K⊤K + λI)−1K⊤V.
+Here: - K ∈Rn×d: keys - V ∈Rn×d: values - Q ∈Rn×d: queries - λ: ridge regularization
+parameter (scalar)
+The question is: for which of these components will gradients flow during backpropagation,
+assuming a differentiable downstream loss?
+We analyze differentiability of the output with respect to each component.
+—
+1. Keys (K)
+The output depends on K through K⊤K and K⊤V . The map K 7→(K⊤K + λI)−1K⊤V is
+differentiable (assuming λ > 0, so the inverse is smooth and well-defined). Matrix inversion
+and multiplication are differentiable operations.
+Gradients flow through keys.
+—
+2. Values (V )
+The output depends linearly on V via K⊤V . This is clearly differentiable.
+Gradients flow through values.
+—
+3. Queries (Q)
+The output is linear in Q: Output = QW ∗. Even though W ∗does not depend on Q, the
+multiplication by Q is differentiable.
+Gradients flow through queries.
+—
+4. Ridge parameter λ (as a learnable scalar)
+The output depends on λ via the inverse (K⊤K + λI)−1. The function λ 7→(A + λI)−1 is
+differentiable for λ > −λmin(A); with λ > 0, this is smooth.
+Thus, if we treat λ as a learnable parameter (e.g., via reparameterization to ensure positivity,
+like λ = exp(θ)), then gradients can flow through it.
+Gradients can flow through λ *if* it is implemented as a differentiable parameter.
+¿ Note: In practice, automatic differentiation frameworks (e.g., PyTorch, JAX) can backprop
+through matrix inverses w.r.t. scalar parameters like λ, so this is feasible.
+Gradients flow through λ.
+—
+Final Answer:
+23
+
+
+--- Page 24 ---
+All four options support gradient flow:
+- The ridge λ (as a learnable parameter) →✓
+- The keys →✓
+- The values →✓
+- The queries →✓
+Check all boxes.
+Evaluation: Correct, one-shot.
+4.5
+e)
+Prompt:
+Now step back. There is a nice trick (called the Sherman–Morrison Formula) by which one
+can update the inverse of an invertible matrix to which you make a rank-1 update. Let M
+be an invertible square d × d matrix and let u, v be two d-dimensional vectors. Then:
+(M + uv⊤)−1 = M −1 −
+1
+1 + v⊤M −1u(M −1u)(v⊤M −1).
+(7)
+Assume that a d × d matrix times either a d-dimensional row or column vector costs d2
+operations, and so does the evaluation of a dyad uv⊤. Assume that computing a Euclidean
+inner-product costs d operations. Assuming that you already had M −1 in hand, what is the
+computational cost of one application of (7)?
+• ◦O(d4)
+• ◦O(d3)
+• ◦O(d2)
+• ◦O(d)
+• ◦O(1)
+Response:
+We are given the Sherman–Morrison formula:
+(M + uv⊤)−1 = M −1 −
+1
+1 + v⊤M −1u(M −1u)(v⊤M −1),
+and we assume that M −1 is already available. We are to compute the cost of evaluating the
+RHS once, using the following operation costs:
+- Matrix–vector multiply: O(d2) - Vector–matrix multiply: O(d2) - Outer product uv⊤:
+O(d2) (though we don’t form uv⊤here, we do form (M −1u)(v⊤M −1), which is a dyad) -
+Inner product (e.g., v⊤(M −1u)): O(d)
+—
+24
+
+
+--- Page 25 ---
+Step-by-step cost breakdown:
+1. Compute a = M −1u - Matrix–vector multiply →O(d2)
+2. Compute b⊤= v⊤M −1 - Vector–matrix multiply →O(d2)
+3. Compute scalar denominator s = 1 + v⊤a = 1 + b⊤u - Inner product v⊤a →O(d)
+4. Compute outer product ab⊤- Dyad of two d-vectors →O(d2)
+5. Scale outer product by 1/s - Scalar multiplication of d × d matrix →O(d2)
+6. Subtract from M −1 - Matrix subtraction →O(d2)
+—
+Total cost:
+- Dominated by O(d2) operations (steps 1, 2, 4, 5, 6) - Step 3 is O(d), negligible
+Total computational cost: O(d2)
+—
+Answer: - ◦O(d2)
+Evaluation: Correct, one-shot.
+4.6
+f)
+Prompt:
+Consider implementing causal ridge-self-attention with a context length of n but where the
+pool of (key, value) vectors that one is querying at position t consists only of the t (key,
+value) pairs so far. Describe explicitly how you would compute causal ridge-self-attention
+in a computationally efficient manner. Leverage your decomposition of the ridge-regression
+formula in part (b) of this problem together with the Sherman–Morrison formula from (7)
+to avoid having to do O(n2) computations while still calculating causal ridge-self-attention
+outputs correctly for all n positions in the context.
+(Hint: Think recursively. What do you need to track from one time step to the next to avoid
+repeating work?)
+Response:
+We are to compute causal ridge self-attention efficiently for a sequence of length n, where at
+each position t = 1, . . . , n, the model performs ridge regression using only the first t key-value
+pairs {(ki, vi)}t
+i=1, and applies it to query qt.
+A na¨ıve approach would recompute the ridge solution from scratch at each t, costing O(td2)
+per step, leading to O(n2d2) total — too expensive.
+We instead use recursive updates via the Sherman–Morrison formula, leveraging the structure
+of ridge regression.
+—
+Step 1: Ridge solution at time t
+At time t, define: - Kt ∈Rt×d: keys k⊤
+1 , . . . , k⊤
+t - Vt ∈Rt×d: values v⊤
+1 , . . . , v⊤
+t
+The ridge solution is:
+W ⊤
+t = (K⊤
+t Kt + λI)−1K⊤
+t Vt
+∈Rd×d
+25
+
+
+--- Page 26 ---
+Then the output at position t is:
+ot = W ⊤
+t qt
+Key observation:
+K⊤
+t Kt = K⊤
+t−1Kt−1 + ktk⊤
+t ,
+K⊤
+t Vt = K⊤
+t−1Vt−1 + ktv⊤
+t
+So both the Gram matrix and cross-covariance undergo rank-1 updates when moving from
+t −1 to t.
+—
+Step 2: Track sufficient statistics
+To avoid recomputing everything, we maintain two state variables across time:
+1. Gt = K⊤
+t Kt + λI ∈Rd×d →updated via Gt = Gt−1 + ktk⊤
+t (since λI is constant)
+2. Ct = K⊤
+t Vt ∈Rd×d →updated via Ct = Ct−1 + ktv⊤
+t
+However, we do not store G−1
+t
+by inverting from scratch. Instead, we maintain: - At = G−1
+t
+∈
+Rd×d
+Given At−1 = G−1
+t−1, and Gt = Gt−1 + ktk⊤
+t , this is a rank-1 update, so we apply Sher-
+man–Morrison:
+At = (Gt−1 + ktk⊤
+t )−1 = At−1 −(At−1kt)(k⊤
+t At−1)
+1 + k⊤
+t At−1kt
+This update costs O(d2), as shown in the previous part.
+Separately, we update:
+Ct = Ct−1 + ktv⊤
+t
+(cost: O(d2))
+Now, to compute the output ot = W ⊤
+t qt = AtCtqt, we avoid forming W ⊤
+t = AtCt explicitly
+(which would be O(d3)). Instead, compute in two steps:
+1. Compute ut = C⊤
+t qt ∈Rd →Note: Ct ∈Rd×d, so C⊤
+t qt is matrix–vector multiply: O(d2)
+2. Compute ot = Atut ∈Rd →Matrix–vector multiply: O(d2)
+But note: we can also update C⊤
+t qt recursively:
+C⊤
+t qt = C⊤
+t−1qt + vt(k⊤
+t qt)
+However, qt changes per time step, so we cannot reuse C⊤
+t−1qt easily. So it’s simpler to just
+compute C⊤
+t qt directly from stored Ct, which is O(d2).
+Alternatively, store Ct explicitly (updated in O(d2)) and multiply by qt when needed.
+—
+Step 3: Algorithm summary (per time step t = 1 to n)
+Initialize: - A0 = (λI)−1 = 1
+λI - C0 = 0d×d
+For each t = 1, . . . , n:
+1. Update inverse Gram matrix: - Compute a = At−1kt →O(d2) - Compute scalar s =
+1 + k⊤
+t a →O(d) - Update: At = At−1 −aa⊤
+s
+→O(d2)
+2. Update cross-covariance: - Ct = Ct−1 + ktv⊤
+t →O(d2)
+3. Compute output: - ut = C⊤
+t qt →O(d2) - ot = Atut →O(d2)
+Each step costs O(d2); total over n steps: O(nd2).
+This avoids the O(n2d2) cost of recomputing ridge solutions from scratch.
+26
+
+
+--- Page 27 ---
+—
+Final Answer:
+To compute causal ridge self-attention efficiently:
+- Maintain At = (K⊤
+t Kt + λI)−1 and Ct = K⊤
+t Vt recursively.
+- Update At from At−1 using the Sherman–Morrison formula (rank-1 update due to new key
+kt).
+- Update Ct by adding the outer product ktv⊤
+t .
+- Compute output at time t as ot = AtC⊤
+t qt via two matrix–vector multiplies.
+This yields correct causal ridge attention with total cost O(nd2), far better than na¨ıve
+O(n2d2).
+Evaluation: Correct, one-shot.
+4.7
+g)
+Prompt:
+Many people consider important the ability to visualize the attention weights. For traditional
+softmax-attention, these are the outputs of the softmax for a given query vector. They tell
+you the exact amounts by which the attention outputs at this position are linear combinations
+of the values being fed in at this and other positions.
+For ridge-attention and a given query vector, how would you compute the (possibly negative)
+weights associated to each of the value vectors in the context?
+Response:
+In ridge-attention, the output for a query q ∈Rd is computed as the prediction of a ridge-
+regression model trained on the context (key, value) pairs {(ki, vi)}n
+i=1, where:
+- Keys form the data matrix K ∈Rn×d (rows: k⊤
+i ) - Values form the target matrix V ∈Rn×d
+(rows: v⊤
+i )
+The ridge-regression solution is:
+W ∗= (K⊤K + λI)−1K⊤V ∈Rd×d,
+and the output for query q is:
+output = W ∗⊤q = V ⊤K(K⊤K + λI)−1q.
+But to interpret this as a weighted combination of the value vectors, write the output as:
+output =
+n
+X
+i=1
+αivi,
+and find the coefficients α = [α1, . . . , αn]⊤∈Rn.
+—
+27
+
+
+--- Page 28 ---
+Step-by-step derivation:
+Start from the standard ridge-regression form. For a scalar response, the prediction on a
+test point q is:
+ˆy =
+n
+X
+i=1
+αiyi,
+with
+α = K(K⊤K + λI)−1q.
+In the multivariate (vector-valued) case, this generalizes per output dimension, but crucially,
+the same weights αi apply to all dimensions of vi. Therefore, the full output is:
+output =
+n
+X
+i=1
+αivi = V ⊤α,
+where α ∈Rn is the attention weight vector.
+We now solve for α.
+From the dual form of ridge regression, the prediction can be written as:
+output = V ⊤α,
+where
+α = K(K⊤K + λI)−1q.
+Thus, the attention weights for ridge-attention are:
+α = K(K⊤K + λI)−1q
+These αi can be positive or negative (unlike softmax weights) and sum to something not
+necessarily 1.
+—
+Practical computation:
+- Compute u = (K⊤K + λI)−1q ∈Rd →solve linear system (or via Cholesky) - Then
+compute α = Ku ∈Rn →matrix–vector multiply
+Each step is standard in ridge regression (primal vs. dual forms).
+—
+Final Answer:
+For a given query q, the ridge-attention weights αi associated with each value vi are the
+components of the vector:
+α = K(K⊤K + λI)−1q,
+so that the output is Pn
+i=1 αivi. These weights can be negative and do not need to sum to 1.
+Evaluation: Correct, one-shot.
+28

@@ -1,0 +1,1224 @@
+--- Page 1 ---
+cs182_hw6.pdf
+PDF
+You are an expert in deep learning/neural networks. Solve
+the following homework problems, providing only clear
+solutions as the output. Only solve the non-coding
+questions, which are #2 and #3.
+Thought for 26s
+Solutions — only problems #2 and #3 (non-coding)
+2. Graph Dynamics and GNN Concepts
+(a) Let 
+ be the adjacency matrix. Let 
+ be the layer-0
+activations arranged so row  is the -dim vector for node . Under the described
+depth-wise linear network the weight connecting node  in layer  to node  in layer
+ is 
+. The per-node linear update (no nonlinearity) is just matrix multiplication
+by 
+. Thus the output at layer  (row ) is the -th row of 
+ (applied to the initial one-
+hot inputs). Concretely, the output of node  at layer  is the -th row of 
+:
+(b) Claim: the 
+-entry of 
+ equals the number of walks of length  from vertex  to
+vertex .
+Proof by induction on .
+Base 
+: 
+. 
+ iff 
+, matching the convention that there is
+exactly one length-0 path from a node to itself and none to others.
+Inductive step: suppose 
+ equals number of walks of length 
+from  to . Then
+cs182_hw6
+A ∈{0, 1}n×n
+x
+∈
+(0)
+Rn×n
+i
+n
+i
+i
+k
+j
+k + 1
+A
+​
+i,j
+A
+k
+j
+j
+Ak
+j
+k
+j
+Ak
+output
+​ =
+j
+(k)
+(A )
+​ ∈
+k
+j,:
+R .
+n
+(i, j)
+Ak
+k
+i
+j
+k
+k = 0 A =
+0
+I (A )
+​ =
+0 i,j
+1
+i = j
+(A )
+​ =
+k i,j
+L
+​(i, j)
+k
+k
+i
+j
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+1/13
+Uploading the entire pdf gives the whole 
+context of the homework, which probably 
+gives better results. Also, convincing the 
+LLM that i is an expert probably yields more 
+conﬁdent solutions.
+This is not exactly the same as the solution but I think it is still valid. 
+
+
+--- Page 2 ---
+Each term 
+ counts the number of walks of length  from  to 
+followed by
+the single edge 
+; summing over all intermediate  counts all walks of length 
+ from  to . Hence the entry equals 
+. ∎
+(That exactly matches the behavior of the depth-wise linear network: starting from one-
+hot input for node , the -th coordinate after  layers is the number of length-  walks
+from  to .)
+(c) If activations are arranged so node ’s activation is row  of matrix 
+, then a one-
+step aggregation of neighbor messages by (sum) can be written as
+where rows correspond to nodes and the -th row of 
+ is the sum over
+neighbors’ rows. In the linear network of parts (a),(b) the update is simply 
+.
+(d) If we replace sum aggregation with max aggregation (component-wise max over
+neighbor vectors), then the -th output vector at layer  records, for each
+channel/component, the maximum over values produced by all length-  walks arriving
+at that node (if we begin from the same one-hot or initial features). Equivalently: instead
+of counting number of walks reaching a coordinate, the max aggregation picks the
+largest value contributed along any walk of length  (a “best-path” style quantity per
+component).
+(e) Molecule bond-break prediction.
+(i) Graph representation.
+Nodes: atoms.
+(A
+)
+​ =
+k+1
+i,j
+​(A )
+​A
+​.
+u=1
+∑
+n
+k
+i,u
+u,j
+(A )
+​A
+​
+k i,u
+u,j
+k
+i
+u
+u →j
+u
+k +
+1
+i
+j
+L
+​(i, j)
+k+1
+i
+j
+k
+k
+i
+j
+i
+i
+X
+X
+=
+(ℓ)
+A X
+(or more generally X
+=
+(ℓ−1)
+(ℓ)
+f(A X
+)),
+(ℓ−1)
+i
+AX(ℓ−1)
+X
+=
+(ℓ)
+A X(ℓ−1)
+i
+k
+k
+k
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+2/13
+The solution also has a node level formulation with a 
+summation, but ChatGPT described this in words instead. 
+This is not precise. I think the LLM forgot that the ﬁrst layer is one-hot encoded, and that this can be extended via induction. 
+
+
+--- Page 3 ---
+Edges: undirected edges for chemical bonds (optionally directed if reaction
+direction matters). Each edge should carry attributes: bond length, bond type
+(single/double/triple, aromatic), bond energy estimate, etc.
+Node features: element type (one-hot: C,H,O,N,…), atomic charge, valence,
+hybridization, 3D coordinates (or relative positional features), local environment
+descriptors.
+Global state: molecule type (carbohydrate/protein/etc.), temperature/heating rate,
+solvent or experimental conditions.
+Graph is naturally undirected for molecular structure (but edges carry attributes); if
+an oriented process needs modeling, use directed edges or edge features encoding
+orientation.
+(ii) Using last GNN outputs to predict which bond breaks.
+A bond-breaking prediction is an edge classification task (or edge scoring). Run a GNN
+that computes final node embeddings; form an edge representation for edge 
+ by
+concatenating or combining final node embeddings and edge attributes, e.g.
+and predict the probability that bond 
+ breaks via a sigmoid on the MLP output.
+Optionally, predict “no bond breaks” by normalizing or by including a global “no-break”
+score.
+(iii) Encoding initial node representations.
+Use one-hot encoding of atom element (C,H,O,N,...), numeric features: atomic number,
+formal charge, aromatic flag, hybridization one-hot, degree (number of bonds), and
+optionally positional/3D features (coordinates or pairwise distances). Normalize
+continuous features; concatenate edge attributes into edge feature vectors.
+(f) Fill out the CNN ↔ GNN analogy table (concise, mapping roles):
+CNN
+GNN
+Image classification
+Graph-level prediction
+Node-level prediction
+problem
+Pixel-level / node-level prediction (per-node)
+(u, v)
+h
+​ =
+uv
+MLP([h
+​ ∥h
+​ ∥e
+​]),
+u
+(L)
+v
+(L)
+uv
+(u, v)
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+3/13
+This is not precise, what 
+speciﬁcally are nodes for a 
+CNN?
+
+
+--- Page 4 ---
+CNN
+GNN
+Color jitter augmentation
+Perturb node features (noise / feature jitter)
+Image flip augmentation
+Graph augmentation: randomly permute node order or flip
+substructure? (Graph augmentation: random edge/node
+dropout, graph isomorphism-preserving transforms)
+Channel dropout
+Channel (feature) dropout on node feature vectors
+Zero padding
+Add dummy nodes or self-loops to preserve receptive field / or
+pad neighborhoods with zeros
+ResNet skip connections
+Residual (skip) connections between GNN layers (add previous
+node embeddings)
+Blurring an image
+Low-pass / smoothing on graph (laplacian smoothing /
+neighborhood averaging)
+Predicting missing pixel
+values
+Predict missing node features (imputation)
+(Notes: some mappings are approximate; e.g., “image flip” corresponds to
+augmentations that change global geometry while preserving labels—on graphs one
+uses permutation-invariant augmentations or subgraph sampling.)
+(g) Graph-level classification when some node features are missing: common
+approaches
+Include a binary mask feature for each node indicating “feature missing” and set
+missing features to a learned default (e.g., zero or learned embedding). Train GNN
+to handle masked inputs.
+Impute missing node features beforehand (mean, learned imputation) and then run
+GNN.
+Use message passing from neighbors (which have features) so node embedding
+can be inferred from neighborhood (i.e., rely on structural information).
+Use an encoder that jointly imputes and predicts (e.g., variational/encoder that
+reconstructs missing features while optimizing downstream task).
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+4/13
+ChatGPT outputted a ? for 
+this part, which I thought 
+was interesting. I guess it 
+was unsure of its answer. 
+I like that for these open-ended questions 
+with many approaches, ChatGPT provides 
+several and explains all of them. 
+
+
+--- Page 5 ---
+In short: include a missing indicator and either impute or let the GNN infer from neighbor
+messages.
+(h) GNN architecture questions.
+(i) Doubling number of nodes (only node representations, no global state).
+Learned weights: With shared, node-wise parameterization (same MLPs for all
+nodes), the number of learned parameters does not change when you double
+nodes. Parameters depend on hidden dimension and layer MLP sizes, not node
+count.
+Computation (sparse, constant average degree): If average node degree stays
+, total message computations scale linearly with number of nodes 
+: 
+ where 
+ is cost per message. Doubling nodes doubles computation.
+If the graph is fully connected: average degree becomes 
+. Then
+computation scales quadratically
+. Doubling nodes increases computation
+by factor ~4.
+(ii) Where are learned weights? Learned parameters live inside the message, update,
+and readout functions — e.g. the MLPs used to compute messages from (sender node,
+edge features), the MLPs used to update node states from aggregated messages (and
+any global readout MLP). All layer MLP weights / linear maps are parameters.
+(iii) Directed edges. Represent direction by (a) treating each directed edge distinctly
+(messages use ordered sender→receiver); (b) include an edge feature encoding
+direction (e.g., one-hot in/out flag); or (c) maintain separate message functions for
+incoming vs outgoing edges (two different linear maps). Implementation: use
+asymmetric adjacency (or two adjacency matrices 
+) and apply different
+message MLPs.
+3. Graph Neural Networks
+Let node  have prior self-message 
+ and neighbor messages 
+ for 
+.
+(a) Validity (must be permutation invariant to neighbor ordering / respect sharing).
+d
+​
+avg
+N O(N ⋅
+d
+​ ⋅
+avg C)
+C
+O(N)
+O(N )
+2
+A
+​, A
+​
+in
+out
+i
+s
+​
+i
+ℓ−1
+m
+​
+i,j
+ℓ−1
+j =
+1, … , n
+​i
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+5/13
+
+
+--- Page 6 ---
+(i) 
+.
+Valid. It uses the average (a permutation-invariant aggregation) and scalar weights
+shared across neighbors; acceptable for undirected graphs.
+(ii) 
+ (component-wise max,
+with distinct 
+).
+Not valid. This expression depends on the ordering/indexing of neighbors because
+different learnable scalars 
+ are tied to specific neighbor indices; it is not
+permutation-invariant and therefore cannot be used with shared GNN weights on
+undirected graphs where neighbor order is arbitrary.
+(iii) 
+ (all neighbor messages
+use same scalar 
+).
+Valid. The max over the set 
+ is permutation-invariant because every
+neighbor is treated identically (same scalar weight 
+), so aggregation does not
+depend on neighbor ordering.
+(b) Training loss for given graph.
+Training nodes: all nodes except 1 and 4, i.e. nodes 
+. Their ground truths: 
+. Predicted probabilities for nodes 
+ are 
+.
+Binary cross-entropy per example is 
+. Average over
+the 3 training points gives
+Simplify:
+(c) Update rule
+s
+​ =
+i
+ℓ
+w
+​s
+​ +
+1 i
+ℓ−1
+w
+​
+​
+​ m
+​
+2 n
+​i
+1 ∑j=1
+n
+​i
+i,j
+ℓ−1
+s
+​ =
+i
+ℓ
+max (w
+​s
+​, w
+​m
+​, w
+​m
+​, … , w
+​m
+​)
+1
+ℓ
+i
+ℓ−1
+2
+i,1
+ℓ−1
+3
+i,2
+ℓ−1
+n
+​+1
+i
+i,n
+​i
+ℓ−1
+w
+​, w
+​, …
+2
+3
+w
+​, w
+​, …
+2
+3
+s
+​ =
+i
+ℓ
+max (w
+​s
+​, w
+​m
+​, w
+​m
+​, … , w
+​m
+​)
+1
+ℓ
+i
+ℓ−1
+2
+i,1
+ℓ−1
+2
+i,2
+ℓ−1
+2
+i,n
+​i
+ℓ−1
+w
+​2
+{w
+​m
+​}
+2
+i,j
+w
+​2
+2, 3, 5
+y
+​ =
+2
+1, y
+​ =
+3
+1, y
+​ =
+5
+0
+1 … 5
+​
+​ =
+y^1
+a, 
+​
+​ =
+y^2
+b, 
+​
+​ =
+y^3
+c, 
+​
+​ =
+y^4
+d, 
+​
+​ =
+y^5
+e
+−[ y log
+​ +
+y^
+(1 −y) log(1 −
+​) ]
+y^
+L
+​ =
+train
+​( −
+3
+1
+[1 ⋅log b + 0 ⋅log(1 −b)] −[1 ⋅log c] −[0 ⋅log e + 1 ⋅log(1 −e)]
+​
+L
+​ =
+​( −log b −log c −log(1 −e) ) .
+train
+3
+1
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+6/13
+
+
+--- Page 7 ---
+(i) Design patterns present.
+Residual connection? Yes. The rule adds 
+ to the transformed aggregated
+neighbor contribution.
+Batch normalization? No. Nothing in the formula performs batch statistics
+normalization across examples; batch normalization is not present.
+(ii) Dimensions. Let the state  be -dimensional. 
+ has  rows (so 
+ is 
+;
+here messages have same dim as , so 
+, and 
+ is 
+). The inner
+ is -dimensional. The average over neighbors is -dimensional and then
+ maps that to a vector that can be added to 
+ (dimension ). Therefore
+(iii) If messages equal neighbor states: set 
+ for neighbor . For the given
+simple graph (Figure 3) write out updates for nodes 2 and 3 by expanding sums over
+their neighbors. Using neighborhood notation 
+ and neighbor counts 
+:
+(If an explicit expansion of the sums into individual neighbor terms is required, simply
+replace the sum by the explicit terms 
+where 
+ enumerate 
+, and similarly for 
+.)
+End of solutions.
+s
+​ =
+i
+ℓ
+s
+​ +
+i
+ℓ−1
+W
+​
+​
+​tanh (W
+​m
+​)
+.
+1 (n
+​i
+1
+j=1
+∑
+n
+​i
+2
+i,j
+ℓ−1 )
+s
+​
+i
+ℓ−1
+s
+d
+W
+​2
+k
+W
+​2
+k × d
+​
+in
+s
+d
+​ =
+in
+d
+W
+​2
+k × d
+tanh(W
+​m)
+2
+k
+k
+W
+​1
+s
+​
+i
+ℓ−1
+d
+​
+W
+​ has dimensions d × k.
+1
+m
+​ =
+i,j
+ℓ−1
+s
+​
+j
+ℓ−1
+j
+N(i)
+n
+​ =
+i
+∣N(i)∣
+​
+s
+​ = s
+​ + W
+​
+​
+​
+​tanh (W
+​s
+​)
+​
+2
+ℓ
+2
+ℓ−1
+1
+n
+​2
+1
+j∈N(2)
+∑
+2 j
+ℓ−1
+​
+s
+​ = s
+​ + W
+​
+​
+​
+​tanh (W
+​s
+​)
+​
+3
+ℓ
+3
+ℓ−1
+1
+n
+​3
+1
+j∈N(3)
+∑
+2 j
+ℓ−1
+​( tanh(W
+​s
+) +
+n
+​2
+1
+2 j
+​1
+ℓ−1
+tanh(W
+​s
+​) +
+2 j
+​2
+ℓ−1
+⋯)
+j
+​, j
+​, …
+1
+2
+N(2)
+N(3)
+Sources
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+7/13
+ChatGPT was not able to expand 
+out these sums because it didn’t 
+know what the graph looked like. 
+This is probably because the pdf 
+reading was only able to extract 
+text. 
+
+
+--- Page 8 ---
+2)
+d) Be more precise; there is one value for one condition
+and another otherwise.
+e) iii) Learned embeddings are better; also, what would
+the global node encode?
+f) What is a node-level problem for images? Use more
+precise language. Graphs don't have an orientation. Zero
+padding isn't needed. 
+3)
+c) iii) Expand out the summation using this graph
+(image).
+Thought for 8s
+Thought for 11s
+Nice — I’ll tighten up each point you called out and then expand the update sums for
+nodes 2 and 3 using the picture.
+2(d) — be more precise about max aggregation
+Fix a component index . Let 
+ be the set of scalar contributions to component 
+arriving at node  via all length-  walks (these contributions are the values produced
+c
+Vi
+(k,c)
+c
+i
+k
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+8/13
+I explicitly provided the graph 
+structure as an image input so 
+ChatGPT could process it 
+outside of a pdf. 
+I didn’t want to directly provide the answers, so I 
+gave hints to drive it toward the intended solutions. 
+
+
+--- Page 9 ---
+along each walk for that component). Then the component-  value of node  at layer 
+with component-wise max aggregation is:
+If there exists at least one length-  walk ending at :
+Otherwise (no length-  walks end at ): choose a default (implementation-
+dependent) value — typically  (if initial features are zero-padded) or 
+ if you
+want the max to signal “no contributors.”
+So there are exactly two cases: (1) at least one contributor 
+ take the maximum over
+contributors; (2) no contributors 
+ return the chosen default.
+2(e)(iii) — learned embeddings and the global node
+Learned embeddings vs one-hot: Learned embeddings are generally better than
+raw one-hot vectors because they (a) compress element identity into a dense low-
+dim vector that the model can place semantically (similar atoms near each other),
+(b) let the network share statistical strength across elements, and (c) reduce input
+dimensionality. So use a small trainable embedding lookup for atom types rather
+than pure one-hot, then concatenate continuous atom features (electronegativity,
+partial charge, degree, etc).
+What a global node would encode: a global token/node (often called a graph-level
+context vector) should encode molecule-level metadata not captured by local
+node/edge features, for example:
+experimental conditions (temperature, solvent),
+overall molecular charge / formal charge,
+molecular weight or aggregate descriptors (e.g., total number of atoms, ring
+counts),
+an explicit “no-bond-break” prior or task-specific global bias,
+learned summary information that helps readout (e.g., reaction class).
+The global node participates in message passing (receives from nodes and can
+broadcast back) so it acts as shared context for edge-level decisions like bond-
+break probabilities.
+c
+i
+k
+k
+i
+X
+​ =
+i,c
+(k)
+max {v : v ∈V
+​}.
+i
+(k,c)
+k
+i
+0
+−∞
+⇒
+⇒
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+9/13
+This is still vague, and didn’t provide much in addition to the original response.
+
+
+--- Page 10 ---
+2(f) — precise mapping: “node-level” for images
+In image problems the analogue of a GNN node-level task is a per-pixel (or per-
+superpixel) task. Precise examples:
+Semantic segmentation: assign each pixel a class label (road, car, sky, ...).
+Per-pixel regression: predict depth or optical flow value for each pixel.
+Keypoint heatmap prediction: predict per-pixel probability of a landmark.
+So say “node-level = per-pixel (or per-patch) prediction” rather than vague wording.
+Graphs don’t have an orientation: correct — typical graph representations are
+permutation-invariant (no fixed ordering/orientation). GNNs must respect that
+invariance.
+Zero padding: you don’t need zero padding of neighbor lists. Aggregation functions
+(sum/mean/max) naturally handle variable neighborhood sizes. If you want to
+include the node’s own previous state in aggregation, add an explicit self-loop
+rather than pad.
+3(c)(iii) — expand the summations for the pictured graph
+Using the provided picture, the neighbor sets are (reading edges from the picture):
+ — node 2 connects to node 1 (top edge), to node 4 (vertical
+down), and to node 5 (diagonal).
+ — node 3 connects only to node 4 (the slanted line to the right).
+(If your intended adjacency differs, substitute the actual neighbor sets; the algebra
+below follows the same pattern.)
+The update rule given was
+and you set 
+. Therefore:
+Node 2 (
+, neighbors 
+):
+N(2) = {1, 4, 5}
+N(3) = {4}
+s
+​ =
+i
+ℓ
+s
+​ +
+i
+ℓ−1
+W
+​
+​
+​
+​tanh(W
+​ m
+​)
+​,
+1
+n
+​i
+1
+j∈N(i)
+∑
+2
+i,j
+ℓ−1
+m
+​ =
+i,j
+ℓ−1
+s
+​
+j
+ℓ−1
+n
+​ =
+2
+3
+1, 4, 5
+​
+​
+s
+​2
+ℓ= s
+​ + W
+​
+​( tanh(W
+​s
+​) + tanh(W s
+​) + tanh(W
+​s
+​))
+.
+2
+ℓ−1
+1(3
+1
+2 1
+ℓ−1
+2 4
+ℓ−1
+2 5
+ℓ−1
+)
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+10/13
+Interestingly, it still got the graph structure 
+incorrect (N(3)). I guess the CNN part of 
+ChatGPT might struggle with precise 
+structure. 
+I was able to get detailed answers 
+after explicitly asking for more 
+precision. This was nice to see.
+
+
+--- Page 11 ---
+Node 3 (
+, neighbor ):
+(If you prefer to show the mean explicitly for node 3: 
+.)
+If you want, I can also (without changing notation) write the fully expanded
+component-wise forms or show the same expansions for nodes 1,4,5 as well. Which
+would you prefer?
+n
+​ =
+3
+1
+4
+​
+​
+s
+​3
+ℓ= s
++ W
+​( tanh(W
+​s
+​)).
+3
+ℓ−1
+1
+2 4
+ℓ−1
+​ tanh(W
+​s
+​) =
+1
+1
+2 4
+ℓ−1
+tanh(W
+​s
+​)
+2 4
+ℓ−1
+2)
+d) Note that the 0th layer is a one-hot encoding so the
+values at every layer should be a constant by induction.
+3
+c) iii) N(3) = {5}, not 4
+Thought for 9s
+Thanks — good catches. I’ll correct both items and be precise.
+2(d) — precise statement given the one-hot 0th layer
+First clarify two different aggregation regimes (they behave differently when 
+ is one-
+hot).
+1. Sum aggregation (linear GNN from earlier parts).
+If 
+ is a one-hot basis (so node  has vector 
+), and the layer update is the linear
+sum-aggregation 
+, then the entries of 
+ are not constant across 
+in general — they equal counts of walks of length . Concretely 
+ equals the
+number of length-  walks from  to . So there is no collapse to a single constant across
+layers.
+x(0)
+x(0)
+u
+e
+​u
+X
+=
+(k)
+A X(k−1)
+X(k)
+k
+k
+(A )
+​
+k i,u
+k
+u
+i
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+11/13
+I had to just explicitly tell ChatGPT 
+how to do 2d. Similarly, I explicitly 
+corrected its graph structure for 
+3c. In retrospect, maybe I could 
+have told ChatGPT to reread the 
+given conditions of 2d and reason 
+about induction.
+
+
+--- Page 12 ---
+2. Max (component-wise) aggregation with binary one-hot inputs and no scaling.
+If 
+ is one-hot (each component is 0/1) and message passing uses only
+component-wise max (no learned multiplicative scalars, no additive bias), then each
+component remains binary and satisfies a reachability property:
+Fix component . Define 
+ as the value of component  at node  after  layers. Then
+iff there exists at least one walk of length  that starts at the node which
+had the 1 in component  at layer  and ends at node .
+Otherwise 
+.
+Proof is by simple induction on : base 
+ holds by one-hot definition; step uses
+that max over neighbor contributions is 1 iff some neighbor supplied a 1 via a length-
+ walk, i.e. there is a length-  walk.
+So in this max/one-hot setting each component is constant-valued as an element of
+ (it never becomes other reals), but it is not necessarily the same value across
+layers  — it changes with  according to reachability for that walk length. If by
+“constant by induction” you meant “remains in 
+ for all layers and is determined by
+walk-existence,” that precise statement is correct; if you meant the numeric value is
+identical for all , that is not generally true.
+(If learned scalars or additive biases are introduced, these binary / reachability
+guarantees no longer hold.)
+3(c)(iii) — corrected neighbor set and expansions
+You are right: node 3 connects to node 5 in the picture, not node 4. With that correction:
+ (unchanged).
+ (corrected).
+With 
+ and the update
+the expanded updates are:
+Node 2 (
+):
+x
+∈
+(0)
+{0, 1}n×d
+c
+X
+​
+i,c
+(k)
+c
+i
+k
+X
+​ =
+i,c
+(k)
+1
+k
+c
+0
+i
+X
+​ =
+i,c
+(k)
+0
+k
+k = 0
+(k −1)
+k
+{0, 1}
+k
+k
+{0, 1}
+k
+N(2) = {1, 4, 5}
+N(3) = {5}
+m
+​ =
+i,j
+ℓ−1
+s
+​
+j
+ℓ−1
+s
+​ =
+i
+ℓ
+s
+​ +
+i
+ℓ−1
+W
+​(
+​
+​tanh(W
+​s
+​)),
+1 n
+​i
+1
+j∈N(i)
+∑
+2 j
+ℓ−1
+n
+​ =
+2
+3
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+12/13
+
+
+--- Page 13 ---
+Node 3 (
+, neighbor ):
+If you want, I can (a) write the corresponding updates for nodes 1, 4, and 5 too, or (b)
+i
+h
+i
+d
+h
+i
+hi hli h
+d b
+Whi h
+​
+s
+​ = s
+​ + W
+​
+​( tanh(W
+​s
+​) + tanh(W s
+​) + tanh(W
+​s
+​))
+.
+2
+ℓ
+2
+ℓ−1
+1(3
+1
+2 1
+ℓ−1
+2 4
+ℓ−1
+2 5
+ℓ−1
+)
+n
+​ =
+3
+1
+5
+​
+s
+​ = s
++ W
+​( tanh(W
+​s
+​)).
+3
+ℓ
+3
+ℓ−1
+1
+2 5
+ℓ−1
+11/9/25, 5:42 PM
+Graph dynamics and GNNs
+https://chatgpt.com/c/690e8927-27c0-8325-9c5f-8d4ed6e0e2f2
+13/13
+Not sure happened to my pdf download here, but there is no more useful text. The questions I did not have followup prompts for were all one-shotted. 

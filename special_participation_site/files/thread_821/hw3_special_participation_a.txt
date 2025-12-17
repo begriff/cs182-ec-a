@@ -1,0 +1,172 @@
+--- Page 1 ---
+ 
+Paul Struble 
+3038299344 
+Special Participation A 
+ 
+HW3 (Non-Coding Parts) - GPT 5.1 Thinking (Extended) 
+ 
+Executive Summary 
+In this investigation, I used GPT 5.1 Thinking (Extended) to solve the non-coding parts of 
+Homework 3. Overall, the model was very effective at solving each problem and explaining its 
+reasoning. It was able to one-shot all parts of all problems. I prompted the model in the 
+ChatGPT web frontend by providing a PDF attachment of the original homework assignment, a 
+brief explanation of the task, and some additional prompts/attachments throughout the 
+conversation to provide additional contextual resources (from the assignment). This is all 
+recorded in the conversation log in this document. I found no misconceptions or hallucinations in 
+the model’s output although some responses took a different approach than the reference 
+solutions (ultimately still arriving at a valid solution). 
+ 
+Link to Conversation: https://chatgpt.com/share/693a069f-44a8-8007-bed7-a4db5aceaa8f 
+ 
+Model Details: 
+●​ Model: ChatGPT 5.1 Thinking (Extended) 
+●​ Used ChatGPT web frontend (chatgpt.com) 
+●​ Disabled all personalization features 
+●​ Used “default” personality 
+●​ Chain of thought (“Thinking”) traces can be found in the original conversation (linked 
+above)
+ 
+
+
+--- Page 2 ---
+ 
+Initial Prompt 
+User Prompt: 
+[Attachment: Homework 3 PDF] 
+ 
+ 
+ 
+Problem 1: Maximal Update Parameterization 
+AI Response: 
+ 
+
+
+--- Page 6 ---
+ 
+ 
+ 
+Comments & Observations: 
+Part A: The model one-shotted this part. The model first considers a single coordinate of the 
+output, which is the same logic used by the reference solution. It then writes its proof, using 
+some basic natural language to connect each step of its proof, and it summarizes the correct 
+answers. 
+Part B: The model one-shotted this part. It provides a full proof. Interestingly, the model 
+provides the full constant term (not included in the reference solution), but also summarizes its 
+order as O(1/d1), recognizing that only the 1/d1 term is significant here. The model also makes 
+some minor mistake in the formatting of some of its math that causes a slight rendering error in 
+the web frontend, but this is not particularly significant. 
+Part C: The model one-shotted this part. Its explanation is valid/correct but uses a different line 
+of reasoning than the reference solution. The model’s explanation is split into two parts: an 
+algebraic justification and an intuitive “feature-space” viewpoint. Both perspectives are still valid 
+explanations that answer the question. 
+ 
+ 
+ 
+
+
+--- Page 7 ---
+ 
+3: Maximal Update Parameterization Research 
+User Prompt: 
+[Attachment: PDF of Arxiv 2203.03466] 
+[Attachment: Image of Figure 1 from paper] 
+ 
+AI Response: 
+ 
+User Prompt: 
+[Attachment: Image of Table 3 from paper] 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 8 ---
+ 
+AI Response: 
+ 
+User Prompt: 
+[Attachment: PDF of Arxiv 2310.17813] 
+[Attachment: Desideratum 1 from paper] 
+ 
+AI Response: 
+ 
+
+
+--- Page 9 ---
+ 
+ 
+ 
+ 
+Comments & Observations: 
+Part A: The model one-shotted this part. It provides a correct/complete analysis of the figure 
+that aligns with the reference solution, and provides some additional detail. 
+Part B: The model one-shotted this part. Interestingly, the chain of thought trace reveals that the 
+model had some issues using some of its tools for reading the PDF that caused a long chain of 
+thought time for this subpart (around 2.5 minutes). It's possible that the attached PDF may have 
+caused the conversation to exceed the context window, but I am unsure. Overall, the model was 
+able to recover and still provide a valid solution. 
+Part C: The model one-shotted this part. It gave a valid proof/reasoning for the problem that 
+aligned with the reference solution. 
+
+
+--- Page 10 ---
+ 
+4: Policy Gradient and the Reparameterization Gradient Estimator 
+User Prompt: 
+ 
+AI Response: 
+ 
+
+
+--- Page 12 ---
+ 
+ 
+ 
+Comments & Observations: 
+Part A: The model one-shotted this part. It used the score function identity and recognized that 
+solution is the “score-function / policy-gradient estimator.” Because it used the score function 
+identity, its work looks a little different from the reference solution, but ultimately its final solution 
+is the same. 
+Part B: The model one-shotted this part. For its final answer, it added a slightly different (but 
+correct) notation compared to the reference solution, and it used this notation in the follow-up in 
+Part C. 
+Part C: The model one-shotted this part. It continued with its Part B notation, and noted that 
+“this is the reparameterization gradient estimator (also called the pathwise derivative).” 
+Part D: The model one-shotted this part. It notes that  “this is the general score-function / policy 
+gradient.” 
+Part E: The model one-shotted this part. It was able to identify the correct special cases 
+referenced by the problem (recognizing the link to Part B and Part C). 
+ 
+ 
+ 
+
+
+--- Page 13 ---
+ 
+5: Tensor Rematerialization 
+User Prompt: 
+ 
+AI Response: 
+ 
+ 
+ 
+
+
+--- Page 14 ---
+ 
+ 
+ 
+Comments & Observations: 
+The model’s chain of thought reasoning took a particularly long time to run on this problem 
+(around 5 minutes). It seems that most of the chain of thought time was spent reasoning about 
+the arithmetic required by the problem and performing calculations. 
+Part A: The model one-shotted this part. It first identified the correct number of fwd operations 
+for each individual layer and then calculated the correct total number of fwd operations. 
+Part B: The model one-shotted this part. Its response/reasoning follows a similar structure to its 
+Part A response, and its final answer for the total number of loadmem operations is correct.  
+Part C: The model one-shotted this part. The model again writes out its arithmetic and arrives at 
+the correct final answer (50 ns). 

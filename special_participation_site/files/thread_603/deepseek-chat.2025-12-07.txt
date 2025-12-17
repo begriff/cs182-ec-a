@@ -1,0 +1,2430 @@
+--- Page 1 ---
+Deepseek Chat
+File
+Shared files can't be displayed
+Help me solve all non-coding questions from this deep learning 
+homework PDF. We will go one question at a time. For each problem, 
+restate the problem first and then solve it. Show all work.
+---
+Start with Question 1. First, you must rewrite Question 1. Then, solve all 
+parts to it.
+Question 1 – Justifying Scaled-Dot Product Attention
+Suppose 
+ are two random vectors, each drawn from 
+,
+where 
+ and 
+.
+Each component 
+ is i.i.d. normal with mean  and variance 
+.
+Part (a)
+Define 
+ in terms of 
+ and .
+Solution:
+Since 
+ and 
+ are independent for each :
+Thus:
+q, k ∈Rd
+N(μ, σ I)
+2
+μ ∈Rd
+σ ∈R+
+q
+​, k
+​
+i
+i
+μ
+σ2
+E[q k]
+T
+μ, σ
+d
+q k =
+T
+​q
+​k
+​
+i=1
+∑
+d
+i
+i
+q
+​i
+k
+​i
+i
+E[q
+​k
+​] =
+i
+i
+E[q
+​]E[k
+​] =
+i
+i
+μ ⋅μ = μ2
+To ensure that 
+DeepSeek is 
+reading the 
+question 
+accurately, I 
+have it restate 
+the question. 
+This not only 
+helps me verify 
+that it didn’t 
+hallucinate the 
+problems, but 
+also helps me 
+verify that it 
+read little 
+details like 
+superscripts 
+correctly from 
+the PDF.
+Interestingly, DeepSeek already makes 
+a minor error here, because it treats 
+mu as a scalar despite deﬁning it as a 
+vector when restating the question.
+
+
+--- Page 2 ---
+Part (b)
+Assume 
+.
+Define 
+ in terms of .
+Solution:
+With 
+, each 
+ independent.
+Because 
+ and 
+ are independent, zero-mean:
+We know 
+ and 
+ are independent, each having mean  (since
+variance is 1 for standard normal, and 
+).
+So:
+Since 
+ are independent across , variances add:
+E[q k] =
+T
+​μ =
+i=1
+∑
+d
+2
+dμ2
+​
+E[q k] = dμ
+T
+2
+μ = 0, σ = 1
+Var(q k)
+T
+d
+μ = 0
+q , k
+​ ∼
+i
+i
+N(0, 1)
+q k =
+T
+​q
+​k
+​
+i=1
+∑
+d
+i
+i
+q
+​i
+k
+​i
+Var(q
+​k
+​) =
+i
+i
+E[q
+​k
+​] −
+i
+2
+i
+2
+(E[q
+​k
+​])
+i
+i
+2
+E[q
+​k
+​] =
+i
+i
+0
+q
+​, k
+​
+i
+2
+i
+2
+1
+E[z ] =
+2
+1
+E[q
+​k
+​] =
+i
+2
+i
+2
+E[q
+​]E[k
+​] =
+i
+2
+i
+2
+1 ⋅1 = 1
+Var(q k
+​) =
+i
+i
+1 −0 = 1
+q
+​k
+​
+i
+i
+i
+Var(q k) =
+T
+​Var(q
+​k
+​) =
+i=1
+∑
+d
+i
+i
+d ⋅1 = d
+​
+Var(q k) = d
+T
+
+
+--- Page 3 ---
+Part (c)
+Continue with 
+.
+Let  be the scaling factor on the dot product.
+We want:
+Find  in terms of .
+Solution:
+From part (b), 
+.
+Scaling by :
+We want this to be 1:
+(We take positive root since 
+ typically.)
+Mean condition: 
+ already satisfied since mean is 0.
+This explains the 
+ scaling in scaled dot-product attention: to keep variance
+of attention logits near 1 for stability.
+μ = 0, σ = 1
+s
+E
+​
+=
+[ s
+q k
+T
+]
+0,
+Var
+​
+=
+( s
+q k
+T
+)
+1
+s
+d
+Var(q k) =
+T
+d
+s
+Var
+​
+=
+( s
+q k
+T
+)
+​ =
+s2
+Var(q k)
+T
+​
+s2
+d
+​ =
+s2
+d
+1
+⇒
+s =
+2
+d
+⇒
+s =
+​d
+s > 0
+E[q k/s] =
+T
+​E[q k] =
+s
+1
+T
+0
+​
+s =
+​d
+​d
+Now restate Question 2 and solve all parts to it.
+Question 2 – Argmax Attention
+Recall that we can think of attention as queryable softmax pooling. Here we
+consider a hypothetical argmax version of attention: it returns exactly the
+
+
+--- Page 4 ---
+value corresponding to the key most similar to the query, where similarity is
+measured using the traditional inner product.
+Part (a)
+Perform argmax attention with the given keys, values, and query:
+Keys 
+:
+I interpret this as 
+ being 
+ with an extra column? Let's check
+dimensions — based on the given, maybe it's 
+?
+Looking carefully:
+It is written as:
+But that matrix multiplication would give a 
+, not a key matrix.
+I suspect instead the Keys matrix is:
+(3 keys, each of dimension 3) and possibly the second matrix 
+ is a
+separate key? But that would make 4 keys total (3 in first matrix, 1 extra).
+The "Corresponding Values" are given similarly:
+K
+K =
+​
+​
+​
+​
+​
+​
+​
+​
+1
+2
+0
+0
+3
+4
+5
+0
+0
+0
+0
+1
+K
+3 × 3
+3 × 4
+​
+​
+​
+​
+​
+​
+​
+​
+1
+2
+0
+0
+3
+4
+5
+0
+0
+0
+0
+1
+3 × 1
+K =
+​
+​
+​
+​
+​
+1
+2
+0
+0
+3
+4
+5
+0
+0
+​
+​
+​
+0
+0
+1
+V =
+​
+​
+​
+​
+​
+​
+​
+2
+0
+1
+1
+4
+3
+0
+−1
+4
+1
+0
+−1
+Here, DeepSeek misreads the PDF 
+and makes the key matrix have only 3 
+columns instead of 4. This is why 
+having it restate the problem was a 
+good strategy for catching 
+halluciations.
+Interestingly, DeepSeek verbalizes 
+its confusion about misreading the 
+matrix and makes a best guess 
+about what the actual matrix would 
+be compared to its original guess
+
+
+--- Page 5 ---
+This suggests 3 values (each in 
+) plus a 4th value.
+Let's assume the Keys matrix 
+ is 
+: each column is a key (so 4 keys),
+each key is length 3.
+Thus:
+Columns:
+, 
+, 
+, 
+.
+Values 
+ is also 
+:
+Columns:
+, 
+, 
+, 
+.
+Query 
+.
+Step 1: Compute similarities 
+:
+Similarities: 
+.
+Step 2: Argmax: the maximum similarity is 11 at index 2 (if indexing starts at 1:
+key 2).
+Argmax → one-hot vector: 
+.
+Step 3: Output = 
+.
+R3
+K
+3 × 4
+K =
+​
+​
+​
+​
+​
+​
+1
+2
+0
+0
+3
+4
+5
+0
+0
+0
+0
+1
+k
+​ =
+1
+[1, 2, 0]T k
+​ =
+2
+[0, 3, 4]T k
+​ =
+3
+[5, 0, 0]T k
+​ =
+4
+[0, 0, 1]T
+V
+3 × 4
+V =
+​
+​
+​
+​
+​
+​
+2
+0
+1
+1
+4
+3
+0
+−1
+4
+1
+0
+−1
+v
+​ =
+1
+[2, 0, 1]T v
+​ =
+2
+[1, 4, 3]T v
+​ =
+3
+[0, −1, 4]T v
+​ =
+4
+[1, 0, −1]T
+q = [1, 1, 2]T
+q k
+​
+T
+j
+q k
+​ =
+T
+1
+1 ⋅1 + 1 ⋅2 + 2 ⋅0 = 3
+q k
+​ =
+T
+2
+1 ⋅0 + 1 ⋅3 + 2 ⋅4 = 0 + 3 + 8 = 11
+q k
+​ =
+T
+3
+1 ⋅5 + 1 ⋅0 + 2 ⋅0 = 5
+q k
+​ =
+T
+4
+1 ⋅0 + 1 ⋅0 + 2 ⋅1 = 2
+[3, 11, 5, 2]
+[0, 1, 0, 0]
+​(one-hot
+​)v
+​ =
+∑j
+j
+j
+v
+​2
+v
+​ =
+2
+​
+​
+​
+1
+4
+3
+Here, DeepSeek correctly 
+ﬁxes its transcription of the 
+problem
+Prompting DeepSeek to show 
+all work helped it not make any 
+algebra errors in the attention 
+calculations
+
+
+--- Page 6 ---
+Part (b)
+How does using argmax instead of softmax affect our ability to train models
+involving attention?
+Answer:
+The key issue is differentiability.
+In softmax attention, the attention weights are a continuous, differentiable
+function of the query-key dot products. Gradients can flow back through
+the softmax to update queries and keys based on the loss.
+In argmax attention, the output is the single value corresponding to the
+maximum similarity. The operation is discontinuous and has zero gradient
+almost everywhere with respect to the similarity scores (except at the
+boundary where the maximum changes, but that’s a non-differentiable
+point).
+Therefore, gradients cannot propagate through the argmax operation to
+update queries or keys during training.
+Consequences:
+Queries and keys cannot be learned via gradient descent, because argmax
+provides no useful gradient signal for improving similarity scores.
+The model would either not train at all, or would require alternative training
+methods (like reinforcement learning with a discrete-action policy gradient)
+which are more complex and less stable.
+​
+​
+​
+​
+1
+4
+3
+Argmax breaks gradient flow, preventing useful learning of queries and
+Now restate Question 3 and solve all parts to it.
+
+
+--- Page 7 ---
+Question 3 – Ordinary Softmax Multi-head Attention
+Implementation
+We are given a partial implementation of the MultiHeadAttention  class and
+asked to fill in missing blanks.
+Part (a)
+Fill in blanks (a) through (h) in the code.
+The class definition:
+Solution for (a):
+In standard multi-head attention, each head gets its own key projection of size
+d_k . Since d_k = d_model // num_heads , the total output dimension for keys
+across all heads should be d_model  (because we concatenate heads at the
+end).
+Actually, looking at self.W_k : it projects from d_model  to d_model  (same as
+W_q ). Yes, because split_heads  will later split d_model  into num_heads
+heads, each of size d_k .
+So W_k  output dim = d_model .
+Thus:
+(a) = d_model
+class MultiHeadAttention(nn.Module):
+    def __init__(self, d_model, num_heads):
+        super(MultiHeadAttention, self).__init__()
+        self.d_model = d_model
+        self.num_heads = num_heads
+        self.d_k = d_model // num_heads
+        self.W_q = nn.Linear(d_model, d_model)
+        self.W_k = nn.Linear(d_model, ___(a)___)
+        self.W_v = nn.Linear(___(b)___, d_model)
+        self.W_o = nn.Linear(d_model, ___(c)___)
+python
+We can see that DeepSeek  sometimes 
+questions itself when answering almost as a 
+double-check for more accurate results despite 
+this not being Thinking mode.
+
+
+--- Page 8 ---
+Solution for (b):
+W_v  projects from d_model  to d_model  (same logic).
+Actually, in some implementations, W_v  also outputs d_model , then split into
+heads.
+Thus:
+(b) = d_model
+Solution for (c):
+Given in the problem: (c) = d_model
+Now the scaled_dot_product_attention  method:
+(d):
+We compute Q @ K^T . So Q  goes in first argument.
+Thus:
+(d) = Q
+(e):
+We go from scores to probabilities via softmax.
+Thus:
+(e) = softmax
+def scaled_dot_product_attention(self, Q, K, V, mask=None):
+    attn_scores = torch.matmul(___(d)___, K.transpose(-2, -1))
+    attn_scores = attn_scores / math.sqrt(self.d_k)
+    if mask is not None:
+        attn_scores = attn_scores.masked_fill(mask == 0, -1e9)
+    attn_probs = torch.___(e)___(attn_scores, dim=-1)
+    output = torch.matmul(attn_probs, ___(f)___)
+    return output
+python
+
+
+--- Page 9 ---
+(f):
+We multiply attention probabilities by V .
+Thus:
+(f) = V
+Now split_heads  method:
+(g):
+Given in problem: (g) = self.num_heads
+Now forward  method:
+(h):
+After combining heads, we apply the final output linear projection W_o .
+Thus:
+(h) = W_o
+Final answers for part (a):
+def split_heads(self, x):
+    batch_size, seq_length, d_model = x.size()
+    return x.view(batch_size, seq_length,
+                  ___(g)___, self.d_k).transpose(1, 2)
+def forward(self, Q, K, V, mask=None):
+    Q = self.split_heads(self.W_q(Q))
+    K = self.split_heads(self.W_k(K))
+    V = self.split_heads(self.W_v(V))
+    attn_output = self.scaled_dot_product_attention(Q, K, V, mask)
+    output = self.___(h)___(self.combine_heads(attn_output))
+    return output
+python
+python
+
+
+--- Page 10 ---
+Part (b)
+Suppose we change the initialization of W_v  to:
+This increases the length of value vectors.
+What other minimal modifications should we apply to make the code run?
+Reasoning:
+If W_v  outputs 2 * d_model , then after splitting heads, each head’s value
+dimension d_v  would be (2 * d_model) / num_heads .
+But attention’s output after torch.matmul(attn_probs, V)  will have shape
+[batch, num_heads, seq_len, d_v] .
+Combining heads via combine_heads  will produce shape
+[batch, seq_len, 2 * d_model] .
+Now the final linear layer W_o  currently expects input d_model , but we give it
+2 * d_model . So we must change W_o ’s in_features  to 2 * d_model  (or
+leave W_o  unchanged but then dimensions mismatch).
+But the problem says minimal modifications: likely we keep W_o  input size =
+d_model  (since residual connection adds original input of size d_model ). So
+maybe we change W_v  back? But they explicitly said we increase length of
+value vectors, so maybe we also change W_o  to accept 2*d_model  and
+output d_model .
+​
+​
+​
+(a) d
+​
+model
+(b) d
+​
+model
+(c) d
+​
+model
+(d) Q
+(e) softmax
+(f) V
+(g) self.num_heads
+(h) W
+​o
+self.W_v = nn.Linear(in_features=d_model, out_features=2 * d_model)
+python
+Once again, I ﬁnd it interesting to see DeepSeek doubting itself and double checking 
+with the question despite this not being Thinking Mode.
+
+
+--- Page 11 ---
+But the residual connection requires the attention block output to match input
+dimension d_model . So we must ensure final output dimension is d_model .
+Thus W_o  should be nn.Linear(2*d_model, d_model) .
+Also, self.W_v  in __init__  already changed to (d_model, 2*d_model) .
+self.W_k  and self.W_q  unchanged.
+In forward , split_heads  will split 2*d_model  into num_heads  heads, each
+head’s d_v = (2*d_model)/num_heads .
+combine_heads  will combine back to 2*d_model .
+Then W_o  maps 2*d_model  → d_model .
+Thus minimal modifications:
+1. Change W_o  to nn.Linear(2*d_model, d_model) .
+2. Possibly adjust d_k  if needed? No, d_k  for Q and K unchanged.
+Also ensure scaled_dot_product_attention  works with different d_v  vs
+d_k  — it does, because matmul uses d_k  only for scaling, and V ’s last
+dimension is d_v .
+​
+Change W
+​ to nn.Linear(2 × d
+​, d
+​)
+o
+model
+model
+Now solve Question 4
+Question 4 – Transformer Decoding Optimization
+We are given pseudocode for Multi-Head Attention (MHA) incremental
+decoding and Multi-Query Attention (MQA) incremental decoding. We need
+to fill in blanks and analyze complexity.
+Part (a) – (e): Fill in the blanks for MQA code
+The MQA function signature:
+python
+DeepSeek was able to 
+one-shot the entirety of 
+Question 3 with no 
+errors which was the 
+longest so far
+For Q4, I do not tell it to restate the problem as it is a very long problem and I 
+was worried that it would inﬂate the token count and lead to worse 
+performance. This was ﬁne as the model indirecltly restates the problems in 
+its answers as it goes through each part 1 by 1.
+
+
+--- Page 12 ---
+We’re told:
+prev_K : shape [b, n, k]  cached keys (shared across heads)
+prev_V : shape [b, n, v]  cached values (shared across heads)
+W_q : shape A – query projection weights
+W_k : shape B – key projection weights
+W_v : shape [d, v]  – value projection weights
+W_o : shape [h, v, d]  – output projection weights
+(a) Shape of W_q  (A):
+In MQA, each head has its own query projection, but keys and values are
+shared.
+If we have h  heads, d  model dim, q = d/h  query dim per head, then W_q
+should be [h, d, q] .
+Answer: ○ [h,d,q]
+(b) Shape of W_k  (B):
+Keys are shared across heads → only one key projection for all heads.
+Input dim d , output dim k = d/h .
+So shape is [d, k] .
+Answer: ○ [d,k]
+(c) Code for q  (C):
+We compute per-head queries:
+x  shape [b, d] , W_q  shape [h, d, q] .
+def multiquery_attention_incremental(x, prev_K, prev_V, W_q, W_k, W_v, 
+W_o):
+​
+[h, d, q]
+​
+[d, k]
+
+
+--- Page 13 ---
+We want output [b, h, q] .
+Using einsum: "bd,hdq->bhq" .
+Matches: ○ torch.einsum("bd,hdq->bhq", x, W_q)
+(d) Code for k  (D):
+Keys are shared:
+x  shape [b, d] , W_k  shape [d, k] .
+We want output [b, k]  (since shared across heads, no head dim yet).
+Using einsum: "bd,dk->bk" .
+Matches: ○ torch.einsum("bd,dk->bk", x, W_k)
+(e) Code for v  (E):
+Values are shared:
+x  shape [b, d] , W_v  shape [d, v] .
+We want output [b, v] .
+Using einsum: "bd,dv->bv" .
+Matches: ○ torch.einsum("bd,dv->bv", x, W_v)
+Part (f) – (g): Complexity analysis
+(f) Computational complexity of MQA for generating a single token with
+cache of n previous tokens
+We reason step-by-step:
+1. Projections
+​
+torch.einsum("bd, hdq−> bhq", x, W
+​)
+q
+​
+torch.einsum("bd, dk−> bk", x, W
+​)
+k
+​
+torch.einsum("bd, dv−> bv", x, W
+​)
+v
+
+
+--- Page 14 ---
+Query: b * d * (d/h) * h = b * d^2  (since q = d/h , h  heads → total
+b * d * d ). Actually: W_q  shape [h, d, q] , computing q  =
+b * d * q * h  = b * d * (d/h) * h = b d^2 .
+Key: b * d * k  where k = d/h  → b * d^2 / h .
+Value: b * d * v  where v = d/h  → b * d^2 / h .
+But in MQA, keys and values are shared, so their projections are
+computed once, not per head.
+Wait carefully:
+q : b * d * q * h = b d^2 .
+k : b * d * k = b d^2 / h ? Let's check: k = d/h , so
+b * d * k = b * d * (d/h) = b d^2 / h .
+v : same as k : b d^2 / h .
+So total projection cost:
+since  is constant w.r.t .
+2. Attention computation
+logits : q  shape [b, h, q] , new_K  shape [b, n+1, k] .
+Einsum "bhq,bnk->bhn"  cost: b * h * q * (n+1) .
+But q = d/h , so b * h * (d/h) * n = b d n .
+weights : softmax over n+1 : O(b h n)  = O(b d n / h) ? Wait, h  ~
+constant, so O(b d n) .
+o : weights [b, h, n+1]  with new_V  [b, n+1, v] , einsum
+"bhn,bnv->bhv" : b * h * n * v  with v = d/h  →
+b * h * n * (d/h) = b d n .
+So attention step total: O(b d n) .
+3. Output projection
+o  shape [b, h, v] , W_o  shape [h, v, d] , einsum "bhv,hvd->bd" : cost
+b * h * v * d .
+v = d/h , so b * h * (d/h) * d = b d^2 .
+Total compute = projections + attention + output projection
+= O(b d^2) + O(b d n) + O(b d^2)  = O(b d^2 + b d n) .
+bd +
+2
+b
+​ +
+h
+d2
+b
+​ =
+h
+d2
+bd
+1 +
+​
+=
+2 (
+h
+2 )
+O(bd )
+2
+h
+d
+
+
+--- Page 15 ---
+This is same as MHA compute complexity. But note: in MQA, key/value
+projections are cheaper by factor h , but it's still O(b d^2)  because query
+and output projections dominate.
+So answer:
+(g) Memory access complexity for MQA
+We consider data read/write:
+1. Weights:
+W_q : [h, d, q]  size h * d * (d/h) = d^2 .
+W_k : [d, k]  size d * (d/h) = d^2/h .
+W_v : [d, v]  size d^2/h .
+W_o : [h, v, d]  size h * (d/h) * d = d^2 .
+Total weights: O(d^2) .
+2. Activations for current step (read/write x, q, k, v, o, y ):
+x : [b, d]  → O(b d) .
+q : [b, h, q]  = b * h * (d/h) = b d .
+k : [b, k]  = b * (d/h) = b d/h .
+v : same as k  → b d/h .
+o : [b, h, v]  = b d .
+y : [b, d]  = b d .
+Total activations: O(b d)  (since constants like h  ignored in big-O).
+3. Cached keys/values:
+prev_K : [b, n, k]  = b n (d/h)  → O(b n d / h) .
+prev_V : same → O(b n d / h) .
+But h  is constant w.r.t scaling, so O(b n d) .
+So total memory access:
+​
+O(bd + bdn)
+2
+O(d +
+2
+bd + bnd)
+
+
+--- Page 16 ---
+Summary for Question 4:
+​
+O(d + bd + bnd)
+2
+​
+​
+(a) [h, d, q]
+(b) [d, k]
+(c) torch.einsum("bd, hdq−> bhq", x, W
+​)
+q
+(d) torch.einsum("bd, dk−> bk", x, W
+​)
+k
+(e) torch.einsum("bd, dv−> bv", x, W
+​)
+v
+(f) O(bd + bdn)
+2
+(g) O(d + bd + bnd)
+2
+For part (g), can the third term be reduced from O(bnd) in MHA due to 
+shared K/V?
+You're absolutely right to question that. Let's carefully compare MHA and
+MQA for memory access of cached K/V:
+MHA (multi-head attention):
+prev_K  shape: [b, h, n, k]  where k = d/h
+Memory for cached keys = b * h * n * (d/h)  = b n d
+Same for values: b n d
+Total for K/V cache: O(b n d)
+MQA (multi-query attention):
+prev_K  shape: [b, n, k]  where k = d/h
+Memory for cached keys = b * n * (d/h)  = b n d / h
+Same for values: b n d / h
+Total for K/V cache: O(b n d / h)
+DeepSeek was able 
+to one-shot everything
+but part (g) correctly, 
+so I try to guide it 
+towards the right 
+answer and it double-
+checks its work.
+
+
+--- Page 17 ---
+Since h  is a constant (e.g., 8, 16, 32) in big-O notation, we might say
+O(b n d) . But if we're comparing MHA vs MQA, the constant factor matters:
+MQA reduces cache memory by factor 1/h .
+But the question asks for "memory access complexity (in Big-O notation)". In
+asymptotic analysis, h  is constant w.r.t b, n, d , so
+O(b n d / h) = O(b n d) .
+However, looking at their provided note in MHA complexity:
+"The memory access complexity is 
+ since it is 
+ to
+read weights, 
+ to read/write current token embeddings..., and 
+to read cached keys/values."
+For MQA, since keys/values are shared, the cache size is smaller by factor
+1/h . But big-O hides constants, so it's still O(b n d) .
+But wait: They're asking specifically about MQA in part (g). We should report
+what's in the code:
+prev_K : [b, n, k]  with k = d/h
+prev_V : [b, n, v]  with v = d/h
+Memory per cache: b * n * (d/h)
+For both caches: 2 * b * n * (d/h) = (2/h) * b n d
+So the term is O(b n d / h) . Since h  is fixed w.r.t scaling of b, n, d , this
+is O(b n d) .
+But if they want to show improvement over MHA, they might write it as
+O(b n d / h) .
+Given their MHA complexity was given as O(d^2 + bd + bnd)  (without 1/h
+factor), and they said MQA reduces memory access, I think we should write:
+But since the question says "in Big-O notation", and constants are dropped,
+either is technically acceptable. However, since they explicitly mentioned h
+in weight shapes, it might be fine to keep the /h .
+O(d +
+2
+bd + bnd)
+O(d )
+2
+O(bd)
+O(bnd)
+​
+O(d + bd + bnd/h)
+2
+
+
+--- Page 18 ---
+Actually, let's check their own comparison: They said MHA arithmetic
+intensity = 
+.
+For MQA, the denominator would change: weights still O(d^2) , activations
+O(bd) , cache O(b n d / h) . So total = O(d^2 + bd + b n d / h) .
+I'll put:
+to show the improvement from MHA.
+Final Answer for 4(g):
+​
+O(d +bd+bnd)
+2
+O(bd +bnd)
+2
+​
+O(d + bd + bnd/h)
+2
+​
+O(d + bd +
+​)
+2
+h
+bnd
+Now solve Question 6a
+Question 6 – Kernelized Linear Attention (Part I)
+We are given the generalized attention equation:
+where 
+ and 
+.
+Part (a)
+Identify the conditions that need to be met by the 
+ function to ensure 
+remains finite (denominator never reaches zero).
+Reasoning:
+The denominator is 
+.
+If 
+, then 
+ is undefined (division by zero).
+V
+​ =
+i
+′
+​
+​ sim(Q
+​, K
+​)
+∑j=1
+N
+i
+j
+​ sim(Q
+​, K
+​)V
+​
+∑j=1
+N
+i
+j
+j
+Q
+​, K
+​ ∈
+i
+j
+RD
+V
+​ ∈
+j
+RM
+sim
+V
+​i
+′
+S
+​ =
+i
+​ sim(Q
+​, K
+​)
+∑j=1
+N
+i
+j
+S
+​ =
+i
+0
+V
+​i
+′
+After 1 guidance prompt, the 
+model gets the new correct 
+answer, although with a lot 
+of tokens and thought.
+Given the Q6 is the longest 
+question, I split it into 1 prompt 
+per part rather than 1 prompt for 
+the whole question to ensure 
+less errors
+
+
+--- Page 19 ---
+To keep 
+ finite, we require:
+1. 
+ for all 
+ (non-negativity), because if some terms are
+negative and could sum to zero, we get division by zero.
+2. 
+ for all  (strictly positive total similarity).
+A stronger sufficient condition is:
+Then each term is positive, so sum is positive.
+For example, in softmax attention:
+which ensures denominator > 0.
+Thus the key condition: The similarity function must output positive values
+for all inputs.
+Answer:
+Equivalently: 
+ must be a positive-definite kernel function (in the sense of
+producing positive values, not necessarily in the Mercer sense).
+V
+​i
+′
+sim(Q
+​, K ) ≥
+i
+j
+0
+i, j
+​ sim(Q
+​, K
+​) >
+∑j=1
+N
+i
+j
+0
+i
+sim(q, k) > 0
+∀q, k
+sim(q, k) = exp
+​
+>
+(
+​
+D
+q k
+T
+)
+0
+​
+sim(Q
+​, K
+​) > 0 ∀i, j
+i
+j
+sim
+Now solve part b of Question 6
+Question 6 – Part (b)
+We consider kernelized attention variants.
+(i) Polynomial kernel attention with degree 2
+
+
+--- Page 20 ---
+Given:
+Polynomial kernel 
+, where  is a constant.
+In the problem: "any constant factor is set to be 1", and degree 
+. So 
+? Wait, "any constant factor is set to be 1" might mean 
+.
+Standard polynomial kernel: 
+ for degree 2.
+But the problem says "degree of polynomial kernel attention is set to be 2"
+and "any constant factor is set to be 1". That could mean 
+, or perhaps
+they mean no constant (so 
+) and just 
+.
+Given typical attention, we want similarity, and if 
+, then even if 
+,
+similarity = 1, which is fine. But sometimes in attention literature, polynomial
+kernel is just 
+ for simplicity.
+Let's check: They say "any constant factor is set to be 1". I interpret: The
+kernel is 
+.
+Thus:
+(ii) Feature map for quadratic kernel
+For 
+, expand:
+Let 
+. Then:
+We can write as 
+ where:
+K(x, y) = (x y +
+T
+c)d
+c
+d = 2
+c =
+1
+c = 1
+K(x, y) = (x y +
+T
+1)2
+c = 1
+c = 0
+(x y)
+T
+2
+c = 1
+x y =
+T
+0
+(x y)
+T
+d
+K(q, k) = (q k +
+T
+1)2
+sim(q, k) = (q k +
+T
+1)2
+​
+sim(q, k) = (q k + 1)
+T
+2
+K(q, k) = (q k +
+T
+1)2
+q, k ∈RD
+(q k +
+T
+1) =
+2
+(q k) +
+T
+2
+2(q k) +
+T
+1
+ϕ(q) ϕ(k)
+T
+
+
+--- Page 21 ---
+More systematically:
+The feature map includes all monomials of degree ≤ 2:
+Bias term: 1
+Linear terms: 
+ for 
+Quadratic terms: 
+ for 
+Thus dimension of 
+ is 
+.
+where 
+ denotes the vector of all monomials 
+ for 
+.
+(iii) Rewrite kernel attention with feature map
+Given 
+, rewrite:
+Factor 
+ out of sums (since it doesn't depend on ):
+Note: 
+ is a row vector (size 
+), so 
+ is outer product? Wait careful:
+ is column vector of length 
+, 
+ is row vector of length 
+, so
+ϕ(x) =
+​
+​
+​
+1
+​x
+​
+2
+1
+⋮
+​x
+​
+2
+D
+x
+​1
+2
+x
+​x
+​
+1
+2
+⋮
+x
+​
+D
+2
+​x
+​
+2
+i
+i = 1, … , D
+x
+​x
+​
+i
+j
+1 ≤i ≤j ≤D
+ϕ(x)
+1 + D +
+​ =
+2
+D(D+1)
+​
+2
+D +3D+2
+2
+​
+ϕ(x) =
+​
+​
+​
+1
+​x
+2
+vec(xx )
+​
+T upper-tri
+vec(xx )
+​
+T upper-tri
+x
+​x
+​
+i
+j
+i ≤j
+K(q, k) = ϕ(q) ϕ(k)
+T
+V
+​ =
+i
+′
+​
+​ ϕ(Q
+​) ϕ(K )
+∑j=1
+N
+i T
+j
+​(ϕ(Q
+​) ϕ(K
+​))V
+​
+∑j=1
+N
+i T
+j
+j
+ϕ(Q
+​)
+i T
+j
+V
+​ =
+i
+′
+​
+ϕ(Q
+​)
+​ ϕ(K
+​)
+i T ∑j=1
+N
+j
+ϕ(Q
+​)
+​ ϕ(K
+​)V
+​
+i T ∑j=1
+N
+j
+j
+T
+V
+​j
+M
+ϕ(K
+​)V
+​
+j
+j
+T
+ϕ(K
+​)
+j
+L V
+​j
+M
+
+
+--- Page 22 ---
+ is 
+ matrix.
+Thus 
+ is 
+ matrix.
+Then numerator: 
+ gives 
+ vector.
+Denominator: 
+ (vector length 
+) gives scalar.
+So equation:
+ϕ(K
+​)V
+​
+j
+j
+L × M
+​ ϕ(K
+​)V
+​
+∑j
+j
+j
+L × M
+ϕ(Q
+​) [L ×
+i T
+M matrix]
+1 × M
+ϕ(Q
+​)
+​ ϕ(K
+​)
+i T ∑j
+j
+L
+V
+​ =
+i
+′
+​
+ϕ(Q
+​)
+​ ϕ(K
+​)
+i T (∑j=1
+N
+j )
+ϕ(Q
+​)
+​ ϕ(K
+​)V
+​
+i T (∑j=1
+N
+j
+j)
+​
+V
+​ =
+​
+i
+′
+ϕ(Q
+​)
+​ ϕ(K
+​)
+i T (∑j=1
+N
+j )
+ϕ(Q
+​)
+​ ϕ(K
+​)V
+​
+i T (∑j=1
+N
+j
+j)
+Now solve part c of Question 6
+Question 6 – Part (c)
+We analyze time and space complexity for softmax attention from Equation
+(4):
+for all 
+.
+Given: 
+, 
+.
+Time complexity (computational cost)
+Steps:
+1. Compute 
+:
+ is 
+, 
+ is 
+V
+​ =
+i
+′
+​
+​ exp
+​
+∑j=1
+N
+(
+​
+D
+Q
+​K
+​
+i
+T
+j )
+​ exp
+​
+V
+​
+∑j=1
+N
+(
+​
+D
+Q
+​K
+​
+i
+T
+j )
+j
+i ∈{1, … , N}
+Q, K ∈RN×D V ∈RN×M
+QKT
+Q
+N × D KT
+D × N
+The model tells itself to be 
+careful when multiplying 
+matrices/vectors by 
+checking that the 
+dimensions add up, which 
+is good practice for 
+ensuring correctness.
+
+
+--- Page 23 ---
+Matrix multiplication cost: 
+2. Scale by 
+ and apply exp element-wise:
+ operations.
+3. Row-wise softmax normalization:
+For each of 
+ rows, compute sum of 
+ exponentials: 
+Then divide each of 
+ entries: 
+Total for softmax: 
+4. Multiply attention weights 
+ (size 
+) by 
+ (size 
+):
+Matrix multiplication: 
+Total time complexity:
+Since typically 
+ in transformers, this is 
+.
+or 
+ if 
+.
+Space complexity (memory for backpropagation)
+We need to store intermediate tensors for gradient computation:
+1. Inputs: 
+ each: 
+ (or 
+ for 
+)
+But 
+, 
+, 
+ from input 
+, so storing
+ is 
+.
+2. Attention scores 
+: 
+ → 
+3. Exponential of scores 
+: 
+ → 
+4. Attention weights (softmax output): 
+ → 
+5. Output 
+: 
+ → 
+The dominating term is 
+ from attention matrices.
+Thus:
+O(N ⋅D ⋅N) = O(N D)
+2
+1/
+​
+D
+O(N )
+2
+N
+N
+O(N )
+2
+N 2
+O(N )
+2
+O(N )
+2
+A
+N × N
+V
+N × M
+O(N ⋅N ⋅M) = O(N M)
+2
+O(N D) +
+2
+O(N ) +
+2
+O(N ) +
+2
+O(N M) =
+2
+O(N (D +
+2
+M))
+D ≈M
+O(N D)
+2
+​
+O(N (D + M))
+2
+O(N D)
+2
+D ≈M
+Q, K, V
+N × D
+N × M
+V
+Q = XW
+​
+Q K = XW
+​
+K V = XW
+​
+V
+X
+Q, K, V
+O(N(D + D + M)) = O(N(D + M))
+S = QK /
+​
+T
+D N × N
+O(N )
+2
+exp(S) N × N
+O(N )
+2
+N × N
+O(N )
+2
+V ′ N × M
+O(NM)
+O(N )
+2
+
+
+--- Page 24 ---
+or simply 
+ when 
+ is large.
+Final answer for part (c):
+Time complexity: 
+Space complexity: 
+​
+O(N + N(D + M))
+2
+O(N )
+2
+N
+O(N (D +
+2
+M))
+O(N +
+2
+N(D + M))
+Now solve part d of Question 6
+Question 6 – Part (d)
+We use the linearized polynomial kernel of degree 2 with feature map 
+,
+and the reformulated attention:
+We assume 
+.
+Step 1: Dimensions of 
+From part (b)(ii), for quadratic kernel 
+,
+Step 2: Compute complexity of kernel attention
+We precompute two aggregates once for all :
+ϕ(⋅)
+V
+​ =
+i
+′
+​
+ϕ(Q
+​)
+​ ϕ(K
+​)
+i T ∑j=1
+N
+j
+ϕ(Q
+​)
+​ ϕ(K
+​)V
+​
+i T ∑j=1
+N
+j
+j
+T
+M ≈D
+ϕ(x)
+(q k +
+T
+1)2
+ϕ(x) ∈R
+where
+L =
+L
+1 + D +
+​ =
+2
+D(D + 1)
+​ =
+2
+D + 3D + 2
+2
+O(D )
+2
+i
+S
+​ =
+V
+​ϕ(K
+​)V
+​
+(L ×
+j=1
+∑
+N
+j
+j
+T
+M matrix)
+
+
+--- Page 25 ---
+Precomputation cost:
+Computing all 
+ for 
+: each  costs 
+ (since it forms
+all monomials up to degree 2).
+Total: 
+.
+Forming 
+: For each , multiply 
+ (size 
+) by 
+ (size
+) → 
+ per  if done naively.
+But careful: 
+ is 
+-dim, 
+ is 
+-dim, outer product is 
+.
+Each outer product costs 
+.
+Summing over 
+ terms: 
+ — too large? Wait, maybe we can do
+better.
+Actually, we don't need to compute full outer products separately then sum.
+We can accumulate:
+For each , 
+ is 
+, costs 
+. Over 
+ steps:
+.
+Similarly, 
+: sum of 
+-dim vectors over 
+ steps: 
+.
+So total precomputation: 
+ (dominated by 
+ computation).
+Then, for each :
+1. Compute 
+: 
+2. Numerator: 
+ → 
+3. Denominator: 
+ → 
+4. Division: 
+Per  cost: 
+. For 
+ queries: 
+.
+S
+​ =
+ϕ
+​ϕ(K
+​)
+(L ×
+j=1
+∑
+N
+j
+1 vector)
+ϕ(K
+​)
+j
+j = 1, … , N
+ϕ
+O(D )
+2
+O(ND )
+2
+S
+​
+V
+j
+ϕ(K
+​)
+j
+L = O(D )
+2
+V
+​
+j
+T
+M ≈D
+O(D )
+3
+j
+ϕ(K
+​)
+j
+L
+V
+​j
+M
+L × M
+O(LM) = O(D ⋅
+2 D) = O(D )
+3
+N
+O(ND )
+3
+S
+​ =
+V
+​ϕ(K
+​)V
+​
+j
+∑
+j
+j
+T
+j ϕ(K
+​)V
+​
+j
+j
+T
+L × M
+O(LM) = O(D )
+3
+N
+O(ND )
+3
+S
+​ϕ
+L
+N
+O(NL) = O(ND )
+2
+O(ND )
+3
+S
+​
+V
+i
+ϕ(Q
+​)
+i
+O(D )
+2
+ϕ(Q
+​) S
+​
+i T
+V
+O(LM) = O(D ⋅
+2 D) = O(D )
+3
+ϕ(Q
+​) S
+​
+i T
+ϕ
+O(L) = O(D )
+2
+O(M) = O(D)
+i
+O(D )
+3
+N
+O(ND )
+3
+
+
+--- Page 26 ---
+But wait — we already computed 
+ for all  when processing queries.
+Let's separate:
+Total complexity:
+Compute 
+ for all : 
+Compute 
+ for all : 
+Compute 
+ and 
+: 
+ (from accumulating outer products)
+For each , compute numerator/denominator: 
+ each → total 
+So overall time complexity: 
+.
+But typical 
+ (e.g., 64, 512) is fixed, 
+ grows, so 
+ is linear in 
+.
+Step 3: Memory requirement
+We need to store:
+1. 
+ for all : 
+ → 
+2. 
+ for all : 
+ → 
+3. 
+: 
+ → 
+4. 
+: 
+ → 
+5. 
+: 
+ → 
+6. Output 
+: 
+ → 
+Dominant term: 
+ (from storing 
+ and 
+).
+Step 4: Final answer
+Assuming 
+:
+Computational cost: 
+Memory requirement: 
+ϕ(Q
+​)
+i
+i
+ϕ(Q
+​)
+i
+i O(ND )
+2
+ϕ(K
+​)
+j
+j O(ND )
+2
+S
+​
+V
+S
+​ϕ O(ND )
+3
+i
+O(D )
+3
+O(ND )
+3
+O(ND )
+3
+D
+N
+O(ND )
+3
+N
+ϕ(Q
+​)
+i
+i N × L
+O(ND )
+2
+ϕ(K
+​)
+j
+j N × L
+O(ND )
+2
+S
+​
+V L × M
+O(D ⋅
+2 D) = O(D )
+3
+S
+​ϕ L
+O(D )
+2
+V N × M
+O(ND)
+V ′ N × M
+O(ND)
+O(ND )
+2
+ϕ(Q)
+ϕ(K)
+M ≈D
+O(ND )
+3
+O(ND )
+2
+​
+Time: O(ND ),  Memory: O(ND )
+3
+2
+The model was more in-depth 
+with its answer explanations at 
+ﬁrst when answering the time 
+complexity, but did not explain 
+its answers with the space 
+complexity towards the end. 
+This could possibly explain 
+why it got a wrong answer for 
+the memory complexity part.
+
+
+--- Page 27 ---
+Note: This is linear in 
+ for computation and memory, compared to softmax
+attention's 
+, but has higher dependence on 
+.
+N
+O(N )
+2
+D
+For the memory complexity, isn't the D^3 an important term? Also don't 
+the K and Q just take up  O(ND) memory rather than O(ND^2)?
+You're absolutely right — let's carefully re-examine the memory requirements.
+Step 1: Do we need to store all 
+ and 
+?
+In the kernel attention formulation (Equation 5):
+We have:
+We can precompute once:
+Crucially:
+We do not need to store all 
+ individually after computing the sums
+ and 
+.
+We can compute 
+ and 
+ in an online manner, processing one 
+ at a
+time, then discarding 
+.
+Similarly, for each 
+, we compute 
+ on the fly when computing 
+,
+then discard it.
+So the persistent storage is:
+ϕ(Q
+​)
+i
+ϕ(K
+​)
+j
+V
+​ =
+i
+′
+​
+ϕ(Q
+​)
+​ ϕ(K
+​)
+i T ∑j=1
+N
+j
+ϕ(Q
+​)
+​ ϕ(K
+​)V
+​
+i T ∑j=1
+N
+j
+j
+T
+S
+​ =
+V
+​ϕ(K
+​)V
+​
+(L ×
+j=1
+∑
+N
+j
+j
+T
+M)
+S
+​ =
+ϕ
+​ϕ(K
+​)
+(L ×
+j=1
+∑
+N
+j
+1)
+ϕ(K
+​)
+j
+S
+​
+V
+S
+​ϕ
+S
+​
+V
+S
+​ϕ
+K
+​j
+ϕ(K
+​)
+j
+Q
+​i
+ϕ(Q
+​)
+i
+V
+​i
+′
+
+
+--- Page 28 ---
+1. Original 
+ for backpropagation:
+: 
+ each → 
+: 
+ → 
+2. Precomputed aggregates 
+ and 
+:
+: 
+ where 
+, 
+ → 
+: 
+ → 
+3. Output 
+: 
+ → 
+4. Intermediate 
+ not stored in kernel formulation — we bypass it.
+Thus dominant terms:
+If 
+ is very large, the 
+ terms dominate: 
+.
+The 
+ term is constant in 
+ but could be large if 
+ is large.
+So memory complexity = 
+.
+But let's check: For backpropagation, we need 
+ and 
+ to compute
+gradients w.r.t 
+.
+We can recompute 
+ and 
+ during backward pass if needed, or
+store them.
+If we store them:
+: 
+ = 
+: 
+ = 
+That’s much larger.
+But in kernel attention papers (e.g., Linear Transformers), they often avoid
+storing them by recomputing in backward, trading compute for memory.
+The problem likely assumes we store minimal intermediates. The explicit
+aggregates 
+ are 
+ and 
+.
+So memory = 
+.
+Given 
+ in long sequences, the 
+ term dominates.
+Q, K, V
+Q, K N × D
+O(ND)
+V N × M
+O(NM) = O(ND)
+S
+​
+V
+S
+​ϕ
+S
+​
+V L × M
+L = O(D )
+2
+M ≈D
+O(D )
+3
+S
+​ϕ L × 1
+O(D )
+2
+V ′ N × M
+O(ND)
+S = QKT
+N
+O(ND)
+O(ND)
+D3
+N
+D
+O(ND + D )
+3
+ϕ(Q
+​)
+i
+ϕ(K
+​)
+j
+Q
+​, K
+​, V
+​
+i
+j
+j
+ϕ(Q
+​)
+i
+ϕ(K
+​)
+j
+ϕ(Q) N × L
+O(ND )
+2
+ϕ(K) N × L
+O(ND )
+2
+S
+​, S
+​
+V
+ϕ
+O(D )
+3
+O(D )
+2
+O(ND + D )
+3
+N ≫D
+ND
+
+
+--- Page 29 ---
+Wait: The problem says: "for memory requirement, we need to store any
+intermediate results for backpropagation, including all 
+".
+So we must store 
+: that's 
+.
+But we don't necessarily need to store 
+ if we can recompute.
+However, during forward pass, we need 
+ for each  — but we compute
+and discard.
+Thus:
+If 
+, then 
+ dominates.
+Given 
+, final:
+So corrected final for (d):
+Computational cost: 
+ (from forming 
+ and per-query multiplies)
+Memory requirement: 
+Q, K, V
+Q, K, V
+O(ND + NM) = O(ND)
+ϕ(Q), ϕ(K)
+ϕ(Q
+​)
+i
+i
+Memory = O(ND) (for Q, K, V ) + O(D ) (for S
+​) +
+3
+V
+O(D ) (for S
+​)
+2
+ϕ
+= O(ND + D )
+3
+N ≫D
+O(ND)
+M ≈D
+​
+Memory: O(ND + D )
+3
+O(ND )
+3
+S
+​
+V
+O(ND + D )
+3
+After thinking out loud, the model 
+is able to ﬁx its answer. The “out 
+loud thinking” is almost like deep 
+thinking mode as it helps it catch 
+ﬂaws in its logic.

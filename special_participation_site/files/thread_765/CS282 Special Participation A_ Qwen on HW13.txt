@@ -1,0 +1,35 @@
+--- Page 1 ---
+CS282 Special Participation A: Qwen on 
+HW13​
+Executive Summary​
+I use Qwen to solve HW13 written part in this special participation A.​
+Qwen's accuracy really impressed me. All questions, including requiring proofs (e.g., induction 
+in diffusion models), derivations (e.g., DPO gradients), or conceptual explanations (e.g., 
+intractability of partition functions), were answered correctly and comprehensively in a single 
+attempt, with no need for clarification or correction. The responses included rigorous 
+mathematical detail, proper notation, and logical step-by-step reasoning.​
+There is no factual inaccuracies, fabricated citations, or conceptual errors were observed. For 
+instance:​
+•
+The derivation of the optimal policy in DPO correctly recovered the Gibbs form and explained 
+the cancellation of the partition function in Bradley-Terry and Plackett-Luce models.​
+•
+The diffusion process proofs aligned exactly with standard results from the literature (e.g., Ho 
+et al., 2020).​
+•
+Interpretations (e.g., gradient weighting in DPO reflecting model uncertainty) were insightful 
+and technically sound.​
+Despite minimal input context (only image placeholders uploaded), the model inferred the likely 
+content (standard theoretical ML problems) and provided complete, self-contained solutions, 
+demonstrating strong contextual awareness and domain knowledge. Responses were well-
+organized, labeled by sub-question, and included boxed final answers where appropriate, 
+enhancing readability and correctness verification.​
+Question 1​
+
+
+--- Page 25 ---
+Question 2​
+
+
+--- Page 34 ---
+Question 3​

@@ -1,0 +1,56 @@
+--- Page 1 ---
+Kimi solved part a in 
+one-shot, interpreting all 
+parts of the problem 
+correctly and taking the 
+grad. relative to theta 
+correctly to find 
+minimizer.
+Kimi seemed to 
+misinterpret the penalty 
+term early as infinity 
+norm, without the 
+square and routed to 
+using alternate 
+methods to solve the 
+problem by adding a 
+threshold for some 
+values of dtheta_i
+correctly found that each element of 
+dtheta_i has opposite sign of 
+corresponding element in g, and also 
+equal magnitude across dtheta
+still using threshold off of g_i 
+values
+after indicating the penalty term is 
+squared, kimi was able to 
+concretely arrive at the correct 
+solution
+Provided model with homework pdf 
+and used chain of thought in 
+prompt to allow Kimi to 
+sequentially solve problem. 
+Prepended with "you are expert" 
+message. Have read it's goal is to 
+help by narrowing domain of problem
+
+
+--- Page 2 ---
+Provided model with homework pdf 
+and used chain of thought in 
+prompt to allow Kimi to 
+sequentially solve problem
+was able to one-shot correct solution
+was able to one-shot correct solution
+was able to one-shot correct solution
+provides high-level interpretation of solution
+
+
+--- Page 3 ---
+Provided model with pdf and used 
+chain of thought in prompt to allow 
+Kimi to sequentially solve problem
+filled in all elements of table correctly in 
+one shot
+Provides description + analysis pairs 
+per subproblem

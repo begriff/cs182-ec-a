@@ -1,0 +1,47 @@
+--- Page 1 ---
+Note: I had originally signed up for HWK 7 GPT 5, but someone covered it, without adding to the 
+deconflictation form; so I changed to HWK 8 GPT 5.1 Thinking (to my knowledge it used just 
+thinking not normal mode). My formatting here is based on or at least influenced by participation 
+assignments that other students did. 
+ 
+Non-coding questions 
+ 
+To compare correctness, I used the solutions and then attempted to prompt it further once into 
+getting the correct answer (based on what the solutions said the correct answer was). 
+Question 1 
+a)​ First Try - solved the question 
+b)​ First Try - solved the question 
+c)​ Missed the O(logn) factor from matrix multiplication on the first try, succeeded the 
+second time 
+d)​ Brought up Divide and conquer, it doesn’t seem 100% the same as what the solutions 
+have, but I will give this credit. Also it missed the O(logn) factor from matrix 
+multiplication. The second time it got O(logL * Tmm) but Tmm is a matmat it previously 
+said in c’s answer should be logn, so total is O(logL * logn) which is correct, but solution 
+did not word it that way. 
+e)​ Missed this on both runs 
+f)​ Missed this on both runs 
+Question 3 
+a)​ First Try - solved the question 
+b)​ First Try - solved the question 
+c)​ The derivation might be different/incorrect but it does get to the right answer, so I will 
+give it credit. 
+​
+Question 4 
+a)​ First Try - solved the question correctly 
+b)​ First Try - solved the question correctly 
+c)​ First Try - solved the question correctly 
+d)​ First Try - solved the question correctly 
+e)​ First Try - solved the question correctly 
+f)​ GPT says that the answer matches in substance to the solutions when re-prompted with 
+the solutions 
+
+
+--- Page 2 ---
+g)​ GPT says that the answer matches in substance to the solutions when re-prompted with 
+the solutions 
+ 
+Thoughts: This performed much better than the discussion I had heard previously on GPT’s 
+ability to solve problems. 
+ 
+Log: 
+ 

@@ -1,0 +1,82 @@
+--- Page 1 ---
+Solving Homework 13 with Gemini 3.0 Pro 
+Firstly, I tried Question 2: 
+# Round 1: By explicitly defining the persona as a 'Deep Learning Specialist' and 'Patient 
+Mentor', I steered the model away from generic, brief answers. This prompted it to structure 
+the response with 'Key Knowledge Pillars' before diving into the math, which significantly 
+aided conceptual understanding. 
+ 
+# Round 2: OCR Stress Test: The input image contained dense mathematical notation (e.g., 
+partition function definitions). Gemini 3.0 Pro recognized the inline LaTeX correctly without 
+manual transcription. 
+
+
+--- Page 4 ---
+# Round 3 and so on: Solving the problem part by part with clear explainations. 
+ 
+Here appears a small notation problem but does not effect understanding. 
+ 
+ 
+
+
+--- Page 6 ---
+I verified this derivation manually. The model successfully applied the algebraic inversion to 
+express the reward r(x,y) in terms of the optimal policy \pi*, which is the fundamental 
+theorem of DPO. 
+ 
+ 
+
+
+--- Page 11 ---
+ 
+As you can see, it not only provides structured answers, but also explains the importance and 
+the behind logic why we are doing these steps. I think they are very helpful for learners. 
+ 
+ 
+
+
+--- Page 12 ---
+ 
+# Last Round: Conclusion of the question. 
+ 
+ 
+ 
+
+
+--- Page 13 ---
+Special Participation A: Gemini 3.0 Pro on Homework 13 
+ 
+For this assignment, I evaluated how well Gemini 3.0 Pro can handle the theoretical, non-
+coding derivations of CS182 Homework 13. I approached the Direct Preference Optimization 
+(DPO) problem set step-by-step, initiating the session with a specific persona prompt to 
+establish a "technical partner" role, and then guided the model through the derivation without 
+providing the final answers myself. My main goal was to see (1) its OCR accuracy on dense 
+mathematical problem sets, (2) its ability to perform rigorous algebraic manipulations, and (3) 
+the clarity of its conceptual explanations. 
+ 
+Overall, Gemini performed exceptionally well. It correctly identified the context from the 
+uploaded images and produced clean, structured derivations for the entire pipeline (Q2 Parts 
+a through g) with minimal correction required. 
+ 
+It was especially reliable on: 
+ 
+Interpreting the standard RLHF objective and KL constraints, 
+ 
+Executing the algebraic "cancellation trick" to eliminate the intractable partition function Z(x), 
+ 
+Deriving the gradient of the DPO loss and interpreting the weighting mechanism, and 
+ 
+Extending the logic from pairwise comparisons to listwise rankings (Plackett-Luce model). 
+ 
+In terms of interaction, the model was: 
+ 
+consistent in its LaTeX formatting and structure, and 
+ 
+highly effective at explaining the "why" behind each step, acting as a true mentor rather than 
+just a calculator. 
+ 
+Overall, based on this evaluation, Gemini 3.0 Pro is capable of solving the complex theoretical 
+questions in CS182 with high accuracy and interpretability.  
+ 
+For further information, please see the annotated logs. 
+ 

@@ -1,0 +1,1280 @@
+--- Page 1 ---
+anonymous
+You are an expert at math, linear algebra, machine learning, and deep learning. Your job 
+is to solve the problem given to you by the user. Use LaTex to format mathematical 
+expressions. Await for the user's response.
+GPT
+Sure! I'm ready to help with any math, linear algebra, machine learning, or deep‑learning 
+problem you have. Please go ahead and describe the problem, and I'll provide a detailed
+solution (with LaTeX‑formatted equations where appropriate).
+anonymous
+(a) Write the output of the j-th node at layer k in this network in terms of the matrix A.
+Hint: This output is an n-dimensional vector since there are n output channels at each 
+layer.)
+(b) Recall that a path from i to j in a graph is a sequence of vertices that starts with i, 
+ends with j, and
+every successive vertex in the sequence is connected by an edge in the graph. The 
+length of a path is
+ Graph Dynamics and GNN Concepts In this problem, we will explore connections
+between graph dynamics and graph neural networks GNNs). Diagrams in this
+question were taken from https://distill.pub/2021/gnn-intro. This blog post is an
+excellent resource for understanding GNNs and contains interactive diagrams. Some
+graph neural network methods operate on the full adjacency matrix. Others, such as
+those discussed in https:// distill.pub/2021/gnn-intro/, at each layer apply the same
+local operation to each node based on inputs from its neighbors. This problem is
+designed to:  Show connections between these methods.  Show that for a positive
+integer k, the matrix Ak has an interesting interpretation. That is, the entry in row i
+and column j gives the number of walks of length k (i.e., a collection of k edges)
+leading from vertex i to vertex j. To do this, let’s consider a very simple deep linear
+network, defined as follows:  Its underlying graph has n vertices, with adjacency
+matrix A. That is, Ai,j  1 if vertices i and j are connected in the graph and 0
+otherwise.  It has n vertices in each layer, corresponding to the n vertices of the
+underlying graph.  Each vertex has n channels.  The input to each node in the 0-th
+layer is a one-hot encoding of own identity. That is, the node i in the graph has input
+0, · · · , 0, 1 |{z} i-th entry , 0, · · · , 0.  The weight connecting node i in layer k to
+node j in layer k  1 is Ai,j .  At each layer, the operation at each node is simply to
+sum up the weighted sum of its inputs and to output the resulting n-dim vector to the
+next layer. You can think of these as being depth-wise operations if you’d like.
+Some context to improve responses
+
+
+--- Page 2 ---
+length of a path is
+the number of edges in it.
+Here is some helpful notation:
+ V (i) is the set of vertices that are connected to vertex i in the graph.
+ Lk(i, j) is the number of distinct paths that go from vertex i to vertex j in the graph 
+where the
+number of edges traversed in the path is exactly k.
+ By convention, there is exactly 1 path of length 0 that starts at each node and ends up 
+at itself.
+That is, L0(i, j)  1i=j .
+Prove that the i-th output of node j at layer k in the network above is the count of how 
+many
+paths there are from i to j of length k.
+Hint: Induct on k.)
+(c) The GNN we have worked on so far is essentially linear, since the operations 
+performed at each layer
+are permutation-invariant locally at each node, and can be viewed as essentially doing 
+the exact same
+thing at each vertex in the graph based on inputs coming from its neighbors. This is 
+called "aggregation" in the language of graph neural nets.
+If we represent the graph as a matrix, with the activatios of the i-th node in the i-th row, 
+what is the
+update function?
+In the case of the computations in previous parts, what is the update function that takes 
+the aggregated inputs from neighbors and results in the output for this node?
+(d) The simple GNN described in the previous parts counts paths in the graph. If we 
+were to replace sum
+aggregation with max aggregation, what is the interpretation of the outputs of node j at
+layer k?
+(e) You are studying how organic molecules break down when heated. For each 
+molecule, you know the
+element for each atom, which other atoms it is connected to, the length of the bonds, 
+and the type of
+molecule it is (carbohydrate, protein, etc. You are trying to predict which bond, if any, 
+will break first
+if the molecule is heated.
+(i) How would you represent this as a graph? What are the nodes, edges, and global 
+state representations? Is it directed or undirected?
+(ii) How would you use the outputs of the last GNN layer to make the prediction?
+(iii) How would you encode the node representation for the input to the GNN?
+
+
+--- Page 3 ---
+(f) There are analogs of many ConvNet operations which can be done with GNNs. As 
+Figure 1 illustrates,
+we can think of pixels as nodes and pixel adjacencies as similar to edges. Graph-level 
+classification
+tasks, for instance, are analogous to image classification, since both produce a single, 
+global prediction.
+Fill out the rest of the table. Not all rows have a perfect answer. The goal is to think 
+about the role
+an operation serves in one architecture and whether you could use a technique which 
+serves a similar
+role in the other architecture.)
+CNN GNN
+Image classification Graph-level prediction problem
+Node-level prediction problem
+Color jitter data augmentation (adjusting the color
+or brightness of an image)
+Image flip data augmentation
+Channel dropout
+Zero padding edges
+ResNet skip connections
+Blurring an image
+Predicting missing values of nodes
+(g) If you’re doing a graph-level classification problem, but node values are missing for 
+some of your
+graph nodes, how would you use this graph for prediction?
+(h) Consider the graph neural net architecture shown in Figure 2. It includes 
+representations of nodes (Vn),
+edges (En), and global state (Un). At each timestep, each node and edge is updated by 
+aggregating
+neighboring nodes/edges, as well as global state. The global state is the updated by 
+getting information
+from all nodes and edges. For more details on the architecture setup, see https://
+distill.pub/
+2021/gnn-intro/#passing-messages-between-parts-of-the-graph.
+(i) If we double the number of nodes in a graph which only has node representations, 
+how does
+this change the number of learned weights in the graph? How does it change the 
+amount of
+computation used for this graph if the average node degree remains the same? What if 
+the
+graph if fully connected? Assume you are not using a global state representation).
+
+
+--- Page 4 ---
+(ii) Where in this network are learned weights/parameters?
+(iii) The diagram provided shows undirected edges. How would you incorporate directed 
+edges?
+GPT
+Below each sub‑question I give a concise answer together with the necessary 
+mathematical detail LaTeX‑formatted).
+(a) Output of node   at layer 
+Let
+• 
+ be the adjacency matrix,
+• 
+ be the one‑hot input of node   (the -th canonical basis vector),
+• 
+ be the matrix whose -th row (or node‑wise vector) contains the
+output of node   at layer  .
+The weight from node   in layer  to node   in layer 
+ is 
+.
+Therefore the linear update performed at every layer is simply a matrix multiplication:
+Starting from 
+ (the identity, because each node receives its own one‑hot 
+vector), we obtain by induction
+Consequently the -th node at layer  outputs the -th column of 
+:
+i.e. the -th component of that vector is 
+.
+j
+k
+A ∈{0, 1}n×n
+h
+=
+i
+(0)
+e ∈
+i
+Rn
+i
+i
+H
+∈
+(k)
+Rn×n
+j
+j
+k
+i
+k
+j
+k + 1
+Aij
+(or H
+=
+H
+= A H
+(k+1)
+⊤
+(k)
+(k+1)
+AH
+if A is symmetric).
+(k)
+H
+=
+(0)
+In
+.
+H
+= A
+(k)
+k
+j
+k
+j
+Ak
+h
+= (A )
+∈R
+j
+(k)
+k
+: j
+n
+i
+(A )
+k ij
+Fully correct with good 
+explaination
+
+
+--- Page 5 ---
+(b) Interpretation of the components – walks of length 
+Define
+•
+ = number of distinct walks (allowing repeated vertices) that start at vertex 
+and end at vertex  using exactly  edges,
+• 
+.
+We prove by induction on  that
+Base case 
+Inductive step
+Assume 
+ for all .
+For 
+,
+Because 
+ exactly when there is an edge 
+, the term 
+ selects those 
+intermediate vertices  that can be reached from  in one step.
+Each such  contributes 
+ walks of length  from  to .
+Appending the first edge 
+ to each of those walks yields a distinct walk of length 
+ from  to .
+Summing over all possible  counts all walks of length 
+:
+k
+L (i, j)
+k
+i
+j
+k
+L (i, j) =
+0
+1{i=j}
+k
+(A )
+=
+k
+ij
+L (i, j)
+∀i, j.
+k
+k = 0
+A =
+0
+I
+⟹
+n
+(A )
+=
+0
+ij
+1
+=
+{i=j}
+L (i, j).
+0
+(A )
+=
+k pj
+L (p, j)
+k
+p
+k + 1
+(A
+)
+=
+k+1
+ij
+(AA )
+=
+k
+ij
+A
+(A ) .
+p=1
+∑
+n
+ip
+k
+pj
+A
+=
+ip
+1
+(i, p)
+Aip
+p
+i
+p
+L (p, j)
+k
+k
+p
+j
+(i, p)
+k + 1
+i
+j
+p
+k + 1
+A
+L (p, j) =
+p
+∑
+ip
+k
+L
+(i, j).
+k+1
+
+
+--- Page 6 ---
+Thus 
+. ∎
+Hence the -th component of the vector output by node   at layer   is exactly the 
+number of length‑  walks from vertex  to vertex .
+(c) Linear “aggregation’’ update written as a matrix
+operation
+Let
+• 
+ be the node‑feature matrix at layer  (row  = feature vector of node 
+),
+• 
+ the adjacency matrix (assume undirected, i.e. 
+).
+The aggregation performed at each node is the sum of the feature vectors of its 
+neighbours (including possibly itself). In matrix form this is
+If we wish to keep the node’s own previous representation (as is common) we would 
+write a residual version
+The update function that maps the aggregated neighbour information to the new node 
+representation is therefore the linear map “multiply by 
+’’ (or, more generally, an MLP 
+that receives 
+ as input).
+(d) Replacing sum aggregation by max aggregation
+If at each layer a node takes the element‑wise maximum over the feature vectors of its 
+neighbours, the -th component of the output of node   at layer   becomes
+Since the entries are binary (the initial one‑hots contain only 0/1, the max is 1 iff there 
+exists at least one walk of length
+from
+to
+and 0 otherwise
+(A
+)
+=
+k+1 ij
+L
+(i, j)
+k+1
+i
+j
+k
+k
+i
+j
+H
+∈
+(k)
+Rn×n
+k
+i
+i
+A
+A = A⊤
+.
+H
+= A H
+(k+1)
+(k)
+H
+=
+(k+1)
+H
++
+(k)
+A H
+.
+(k)
+A
+AH(k)
+i
+j
+k
+[h
+] =
+j
+(k)
+i
+1.
+walk (i→⋯→j) of length k
+max
+k
+i
+j
+
+
+--- Page 7 ---
+exists at least one walk of length  from  to , and 0 otherwise.
+“Interpretation: the max‑aggregating GNN computes the reachability indicator for 
+walks of exactly  hops, i.e. the Boolean matrix 
+ with entries thresholded to 
+.”
+(e) Predicting the first bond to break in a heated molecule
+(i) Graph representation
+Element
+Choice
+Nodes
+Atoms. Feature vector may contain a one‑hot for element type C, O, N, …),
+atomic number, hybridisation, partial charge, etc.
+Edges
+Chemical bonds. Edge attributes: bond order (single/double/triple), bond
+length, bond type (aromatic, hydrogen‑bond, etc.).
+Global state
+Information that is the same for the whole molecule: temperature, pressure,
+molecule class (carbohydrate, protein, …).
+Directionality
+Bonds are physically undirected, so we use an undirected graph. If we want to
+encode polarity we can add a directed edge type (e.g. donor→acceptor) but
+the basic topology is undirected.
+(ii) Using the last GNN layer to make a prediction
+Alternatively, a global read‑out (sum/mean of node embeddings) can be concatenated 
+with the edge‑level scores to incorporate molecule‑wide context.
+(iii) Encoding the node representation (input features)
+k
+i
+j
+k
+Ak
+{0, 1}
+ Run a (possibly multi‑hop) GNN to obtain a final node embedding 
+ for every 
+atom.
+hi
+(K)
+ Form an edge representation for each bond by concatenating (or otherwise 
+combining) the embeddings of its two incident atoms and the edge attributes:
+where 
+ is a small MLP.
+e
+=
+uv
+ϕ
+([h
+∥h
+∥bond_features
+]),
+edge
+u
+(K)
+v
+(K)
+uv
+ϕedge
+ Feed all edge representations through a classifier (e.g. a soft‑max over all edges) that 
+outputs a probability distribution over bonds.
+ The bond with the highest probability is taken as the predicted first‑to‑break bond.
+Different solution, 
+but since multiple 
+solutions are 
+possible, I believe 
+this is resonable
+
+
+--- Page 8 ---
+(iii) Encoding the node representation (input features)
+A practical encoding is a concatenation of several one‑hot / scalar fields:
+The resulting vector is fed directly into the first GNN layer (or first passed through a 
+linear projection to a desired hidden dimension).
+(f) Analogy table  CNN  GNN
+CNN operation /
+task
+Corresponding GNN analogue
+Image classification
+Graph‑level classification (global read‑out such as
+ followed by an MLP
+Node‑level
+prediction
+Node classification / regression (each node’s final embedding is fed to
+a per‑node MLP
+Color‑jitter data
+augmentation
+Feature‑noise augmentation – add Gaussian noise or randomly mask/
+perturb node feature dimensions
+Image‑flip data
+augmentation
+Graph isomorphism augmentation – randomly permute node ordering
+or apply graph‑automorphism‑preserving transformations (e.g. reflect a
+planar molecular graph)
+Channel dropout
+Dropout on feature channels – zero‑out random dimensions of node
+feature vectors (or drop whole node feature channels)
+Zero‑padding
+edges
+Adding dummy isolated nodes (or self‑loops with zero features) to
+obtain a fixed‑size adjacency matrix for batching
+ResNet skip
+connections
+Residual GNN layers – 
+ (or using
+)
+Blurring an image
+Diffusion / low‑pass filtering – repeated aggregation (e.g.  hops) or
+applying the normalized Laplacian 
+Predicting missing
+values of nodes
+Graph‑based imputation – treat missing node features as learnable
+variables, run a GNN to propagate information from observed nodes,
+then read out the filled‑in values
+(g) Missing node values in a graph‑level classification
+task
+When some nodes have missing feature vectors:
+x =
+i
+size E
+One-hot(element )
+i
+size H
+One-hot(hybridisation )
+i
+1
+Scalar(partial charge )
+i
+readout({h }
+) =
+i i=1
+n
+h
+∑i
+i
+h
+=
+(k+1)
+h
++
+(k)
+AGG(h
+)
+(k)
+h
+=
+(k+1)
+MLP(h
+∥AGG(h
+))
+(k)
+(k)
+k
+L = I −D
+AD
+−1/2
+−1/2
+
+Masking: Create a binary mask
+indicating whether node
+is observed
+m ∈
+i
+{0, 1}
+i
+There are some issues 
+to this answer, and I did 
+try to ﬁx them, but was 
+unable to after a few 
+attempts
+
+
+--- Page 9 ---
+The pooled representation  is then fed to the final classifier.  Because the GNN 
+aggregates from neighbours, information can still flow through the missing nodes, 
+effectively “filling‑in’’ them during message passing.
+(h) Figure‑2 style message‑passing architecture
+(i) Effect of doubling the number of nodes
+Scenario
+Number of learned
+parameters
+Computational cost (per forward
+pass)
+Only node
+representations,
+shared weights
+(typical GNN
+Unchanged – parameters
+belong to the shared
+message/update functions
+(e.g. MLPs) and do not
+depend on the number of
+nodes.
+Linear in the number of edges. If
+average degree stays constant,
+the number of edges doubles, so
+the cost roughly doubles: 
+.
+Fully‑connected graph
+Still unchanged (weights are
+shared).
+Edge count grows as 
+;
+cost becomes quadratic: 
+.
+Doubling 
+ multiplies the cost by
+roughly four.
+Thus, in standard GNNs the parameter count is independent of graph size, while the 
+runtime scales with the number of edges (linear for sparse graphs, quadratic for dense 
+graphs).
+ Masking:  Create a binary mask 
+ indicating whether node  is observed.  
+During aggregation, multiply each neighbour’s contribution by its mask, i.e.
+m ∈
+i
+{0, 1}
+i
+=
+h~
+j
+(k+1)
+m h
+.
+i∈N(j)
+∑
+i
+i
+(k)
+ Learned imputation: Initialise missing node features with a learnable “null’’ vector 
+ (or with random noise) and let the GNN propagate information from observed 
+neighbours; the model will implicitly infer plausible values.
+hnull
+ Read‑out on observed nodes only: Use a permutation‑invariant pooling (sum / 
+mean) that ignores masked nodes:
+g =
+m h
+.
+m
+∑i
+i
+1
+i
+∑
+i
+i
+(K)
+g
+O(N ⋅
+d
+)
+avg
+2
+N(N−1)
+O(N )
+2
+N
+
+
+--- Page 10 ---
+(ii) Where are the learned weights?
+In the architecture of Figure 2 the trainable components are the functions that compute 
+messages and updates:
+• Edge update
+: an MLP (or linear layer) that takes the sender node feature, receiver
+node feature, current edge feature, and possibly the global state, and outputs the
+new edge feature.
+• Node update
+: an MLP that receives the aggregated incoming edge messages
+(often summed) together with the node’s previous feature and the global state.
+• Global (graph) update
+: an MLP that aggregates information from all nodes and
+edges (e.g., by sum/mean) and updates the global vector.
+All three ’s share parameters across all edges, all nodes, and all graphs (respectively), 
+which gives the permutation‑invariance property.
+(iii) Handling directed edges
+To incorporate directionality one can:
+All of the above preserve the overall architecture; the only change is that the 
+aggregation at a node now distinguishes between incoming and outgoing messages (or 
+uses a direction‑aware message function).
+In summary, the deep linear network described in parts (a)–(d) is precisely the matrix 
+power 
+; its components count walks of length , and a max‑aggregation variant 
+counts existence of such walks.  Extending these ideas yields concrete designs for 
+molecular‑bond‑breakage prediction, analogies between CNN and GNN operations, 
+strategies for missing data, and a clear view of where parameters live and how they 
+scale in modern message‑passing GNNs.
+ϕe
+ϕv
+ϕu
+ϕ
+ Separate adjacency matrices for incoming and outgoing edges, 
+ and 
+, and
+use distinct message functions
+ and 
+.
+Ain
+Aout
+ϕin
+e
+ϕout
+e
+ Encode edge direction as a categorical feature (e.g., “forward’’ vs “backward’’) that 
+is fed to the edge‑update MLP, allowing the same function to treat the two cases 
+differently.
+ Treat each directed edge as a distinct edge object in the message‑passing loop: for 
+an ordered pair 
+ the message is computed from the source node  to the 
+target node .  If the underlying graph is undirected but you need both directions, 
+simply create two directed edges 
+ and 
+.
+(i→j)
+i
+j
+(i→j)
+(j →i)
+Ak
+k
+Overall it does pretty well on 
+this question, especially since 
+it is a very long question.
+
+
+--- Page 12 ---
+anonymous
+You are an expert at math, linear algebra, machine learning, and deep learning. Your job 
+is to solve the problem given to you by the user. Use LaTex to format mathematical 
+expressions. Await for the user's response.
+GPT
+Sure! I'm ready to help with any mathematics, linear algebra, machine learning, or 
+deep‑learning problem you have. Please go ahead and share the details of the problem, 
+and I'll work through it step by step (using LaTeX for any formulas).
+anonymous
+(a) Tell which of these are valid functions for this node’s computation of the next self-
+message s
+ℓ
+i
+.
+For any choices that are not valid, briefly point out why.
+Note: we are not asking you to judge whether these are useful or will have well behaved 
+gradients.
+Validity means that they respect the invariances and equivariances that we need to be 
+able to deploy as
+a GNN on an undirected graph.
+(i) s
+ℓ
+i = w1s
+ℓ1
+i + w2
+1
+ni
+ Graph Neural Networks For an undirected graph with no labels on edges, the function
+that we compute at each layer of a Graph Neural Network must respect certain
+properties so that the same function (with weight-sharing) can be used at different
+nodes in the graph. Let’s focus on a single particular “layer” ℓ. For a given node i in
+the graph, let s ℓ1 i be the self-message (i.e. the state computed at the previous
+layer for this node) for this node from the preceeding layer, while the preceeding
+layer messages from the ni neighbors of node i are denoted by mℓ1 i,j where j
+ranges from 1 to ni . We will use w with subscripts and superscripts to denote
+learnable scalar weights. If there’s no superscript, the weights are shared across
+layers. Assume that all dimensions work out.
+New chat to improve responses
+
+
+--- Page 13 ---
+ni
+Pni
+j=1 mℓ1
+i,j
+(ii) s
+ℓ
+i = max(w
+ℓ
+1
+s
+ℓ1
+i
+, w2mℓ1
+i,1
+, w3mℓ1
+i,2
+, . . . , wni+1mℓ1
+i,ni
+) where the max acts component-wise on
+the vectors.
+(iii) s
+ℓ
+i = max(w
+ℓ
+1
+s
+ℓ1
+i
+, w2mℓ1
+i,1
+, w2mℓ1
+i,2
+, . . . , w2mℓ1
+i,ni
+) where the max acts component-wise on the
+vectors.
+(b) We are given the following simple graph on which we want to train a GNN. The goal 
+is binary node
+classification (i.e. classifying the nodes as belonging to type 1 or 0 and we want to hold 
+back nodes 1
+and 4 to evaluate performance at the end while using the rest for training. We decide 
+that the surrogate
+loss to be used for training is the average binary cross-entropy loss
+
+
+--- Page 14 ---
+loss to be used for training is the average binary cross-entropy loss.
+Figure 3 Simple Undirected Graph 5 nodes labeled 15; 1 has edges to 2,4,5; 2 has 
+1,4,5; 3 has 5; 4 has 1,2; 5 has 1,2,4
+nodes 1 2 3 4 5
+yi 0 1 1 1 0
+yˆi a b c d e
+Table 1 yi
+is the ground truth label, while yˆi
+is the predicted probability of node i belonging to class 1 after training.
+Table 1 gives you relevant information about the situation.
+Compute the training loss at the end of training.
+Remember that with n training points, the formula for average binary cross-entropy loss 
+is
+1
+n
+X
+x
+y(x) log 1
+yˆ(x)
+• 1  y(x)) log 1 1  yˆ(x) ! where the x in the sum ranges over the training points and
+yˆ(x) is the network’s predicted probability that the label for point x is 1.
+(c) Suppose we decide to use the following update rule for the internal state of the 
+nodes at layer ℓ.
+s
+ℓ
+i = s
+ℓ1
+i  W1
+Pni
+j=1 tanh
+W2mℓ1
+i,j 
+ni
+1
+where the tanh nonlinearity acts element-wise.
+For a given node i in the graph, let s
+ℓ1
+i
+be the self-message for this node from the preceding layer,
+while the preceding layer messages from the ni neighbors of node i are denoted by mℓ1
+i j where j
+
+
+--- Page 15 ---
+i,j where j
+ranges from 1 to ni
+. We will use W with subscripts and superscripts to denote learnable weights in
+matrix form. If there’s no superscript, the weights are shared across layers.
+(i) Which of the following design patterns does this update rule have?
+□ Residual connection
+□ Batch normalization
+(ii) If the dimension of the state s is d-dimensional and W2 has k rows, what are the 
+dimensions
+of the matrix W1?
+(iii) If we choose to use the state s
+ℓ1
+i
+itself as the message mℓ1 going to all of node i’s neighbors,
+please write out the update rules corresponding to 1 giving s
+ℓ
+i
+for the graph in Figure 3 for
+nodes i  2 and i  3 in terms of information from earlier layers. Expand out all sums.
+GPT
+Below is a complete answer to the three sub‑questions.  All formulas are written in LaTeX 
+for clarity.
+(a) Validity of the proposed update functions
+For an undirected graph the aggregation over the neighbour set must be 
+permutation‑invariant (or permutation‑equivariant when combined with the 
+self‑message).  In practice this means that the operation applied to the multiset 
+ cannot depend on the ordering of the neighbours and must use the same 
+parameters for every neighbour.
+#
+Update rule
+Permutation‑invariance
+/ weight sharing?
+Verdict
+(i)
+The neighbour
+messages are averaged
+(a sum divided by a
+constant). The sum is
+invariant to any
+permutation of the
+neighbours, and the
+same scalar weight 
+Valid
+{m
+}
+i,j
+ℓ−1
+j=1
+ni
+s =
+i
+ℓ
+w s
++
+1
+i
+ℓ−1
+m
+ni
+w2
+j=1
+∑
+ni
+i,j
+ℓ−1
+w2
+
+
+--- Page 16 ---
+is used for all of them.
+(ii)
+Each neighbour
+receives a different
+scalar weight (
+). The result
+therefore depends on
+the order in which the
+neighbours are listed,
+which violates the
+required permutation
+invariance.
+Invalid – 
+invarianc
+because
+neighbou
+weights a
+shared.
+(iii)
+All neighbours are
+multiplied by the same
+scalar 
+ and then a
+component‑wise max is
+taken. The max operator
+is symmetric (i.e.
+permutation‑invariant),
+so the whole expression
+is invariant to neighbour
+ordering.
+Valid
+(b) Training loss for the simple graph
+The graph has five nodes, but nodes 1 and 4 are held‑out for testing.
+Hence the training set consists of the three nodes 
+.
+node
+true label 
+predicted probability 
+2
+1
+3
+1
+5
+0
+The binary‑cross‑entropy BCE loss for a single example is
+The average loss over the three training points is therefore
+s =
+i
+ℓ
+max(w
+s
+, w m
+, w m
+, … , w
+m
+)
+ℓ
+(1)
+i
+ℓ−1
+2
+i,1
+ℓ−1
+3
+i,2
+ℓ−1
+n +1
+i
+i,ni
+ℓ−1
+w , w , …
+2
+3
+s =
+i
+ℓ
+max(w
+s
+, w m
+, w m
+, … , w m
+)
+ℓ
+(1)
+i
+ℓ−1
+2
+i,1
+ℓ−1
+2
+i,2
+ℓ−1
+2
+i,ni
+ℓ−1
+w2
+{2, 3, 5}
+yi
+y^i
+b
+c
+e
+ℓ
+(y, ) =
+BCE
+y^
+−[ y log
++
+y^
+(1 −y) log(1 −)].
+y^
+Ltrain =
+[
++
++
+3
+1
+−[1 ⋅log b + 0 ⋅log(1 −b)]
+−[1 ⋅log c + 0 ⋅log(1 −c)]
+−[
+
+
+--- Page 17 ---
+That is the required training loss expressed in terms of the three learned probabilities 
+.
+(c) Analysis of the update rule
+The update that is given for layer  is
+where the 
+ is applied element‑wise.
+(i) Design pattern(s)
+• Residual connection – the term 
+ is added directly to the transformed neighbour
+aggregation, which is exactly the definition of a residual (skip) connection.
+• Batch‑normalisation – no normalisation of activations appears in 1; therefore this
+pattern is not present.
+Hence the correct choice is:
+(ii) Dimensions of 
+• The node state 
+ (and therefore 
+) lives in 
+.
+• The neighbour message 
+ has the same dimension  (it will be the previous state 
+of the neighbour, see part (iii)).
+• 
+ is said to have  rows, i.e.
+train
+[
+3
+node 2
+[
+g
+g(
+)]
+node 3
+[
+g
+g(
+)]
+[
+=
+.
+3
+−log b −log c −log(1 −e)
+b, c, e
+ℓ
+s = s
++ W
+tanh(W m
+)
+i
+ℓ
+i
+ℓ−1
+1
+j=1
+∑
+ni
+2
+i,j
+ℓ−1
+(1)
+tanh
+si
+ℓ−1
+Residual connection ✓ 
+Batch normalisation ✗
+W1
+si
+ℓ−1
+si
+ℓ
+Rd
+mi,j
+ℓ−1
+d
+W2
+k
+W ∈
+2
+R
+.
+k×d
+
+
+--- Page 18 ---
+After multiplication and 
+, each term 
+ is a -dimensional vector.
+• The sum over neighbours therefore yields a vector in 
+.
+To add this to the -dimensional self‑message, 
+ must map 
+:
+(iii) Explicit update for nodes 2 and 3 when the message is the
+neighbour’s own state
+We now set
+i.e. each neighbour sends its previous self‑state as its message.
+Node 2
+Neighbour set of node 2 (from the figure): 
+; thus 
+.
+Node 3
+Neighbour set of node 3 
+; hence 
+.
+These two equations give the full, expanded update for the requested nodes, expressed
+only in terms of the previous‑layer states 
+ and the 
+learnable matrices 
+.
+Summary
+• (a) (i) and (iii) are valid; (ii) is invalid because it uses neighbour‑specific weights.
+tanh
+tanh(W m
+)
+2
+i,j
+ℓ−1
+k
+Rk
+d
+W1
+R →
+k
+Rd
+.
+W ∈R
+1
+d×k
+m
+=
+i,j
+ℓ−1
+s
+,
+j
+ℓ−1
+N(2) = {1, 4, 5}
+n =
+2
+3
+s2
+ℓ= s
++ W [tanh(W s
+) + tanh(W s
+) + tanh(W s
+)].
+2
+ℓ−1
+1
+2 1
+ℓ−1
+2 4
+ℓ−1
+2 5
+ℓ−1
+N(3) = {5}
+n =
+3
+1
+s3
+ℓ= s
++ W tanh(W s
+).
+3
+ℓ−1
+1
+2 5
+ℓ−1
+{s
+, s
+, s
+, s
+, s
+}
+1
+ℓ−1
+2
+ℓ−1
+3
+ℓ−1
+4
+ℓ−1
+5
+ℓ−1
+W , W
+1
+2
+−log b −log c −log(1 −e)
+Very close as is misses the /3 here. 
+Could be because of the formatting 
+since it read the update rule (8) 
+incorrectly above. This shows that 
+proper input formatting matters.
+
+
+--- Page 19 ---
+• (b) Training loss 
+.
+• (c) The rule contains a residual connection; 
+ has shape 
+; the explicit
+updates for nodes 2 and 3 are given above.
+=
+3
+log b
+log c
+log(1
+e)
+W1
+d × k
+Executive Summary:
+Overall, gpt-oss-120b was really good at one-shotting 
+the problems. However it seems like its biggest 
+weakness is reading input. Inputs need to be formatted 
+properly or else it can miss critical information. I did not 
+face hallucinations, but is probably because I cleaned 
+the context after every problem and provided a good 
+initial context for the LLM.

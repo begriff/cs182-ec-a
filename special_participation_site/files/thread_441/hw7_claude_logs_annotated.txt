@@ -1,0 +1,1906 @@
+--- Page 1 ---
+Understanding autoencoders and PCA derivations
+Exported on 12/2/2025 at 02:10:12 PST from Cursor (2.1.46)
+User
+I am working on this homework hw7.pdfYour task is to answer the following homework questions and show complete derivation steps and explanation:
+Question 3: Auto-encoder : Learning without Labels
+So far, with supervised learning algorithms we have used labelled datasets D= {X,y}to learn a mapping
+fθ from input xto labels y. In this problem, we now consider algorithms for unsupervised learning, where
+we are given only inputs x, but no labels y. At a high-level, unsupervised learning algorithms leverage some structure in the dataset to deﬁne proxy tasks,
+and learn representations that are useful for solving
+downstream tasks.
+Autoencoders present a family of such algorithms, where we consider the problem of learning a function
+fθ : Rm →Rk from input xto a intermediate representation z of x(usually k ≪m). For autoencoders,
+we use reconstructing the original signal as a proxy task, i.e. representations are more likely to be useful for
+downstream tasks if they are low-dimensional but encode suﬃcient information to approximately reconstruct
+the input. Broadly, autoencoder architectures have two modules:
+• An encoder fθ : Rm →Rk that maps input xto a representation z.
+• A decoder gϕ : Rk →Rm that maps representation zto a reconstructionˆ
+xof x.
+In such architectures, the parameters (θ,ϕ) are learnable, and trained with the learning objective of mini-
+mizing the reconstruction error ℓ(ˆ xi,xi) = ∥x−
+ˆ
+x∥2
+2 using gradient descent.
+θenc,ϕdec = argmin
+Θ,Φ
+ˆ
+x= gϕ(fθ(x))
+1
+N
+N
+i=1
+ℓ(ˆ xi,xi)
+Note that above optimization problem does not require labels y. In practice however, we would want to use
+the pretrained models to solve the downstream task at hand, e.g. classifying MNIST digits. Linear Probing
+is one such approach, where we ﬁx the encoder weights, and learn a simple linear classiﬁer over the features
+z= encoder(x).
+b. PCA & AutoEncoders
+In the case where the encoder fθ,gϕ are linear functions, the model is termed as a linear autoencoder.
+In particular, assume that we have data xi ∈ Rm and consider two weight matrices: an encoder
+W1 ∈Rk×m and decoder W2 ∈Rm×k (with k < m). Then, a linear autoencoder learns a low-
+dimensional embedding of the data X ∈Rm×n (which we assume is zero-centered without loss of
+generality) by minimizing the objective,
+L(W1,W2; X) = ||X−W2W1X||2
+F (2)
+We will assume σ2
+1 >···> σ2
+k > 0 are the klargest eigenvalues of XX⊤. The assumption that the
+σ1,...,σk are positive and distinct ensures identiﬁability of the principal components, and is common
+in this setting. Therefore, the top-k eigenvalues of X are S = diag(σ1,...,σk), with corresponding
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+1/14
+I used cursor
+- Claude
+Opus model
+.
+-
+I provided the question and
+HW pdf
+⑤
+Even though the equations
+are not
+formatted correctly it
+was
+able to decipher the question
+correctly
+and provide an accurate answer
+
+
+--- Page 2 ---
+eigenvectors are the columns of Uk ∈Rm×k. A well-established result from 1 shows that principal components are the unique optimal solution to linear
+autoencoders (up to sign changes to the projection
+directions). In this subpart, we take some steps towards proving this result.
+(i) Write out the ﬁrst order optimality conditions that the minima of Eq. 2 would satisfy.
+(ii) Show that the principal components Uk satisfy the optimality conditions outlined in (i).
+Cursor
+Question 3b: PCA & AutoEncoders
+I'll work through both parts of this problem, showing complete derivations.
+Setup
+Data matrix: 
+ (zero-centered)
+Encoder: 
+Decoder: 
+Objective: 
+: matrix whose columns are the top-  eigenvectors of 
+ where 
+ are the corresponding eigenvalues
+Part (i): First-Order Optimality Conditions
+To ﬁnd the minima, we compute the gradients with respect to 
+ and 
+ and set them to zero.
+Expanding the Loss Function
+Using the Frobenius norm property 
+:
+Expanding:
+Gradient with respect to 
+Using matrix calculus identities:
+For the second term: 
+For the third term: 
+Therefore:
+X ∈Rm×n
+W
+ ∈
+1
+Rk×m
+W
+ ∈
+2
+Rm×k
+L(W
+ , W ; X) =
+1
+2
+∥X −W
+ W
+ X∥
+ 
+2
+1
+F
+2
+U
+ ∈
+k
+Rm×k
+k
+XX⊤
+S = diag(σ
+ , … , σ
+ )
+1
+k
+σ
+ i
+2
+W
+ 1
+W
+ 2
+∥A∥
+ =
+F
+2
+tr(A A)
+⊤
+L = tr (X −W
+ W
+ X) (X −W
+ W
+ X)
+(
+2
+1
+⊤
+2
+1
+)
+L = tr(X X) −
+⊤
+2tr(X W
+ W
+ X) +
+⊤
+2
+1
+tr(X W
+ W
+ W
+ W
+ X)
+⊤
+1
+⊤
+2
+⊤
+2
+1
+W
+ 1
+ tr(A WB) =
+∂W
+∂
+⊤
+AB⊤
+ tr(W AWB) =
+∂W
+∂
+⊤
+AWB + A WB
+⊤
+⊤
+tr(X W
+ W
+ X) =
+⊤
+2
+1
+tr(W
+ XX W
+ )
+1
+⊤
+2
+⊤
+ tr(W
+ XX W
+ ) =
+∂W
+ 1
+∂
+1
+⊤
+2
+⊤
+W
+ W
+ ⋅
+2
+⊤
+2
+ tr(W
+ XX ) =
+∂W
+ 1
+∂
+1
+⊤
+W XX
+2
+⊤
+⊤
+tr(X W
+ W
+ W
+ W
+ X) =
+⊤
+1
+⊤
+2
+⊤
+2
+1
+tr(W
+ W
+ W
+ XX W
+ )
+2
+⊤
+2
+1
+⊤
+1
+⊤
+ tr(W
+ W
+ W
+ XX W
+ ) =
+∂W
+ 1
+∂
+2
+⊤
+2
+1
+⊤
+1
+⊤
+2W
+ W
+ W
+ XX
+2
+⊤
+2
+1
+⊤
+ =
+∂W
+ 1
+∂L
+−2W
+ XX
++
+2
+⊤
+⊤
+2W
+ W
+ W
+ XX
+2
+⊤
+2
+1
+⊤
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+2/14
+setup
+-
+>Fprovidedireb
+
+
+--- Page 3 ---
+Gradient with respect to 
+Similarly:
+First-Order Optimality Conditions
+Setting the gradients to zero:
+Part (ii): Show that Principal Components 
+ Satisfy These Conditions
+For the PCA solution, we set:
+Encoder: 
+Decoder: 
+Key Properties of 
+1. Orthonormality: Since 
+ contains orthonormal eigenvectors:
+2. Eigenvalue equation: By deﬁnition of eigenvectors:
+where 
+Verifying Condition 1: 
+Substituting 
+ and 
+:
+LHS:
+RHS:
+Verifying Condition 2: 
+Substituting 
+ and 
+:
+LHS:
+Using the eigenvalue equation 
+:
+W
+ 2
+ =
+∂W
+ 2
+∂L
+−2XX W
+ +
+⊤
+1
+⊤
+2W
+ W
+ XX W
+ 
+2
+1
+⊤
+1
+⊤
+ 
+W
+ W
+ W
+ XX
+= W
+ XX
+2
+⊤
+2
+1
+⊤
+2
+⊤
+⊤
+(Condition 1)
+ 
+W
+ W
+ XX W
+ = XX W
+ 
+2
+1
+⊤
+1
+⊤
+⊤
+1
+⊤
+(Condition 2)
+U
+ k
+W
+ =
+1
+U
+ ∈
+k
+⊤
+Rk×m
+W
+ =
+2
+U
+ ∈
+k
+Rm×k
+U
+ k
+U
+ k
+U
+ U
+ =
+k
+⊤
+k
+I
+ k
+XX U
+ =
+⊤
+k
+U
+ S
+k
+2
+S =
+2
+diag(σ
+ , … , σ
+ )
+1
+2
+k
+2
+W
+ W
+ W
+ XX
+=
+2
+⊤
+2
+1
+⊤
+W
+ XX
+2
+⊤
+⊤
+W
+ =
+1
+U
+ 
+k
+⊤
+W
+ =
+2
+U
+ k
+W
+ W
+ W
+ XX
+=
+2
+⊤
+2
+1
+⊤
+U
+ U
+ ⋅
+k
+⊤
+k U
+ ⋅
+k
+⊤XX
+=
+⊤
+I
+ ⋅
+k U
+ XX
+=
+k
+⊤
+⊤
+U
+ XX
+k
+⊤
+⊤
+W
+ XX
+=
+2
+⊤
+⊤
+U
+ XX
+k
+⊤
+⊤
+LHS = RHS
+✓
+W
+ W
+ XX W
+ =
+2
+1
+⊤
+1
+⊤
+XX W
+ 
+⊤
+1
+⊤
+W
+ =
+1
+U
+ 
+k
+⊤
+W
+ =
+2
+U
+ k
+W
+ W
+ XX W
+ =
+2
+1
+⊤
+1
+⊤
+U
+ U
+ ⋅
+k
+k
+⊤XX
+⋅
+⊤U
+ k
+XX U
+ =
+⊤
+k
+U
+ S
+k
+2
+= U
+ U
+ U
+ S =
+k
+k
+⊤
+k
+2
+U
+ ⋅
+k I
+ ⋅
+k S =
+2
+U
+ S
+k
+2
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+3/14
+one-shot answers -
+are correct
+- D
+
+
+--- Page 4 ---
+RHS:
+Conclusion
+We have shown that 
+ and 
+ (the PCA projection and reconstruction matrices) satisfy both ﬁrst-order optimality conditions. This
+demonstrates that the principal components are a critical point of the linear autoencoder objective.
+This result makes intuitive sense: PCA ﬁnds the directions of maximum variance, which are exactly the directions that minimize reconstruction error when
+projecting to a lower-dimensional space. The linear autoencoder, by minimizing reconstruction loss, naturally recovers these principal component
+directions.
+User
+part ii is doesn't seem write , start with the SVD decomposition: X= UΣVT, and D= ΣΣT.
+Cursor
+You're right, let me redo part (ii) properly starting from the SVD decomposition.
+Part (ii): Revised - Using SVD Decomposition
+Setting Up with SVD
+Start with the SVD of the data matrix:
+where:
+ is orthogonal (left singular vectors)
+ contains singular values on the diagonal
+ is orthogonal (right singular vectors)
+Computing 
+where 
+ is diagonal with entries 
+.
+This shows that:
+The columns of 
+ are the eigenvectors of 
+The diagonal entries of 
+ are the eigenvalues of 
+Extracting Top-  Components
+Let:
+: ﬁrst  columns of 
+ (top-  eigenvectors)
+: top-  eigenvalues
+XX W
+ =
+⊤
+1
+⊤
+XX U
+ =
+⊤
+k
+U
+ S
+k
+2
+LHS = RHS
+✓
+W
+ =
+1
+U
+ 
+k
+⊤
+W
+ =
+2
+U
+ k
+X = UΣV ⊤
+U ∈Rm×m
+Σ ∈Rm×n
+V ∈Rn×n
+XX⊤
+XX
+=
+⊤
+UΣV
+V Σ U
+=
+⊤
+⊤
+⊤
+UΣΣ U
+=
+⊤
+⊤
+UDU ⊤
+D = ΣΣ
+∈
+⊤
+Rm×m
+(σ
+ , σ
+ , …)
+1
+2
+2
+2
+U
+XX⊤
+D
+XX⊤
+k
+U
+ ∈
+k
+Rm×k
+k
+U
+k
+D
+ =
+k
+diag(σ
+ , … , σ
+ ) ∈
+1
+2
+k
+2
+Rk×k
+k
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+4/14
+and
+are
+-Itriedin agrees on
+-
+
+
+--- Page 5 ---
+The fundamental eigenvalue relationship is:
+Properties of 
+Since 
+ is orthogonal:
+1. 
+ (orthonormal columns)
+2. 
+ is the projection matrix onto the span of top-  eigenvectors
+PCA Solution
+For the PCA solution, set:
+ (encoder)
+ (decoder)
+Verifying Condition 1: 
+Substituting 
+ and 
+:
+LHS:
+Using 
+:
+RHS:
+Verifying Condition 2: 
+Substituting 
+ and 
+:
+LHS:
+Using the eigenvalue equation 
+:
+Using 
+:
+RHS:
+(directly from the eigenvalue equation)
+ 
+XX U
+ = U
+ D
+ 
+⊤
+k
+k
+k
+U
+ k
+U
+U
+ U
+ =
+k
+⊤
+k
+I
+ k
+U
+ U
+ 
+k
+k
+⊤
+k
+W
+ =
+1
+U
+ ∈
+k
+⊤
+Rk×m
+W
+ =
+2
+U
+ ∈
+k
+Rm×k
+W
+ W
+ W
+ XX
+=
+2
+⊤
+2
+1
+⊤
+W
+ XX
+2
+⊤
+⊤
+W
+ =
+1
+U
+ 
+k
+⊤
+W
+ =
+2
+U
+ k
+W
+ W
+ W
+ XX
+=
+2
+⊤
+2
+1
+⊤
+U
+ U ⋅
+k
+⊤
+k U
+ ⋅
+k
+⊤XX⊤
+U
+ U
+ =
+k
+⊤
+k
+I
+ k
+= I
+ ⋅
+k U
+ XX
+=
+k
+⊤
+⊤
+U
+ XX
+k
+⊤
+⊤
+W
+ XX
+=
+2
+⊤
+⊤
+U
+ XX
+k
+⊤
+⊤
+ 
+✓
+LHS = RHS
+W
+ W
+ XX W
+ =
+2
+1
+⊤
+1
+⊤
+XX W
+ 
+⊤
+1
+⊤
+W
+ =
+1
+U
+ 
+k
+⊤
+W
+ =
+2
+U
+ k
+W
+ W
+ XX W
+ =
+2
+1
+⊤
+1
+⊤
+U
+ U
+ ⋅
+k
+k
+⊤XX
+⋅
+⊤U
+ k
+XX U
+ =
+⊤
+k
+U
+ D
+ 
+k
+k
+= U
+ U
+ ⋅
+k
+k
+⊤U
+ D
+ 
+k
+k
+U
+ U
+ =
+k
+⊤
+k
+I
+ k
+= U
+ ⋅
+k I
+ ⋅
+k D
+ =
+k
+U
+ D
+ 
+k
+k
+XX W
+ =
+⊤
+1
+⊤
+XX U
+ =
+⊤
+k
+U
+ D
+ 
+k
+k
+ 
+✓
+LHS = RHS
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+5/14
+This revised solution
+is still different from
+the
+class solution but
+it's still
+correct.
+
+
+--- Page 6 ---
+Summary
+Starting from SVD 
+ and 
+:
+1. We showed 
+, identifying 
+ as top-  eigenvectors
+2. The key relationship 
+ follows directly from the spectral decomposition
+3. Setting 
+ and 
+ satisﬁes both ﬁrst-order optimality conditions
+This proves that the principal components are indeed a critical point of the linear autoencoder objective.
+User
+what the diﬀerence with with this answere compared to the one you gave:
+Solution: matrix.
+Do the SVD decomposition: X= UΣVT, and D= ΣΣT. Note that Dis a diagonal
+Then the ﬁrst order condition states that
+WT
+2 (W2W1−I)UDUT = 0; (W2W1−I)UDUTWT
+1 = 0
+Let V1 := W1U,V2 := UTW2, then it further simpliﬁes to
+(V2V1−I)DVT
+1 = 0; VT
+2 (V2V1−I)D= 0
+If WT
+1 = W2 are the ﬁrst kcolumns of U, then
+V1 =
+       1
+.
+.
+. 0
+1
+and V2 = VT
+1 . Now direct computation ﬁnishes the proof.
+Cursor
+Great question! Let me compare the two approaches and explain the key diﬀerences:
+X = UΣV ⊤
+D = ΣΣ⊤
+XX
+=
+⊤
+UDU ⊤
+U
+ k
+k
+XX U
+ =
+⊤
+k
+U
+ D
+ 
+k
+k
+W
+ =
+1
+U
+ 
+k
+⊤
+W
+ =
+2
+U
+ k
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+6/14
+I wanted to understand the difference
+between
+the revised solution and
+class
+solution given that
+they start
+off the
+same
+way
+
+
+--- Page 7 ---
+Comparison of Approaches
+My Approach
+Directly substituted 
+ and 
+ into the optimality conditions
+Used the eigenvalue equation 
+ directly
+Veriﬁed each condition separately through matrix multiplication
+Oﬃcial Solution Approach
+1. Rewritten optimality conditions: Factors them as:
+2. Substitutes 
+ (from SVD):
+3. Change of variables: Deﬁnes
+4. Simpliﬁed conditions (after the substitution):
+5. For PCA solution where 
+:
+6. Direct computation:
+Key Diﬀerences
+Aspect
+My Approach
+Oﬃcial Solution
+Factoring
+Keeps conditions as equalities
+Factors as 
+Variables
+Works directly with 
+Introduces 
+, 
+W
+ =
+1
+U
+ 
+k
+⊤
+W
+ =
+2
+U
+ k
+XX U
+ =
+⊤
+k
+U
+ D
+ 
+k
+k
+W
+ (W
+ W
+ −
+2
+⊤
+2
+1
+I)XX
+=
+⊤
+0
+(W
+ W
+ −
+2
+1
+I)XX W
+ =
+⊤
+1
+⊤
+0
+XX
+=
+⊤
+UDU ⊤
+W
+ (W
+ W
+ −
+2
+⊤
+2
+1
+I)UDU
+=
+⊤
+0
+(W
+ W
+ −
+2
+1
+I)UDU W
+ =
+⊤
+1
+⊤
+0
+V
+ :=
+1
+W
+ U ∈
+1
+Rk×m
+V
+ :=
+2
+U W
+ ∈
+⊤
+2
+Rm×k
+(V
+ V
+ −
+2
+1
+I)DV
+ =
+1
+⊤
+0
+V
+ (V
+ V
+ −
+2
+⊤
+2
+1
+I)D = 0
+W
+ =
+1
+⊤
+W
+ =
+2
+U
+ k
+V
+ =
+1
+U
+ U =
+k
+⊤
+ 
+ ,
+V
+ =
+(I
+ k
+0)
+2
+U U
+ =
+⊤
+k
+ 
+=
+(I
+ k
+0 )
+V
+ 
+1
+⊤
+V
+ V
+ =
+2
+1
+ 
+ 
+ =
+(I
+ k
+0 ) (I
+ k
+0)
+ 
+ 
+(I
+ k
+0
+0
+0)
+V
+ V
+ −
+2
+1
+I =
+ 
+ 
+(0
+0
+0
+−I
+ 
+m−k)
+DV
+ =
+1
+⊤
+ 
+(D
+ k
+0 )
+(V
+ V
+ −
+2
+1
+I)DV
+ =
+1
+⊤
+ 
+ 
+ 
+=
+(0
+0
+0
+−I
+ 
+m−k) (D
+ k
+0 )
+0
+✓
+(W
+ W
+ −
+2
+1
+I) ⋅(…) = 0
+W
+ , W
+ 
+1
+2
+V
+ =
+1
+W
+ U
+1
+V
+ =
+2
+U W
+ 
+⊤
+2
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+7/14
+It
+provided
+a nice summary of the
+difference
+and not the class solution as more elegant
+
+
+--- Page 8 ---
+Aspect
+My Approach
+Oﬃcial Solution
+Structure
+Uses eigenvalue equation implicitly
+Explicitly shows block structure of 
+Elegance
+More direct substitution
+More elegant - works in "eigenspace coordinates"
+The oﬃcial solution is more elegant because the change of variables 
+ transforms the problem into the eigenbasis of 
+, where the PCA solution
+has the simple block-identity structure. This makes the veriﬁcation cleaner and reveals the underlying structure more clearly.
+Both approaches are mathematically correct, but the oﬃcial solution provides better insight into why PCA works for linear autoencoders.
+Homework on training ResNet models
+Exported on 12/2/2025 at 02:38:01 PST from Cursor (2.1.46)
+User
+https://web.archive.org/web/20200208203128/https://myrtle.ai/how-to-train-your-resnet-1-baseline//
+You are a student asked to answer the following homework questions
+4. Read a Blog Post: How to train your Resnet
+In previous homeworks, we saw how memory and compute constraints on GPUs put limits on the architec-
+ture and the hyperparameters (e.g., batch size) we can use to train our models. To train better models, we
+could scale up by using multiple GPUs, but most distributed training techniques scale sub-linearly and often
+we simply don’t have as many GPU resources at our disposal. This raises a natural question - how can we
+make model training more eﬃcient on a single GPU?
+The blog series How to train your Resnet explores how to train ResNet models eﬃciently on a single GPU.
+It covers a range of topics, including architecture, weight decay, batch normalization, and hyperparameter
+tuning. In doing so, it provides valuable insights into the training dynamics of neural networks and oﬀers
+lessons that can be applied in other settings.
+Read the blog series and answer the questions below.
+(a) What is the baseline training time and accuracy the authors started with? What was the ﬁnal
+training time and accuracy achieved by the authors?
+(b) Comment on what you have learnt. (≈100 words)
+(c) Which approach taken by the authors interested you the most? Why? (≈100 words)
+Cursor
+I'll search for more information about the complete "How to Train Your ResNet" blog series to get the ﬁnal results, since the archived page you shared only
+covers Part 1.
+Based on my review of the blog post and additional research on the complete series, here are the answers to your homework questions:
+V
+ , V
+ 
+1
+2
+V
+ , V
+ 
+1
+2
+XX⊤
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+8/14
+2
+Eprovidedthelinkanditwasableford
+and correctly
+asa
+
+
+--- Page 9 ---
+Homework Answers: How to Train Your ResNet
+(a) Baseline and Final Training Time and Accuracy
+Baseline:
+The authors started with reproducing the DAWNBench winning entry by Ben Johnson, which achieved 94% test accuracy on CIFAR-10 in 341
+seconds on a single V100 GPU
+Their initial reproduction achieved 94% accuracy in 356 seconds
+After initial optimizations in Part 1 (removing duplicate batch norm-ReLU, ﬁxing preprocessing ineﬃciencies, optimizing data loading), they established
+their baseline at 297 seconds for 94% accuracy
+Final:
+Through the complete blog series, the authors progressively reduced training time to approximately 26 seconds while maintaining 94% test accuracy
+on CIFAR-10 (a ~10x speedup from their starting point)
+The theoretical minimum they calculated was ~40 seconds at 100% GPU compute eﬃciency, demonstrating they pushed remarkably close to hardware
+limits.
+(b) What I Learned (~100 words)
+The blog series taught me that signiﬁcant training speedups often come from addressing overlooked ineﬃciencies rather than algorithmic breakthroughs.
+Simple ﬁxes—like removing redundant preprocessing, optimizing data loading pipelines, and eliminating duplicate network layers—yielded substantial time
+savings. I learned that modern GPUs are frequently underutilized; the gap between theoretical throughput (125 TFLOPS on V100) and actual utilization is
+enormous. The series emphasized that training eﬃciency requires holistic thinking: architecture design, batch size selection, learning rate scheduling,
+regularization techniques, and data augmentation all interact. Understanding these interdependencies is crucial for practical deep learning, especially when
+computational resources are limited.
+(c) Most Interesting Approach (~100 words)
+The preprocessing optimization approach interested me most. The authors discovered that PyTorch dataloaders (v0.4) launched fresh processes for each
+epoch, creating non-trivial overhead. By performing common preprocessing (padding, normalization, transposition) once before training rather than
+repeatedly, and batching random number generator calls instead of making millions of individual calls, they saved ~26 seconds—nearly 9% of training time.
+This fascinated me because it highlights how implementation details, not just algorithms, determine real-world performance. It's a reminder that proﬁling
+and understanding the full training pipeline, including seemingly mundane data loading, is essential for eﬃciency. These "boring" optimizations often
+provide the most practical speedups.
+Source: How to Train Your ResNet 1: Baseline (Archived)
+Machine translation encoder-decoder discussion
+Exported on 12/2/2025 at 02:58:31 PST from Cursor (2.1.46)
+User
+You an expert in Machine translation, provide correct answers for the following questions:
+Machine Translation
+Consider the following Machine Translation problem:
+• You are learning an Encoder-Decoder model to translate sentences from Spanish into English.
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+9/14
+It provided
+more detailed information that
+I would have missed and the class solution doesn't mention
+It highlighted
+a lot of good points that one
+can
+learn from reading the blog
+It really handled open-ended questions very well
+
+
+--- Page 10 ---
+• This Encoder-Decoder model consists of a single-layer RNN encoder and a single-layer RNN decoder.
+• The ﬁrst hidden state of the decoder is initialized with the last hidden state of the encoder.
+• Words are converted into learned embeddings of length H (hidden state size), before they are passed
+to the model.
+I saw a
+dog
+Linear Linear Linear Linear Linear
+veo un perro
+w1 w2 w3
+w4 w5
+Figure 4: Translation model. The ovals with horizontal dots are learned encodings of words. The tokens < sos >
+and are “Start of Sequence” and “End of Sequence” tokens respectively. The boxes w1 ...w5 represent the
+word tokens passed into the RNN decoder at each timestep (you’ll ﬁll in which tokens go here).
+(a) (4pts) Your teammate proposes stacking the encoder and decoder vertically rather than horizontally.
+Instead of passing the ﬁnal hidden state of the encoder hT into the decoder’s ﬁrst hidden state, at each
+timestep t, the encoder’s hidden state ht gets passed as an input to timestep tof the decoder. State one
+problem with this proposed design change.
+(b) (3pts) In the example shown the correct translation is “I see a dog,” but the translation that happened
+to be sampled from the model incorrectly states “I saw a dog”.
+What ﬁve tokens will be passed into the decoder during training for w1,w2,...,w5?
+(HINT: Remember, during training we have access to correct supervision for translations. Don’t forget
+that you also have special tokens and for the beginning and end of a sentence.)
+(c) (3pts) Continuing the previous part, what ﬁve tokens would be passed into the decoder at evaluation
+time for w1,w2,...,w5 when a translation is being generated?.
+(Here, you can assume that the decoder only emits a single possibility for each word.)
+Cursor
+Machine Translation - Encoder-Decoder Model Answers
+Part (a): Problem with Vertical Stacking
+The main problem is length mismatch between source and target sequences.
+In machine translation, the source sentence (Spanish) and target sentence (English) typically have diﬀerent lengths. If you stack the encoder and decoder
+vertically—passing encoder hidden state 
+ directly to decoder timestep —you force a one-to-one correspondence between source and target positions.
+This design fails because:
+"Veo un perro" (3 words) might translate to "I see a dog" (4 words)
+There's no natural alignment between word positions across languages
+The decoder couldn't generate more or fewer tokens than the encoder processes
+The horizontal design solves this by letting the encoder fully process the source sequence ﬁrst, then passing only the ﬁnal hidden state to initialize the
+decoder, allowing the decoder to run for as many timesteps as needed.
+Part (b): Training Tokens (w₁, w₂, w₃, w₄, w₅)
+During training, we use teacher forcing, which means we feed the ground truth (correct) tokens to the decoder, regardless of what the model actually
+predicts.
+The correct translation is: "I see a dog"
+h
+ t
+t
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+10/14
+It
+also
+provided
+an intuitive
+3
+reasons for why
+vertical stacking would
+fail
+.
+↑It provided
+an approach that would work and
+it
+is
+correct.
+-& It identified that the model is trained
+using teacher-forcing without any of
+the
+provided text mentioning.
+
+
+--- Page 11 ---
+Position
+Token
+w₁
+<sos>
+w₂
+I
+w₃
+see
+w₄
+a
+w₅
+dog
+Answer: <sos>, I, see, a, dog
+Note: Even though the model might predict "saw" at timestep 2, during training we still feed the correct word "see" as the next input. This is teacher forcing
+—we always use the ground truth supervision.
+Part (c): Evaluation Tokens (w₁, w₂, w₃, w₄, w₅)
+During evaluation/inference, we don't have access to ground truth. We use autoregressive decoding: the model's own predictions become the input for
+the next timestep.
+Given that the model outputs "I saw a dog <eos>":
+Position
+Token (model's previous output)
+w₁
+<sos>
+w₂
+I
+w₃
+saw
+w₄
+a
+w₅
+dog
+Answer: <sos>, I, saw, a, dog
+Key Diﬀerence Summary
+Training
+Evaluation
+Method
+Teacher Forcing
+Autoregressive
+w₃
+see (correct)
+saw (predicted)
+Tokens
+<sos>, I, see, a, dog
+<sos>, I, saw, a, dog
+The only diﬀerence is at w₃: training uses the correct "see" while evaluation uses the (incorrect) model prediction "saw".
+Self-supervised linear autoencoder homework
+Exported on 12/2/2025 at 03:32:34 PST from Cursor (2.1.46)
+User
+{You an expert in Self-supervised Linear Autoencoders. Answer the following question homework questions.
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+11/14
+-
+-
+> correct description of teacher-forcing
+It provided
+a correct difference
+summary
+
+
+--- Page 12 ---
+We consider linear models consisting of two weight matrices: an encoder W1 ∈Rk×m and decoder W2 ∈
+Rm×k (assume 1 <k<m). The traditional autoencoder model learns a low-dimensional embedding of the
+npoints of training data X ∈Rm×n by minimizing the objective,
+L(W1,W2; X) = 1
+n||X−W2W1X||2
+F (5)
+We will assume σ2
+1 >···>σ2
+k >σ2
+k+1 ≥0 are the k+ 1 largest eigenvalues of 1
+n
+XX⊤. The assumption
+that the σ1,...,σk are positive and distinct ensures identiﬁability of the principal components.
+Homework 7, © Faculty teaching EECS 182, Fall 2025. All Rights Reserved. This may not be publicly shared without explicit permission. 7
+Homework 7 @ 2025-10-20 14:24:15-04:00
+Consider an ℓ2-regularized linear autoencoder where the objective is:
+Lλ(W1,W2; X) = 1
+n||X−W2W1X||2
+F + λ∥W1∥2
+F + λ∥W2∥2
+F. (6)
+where ∥·∥2
+F represents the Frobenius norm squared of the matrix (i.e. sum of squares of the entries).
+(a) You want to use SGD-style training in PyTorch (involving the training points one at a time) and self-
+supervision to ﬁnd W1 and W2 which optimize (6) by treating the problem as a neural net being trained
+in a supervised fashion. Answer the following questions and brieﬂy explain your choice:
+(i) How many linear layers do you need?
+□ 0
+□ 1
+□ 2
+□ 3
+(ii) What is the loss function that you will be using?
+□ nn.L1Loss
+□ nn.MSELoss
+□ nn.CrossEntropyLoss
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+12/14
+
+
+--- Page 13 ---
+(iii) Which of the following would you need to optimize (6) exactly as it is written? (Select all
+that are needed)
+□ Weight Decay
+□ Dropout
+□ Layer Norm
+□ Batch Norm
+□ SGD optimizer
+(b) Do you think that the solution to (6) when we use a small nonzero λhas an inductive bias towards
+ﬁnding a W2 matrix with approximately orthonormal columns? Argue why or why not?
+(Hint: Think about the SVDs of W1 = U1Σ1V⊤
+1 and W2 = U2Σ2V⊤
+2 . You can assume that if a k×m
+or m×kmatrix has all kof its nonzero singular values being 1, then it must have orthonormal rows
+or columns. Remember that the Frobenius norm squared of a matrix is just the sum
+Cursor
+Self-supervised Linear Autoencoder Homework Solutions
+Part (a): PyTorch Implementation
+(i) How many linear layers do you need?
+Answer: 2 linear layers
+The model computes 
+. For a single input 
+:
+Layer 1 (Encoder): 
+ maps 
+Layer 2 (Decoder): 
+ maps 
+Both layers should be  nn.Linear(in_features, out_features, bias=False) .
+(ii) What is the loss function?
+Answer: nn.MSELoss
+The reconstruction term is 
+, which for individual samples becomes the mean squared error between input and reconstruction:
+This is exactly what  nn.MSELoss  computes.
+=
+X^
+W
+ W
+ X
+2
+1
+x ∈Rm
+z = W
+ x
+1
+R
+→
+m
+Rk
+=
+x^
+W
+ z
+2
+R →
+k
+Rm
+ ∥X −
+n
+1
+W
+ W
+ X∥
+ 
+2
+1
+F
+2
+ 
+∥x
+ −
+n
+1
+i=1
+∑
+n
+i
+∥
+ 
+x^i 2
+2
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+13/14
+This
+is correct
+, it provided a correct
+reason
+for the answer
+This
+is
+also correct
+
+
+--- Page 14 ---
+(iii) What do you need to optimize (6) exactly?
+Answer: Weight Decay and SGD optimizer
+The regularization terms 
+ are L2 regularization (squared Frobenius norm = sum of squared entries). In PyTorch, this is implemented
+via weight decay in the optimizer:
+optimizer = torch.optim.SGD(model.parameters(), lr=..., weight_decay=lambda)
+Weight decay adds 
+ to the loss, which equals 
+.
+Not needed:
+Dropout: Random neuron dropping, not relevant here
+Layer Norm / Batch Norm: These normalize activations, not present in equation (6)
+Part (b): Does regularization bias toward orthonormal columns in 
+?
+Yes, the solution has an inductive bias toward 
+ having approximately orthonormal columns.
+Argument:
+Key fact: For any matrix 
+, 
+ (sum of squared singular values).
+Balancing principle: Suppose we need the product 
+ to equal some ﬁxed matrix 
+. To minimize 
+ subject to this constraint,
+consider a single singular value direction:
+If we need 
+ (ﬁxed), minimizing 
+ gives:
+(By AM-GM: 
+, with equality when 
+.)
+Application to autoencoders: For good reconstruction, 
+ should approximate projection onto the top-  principal components, i.e., 
+, which has singular values all equal to 1.
+By the balancing principle:
+Each factor should have singular values 
+ with all  singular values = 1 → orthonormal rows
+ with all  singular values = 1 → orthonormal columns
+Conclusion: L2 regularization breaks the symmetry of equivalent solutions (the invariance under 
+, 
+) and pushes the solution
+toward the balanced case where both weight matrices have singular values close to 1. This means 
+ is biased toward having approximately orthonormal
+columns.
+optimizer = torch.optim.SGD(model.parameters(), lr=..., weight_decay=lambda)
+λ∥W
+ ∥
+ +
+1 F
+2
+λ∥W
+ ∥
+ 
+2 F
+2
+λ
+ w
+ 
+∑i
+i
+2
+λ∥W∥
+ 
+F
+2
+W
+ 2
+W
+ 2
+W ∥W∥
+ =
+F
+2
+ σ
+ 
+∑i
+i
+2
+W
+ W
+ 
+2
+1
+P
+∥W
+ ∥
+ +
+1 F
+2
+∥W
+ ∥
+ 
+2 F
+2
+σ
+ ⋅
+W
+ 2
+σ
+ =
+W
+ 1
+c
+σ
+ +
+W
+ 1
+2
+σ
+ 
+W
+ 2
+2
+σ
+ =
+W
+ 1
+σ
+ =
+W
+ 2
+ c
+σ
+ +
+1
+2
+σ
+ ≥
+2
+2
+2σ
+ σ
+ =
+1
+2
+2c
+σ
+ =
+1
+σ
+ 2
+W
+ W
+ 
+2
+1
+k
+W
+ W
+ ≈
+2
+1
+V
+ V
+ 
+k
+k
+⊤
+ =
+1
+1
+W
+ ∈
+1
+Rk×m
+k
+W
+ ∈
+2
+Rm×k
+k
+W
+ →
+2
+W
+ A
+2
+W
+ →
+1
+A
+W
+ 
+−1
+1
+W
+ 2
+12/2/25, 3:46 AM
+hw7_claude_logs
+ﬁle:///private/var/folders/kb/n77fxddj3591zvbxbz1wzmy40000gp/T/crossnote2025112-16421-ﬁ2zuo.l7nhv.html
+14/14
+It also explained why the other options are wrong answers
+It explained the answer very well without hallucination

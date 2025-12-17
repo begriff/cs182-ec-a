@@ -1,0 +1,921 @@
+--- Page 1 ---
+EECS 182 Deep Neural Networks - Homework 0
+Solutions
+Math Sections (Questions 2, 3, 4, 5)
+Question 2: Vector Calculus Review
+Setup: Let x, c ∈ℝ𝑛and 𝐴∈ℝ𝑛×𝑛.
+Convention: Vector derivatives of a scalar with respect to a column vector are
+expressed as a row vector:
+𝜕𝑓
+𝜕x = [ 𝜕𝑓
+𝜕𝑥1
+, 𝜕𝑓
+𝜕𝑥2
+, … , 𝜕𝑓
+𝜕𝑥𝑛
+]
+Part (a): Show
+𝜕
+𝜕x(x𝑇c) = c𝑇
+Step 1: Identify the type of derivative - x𝑇c is a scalar (inner product of
+two vectors) - The derivative of a scalar w.r.t. a column vector is a row vector
+of size 1 × 𝑛
+Step 2: Expand the expression
+x𝑇c =
+𝑛
+∑
+𝑖=1
+𝑥𝑖𝑐𝑖= 𝑥1𝑐1 + 𝑥2𝑐2 + ⋯+ 𝑥𝑛𝑐𝑛
+Step 3: Compute an arbitrary entry of the derivative
+𝜕
+𝜕𝑥𝑗
+(x𝑇c) =
+𝜕
+𝜕𝑥𝑗
+(
+𝑛
+∑
+𝑖=1
+𝑥𝑖𝑐𝑖) = 𝑐𝑗
+Since only the 𝑗-th term in the sum contains 𝑥𝑗, and that term is 𝑥𝑗𝑐𝑗.
+Step 4: Stack all entries
+𝜕
+𝜕x(x𝑇c) = [𝑐1, 𝑐2, … , 𝑐𝑛] = c𝑇
+𝜕
+𝜕x(x𝑇c) = c𝑇
+1
+Note that this file was generated using Claude Opus 4.5 with Extended Reasoning. 
+Claude wrote it's solutions to a markdown file with embedded LaTex and then I compiled 
+said file to a pdf with pandoc.
+Comparing 2.a to the staff solutions, 
+Claude was able to solve this problem 
+without error. It's also worth noting 
+that Claude in this question goes more 
+in depth in it's solutions and steps.
+
+
+--- Page 2 ---
+Part (b): Show
+𝜕
+𝜕x‖x‖2
+2 = 2x𝑇
+Step 1: Identify the type of derivative - ‖x‖2
+2 is a scalar - The derivative
+is a row vector of size 1 × 𝑛
+Step 2: Expand the expression
+‖x‖2
+2 = x𝑇x =
+𝑛
+∑
+𝑖=1
+𝑥2
+𝑖= 𝑥2
+1 + 𝑥2
+2 + ⋯+ 𝑥2
+𝑛
+Step 3: Compute an arbitrary entry of the derivative
+𝜕
+𝜕𝑥𝑗
+‖x‖2
+2 =
+𝜕
+𝜕𝑥𝑗
+(
+𝑛
+∑
+𝑖=1
+𝑥2
+𝑖) = 2𝑥𝑗
+Step 4: Stack all entries
+𝜕
+𝜕x‖x‖2
+2 = [2𝑥1, 2𝑥2, … , 2𝑥𝑛] = 2[𝑥1, 𝑥2, … , 𝑥𝑛] = 2x𝑇
+𝜕
+𝜕x‖x‖2
+2 = 2x𝑇
+Part (c): Show
+𝜕
+𝜕x(𝐴x) = 𝐴
+Step 1: Identify the type of derivative - 𝐴x is a vector of size 𝑛× 1 - The
+derivative of a vector w.r.t. a vector is a matrix - Specifically: 𝜕(𝐴x)
+𝜕x
+has entry
+(𝑖, 𝑗) equal to 𝜕(𝐴x)𝑖
+𝜕𝑥𝑗
+- This gives an 𝑛× 𝑛matrix
+Step 2: Expand the 𝑖-th component of 𝐴x
+(𝐴x)𝑖=
+𝑛
+∑
+𝑘=1
+𝐴𝑖𝑘𝑥𝑘
+Step 3: Compute an arbitrary entry of the Jacobian
+𝜕(𝐴x)𝑖
+𝜕𝑥𝑗
+=
+𝜕
+𝜕𝑥𝑗
+(
+𝑛
+∑
+𝑘=1
+𝐴𝑖𝑘𝑥𝑘) = 𝐴𝑖𝑗
+Since only the term with 𝑘= 𝑗contributes.
+Step 4: Assemble the matrix The (𝑖, 𝑗) entry of the Jacobian is 𝐴𝑖𝑗, which
+means the Jacobian is exactly 𝐴.
+𝜕
+𝜕x(𝐴x) = 𝐴
+2
+Comparing 2.b to the staff 
+solutions, Claude was able to 
+solve this problem without 
+error.
+Comparing 2.c to the 
+staff solutions, Claude 
+was able to solve this 
+problem without error.
+
+
+--- Page 3 ---
+Part (d): Show
+𝜕
+𝜕x(x𝑇𝐴x) = x𝑇(𝐴+ 𝐴𝑇)
+Step 1: Identify the type of derivative - x𝑇𝐴x is a scalar (quadratic form)
+- The derivative is a row vector of size 1 × 𝑛
+Step 2: Expand the expression
+x𝑇𝐴x =
+𝑛
+∑
+𝑖=1
+𝑛
+∑
+𝑗=1
+𝑥𝑖𝐴𝑖𝑗𝑥𝑗
+Step 3: Compute an arbitrary entry of the derivative
+𝜕
+𝜕𝑥𝑘
+(x𝑇𝐴x) =
+𝜕
+𝜕𝑥𝑘
+(
+𝑛
+∑
+𝑖=1
+𝑛
+∑
+𝑗=1
+𝑥𝑖𝐴𝑖𝑗𝑥𝑗)
+We need to consider three cases for terms in the double sum: - Terms where
+𝑖= 𝑘and 𝑗≠𝑘: 𝑥𝑘𝐴𝑘𝑗𝑥𝑗→derivative is 𝐴𝑘𝑗𝑥𝑗- Terms where 𝑖≠𝑘and 𝑗= 𝑘:
+𝑥𝑖𝐴𝑖𝑘𝑥𝑘→derivative is 𝑥𝑖𝐴𝑖𝑘- Terms where 𝑖= 𝑘and 𝑗= 𝑘: 𝑥𝑘𝐴𝑘𝑘𝑥𝑘= 𝐴𝑘𝑘𝑥2
+𝑘
+→derivative is 2𝐴𝑘𝑘𝑥𝑘
+Combining all terms:
+𝜕
+𝜕𝑥𝑘
+(x𝑇𝐴x) = ∑
+𝑗≠𝑘
+𝐴𝑘𝑗𝑥𝑗+ ∑
+𝑖≠𝑘
+𝑥𝑖𝐴𝑖𝑘+ 2𝐴𝑘𝑘𝑥𝑘
+=
+𝑛
+∑
+𝑗=1
+𝐴𝑘𝑗𝑥𝑗+
+𝑛
+∑
+𝑖=1
+𝑥𝑖𝐴𝑖𝑘= (𝐴x)𝑘+ (𝐴𝑇x)𝑘
+Step 4: Stack all entries
+𝜕
+𝜕x(x𝑇𝐴x) = (𝐴x)𝑇+ (𝐴𝑇x)𝑇= x𝑇𝐴𝑇+ x𝑇𝐴= x𝑇(𝐴𝑇+ 𝐴)
+𝜕
+𝜕x(x𝑇𝐴x) = x𝑇(𝐴+ 𝐴𝑇)
+Part (e): Under what condition is the previous derivative equal to
+2x𝑇𝐴?
+From part (d):
+𝜕
+𝜕x(x𝑇𝐴x) = x𝑇(𝐴+ 𝐴𝑇)
+For this to equal 2x𝑇𝐴, we need:
+x𝑇(𝐴+ 𝐴𝑇) = 2x𝑇𝐴
+3
+Comparing 2.d to the staff 
+solutions, Claude was able to 
+solve this problem without error. 
+Once again Claude provides 
+more detail and explanation than 
+staff solutions.
+Comparing 2.d to the staff solutions, 
+Claude was able to solve this problem 
+without error.
+
+
+--- Page 4 ---
+This requires 𝐴+ 𝐴𝑇= 2𝐴, which simplifies to:
+𝐴𝑇= 𝐴
+The condition is that 𝐴is symmetric: 𝐴= 𝐴𝑇
+Question 3: Least Squares and Min-norm from SVD Per-
+spective
+Setup: 𝑋w = y where 𝑋∈ℝ𝑚×𝑛, 𝑋= 𝑈Σ𝑉𝑇is the full SVD.
+Σ† is 𝑛× 𝑚with
+1
+𝜎𝑖on the “diagonal.”
+Part (a): Overdetermined case (𝑚> 𝑛) - Finding least squares solu-
+tion
+When 𝑚> 𝑛, we have more equations than unknowns. We want to minimize:
+min
+w ‖𝑋w −y‖2
+Step 1: Expand the objective
+‖𝑋w −y‖2 = (𝑋w −y)𝑇(𝑋w −y)
+= w𝑇𝑋𝑇𝑋w −2y𝑇𝑋w + y𝑇y
+Step 2: Take the derivative and set to zero
+𝜕
+𝜕w‖𝑋w −y‖2 = 2w𝑇𝑋𝑇𝑋−2y𝑇𝑋= 0
+Transposing:
+𝑋𝑇𝑋w = 𝑋𝑇y
+Step 3: Solve for w
+Assuming 𝑋𝑇𝑋is invertible (which happens when 𝑋has full column rank):
+w∗= (𝑋𝑇𝑋)−1𝑋𝑇y
+4
+Comparing 3.a to the staff 
+solutions, Claude was able to solve 
+this problem without error. I also 
+and quite pleased with the notation 
+Claude uses, defining terms at the 
+beginning of quesitons and using 
+consistent notation such as bolded 
+vectors.
+
+
+--- Page 5 ---
+Part (b): Plug in SVD and simplify
+Step 1: Substitute 𝑋= 𝑈Σ𝑉𝑇
+𝑋𝑇𝑋= (𝑈Σ𝑉𝑇)𝑇(𝑈Σ𝑉𝑇) = 𝑉Σ𝑇𝑈𝑇𝑈Σ𝑉𝑇= 𝑉Σ𝑇Σ𝑉𝑇
+Note: 𝑈𝑇𝑈= 𝐼since 𝑈is orthonormal.
+Step 2: Compute Σ𝑇Σ - Σ is 𝑚× 𝑛(with 𝑚> 𝑛) - Σ𝑇is 𝑛× 𝑚- Σ𝑇Σ is
+𝑛× 𝑛diagonal with 𝜎2
+𝑖on the diagonal
+Step 3: Compute (𝑋𝑇𝑋)−1
+(𝑋𝑇𝑋)−1 = (𝑉Σ𝑇Σ𝑉𝑇)−1 = 𝑉(Σ𝑇Σ)−1𝑉𝑇
+where (Σ𝑇Σ)−1 is diagonal with
+1
+𝜎2
+𝑖entries.
+Step 4: Compute 𝑋𝑇
+𝑋𝑇= 𝑉Σ𝑇𝑈𝑇
+Step 5: Combine
+w∗= (𝑋𝑇𝑋)−1𝑋𝑇y = 𝑉(Σ𝑇Σ)−1𝑉𝑇⋅𝑉Σ𝑇𝑈𝑇y
+= 𝑉(Σ𝑇Σ)−1Σ𝑇𝑈𝑇y
+Since (Σ𝑇Σ)−1Σ𝑇= Σ† (the pseudoinverse of Σ):
+w∗= 𝑉Σ†𝑈𝑇y
+Part (c): What happens when we left-multiply 𝑋by 𝐴= (𝑋𝑇𝑋)−1𝑋𝑇?
+𝐴⋅𝑋= (𝑋𝑇𝑋)−1𝑋𝑇⋅𝑋= (𝑋𝑇𝑋)−1(𝑋𝑇𝑋) = 𝐼𝑛
+This gives the 𝑛× 𝑛identity matrix.
+𝐴𝑋= 𝐼𝑛, which is why 𝐴= (𝑋𝑇𝑋)−1𝑋𝑇is called the left-inverse
+The left-inverse satisfies 𝐴𝑋= 𝐼(left multiplication gives identity).
+5
+Comparing 3.b to the staff 
+solutions, Claude was able to 
+solve this problem without 
+error.
+Comparing 3.c to the staff 
+solutions, Claude was able to 
+solve this problem without 
+error.
+
+
+--- Page 6 ---
+Part (d): Underdetermined case (𝑚< 𝑛) - Finding min-norm solution
+When 𝑚< 𝑛, we have more unknowns than equations. We want:
+min ‖w‖2
+s.t.
+𝑋w = y
+Step 1: Set up Lagrangian
+ℒ(w, 𝜆) = ‖w‖2 + 𝜆𝑇(𝑋w −y)
+Step 2: Take derivatives and set to zero
+𝜕ℒ
+𝜕w = 2w + 𝑋𝑇𝜆= 0 ⟹w = −1
+2𝑋𝑇𝜆
+𝜕ℒ
+𝜕𝜆= 𝑋w −y = 0
+Step 3: Substitute and solve From the first equation: w = −1
+2𝑋𝑇𝜆
+Substitute into the constraint:
+𝑋(−1
+2𝑋𝑇𝜆) = y
+−1
+2𝑋𝑋𝑇𝜆= y
+𝜆= −2(𝑋𝑋𝑇)−1y
+Step 4: Find optimal w
+w∗= −1
+2𝑋𝑇𝜆= −1
+2𝑋𝑇⋅(−2)(𝑋𝑋𝑇)−1y
+w∗= 𝑋𝑇(𝑋𝑋𝑇)−1y
+Part (e): Plug in SVD and simplify
+Step 1: Substitute 𝑋= 𝑈Σ𝑉𝑇
+𝑋𝑋𝑇= 𝑈Σ𝑉𝑇(𝑈Σ𝑉𝑇)𝑇= 𝑈Σ𝑉𝑇𝑉Σ𝑇𝑈𝑇= 𝑈ΣΣ𝑇𝑈𝑇
+Note: 𝑉𝑇𝑉= 𝐼since 𝑉is orthonormal.
+Step 2: Compute ΣΣ𝑇- Σ is 𝑚× 𝑛(with 𝑚< 𝑛) - Σ𝑇is 𝑛× 𝑚- ΣΣ𝑇is
+𝑚× 𝑚diagonal with 𝜎2
+𝑖on the diagonal
+6
+Comparing 3.d to the staff solutions, 
+Claude was able to solve this problem 
+without error.
+
+
+--- Page 7 ---
+Step 3: Compute (𝑋𝑋𝑇)−1
+(𝑋𝑋𝑇)−1 = (𝑈ΣΣ𝑇𝑈𝑇)−1 = 𝑈(ΣΣ𝑇)−1𝑈𝑇
+Step 4: Compute 𝑋𝑇
+𝑋𝑇= 𝑉Σ𝑇𝑈𝑇
+Step 5: Combine
+w∗= 𝑋𝑇(𝑋𝑋𝑇)−1y = 𝑉Σ𝑇𝑈𝑇⋅𝑈(ΣΣ𝑇)−1𝑈𝑇y
+= 𝑉Σ𝑇(ΣΣ𝑇)−1𝑈𝑇y
+Since Σ𝑇(ΣΣ𝑇)−1 = Σ†:
+w∗= 𝑉Σ†𝑈𝑇y
+Part
+(f):
+What
+happens
+when
+we
+right-multiply
+𝑋
+by
+𝐵
+=
+𝑋𝑇(𝑋𝑋𝑇)−1?
+𝑋⋅𝐵= 𝑋⋅𝑋𝑇(𝑋𝑋𝑇)−1 = (𝑋𝑋𝑇)(𝑋𝑋𝑇)−1 = 𝐼𝑚
+This gives the 𝑚× 𝑚identity matrix.
+𝑋𝐵= 𝐼𝑚, which is why 𝐵= 𝑋𝑇(𝑋𝑋𝑇)−1 is called the right-inverse
+The right-inverse satisfies 𝑋𝐵= 𝐼(right multiplication gives identity).
+Question 4: The 5 Interpretations of Ridge Regression
+Part (a): Perspective 1 - Optimization Problem
+Problem: arg min
+w ‖y −𝑋w‖2
+2 + 𝜆‖w‖2
+2
+where 𝑋∈ℝ𝑛×𝑑, y ∈ℝ𝑛.
+Step 1: Expand the objective
+𝐿(w) = ‖y −𝑋w‖2
+2 + 𝜆‖w‖2
+2
+= (y −𝑋w)𝑇(y −𝑋w) + 𝜆w𝑇w
+7
+Comparing 3.3 to the staff 
+solutions, Claude was able to 
+solve this problem without error.
+Comparing 3.f to the staff 
+solutions, Claude was 
+able to solve this problem 
+without error.
+Comparing 4.a to the staff 
+solutions, Claude was able to 
+solve this problem without 
+error.
+
+
+--- Page 8 ---
+= y𝑇y −2y𝑇𝑋w + w𝑇𝑋𝑇𝑋w + 𝜆w𝑇w
+Step 2: Take the derivative
+𝜕𝐿
+𝜕w = −2𝑋𝑇y + 2𝑋𝑇𝑋w + 2𝜆w
+Using our results from Q2:
+𝜕
+𝜕w(w𝑇𝑋𝑇𝑋w) = 2w𝑇𝑋𝑇𝑋(since 𝑋𝑇𝑋is sym-
+metric).
+Step 3: Set to zero and solve
+−2𝑋𝑇y + 2𝑋𝑇𝑋w + 2𝜆w = 0
+𝑋𝑇𝑋w + 𝜆w = 𝑋𝑇y
+(𝑋𝑇𝑋+ 𝜆𝐼)w = 𝑋𝑇y
+w∗= (𝑋𝑇𝑋+ 𝜆𝐼)−1𝑋𝑇y
+Part (b): Perspective 2 - Shifting Singular Values
+Goal: Plug SVD 𝑋= 𝑈Σ𝑉𝑇into the Ridge solution and analyze.
+Step 1: Compute 𝑋𝑇𝑋
+𝑋𝑇𝑋= 𝑉Σ𝑇𝑈𝑇𝑈Σ𝑉𝑇= 𝑉Σ𝑇Σ𝑉𝑇
+Let 𝐷= Σ𝑇Σ, which is a 𝑑× 𝑑diagonal matrix with 𝜎2
+𝑖on the diagonal.
+Step 2: Compute 𝑋𝑇𝑋+ 𝜆𝐼
+𝑋𝑇𝑋+ 𝜆𝐼= 𝑉𝐷𝑉𝑇+ 𝜆𝐼= 𝑉𝐷𝑉𝑇+ 𝜆𝑉𝑉𝑇= 𝑉(𝐷+ 𝜆𝐼)𝑉𝑇
+(𝐷+ 𝜆𝐼) is diagonal with entries (𝜎2
+𝑖+ 𝜆).
+Step 3: Compute (𝑋𝑇𝑋+ 𝜆𝐼)−1
+(𝑋𝑇𝑋+ 𝜆𝐼)−1 = 𝑉(𝐷+ 𝜆𝐼)−1𝑉𝑇
+where (𝐷+ 𝜆𝐼)−1 is diagonal with entries
+1
+𝜎2
+𝑖+𝜆.
+Step 4: Compute the full expression
+(𝑋𝑇𝑋+ 𝜆𝐼)−1𝑋𝑇= 𝑉(𝐷+ 𝜆𝐼)−1𝑉𝑇⋅𝑉Σ𝑇𝑈𝑇= 𝑉(𝐷+ 𝜆𝐼)−1Σ𝑇𝑈𝑇
+8
+Comparing 4.b to the staff 
+solutions, Claude was able to 
+solve this problem without error.
+
+
+--- Page 9 ---
+The effective “pseudo-inverse” has entries
+𝜎𝑖
+𝜎2
+𝑖+𝜆along the diagonal (in the ap-
+propriate positions).
+Analysis:
+When 𝜎𝑖≪𝜆:
+𝜎𝑖
+𝜎2
+𝑖+ 𝜆≈𝜎𝑖
+𝜆≈0
+Small singular values are suppressed to nearly zero.
+When 𝜎𝑖≫𝜆:
+𝜎𝑖
+𝜎2
+𝑖+ 𝜆≈𝜎𝑖
+𝜎2
+𝑖
+= 1
+𝜎𝑖
+Large singular values behave like the ordinary pseudo-inverse.
+Ridge regression ”shrinks” small singular values toward zero while leaving large ones mostly unchanged.
+Part (c): Perspective 3 - MAP Estimation
+Setup: - Prior: 𝑊∼𝒩(0, 𝐼) - Likelihood: 𝑌= 𝑋𝑊+
+√
+𝜆𝑁where 𝑁∼𝒩(0, 𝐼)
+Step 1: Write the posterior By Bayes’ rule:
+𝑃(𝑊|𝑌= y) ∝𝑃(𝑌= y|𝑊) ⋅𝑃(𝑊)
+Step 2: Compute the likelihood Given 𝑊, we have 𝑌|𝑊∼𝒩(𝑋𝑊, 𝜆𝐼)
+𝑃(y|𝑊) ∝exp (−1
+2𝜆‖y −𝑋𝑊‖2)
+Step 3: Compute the prior
+𝑃(𝑊) ∝exp (−1
+2‖𝑊‖2)
+Step 4: Compute the posterior
+𝑃(𝑊|y) ∝exp (−1
+2𝜆‖y −𝑋𝑊‖2 −1
+2‖𝑊‖2)
+Step 5: Find MAP estimate The MAP estimate maximizes the posterior,
+which is equivalent to minimizing the negative log-posterior:
+9
+Comparing 4.c to the staff 
+solutions, Claude was able to 
+solve this problem without error.
+
+
+--- Page 10 ---
+̂
+𝑊𝑀𝐴𝑃= arg min
+𝑊[ 1
+2𝜆‖y −𝑋𝑊‖2 + 1
+2‖𝑊‖2]
+Multiplying by 𝜆:
+̂
+𝑊𝑀𝐴𝑃= arg min
+𝑊[1
+2‖y −𝑋𝑊‖2 + 𝜆
+2 ‖𝑊‖2]
+This is equivalent to:
+̂
+𝑊𝑀𝐴𝑃= arg min
+𝑊[‖y −𝑋𝑊‖2 + 𝜆‖𝑊‖2]
+This is exactly the Ridge Regression objective (1).
+Part (d): Perspective 4 - Fake Data
+Setup:
+̂y = [ y
+0𝑑
+] ,
+̂𝑋= [ 𝑋
+√
+𝜆𝐼𝑑
+]
+where
+̂y ∈ℝ𝑛+𝑑and
+̂𝑋∈ℝ(𝑛+𝑑)×𝑑.
+Step 1: Expand the OLS objective
+‖ ̂y −
+̂𝑋w‖2
+2 = ∥[ y
+0𝑑
+] −[ 𝑋
+√
+𝜆𝐼𝑑
+] w∥
+2
+2
+= ∥[y −𝑋w
+−
+√
+𝜆w ]∥
+2
+2
+Step 2: Compute the norm
+= ‖y −𝑋w‖2
+2 + ‖ −
+√
+𝜆w‖2
+2
+= ‖y −𝑋w‖2
+2 + 𝜆‖w‖2
+2
+This is exactly the Ridge Regression objective (1).
+10
+Comparing 4.d to the staff solutions, 
+Claude was able to solve this problem 
+without error.
+
+
+--- Page 11 ---
+Part (e): Perspective 5 - Fake Features
+Setup:
+̌𝑋= [𝑋
+√
+𝜆𝐼𝑛] ∈ℝ𝑛×(𝑑+𝑛)
+We solve:
+arg min
+𝜂
+‖𝜂‖2
+2
+s.t.
+̌𝑋𝜂= y
+Step 1: Partition 𝜂Let 𝜂= [w
+z ] where w ∈ℝ𝑑and z ∈ℝ𝑛.
+Step 2: Write the constraint
+̌𝑋𝜂= 𝑋w +
+√
+𝜆z = y
+So z =
+1
+√
+𝜆(y −𝑋w).
+Step 3: Substitute into the objective
+‖𝜂‖2
+2 = ‖w‖2
+2 + ‖z‖2
+2 = ‖w‖2
+2 + 1
+𝜆‖y −𝑋w‖2
+2
+Step 4: Minimize over w
+min
+w [‖w‖2
+2 + 1
+𝜆‖y −𝑋w‖2
+2]
+Multiplying by 𝜆:
+min
+w [𝜆‖w‖2
+2 + ‖y −𝑋w‖2
+2]
+The first 𝑑coordinates of 𝜂∗minimize the Ridge objective (1).
+Part (f): Showing equivalence of two Ridge formulas
+Step 1: Use pseudo-inverse for the min-norm problem (2)
+For
+̌𝑋𝜂= y, the min-norm solution is:
+𝜂∗=
+̌𝑋𝑇( ̌𝑋
+̌𝑋𝑇)−1y
+Step 2: Compute
+̌𝑋
+̌𝑋𝑇
+̌𝑋
+̌𝑋𝑇= [𝑋
+√
+𝜆𝐼𝑛] [ 𝑋𝑇
+√
+𝜆𝐼𝑛
+] = 𝑋𝑋𝑇+ 𝜆𝐼𝑛
+11
+Comparing 4.e to the staff solutions, 
+Claude was able to solve this problem 
+without error.
+Comparing 4.f to the staff solutions, 
+Claude was able to solve this problem 
+without error.
+
+
+--- Page 12 ---
+Step 3: Compute
+̌𝑋𝑇
+̌𝑋𝑇= [ 𝑋𝑇
+√
+𝜆𝐼𝑛
+]
+Step 4: Extract the first 𝑑coordinates of 𝜂∗
+𝜂∗= [ 𝑋𝑇
+√
+𝜆𝐼𝑛
+] (𝑋𝑋𝑇+ 𝜆𝐼)−1y
+The first 𝑑coordinates are:
+̂w = 𝑋𝑇(𝑋𝑋𝑇+ 𝜆𝐼)−1y
+Step 5: Show equivalence to standard formula
+We need to show:
+𝑋𝑇(𝑋𝑋𝑇+ 𝜆𝐼)−1 = (𝑋𝑇𝑋+ 𝜆𝐼)−1𝑋𝑇
+Proof: We verify that both sides give the same result when multiplied on the
+right by (𝑋𝑋𝑇+ 𝜆𝐼) and on the left by (𝑋𝑇𝑋+ 𝜆𝐼):
+Claim: (𝑋𝑇𝑋+ 𝜆𝐼)−1𝑋𝑇= 𝑋𝑇(𝑋𝑋𝑇+ 𝜆𝐼)−1
+Multiply both sides on the left by (𝑋𝑇𝑋+𝜆𝐼) and on the right by (𝑋𝑋𝑇+𝜆𝐼):
+LHS: (𝑋𝑇𝑋+ 𝜆𝐼) ⋅(𝑋𝑇𝑋+ 𝜆𝐼)−1𝑋𝑇⋅(𝑋𝑋𝑇+ 𝜆𝐼) = 𝑋𝑇(𝑋𝑋𝑇+ 𝜆𝐼)
+= 𝑋𝑇𝑋𝑋𝑇+ 𝜆𝑋𝑇
+RHS: (𝑋𝑇𝑋+ 𝜆𝐼) ⋅𝑋𝑇(𝑋𝑋𝑇+ 𝜆𝐼)−1 ⋅(𝑋𝑋𝑇+ 𝜆𝐼) = (𝑋𝑇𝑋+ 𝜆𝐼)𝑋𝑇
+= 𝑋𝑇𝑋𝑋𝑇+ 𝜆𝑋𝑇
+Both sides are equal, so:
+̂w = 𝑋𝑇(𝑋𝑋𝑇+ 𝜆𝐼)−1y = (𝑋𝑇𝑋+ 𝜆𝐼)−1𝑋𝑇y
+Part (g): What happens when 𝜆→∞?
+From the solution
+̂w𝑟= (𝑋𝑇𝑋+ 𝜆𝐼)−1𝑋𝑇y:
+As 𝜆→∞:
+(𝑋𝑇𝑋+ 𝜆𝐼)−1 ≈(𝜆𝐼)−1 = 1
+𝜆𝐼
+12
+Comparing 4.g to the staff solutions, 
+Claude was able to solve this problem 
+without error.
+
+
+--- Page 13 ---
+Therefore:
+̂w𝑟≈1
+𝜆𝑋𝑇y →0
+As 𝜆→∞,
+̂w𝑟→0. This is why ridge is called ”shrinkage” - large 𝜆shrinks weights to zero.
+Part (h): What happens when 𝜆→0?
+Case 1: Overdetermined system (𝑋is tall, 𝑛> 𝑑)
+As 𝜆→0:
+̂w𝑟= (𝑋𝑇𝑋+ 𝜆𝐼)−1𝑋𝑇y →(𝑋𝑇𝑋)−1𝑋𝑇y
+This is the ordinary least squares (OLS) solution.
+Case 2: Underdetermined system (𝑋is wide, 𝑛< 𝑑)
+Using the alternate form:
+̂w𝑟= 𝑋𝑇(𝑋𝑋𝑇+ 𝜆𝐼)−1y
+As 𝜆→0:
+̂w𝑟→𝑋𝑇(𝑋𝑋𝑇)−1y
+This is the minimum-norm solution from Question 3.
+In both cases, as 𝜆→0, ridge regression converges to the Moore-Penrose pseu-
+doinverse solution.
+Question 5: ReLU Elbow Update under SGD
+Network:
+̂𝑓(𝑥) = 𝑊(2)Φ(𝑊(1)𝑥+ b)
+Loss: ℓ= 1
+2‖ ̂𝑓(𝑥) −𝑦‖2
+2
+Part (a): Single ReLU Analysis
+For 𝜙(𝑥) = {𝑤𝑥+ 𝑏
+if 𝑤𝑥+ 𝑏> 0
+0
+otherwise
+Loss: ℓ(𝑥, 𝑦, 𝜙) = 1
+2‖𝜙(𝑥) −𝑦‖2
+2 = 1
+2(𝜙(𝑥) −𝑦)2
+(i) Location of the elbow 𝑒:
+13
+Comparing 4.h to the staff 
+solutions, Claude was able to 
+solve this problem without error.
+Comparing 5.a to the staff 
+solutions, Claude was able to 
+solve this problem without 
+error.
+
+
+--- Page 14 ---
+The elbow is where 𝜙transitions from 0 to non-zero, i.e., where 𝑤𝑥+ 𝑏= 0:
+𝑥= −𝑏
+𝑤
+𝑒= −𝑏
+𝑤
+(ii) Derivative of loss w.r.t. 𝜙(𝑥):
+𝑑ℓ
+𝑑𝜙= 𝑑
+𝑑𝜙[1
+2(𝜙(𝑥) −𝑦)2] = 𝜙(𝑥) −𝑦
+𝑑ℓ
+𝑑𝜙= 𝜙(𝑥) −𝑦
+(iii) Partial derivative of loss w.r.t. 𝑤:
+Using chain rule:
+𝜕ℓ
+𝜕𝑤= 𝑑ℓ
+𝑑𝜙⋅𝜕𝜙
+𝜕𝑤
+When 𝜙(𝑥) > 0: 𝜙(𝑥) = 𝑤𝑥+ 𝑏, so 𝜕𝜙
+𝜕𝑤= 𝑥
+When 𝜙(𝑥) = 0:
+𝜕𝜙
+𝜕𝑤= 0 (ReLU is in the “off” region)
+𝜕ℓ
+𝜕𝑤= {(𝜙(𝑥) −𝑦) ⋅𝑥
+if 𝜙(𝑥) > 0
+0
+if 𝜙(𝑥) = 0
+(iv) Partial derivative of loss w.r.t. 𝑏:
+Using chain rule:
+𝜕ℓ
+𝜕𝑏= 𝑑ℓ
+𝑑𝜙⋅𝜕𝜙
+𝜕𝑏
+When 𝜙(𝑥) > 0:
+𝜕𝜙
+𝜕𝑏= 1
+When 𝜙(𝑥) = 0:
+𝜕𝜙
+𝜕𝑏= 0
+𝜕ℓ
+𝜕𝑏= {𝜙(𝑥) −𝑦
+if 𝜙(𝑥) > 0
+0
+if 𝜙(𝑥) = 0
+14
+
+
+--- Page 15 ---
+Part (b): Gradient descent when 𝜙(𝑥) −𝑦= 1
+The prediction is 1 unit above target. Update rule: 𝑝′ = 𝑝−𝜆∇𝑝ℓ
+(i) Case: 𝜙(𝑥) = 0
+When 𝜙(𝑥) = 0, we’re in the “off” region of the ReLU. -
+𝜕ℓ
+𝜕𝑤= 0 - 𝜕ℓ
+𝜕𝑏= 0
+No change to slope or elbow. The gradients are zero when the ReLU is inactive.
+(ii) Case: 𝑤> 0, 𝑥> 0, 𝜙(𝑥) > 0
+Given 𝜙(𝑥) −𝑦= 1: -
+𝜕ℓ
+𝜕𝑤= 1 ⋅𝑥= 𝑥> 0 - 𝜕ℓ
+𝜕𝑏= 1
+Updates: - 𝑤′ = 𝑤−𝜆𝑥(slope decreases since 𝑥> 0) - 𝑏′ = 𝑏−𝜆(bias decreases)
+New elbow location:
+𝑒′ = −𝑏′
+𝑤′ = −𝑏−𝜆
+𝑤−𝜆𝑥
+Let’s analyze: with 𝑤> 0, 𝑥> 0, and 𝜙(𝑥) = 𝑤𝑥+ 𝑏> 0, the elbow was at
+𝑒= −𝑏/𝑤.
+Since both 𝑤and 𝑏decrease, we need to compare the ratios. The elbow moves
+based on the relative changes.
+Slope decreases. The elbow location changes depending on 𝑏
+𝑤vs 1
+𝑥.
+(iii) Case: 𝑤> 0, 𝑥< 0, 𝜙(𝑥) > 0
+•
+𝜕ℓ
+𝜕𝑤= 1 ⋅𝑥= 𝑥< 0
+•
+𝜕ℓ
+𝜕𝑏= 1
+Updates: - 𝑤′ = 𝑤−𝜆𝑥= 𝑤+ 𝜆|𝑥| (slope increases since 𝑥< 0) - 𝑏′ = 𝑏−𝜆
+(bias decreases)
+New elbow:
+𝑒′ = −
+𝑏−𝜆
+𝑤+ 𝜆|𝑥|
+Since we’re at 𝑥< 0 but 𝜙(𝑥) > 0, the elbow must be to the left of 𝑥.
+Slope increases, bias decreases. Elbow moves right (toward more negative 𝑥values becoming inactive).
+(iv) Case: 𝑤< 0, 𝑥> 0, 𝜙(𝑥) > 0
+For 𝜙(𝑥) = 𝑤𝑥+ 𝑏> 0 with 𝑤< 0 and 𝑥> 0: we need 𝑏> |𝑤|𝑥.
+15
+Comparing 5.b to the staff solutions, Claude was able to solve 
+this problem without error.
+
+
+--- Page 16 ---
+•
+𝜕ℓ
+𝜕𝑤= 1 ⋅𝑥= 𝑥> 0
+•
+𝜕ℓ
+𝜕𝑏= 1
+Updates: - 𝑤′ = 𝑤−𝜆𝑥(becomes more negative, slope magnitude increases) -
+𝑏′ = 𝑏−𝜆(bias decreases)
+Slope becomes more negative (steeper downward). Elbow moves based on relative changes in 𝑏and 𝑤.
+Diagrams Description: For each case where 𝜙(𝑥) > 0: - Draw the original
+ReLU with elbow marked - Show the training point (𝑥, 𝑦) with 𝜙(𝑥) = 𝑦+ 1
+(prediction above target) - Draw arrows showing the function moving downward
+toward the target - Indicate elbow movement direction
+Part (c): Elbow location for the 𝑖-th ReLU in full network
+The 𝑖-th ReLU receives input: 𝑧𝑖= 𝑊(1)
+𝑖
+𝑥+ 𝑏𝑖
+where 𝑊(1)
+𝑖
+is the 𝑖-th row of 𝑊(1) (a scalar for 1D input).
+The ReLU activates when 𝑧𝑖> 0, i.e., when 𝑊(1)
+𝑖
+𝑥+ 𝑏𝑖> 0.
+The elbow (transition point) is where 𝑊(1)
+𝑖
+𝑥+ 𝑏𝑖= 0:
+𝑒𝑖= −𝑏𝑖
+𝑊(1)
+𝑖
+Part (d): New elbow location after SGD update
+Step 1: Compute gradients for the full network
+Let 𝑧𝑖= 𝑊(1)
+𝑖
+𝑥+ 𝑏𝑖and 𝑎𝑖= ReLU(𝑧𝑖).
+Output:
+̂𝑓(𝑥) = ∑𝑗𝑊(2)
+𝑗𝑎𝑗
+Loss: ℓ= 1
+2( ̂𝑓(𝑥) −𝑦)2
+Step 2: Backpropagation
+𝜕ℓ
+𝜕̂𝑓
+=
+̂𝑓(𝑥) −𝑦
+𝜕ℓ
+𝜕𝑎𝑖
+= ( ̂𝑓(𝑥) −𝑦)𝑊(2)
+𝑖
+16
+Note that Claude did not or was 
+unable to draw the necesary 
+diagrams but instead describied 
+them. 
+
+
+--- Page 17 ---
+𝜕ℓ
+𝜕𝑧𝑖
+= ( ̂𝑓(𝑥) −𝑦)𝑊(2)
+𝑖
+⋅1𝑧𝑖>0
+𝜕ℓ
+𝜕𝑊(1)
+𝑖
+= 𝜕ℓ
+𝜕𝑧𝑖
+⋅𝑥= ( ̂𝑓(𝑥) −𝑦)𝑊(2)
+𝑖
+⋅1𝑧𝑖>0 ⋅𝑥
+𝜕ℓ
+𝜕𝑏𝑖
+= 𝜕ℓ
+𝜕𝑧𝑖
+= ( ̂𝑓(𝑥) −𝑦)𝑊(2)
+𝑖
+⋅1𝑧𝑖>0
+Step 3: SGD updates
+Let 𝛿= ( ̂𝑓(𝑥) −𝑦)𝑊(2)
+𝑖
+⋅1𝑧𝑖>0
+(𝑊(1)
+𝑖
+)′ = 𝑊(1)
+𝑖
+−𝜆𝛿𝑥
+𝑏′
+𝑖= 𝑏𝑖−𝜆𝛿
+Step 4: New elbow location
+𝑒′
+𝑖= −
+𝑏′
+𝑖
+(𝑊(1)
+𝑖
+)′ = −
+𝑏𝑖−𝜆𝛿
+𝑊(1)
+𝑖
+−𝜆𝛿𝑥
+If 𝑧𝑖≤0 (ReLU inactive), then 𝛿= 0 and 𝑒′
+𝑖= 𝑒𝑖(no change).
+If 𝑧𝑖> 0 (ReLU active):
+𝑒′
+𝑖= −
+𝑏𝑖−𝜆( ̂𝑓(𝑥) −𝑦)𝑊(2)
+𝑖
+𝑊(1)
+𝑖
+−𝜆( ̂𝑓(𝑥) −𝑦)𝑊(2)
+𝑖
+𝑥
+Or equivalently, with 𝛿= ( ̂𝑓(𝑥) −𝑦)𝑊(2)
+𝑖
+:
+𝑒′
+𝑖=
+−𝑏𝑖+ 𝜆𝛿
+𝑊(1)
+𝑖
+−𝜆𝛿𝑥
+= 𝑒𝑖𝑊(1)
+𝑖
++ 𝜆𝛿
+𝑊(1)
+𝑖
+−𝜆𝛿𝑥
+Summary
+This homework covers fundamental concepts essential for deep learning:
+1. Vector Calculus (Q2): Forms the basis for understanding gradient com-
+putation in neural networks.
+2. SVD and Linear Algebra (Q3): Provides insight into how linear sys-
+tems are solved, which underlies many optimization algorithms.
+17
+
+
+--- Page 18 ---
+3. Ridge Regression (Q4): Shows multiple perspectives on regularization,
+a critical concept for preventing overfitting.
+4. ReLU and SGD (Q5): Demonstrates how gradient descent updates
+affect the geometry of neural network activation functions.
+18
+Overall I was very impressed with Claude's work. It solved each question correctly in one-
+shot and in many cases had more detailed explanations of it's work and steps than the staff 
+solutions.

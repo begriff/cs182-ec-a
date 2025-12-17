@@ -1,0 +1,86 @@
+--- Page 1 ---
+Asking DeepSeek how it would prefer to receive the questions. Sequential questioning was suggested.
+Question 1 was answered correctly in one-shot.
+Asked the question using an image of the question.
+
+
+--- Page 3 ---
+Trouble in solving Question 2. Asked the entire
+question purely in text.
+
+
+--- Page 6 ---
+This inequality is wrong. 
+It mixed the inequality with RMS
+norm and 2-norm, without an 
+appropriate scaling factor.
+
+
+--- Page 7 ---
+It forgot to utlize the c
+mutiple from part b.
+Same mistake as part d.
+Conceptual sub-part asnwered correctly.
+No relation to the incorrect math from the previous
+sub-parts.
+
+
+--- Page 8 ---
+Did not identify that \sqrt(d_n) and \sqrt(d_in)
+are the same.
+
+
+--- Page 9 ---
+Further prompting, nudging it to the right direction. Mistakes were made again.
+Did not account for the scalar c.
+Consequently part d and e also are incorect.
+
+
+--- Page 10 ---
+Same mistake continued, needed to
+approach differently.
+
+
+--- Page 11 ---
+Prompt nudging to correct itself in part c, and hoping to get the d and e parts.
+
+
+--- Page 12 ---
+Correct, and the next parts also followed.
+
+
+--- Page 13 ---
+Wrong again.
+
+
+--- Page 14 ---
+Basicaly, answered the question. But asked to think about the scaling part of the question.
+
+
+--- Page 15 ---
+Finally correct.
+Two pictures simultaneously provided.
+Answered correctly, except in part d. Ran out of output limit to perform
+the convolution.
+
+
+--- Page 23 ---
+Prompted to force an output for part d.
+Answered the question correctly, although took a
+lot of time and computation.
+Did not finisht the answer. It says space is the reason for not performing this computation explicitly.
+
+
+--- Page 34 ---
+Asked the question as a mix of text and image. Solved it correctly. Also left out part f
+to check its retaining capacity.
+
+
+--- Page 39 ---
+A mix of text and PDF. Answered this sub-part correctly. 
+Retained information from the previous prompt properly.
+
+
+--- Page 42 ---
+Last Question asked using a PDF.
+Answered everything correctly.

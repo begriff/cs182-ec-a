@@ -1,0 +1,170 @@
+--- Page 1 ---
+HW11 writing -- KIMI K2
+Participation A
+Prompt
+Now you need to solve homework in a deep learning course. I will give you photos of problems,
+you should provide clear step-by-step reasoning and precise answers
+Response
+Sure, please upload the photos of the problems and I'll help you solve them step by step.
+Prompt
+Screen shot question 1
+This is question 1
+Response
+
+
+--- Page 2 ---
+Annotation:
+This question KIMI K2 answers perfectly.
+Prompt
+Screen shot question 2(a)
+This is question 2(a)
+Response
+
+
+--- Page 3 ---
+Annotation:
+This question KIMI K2 answers perfectly.
+Prompt
+Screen shot question 2(b)
+This is question 2(b)
+Response
+
+
+--- Page 5 ---
+Annotation:
+This question KIMI K2 answers perfectly.
+Prompt
+Screen shot question 2(c)
+This is question 2(c)
+Response
+
+
+--- Page 6 ---
+Annotation:
+For part1, KIMI K2 answers perfectly. However part2, it is wrong. I found that KIMI K2 wrongly
+scanned the matrix of photo. After I provide correct matrix, it turn out to the correct answer
+
+
+--- Page 7 ---
+Additional Prompt
+I think in (2) W_QK = [[1,0,0],[0,0,0],[0,0,0]]
+in (3) W_QK = [[1,0,0],[0,1,0],[0,0,-1]]
+in (4) W_QK = -I
+Additional Response
+Prompt
+Screen shot question 2(d)
+This is question 2(d)
+Response
+
+
+--- Page 8 ---
+Annotation:
+This question KIMI K2 answers perfectly.
+Prompt
+Screen shot question 2(e)
+This is question 2(e)
+
+
+--- Page 9 ---
+Response
+
+
+--- Page 10 ---
+Annotation:
+This question KIMI K2 answers perfectly.
+Prompt
+Screen shot question 5(b)
+This is question 5(b)
+Response
+
+
+--- Page 11 ---
+Annotation:
+This question KIMI K2 answers perfectly. The result is same as the solution if you put 6 out.
+Prompt
+Screen shot question 5(c)(d)(e)
+This is question 5(c)(d)(e)
+Response
+
+
+--- Page 13 ---
+Annotation:
+For question(e) KIMI K2 answers perfectly.
+However, for question(c)(d), it didn’t fully understand question correctly.
+Additional Prompt
+You should use Nopt(C) = 0.1C^0.5; Dopt(C) = 1.7C^0.5 rather than part(b)
+Additional Response
+Additional Prompt
+question (d) is asking 1000 trillion tokens
+Additional Response
+
+
+--- Page 14 ---
+Prompt
+Screen shot question 5(f)
+This is question 5(f)
+Response
+
+
+--- Page 15 ---
+Annotation:
+The answer is wrong. It is too big.
+Additional Prompt
+carefully calculate it again, you are bigger than answer
+Additional Response
+Prompt
+Screen shot question 5(g)
+This is question 5(g)
+
+
+--- Page 16 ---
+Response
+Annotation:
+This question KIMI K2 answers perfectly.
+
+
+--- Page 17 ---
+Prompt
+Screen shot question 5(h)
+This is question 5(h)
+Response
+
+
+--- Page 18 ---
+Annotation:
+This question KIMI K2 answers perfectly.
+Prompt
+Screen shot question 5(j)(k)(l)
+This is question 5(j)(k)(l)
+Response
+
+
+--- Page 21 ---
+Annotation:
+This question KIMI K2 answers perfectly.
+Prompt
+Screen shot question 6(a)
+This is question 6(a)
+Response
+
+
+--- Page 22 ---
+Annotation:
+This question KIMI K2 answers perfectly.
+Prompt
+Screen shot question 6(b)(c)(d)
+This is question 6(b)(c)(d)
+Response
+
+
+--- Page 23 ---
+Annotation:
+
+
+--- Page 24 ---
+KIMI K2 answers perfectly except c(ii).
+Additional Prompt
+double check(ii) If you compare the validation-set performance of the best possible K-token hard
+prompt to the best possible K-vector soft prompt, the soft-prompt performance will always be
+equal or better.
+Additional Response

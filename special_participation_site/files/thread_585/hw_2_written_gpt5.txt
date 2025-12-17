@@ -1,0 +1,77 @@
+--- Page 1 ---
+Special Participation A: Homework 2 with GPT-5 
+ 
+Executive summary: In this special participation, I interactively engage GPT-5 on the non-coding 
+parts of Homework 2. My experience using it was boring and it one-shotted every question. I did 
+not have to use any special strategies or gesture towards an answer to make it answer the 
+problems correctly. I noticed one slight misconception in its reference to SignSGD and one 
+missing transpose that made a column vector into a row vector. For the most part, it was 
+hallucination free. However, it did actually manage to point out a typo on the homework on part 
+(b) of problem 2, deducing that the problem is incorrect and is “ill-posed.” 
+ 
+First, I make sure to utilize chain-of-thought by selecting GPT-5 Thinking at the top.
+ 
+ 
+
+
+--- Page 2 ---
+For convenience, I use ChatGPT’s image prompting feature since I do not want to type the 
+homework LaTeX out.
+ 
+I first feed the raw question to the model to see what it can do with it. It infers that it needs to 
+complete (a). It one-shots it perfectly, without any text prompting strategy at all. This is notated 
+pretty close to the staff solution as well which I attach here for reference.
+ 
+
+
+--- Page 3 ---
+ 
+Here I try the same strategy with (b), only to realize that my version of (b) is wrong. Interestingly, 
+it catches the error in the problem, but does not infer what the problem should be. 
+
+
+--- Page 4 ---
+ 
+ 
+ 
+Here, I prompt it with the actual problem I obtained from another pdf. It one-shots it again. I’m 
+pretty sure that the math checks out as well. One slight misconception is that it refers to this as 
+SignSGD even though SignSGD doesn’t scale by the 1-norm of the gradient. 
+
+
+--- Page 5 ---
+ 
+Doing problem 2, it one-shots the problem again. There is not much of interest here besides 
+that. 
+
+
+--- Page 6 ---
+ 
+ 
+ 
+ 
+GPT-5 one-shots this problem as well. One minor nitpick is that it doesn’t add a transpose, so 
+the optimal theta is a row vector even though it should be a column vector. Besides that, this 
+solution is unremarkable. 
+
+
+--- Page 7 ---
+ 
+This makes the same mistake of framing theta star as a row vector. It also writes a prime as a 
+row vector as well. Other than that, the solution is fine. 
+ 
+I skip the next two problems and also (7) since they’re coding problems. 
+
+
+--- Page 8 ---
+ 
+ 
+The last problem (5) was done in one shot as well very quickly. The answers check out with the 
+solutions. It took a mere 4 seconds for me to get a response. Interestingly, the message is very 
+laconic and non-conversational. I have two hypotheses for why this happened: maybe the 
+answer structure (fill in the blank) caused this, or the backend used a router to send me to a 
+
+
+--- Page 9 ---
+different model, likely Thinking mini.
+ 

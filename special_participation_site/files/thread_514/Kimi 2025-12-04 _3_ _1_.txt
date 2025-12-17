@@ -1,0 +1,109 @@
+--- Page 1 ---
+For each question, I simply pasted in the
+question from the homework document,
+which often resulted in iffy looking
+notations but the model seemed to
+understand it well.
+Here the model makes an extra step that wasn't taken in the
+solutions but is nonetheless valid.
+Here the model gives a clean and easy to follow solution to get
+the variance.
+A similar strategy to the
+solutions, but introduces an
+extra variable to make it
+easier to follow I guess?
+Interesting that it provided a summary of each thing it found
+which was not asked for at all.
+
+
+--- Page 2 ---
+Here you can see the weird formatting that
+resulted from pasting in the questions
+directly from the pdf.
+I was happy to see that the model was
+able to do the simple arithmetic fully
+correctly, and it generated a nice table
+to keep things organized.
+The model gave a very verbose
+answer to the conceptual question,
+which is to be expected, but
+nonetheless it does hit the expected
+points.
+
+
+--- Page 3 ---
+Very compactly gives the answers to each question,
+and gives succinct, brief explanations for each answer.
+the model was able to
+figure out the new code
+that was needed based
+on an update, as well as
+having an extra
+suggestion
+
+
+--- Page 4 ---
+This question
+context was quite
+long so it is good
+that it was still
+able to answer it
+fully.
+It's a little odd that for these MCQ questions it didn't also
+create a table as it did for the previous question, but its still
+easily readable and correct.
+It is able to get the complexity right, as well as explain the
+requisite parts of the complexity well.
+This is very nearly the same as the official
+solutions, it just used d/h instead of k, which
+still makes sense (sharing it across h heads)
+It does add extra fluff that wasn't directly asked for in the question, which
+could be useful for context when reviewing / doing these problems.
+
+
+--- Page 5 ---
+For this part (a), the model did not get
+exactly the same solution as the solutions,
+however it did come up with the correct
+conclusion at the end.
+Interesting to note that this
+is not exactly the same by
+just a difference of the
+transposes. (also note that
+essentially the correct
+answer for this part is
+written in the homework
+problem a few lines down.)
+(note in a message further down, this difference is clarified)
+For this part, the model assumed that M=D and F=D,
+which I think was polluted by the fact that it had to
+make that assumption for part (d), resulting in the
+wrong answer from the solution.
+Given the hints in the question, and the
+assumption made in the question statement,
+the model was able to get the correct
+complexities for this part.
+
+
+--- Page 6 ---
+I wanted to clarify
+with the model why it
+had written part b(iii)
+with differing transposes
+than the official solution,
+and i also questioned
+the statement it made in
+part(c) about assuming
+M=D and F=D
+It seems like the model went a step further and optimized
+the arrangement to enable the computation to become more
+efficient, which was interesting.
+Upon telling the model that it shouldn't need to make the assumption, it did
+return a more correct form of the complexities, however it did include several
+extra terms. Overall, the dominant terms seem to be the same though.
+asking it again, it does isolate
+the term found in the official
+solution (n^2(d + m))
+Upon asking it to redo part(c), it did get a
+much closer form of answer to the final
+official solution!

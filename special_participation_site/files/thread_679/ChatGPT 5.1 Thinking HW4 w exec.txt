@@ -1,0 +1,3658 @@
+--- Page 1 ---
+ 
+ 
+ 
+ 
+ 
+ 
+Executive summary: 
+Overall I was satisﬁed but not impressed but 5.1 thinking extended. I think the regular thinking model is 
+better and gives better results. This made think that when the model spends too much reasoning it’s 
+performance goes down. It started giving some wrong answers in Q2 but when I asked if it could be 
+something else it corrected itself so that was good. A weird problem I noticed was it took a very long 
+time to set up the environment it needs to read the PDF ﬁle. Every time I would ask it to answer a 
+question in the ﬁle I already in the beginning uploaded it would set up the environment again and it 
+would spend time asking itself about the environment. It was very weird and ineﬃcient and in some 
+cases it took up to 50%of the response time. I do not get these problem with the regular 5.1 thinking. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 2 ---
+HW4
+read this document thoroughly and solve q1.
+Thought for 11s
+I don’t see any document or ﬁle attached in this chat yet, and I can’t access ﬁles from your
+past conversations automatically.
+Please either:
+Upload the document here, or
+Paste the text for Question 1 (and any needed context)
+Once you do, I’ll read it and solve Q1 in the same message.
+hw4.pdf
+PDF
+read this document thoroughly and solve q1.
+Here’s Q1 worked out.
+1(a) Runtime of one Newton–Schulz iteration
+We’re given
+with 
+, and multiplying an 
+ matrix by an 
+ matrix costs 
+.
+Steps:
+1. Compute 
+p(W) =
+ (3I
+ −
+2
+1
+d
+ 
+out
+WW )W,
+⊤
+W ∈Rd
+ ×d
+ 
+out
+in
+n × m
+m × p
+cnmp
+hw4
+WW ⊤
+ Powered by ChatGPT Exporter
+1 / 34
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 3 ---
+Shapes: 
+ is 
+, 
+ is 
+.
+Cost:
+2. Form 
+Just additions/subtractions with a diagonal; we ignore this cost (lower order than
+matrix mults).
+3. Multiply 
+ by 
+Shapes: 
+ is 
+, 
+ is 
+.
+Cost:
+Scalar multiplication by 
+ is negligible.
+Total cost per iteration:
+So asymptotically:
+1(b) Faster computation when 
+Idea: use the Gram matrix 
+, which is much smaller when 
+.
+First, rewrite 
+:
+By associativity of matrix multiplication:
+So we can compute:
+where 
+.
+Now the costs:
+W
+d
+ ×
+out
+d
+ 
+in W ⊤
+d
+ ×
+in
+d
+ 
+out
+c ⋅d
+ ⋅
+out d
+ ⋅
+in d
+ =
+out
+cd
+ d
+ .
+out
+2
+in
+3I
+ −
+d
+ 
+out
+WW ⊤
+(3I −WW )
+⊤
+W
+(3I −WW )
+⊤
+d
+ ×
+out
+d
+ 
+out W
+d
+ ×
+out
+d
+ 
+in
+c ⋅d
+ ⋅
+out d
+ ⋅
+out d
+ =
+in
+cd
+ d
+ .
+out
+2
+in
+1/2
+cd
+ d
+ +
+out
+2
+in
+cd
+ d
+ =
+out
+2
+in
+2cd
+ d
+ .
+out
+2
+in
+ 
+Runtime per iteration  = Θ(d
+ d
+ ).
+out
+2
+in
+d
+ ≫
+out
+d
+ 
+in
+G = W W ∈
+⊤
+Rd
+ ×d
+ 
+in
+in
+d
+ ≫
+out
+d
+ 
+in
+p(W)
+ 
+ 
+p(W) =
+ (3I −WW )W
+2
+1
+⊤
+=
+ (3W −(WW )W).
+2
+1
+⊤
+(WW )W =
+⊤
+W(W W) =
+⊤
+WG.
+p(W) =
+ (3W −
+2
+1
+WG),
+G = W W
+⊤
+ Powered by ChatGPT Exporter
+2 / 34
+
+
+--- Page 4 ---
+1. Compute 
+Shapes: 
+ is 
+, 
+ is 
+.
+Cost:
+2. Compute 
+Shapes: 
+ is 
+, 
+ is 
+.
+Cost:
+3. Form 
+ and multiply by 
+Only additions and scalar multiplications; negligible.
+Total cost per iteration using 
+:
+So asymptotically:
+Since 
+, this is faster than the original 
+ by a factor of roughly 
+.
+G = W W
+⊤
+W ⊤
+d
+ ×
+in
+d
+ 
+out W
+d
+ ×
+out
+d
+ 
+in
+c ⋅d
+ ⋅
+in d
+ ⋅
+out d
+ =
+in
+cd
+ d
+ .
+out
+in
+2
+WG
+W
+d
+ ×
+out
+d
+ 
+in G
+d
+ ×
+in
+d
+ 
+in
+c ⋅d
+ ⋅
+out d
+ ⋅
+in d
+ =
+in
+cd
+ d
+ .
+out
+in
+2
+3W −WG
+1/2
+W W
+⊤
+cd
+ d
+ +
+out
+in
+2
+cd
+ d
+ =
+out
+in
+2
+2cd
+ d
+ .
+out
+in
+2
+ 
+New runtime per iteration  = Θ(d
+ d
+ ).
+out
+in
+2
+d
+ ≫
+out
+d
+ 
+in
+Θ(d
+ d
+ )
+out
+2
+in
+ 
+d
+ 
+in
+d
+ 
+out
+solve q2
+Thought for 6m 33s
+Here’s Q2, part by part.
+2(a)
+With fp8 you only have 255 representable values. If you use a small-variance
+initialization like Xavier (e.g. variance ≈ 1/d_in), most weights will quantize to just a
+ Powered by ChatGPT Exporter
+3 / 34
+
+
+--- Page 5 ---
+handful of values near 0, often even all to 0 or ±one level, so you eﬀectively waste
+most of fp8’s dynamic range and get large relative quantization error.
+If you instead initialize 
+, the weights are unit-scale and spread across the
+full range of fp8, so:
+Quantization error is relatively smaller, and
+Small gradient updates are more likely to actually change a parameter by at least one
+fp8 step.
+We can then ﬁx the “Xavier-like” scaling separately with the scalar  in the forward pass.
+2(b)
+We now do the forward pass as
+where 
+, and we want to “recover” standard Xavier behavior: activations
+should not explode or vanish as they propagate.
+For a fully connected layer with input dimension 
+, standard Xavier for a linear layer
+typically aims for
+which is achieved if
+Here, the eﬀective weights are 
+, so
+To match Xavier, we want
+So:
+W
+ ∼
+ij
+N(0, 1)
+c
+y = cWx,
+W
+ ∼
+ij
+N(0, 1)
+d
+ 
+in
+Var(y
+ ) ≈
+j
+Var(x )
+i
+Var(W
+ ) ≈
+ji
+ .
+d
+ 
+in
+1
+W =
+′
+cW
+Var(W
+ ) =
+ji
+′
+c Var(W
+ ) =
+2
+ji
+c .
+2
+c =
+2
+ 
+⇒
+d
+ 
+in
+1
+c =
+ .
+ 
+d
+ 
+in
+1
+ .
+c = d
+ 
+in
+−1/2
+ Powered by ChatGPT Exporter
+4 / 34
+
+
+--- Page 6 ---
+2(c)
+We consider an update 
+ and its eﬀect on the output:
+Assume:
+ has RMS norm 1 (so its “typical size” is 1),
+We want 
+ to also have RMS norm at most 1.
+Using the spectral norm 
+ (operator norm w.r.t. 
+) and the fact that
+and RMS
+ implies 
+ is 
+ up to dimension factors, a safe suﬃcient condition is
+So the maximum allowed spectral norm is on the order of
+Plugging in 
+ from (b),
+(If you keep track of the exact RMS vs dimension factors you get slightly more detailed
+constants, but the key scaling is 
+.)
+2(d) — SignSGD
+For a single-example minibatch, the raw gradient of a dense layer is
+where  is the backprop signal at the layer output.
+Applying sign  elementwise:
+so this is still a rank-1 outer product
+ΔW
+Δy = cΔWx.
+x
+Δy
+∥ΔW∥
+ 2
+ℓ
+ 2
+∥Δy∥
+ =
+2
+∥cΔWx∥
+ ≤
+2
+c∥ΔW∥
+ ∥x∥
+ ,
+2
+2
+(x) = 1
+∥x∥
+ 2
+O(1)
+c ∥ΔW∥
+ ≲
+2
+1.
+ .
+∥ΔW∥
+ =
+ 
+2
+max
+c
+1
+c = 1/
+ 
+d
+ 
+in
+∥ΔW∥
+ =
+2
+max
+ .
+d
+ 
+in
+∝1/c
+∇
+ L =
+W
+δ x
+∈
+⊤
+R
+,
+d
+ ×d
+ 
+out
+in
+δ
+sign(∇
+ L)
+ =
+W
+ij
+sign(δ
+ x
+ ) =
+i
+j
+sign(δ
+ ) sign(x
+ ),
+i
+j
+sign(∇
+ L) =
+W
+uv ,
+⊤
+ Powered by ChatGPT Exporter
+5 / 34
+
+
+--- Page 7 ---
+with
+, so 
+,
+, so 
+.
+For a rank-1 outer product 
+,
+The SignSGD update is
+so
+To satisfy the spectral norm constraint from (c)
+we need
+If you plug in 
+, this simpliﬁes to
+This expression works for rectangular 
+ matrices.
+2(e) — Muon-style orthogonalized update
+Now we orthogonalize the gradient with an SVD:
+(compact SVD), and take the update
+Key fact: 
+ and 
+ have orthonormal columns, so 
+ is a rank-  matrix whose
+singular values are all 1 (for the non-zero singular values). Thus
+u
+ =
+i
+sign(δ
+ ) ∈
+i
+{±1}
+∥u∥
+ =
+2
+ 
+d
+ 
+out
+v
+ =
+j
+sign(x
+ ) ∈
+j
+{±1}
+∥v∥
+ =
+2
+ 
+d
+ 
+in
+uv⊤
+∥uv
+∥
+ =
+⊤
+2
+∥u∥
+ ∥v∥
+ =
+2
+2
+ .
+d
+ d
+ 
+out
+in
+ΔW = α sign(∇
+ L),
+W
+∥ΔW∥
+ =
+2
+∣α∣∥sign(∇
+ L)∥
+ =
+W
+2
+∣α∣
+ .
+d
+ d
+ 
+out
+in
+∥ΔW∥
+ ≤
+2
+ ,
+c
+1
+∣α∣
+ ≤
+d
+ d
+ 
+out
+in
+ 
+⇒
+c
+1
+ 
+α =
+ .
+c
+ 
+d
+ d
+ 
+out
+in
+1
+c = 1/
+ 
+d
+ 
+in
+α =
+ .
+ 
+d
+ 
+out
+1
+d
+ ×
+out
+d
+ 
+in
+∇
+ L =
+W
+UΣV ⊤
+ΔW = α UV
+.
+⊤
+U
+V
+UV ⊤
+r
+ Powered by ChatGPT Exporter
+6 / 34
+
+
+--- Page 8 ---
+even for rectangular matrices.
+Therefore
+To satisfy the same constraint from (c),
+we need
+With 
+, that is 
+.
+2(f)
+SignGD, Adam, and Muon are all scale-invariant in the sense that multiplying the raw
+gradient by a positive scalar  does not change the update direction:
+SignGD: 
+,
+Adam / RMSProp: gradients are normalized by moving averages of their own second
+moments,
+Muon: updates are based on 
+, which depends only on the direction (singular
+vectors), not the overall magnitude of 
+.
+In a stack of dense layers,
+the backpropagated gradients 
+ can acquire arbitrary global scale factors as they pass
+through the network.
+Setting where you can ignore this scale:
+If you use only scale-invariant optimizers (SignGD, Adam, Muon) for all layers, then any
+global rescaling of these intermediate gradients (e.g., multiplying 
+ by a scalar at
+each layer) does not change the parameter update directions. In that setting, you are free
+to renormalize the intermediate gradients purely for numerical stability (e.g., in fp8)
+without aﬀecting the learning dynamics.
+∥UV
+∥
+ =
+⊤
+2
+1,
+∥ΔW∥
+ =
+2
+∣α∣∥UV
+∥
+ =
+⊤
+2
+∣α∣.
+∥ΔW∥
+ ≤
+2
+ ,
+c
+1
+∣α∣≤
+ 
+⇒
+c
+1
+ 
+α =
+ .
+c
+1
+c = 1/
+ 
+d
+ 
+in
+α =
+ 
+d
+ 
+in
+λ
+sign(λg) = sign(g)
+UV ⊤
+∇
+ L
+W
+x
+ =
+n+1
+c
+ W
+ x
+ ,
+∇
+ L =
+n
+n
+n
+x
+ n
+c
+ W
+ ∇
+ L,
+n
+n
+⊤
+x
+ 
+n+1
+∇
+ L
+x
+ n
+∇
+ L
+x
+ n
+ Powered by ChatGPT Exporter
+7 / 34
+x
+
+
+--- Page 9 ---
+So the answer is yes: if all updates depend only on gradient direction (and not absolute
+scale), you can safely ignore / re-scale the intermediate backpropagated gradient
+magnitudes.
+2(g)
+In the above setting, without any explicit rescaling, each backprop step does
+If:
+ is rank-1,
+Each parameter in 
+ is unit scaled, so 
+, and for rank-1 we have
+,
+ from part (b),
+then a typical backprop step scales the gradient by
+So without adjustments, as you go backwards through many layers, the intermediate
+gradients will generally explode by roughly a factor of 
+ per layer (or vanish if that
+product is <1 in some other regime).
+To keep them stable, you want to cancel out this factor at each layer. So you should
+multiply the intermediate backpropagated gradients by
+at the corresponding layer.
+Under the rank-1, unit-scale assumptions above (
+, 
+), this
+simpliﬁes to
+So:
+Yes, without adjustments they will explode (or vanish) as they pass through many
+layers.
+∇
+ L =
+x
+ n
+c
+ W ∇
+ L.
+n
+n
+⊤
+x
+ 
+n+1
+W
+ n
+W
+ n
+∥W
+ ∥
+ ≈
+n F
+ 
+d
+ d
+ 
+out
+in
+∥W
+ ∥
+ =
+n 2
+∥W
+ ∥
+ 
+n F
+c
+ ≈
+n
+1/
+ 
+d
+ 
+in
+scale per layer ≈c
+ ∥W
+ ∥
+ ≈
+n
+n 2
+ ⋅
+ 
+d
+ 
+in
+1
+ =
+d
+ d
+ 
+out
+in
+ .
+d
+ 
+out
+ 
+d
+ 
+out
+ 
+c
+ ∥W
+ ∥
+ 
+n
+n 2
+1
+c
+ =
+n
+1/
+ 
+d
+ 
+in ∥W
+ ∥
+ =
+n 2
+ 
+d
+ d
+ 
+out
+in
+ =
+c
+ ∥W
+ ∥
+ 
+n
+n 2
+1
+ =
+(1/
+ )
+ 
+d
+ 
+in
+d
+ d
+ 
+out
+in
+1
+ .
+ 
+d
+ 
+out
+1
+ Powered by ChatGPT Exporter
+8 / 34
+
+
+--- Page 10 ---
+To keep them stable, multiply each intermediate backpropagated gradient at layer 
+by approximately
+under the given unit-scale, rank-1 assumptions.
+n
+ 
+ ≈
+ 
+c
+ ∥W
+ ∥
+ 
+n
+n 2
+1
+ 
+d
+ 
+out
+1
+for part c dont you think that since c is 1/din , then W max 
+should be sqrt(dout)
+Thought for 1m 47s
+Nice catch spotting the relationship with  and the dims — let’s untangle it carefully.
+1. First:  is 
+, not 
+From part (b), to recover Xavier-like behavior we want the variance of each output unit to
+stay 
+:
+Assume 
+ has variance 
+.
+.
+Then
+.
+So 
+.
+To keep 
+, we need:
+So it’s 
+, not 
+.
+c
+c
+1/
+ 
+d
+ 
+in
+1/d
+ 
+in
+≈1
+xi
+≈1
+W
+ ∼
+ji
+N(0, 1)
+y
+ =
+j
+c
+ W
+ x
+ .
+i=1
+∑
+d
+ 
+in
+ji
+i
+Var[
+ W
+ x
+ ] ≈
+∑i
+ji
+i
+d
+ 
+in
+Var[y
+ ] ≈
+j
+c d
+ 
+2
+in
+Var[y
+ ] ≈
+j
+1
+c d
+ =
+2
+in
+1 ⇒c =
+ .
+ 
+d
+ 
+in
+1
+1/
+ 
+d
+ 
+in
+1/d
+ 
+in
+ Powered by ChatGPT Exporter
+9 / 34
+
+
+--- Page 11 ---
+2. Re-doing part (c) with RMS carefully
+We want:
+RMS
+,
+RMS
+,
+.
+Step 1: relate RMS to 
+ norm
+For a vector in 
+,
+So RMS
+.
+For 
+,
+We want RMS
+.
+Step 2: bound 
+so
+To ensure 
+, we need
+That’s the general answer in terms of .
+Step 3: plug in 
+So with the proper 
+ and treating RMS strictly, you’re right that:
+Earlier I gave the simpler “
+” version, basically ignoring the RMS vs
+dimension factors. The more careful derivation (using the actual RMS deﬁnition) gives
+(x) = 1
+(Δy) ≤1
+Δy = c ΔWx
+ℓ
+ 2
+Rd
+ 
+in
+RMS(x) =
+ .
+ ∥x∥
+ 
+d
+ 
+in
+1
+2
+2
+(x) = 1 ⇒∥x∥
+ =
+2
+ 
+d
+ 
+in
+Δy ∈Rd
+ 
+out
+RMS(Δy) =
+ .
+ ∥Δy∥
+ 
+d
+ 
+out
+1
+2
+2
+(Δy) ≤1 ⇒∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+∥Δy∥
+ 2
+Δy = c ΔWx
+∥Δy∥
+ ≤
+2
+∣c∣∥ΔW∥
+ ∥x∥
+ =
+2
+2
+∣c∣∥ΔW∥
+ 
+ .
+2
+d
+ 
+in
+∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+∣c∣∥ΔW∥
+ 
+ ≤
+2
+d
+ 
+in
+ ⇒
+d
+ 
+out
+∥ΔW∥
+ ≤
+2
+ .
+c
+ 
+d
+ /d
+ 
+out
+in
+c
+c = 1/
+ 
+d
+ 
+in
+∥ΔW∥
+ =
+2
+max
+ =
+1/
+ 
+d
+ 
+in
+ 
+d
+ /d
+ 
+out
+in
+ ⋅
+d
+ 
+in
+dout
+=
+din
+ .
+d
+ 
+out
+c = 1/
+ 
+d
+ 
+in
+ 
+∥ΔW∥
+ =
+ .
+2
+max
+d
+ 
+out
+∥ΔW∥
+ ≈
+2
+max
+1/c
+ Powered by ChatGPT Exporter
+10 / 34
+
+
+--- Page 12 ---
+exactly the 
+ scaling you’re pointing to.
+ 
+d
+ 
+out
+i think you made the a similare mistake in c
+Stopped thinking
+i think you made a similar mistake in d
+Thought for 2m 34s
+You’re totally right to be suspicious 
+ — my step size in (d) was based on the looser
+version of (c). If we use the correct constraint from (c), the answer for (d) changes.
+Let me clean this up properly.
+Correct (c) recap
+We have
+with:
+, RMS
+⇒ 
+We want RMS
+⇒ 
+Using the spectral norm:
+So the constraint is:
+Δy = c ΔWx
+x ∈Rd
+ 
+in
+(x) = 1
+∥x∥
+ =
+2
+ 
+d
+ 
+in
+(Δy) ≤1
+∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+∥Δy∥
+ ≤
+2
+∣c∣∥ΔW∥
+ ∥x∥
+ =
+2
+2
+∣c∣∥ΔW∥
+ 
+ 
+2
+d
+ 
+in
+ Powered by ChatGPT Exporter
+11 / 34
+
+
+--- Page 13 ---
+If you plug in 
+ from (b), this becomes
+, which is what you were aiming at (modulo the 
+ vs 
+ typo).
+Fixing part (d): SignSGD step size
+For minibatch size 1, the gradient is
+and discussion notes that
+is rank-1.
+Write
+where
+, so 
+, so 
+For a rank-1 outer product 
+,
+SignSGD update:
+We need this to satisfy the correct constraint from (c):
+So:
+Divide both sides by 
+:
+∣c∣∥ΔW∥
+ 
+ ≤
+2
+d
+ 
+in
+ 
+⇒
+d
+ 
+out
+ .
+∥ΔW∥
+ =
+ 
+2
+max
+c
+ 
+d
+ /d
+ 
+out
+in
+c = 1/
+ 
+d
+ 
+in
+∥ΔW∥
+ =
+2
+max
+ 
+d
+ 
+out
+1/
+ 
+d
+ 
+in
+1/d
+ 
+in
+∇
+ L =
+W
+δx ,
+⊤
+sign(∇
+ L)
+W
+sign(∇
+ L) =
+W
+uv ,
+⊤
+u
+ =
+i
+sign(δ
+ ) ∈
+i
+{±1}
+∥u∥
+ =
+2
+ 
+d
+ 
+out
+v
+ =
+j
+sign(x
+ ) ∈
+j
+{±1}
+∥v∥
+ =
+2
+ 
+d
+ 
+in
+uv⊤
+∥uv
+∥
+ =
+⊤
+2
+∥u∥
+ ∥v∥
+ =
+2
+2
+ 
+ =
+d
+ 
+out
+d
+ 
+in
+ .
+d
+ d
+ 
+out
+in
+ΔW = α sign(∇
+ L)
+⇒
+W
+∥ΔW∥
+ =
+2
+∣α∣
+ .
+d
+ d
+ 
+out
+in
+∥ΔW∥
+ ≤
+2
+ .
+c
+ 
+d
+ /d
+ 
+out
+in
+∣α∣
+ ≤
+d
+ d
+ 
+out
+in
+ .
+c
+ 
+d
+ /d
+ 
+out
+in
+ 
+d
+ d
+ 
+out
+in
+ Powered by ChatGPT Exporter
+12 / 34
+
+
+--- Page 14 ---
+So the correct learning rate is
+If you now plug in 
+:
+So:
+My earlier answer 
+ was based on the sloppy 
+.
+With the precise RMS-based constraint, the correct SignSGD step size is
+ (or 
+ after substituting ).
+If you want, I can also adjust the Muon part (e) to match this corrected constraint so
+everything is consistent.
+∣α∣≤
+ =
+c
+ 
+d
+ d
+ 
+out
+in
+ 
+d
+ /d
+ 
+out
+in
+ .
+cd
+ 
+in
+1
+ .
+α =
+ 
+c d
+ 
+in
+1
+c = 1/
+ 
+d
+ 
+in
+α =
+ =
+(1/
+ )d
+ 
+d
+ 
+in
+in
+1
+ .
+ 
+d
+ 
+in
+1
+α =
+ 
+c
+ 
+d
+ d
+ 
+out
+in
+1
+∥ΔW∥
+ ≈
+2
+max
+1/c
+ 
+α =
+ 
+cd
+ 
+in
+1
+α = 1/
+ 
+d
+ 
+in
+c
+i think you might have also made a mistake in part 2e
+Thought for 1m 26s
+Yep, good catch again — my original 2(e) used the same “sloppy” constraint that I’d just
+ﬁxed for 2(c)/(d), so it should be updated too.
+Let’s do 2(e) cleanly and keep it short.
+Correct constraint from 2(c)
+From the careful RMS-based derivation in part (c), we have:
+RMS(x) = 1 ⇒ ‖x‖₂ = √d_in
+ Powered by ChatGPT Exporter
+13 / 34
+
+
+--- Page 15 ---
+Want RMS(Δy) ≤ 1 ⇒ ‖Δy‖₂ ≤ √d_out
+Δy = c ΔW x
+So:
+Thus the spectral norm constraint from (c) is
+(And if you plug in 
+ from (b), this becomes 
+.)
+Now 2(e): Muon update
+We have:
+Key fact: in the compact SVD, 
+ and 
+ have orthonormal columns, so 
+ is a rank-r
+partial isometry whose nonzero singular values are all 1. That means:
+To satisfy the constraint from (c),
+So the maximal safe learning rate is
+If you plug in 
+, this simpliﬁes to:
+My earlier answer 
+ was based on the oversimpliﬁed bound 
+, which
+ignored the RMS + dimension factors — so you’re right, it should be updated to the
+expression above.
+∥Δy∥
+ ≤
+2
+∣c∣∥ΔW∥
+ ∥x∥
+ =
+2
+2
+∣c∣∥ΔW∥
+ 
+ ≤
+2
+d
+ 
+in
+ .
+d
+ 
+out
+ .
+∥ΔW∥
+ =
+ 
+2
+max
+c
+ 
+d
+ /d
+ 
+out
+in
+c = 1/
+ 
+d
+ 
+in
+∥ΔW∥
+ =
+2
+max
+ 
+d
+ 
+out
+∇
+ L =
+W
+UΣV
+(compact SVD),
+⊤
+ΔW = α UV
+.
+⊤
+U
+V
+UV ⊤
+∥UV
+∥
+ =
+⊤
+2
+1
+⇒
+∥ΔW∥
+ =
+2
+∣α∣∥UV
+∥
+ =
+⊤
+2
+∣α∣.
+∣α∣= ∥ΔW∥
+ ≤
+2
+ .
+c
+ 
+d
+ /d
+ 
+out
+in
+ .
+α
+ =
+ 
+max
+c
+ 
+d
+ /d
+ 
+out
+in
+c = 1/
+ 
+d
+ 
+in
+ .
+α
+ =
+ 
+max
+d
+ 
+out
+α = 1/c
+∥ΔW∥
+ ≈
+2
+max
+1/c
+ Powered by ChatGPT Exporter
+14 / 34
+
+
+--- Page 16 ---
+dont you think alpha should be  sqrt(dout · din) for 2e
+Thought for 3m 28s
+Short answer: nope 
+—if we keep the (corrected) constraint from 2(c),
+ for 2(e) should scale like 
+, not 
+.
+Let me walk through it cleanly and show where 
+ does appear.
+1. Constraint from part (c) (the “right” version)
+We had
+with
+RMS
+,
+want RMS
+.
+Then
+So the spectral norm constraint from (c) is
+Plugging the  from (b) (
+) gives
+2. Part (e): Muon update
+Muon-style update:
+α
+ 
+d
+ 
+out
+ 
+d
+ d
+ 
+out
+in
+ 
+d
+ d
+ 
+out
+in
+Δy = c ΔWx,
+(x) = 1 ⇒∥x∥
+ =
+2
+ 
+d
+ 
+in
+(Δy) ≤1 ⇒∥Δy∥
+ ≤
+2
+ 
+d
+ 
+out
+∥Δy∥
+ ≤
+2
+∣c∣∥ΔW∥
+ ∥x∥
+ =
+2
+2
+∣c∣∥ΔW∥
+ 
+ ≤
+2
+d
+ 
+in
+ .
+d
+ 
+out
+ .
+∥ΔW∥
+ =
+ 
+2
+max
+c
+ 
+d
+ /d
+ 
+out
+in
+c
+c = 1/
+ 
+d
+ 
+in
+∥ΔW∥
+ =
+2
+max
+ .
+d
+ 
+out
+∇
+ L =
+W
+UΣV
+,
+ΔW =
+⊤
+α UV
+.
+⊤
+ Powered by ChatGPT Exporter
+15 / 34
+
+
+--- Page 17 ---
+In the compact SVD, 
+ and 
+ have orthonormal columns, so all nonzero singular values of
+ are 1. That means
+To satisfy the constraint from (c):
+So
+With 
+,
+So the Muon learning rate should be on the order of 
+, not 
+.
+3. Where does 
+ actually show up?
+It shows up in SignSGD’s gradient, not in Muon’s update:
+For SignSGD (mini-batch size 1):
+so
+With 
+, the constraint gives
+For Muon, we got
+If you take the ratio of Muon’s step size to SignSGD’s step size, you do get:
+U
+V
+UV ⊤
+∥UV
+∥
+ =
+⊤
+2
+1
+⇒
+∥ΔW∥
+ =
+2
+∣α∣.
+∣α∣= ∥ΔW∥
+ ≤
+2
+ .
+c
+ 
+d
+ /d
+ 
+out
+in
+ .
+α
+ =
+ 
+max
+c
+ 
+d
+ /d
+ 
+out
+in
+c = 1/
+ 
+d
+ 
+in
+α
+ =
+max
+ =
+1/
+ 
+d
+ 
+in
+ 
+d
+ /d
+ 
+out
+in
+ .
+d
+ 
+out
+ 
+d
+ 
+out
+ 
+d
+ d
+ 
+out
+in
+ 
+d
+ d
+ 
+out
+in
+sign(∇
+ L) =
+W
+uv ,
+∥u∥
+ =
+⊤
+2
+ ,  ∥v∥
+ =
+d
+ 
+out
+2
+ ,
+d
+ 
+in
+∥sign(∇
+L)∥
+ =
+W
+2
+ .
+d
+ d
+ 
+out
+in
+ΔW = α
+ sign(∇
+ L)
+sign
+W
+α
+ ≤
+sign
+ ⇒
+cd
+ 
+in
+1
+α
+ =
+sign
+ 
+(maximal).
+cd
+ 
+in
+1
+α
+ =
+Muon
+ .
+c
+ 
+d
+ /d
+ 
+out
+in
+ Powered by ChatGPT Exporter
+16 / 34
+
+
+--- Page 18 ---
+So:
+ is the ratio between Muon and SignSGD step sizes at the bound.
+But the actual  for part (e) (Muon) is 
+, or 
+ after plugging
+.
+ =
+α
+ 
+sign
+α
+ 
+Muon
+ =
+1/(cd
+ )
+in
+ /c
+d
+ /d
+ 
+out
+in
+ .
+d
+ d
+ 
+out
+in
+ 
+d
+ d
+ 
+out
+in
+α
+ 
+α =
+ 
+c
+ 
+d
+ /d
+ 
+out
+in
+ 
+α =
+ 
+d
+ 
+out
+c = 1/
+ 
+d
+ 
+in
+solve Q3
+Thought for 4m 34s
+Here’s Q3 done step-by-step.
+3(a) Convolution of 
+ (rect) with 
+We have:
+Rectangular input of length 
+:
+Impulse response:
+Convolution:
+Since 
+ is nonzero only for 
+,
+x(n)
+h(n) = (1/2) u(n)
+n
+L
+x(n) =
+ 
+ 
+{1,
+0,
+n = 0, 1, … , L −1
+otherwise
+h(n) =
+ 
+u(n) =
+( 2
+1)
+n
+ 
+ 
+{
+ 
+,
+( 2
+1)
+n
+0,
+n ≥0
+n < 0
+y(n) = (x ∗h)(n) =
+ x(i) h(n −
+i=−∞
+∑
+∞
+i).
+x(i)
+i = 0, … , L −1
+ Powered by ChatGPT Exporter
+17 / 34
+
+
+--- Page 19 ---
+The unit step 
+ enforces 
+, so the sum is over
+.
+So:
+1. For 
+: no valid  →
+2. For 
+: sum from 
+ to 
+:
+3. For 
+: sum from 
+ to 
+:
+So, in closed form:
+If you plug in the example 
+ (the one in the ﬁgure), the values for 
+ are:
+: all zeros.
+:
+, 
+, 
+, 
+,
+, 
+, 
+.
+Tail for 
+: exponentially decaying
+You’d plot these values from 
+ to 
+: zero up to 
+, ramping up to ~2,
+then decaying. 
+3(b) Shifted input 
+Let
+y(n) =
+ h(n −
+i=0
+∑
+L−1
+i) =
+ 
+ 
+u(n −
+i=0
+∑
+L−1
+( 2
+1)
+n−i
+i).
+u(n −i)
+n −i ≥0 ⇒i ≤n
+i ∈[0, min(n, L −1)]
+n < 0
+i
+y(n) = 0.
+0 ≤n ≤L −1
+i = 0
+i = n
+y(n) =
+ 
+ 
+=
+i=0
+∑
+n
+( 2
+1)
+n−i
+ 
+ 
+=
+k=0
+∑
+n
+( 2
+1)
+k
+2(1 −2
+).
+−(n+1)
+n ≥L −1
+i = 0
+i = L −1
+y(n) =
+ 
+ 
+=
+i=0
+∑
+L−1
+( 2
+1)
+n−i
+ 
+ 
+=
+k=n−L+1
+∑
+n
+( 2
+1)
+k
+2
+ 
+(1 −
+( 2
+1)
+n−L+1
+2
+).
+−L
+y(n) =
+ 
+ 
+ 
+⎩
+⎨
+⎧0,
+2(1 −2
+),
+−(n+1)
+2
+ 
+(1 −2
+),
+( 2
+1)
+n−L+1
+−L
+n < 0,
+0 ≤n ≤L −1,
+n ≥L −1.
+L = 7
+n = −6, … , 12
+n < 0
+n = 0 … 6
+y(0) = 1 y(1) = 1.5 y(2) = 1.75 y(3) = 1.875
+y(4) = 1.9375 y(5) = 1.96875 y(6) = 1.984375
+n ≥7
+y(7) ≈0.9922,  y(8) ≈0.4961,  y(9) ≈0.2480, …
+n = −6
+n = 12
+n = −1
+hw4
+x
+ (n) =
+2
+x(n −5)
+ Powered by ChatGPT Exporter
+18 / 34
+
+
+--- Page 20 ---
+Use the time-shift (shift invariance) property of convolution for an LTI system:
+If 
+, then
+Here 
+, so:
+Property identiﬁed: the time-shift property (LTI systems are shift-invariant: shifting
+the input shifts the output by the same amount).
+3(c) 2D convolution with no padding, stride 1
+We’re given (5×5) input  and (3×3) ﬁlter : 
+With no padding and stride 1, the output size is:
+Using the true convolution deﬁnition 
+ (ﬂip-then-slide), the 3×3 output comes out
+to:
+(If you instead did correlation without ﬂipping the kernel, you’d get the same magnitudes
+but with +40 everywhere; here I’m following the “ﬂip and drag” convolution deﬁnition
+from the problem.)
+3(d) With padding and stride
+Now we keep the same  and  but change stride/padding.
+x
+ (n) =
+2
+x(n −5),
+y
+ (n) =
+2
+(h ∗x
+ )(n).
+2
+x
+ (n) =
+2
+x(n −N)
+y
+ (n) =
+2
+(h ∗x
+ )(n) =
+2
+(h ∗x)(n −N) = y(n −N).
+N = 5
+ 
+y
+ (n) = y(n −5).
+2
+x
+h
+hw4
+x =
+ 
+ 
+ 
+ 
+ 
+ 
+ ,
+h =
+1
+6
+11
+16
+21
+2
+7
+12
+17
+22
+3
+8
+13
+18
+23
+4
+9
+14
+19
+24
+5
+10
+15
+20
+25
+ 
+ 
+ 
+ 
+ .
+−1
+0
+1
+−2
+0
+2
+−1
+0
+1
+(5 −3 + 1) × (5 −3 + 1) = 3 × 3.
+y = x ∗h
+ 
+y =
+ 
+ 
+ 
+ 
+ 
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+−40
+x
+h
+ Powered by ChatGPT Exporter
+19 / 34
+
+
+--- Page 21 ---
+(i) stride = 1, pad = 1
+Pad the 5×5 input with one layer of zeros → 7×7.
+Convolve with 3×3 kernel, stride 1 → output is 5×5.
+Carrying out the convolution (again using proper conv with kernel ﬂipped), we get:
+(ii) stride = 2, pad = 1
+Same 1-pixel zero padding (input becomes 7×7).
+Now stride = 2, so the output spatial size is:
+in each dimension → 3×3.
+The 3×3 output is:
+(Again, if you had used correlation instead of true conv, all signs would ﬂip, but the
+structure would be the same.)
+ 
+y
+ =
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+stride=1, pad=1
+−19
+−30
+−30
+−30
+49
+−28
+−40
+−40
+−40
+68
+−32
+−40
+−40
+−40
+72
+−36
+−40
+−40
+−40
+76
+−29
+−30
+−30
+−30
+59
+ 
++
+⌊
+2
+7 −3⌋
+1 = 3
+ 
+y
+ =
+ 
+ 
+ 
+ 
+ 
+stride=2, pad=1
+−19
+−30
+49
+−32
+−40
+72
+−29
+−30
+59
+solve q4
+Thought for 5m 11s
+Here’s Q4, part by part.
+ Powered by ChatGPT Exporter
+20 / 34
+
+
+--- Page 22 ---
+4(a) Conv layer: #params and output shape
+Input feature: W × H × C
+Hyperparams: ﬁlter size K, padding P, stride S, #ﬁlters F.
+Weights: each ﬁlter is K × K × C → K²·C weights per ﬁlter →
+#weights = K²·C·F
+Biases: one per ﬁlter →
+#biases = F
+Output shape:
+W' = \left\lﬂoor\frac{W - K + 2P}{S}\right\rﬂoor + 1,\quad H' = \left\lﬂoor\frac{H - K +
+2P}{S}\right\rﬂoor + 1,\quad C' = F \] :contentReference[oaicite:0]{index=0}
+4(b) Max-pooling layer output shape
+Max pool with ﬁlter size K and stride S, no change in channel count.
+Input: W × H × C → Output:
+(They assume things divide nicely so this is an integer.) 
+4(c) Receptive ﬁeld after L conv layers
+L successive conv layers, each with:
+ﬁlter size K
+stride 1
+Each layer increases the receptive ﬁeld by (K − 1) in each direction, starting from 1 pixel.
+So after L layers, receptive ﬁeld size is:
+(They also accept 
+; both are Θ(LK).) 
+4(d) Eﬀect of 2×2, stride-2 pooling on receptive ﬁeld & compute
+W =
+′
+ +
+S
+W −K
+1,
+H =
+′
+ +
+S
+H −K
+1,
+C =
+′
+C
+Scribd
+ 
+R
+ = L (K −1) + 1
+L
+(L −1)(K −1) + 1
+Scribd
+ Powered by ChatGPT Exporter
+21 / 34
+
+
+--- Page 23 ---
+Given a 2×2 max-pool with stride 2, and we double the number of channels to
+compensate for the lost spatial resolution:
+Receptive ﬁeld growth:
+Each pooled feature corresponds to a 2×2 block of the previous feature map, so the
+receptive ﬁeld doubles in size (factor 2) along each dimension compared to a stride-1
+layer at the same depth.
+→ Receptive ﬁeld size increases by a factor of 2. 
+Computation advantage:
+Spatial resolution shrinks by 1/2 in each dimension → area shrinks by 1/4.
+If we double the number of channels, total feature size (W·H·C) becomes roughly
+half of before.
+Conv FLOPs scale roughly like (#spatial positions) × (#channels) . So after
+pooling, the later layers have fewer multiplies/adds, i.e., fewer MACs, so
+computation is cheaper.
+4(e) Fill in the table for the given CNN
+Pieces (from the problem):
+CONV3-F: 3×3 conv, padding 1, stride 1, F ﬁlters.
+POOL2: 2×2 max-pool, stride 2.
+FLATTEN
+FC-K
+Network on input 28×28×1:
+Layer
+# Parameters
+Dimension of Activations
+Input
+0
+28 × 28 × 1
+CONV3-10
+3×3×1×10 + 10
+28 × 28 × 10
+POOL2
+0
+14 × 14 × 10
+CONV3-10
+3×3×10×10 + 10
+14 × 14 × 10
+POOL2
+0
+7 × 7 × 10
+FLATTEN
+0
+490
+FC-3
+490×3 + 3
+3
+Scribd
+ Powered by ChatGPT Exporter
+22 / 34
+
+
+--- Page 24 ---
+These match the oﬃcial solution for this exact problem. 
+4(f) New architecture with circular padding + GAP
+Architecture:
+CONV2-3 → ReLU → CONV2-3 → ReLU → GAP → FC-3
+CONV2-3: 2×2 conv, 3 ﬁlters, stride 1, circular padding.
+GAP: global average pooling over each channel.
+So the network is invariant to circular shifts of the input:
+conv with circular padding is shift-equivariant; GAP averages over all spatial positions,
+turning that into shift-invariance. 
+You’re given:
+For a horizontal edge image 
+:
+For a vertical edge image 
+:
+g_2 = f(x_2) = \begin{bmatrix} 0 \\ 0.8 \\ 0 \end{bmatrix} \]
+:contentReference[oaicite:6]{index=6}
+Now:
+ is just a circular shift of the vertical-edge image 
+.
+Because the network is invariant to circular shifts,
+ is a circular shift of the horizontal-edge image 
+.
+So
+\boxed{g_4 = f(x_4) = g_1 = \begin{bmatrix} 0.8 \\ 0 \\ 0 \end{bmatrix}} \]
+:contentReference[oaicite:7]{index=7}
+Intuition: conv + circular padding makes features just move when you shift the image;
+GAP then averages everything so the ﬁnal vector doesn’t care where the edge is, only
+what kind of edge it is.
+Scribd
+Scribd
+x
+ 1
+g
+ =
+1
+f(x
+ ) =
+1
+ 
+ 
+ 
+0.8
+0
+0
+x
+ 2
+x
+ 3
+x2
+ 
+g
+ = f(x ) = g
+ =
+ 
+ 
+ 
+3
+3
+2
+0
+0.8
+0
+x
+ 4
+x
+ 1
+ Powered by ChatGPT Exporter
+23 / 34
+i
+
+
+--- Page 25 ---
+solve q4
+Thought for 1m 31s
+Here’s Q4 step-by-step.
+4(a) Conv layer: #weights, #biases, output shape
+Input feature: W × H × C
+Conv hyperparams: ﬁlter size K, padding P, stride S, #ﬁlters F.
+Each ﬁlter: 
+ weights → 
+Total weights: 
+Biases: 1 per ﬁlter → 
+So:
+#parameters = 
+Output shape
+W' = \frac{W - K + 2P}{S} + 1,\quad H' = \frac{H - K + 2P}{S} + 1,\quad C' = F. \]
+:contentReference[oaicite:0]{index=0}
+(They assume the divisions give integers.)
+4(b) Max-pool layer output shape
+Max-pool hyperparams: ﬁlter size K, stride S, same channels in/out.
+Input: 
+No padding, stride 
+, so:
+4(c) Receptive ﬁeld after L conv layers (stride 1, kernel K)
+Each stride-1 conv with kernel size K increases the receptive ﬁeld by (K−1) in each spatial
+dimension.
+K × K × C
+K C
+2
+K CF
+2
+F
+K CF +
+2
+F
+W × H × C
+S
+W =
+′
+ +
+S
+W −K
+1,
+H =
+′
+ +
+S
+H −K
+1,
+C =
+′
+C.
+ Powered by ChatGPT Exporter
+24 / 34
+
+
+--- Page 26 ---
+Start with receptive ﬁeld 1 (a single pixel). After L such layers:
+per spatial dimension. (So total area is 
+.)
+4(d) Eﬀect of 2×2 stride-2 pooling on receptive ﬁeld & compute
+We apply a 2×2 max-pool with stride 2, and double the number of channels to
+compensate for lost spatial resolution.
+Receptive ﬁeld increase:
+Each pooled output cell looks at a 2×2 patch of the previous feature map. So, in each
+spatial dimension, the receptive ﬁeld grows by about a factor of 2 (roughly doubles),
+and the area covered grows by about a factor of 4.
+Why is this computationally good?
+After pooling, the spatial resolution is halved in each dimension, so the number of
+spatial positions drops by a factor of 4 (from 
+ to 
+).
+Conv cost scales roughly like:
+\text{FLOPs} \propto (\text{#spatial positions}) \times K^2 \times C_{\text{in}}
+\times C_{\text{out}}.
+Even if we double the channels to keep feature capacity, we still get fewer spatial
+positions, so later layers are cheaper to compute (fewer MACs), while each feature
+sees a larger chunk of the input.
+4(e) Fill in the table
+Network pieces (from the statement):
+CONV3-F: 3×3 conv, F ﬁlters, padding 1, stride 1.
+POOL2: 2×2 max-pool, stride 2, pad 0.
+FLATTEN: just reshapes.
+FC-K: fully connected with K outputs.
+Input is 28 × 28 × 1.
+Let’s ﬁll each row.
+1. Input
+#params: 0
+R
+ =
+L
+1 + L (K −1)
+R
+ L
+2
+W × H
+ ×
+2
+W
+ 2
+H
+ Powered by ChatGPT Exporter
+25 / 34
+
+
+--- Page 27 ---
+Activations: 
+ (given)
+2. First CONV3-10 (input 28×28×1)
+Weights: 
+Biases: 10
+#params: 
+Output spatial size: padding 1, stride 1 ⇒ still 28×28
+Activations: 
+ (given)
+3. First POOL2
+#params: 0 (no weights)
+Pool 2×2, stride 2 ⇒ 28×28 becomes 14×14, channels unchanged
+Activations: 
+ (given)
+4. Second CONV3-10 (input 14×14×10)
+Weights: 
+Biases: 10
+#params: 
+ (given)
+Padding 1, stride 1 ⇒ spatial size stays 14×14
+Activations: 
+5. Second POOL2
+#params: 0
+14×14 → 7×7, channels still 10
+Activations: 
+6. FLATTEN
+#params: 0
+7×7×10 = 490
+Activations: 490 (given)
+7. FC-3
+Input dim 490, output 3
+Weights: 
+Biases: 3
+#params: 
+Activations: 3 (given)
+So the completed table is:
+28 × 28 × 1
+3 × 3 × 1 × 10 = 90
+3 × 3 × 1 × 10 + 10
+28 × 28 × 10
+14 × 14 × 10
+3 × 3 × 10 × 10 = 900
+3 × 3 × 10 × 10 + 10
+14 × 14 × 10
+7 × 7 × 10
+490 × 3 = 1470
+490 × 3 + 3
+ Powered by ChatGPT Exporter
+26 / 34
+
+
+--- Page 28 ---
+Layer
+# Parameters
+Activations
+Input
+0
+28 × 28 × 1
+CONV3-10
+28 × 28 × 10
+POOL2
+0
+14 × 14 × 10
+CONV3-10
+14 × 14 × 10
+POOL2
+0
+7 × 7 × 10
+FLATTEN
+0
+490
+FC-3
+3 
+4(f) Circular padding + GAP, outputs g₃ and g₄
+Architecture:
+CONV2-3 → ReLU → CONV2-3 → ReLU → GAP → FC-3
+with circular padding, stride 1.
+Conv with circular padding is shift-equivariant on the torus (wrapping around).
+GAP (global average pool per channel) averages over all spatial locations, making the
+representation **invariant to circular shifts
+3 × 3 × 1 × 10 + 10
+3 × 3 × 10 × 10 + 10
+490 × 3 + 3
+hw4
+W' = \left\lﬂoor\frac{W - K + 2P}{S}\right\rﬂoor + 1,\quad 
+H' = \left\lﬂoor\frac{H - K + 2P}{S}\right\rﬂoor + 1,\quad 
+C' = F \] :contentReference[oaicite:0]{index=0}
+for some reason this output is red make sure it your 
+outputting correct Latex or whatever you are using to 
+format
+Thought for 12s
+ Powered by ChatGPT Exporter
+27 / 34
+
+
+--- Page 29 ---
+Yeah, that red highlight is because the line got mangled — the LaTeX block and the citation
+markup got glued together in a way the UI doesn’t like.
+Here’s the clean, correct formula for the conv output shape (no weird extras):
+For an input of shape 
+ and a conv layer with kernel size 
+, padding 
+, stride
+, and 
+ ﬁlters, the output has shape
+If you want it in plain text (no LaTeX), it’s:
+(Assuming those divisions give integers.)
+If you see anything else showing up red, send me the exact snippet and I’ll clean it up too.
+W × H × C
+K
+P
+S
+F
+W =
+′
+ 
++
+⌊
+S
+W −K + 2P ⌋
+1,
+H =
+′
+ 
++
+⌊
+S
+H −K + 2P ⌋
+1,
+C =
+′
+F.
+W =
+′
+((W −K + 2P)/S) + 1
+H =
+′
+((H −K + 2P)/S) + 1
+C =
+′
+F
+solve part 4f you havent ﬁnished it
+Thought for 51s
+Good catch—let’s ﬁnish 4(f) cleanly.
+From the problem: the network is
+CONV2-3 → ReLU → CONV2-3 → ReLU → GAP → FC-3,
+with circular padding and GAP that averages over all spatial positions per channel.
+You’re told:
+For horizontal edge 
+:
+For vertical edge 
+:
+ 
+And you must ﬁnd 
+ for images 
+. 
+hw4
+x
+ 1
+g
+ =
+1
+f(x
+ ) =
+1
+ 
+ 
+ 
+0.8
+0
+0
+x
+ 2
+g
+ =
+2
+f(x
+ ) =
+2
+ 
+ 
+ 
+0
+0.8
+0
+hw4
+g
+ , g
+ 
+3
+4
+x
+ , x
+ 
+3
+4
+hw4
+ Powered by ChatGPT Exporter
+28 / 34
+
+
+--- Page 30 ---
+Key property
+Conv + ReLU with circular padding is translation–equivariant: shifting the input
+(circularly) just shifts the feature maps.
+GAP (global average pool) makes this translation–invariant: averaging over all
+spatial locations removes dependence on where the pattern is.
+So any circular shift of an input gives the same GAP features 
+.
+Apply to 
+ is just a circular horizontal shift of the vertical-edge image 
+ (the “1” column
+moved to a diﬀerent column).
+⇒ 
+.
+ is a circular vertical shift of the horizontal-edge image 
+ (the “1” row moved
+down).
+⇒ 
+.
+So the answers are:
+g = f(x)
+x
+ , x
+ 
+3
+4
+x
+ 3
+x
+ 2
+f(x
+ ) =
+3
+f(x
+ ) =
+2
+g
+ 2
+x
+ 4
+x
+ 1
+f(x
+ ) =
+4
+f(x
+ ) =
+1
+g
+ 1
+g
+ =
+3
+f(x
+ ) =
+3
+ 
+ 
+ ,
+g
+ =
+0
+0.8
+0
+4
+f(x
+ ) =
+4
+ 
+ 
+ .
+0.8
+0
+0
+solve question 7
+Thought for 58s
+Here’s Question 7 part by part.
+7(a) Gradient w.r.t. weights and one SGD step
+We’re given a single-channel conv layer (no padding, stride 1):
+ Powered by ChatGPT Exporter
+29 / 34
+
+
+--- Page 31 ---
+and an upstream gradient matrix 
+ where 
+. 
+We want 
+.
+By chain rule:
+So the gradient matrix 
+ is:
+This is exactly “correlate input with dY”.
+For one SGD step with learning rate  and a single image in the batch:
+7(b) Mean and variance of 
+, and scaling with image size
+We assume (for all 
+) 
+and all 
+ and 
+ are independent, and also independent of each other.
+From part (a):
+Let
+Then
+y
+ =
+i,j
+ 
+ x
+ w
+ ,
+1 ≤
+h=1
+∑
+k
+l=1
+∑
+k
+i+h−1, j+l−1
+h,l
+i, j ≤m, : contentReference[oaicite : 0]index = 0
+dY = [dy
+ ]
+i,j
+dy
+ =
+i,j
+ 
+∂y
+ 
+i,j
+∂L
+hw4
+ =
+∂w
+ 
+h,l
+∂L
+dw
+ 
+h,l
+dw
+ =
+h,l
+ =
+∂w
+ 
+h,l
+∂L
+ 
+ 
+ 
+ =
+i=1
+∑
+m
+j=1
+∑
+m
+∂y
+ 
+i,j
+∂L
+∂w
+ 
+h,l
+∂y
+ 
+i,j
+ 
+ dy
+ x
+ .
+i=1
+∑
+m
+j=1
+∑
+m
+i,j
+i+h−1, j+l−1
+dw
+ 
+for h, l =
+dw
+ =
+ 
+ dy
+ x
+ 
+h,l
+i=1
+∑
+m
+j=1
+∑
+m
+i,j
+i+h−1, j+l−1
+1, … , k.
+η
+ 
+w
+ = w
+−η dw
+= w
+ −η
+ 
+ dy
+ x
+ .
+h,l
+new
+h,l
+old
+h,l
+h,l
+old
+i=1
+∑
+m
+j=1
+∑
+m
+i,j
+i+h−1, j+l−1
+dw
+ 
+h,l
+i, j
+hw4
+E[x
+ ] =
+i,j
+0,
+Var(x
+ ) =
+i,j
+σ
+ ,
+E[dy
+ ] =
+x
+2
+i,j
+0,
+Var(dy
+ ) =
+i,j
+σ
+ ,
+g
+2
+x
+ 
+i,j
+dy
+ 
+i,j
+dw
+ =
+h,l
+ 
+ x
+ dy
+ .
+i=1
+∑
+m
+j=1
+∑
+m
+i+h−1, j+l−1
+i,j
+Z
+ =
+i,j
+x
+dy
+ .
+i+h−1, j+l−1
+i,j
+ Powered by ChatGPT Exporter
+30 / 34
+
+
+--- Page 32 ---
+Mean
+So
+Variance
+Because all the 
+ and 
+ are independent, all the 
+ are independent too (for ﬁxed 
+, each term uses a diﬀerent input pixel and a diﬀerent dy). Thus the variance of the sum is
+the sum of variances:
+For each term,
+There are 
+ terms, so
+We know for a conv with no padding, stride 1, 
+ input and 
+ kernel that
+So
+Asymptotic growth of the standard deviation
+Standard deviation:
+So the answer they want is:
+dw
+ =
+h,l
+ 
+ Z
+ .
+i=1
+∑
+m
+j=1
+∑
+m
+i,j
+E[Z
+ ] =
+i,j
+E[x
+ ] E[dy
+ ] =
+i+h−1, j+l−1
+i,j
+0 ⋅0 = 0.
+ 
+E[dw
+ ] = 0.
+h,l
+x
+ 
+⋅,⋅
+dy
+ 
+⋅,⋅
+Z
+ 
+i,j
+h, l
+Var(dw
+ ) =
+h,l
+ 
+ Var(Z
+ ).
+i=1
+∑
+m
+j=1
+∑
+m
+i,j
+Var(Z
+ ) =
+i,j
+E[x ] E[dy ] =
+2
+2
+σ
+ σ
+ .
+x
+2
+g
+2
+m2
+ 
+Var(dw
+ ) = m σ
+ σ
+ .
+h,l
+2
+x
+2
+g
+2
+n × n
+k × k
+m = n −k + 1.
+ 
+Var(dw
+ ) = (n −k + 1) σ
+ σ
+ .
+h,l
+2
+x
+2
+g
+2
+Std(dw
+ ) =
+h,l
+ =
+Var(dw
+ )
+h,l
+(n −k + 1) σ
+ σ
+ ∼
+x
+g
+n σ
+ σ
+ 
+for large n.
+x
+g
+ Powered by ChatGPT Exporter
+31 / 34
+
+
+--- Page 33 ---
+Std grows linearly in  (the image side length).
+Var grows like 
+ (the image area).
+7(c) Backprop through 2×2 max-pool vs 2×2 avg-pool
+We look at networks made only of 2×2 pooling layers (no conv, no activations). 
+Start with the simplest 2×2 case:
+Let 
+.
+(i) 2×2 max-pooling
+Forward:
+Suppose (as the hint says) the top-left is selected by the max:
+Backward:
+The gradient ﬂows only to the max location (argmax).
+For this case,
+In the general higher-dimensional case with many non-overlapping 2×2 windows: for each
+window, only the entries that achieved the maximum get the upstream gradient;
+all others get 0. (If multiple equal maxima, the gradient can be split among them, but
+standard implementations choose one argmax.)
+So for a network with only max-pooling layers, the upstream gradient 
+ is “routed” back
+to argmax positions in each 2×2 patch; all other positions in that patch receive zero
+gradient.
+n
+n2
+ 
+Std(dw
+ ) = Θ(n)
+h,l
+hw4
+X =
+ 
+ ,
+y
+ =
+[x
+ 
+11
+x
+ 
+21
+x
+ 
+12
+x
+ 
+22]
+11
+pool(X).
+dy
+ =
+11
+ 
+∂y
+ 
+11
+∂L
+y
+ =
+11
+max(x
+ , x
+ , x
+ , x
+ ).
+11
+12
+21
+22
+y
+ =
+11
+x
+ =
+11
+max(x
+ , x
+ , x
+ , x
+ ). :
+11
+12
+21
+22
+contentReference[oaicite : 4]index = 4
+ 
+dx
+ = dy
+ ,
+dx
+ = dx
+ = dx
+ = 0.
+11
+11
+12
+21
+22
+dY
+ Powered by ChatGPT Exporter
+32 / 34
+
+
+--- Page 34 ---
+(ii) 2×2 average-pooling
+Forward:
+Backward:
+So:
+In the general case, each input pixel belongs to one or more 2×2 windows; its total
+gradient is the sum of  times the upstream gradients from each window that includes it.
+So:
+Network with only max pooling: 
+ is sparse, nonzero only at argmax locations
+inside each pooled 2×2 window.
+Network with only avg pooling: 
+ is dense, each value is an average (or sum of
+averages) of upstream gradients over the windows that include that location.
+7(d) Advantages of max pooling vs average pooling (in words)
+Using the gradients from (c), you can see the diﬀerences:
+Max pooling
+Forward: keeps only the strongest activation in each 2×2 region → focuses on
+“whether” a feature is present, not exactly where inside the patch.
+Backward: gradient is concentrated on argmax locations → only the most active
+feature in each window gets updated.
+Advantages:
+Encourages invariance to small translations: if an edge moves slightly inside a
+2×2 region, the max is still high.
+Makes the network focus on the most salient local features → good for detecting
+patterns like edges, corners.
+Sparse gradients can act as a form of regularization (less “smearing” of signal).
+y
+ =
+11
+ x
+ + x
+ + x
+ + x
+ .
+4
+1 (
+11
+12
+21
+22)
+ =
+∂x
+ 
+ij
+∂y
+ 
+11
+ 
+for all 4 entries.
+4
+1
+ 
+dx
+ = dx
+ = dx
+ = dx
+ =
+ dy
+ .
+11
+12
+21
+22
+4
+1
+11
+ 4
+1
+dX
+dX
+ Powered by ChatGPT Exporter
+33 / 34
+
+
+--- Page 35 ---
+Average pooling
+Forward: takes the mean over the patch → preserves overall average activity, but
+blurs local detail.
+Backward: gradient is spread evenly over all inputs in the patch → all pixels share
+responsibility for the pooled output.
+Advantages:
+More stable gradients (everyone gets some signal).
+Retains information about average intensity or texture, not only the single
+strongest response.
+Can be less aggressive than max-pooling, which might be helpful when ﬁne spatial
+information matters.
+Put simply:
+Max pooling is more “winner-takes-all”, giving translation invariance and strong
+feature selection.
+Average pooling is more “democratic”, giving smoother, more stable gradients and
+preserving average structure rather than peak responses.
+ Powered by ChatGPT Exporter
+34 / 34

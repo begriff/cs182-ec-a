@@ -1,0 +1,128 @@
+--- Page 1 ---
+Kimi’s Performance on Homework 6
+Interwoven Transcript and Evaluation
+1
+Problem 2: Graph Dynamics and GNN Concepts
+1.1
+(a) Output of the j-th Node at Layer k
+Kimi’s Response:
+We index layers k = 0,1,..., nodes i,j, channels c.
+Initial input X^(0) = I.
+Update: X^(k+1) = A X^(k).
+Thus X^(k) = A^k.
+The output of node j at layer k is row j of A^k.
+Evaluation:
+Fully correct.
+1.2
+(b) Counting Walks Using Ak
+Kimi’s Response:
+Prove (A^k)_{j,i} = L_k(i,j).
+Base: A^0 = I.
+Inductive step uses (A^(k+1))_{j,i} = sum_l A_{j,l} (A^k)_{l,i}
+= sum_{l in V(j)} L_k(i,l) = L_{k+1}(i,j).
+Evaluation:
+Fully correct.
+1.3
+(c) Update Function
+Kimi’s Response:
+Matrix update: H^(k+1) = A H^(k).
+Node update: h_j^(k+1) = sum_{i in V(j)} h_i^(k).
+Evaluation:
+Fully correct.
+1
+
+
+--- Page 2 ---
+1.4
+(d) Max Aggregation Interpretation
+Kimi’s Response:
+Using max means x_j^(k+1)[c] = max_{i in V(j)} x_i^(k)[c].
+This acts like Boolean OR. Output is 1 iff a length-k path from c to j exists.
+Evaluation:
+Fully correct.
+1.5
+(e)(i) Representing Molecules as Graphs
+Kimi’s Response (Excerpt):
+Nodes contain detailed atomic features (electronegativity, hybridization,
+ring membership, charges...). Edges contain bond order, conjugation,
+Wiberg bond index, etc. Global contains molecule type and other global
+properties.
+Evaluation:
+Correct idea but significantly over-engineered for homework expecta-
+tions.
+1.6
+(e)(ii) Using Outputs to Predict First Broken Bond
+Kimi’s Response:
+Use per-edge logits: s_uv = MLP([h_u; h_v; h_uv; h_G]).
+Softmax over all edges plus one "no-bond-break" class.
+Evaluation:
+Fully correct.
+1.7
+(e)(iii) Encoding Node Representations
+Kimi’s Response (Excerpt):
+Learned atomic embedding + physical features + positional encodings + MLP.
+Evaluation:
+Conceptually correct, but much more complex than expected. Home-
+work expects to use learned element embedding.
+2
+
+
+--- Page 3 ---
+2
+Problem 3: Graph Neural Networks
+2.1
+(a) Validity of Update Rules
+Kimi’s Response:
+(i) Valid.
+(ii) Invalid.
+(iii) Valid.
+Evaluation:
+Fully correct.
+2.2
+(b) Training Loss
+Kimi’s Response:
+Loss = -(1/3) [log(b) + log(c) + log(1 - e)].
+Evaluation:
+Fully correct.
+2.3
+(c)(i) Design Patterns
+Kimi’s Response:
+Residual connection present. No batch normalization.
+Evaluation:
+Fully correct.
+2.4
+(c)(ii) Dimensions of W1
+Kimi’s Response:
+W1 is d × k.
+Evaluation:
+Fully correct.
+2.5
+(c)(iii) Expanded Update Rules for Nodes 2 and 3
+Kimi’s Response (Incorrect):
+Neighbors for node 2: {1,3}
+Neighbors for node 3: {1,2,4}
+(Uses these to expand update rules.)
+Evaluation:
+Incorrect. Kimi used the wrong neighbor sets.
+3
+
+
+--- Page 4 ---
+2.6
+(g) Missing Node Features
+Kimi’s Response (Excerpt):
+Uses mask vectors, learnable unknown token, auxiliary reconstruction loss,
+variational treatment, etc.
+Evaluation:
+Conceptually fine, but far more complex than expected. Homework
+expects: - Use a ”missing” token or mean fill; - Train with random masking augmenta-
+tion.
+2.7
+(h) GraphNet Architecture
+Kimi’s Response:
+(i) Params unchanged; computation doubles in sparse case or ×4 in dense.
+(ii) Weights live in update MLPs.
+(iii) Directed edges handled by treating incoming/outgoing edges differently.
+Evaluation:
+Fully correct.
+4

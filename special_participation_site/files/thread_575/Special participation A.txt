@@ -1,0 +1,78 @@
+--- Page 1 ---
+Participation A: Gemini 3 Pro on the written part of HW 10 
+Model Used: Gemini 3 Pro 
+Overall Performance: The model demonstrated exceptional proficiency in both 
+advanced mathematical derivations (kernel methods) and deep learning architectural 
+analysis. It successfully one-shot most conceptual questions. 
+Key Observations: The model flawlessly derived the Linear Attention mechanism using 
+Random Fourier Features. It correctly identified the decomposition of the Softmax 
+kernel into Query/Key norms and the Gaussian term, a non-trivial step often missed by 
+us. It also correctly formulated the causal masking as an RNN-style recurrence (O(1) 
+inference). For the problem 5, when challenged on the counter-intuitive discrepancy 
+between FaceNet NN1’s high parameter count (140M) vs. low FLOPs (1.6B) compared 
+to ResNet-50, the model correctly attributed this to the Dense (FC) layers vs. Deep 
+Convolutional layers trade-off. It did not hallucinate incorrect numbers and correctly 
+referenced standard architecture traits (VGG-style vs. ResNet-style). 
+Strategy Used: I used a "verify and deepen" strategy. After the model provided initial 
+correct answers, I explicitly challenged it with conflicting data (High Params vs Low 
+FLOPs) to test if it truly understood the underlying architecture or was just retrieving 
+surface-level stats. The model proved it possessed deep understanding. 
+ 
+Chat log: https://gemini.google.com/share/6edfefc10fd1 
+ 
+
+
+--- Page 6 ---
+ 
+Evalution: Almost perfect answer. Model correctly applied the kernel trick and derived 
+the RNN update rule. The response clearly outlined the step-by-step derivation 
+leveraging the expansion of ∥𝑞𝑞−𝑘𝑘∥2 to decompose Softmax Attention into the 
+product of Query Norm, Key Norm, and Gaussian Kernel terms. It accurately 
+highlighted the complexity shift from reordering computations, reducing from 𝑂𝑂(𝑁𝑁2) 
+to 𝑂𝑂(𝑁𝑁⋅𝐷𝐷⋅𝑀𝑀), which embodies the core advantage of Linear Attention. For Causal 
+Masking (RNN form)—a typically challenging aspect—the model correctly defined the 
+cumulative states 𝑆𝑆𝑖𝑖  and 𝑍𝑍𝑖𝑖 , transforming them into an RNN-like recursive update 
+(𝑂𝑂(1) inference), fully aligning with the problem’s requirements. 
+
+
+--- Page 10 ---
+ 
+Interaction Observation: "I initially questioned the model's precision regarding the 
+
+
+--- Page 11 ---
+ResNet-50 FLOPs count (~4.0G vs the standard 4.1G usually seen in benchmarks, or 
+3.8G in the original paper). However, upon cross-referencing the original He et al. 
+(2016) paper (Table 1 lists 3.8 x 10^9), I realized the model provided a valid 
+approximation that averages common implementation variances. 
+Furthermore, for FaceNet NN1, the model correctly cited ‘140M parameters’ directly 
+from Table 1 of the Schroff et al. paper, distinguishing it from the similar VGG-16 
+(138M). This confirms the model was retrieving specific data from the provided context 
+rather than hallucinating generic VGG statistics. The slight variance in ResNet numbers 
+is acceptable as it correctly preserves the order-of-magnitude comparison (1.6G vs ~4G) 
+required to explain the architecture trade-offs." 
+ 
+Evalution: The response was remarkably precise and concise. For question 5(d), it 
+accurately recalled the specifics for FaceNet NN1 (140M parameters, 1.6B FLOPs) and 
+ResNet-50 (~25M parameters, ~4.0G FLOPs) from the ResNet paper’s training details, 
+with no instances of hallucination. To conclude Problem 5 effectively, I introduced a 
+follow-up question designed to probe deeper into architectural nuances—seemingly 
+counterintuitive at first glance: could the model explain the fundamental trade-off 
+between fully connected (FC) and convolutional (Conv) layers, specifically how FC 
+layers lead to parameter proliferation through dense matrices while maintaining low 
+computational demands (via a single matrix multiplication), in contrast to Conv layers, 
+which conserve parameters through weight sharing but incur higher compute costs from 
+spatial convolutions? A clear explanation here would provide a comprehensive and 
+insightful close to the section. 
+
+
+--- Page 14 ---
+ 
+Conclusion: The distinction between fully connected (FC) and convolutional (Conv) 
+layers precisely captures a key trade-off in computer vision: FC layers demand massive 
+parameters via dense 𝐶𝐶𝑖𝑖𝑖𝑖× 𝐶𝐶𝑜𝑜𝑜𝑜𝑜𝑜weight matrices but incur low computation through a 
+single matrix multiplication, as in FaceNet’s NN1 (VGG-like) with its parameter-heavy 
+FC classifiers; conversely, Conv layers minimize parameters via weight sharing yet 
+escalate computation by sliding kernels across images, with ResNet ditching FC for 
+global average pooling (GAP) to slash parameters while boosting FLOPs due to depth. 
+It’s still the perfect answer for my extra question. 

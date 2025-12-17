@@ -1,0 +1,61 @@
+--- Page 1 ---
+ChatGPT 4o
+ 
+
+
+--- Page 4 ---
+ 
+As instructed, it attempted this question step-by-step.
+And It derived the correct mathematical relationship. The only 
+discrepancy is that it presented the "two other terms" combined into one 
+exponential expression, while the answer key listed them side-by-side.
+Overall, correct for part a) i)
+However, for part a) ii) the one critique I have is that  the LLM 
+successfully derived the linear attention cost, but it failed to account for 
+the overhead of computing the random features themselves. 
+Calculating phi(Q) and phi(K) requires projecting N vectors of dimension 
+D to D_random, which adds a cost of O(N D D_random). 
+And 4o model missed this pre-processing step entirely.
+Which is why I followed up with it next.
+
+
+--- Page 6 ---
+ 
+After I pointed out the missing projection cost, the 
+model correctly derived the O(NDD_random) term for 
+the feature map computation. It successfully 
+combined this with the attention cost to reach the 
+final complexity that matches the official solution.
+
+
+--- Page 7 ---
+ 
+This was an example of a strong success (and also 
+in-context learning after part a. Yes, the answer was 
+correct and matched the solution key, but notably, the 
+model learned from my PREVIOUS correction in part 
+a. In the complexity analysis here, it included the 
+feature projection cost O(D D_random) without 
+needing a reminder. It therefore correctly concluded 
+the total complexity is linear O(N)
+
+
+--- Page 10 ---
+ 
+On this question, the model demonstrated strong understanding of Deep Learning 
+theory. 
+It correctly explained PyTorch implementation details (Hooks) and successfully 
+reasoned through system design trade-offs (Early Exit vs. Small Models) that were 
+left as “open questions” in the official solution.
+
+
+--- Page 12 ---
+ 
+Interestingly, on part d, 4o hallucinated the statistics. It 
+claimed the model used '140M FLOPs'. According to Table 1 
+of the original FaceNet paper, the 'NN1' model has 140M 
+parameters, not FLOPs. The FLOP count is actually 1.6B. The 
+model confused the two columns and misattributed the Zeiler 
+& Fergus statistics to the Inception model. I verified this 
+against the original paper, and pointed 4o to check Table 1 of 
+the original FaceNet paper again. SEE BELOW

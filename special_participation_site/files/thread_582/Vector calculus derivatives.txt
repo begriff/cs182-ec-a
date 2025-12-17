@@ -1,0 +1,3090 @@
+--- Page 1 ---
+1/25
+Vector calculus derivatives
+Vector Calculus Review
+Let x, c ∈ R
+n
+and A ∈ R
+n×n
+. For the following parts, before taking any derivatives, 
+identify what the
+derivative looks like (is it a scalar, vector, or matrix?) and 
+how we calculate each term in the derivative.
+Then carefully solve for an arbitrary entry of the derivative, 
+then stack/arrange all of them to get the final
+result. Note that the convention we will use going forward 
+is that vector derivatives of a scalar (with respect
+to a column vector) are expressed as a row vector, i.e. ∂f
+∂x = [ ∂f
+∂x1
+,
+∂f
+∂x2
+, ...,
+∂f
+∂xn
+] since a row acting on a
+column gives a scalar. You may have seen alternative 
+conventions before, but the important thing is that you
+need to understand the types of objects and how they 
+map to the shapes of the multidimensional arrays we
+use to represent those types.
+Homework 0, © Faculty teaching EECS 182, Fall 2025. All 
+Rights Reserved. This may not be publicly shared without 
+explicit permission. 1
+Homework 0 @ 2025-08-29 14:33:01-07:00
+(a) Show ∂
+∂x
+(x
+T c) = c
+T
+(b) Show ∂
+∂x
+||x||2
+2 = 2x
+T
+(c) Show ∂
+∂x
+(Ax) = A
+(d) Show ∂
+∂x
+(x
+T Ax) = x
+T
+(A + AT
+)
+(e) Under what condition is the previous derivative equal 
+to 2x
+T A?
+Let's go through each part of this vector calculus review step by step, identifying the
+shape (scalar/vector/matrix), calculating the derivative component-wise, and then
+assembling the final result as a row vector (as per the given convention).
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 2 ---
+2/25
+(a) Show 
+Type Analysis:
+, 
+ is a scalar.
+Derivative of scalar w.r.t. column vector → row vector 
+Component-wise:
+Let 
+, then:
+✅ Final answer:
+(b) Show 
+Type Analysis:
+, a scalar.
+Derivative w.r.t. column vector → row vector 
+Component-wise:
+Let 
+, then:
+✅ Final answer:
+(c) Show 
+Type Analysis:
+, 
+ is a vector 
+Derivative of vector w.r.t. vector → matrix 
+Component-wise:
+Let 
+, so 
+, then:
+✅ Final answer:
+(d) Show 
+Type Analysis:
+ is a scalar.
+Derivative w.r.t. column vector → row vector 
+​(x c) =
+∂x
+∂
+T
+cT
+x ∈Rn c ∈Rn
+x c
+T
+∈R1×n
+f(x) =
+​ x
+​c
+​
+∑i=1
+n
+i i
+​ =
+∂x
+​i
+∂f
+c
+​ ⇒
+i
+​ =
+∂x
+∂f
+[c
+​, c
+​, … , c
+​] =
+1
+2
+n
+cT
+​
+​(x c) = c
+∂x
+∂
+T
+T
+​∥x∥
+​ =
+∂x
+∂
+2
+2
+2xT
+∥x∥
+​ =
+2
+2
+x x
+T
+∈R1×n
+f(x) =
+​ x
+​
+∑i=1
+n
+i
+2
+​ =
+∂x
+​i
+∂f
+2x
+​ ⇒
+i
+​ =
+∂x
+∂f
+[2x
+​, 2x
+​, … , 2x
+​] =
+1
+2
+n
+2xT
+​
+​∥x∥
+​ = 2x
+∂x
+∂
+2
+2
+T
+​(Ax) =
+∂x
+∂
+A
+A ∈Rn×n x ∈Rn
+Ax
+∈Rn
+∈Rn×n
+y = Ax
+y
+​ =
+i
+​ A
+​x
+​
+∑j
+ij
+j
+​ =
+∂x
+​j
+∂y
+​i
+A
+​ ⇒
+ij
+​ =
+∂x
+∂(Ax)
+A
+​
+​(Ax) = A
+∂x
+∂
+​(x Ax) =
+∂x
+∂
+T
+x (A +
+T
+A )
+T
+x Ax
+T
+∈R1×n
+12/6/25, 11:12 PM
+Vector calculus derivatives
+Seems able to one shot the problem
+
+
+--- Page 3 ---
+3/25
+Approach:
+Let 
+. Then using the product rule (or chain rule):
+Alternatively, use index notation:
+✅ Final answer:
+(e) Under what condition is the previous derivative equal to 
+?
+From (d), we have:
+We want:
+For this to equal 
+, we must have:
+✅ Final answer:
+Let me know if you want the matrix calculus rules summarized in a cheat sheet.
+f(x) = x Ax
+T
+​(x Ax) =
+∂x
+∂
+T
+​x Ax
+=
+(∂x
+∂
+T
+)
+T
+​(x Ax)
+=
+(∂x
+∂
+T
+)
+T
+(A + A )x ⇒
+T
+​(x Ax)
+=
+[∂x
+∂
+T
+]
+x (A +
+T
+A )
+T
+x Ax =
+T
+​x
+​A
+​x
+​ ⇒
+i,j
+∑
+i
+ij
+j
+​ =
+∂x
+​k
+∂
+​A
+​x
+​ +
+j
+∑
+kj
+j
+​x
+​A
+​ =
+i
+∑
+i
+ik
+[Ax]
+​ +
+k
+[A x]
+​ ⇒
+T
+k
+​ =
+∂x
+∂
+(A + A )x ⇒
+T
+transpose ⇒
+​
+​(x Ax) = x (A + A )
+∂x
+∂
+T
+T
+T
+2x A
+T
+​(x Ax) =
+∂x
+∂
+T
+x (A +
+T
+A )
+T
+x (A +
+T
+A ) =
+T
+2x A ⇒
+T
+x (A +
+T
+A ) =
+T
+x A +
+T
+x A
+=
+T
+T
+x A +
+T
+(Ax)T
+2x A
+T
+x A
+=
+T
+T
+x A ⇒
+T
+x A
+=
+T
+T
+x A ⇒
+T
+(A −
+T
+A) x =
+T
+0
+∀x ⇒A
+=
+T
+A
+​
+When A is symmetric (i.e., A
+= A), then 
+​(x Ax) = 2x A
+T
+∂x
+∂
+T
+T
+Great! These are amazing and one shot. Now solve the 
+SVD problem: 3. Least Squares and the Min-norm problem 
+from the Perspective of SVD
+Consider the equation Xw = y, where X ∈ R
+m×n
+is a non-square data matrix, w is a weight vector, and y
+is vector of labels corresponding to the datapoints in each 
+row of X.
+Let’s say that X = UΣV
+T
+is the (full) SVD of X. Here, U and V are orthonormal 
+square matrices, and Σ
+is an m × n matrix with non-zero singular values (σi) on 
+the "diagonal".
+For this problem, we define Σ
+†
+an n × m matrix with the reciprocals of the singular values 
+( 1
+σi
+) along the
+"diagonal".
+(a) First, consider the case where m > n, i.e. our data matrix 
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 4 ---
+4/25
+X has more rows than columns (tall matrix)
+and the system is overdetermined. How do we find the 
+weights w that minimizes the error between
+Xw and y? In other words, we want to solve minw ∥Xw − y∥
+2
+.
+(b) Plug in the SVD X = UΣV
+T and simplify. Be careful with dimensions!
+(c) You’ll notice that the least-squares solution is in the 
+form w∗ = Ay. What happens if we leftmultiply X by our 
+matrix A? This is why the matrix A of the least-squares 
+solution is called the
+left-inverse.
+(d) Now, let’s consider the case where m < n, i.e. the data 
+matrix X has more columns than rows and
+the system is underdetermined. There exist infinitely many 
+solutions for w, but we seek the minimumnorm solution, 
+ie. we want to solve min ∥w∥
+2
+s.t.Xw = y. What is the minimum norm solution?
+(e) Plug in the SVD X = UΣV
+T and simplify. Be careful with dimensions!
+(f) You’ll notice that the min-norm solution is in the form 
+w∗ = By. What happens if we right-multiply
+X by our matrix B? This is why the matrix B of the min-
+norm solution is called the right-inverse.
+Thanks! Let's solve the SVD Least Squares and Min-norm problem step by step using the
+tools of linear algebra and matrix calculus. We'll work through parts (a)–(f) with clear
+reasoning and dimension checks.
+🟩 Setup:
+We are given:
+Full SVD: 
+, orthonormal
+, orthonormal
+, diagonal "matrix" with singular values 
+ (where 
+)
+Let:
+ be the Moore–Penrose pseudo-inverse of 
+🟦 (a) Tall matrix (overdetermined): Solve
+This is the classic least squares problem. When 
+ with 
+, and 
+ has full
+column rank:
+The closed-form solution is:
+This minimizes the squared error between the predictions 
+ and the true labels 
+.
+X ∈Rm×n
+X = UΣV T
+U ∈Rm×m
+V ∈Rn×n
+Σ ∈Rm×n
+σ
+​, … , σ
+​
+1
+r
+r =
+rank(X)
+Σ ∈
+†
+Rn×m
+Σ
+​∥Xw −
+w
+min
+y∥
+​2
+2
+X ∈Rm×n
+m > n
+X
+​
+w = (X X)
+X y
+∗
+T
+−1
+T
+Xw
+y ∈
+Rm
+12/6/25, 11:12 PM
+Vector calculus derivatives
+This solution is right
+
+
+--- Page 5 ---
+5/25
+🟦 (b) Plug in the SVD: 
+Substitute into the least squares formula:
+Since 
+ is orthonormal: 
+Use identity: 
+ if 
+ is orthonormal
+But 
+ (by definition of pseudo-inverse)
+This is the compact and stable SVD-based expression for the least-squares solution.
+🟦 (c) Define 
+. What is 
+?
+We are told 
+. Compute:
+Now, since 
+ (identity on the column space of 
+), we get:
+Note:
+If 
+ is full rank and 
+, then 
+More generally, 
+ is the orthogonal projector onto the column space of 
+✅ That’s why 
+ is called the left-inverse of 
+:
+🟩 (d) Now the underdetermined case: 
+We're solving:
+There are infinitely many solutions (since there are more unknowns than equations).
+Among all solutions 
+ that satisfy 
+, we want the one with minimum norm.
+✅ The solution is:
+This minimizes 
+ while still solving the constraint.
+🟩 (e) Plug in SVD: 
+Start with:
+Since 
+:
+X = UΣV T
+w =
+∗
+(X X)
+X y =
+T
+−1
+T
+(V Σ U UΣV )
+(V Σ U )y
+T
+T
+T −1
+T
+T
+U
+U U =
+T
+I
+​
+m
+= (V Σ ΣV )
+V Σ U y
+T
+T −1
+T
+T
+(V AV )
+=
+T −1
+V (A
+)V
+−1
+T
+V
+= V (Σ Σ)
+V V Σ U y =
+T
+−1
+T
+T
+T
+V (Σ Σ)
+Σ U y
+T
+−1
+T
+T
+(Σ Σ)
+Σ
+=
+T
+−1
+T
+Σ†
+​
+w = V Σ U y
+∗
+†
+T
+A = V Σ U
+†
+T
+AX
+w =
+∗
+Ay
+AX = V Σ U (UΣV ) =
+†
+T
+T
+V Σ
+ΣV
+=
+†U U
+T
+T
+V (Σ Σ)V
+†
+T
+Σ Σ =
+†
+I
+​n
+X
+AX = V IV
+=
+T
+V V T
+X
+m > n
+V V
+=
+T
+I
+​n
+AX
+X
+A
+X
+​
+AX = I
+​
+(on the range of X)
+n
+m < n
+​∥w∥
+​
+s.t.
+Xw =
+w
+min
+2
+2
+y
+w
+Xw = y
+​
+w = X (XX )
+y
+∗
+T
+T −1
+∥w∥
+​2
+X = UΣV T
+w =
+∗
+X (XX )
+y =
+T
+T −1
+(V Σ U )(UΣV )(UΣV ) )
+y =
+T
+T
+T
+T T −1
+V Σ U (UΣΣ U )
+y
+T
+T
+T
+T −1
+U U =
+T
+I
+= V Σ (ΣΣ )
+U y
+T
+T −1
+T
+12/6/25, 11:12 PM
+Vector calculus derivatives
+Generally correct, added additional y
+term
+
+
+--- Page 6 ---
+6/25
+Now notice:
+So:
+✨ Same expression as in the least squares case! The SVD gives us a unified framework to
+express both solutions.
+🟩 (f) Let 
+. What is 
+?
+Recall 
+, so:
+Here, 
+, and acts as a projector onto the row space of 
+.
+So:
+This is the projection matrix onto the row space of 
+.
+✅ That’s why 
+ is the right-inverse:
+✅ Summary Table
+Case
+Objective
+Solution
+Expression via SVD
+Result of Applying
+Inverse
+Overdetermined (
+)
+Minimize 
+ (left-
+inverse)
+Underdetermined (
+)
+Minimize 
+ s.t.
+ (right-
+inverse)
+Let me know if you'd like a diagram or cheat sheet for this too!
+Σ (ΣΣ )
+=
+T
+T −1
+Σ†
+​
+w = V Σ U y
+∗
+†
+T
+B = V Σ U
+†
+T
+XB
+X = UΣV T
+XB = (UΣV )(V Σ U ) =
+T
+†
+T
+UΣ
+Σ U
+=
+V V
+T
+†
+T
+U(ΣΣ )U
+†
+T
+ΣΣ ∈
+†
+Rm×m
+X
+​
+XB = UU T
+X
+B
+​
+XB = I
+​
+(on the row space of X)
+m
+m > n
+∥Xw −
+y∥
+w =
+∗
+(X X)
+X y
+T
+−1
+T
+w =
+∗
+V Σ U y
+†
+T
+AX = V V T
+m < n
+∥w∥
+Xw = y
+w =
+∗
+X (XX )
+y
+T
+T −1
+w =
+∗
+V Σ U y
+†
+T
+XB = UU T
+it says simplify though, why are you writing some of the 
+solutions in terms of y?
+Great observation — you're absolutely right to call that out. Let's clarify the difference
+between expressing solutions in terms of y  vs. simplifying purely symbolically.
+In parts (b) and (e), the problem says “Plug in the SVD and simplify”, and the goal is to
+rewrite the solution in terms of 
+ — not in terms of . Writing the final answer as
+ is already a simplification of expressions like 
+ using the
+SVD.
+However, your point is: can we go further and simplify without mentioning y  at all? So
+let’s go back and re-express (b) and (e) purely in terms of matrices — no y , just
+simplified matrix forms.
+🔁 Revised (b): Overdetermined Case — Simplify SVD
+U, Σ, V
+y
+w =
+∗
+V Σ U y
+†
+T
+(X X)
+X y
+T
+−1
+T
+12/6/25, 11:12 PM
+Vector calculus derivatives
+Simplify X, but it gave a y term
+These 
+
+
+--- Page 7 ---
+7/25
+Original:
+Plug in SVD:
+Let 
+So:
+Also:
+So the whole expression becomes:
+Now notice:
+Thus:
+✅ Fully simplified: the matrix-only form of the least squares solution operator is:
+No y  mentioned — just the simplification of the inverse-expression using the SVD.
+🔁 Revised (e): Underdetermined Case — Simplify SVD
+Original:
+Again, plug in 
+Then:
+So:
+Also:
+Now:
+Recognizing again that:
+We get:
+✅ So the simplified matrix expression for the minimum-norm operator is again:
+w =
+∗
+(X X)
+X y
+T
+−1
+T
+X = UΣV T
+X X =
+T
+V Σ U UΣV
+=
+T
+T
+T
+V Σ ΣV
+⇒
+T
+T
+(X X)
+=
+T
+−1
+V (Σ Σ)
+V
+T
+−1
+T
+X
+=
+T
+V Σ U
+T
+T
+w =
+∗
+(X X)
+X
+=
+T
+−1
+T
+V (Σ Σ)
+V V Σ U
+=
+T
+−1
+T
+T
+T
+V (Σ Σ)
+Σ U
+T
+−1
+T
+T
+(Σ Σ)
+Σ
+=
+T
+−1
+T
+Σ
+(by def)
+†
+​
+(X X)
+X
+= V Σ U
+T
+−1
+T
+†
+T
+​
+A = V Σ U
+†
+T
+w =
+∗
+X (XX )
+y
+T
+T −1
+X = UΣV T
+XX
+=
+T
+UΣV V Σ U
+=
+T
+T
+T
+UΣΣ U
+T
+T
+(XX )
+=
+T −1
+U(ΣΣ )
+U
+T −1
+T
+X
+=
+T
+V Σ U
+T
+T
+X (XX )
+=
+T
+T −1
+V Σ U U(ΣΣ )
+U
+=
+T
+T
+T −1
+T
+V Σ (ΣΣ )
+U
+T
+T −1
+T
+Σ (ΣΣ )
+=
+T
+T −1
+Σ†
+​
+X (XX )
+= V Σ U
+T
+T −1
+†
+T
+12/6/25, 11:12 PM
+Vector calculus derivatives
+Upon reprompting it is now right
+These 
+
+
+--- Page 8 ---
+8/25
+Same operator, different motivation.
+💡 Why This Is Useful:
+Both the overdetermined and underdetermined cases result in the same simplified matrix
+expression:
+This is the Moore–Penrose pseudoinverse of 
+:
+So:
+In the least squares case: 
+In the min-norm case: 
+The difference lies in:
+Whether 
+ is tall (left-invertible)
+Or wide (right-invertible)
+✅ Final Answers (Purely Matrix Simplified):
+(b)
+(e)
+Let me know if you want visualizations or numerical examples to test this on real matrices.
+​
+B = V Σ U
+†
+T
+​
+V Σ U
+†
+T
+X
+X =
+†
+V Σ U
+†
+T
+w =
+∗
+X y
+†
+w =
+∗
+X y
+†
+X
+​
+(X X)
+X
+= V Σ U
+T
+−1
+T
+†
+T
+​
+X (XX )
+= V Σ U
+T
+T −1
+†
+T
+4. The 5 Interpretations of Ridge Regression
+(a) Perspective 1: Optimization Problem. Ridge regression 
+can be understood as the unconstrained optimization 
+problem
+argmin
+w
+∥y − Xw∥
+2
+2 + λ∥w∥
+2
+2
+, (1)
+where X ∈ R
+n×d
+is a data matrix, and y ∈ R
+n
+is the target vector of measurement values. What’s new
+compared to the simple OLS problem is the addition of 
+the λ∥w∥
+2
+term, which can be interpreted as a
+"penalty" on the weights being too big.
+Use vector calculus to expand the objective and solve this 
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 9 ---
+9/25
+optimization problem for w.
+(b) Perspective 2: "Hack" of shifting the Singular Values. In 
+the previous part, you should have found the
+optimal w is given by
+w = (XT X + λI)
+−1XT y
+(If you didn’t get this, you should check your work for the 
+previous part).
+Homework 0, © Faculty teaching EECS 182, Fall 2025. All 
+Rights Reserved. This may not be publicly shared without 
+explicit permission. 2
+Homework 0 @ 2025-08-29 14:33:01-07:00
+Let X = UΣV
+T be the (full) SVD of the X. Recall that U and V are square 
+orthonormal (normpreserving) matrices, and Σ is a n × d 
+matrix with singular values σi along the "diagonal". Plug
+this into the Ridge Regression solution and simplify. What 
+happens to the singular values of
+(XT X + λI)
+−1XT when σi << λ? What about when σi >> λ?
+(c) Perspective 3: Maximum A Posteriori (MAP) estimation. 
+Ridge Regression can be viewed as finding
+the MAP estimate when we apply a prior on the (now 
+viewed as random parameters) W. In particular,
+we can think of the prior for W as being N (0, I) and view 
+the random Y as being generated using
+Y = x
+TW +
+√
+λN where the noise N is distributed iid (across training 
+samples) as N (0, 1). At the
+vector level, we have Y = XW +
+√
+λN. Note that the X matrix whose rows are the n different
+training points are not random.
+Show that (1) is the MAP estimate for W given an 
+observation Y = y.
+(d) Perspective 4: Fake Data. Another way to interpret 
+“ridge regression” is as the ordinary least squares
+for an augmented data set — i.e. adding a bunch of fake 
+data points to our data. Consider the following
+augmented measurement vector ˆy and data matrix Xˆ :
+ˆy =
+"
+y
+0d
+#
+Xˆ =
+"
+X
+√
+λId
+#
+,
+where 0d is the zero vector in R
+d
+and Id ∈ R
+d×d
+is the identity matrix. Show that the classical OLS
+optimization problem argminw ∥ˆy − Xwˆ ∥
+2
+2 has the same minimizer as (1).
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 10 ---
+10/25
+(e) Perspective 5: Fake Features. For this last interpretation, 
+let’s instead construct an augmented design
+matrix in the following way:
+Xˇ = [X
+√
+λIn]
+i.e. we stack X with √
+λIn horizontally. Now our problem is underdetermined: the 
+new dimension
+d + n is larger than the number of points n. Therefore, 
+there are infinitely many values η ∈ R
+d+n
+for
+which Xˇη = y. We are interested in the min-norm solution, 
+ie. the solution to
+argmin
+η
+∥η∥
+2
+2
+s.t. Xˇη = y. (2)
+Show that this is yet another form of ridge regression and 
+that the first d coordinates of η
+∗
+form
+the minimizer of (1).
+(f) We know that the Moore-Penrose pseudo-inverse for 
+an underdetermined system (wide matrix) is
+given by A† = AT
+(AAT
+)
+−1
+, which corresponds to the min-norm solution for Aη = z. 
+That is, the
+optimization problem
+argmin ∥η∥
+2
+s.t.Aη = z
+is solved by η = A†z. Let ˆw be the minimizer of (1).
+Use the pseudo-inverse to show that solving to the 
+optimization problem in (2) yields
+ˆw = XT
+(XXT + λI)
+−1y
+Then, show that this is equivalent to the standard formula 
+for Ridge Regression
+ˆw = (XT X + λI)
+−1XT y
+Hint: It may be helpful to review Kernel Ridge Form.
+Homework 0, © Faculty teaching EECS 182, Fall 2025. All 
+Rights Reserved. This may not be publicly shared without 
+explicit permission. 3
+Homework 0 @ 2025-08-29 14:33:01-07:00
+(g) We know that the solution to ridge regression (1) is 
+given by ˆwr = (X⊤X + λI)
+−1X⊤y. What
+happens when λ → ∞? It is for this reason that sometimes 
+ridge regularization is referred to as
+“shrinkage.”
+(h) What happens to the solution of ridge regression when 
+you take the limit λ → 0? Consider both
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 11 ---
+11/25
+the cases when X is wide (underdetermined system) and X 
+is tall (overdetermined system).
+Awesome — this is the Ridge Regression: 5 Perspectives problem from EECS 182 (Fall
+2025). Let's walk through each part (a)–(h) with step-by-step reasoning.
+✅ (a) Perspective 1: Optimization Problem
+We are solving:
+Let’s write the objective function explicitly:
+Now take derivative w.r.t. 
+ (as a row vector):
+Set gradient to 0:
+✅ (b) Perspective 2: Shifting Singular Values
+Given:
+Ridge solution:
+Use the identity:
+So:
+Effect of λ on singular values:
+Let singular values be 
+, then:
+If 
+: denominator is dominated by λ ⇒ expression ≈ small ⇒ singular
+directions with small σ get suppressed
+If 
+: denominator ≈ 
+ ⇒ expression ≈ 
+ ⇒ close to OLS
+✅ Ridge shrinks contributions from small singular directions, improving numerical
+stability.
+✅ (c) Perspective 3: MAP Estimation
+Given:
+Prior: 
+Observation model: 
+, where 
+MAP estimate maximizes:
+​∥y −
+w
+min
+Xw∥+
+2
+λ∥w∥2
+L(w) = (y −Xw) (y −
+T
+Xw) + λw w =
+T
+y y −
+T
+2y Xw +
+T
+w X Xw +
+T
+T
+λw w
+T
+w ∈Rd
+​ =
+∂w
+∂L
+−2y X +
+T
+2w X X +
+T
+T
+2λw
+=
+T
+2w (X X +
+T
+T
+λI) −2y X
+T
+2w (X X +
+T
+T
+λI) = 2y X ⇒
+T
+w
+=
+T
+y X(X X +
+T
+T
+λI)
+⇒
+−1
+​
+w = (X X + λI)
+X y
+T
+−1
+T
+X = UΣV T
+w = (X X +
+T
+λI)
+X y
+−1
+T
+X X =
+T
+V Σ ΣV
+⇒
+T
+T
+X X +
+T
+λI = V (Σ Σ +
+T
+λI)V T
+(X X +
+T
+λI)
+X
+=
+−1
+T
+V (Σ Σ +
+T
+λI)
+V V Σ U
+=
+−1
+T
+T
+T
+V (Σ Σ +
+T
+λI)
+Σ U
+−1
+T
+T
+σ
+​i
+​
+σ
+​ + λ
+i
+2
+σ
+​i
+σ
+​ ≪
+i
+λ
+σ
+​ ≫
+i
+λ
+σ
+​i
+2
+​
+σ
+​i
+1
+W ∼N(0, I)
+Y = XW +
+​N
+λ
+N ∼N(0, I)
+12/6/25, 11:12 PM
+Vector calculus derivatives
+These are mostly right
+
+
+--- Page 12 ---
+12/25
+Log-likelihood:
+Prior:
+So the MAP objective is:
+✅ Matches ridge regression.
+✅ (d) Perspective 4: Fake Data
+Augment data:
+Now solve:
+✅ So this is exactly ridge regression.
+✅ (e) Perspective 5: Fake Features (Min-norm form)
+Augment horizontally:
+Define variable 
+, and solve:
+Write 
+, then:
+So the objective becomes:
+Therefore:
+✅ The first  entries of the min-norm solution 
+ correspond to ridge regression solution
+log P(W ∣Y ) ∝log P(Y ∣W) + log P(W)
+log P(Y ∣W) ∝−
+​∥Y −
+2λ
+1
+XW∥
+(Gaussian noise)
+2
+log P(W) ∝−
+​∥W∥
+2
+1
+2
+​
+​∥Y −XW∥+
+​∥W∥
+⇒
+W
+min (2λ
+1
+2
+2
+1
+2)
+​∥Y −
+W
+min
+XW∥+
+2
+λ∥W∥2
+​
+MAP estimate = Ridge solution
+​ =
+y^
+​ ,
+=
+[ y
+0
+​d]
+X^
+​
+[ X
+​I
+​
+λ d]
+​∥
+​ −
+w
+min y^
+w∥=
+X^
+2
+∥y −Xw∥+
+2
+∥
+​w∥=
+λ
+2
+∥y −Xw∥+
+2
+λ∥w∥2
+​
+OLS on (
+,
+​) ⇒ridge regression solution
+X^ y^
+=
+Xˇ
+[X
+​I
+​] ∈
+λ n
+Rn×(d+n)
+η ∈Rd+n
+​∥η∥
+s.t. 
+η =
+η
+min
+2
+Xˇ
+y
+η =
+​
+[w
+z ]
+η =
+Xˇ
+Xw +
+​z =
+λ
+y ⇒z =
+​(y −
+​λ
+1
+Xw)
+∥η∥=
+2
+∥w∥+
+2
+∥z∥=
+2
+∥w∥+
+2
+​∥y −
+λ
+1
+Xw∥2
+​∥η∥⇔
+η
+min
+2
+​∥y −
+w
+min
+Xw∥+
+2
+λ∥w∥2
+d
+η∗
+w^
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 13 ---
+13/25
+✅ (f) Use Pseudo-inverse to show kernel form of ridge:
+From part (e), you solve:
+Recall 
+Then:
+So:
+First  components of  are:
+This is the dual/kernel form of ridge regression.
+Now prove equivalence to standard form:
+Use matrix identity:
+✅ Proven!
+✅ (g) Behavior as 
+Ridge regression solution:
+As 
+:
+ dominates → inverse tends to 0
+So 
+✅ This is called shrinkage: all weights are pushed toward zero.
+✅ (h) Behavior as 
+Case 1: Tall matrix 
+ is full-rank and invertible
+So:
+✅ Converges to OLS solution
+Case 2: Wide matrix 
+ is not invertible
+So OLS is ill-posed (infinitely many solutions)
+But ridge still yields a unique solution
+​∥η∥
+s.t. 
+η =
+η
+min
+2
+Xˇ
+y ⇒η =
+y =
+Xˇ †
+(
+)
+y
+Xˇ T XˇXˇ T −1
+=
+Xˇ
+[X
+​I
+​]
+λ n
+=
+XˇXˇ T
+XX
++
+T
+λI
+η =
+(XX
++
+Xˇ T
+T
+λI)
+y
+−1
+d
+η
+​
+= X (XX
++ λI)
+y
+w^
+T
+T
+−1
+=
+w^
+X (XX
++
+T
+T
+λI)
+y
+−1
+(X X +
+T
+λI)
+X
+=
+−1
+T
+X (XX
++
+T
+T
+λI)
+⇒
+−1
+​
+(X X + λI)
+X y = X (XX
++ λI)
+y
+T
+−1
+T
+T
+T
+−1
+λ →∞
+=
+w^
+(X X +
+T
+λI)
+X y
+−1
+T
+λ →∞
+λI
+→
+w^
+0
+​
+→0 as λ →∞
+w^
+λ →0
+(n > d)
+X X
+T
+=
+w^
+(X X +
+T
+λI)
+X y →
+−1
+T
+(X X)
+X y
+T
+−1
+T
+(n < d)
+X X
+T
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 14 ---
+14/25
+As 
+:
+ tends toward a solution of 
+But among infinitely many solutions, it converges to the min-norm solution
+✅ So:
+Let me know if you want a PDF-style writeup or a diagram showing how all 5 perspectives
+are connected.
+λ →0
+w^
+Xw = y
+​
+→OLS solution if unique (tall)
+w^
+​
+→minimum-norm solution if underdetermined (wide)
+w^
+ReLU Elbow Update under SGD
+In this question we will explore the behavior of the ReLU 
+nonlinearity with Stochastic Gradient Descent
+(SGD) updates. The hope is that this problem should help 
+you build a more intuitive understanding for how
+SGD works and how it iteratively adjusts the learned 
+function.
+We want to model a 1D function y = f(x) using a 1-hidden 
+layer network with ReLU activations and no
+biases in the linear output layer. Mathematically, our 
+network is
+ˆf(x) = W(2)Φ
+đ
+W(1)x + b
+Ē
+where x, y ∈ R, b ∈ R
+d
+, W(1) ∈ R
+d×1
+, and W(2) ∈ R
+1×d
+. We define our loss function to be the squared
+error,
+ℓ
+đ
+x, y,W(1)
+, b,W(2)Ē
+=
+1
+2
+ˆf(x) − y
+2
+2
+.
+For the purposes of this problem, we define the gradient 
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 15 ---
+15/25
+of a ReLU at 0 to be 0.
+(a) Let’s start by examining the behavior of a single ReLU 
+with a linear function of x as the input,
+ϕ(x) = (
+wx + b, wx + b > 0
+0, else
+.
+Notice that the slope of ϕ(x) is w in the non-zero domain.
+We define a loss function ℓ(x, y, ϕ) = 1
+2
+∥ϕ(x) − y∥
+2
+2
+. Find the following:
+(i) The location of the ‘elbow’ e of the function, where it 
+transitions from 0 to something else.
+(ii) The derivative of the loss w.r.t. ϕ(x), namely dℓ
+dϕ
+(iii) The partial derivative of the loss w.r.t. w, namely ∂ℓ
+∂w
+(iv) The partial derivative of the loss w.r.t. b, namely ∂ℓ
+∂b
+(b) Now suppose we have some training point (x, y) such 
+that ϕ(x)−y = 1. In other words, the prediction
+ϕ(x) is 1 unit above the target y — we are too high and are 
+trying to pull the function downward.
+Describe what happpens to the slope and elbow of ϕ(x) 
+when we perform gradient descent in the
+following cases:
+(i) ϕ(x) = 0.
+(ii) w > 0, x > 0, and ϕ(x) > 0. It is fine to check the 
+behavior of the elbow numerically in this
+case.
+(iii) w > 0, x < 0, and ϕ(x) > 0.
+(iv) w < 0, x > 0, and ϕ(x) > 0. It is fine to check the 
+behavior of the elbow numerically in this
+case.
+Homework 0, © Faculty teaching EECS 182, Fall 2025. All 
+Rights Reserved. This may not be publicly shared without 
+explicit permission. 4
+Homework 0 @ 2025-08-29 14:33:01-07:00
+Additionally, draw and label ϕ(x), the elbow, and the 
+qualitative changes to the slope and elbow
+after a gradient update to w and b. You should label the 
+elbow location and a candidate (x, y)
+pair. Remember that the update for some parameter 
+vector p and loss ℓ under SGD is
+p
+′ = p − λ∇p(ℓ), λ > 0.
+(c) Now we return to the full network function ˆf(x). Derive 
+the location ei of the elbow of the i’th
+elementwise ReLU activation.
+(d) Derive the new elbow location e
+′
+i
+of the i’th elementwise ReLU activation after one stochastic
+gradient update with learning rate λ.
+Let’s work through the ReLU Elbow Update under SGD problem in EECS 182 step by step.
+We'll handle all four subparts (a)–(d) with clear derivations and explanations — including
+formulas, intuitions, and how the elbow changes under SGD.
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 16 ---
+16/25
+🟩 (a) Single ReLU Unit
+We are given the activation function:
+and the loss:
+✅ (i) Location of the "elbow" 
+The elbow is where 
+ transitions from 0 to non-zero — i.e., the argument to ReLU
+becomes 0:
+🟢 Answer:
+✅ (ii) Derivative of loss w.r.t. output 
+We define:
+🟢 Answer:
+✅ (iii) Partial derivative of loss w.r.t. 
+Use chain rule:
+Case 1: If 
+, and ReLU derivative is defined to be 0 at 0, so:
+Case 2: If 
+, so:
+🟢 Answer:
+✅ (iv) Partial derivative of loss w.r.t. 
+Same reasoning as above:
+φ(x) =
+​
+​
+{wx + b
+0
+if wx + b > 0
+otherwise
+ℓ(x, y, φ) =
+​(φ(x) −
+2
+1
+y)2
+e
+φ(x)
+wx + b = 0 ⇒x = −
+​
+w
+b
+​
+e = −
+​
+w
+b
+φ(x)
+ℓ=
+​(φ(x) −
+2
+1
+y) ⇒
+2
+​ =
+dφ(x)
+dℓ
+φ(x) −y
+​
+​ = φ(x) −y
+dφ(x)
+dℓ
+w
+​ =
+∂w
+∂ℓ
+​ ⋅
+dφ(x)
+dℓ
+​
+∂w
+∂φ(x)
+wx + b ≤0 ⇒φ(x) = 0
+​ =
+∂w
+∂φ(x)
+0 ⇒
+​ =
+∂w
+∂ℓ
+0
+wx + b > 0 ⇒φ(x) = wx + b
+​ =
+∂w
+∂φ(x)
+x ⇒
+​ =
+∂w
+∂ℓ
+(φ(x) −y) ⋅x
+​
+​ =
+​
+​
+∂w
+∂ℓ
+{0
+(φ(x) −y) ⋅x
+if wx + b ≤0
+if wx + b > 0
+b
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 17 ---
+17/25
+If 
+, then derivative is 0.
+If 
+, then 
+🟢 Answer:
+🟩 (b) Behavior of Gradient Descent on Elbow & Slope
+Given: 
+, so we are too high and want to decrease 
+Let’s study what happens to 
+ and  under SGD:
+Also recall:
+✅ (i) Case: 
+Means: 
+Then:
+So: 
+, 
+, and nothing changes
+🟢 Summary:
+Slope: unchanged
+Elbow: unchanged
+✅ (ii) Case: 
+, 
+, 
+Then:
+Update:
+Elbow:
+Numerical example: say 
+, 
+, 
+, 
+Old: 
+New: 
+🟢 Summary:
+Slope decreases
+Elbow shifts slightly right (if x > 0)
+​ =
+∂b
+∂ℓ
+​ ⋅
+dφ(x)
+dℓ
+​
+∂b
+∂φ(x)
+wx + b ≤0
+wx + b > 0
+​ =
+∂b
+∂φ(x)
+1
+​
+​ =
+​
+​
+∂b
+∂ℓ
+{0
+(φ(x) −y)
+if wx + b ≤0
+if wx + b > 0
+φ(x) −y = 1
+φ(x)
+w
+b
+w =
+′
+w −λ ⋅
+​
+b =
+∂w
+∂ℓ
+′
+b −λ ⋅∂b
+∂ℓ
+elbow e = −
+​
+w
+b
+φ(x) = 0
+wx + b ≤0 ⇒ReLU inactive
+​ =
+∂w
+∂ℓ
+0
+​ =
+∂b
+∂ℓ
+0
+w =
+′
+w b =
+′
+b
+w > 0 x > 0 φ(x) > 0
+​ =
+∂w
+∂ℓ
+(1) ⋅x = x
+​ =
+∂b
+∂ℓ
+1
+w =
+′
+w −λx
+(↓)
+b =
+′
+b −λ
+(↓)
+e = −
+​ ⇒
+w
+b
+e =
+′
+−
+​
+w −λx
+b −λ
+w = 2 b = 1 x = 1 λ = 0.1
+e = −
+​ =
+2
+1
+−0.5
+e =
+′
+−
+​ ≈
+1.9
+0.9
+−0.474
+12/6/25, 11:12 PM
+Vector calculus derivatives
+Elbow shifts for (ii) and (iii) are wrong
+
+
+--- Page 18 ---
+18/25
+✅ (iii) Case: 
+, 
+, 
+Update:
+Elbow:
+→ Elbow shifts left
+🟢 Summary:
+Slope increases
+Elbow shifts left
+✅ (iv) Case: 
+, 
+, 
+Now both numerator and denominator decrease (more negative)
+→ Elbow 
+Depending on signs, this might push the elbow right or left, but in general:
+🟢 Summary:
+Slope decreases (steeper negative)
+Elbow shifts
+🖼️ Drawing Guidance
+In your sketch:
+Label:
+Elbow: 
+Original and updated lines
+(x, y) point with error
+Arrows showing slope and elbow motion
+🟩 (c) Elbow location 
+ for i-th ReLU in full network
+Each hidden unit computes:
+Elbow where pre-activation is zero:
+🟢 Answer:
+w > 0 x < 0 φ(x) > 0
+​ =
+∂w
+∂ℓ
+(1) ⋅x < 0 ⇒w =
+′
+w −λx ↑
+b =
+′
+b −λ
+e =
+′
+−
+​ ⇒
+w + λ∣x∣
+b −λ
+denominator increases, numerator decreases
+w < 0 x > 0 φ(x) > 0
+​ =
+∂w
+∂ℓ
+(1) ⋅x > 0 ⇒w =
+′
+w −λx ↓
+b =
+′
+b −λ
+e =
+′
+−
+​
+w−λx
+b−λ
+x = −b/w
+e
+​i
+φ
+​(x) =
+i
+ReLU(w
+​x +
+i
+(1)
+b
+​)
+i
+w
+​x +
+i
+(1)
+b
+​ =
+i
+0 ⇒x = −
+​
+w
+​
+i
+(1)
+b
+​i
+​
+e
+​ = −
+​
+i
+w
+​
+i
+(1)
+b
+​i
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 19 ---
+19/25
+🟩 (d) Elbow location after SGD update
+Let:
+Then new elbow:
+That’s the updated location based on gradient changes to 
+ and .
+Let me know if you want me to render these as plots or provide a Python visualization
+template!
+w
+​ =
+i
+(1)′
+w
+​ −
+i
+(1)
+λ
+​
+b
+​ =
+∂w
+​
+i
+(1)
+∂ℓ
+i
+′
+b
+​ −
+i
+λ
+​
+∂b
+​i
+∂ℓ
+​
+e
+​ = −
+​
+i
+′
+w
+​ −λ
+​
+i
+(1)
+∂w
+​
+i
+(1)
+∂ℓ
+b
+​ −λ
+​
+i
+∂b
+​i
+∂ℓ
+w
+b
+no (ii) elbow can shift both ways and (iii) elbow shifts right 
+You’re absolutely right to call that out — let's correct the elbow movement logic for parts
+(ii) and (iii) in the ReLU gradient update question.
+Let’s now go over each case again carefully, only focusing on the direction the elbow
+shifts under a gradient descent update, with all signs and ratios tracked properly.
+🔁 Reminder:
+The ReLU elbow is at:
+After a gradient descent step:
+Given: 
+, so gradient is:
+✅ (ii) 
+, 
+, 
+Update:
+ → decreases
+ → decreases
+So:
+Let’s analyze how 
+ compares to 
+:
+Compute difference:
+e = −
+​
+w
+b
+w =
+′
+w −λ
+​,
+b =
+∂w
+∂ℓ
+′
+b −λ
+​ ⇒
+∂b
+∂ℓ
+e =
+′
+−
+​ =
+w′
+b′
+−
+​
+w −λ
+​
+∂w
+∂ℓ
+b −λ
+​
+∂b
+∂ℓ
+φ(x) −y = 1
+​ =
+∂w
+∂ℓ
+x
+​ =
+∂b
+∂ℓ
+1
+w > 0 x > 0 φ(x) > 0
+w =
+′
+w −λx
+b =
+′
+b −λ
+e =
+′
+−w −λx
+b −λ
+e′
+e = −
+​
+w
+b
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 20 ---
+20/25
+We want to check the sign of this quantity — it depends on the values of 
+, so:
+Try numerical example:
+Then:
+🔁 So:
+✅ Corrected answer:
+Slope decreases
+Elbow shifts right
+✅ (iii) 
+, 
+, 
+Update:
+ → increases
+ → decreases
+So:
+Try a numerical example:
+Then:
+🔁 So:
+✅ Corrected answer:
+Slope increases
+Elbow shifts right
+✅ Summary (Corrected):
+Case
+Conditions
+Slope Update
+Elbow Shift
+(i)
+No change
+No change
+(ii)
+Decreases
+Right
+(iii)
+Increases
+Right
+e −
+′
+e = −
+​ +
+w −λx
+b −λ
+​
+w
+b
+b, w, λ, x
+w = 2, b = 1, x = 1, λ = 0.1
+e = −
+​ =
+2
+1
+−0.5
+w =
+′
+2 −0.1 = 1.9
+b =
+′
+1 −0.1 = 0.9
+e =
+′
+−
+​ ≈
+1.9
+0.9
+−0.474
+e >
+′
+e ⇒Elbow shifts **right**
+w > 0 x < 0 φ(x) > 0
+​ =
+∂w
+∂ℓ
+x < 0 ⇒w =
+′
+w −λx = w + λ∣x∣
+b =
+′
+b −λ
+e =
+′
+−
+​
+w + λ∣x∣
+b −λ
+w = 2, b = 1, x = −1, λ = 0.1
+e = −
+​ =
+2
+1
+−0.5
+w =
+′
+2 + 0.1 = 2.1
+b =
+′
+1 −0.1 = 0.9
+e =
+′
+−
+​ ≈
+2.1
+0.9
+−0.429
+e >
+′
+e ⇒Elbow shifts **right**
+φ(x) = 0
+w > 0, x > 0
+w > 0, x < 0
+12/6/25, 11:12 PM
+Vector calculus derivatives
+Elbow shifts are wrong
+
+
+--- Page 21 ---
+21/25
+Case
+Conditions
+Slope Update
+Elbow Shift
+(iv)
+Decreases further
+(more negative)
+Can shift left or right depending
+on ratio
+Thanks for catching that — especially the elbow always shifting right in both (ii) and (iii)
+under these update dynamics. Let me know if you want to visualize all these cases!
+w < 0, x > 0
+no (ii) your expression was right, but the elbow shift can be 
+one of two ways
+You're absolutely right again — let’s take a second, more precise pass at (ii) and settle this
+fully.
+🔁 Revisit: (ii) 
+, 
+, 
+We are analyzing:
+Our goal: determine when 
+ or 
+ — i.e., which direction the elbow shifts after
+one SGD step with learning rate .
+🧠 Let's Analyze the Sign of 
+We compute:
+Let’s define this expression and analyze it:
+Let’s write both terms with a common denominator:
+So:
+🎯 Now analyze the sign of 
+:
+, 
+So the denominator 
+Thus, the sign of 
+ is determined by the numerator:
+🔁 So:
+If 
+ → 
+ → 
+ → elbow shifts right
+If 
+ → 
+ → 
+ → elbow shifts left
+w > 0 x > 0 φ(x) > 0
+e = −
+​,
+e =
+w
+b
+′
+−
+​
+w −λx
+b −λ
+e >
+′
+e
+e <
+′
+e
+λ
+e −
+′
+e
+e −
+′
+e = −
+​ +
+w −λx
+b −λ
+​
+w
+b
+Δe := e −
+′
+e =
+​ −
+w
+b
+​
+w −λx
+b −λ
+Δe =
+​ =
+w(w −λx)
+b(w −λx) −(b −λ)w
+​ =
+w(w −λx)
+bw −bλx −bw + λw
+​
+w(w −λx)
+λ(w −bx)
+​
+Δe = e −e =
+​
+′
+w(w −λx)
+λ(w −bx)
+Δe
+λ > 0
+w > 0 x > 0
+w(w −λx) > 0
+Δe
+Sign(e −
+′
+e) = sign(w −bx)
+w > bx
+Δe > 0
+e >
+′
+e
+w < bx
+Δe < 0
+e <
+′
+e
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 22 ---
+22/25
+✅ Final Corrected Answer for (ii):
+Under the update:
+Then:
+✅ So the elbow can shift left or right depending on the relationship between 
+ and 
+.
+Summary (Updated Table):
+Case
+Conditions
+Slope Update
+Elbow Shift
+(i)
+No change
+No change
+(ii)
+Decreases
+Left or Right depending on
+(iii)
+Increases
+Right
+(iv)
+Decreases
+Mixed — depends on update
+ratio
+Thanks for the correction — (ii) is a subtle but important case! Let me know if you’d like
+plots to visualize this or a symbolic manipulation notebook.
+w =
+′
+w −λx,
+b =
+′
+b −λ
+⇒
+e =
+′
+−
+​
+w −λx
+b −λ
+​
+e ≷e ⟺w ≷bx
+′
+w
+bx
+φ(x) = 0
+w > 0, x > 0, φ(x) > 0
+w ≷bx
+w > 0, x < 0
+w < 0, x > 0
+(iv) is also wrong it is supposed to JUST move left
+Excellent, you’re absolutely correct again — let’s do a clean and final pass on Case (iv),
+double-checking all signs carefully to confirm that the elbow only moves left in this
+situation.
+✅ Case (iv): 
+, 
+, and 
+We're analyzing the elbow location:
+Let’s again analyze:
+Same derivation as before, but now apply to signs.
+🚧 Let’s Analyze the Signs
+Given:
+So:
+w < 0 x > 0
+φ(x) > 0
+e = −
+​,
+e =
+w
+b
+′
+−
+​
+w −λx
+b −λ
+Δe = e −
+′
+e =
+​
+w(w −λx)
+λ(w −bx)
+λ > 0
+x > 0
+w < 0 ⇒ReLU is "facing left"
+φ(x) = wx + b > 0 ⇒wx + b > 0
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 23 ---
+23/25
+Now let’s look at the denominator:
+So:
+Numerator: < 0
+Denominator: > 0
+⇒ 
+🟢 So the elbow always shifts left under these conditions.
+✅ Final Verdict for (iv):
+✅ Final Final Table (Everything Corrected):
+Case
+Conditions
+Slope Update
+Elbow Shift
+(i)
+No change
+No change
+(ii)
+Decreases
+Left or Right depending on
+(iii)
+Increases
+Right
+(iv)
+Decreases (steeper
+negative)
+Left ✅
+Thanks for sticking with the details — these sign-and-slope behaviors are core to
+understanding SGD + ReLU behavior during training. Let me know if you want animated
+plots or Python simulations of these elbows moving in real time.
+b > −wx ⇒bx > −wx ⇒
+2
+w −bx < 0
+(numerator < 0)
+w < 0,
+λx > 0 ⇒w −λx < 0 ⇒w(w −λx) > 0
+(product of two negatives)
+Δe = e −
+′
+e < 0 ⇒e <
+′
+e
+w < 0, x > 0, φ(x) > 0 ⇒
+​
+Elbow shifts left
+φ(x) = 0
+w > 0, x > 0
+w ≷bx
+w > 0, x < 0
+w < 0, x > 0
+could you derive part (d) in more detail please
+Absolutely — let’s go through part (d) in full detail:
+🔁 Recap from earlier parts
+We are modeling a 1D input 
+ with a 1-hidden-layer ReLU neural network, no bias at
+the output layer. The forward pass is:
+Where:
+ — input-to-hidden weights
+ — hidden layer biases
+ — hidden-to-output weights
+ — elementwise ReLU
+So the pre-activation of the -th neuron is:
+(d) Derive the new elbow location 
+ of the i-th elementwise ReLU activation after one
+stochastic gradient update with learning rate .
+e
+​i
+′
+λ
+x ∈R
+(x) =
+f^
+W
+⋅
+(2) Φ(W
+x +
+(1)
+b)
+W
+∈
+(1)
+Rd×1
+b ∈Rd
+W
+∈
+(2)
+R1×d
+Φ(⋅)
+i
+12/6/25, 11:12 PM
+Vector calculus derivatives
+Finally corrected, although
+the reasoning is not that 
+clear.
+Detailed derivation here
+which is correct, but 
+I had to prompt it
+
+
+--- Page 24 ---
+24/25
+and the elbow is where this transitions from 0 to non-zero (i.e., when 
+)
+Thus:
+🧠 Now: After one SGD step
+We assume the network is trained using squared loss:
+We're doing SGD updates for parameters 
+ and 
+. After one SGD step with learning
+rate :
+Then, the new elbow location becomes:
+✅ Let’s now derive 
+ and 
+We’ll use chain rule through the network. Let’s define:
+Suppose 
+ (i.e., ReLU is active, so its derivative is 1)
+Then:
+Next:
+Now apply:
+So finally:
+✅ Now plug into the new elbow expression:
+z
+​(x) =
+i
+w
+​x +
+i
+(1)
+b
+​i
+z
+​(x) =
+i
+0
+elbow of neuron i :
+​
+e
+​ = −
+​
+i
+w
+​
+i
+(1)
+bi
+ℓ(x, y) =
+​( (x) −
+2
+1 f^
+y)2
+w
+​
+i
+(1)
+b
+​i
+λ
+w
+​ =
+i
+′
+w
+​ −
+i
+λ ⋅
+​
+and
+b
+​ =
+∂w
+​i
+∂ℓ
+i
+′
+b
+​ −
+i
+λ ⋅
+​
+∂b
+​i
+∂ℓ
+​
+e
+​ = −
+​ = −
+​
+i
+′
+w
+​i
+′
+b
+​i
+′
+w
+​ −λ ⋅
+​
+i
+∂w
+​i
+∂ℓ
+b
+​ −λ ⋅
+​
+i
+∂b
+​i
+∂ℓ
+∂wi
+∂ℓ
+​
+∂b
+​i
+∂ℓ
+z
+​ =
+i
+w
+​x +
+i
+b
+​i
+ϕ
+​ =
+i
+ReLU(z
+​)
+i
+​(x) =
+f^
+​ W
+​ϕ
+​
+∑j=1
+d
+j
+(2)
+j
+ϕ
+​ >
+i
+0
+​ =
+∂ϕ
+​i
+∂ℓ
+​ ⋅
+∂
+​f^
+∂ℓ
+​ =
+∂ϕ
+​i
+∂
+​f^
+(
+​ −
+f^
+y) ⋅W
+​
+i
+(2)
+​ =
+∂z
+​i
+∂ϕ
+​i
+1[z
+​ >
+i
+0] = 1
+(since active) ⇒
+​ =
+∂z
+​i
+∂ℓ
+(
+​ −
+f^
+y)W
+​
+i
+(2)
+​ =
+∂w
+​i
+∂z
+​i
+x
+and
+​ =
+∂b
+​i
+∂z
+​i
+1
+​
+​ = (
+​ −y)W
+​ ⋅x
+,
+​ = (
+​ −y)W
+​
+∂w
+​i
+∂ℓ
+f^
+i
+(2)
+∂b
+​i
+∂ℓ
+f^
+i
+(2)
+e
+​ =
+i
+′
+−
+​
+w
+​ −λ(
+​ −y)W
+​x
+i
+f^
+i
+(2)
+b
+​ −λ(
+​ −y)W
+​
+i
+f^
+i
+(2)
+12/6/25, 11:12 PM
+Vector calculus derivatives
+
+
+--- Page 25 ---
+25/25
+This is the updated location of the elbow for neuron  after one SGD step, under the
+assumption that the ReLU is active at  (i.e. 
+).
+🧪 Edge case: if ReLU is inactive, then gradients are 0
+If 
+, then by convention:
+✅ Final Answer (Full Derivation):
+Let me know if you'd like a plot or animation to visualize how this elbow moves depending
+on the sign of 
+, or how this behaves for multiple ReLU neurons.
+i
+x
+z
+​(x) >
+i
+0
+z
+​(x) ≤
+i
+0 ⇒ϕ
+​ =
+i
+0
+​ =
+∂z
+​i
+∂ϕ
+​i
+0 ⇒
+​ =
+∂w
+​i
+∂ℓ
+0,
+​ =
+∂b
+​i
+∂ℓ
+0 ⇒w
+​, b
+​ =
+i
+′
+i
+′
+w
+​, b
+​ ⇒
+i
+i
+​
+e
+​ = e
+​
+i
+′
+i
+​
+e
+​ =
+​
+​
+​
+i
+′
+⎩
+⎨
+⎧−
+​
+w
+​ −λ(
+​(x) −y)W
+​x
+i
+(1)
+f^
+i
+(2)
+b
+​ −λ(
+​(x) −y)W
+​
+i
+f^
+i
+(2)
+e
+​i
+if w
+​x + b
+​ > 0
+i
+(1)
+i
+if w
+​x + b
+​ ≤0
+i
+(1)
+i
+​(x) −
+f^
+y
+12/6/25, 11:12 PM
+Vector calculus derivatives

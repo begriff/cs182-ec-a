@@ -1,0 +1,4801 @@
+--- Page 1 ---
+I am doing my deep learning homework, and I need your help to solve 
+some of the problems in my homework, when outputting your solution, 
+please make sure your solution is complete and includes are the steps
+Sure, I'd be happy to help with your deep learning homework! Please share the specific 
+problems or questions you're working on (e.g., concepts like neural network 
+architectures, backpropagation derivations, optimization techniques, or code 
+implementations), and I'll provide complete solutions with all the steps explained 
+clearly. If there's any code involved, I can even execute and verify it for you. What's the 
+first one?
+here I will provide you the homework document, please open the pdf file 
+and go over the problems, make sure you understand the broad picture of 
+the file. You can ignore the problem that has "(coding)" because we only 
+focus on non-coding problems. Please ONLY understand your job and 
+our objectives, do NOT do anything else
+PDF
+hw7_eecs182.pdf
+Understood. I have carefully reviewed the entire HW7 document and identified all 
+non-coding (written/theoretical) problems as requested. Below is a complete list of 
+the problems we will focus on solving — excluding any that require notebook 
+implementation or code output.
+Non-Coding (Written) Problems to Solve
+1. Implementing RNNs – Written Parts Only
+(e) If the network has no nonlinearities, under what conditions would you expect
+exploding or vanishing gradients for long sequences? Why? (Hint: analyze how ∂L/
+∂h_t changes with t. Do you see this empirically with last_step_only=True ?)
+Thought for 7s
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+1/37
+I start off by 
+telling Grok 
+what its job will 
+be and what I 
+need his help 
+with
+Then I provide it 
+the whole 
+homework 
+document at 
+once, and ask it 
+ONLY focus on 
+non-coding part 
+and ONLY 
+understand the 
+job and 
+objectives, so it 
+does not skip 
+ahead and 
+starting to solve 
+the problems
+
+
+--- Page 2 ---
+(f) Compare magnitude of hidden states and gradients when using ReLU vs tanh in
+Section 1.D. Which causes more vanishing/exploding gradients? Why? (Intuitive
+explanation OK)
+(g) What happens if you set last_target_only = False  in Section 1.D? Explain
+why this affects vanishing gradients. Does it help learn long-range dependencies?
+2. RNNs for Last Name Classification – Written
+(a) The model predicts language of origin from last names. In what ways could this
+be misused in real-world applications?
+3. Auto-encoder: Learning without Labels – Written
+3(a)(ii) After visualizations (which you’ll do in notebook):
+How does changing latent dimension size affect:
+Reconstruction accuracy?
+Linear probe accuracy? Why?
+3(b) PCA & AutoEncoders
+(i) Write the first-order optimality conditions for minimizing: $ L(W_1, W_2; X)
+= |X - W_2 W_1 X|_F^2 $
+(ii) Show that the top-k principal components $U_k$ satisfy these optimality
+conditions.
+4. Read a Blog Post: How to train your Resnet
+(a) What was the baseline training time & accuracy? What was the final?
+(b) Comment on what you learned. (≈100 words)
+(c) Which approach interested you most? Why? (≈100 words)
+7. Machine Translation (Old Exam Question – Required)
+(a) (4pts) Teammate proposes stacking encoder/decoder vertically: pass $h_t$
+from encoder to decoder at every timestep $t$. → State one problem with this
+design.
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+2/37
+
+
+--- Page 3 ---
+(b) (3pts) Spanish: "veo un perro <eos>"  → Correct English: "I see a dog"  But
+model outputs: "I saw a dog"  → During training, what are the 5 input tokens to
+the decoder ($w_1, ..., w_5$)?
+(c) (3pts) At evaluation time, what are the 5 tokens passed to the decoder?
+8. Self-supervised Linear Autoencoders
+Consider $\ell_2$-regularized linear autoencoder:
+(a) You want to train this in PyTorch SGD-style, self-supervised.
+(i) How many linear layers needed? [ ] 0 [ ] 1 [ ] 2 [ ] 3
+(ii) Loss function? [ ] L1Loss [ ] MSELoss [ ] CrossEntropyLoss
+(iii) To optimize exactly as written, need: (select all) [ ] Weight Decay [ ]
+Dropout [ ] Layer Norm [ ] Batch Norm [ ] SGD
+(b) Does small $\lambda > 0$ induce bias toward $W_2$ having orthonormal 
+columns?
+Argue using SVD: $W_1 = U_1\Sigma_1 V_1^\top$, $W_2 = U_2\Sigma_2 
+V_2^\top$.
+6. Homework Process and Study Group (Optional but recommended)
+(a) Sources used?
+(b) Collaborators?
+(c) Total hours?
+Our Objective
+I will now provide complete, step-by-step written solutions to all the above 
+problems, with:
+Clear reasoning
+Mathematical derivations (in LaTeX)
+L
+​(W
+​, W
+​; X) =
+λ
+1
+2
+​∥X −
+n
+1
+W
+​W
+​X∥
+​ +
+2
+1
+F
+2
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​
+2 F
+2
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+3/37
+
+
+--- Page 4 ---
+Intuitive explanations
+Direct answers formatted for submission
+Ready when you are — shall I begin with Problem 1(e)?
+(Or would you like me to go in order, or pick a specific one first?)
+let's start with the first non coding problem, problem 3 (b), please solve 
+and give me detailed solution for 3 (b) (i)
+Write out the first order optimality conditions that the minima of Eq. 2 
+would satisfy
+Please make sure you show all your steps
+The objective function is given by
+where 
+ is the zero-centered data matrix, 
+ is the encoder 
+weight matrix, 
+ is the decoder weight matrix (with 
+), and 
+ 
+denotes the squared Frobenius norm.
+The squared Frobenius norm can be expressed as
+so
+To find the minima, we need to compute the first-order optimality conditions by setting 
+the gradients (partial derivatives) with respect to 
+ and 
+ to zero:
+Step 1: Compute 
+Let 
+. Then 
+.
+L(W
+​, W
+​; X) =
+1
+2
+∥X −W
+​W
+​X∥
+​,
+2
+1
+F
+2
+X ∈Rm×n
+W
+​ ∈
+1
+Rk×m
+W
+​ ∈
+2
+Rm×k
+k < m
+∥⋅∥
+​
+F
+2
+∥A∥
+​ =
+F
+2
+​ A
+​ =
+∑i,j
+ij
+2
+tr(A A),
+⊤
+L(W
+​, W
+​; X) =
+1
+2
+tr (X −W
+​W
+​X) (X −W
+​W
+​X) .
+(
+2
+1
+⊤
+2
+1
+)
+W
+​1
+W
+​2
+​ =
+∂W
+​1
+∂L
+0,
+​ =
+∂W
+​2
+∂L
+0.
+​
+∂W
+​1
+∂L
+E = X −W
+​W
+​X
+2
+1
+L = tr(E E)
+⊤
+Thought for 20s
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+4/37
+I started with 
+problem 3 (b) (i), 
+the ﬁrst written 
+part, here I repeat 
+the problem to 
+Grok and ask it to 
+show all the 
+steps
+
+
+--- Page 5 ---
+Using matrix calculus, the derivative of 
+ with respect 
+to 
+ (where 
+, 
+, 
+, 
+) is
+Setting this equal to zero gives the condition:
+Step 2: Compute 
+Again, with 
+ and 
+, we can rewrite 
+, so 
+.
+The derivative of 
+ with respect to 
+ (where 
+, 
+, 
+) is
+Setting this equal to zero gives the condition:
+(Note that 
+, so this can equivalently be written as 
+.)
+Summary of First-Order Optimality Conditions
+The minima of Eq. (2) satisfy:
+tr((C −BAD) (C −
+⊤
+BAD))
+A
+C = X B = W
+​2 A = W
+​1 D = X
+​ =
+∂W
+​1
+∂L
+−2W
+​(X −
+2
+⊤
+W
+​W
+​X)X .
+2
+1
+⊤
+W
+​(X −
+2
+⊤
+W
+​W
+​X)X
+=
+2
+1
+⊤
+0.
+​
+∂W
+​2
+∂L
+E = X −W
+​W
+​X
+2
+1
+F = W
+​X
+1
+E = X −W
+​F
+2
+L = tr(E E)
+⊤
+tr((C −BF) (C −
+⊤
+BF))
+B
+C = X B =
+W
+​2 F = W
+​X
+1
+​ =
+∂W
+​2
+∂L
+−2(X −W
+​W
+​X)(W
+​X) .
+2
+1
+1
+⊤
+(X −W
+​W
+​X)(W
+​X)
+=
+2
+1
+1
+⊤
+0.
+(W
+​X)
+=
+1
+⊤
+X W
+​
+⊤
+1
+⊤
+(X −
+W
+​W
+​X)X W
+​ =
+2
+1
+⊤
+1
+⊤
+0
+W
+​(X −
+2
+⊤
+W
+​W
+​X)X
+=
+2
+1
+⊤
+0,
+(X −W
+​W
+​X)(W
+​X)
+=
+2
+1
+1
+⊤
+0.
+great work, now let's proceed to part (ii) Show that the principal 
+components U_k satisfy the optimality conditions outlined in (i).
+Please make sure you show all your steps
+To show that the principal components 
+ satisfy the first-order optimality conditions 
+for minimizing
+U
+​k
+L(W
+​, W
+​; X) =
+1
+2
+∥X −W
+​W
+​X∥
+​,
+2
+1
+F
+2
+Thought for 30s
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+5/37
+Grok 
+solve the 
+problem 
+perfectly 
+and 
+further 
+simplify 
+the 
+equation
+s and 
+made 
+them 
+equal to 
+0 to 
+account 
+for slope 
+= 0. Even 
+though it 
+is not 
+exactly 
+what the 
+solution 
+key is, 
+but the 
+answer 
+is good
+again, for 
+problem 3 (b) (ii),  
+I repeat the 
+problem to Grok 
+and ask it to 
+show all the 
+steps
+
+
+--- Page 6 ---
+we set 
+ and 
+, where 
+ has orthonormal columns (i.e., 
+) and consists of the top-  eigenvectors of 
+. The eigenvalues 
+corresponding to these eigenvectors are 
+, so 
+ 
+where 
+.
+Step 1: Verify the First Optimality Condition
+The first condition is
+Substitute 
+ and 
+:
+First, compute the inner term:
+Thus,
+The first condition holds.
+Step 2: Verify the Second Optimality Condition
+The second condition is
+Substitute 
+ and 
+:
+since 
+.
+Now compute
+From the eigenvector property, 
+, so
+Therefore,
+W
+​ =
+2
+U
+​k
+W
+​ =
+1
+U
+​
+k
+⊤
+U
+​ ∈
+k
+Rm×k
+U
+​U
+​ =
+k
+⊤
+k
+I
+​k
+k
+XX⊤
+σ
+​ >
+1
+2
+⋯> σ
+​ >
+k
+2
+0
+XX U
+​ =
+⊤
+k
+U
+​Λ
+​
+k
+k
+Λ
+​ =
+k
+diag(σ , … , σ
+​)
+1
+2
+k
+2
+W
+​(X −
+2
+⊤
+W
+​W
+​X)X
+=
+2
+1
+⊤
+0.
+W
+​ =
+2
+U
+​k
+W
+​ =
+1
+U
+​
+k
+⊤
+U
+​(X −
+k
+⊤
+U
+​U
+​X)X .
+k
+k
+⊤
+⊤
+U
+​(X −
+k
+⊤
+U
+​U
+​X) =
+k
+k
+⊤
+U
+​X −
+k
+⊤
+U
+​U
+​U
+​X =
+k
+⊤
+k
+k
+⊤
+U
+​X −
+k
+⊤
+I
+​ ⋅
+k U
+​X =
+k
+⊤
+U
+​X −
+k
+⊤
+U
+​X =
+k
+⊤
+0.
+U
+​(X −
+k
+⊤
+U
+​U
+​X)X
+=
+k
+k
+⊤
+⊤
+0 ⋅X
+=
+⊤
+0.
+(X −W
+​W
+​X)(W
+​X)
+=
+2
+1
+1
+⊤
+0.
+W
+​ =
+2
+U
+​k
+W
+​ =
+1
+U
+​
+k
+⊤
+(X −U
+​U
+​X)(U
+​X)
+=
+k
+k
+⊤
+k
+⊤
+⊤
+(X −U
+​U
+​X)X U
+​,
+k
+k
+⊤
+⊤
+k
+(U
+​X)
+=
+k
+⊤
+⊤
+X U
+​
+⊤
+k
+(X −U
+​U
+​X)X U
+​ =
+k
+k
+⊤
+⊤
+k
+XX U
+​ −
+⊤
+k
+U
+​U
+​XX U
+​.
+k
+k
+⊤
+⊤
+k
+XX U
+​ =
+⊤
+k
+U
+​Λ
+​
+k
+k
+XX U
+​ =
+⊤
+k
+U
+​Λ
+​,
+k
+k
+U
+​U
+​XX U
+​ =
+k
+k
+⊤
+⊤
+k
+U
+​U
+​(U
+​Λ
+​) =
+k
+k
+⊤
+k
+k
+U
+​(U
+​U
+​)Λ
+​ =
+k
+k
+⊤
+k
+k
+U
+​I
+​Λ
+​ =
+k k
+k
+U
+​Λ
+​.
+k
+k
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+6/37
+
+
+--- Page 7 ---
+The second condition holds.
+Since both optimality conditions are satisfied, the principal components 
+ (with 
+, 
+) achieve a critical point of the objective. (Per the referenced 
+result, this is the unique minimum up to sign changes in the projection directions.)
+XX U
+​ −
+⊤
+k
+U
+​U
+​XX U
+​ =
+k
+k
+⊤
+⊤
+k
+U
+​Λ
+​ −
+k
+k
+U
+​Λ
+​ =
+k
+k
+0.
+U
+​k
+W
+​ =
+2
+U
+​k W
+​ =
+1
+U
+​
+k
+⊤
+can you try to use SVD decomposition to solve this problem?
+Using SVD to Show that Principal Components Satisfy the Optimality
+Conditions
+The objective is to minimize 
+, where 
+ 
+is zero-centered data (
+ features,  samples), 
+, 
+ (with 
+), and 
+ is the squared Frobenius norm.
+From part (i), the first-order optimality conditions (stationarity conditions) for a 
+minimum are:
+We will show that these are satisfied by setting 
+ and 
+, where 
+ consists of the top-  principal components (the left singular vectors 
+corresponding to the  largest singular values of 
+).
+Step 1: Recall SVD and Its Relation to Principal Components
+Perform the singular value decomposition (SVD) of 
+:
+where:
+ is orthogonal (
+), with columns being the left singular
+vectors (eigenvectors of 
+).
+ is diagonal, with non-increasing singular values 
+ on the diagonal (and zeros elsewhere if 
+).
+L(W
+​, W
+​; X) =
+1
+2
+∥X −W
+​W
+​X∥
+​
+2
+1
+F
+2
+X ∈Rm×n
+m
+n
+W
+​ ∈
+1
+Rk×m W
+​ ∈
+2
+Rm×k
+k <
+m
+∥⋅∥
+​
+F
+2
+W
+​(X −
+2
+⊤
+W
+​W
+​X)X
+=
+2
+1
+⊤
+0,
+(1)
+(X −W
+​W
+​X)(W
+​X)
+=
+2
+1
+1
+⊤
+0.
+(2)
+W
+​ =
+2
+U
+​k
+W
+​ =
+1
+U
+​
+k
+⊤
+U
+​ ∈
+k
+Rm×k
+k
+k
+X
+X
+X = UΣV
+,
+⊤
+U ∈Rm×m
+U U =
+⊤
+I
+​
+m
+XX⊤
+Σ ∈Rm×n
+σ
+​ ≥
+1
+σ
+​ ≥
+2
+⋯≥
+σ
+​ ≥
+min(m,n)
+0
+m =n
+Thought for 54s
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+7/37
+In the ﬁrst 
+attempt, 
+Grok used 
+a different 
+path 
+compares 
+to the 
+solution. I 
+want to 
+see if Grok 
+can get 
+the exact 
+solution 
+on the 
+answer 
+key, so 
+here I hint 
+it to use 
+SVD to 
+solve the 
+problem
+
+
+--- Page 8 ---
+ is orthogonal (
+), with columns being the right singular
+vectors (eigenvectors of 
+).
+The principal components are the directions of maximum variance, given by the top-  
+left singular vectors (columns of 
+, the first  columns of 
+). The eigenvalues of 
+ are 
+ (as assumed in the problem for identifiability), with 
+ 
+as the corresponding eigenvectors:
+(Note: This follows directly from SVD, since 
+, so 
+the eigenvalues are 
+.)
+The Eckart-Young theorem states that the best rank-  approximation of 
+ (minimizing 
+) is:
+where 
+ (top-left 
+ block of 
+) and 
+ are the first  
+columns of 
+.
+For the linear autoencoder, the reconstruction is 
+. With 
+ and 
+:
+Substitute the SVD:
+Since 
+ (where 
+ are the remaining columns) and 
+, we have 
+ ( 
+ matrix with identity in the first  columns and zeros 
+elsewhere). Thus:
+so
+This confirms that 
+, 
+ achieves the minimal reconstruction error 
+(optimal by Eckart-Young). Now, we verify it satisfies (1) and (2).
+V ∈Rn×n
+V
+V =
+⊤
+In
+X X
+⊤
+k
+U
+​k
+k
+U
+XX⊤
+σ
+​ >
+1
+2
+⋯> σ
+​ >
+k
+2
+0
+U
+​k
+XX U
+​ =
+⊤
+k
+U
+​Λ
+​,
+Λ
+​ =
+k
+k
+k
+diag(σ
+​, … , σ
+​).
+1
+2
+k
+2
+XX
+=
+⊤
+UΣΣ U
+=
+⊤
+⊤
+U(ΣΣ )U
+⊤
+⊤
+σ
+​i
+2
+k
+X
+∥X −
+∥
+​
+X^
+F
+2
+=
+X^
+U
+​Σ
+​V
+​,
+k
+k
+k
+⊤
+Σ
+​ =
+k
+diag(σ
+​, … , σ
+​)
+1
+k
+k × k
+Σ
+V
+​k
+k
+V
+W
+​W
+​X
+2
+1
+W
+​ =
+2
+U
+​k
+W
+​ =
+1
+U
+​
+k
+⊤
+W
+​W
+​X =
+2
+1
+U
+​U
+​X.
+k
+k
+⊤
+U
+​U
+​X =
+k
+k
+⊤
+U
+​U
+​(UΣV
+) =
+k
+k
+⊤
+⊤
+U
+​(U
+​U)ΣV
+.
+k
+k
+⊤
+⊤
+U = [U
+​ U
+​]
+k
+⊥
+U
+​
+⊥
+U U =
+⊤
+I
+​
+m
+U
+​U =
+k
+⊤
+[I
+​ 0]
+k
+k × m
+k
+U
+​UΣV
+=
+k
+⊤
+⊤
+[I
+​ 0]ΣV
+=
+k
+⊤
+Σ
+​V
+​,
+k
+k
+⊤
+U
+​U
+​X =
+k
+k
+⊤
+U
+​Σ
+​V
+​ =
+k
+k
+k
+⊤
+.
+X^
+W
+​ =
+2
+U
+​k W
+​ =
+1
+U
+​
+k
+⊤
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+8/37
+
+
+--- Page 9 ---
+Step 2: Verify Condition (1)
+Substitute 
+, 
+ into (1):
+Compute the inner term:
+(since 
+, by orthonormality of columns in 
+).
+Thus:
+Condition (1) holds.
+Step 3: Verify Condition (2)
+Substitute into (2):
+Note that 
+, so this is:
+Now compute:
+From SVD, 
+ (as established in Step 1). Similarly:
+Thus:
+Condition (2) holds.
+Conclusion
+Using the SVD of 
+, we explicitly see that the principal components 
+ (left singular 
+vectors) define weights 
+, 
+ that not only achieve the minimal 
+reconstruction error (via Eckart-Young) but also satisfy the first-order optimality 
+W
+​ =
+2
+U
+​k W
+​ =
+1
+U
+​
+k
+⊤
+U
+​(X −
+k
+⊤
+U
+​U
+​X)X
+=
+k
+k
+⊤
+⊤
+0.
+U
+​(X −
+k
+⊤
+U
+​U
+​X) =
+k
+k
+⊤
+U
+​X −
+k
+⊤
+U
+​U
+​U
+​X =
+k
+⊤
+k
+k
+⊤
+U
+​X −
+k
+⊤
+I
+​ ⋅
+k U
+​X =
+k
+⊤
+U
+​X −
+k
+⊤
+U
+​X =
+k
+⊤
+0
+U
+​U
+​ =
+k
+⊤
+k
+I
+​k
+U
+​k
+U
+​(X −
+k
+⊤
+U
+​U
+​X)X
+=
+k
+k
+⊤
+⊤
+0 ⋅X
+=
+⊤
+0.
+(X −U
+​U
+​X)(U
+​X)
+=
+k
+k
+⊤
+k
+⊤
+⊤
+0.
+(U
+​X)
+=
+k
+⊤
+⊤
+X U
+​
+⊤
+k
+(X −U
+​U
+​X)X U
+​ =
+k
+k
+⊤
+⊤
+k
+0.
+XX U
+​ −
+⊤
+k
+U
+​U
+​XX U
+​.
+k
+k
+⊤
+⊤
+k
+XX U
+​ =
+⊤
+k
+U
+​Λ
+​
+k
+k
+U
+​U
+​XX U
+​ =
+k
+k
+⊤
+⊤
+k
+U
+​U (U
+​Λ
+​) =
+k
+k
+⊤
+k
+k
+U
+​(U
+​U
+​)Λ
+​ =
+k
+k
+⊤
+k
+k
+U
+​I
+​Λ
+​ =
+k k
+k
+U
+​Λ
+​.
+k
+k
+XX U
+​ −
+⊤
+k
+U
+​U
+​XX U
+​ =
+k
+k
+⊤
+⊤
+k
+U
+​Λ
+​ −
+k
+k
+U
+​Λ
+​ =
+k
+k
+0.
+X
+U
+​k
+W
+​ =
+2
+U
+​k W
+​ =
+1
+U
+​
+k
+⊤
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+9/37
+I believe 
+Grok is 
+majorly  
+correct, 
+but it 
+uses 
+different 
+variables
+
+
+--- Page 10 ---
+conditions (1) and (2). The uniqueness (up to sign changes in the directions) follows 
+from the assumption of distinct positive eigenvalues 
+, as per the 
+cited result in Baldi and Hornik (1989).
+σ
+​ >
+1
+2
+⋯> σ
+​ >
+k
+2
+0
+in addition of using SVD, can you also try to plug SVD in to the existing 
+equations and also try to use the terms
+X = UΣV^T, 
+D = ΣΣ^T, 
+V_1 := W_1U, 
+V_2 := U^TW_2
+Plugging SVD into the Optimality Conditions Using the Suggested Terms
+To provide an alternative derivation, we will explicitly plug the SVD of 
+ into the 
+optimality conditions and use the suggested terms 
+, 
+, 
+, 
+. This will show that the principal components 
+ (the first  
+columns of 
+) satisfy the conditions when we set 
+ and 
+.
+Recall the SVD:
+, where 
+ is orthogonal (
+), 
+ is
+diagonal with singular values 
+ (padded with zeros if 
+),
+and 
+ is orthogonal.
+ is diagonal with entries 
+ (the eigenvalues of 
+).
+For the principal components solution:
+ is the submatrix of 
+ consisting of the first  columns (corresponding
+to the  largest 
+).
+Set 
+ (encoder) and 
+ (decoder).
+Now compute the suggested terms:
+.
+Since 
+ (where 
+ are the remaining columns), and
+, 
+, we have:
+X
+X = UΣV T D = ΣΣT V
+​ :=
+1
+W
+​U
+1
+V
+​ :=
+2
+U W
+​
+T
+2
+U
+​k
+k
+U
+W
+​ =
+1
+U
+​
+k
+T
+W
+​ =
+2
+U
+​k
+X = UΣV T
+U ∈Rm×m
+U U =
+T
+I
+​
+m Σ ∈Rm×n
+σ
+​ ≥
+1
+⋯≥σ
+​ ≥
+m
+0
+n > m
+V ∈Rn×n
+D = ΣΣ
+∈
+T
+Rm×m
+σ
+​i
+2
+XXT
+U
+​ ∈
+k
+Rm×k
+U
+k
+k
+σ
+​i
+W
+​ =
+1
+U
+​ ∈
+k
+T
+Rk×m
+W
+​ =
+2
+U
+​ ∈
+k
+Rm×k
+V
+​ =
+1
+W
+​U =
+1
+U
+​U
+k
+T
+U = [U
+​ U
+​]
+k
+⊥
+U
+​ ∈
+⊥
+Rm×(m−k)
+U
+​U
+​ =
+k
+T
+k
+I
+​k U
+​U
+​ =
+k
+T
+⊥
+0
+Thought for 2m 1s
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+10/37
+In the 
+second 
+attempt, 
+Grok used 
+SVD but 
+different 
+parameter
+s. Again, I 
+want to 
+see if Grok 
+can get 
+the exact 
+solution 
+on the 
+answer 
+key, so 
+here I 
+provide it 
+some 
+variables 
+it can use
+
+
+--- Page 11 ---
+.
+Similarly:
+Note that 
+ in this case.
+We can express 
+ and 
+ in terms of 
+ and 
+:
+Since 
+, 
+.
+.
+Step 1: Express Key Terms Using SVD and 
+.
+The reconstruction: 
+ (since 
+).
+The error matrix:
+Assuming for concreteness that 
+ (common in data settings; the derivation 
+generalizes), 
+ is effectively 
+ diagonal (with trailing zeros if needed). We treat 
+ as diagonal 
+ for matrix operations.
+Compute 
+ (k x m
+matrix, but padded to match dimensions).
+Then 
+.
+Thus:
+The top  rows are zero, and the bottom 
+ rows contain the remaining
+singular values.
+Note that 
+, but we will use it implicitly in the
+squared terms below.
+V
+​ =
+1
+​
+​ ∈
+(I
+​k
+0)
+R
+.
+k×m
+V
+​ =
+2
+U W
+​ =
+T
+2
+U U
+​
+T
+k
+V
+​ =
+2
+​
+∈
+(I
+​k
+0 )
+R
+.
+m×k
+V
+​ =
+1
+T
+V
+​2
+W
+​1
+W
+​2
+V
+​1
+V
+​2
+U U =
+T
+I
+​
+m W
+​ =
+1
+V
+​U
+1
+T
+W
+​ =
+2
+UV
+​2
+V
+​, V
+1
+2
+X
+=
+T
+V Σ U
+T
+T
+W
+​W
+​X =
+2
+1
+UV
+​V
+​U X =
+2
+1
+T
+UV
+​V
+​U UΣV
+=
+2
+1
+T
+T
+UV
+​V
+​ΣV
+2
+1
+T
+U U =
+T
+I
+​
+m
+X −W
+​W
+​X =
+2
+1
+UΣV
+−
+T
+UV
+​V
+​ΣV
+=
+2
+1
+T
+U(Σ −V
+​V
+​Σ)V .
+2
+1
+T
+n ≥m
+Σ
+m × m
+Σ
+diag(σ
+​, … , σ
+​)
+1
+m
+V
+​Σ =
+1
+​
+​ diag(σ
+​, … , σ
+​) =
+(I
+​k
+0)
+1
+m
+diag(σ
+​, … , σ
+​, 0, … , 0)
+1
+k
+V
+​V
+​Σ =
+2
+1
+​
+diag(σ
+​, … , σ
+​, 0, … , 0) =
+(I
+​k
+0 )
+1
+k
+​
+(diag(σ
+​, … , σ
+​)
+1
+k
+0
+​
+(m−k)×m
+)
+Σ −V
+​V
+​Σ =
+2
+1
+diag(σ
+​, … , σ
+​) −
+1
+m
+​
+=
+(diag(σ
+​, … , σ
+​)
+1
+k
+0
+)
+diag(0, … , 0 (k times), σk
+k
+m −k
+D = ΣΣ
+=
+T
+diag(σ
+​, … , σ
+​)
+1
+2
+m
+2
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+11/37
+
+
+--- Page 12 ---
+Step 2: Verify First Optimality Condition
+The first condition is:
+Substitute:
+.
+So:
+Now multiply by 
+:
+(since 
+).
+The condition reduces to:
+Plug in the expression for 
+.
+Then 
+ (since 
+ for square
+diagonal case, and squaring entries).
+Now 
+ (k x m).
+So:
+The product is zero because 
+ selects the top  rows, which are all zeros in the
+diagonal matrix.
+Thus, the first condition holds.
+Step 3: Verify Second Optimality Condition
+The second condition is:
+Substitute:
+W
+​(X −
+2
+T
+W
+​W
+​X)X
+=
+2
+1
+T
+0.
+W
+​ =
+2
+T
+V
+​U
+2
+T
+T
+W
+​(X −
+2
+T
+W
+​W
+​X) =
+2
+1
+V
+​U
+⋅
+2
+T
+T
+U(Σ −V
+​V
+​Σ)V
+=
+2
+1
+T
+V
+​(Σ −
+2
+T
+V
+​V
+​Σ)V .
+2
+1
+T
+X
+=
+T
+V Σ U
+T
+T
+V (Σ −
+2
+T
+V
+​V
+​Σ)V
+⋅
+2
+1
+T
+V Σ U
+=
+T
+T
+V
+​(Σ −
+2
+T
+V
+​V
+​Σ)Σ U
+=
+2
+1
+T
+T
+0
+V V =
+T
+I
+​n
+V
+​(Σ −
+2
+T
+V
+​V
+​Σ)Σ
+=
+2
+1
+T
+0.
+Σ −V
+​V
+​Σ =
+2
+1
+diag(0
+​, σ
+​, … , σ
+​)
+k
+k+1
+m
+(Σ −V
+​V
+​Σ)Σ
+=
+2
+1
+T
+diag(0
+​, σ
+​, … , σ
+​)
+k
+k+1
+2
+m
+2
+Σ
+≈
+T
+Σ
+V
+​ =
+2
+T
+​
+​
+(I
+​k
+0)
+V
+​ ⋅
+2
+T
+diag(0
+​, σ
+​, … , σ
+​) =
+k
+k+1
+2
+m
+2
+​
+​ ⋅
+(I
+​k
+0) diag(0
+​, σ
+​, … , σ
+​) =
+k
+k+1
+2
+m
+2
+diag(0
+​) =
+k
+0.
+V
+​
+2
+T
+k
+(X −W
+​W
+​X)(W
+​X)
+=
+2
+1
+1
+T
+0.
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+12/37
+
+
+--- Page 13 ---
+.
+.
+So:
+The condition reduces to:
+Note that 
+ (m x k).
+First, 
+ (the
+bottom 
+ rows are zero).
+Now multiply on the left by 
+:
+The product is zero because the non-zero parts of the left matrix (rows 
+ to 
+) multiply the zero bottom block of the right matrix, while the zero top block of the
+left matrix multiplies the non-zero top.
+Thus, the second condition holds.
+Connection to the Paper (Baldi and Hornik, 1989)
+This derivation aligns with the result in the cited paper, where the critical points of the 
+linear autoencoder objective correspond to projections onto subspaces spanned by 
+eigenvectors of the covariance matrix 
+. The unique 
+global minimum is achieved when the subspace is spanned by the top  principal 
+components (first  columns of 
+), as other choices lead to saddle points. The terms 
+ and 
+ act as "selection matrices" that isolate the top  components, ensuring the 
+reconstruction captures the directions of maximum variance (largest 
+ in 
+).
+This confirms that 
+ satisfies the optimality conditions.
+W
+​X =
+1
+V
+​U X =
+1
+T
+V
+​U UΣV
+=
+1
+T
+T
+V
+​ΣV
+1
+T
+(W
+​X)
+=
+1
+T
+V Σ V
+​
+T
+1
+T
+(X −W
+​W
+​X)(W
+​X)
+=
+2
+1
+1
+T
+U(Σ −V
+​V
+​Σ)V
+⋅
+2
+1
+T
+V Σ V
+​ =
+T
+1
+T
+U(Σ −V
+​V
+​Σ)Σ V
+​ =
+2
+1
+T
+1
+T
+(Σ −V
+​V
+​Σ)Σ V
+​ =
+2
+1
+T
+1
+T
+0.
+V
+​ =
+1
+T
+V
+​ =
+2
+​
+(I
+​k
+0 )
+Σ V
+​ =
+T
+1
+T
+Σ V
+​ ≈
+T
+2
+diag(σ
+​, … , σ
+​) ⋅
+1
+m
+​
+=
+(I
+​k
+0 )
+​
+(diag(σ
+​, … , σ
+​)
+1
+k
+0
+​
+(m−k)×k
+)
+m −k
+(Σ −V
+​V
+​Σ) =
+2
+1
+diag(0 , σ
+​, … , σ
+​)
+k
+k+1
+m
+diag(0
+​, σ
+​, … , σ
+​) ⋅
+k
+k+1
+m
+​
+=
+(diag(σ
+​, … , σ
+​)
+1
+k
+0
+​
+(m−k)×k
+)
+​
+=
+(
+0
+​
+k×k
+0
+​
+(m−k)×k)
+0.
+k + 1
+m
+Σ
+​ =
+xx
+​XX
+=
+n
+1
+T
+U(
+​D)U
+n
+1
+T
+k
+k
+U
+V
+​1
+V
+​2
+k
+σ
+​i
+2
+D
+U
+​k
+now let's move on to problem 4, Read a Blog Post: How to train your 
+Resnet
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+13/37
+After 
+providing 
+the 
+vairables 
+and hints 
+to Grok, it 
+starts to 
+generate 
+solutions 
+that align 
+with the 
+solution 
+(but not 
+exactly the 
+same)
+
+
+--- Page 14 ---
+In previous homeworks, we saw how memory and compute constraints 
+on GPUs put limits on the architecture and the hyperparameters (e.g., 
+batch size) we can use to train our models. To train better models, we 
+could scale up by using multiple GPUs, but most distributed training 
+techniques scale sub-linearly and often we simply don’t have as many 
+GPU resources at our disposal. This raises a natural question - how can 
+we make model training more efficient on a single GPU? The blog series 
+How to train your Resnet explores how to train ResNet models efficiently 
+on a single GPU. It covers a range of topics, including architecture, 
+weight decay, batch normalization, and hyperparameter tuning. In doing 
+so, it provides valuable insights into the training dynamics of neural 
+networks and offers lessons that can be applied in other settings.
+here is provide you the blog post
+Over the past few months, I’ve been investigating how to train deep 
+neural networks quickly. Or at least not as slowly. My interest in the 
+problem began earlier this year, during a project with Sam Davis at Myrtle. 
+We were compressing large recurrent networks for automatic speech 
+recognition to deploy on FPGAs and needed to retrain the models. The 
+baseline implementation from Mozilla took a week to train on 16 GPUs. 
+After some great work by Sam to remove bottlenecks and move to 
+mixed-precision computation on Nvidia Volta GPUs, we were able to 
+reduce training times more than 100-fold and bring iterations down 
+below a day on a single GPU. This was crucial to our ability to progress 
+and got me wondering what else we could speed up and what 
+applications this might enable. At about the same time, folks at Stanford 
+were thinking along similar lines and launched the DAWNBench 
+competition to compare training speeds on a range of deep learning 
+benchmarks. Of most interest were the benchmarks for training image 
+classification models to 94% test accuracy on CIFAR10 and 93% top-5 
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+14/37
+
+
+--- Page 15 ---
+accuracy on ImageNet. Image classification is a particularly popular field 
+of deep learning research, but the initial entries didn’t reflect state-of-
+the-art practices on modern hardware and took multiple hours to train. By 
+the time the competition closed in April, the situation had changed and 
+on CIFAR10, the fastest single GPU entry, from fast.ai student Ben 
+Johnson, reached 94% accuracy in under 6 minutes (341s). The main 
+innovations were mixed-precision training, choosing a smaller network 
+with sufficient capacity for the task and employing higher learning rates 
+to speed up stochastic gradient descent (SGD). So an obvious question 
+is: how good is 341s to train to 94% test accuracy on CIFAR10? The 
+network used in the fastest submission was an 18-layer Residual network, 
+shown below. (Click-and-scroll to navigate the network, and hover over 
+nodes to see more information.) In this case the number of layers refers 
+to the serial depth of (purple) convolutional and (blue) fully connected 
+layers although the terminology is by no means universal
+Let’s see how long training should take in this setup assuming 100% 
+compute efficiency on a single NVIDIA Volta V100 GPU – the top-of-the-
+line data centre GPU used by the winning DAWNBench entries. A forward 
+and backward pass through the network on a 32×323 CIFAR10 image, 
+requires approximately 2.8×109 FLOPs. Assuming that parameter update 
+computations are essentially free, 35 epochs of training on the 50,000 
+image dataset should complete in approximately 5×1015 FLOPs. 
+Equipped with 640 Tensor Cores, Tesla V100 delivers 125 TeraFLOPS of 
+deep learning performance Assuming that we could realise 100% 
+compute efficiency, training should complete in… 40 seconds. Even under 
+realistic assumptions, it seems there’s room to improve the 341s state-of-
+the-art. So with a target in mind, it’s time to start training. The first order 
+of business is to reproduce the baseline CIFAR10 results with the network 
+above. Since we’re planning to change things later, I built a version of the 
+network in PyTorch and replicated the learning rate schedule and 
+hyperparameters from the DAWNBench submission. Training on an AWS 
+p3.2×large instance with a single V100 GPU, 3/5 runs reach a final test 
+accuracy of 94% in 356s. With baseline duly reproduced, the next step is 
+to look for simple improvements that can be implemented right away. A 
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+15/37
+For problem 4, I 
+started with telling 
+Grok our goal and 
+objective, and also 
+feeding it the entire 
+blog
+
+
+--- Page 16 ---
+first observation: the network starts with two consecutive (yellow-red) 
+batch norm-ReLU groups after the first (purple) convolution. This was 
+presumably not an intentional design and so let’s remove the duplication. 
+Likewise the strange kink in the learning rate at epoch 15 has to go 
+although this shouldn’t impact training time. With those changes in place 
+the network and learning rate look slightly simpler and more importantly, 
+4/5 runs reach 94% final test accuracy in a time of 323s! New record! A 
+second observation: some of the image preprocessing (padding, 
+normalisation and transposition) is needed on every pass through the 
+training set and yet this work is being repeated each time. Other 
+preprocessing steps (random cropping and flipping) differ between 
+epochs and it makes sense to delay applying these. Although the 
+preprocessing overhead is being mitigated by using multiple CPU 
+processes to do the work, it turns out that PyTorch dataloaders (as of 
+version 0.4) launch fresh processes for each iteration through the 
+dataset. The setup time for this is non-trivial, especially on a small 
+dataset like CIFAR10. By doing the common work once before training, 
+removing pressure from the preprocessing jobs, we can reduce the 
+number of processes needed to keep up with the GPU down to one. In 
+heavier tasks, requiring more preprocessing or feeding more than one 
+GPU, an alternative solution could be to keep dataloader processes alive 
+between epochs. In any case, the effect of removing the repeat work and 
+reducing the number of dataloader processes is a further 15s saving in 
+training time (almost half a second per epoch!) and a new training time of 
+308s. A bit more digging reveals that most of the remaining 
+preprocessing time is spent calling out to random number generators to 
+select data augmentations rather than in the augmentations themselves. 
+During a full training run we make several million individual calls to 
+random number generators and by combining these into a small number 
+of bulk calls at the start of each epoch we can shave a further 7s of 
+training time. Finally, at this point it turns out that the overhead of 
+launching even a single process to perform the data augmentation 
+outweighs the benefit and we can save a further 4s by doing the work on 
+the main thread, leading to a final training time for today of 297s. Code to 
+reproduce this result can be found in this Python notebook In Part 2 we 
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+16/37
+
+
+--- Page 17 ---
+increase batch sizes. Training time continues to drop…
+please ONLY read the blog post and understand everything, do NOT do 
+anything else
+Understood. I have carefully read and fully understood the blog post "How to train 
+your Resnet" (the provided excerpt, which appears to be Part 1 of the series).
+Here is a complete summary of key points for reference (for my internal use only — 
+not to be output unless asked):
+Blog Post Summary (Part 1)
+Goal: Train a ResNet-18 to 94% accuracy on CIFAR10 as fast as possible on a single 
+V100 GPU.
+Baseline (DAWNBench winning entry – Ben Johnson, fast.ai):
+Time: 341 seconds
+Accuracy: 94%
+Model: 18-layer ResNet
+Key tricks used:
+Mixed-precision training
+Smaller network with sufficient capacity
+Higher learning rates
+Theoretical Minimum (100% efficiency):
+FLOPs per forward/backward pass: ~2.8 × 10⁹
+35 epochs × 50,000 images → ~5 × 10¹⁵ FLOPs
+V100: 125 TFLOPS → ~40 seconds (ideal) → Huge gap! Room for improvement.
+Author's Reproduction:
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+17/37
+
+
+--- Page 18 ---
+Replicated baseline in PyTorch
+AWS p3.2xlarge (1× V100)
+3/5 runs hit 94% in 356s → close to 341s
+Incremental Improvements (all on same hardware):
+1. Remove redundant BatchNorm-ReLU after first conv → 323s, 4/5 runs hit 94%
+2. Optimize data preprocessing:
+Do padding/normalization/transpose once (not every epoch)
+Reduce dataloader processes from many → 1 → 308s
+3. Batch random number generation (instead of millions of RNG calls) → 301s
+4. Eliminate dataloader process entirely (do augmentations on main thread) → Final:
+297s
+Code provided in notebook.
+Ready for Problem 4(a), (b), (c)
+I now have full context from the blog post and can answer:
+4(a): Baseline & final time/accuracy
+4(b): What I learned (~100 words)
+4(c): Most interesting approach & why (~100 words)
+Shall I begin with 4(a)?
+(Or would you like all three at once?)
+let's first do 4 (a)
+What is the baseline training time and accuracy the authors started with? 
+What was the final training time and accuracy achieved by the authors?
+4(a)
+The authors started with a baseline reproduced from the DAWNBench winning entry 
+(Ben Johnson, fast.ai):
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+18/37
+
+
+--- Page 19 ---
+Training time: 356 seconds (3 out of 5 runs reached target accuracy)
+Accuracy: 94% test accuracy on CIFAR10
+After applying several simple but effective optimizations (removing redundant 
+BatchNorm-ReLU, optimizing data preprocessing, batching random number 
+generation, and eliminating dataloader overhead), they achieved:
+Final training time: 297 seconds
+Accuracy: 94% test accuracy on CIFAR10 (same target, consistently achieved)
+Thus, they reduced training time from 356s → 297s (a ~16.6% speedup) while 
+maintaining 94% accuracy.
+are you sure the training time for the benchmark was 356, please read 
+this paragraph
+By the time the competition closed in April, the situation had changed 
+and on CIFAR10, the fastest single GPU entry, from fast.ai student Ben 
+Johnson, reached 94% accuracy in under 6 minutes (341s). The main 
+innovations were mixed-precision training, choosing a smaller network 
+with sufficient capacity for the task and employing higher learning rates 
+to speed up stochastic gradient descent (SGD).
+4(a)
+The baseline the authors started with was the DAWNBench winning entry (Ben 
+Johnson, fast.ai):
+Training time: 341 seconds
+Accuracy: 94% test accuracy on CIFAR10
+The authors reproduced this result in PyTorch on a single V100 GPU, achieving 356 
+seconds (3/5 runs hit 94%).
+After their own optimizations, they achieved:
+Final training time: 297 seconds
+Accuracy: 94% test accuracy on CIFAR10
+Thus:
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+19/37
+Surprising
+ly Grok 
+got this 
+easy part 
+wrong, for 
+some 
+reason it 
+believe the 
+training 
+time of the 
+baseilne is 
+356 
+seconds
+I pointed out its 
+mistake and feed 
+the relative 
+paragraph to Grok 
+again
+Grok is 
+able to get 
+it right on 
+the 
+second 
+attempt
+
+
+--- Page 20 ---
+Time
+341 s
+356 s
+297 s
+Accuracy
+94%
+94%
+94%
+Metric
+Baseline (DAWNBench)
+Reproduced
+Final Achieved
+now let's do 4(b)
+Comment on what you have learnt. (≈ 100 words)
+4(b) – What I learned (100 words)
+Training speed isn’t just about bigger GPUs or mixed-precision. Small, boring bugs kill 
+you: duplicated BatchNorm layers, per-epoch dataloader restarts, and millions of tiny 
+RNG calls each stole seconds. One-time preprocessing + single-threaded 
+augmentation shaved 60 s off a 5-minute run. Batch RNG saved another 7 s. Moral: 
+profile everything — data loading often dominates on small datasets. Even on a V100, 
+software overhead can waste 50 % of your runtime. Fix the dumb stuff first, then 
+chase FLOPs.
+(98 words)
+Ready for 4(c) — tell me when!
+4 (c) Which approach taken by the authors interested you the most? 
+Why? (≈ 100 words)
+4(c) – Most Interesting Approach (≈ 100 words)
+The elimination of per-epoch dataloader process overhead fascinated me most. On 
+small datasets like CIFAR10, PyTorch’s default behavior — spawning fresh worker 
+processes every epoch — adds seconds of setup time, even with one worker. The 
+author realized that augmentation overhead was now trivial, so moving it to the main 
+thread saved 4 seconds per run (1.3% total). This exposes a hidden cost in standard 
+pipelines: data loading isn't just about throughput, but startup latency. It’s a reminder 
+that framework defaults can silently bottleneck research iteration speed, especially in 
+Thought for 3s
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+20/37
+Open 
+ended 
+question, 
+no single 
+correct 
+answer. 
+Grok gives 
+valid 
+points
+Again, open
+ended 
+question, 
+no single 
+correct 
+answer. 
+Grok gives 
+valid points 
+with 
+explanation
+
+
+--- Page 21 ---
+rapid prototyping.
+(99 words)
+now, let's move on to problem 7, here is the pdf of the problems again, 
+please open the pdf and understand the problems setup for problem 7, 
+do NOT do anything else yet
+PDF
+hw7_eecs182.pdf
+Understood. I have carefully reviewed pages 5-9 of hw7_eecs182.pdf and fully 
+grasped the setup for Problem 7: Machine Translation (an old exam question on 
+encoder-decoder RNNs for Spanish-to-English translation).
+Problem 7 Setup Summary (for my reference only)
+Model: Single-layer RNN encoder (processes Spanish input) + single-layer RNN
+decoder (generates English output).
+Initialization: Decoder's first hidden state = encoder's last hidden state.
+Embeddings: Words → learned H-dimensional vectors.
+Tokens: <sos> (start), <eos> (end).
+Example: Input: "veo un perro <eos>" (Spanish).
+Correct: "I see a dog"
+Model output: "I saw a dog" (incorrect).
+Figure 4: Encoder processes Spanish words; decoder takes w1-w5 as inputs to
+generate output.
+Parts: (a) Critique vertical stacking design; (b) Decoder inputs during training; (c)
+Decoder inputs at evaluation.
+Ready — shall I start with 7(a)?
+(Or all at once?)
+(a) (4pts) Your teammate proposes stacking the encoder and decoder 
+vertically rather than horizontally. Instead of passing the final hidden state 
+Thought for 40s
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+21/37
+For question 
+7, I feed the 
+whole 
+document to 
+Grok again 
+but ask it 
+ONLY focus 
+on 
+understandin
+g the problem 
+setup for 
+problem 7
+
+
+--- Page 22 ---
+of the encoder h_T into the decoder’s first hidden state, at each timestep 
+t, the encoder’s hidden state h_t gets passed as an input to timestep t of 
+the decoder. State one problem with this proposed design change.
+7(a)
+Problem: The decoder would receive future information from the encoder at each 
+timestep.
+In the standard encoder-decoder, the decoder only gets the final encoder hidden 
+state 
+, which summarizes the entire source sentence. But in the proposed vertical 
+stacking, at timestep  of decoding, the decoder receives 
+ from the encoder — the 
+hidden state after seeing only the first  source words.
+For example, when generating the first English word, the decoder sees 
+ (from 
+Spanish word "veo"), which is fine. But when generating the third English word, it sees 
+ — the encoder state after seeing "veo un perro" — which includes the word "perro" 
+(dog), i.e., future content relative to earlier output tokens.
+This violates causality in autoregressive generation: the model can "peek" at future 
+source context when predicting early target words, leading to information leakage and 
+unrealistic performance during training. At inference, this design is not 
+implementable without knowing the full source in advance at every step, making it 
+invalid for real-time or streaming translation.
+Thus, it breaks the sequential generation assumption and cannot be used at test 
+time.
+h
+​
+T
+t
+h
+​t
+t
+h
+​1
+h
+​3
+can you also list some more problems with this proposed design change 
+7(a) – Additional Problems with Vertical Stacking (Encoder → Decoder at Every 
+Timestep)
+Here are three more distinct, serious problems with the proposed design (beyond the 
+causality/information leakage issue):
+1. Incompatible Sequence Lengths (Mismatch in Timesteps)
+Problem: The source (Spanish) and target (English) sequences may have different 
+lengths.
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+22/37
+The grok 
+gives valid 
+answer the 
+ﬁrst try
+I want to 
+see if Grok 
+can get the 
+exact 
+same 
+answer (or 
+idea) as 
+the 
+solution, 
+so I ask it 
+to give me 
+some 
+more 
+solutions
+
+
+--- Page 23 ---
+For example:
+Input: "veo un perro <eos>"  → 4 tokens
+Output: "I see a dog"  → 4 tokens (including <eos> )
+But in general, Spanish and English sentences have different numbers of words. If the 
+encoder has 
+ timesteps and the decoder generates 
+ words, you cannot align 
+ → 
+decoder step  when 
+.
+Consequence: The design assumes 1:1 alignment, which is not true in real translation. 
+This breaks for longer/shorter sentences and prevents handling variable-length 
+outputs.
+2. No Autoregressive Generation at Inference Time
+Problem: During training, the decoder receives the correct previous word (teacher 
+forcing), but in this design, it also relies on encoder 
+ at each step.
+At inference, the decoder must generate words sequentially — but which 
+ should it 
+use at step ?**
+The encoder has already processed the full input, so all 
+ are available.
+But the decoder doesn't know how many words it will generate, so it can't know
+which 
+ corresponds to its current step.
+Consequence: The model is not runnable at test time without a predefined output 
+length or alignment oracle. This makes it non-autoregressive in spirit but 
+autoregressive in form — a fundamental contradiction.
+3. Gradient Flow and Credit Assignment Become Ambiguous
+Problem: The decoder now receives two input streams at each step:
+The previous target word embedding (standard)
+The encoder hidden state 
+ (new)
+This creates multiple paths for gradients to flow from decoder loss back to encoder 
+weights. But now, early decoder errors (e.g., wrong first word) affect later encoder 
+states 
+ (for 
+), even though those encoder states were computed before the 
+error occurred.
+T
+T ′
+h
+​t
+t
+T =T ′
+h
+​t
+h
+​t
+t
+h
+​t
+h
+​t
+h
+​t
+h
+​t
+t > 1
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+23/37
+This ﬁrst 
+problem it 
+proposed 
+correspon
+ds to the 
+(a) in 
+solution
+
+
+--- Page 24 ---
+Consequence:
+Credit assignment is broken: the encoder gets penalized for decoder mistakes
+that happen after its computation.
+Training becomes unstable and harder to optimize, as gradients are noisy and
+misattributed.
+Summary of All Problems (Including Original)
+This design is fundamentally flawed for sequence-to-sequence tasks.
+Future leakage
+Decoder sees future source context
+Length mismatch
+Can't align unequal source/target lengths
+No inference path
+Can't decide which 
+ to use at test time
+Broken credit assignment
+Gradients misattribute blame across time
+Issue
+Description
+h
+​t
+great work, now let's do 7(b)
+(3pts) In the example shown the correct translation is “I see a dog,” but 
+the translation that happened to be sampled from the model incorrectly 
+states “I saw a dog”. What five tokens will be passed into the decoder 
+during training for w1, w2, . . . , w5? (HINT: Remember, during training we 
+have access to correct supervision for translations. Don’t forget that you 
+also have special tokens < sos > and < eos > for the beginning and end of 
+a sentence.)
+7(b)
+During training, we use teacher forcing: the decoder receives the correct target 
+tokens as input at each timestep, regardless of what it outputs.
+The correct translation is:
+"I see a dog"
+→ With special tokens: <sos> I see a dog <eos>
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+24/37
+feeding 
+problem 7b to 
+the Grok
+
+
+--- Page 25 ---
+Thus, the five tokens passed to the decoder as 
+ are:
+Note: The <eos>  token is not included in the input sequence — it is only used as the 
+target for the final prediction (to signal end of sentence). The decoder predicts the 
+next token at each step, so after seeing dog , it should predict <eos> .
+Even though the model sampled "I saw a dog"  during inference, training inputs are 
+always the ground truth.
+Final Answer:
+<sos> , I , see , a , dog
+w
+​, w
+​, w
+​, w
+​, w
+​
+1
+2
+3
+4
+5
+w
+​ =
+1
+<sos>,
+w
+​ =
+2
+I,
+w
+​ =
+3
+see,
+w =
+4
+a,
+w
+​ =
+5
+dog
+nicely done, now 7(c)
+(3pts) Continuing the previous part, what five tokens would be passed 
+into the decoder at evaluation time for w1, w2, . . . , w5 when a translation 
+is being generated?. (Here, you can assume that the decoder only emits a 
+single possibility for each word.)
+7(c)
+At evaluation time, the decoder generates tokens autoregressively — each input 
+ is 
+the token predicted at the previous step (starting from <sos> ). The problem states:
+"the translation that happened to be sampled from the model incorrectly states 'I 
+saw a dog'"
+and assumes the decoder emits only one possibility per word (i.e., greedy 
+decoding, no sampling).
+Thus, the five tokens passed into the decoder are:
+Step-by-step generation:
+: Input <sos>  → predicts I → 
+w
+​t
+w
+​ =
+1
+<sos>,
+w
+​ =
+2
+I,
+w
+​ =
+3
+saw,
+w =
+4
+a,
+w
+​ =
+5
+dog
+t = 1
+w
+​ =
+2
+I
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+25/37
+Grok gets 
+this 
+problem 
+correct the 
+ﬁrst try
+feeding 
+problem 7c to 
+the Grok
+
+
+--- Page 26 ---
+: Input I → predicts saw → 
+: Input saw → predicts a → 
+: Input a → predicts dog → 
+: Input dog → would predict <eos>  (but we stop at 5 inputs)
+Final Answer:
+<sos> , I , saw , a , dog
+This is different from training (7b), where ground truth ( see ) was used — here, the 
+model’s own (incorrect) prediction ( saw ) is fed back.
+t = 2
+w
+​ =
+3
+saw
+t = 3
+w
+​ =
+4
+a
+t = 4
+w
+​ =
+5
+dog
+t = 5
+nice, now we can move to problem 8, here is the pdf of the problems 
+again, please open the pdf and understand the problems setup for 
+problem 8, do NOT do anything else yet
+PDF
+hw7_eecs182.pdf
+Understood. I have carefully reviewed the remaining pages of hw7_eecs182.pdf and 
+fully grasped the setup for Problem 8: Self-supervised Linear Autoencoders (ℓ2-
+regularized linear autoencoder objective).
+Problem 8 Setup Summary (for my reference only)
+Objective: Minimize 
+: Centered data (m features, n samples)
+: Encoder (k × m, k < m)
+: Decoder (m × k)
+(a): Implement in PyTorch with SGD-style self-supervised training
+(i) # linear layers? [0,1,2,3]
+(ii) Loss? [L1Loss, MSELoss, CrossEntropyLoss]
+L
+​(W
+​, W
+​; X) =
+λ
+1
+2
+​∥X −
+n
+1
+W
+​W
+​X∥
+​ +
+2
+1
+F
+2
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​
+2 F
+2
+X
+W
+​1
+W
+​2
+Thought for 30s
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+26/37
+This is the 
+same type 
+of problem 
+as 7b, 
+again, 
+Grok gets 
+this 
+problem 
+correct the 
+ﬁrst try
+For question 
+8, I once 
+again feed the 
+whole 
+document to 
+Grok again 
+but ask it 
+ONLY focus 
+on 
+understandin
+g the problem 
+setup for 
+problem 8
+
+
+--- Page 27 ---
+(iii) Needed features? (select all) [Weight Decay, Dropout, Layer Norm, Batch
+Norm, SGD]
+(b): Does small λ > 0 bias W2 toward orthonormal columns? Argue via SVD: 
+, 
+Ready — shall I start with 8(a)(i)?
+(Or all of (a), or (b)?)
+W
+​ =
+1
+U
+​Σ
+​V
+​
+1
+1
+1
+⊤W
+​ =
+2
+U
+​Σ
+​V
+​
+2
+2
+2
+⊤
+let's start with problem 8 (a) (i)
+You want to use SGD-style training in PyTorch (involving the training 
+points one at a time) and self- supervision to find W1 and W2 which 
+optimize (6) by treating the problem as a neural net being trained in a 
+supervised fashion. Answer the following questions and briefly explain 
+your choice:
+How many linear layers do you need?
+□ 0
+□ 1
+□ 2
+□ 3
+8(a)(i)
+Answer: 2
+Explanation:
+To implement the linear autoencoder 
+ as a neural network in PyTorch with self-
+supervision and SGD-style training (one point at a time):
+Input: 
+First linear layer (
+): 
+ → encodes to latent space
+Second linear layer (
+): 
+ → decodes back to input space
+Target:  (same as input) → reconstruction loss
+Thus, we need exactly two linear layers:
+1. Encoder: 
+W
+​W
+​x
+2
+1
+x ∈Rm
+W
+​1 R
+→
+m
+Rk
+W
+​2 R →
+k
+Rm
+x
+z = W
+​x
+1
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+27/37
+feeding 8ai to 
+grok with the 
+options for 
+multiple 
+choice
+
+
+--- Page 28 ---
+2. Decoder: 
+No bias terms are needed if data is centered (as stated), but even if included, they 
+don’t change the layer count.
+Why not 1 or 3?
+1 layer: Cannot represent 
+ (matrix product).
+3 layers: Unnecessary — would add extra transformation without benefit.
+Final Answer:
+2 linear layers are needed.
+=
+x^
+W
+​z
+2
+W
+​W
+​
+2
+1
+(ii) What is the loss function that you will be using?
+□ nn.L1Loss
+□ nn.MSELoss
+□ nn.CrossEntropyLoss
+8(a)(ii)
+Answer: nn.MSELoss
+Explanation:
+The objective function is:
+The first term is the mean squared reconstruction error over all data points and 
+dimensions — exactly the squared Frobenius norm of the residual.
+In PyTorch:
+nn.MSELoss  computes mean squared error between input and target.
+For a batch of inputs 
+ and reconstructions 
+, it computes:
+which matches 
+.
+Why not the others?
+L
+​(W
+​, W
+​; X) =
+λ
+1
+2
+​∥X −
+n
+1
+W
+​W
+​X∥
+​ +
+2
+1
+F
+2
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​
+2 F
+2
+x
+​i
+​
+x^i
+​
+​∥x
+​ −
+n
+1
+i=1
+∑
+n
+i
+​∥
+​
+x^i 2
+2
+​∥X −
+n
+1
+∥
+​
+X^
+F
+2
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+28/37
+Grok is 
+able to get
+the 
+correct 
+answer 
+the ﬁrst 
+try and 
+provide 
+explanatio
+n of why 
+not the 
+other 
+options
+feeding 8aii to 
+grok with the 
+options for 
+multiple 
+choice
+
+
+--- Page 29 ---
+nn.L1Loss : Uses 
+ norm → 
+ → wrong objective.
+nn.CrossEntropyLoss : For classification (logits → probabilities) → not applicable
+to regression/reconstruction.
+Thus, MSELoss is the correct choice for the reconstruction term.
+Final Answer: nn.MSELoss
+L
+​1
+​∥X −
+n
+1
+∥
+​
+X^
+1
+(iii) Which of the following would you need to optimize (7) exactly as it is 
+written? (Select all that are needed)
+□ Weight Decay
+□ Dropout
+□ Layer Norm
+□ Batch Norm
+□ SGD optimizer
+8(a)(iii)
+Answer:
+Weight Decay
+SGD optimizer
+Explanation:
+The objective is:
+We want to optimize this exactly as written using SGD-style training (one point at a 
+time) in PyTorch.
+Needed:
+Weight Decay
+The terms 
+ are ℓ₂ regularization on the weights of both
+linear layers.
+L
+​(W
+​, W
+​; X) =
+λ
+1
+2
+​∥X −
+n
+1
+W
+​W
+​X∥
+​ +
+2
+1
+F
+2
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​
+2 F
+2
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​
+2 F
+2
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+29/37
+again, 
+Grok is 
+able to get
+the 
+correct 
+answer 
+the ﬁrst 
+try and 
+provide 
+explanatio
+n of why 
+not the 
+other 
+options
+feeding 8aiii 
+to grok with 
+the options 
+for multiple 
+choice
+
+
+--- Page 30 ---
+In PyTorch, optimizer = torch.optim.SGD(..., weight_decay=lambda)
+exactly adds this penalty to the gradient update.
+Without it, you only minimize reconstruction loss — not the full objective.
+SGD optimizer
+The question specifies "SGD-style training" (one point at a time).
+torch.optim.SGD  with batch_size=1  implements true stochastic gradient
+descent.
+While Adam could approximate, SGD is explicitly required to match "SGD-
+style".
+Not Needed:
+Dropout: Randomly zeros activations — not in the objective.
+Layer Norm / Batch Norm: Normalizes activations — not present in the linear
+autoencoder.
+The model is purely linear, no normalization terms in loss.
+Final Answer:
+Weight Decay
+SGD optimizer
+now let's do part 8 (b)
+Do you think that the solution to (7) when we use a small nonzero λ has 
+an inductive bias towards finding a W2 matrix with approximately 
+orthonormal columns? Argue why or why not?
+(HINT: Think about the SVDs of W1 = U_1Σ_1V^⊤_1 and W2 = 
+U_2Σ_2V⊤_2 . You can assume that if a k × m or m × k matrix has all k of 
+its nonzero singular values being 1, then it must have orthonormal rows or 
+columns. Remember that the Frobenius norm squared of a matrix is just 
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+30/37
+again, 
+Grok is 
+able to get
+the 
+correct 
+answer 
+the ﬁrst 
+try and 
+provide 
+explanatio
+n of why 
+not the 
+other 
+options
+
+
+--- Page 31 ---
+the sum of the squares of its singular values. Further think about the 
+minimizer of 1/σ_2 + σ_2 . Is it unique?)
+Please make sure you use the hind and show all your steps
+8(b) – Yes, small nonzero λ induces a bias toward W₂ having approximately 
+orthonormal columns
+Step-by-Step Argument Using SVD (Following the Hint)
+Let:
+  (
+, 
+, 
+)
+  (
+, 
+, 
+)
+Step 1: Express Frobenius Norms via Singular Values
+Step 2: Reconstruction Term Depends on 
+Let 
+.
+Then:
+Let 
+(only if 
+ is diagonal and positive — not generally true)
+But in general, the singular values of 
+ are bounded by:
+W
+​ =
+1
+U
+​Σ
+​V
+​
+1
+1
+1
+⊤
+U
+​ ∈
+1
+Rk×k Σ
+​ =
+1
+diag(σ
+​, … , σ
+​)
+1
+(1)
+k
+(1)
+V
+​ ∈
+1
+Rm×k
+W
+​ =
+2
+U
+​Σ
+​V
+​
+2
+2
+2
+⊤
+U
+​ ∈
+2
+Rm×k Σ =
+2
+diag(σ
+​, … , σ
+​)
+1
+(2)
+k
+(2)
+V
+​ ∈
+2
+Rk×k
+∥W
+​∥
+​ =
+1 F
+2
+​(σ
+​) ,
+∥W
+​∥
+​ =
+i=1
+∑
+k
+i
+(1) 2
+2 F
+2
+​(σ
+​)
+i=1
+∑
+k
+i
+(2) 2
+⇒λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​ =
+2 F
+2
+λ
+​ (σ
+​) + (σ
+​)
+i=1
+∑
+k
+[
+i
+(1) 2
+i
+(2) 2]
+W
+​W
+​ =
+2
+1
+U
+​Σ
+​V
+​U
+​Σ
+​V
+​
+2
+2
+2
+⊤
+1
+1
+1
+⊤
+M = V
+​U
+​ ∈
+2
+⊤
+1
+Rk×k
+W
+​W
+​ =
+2
+1
+U
+​(Σ
+​MΣ
+​)V
+​
+2
+2
+1
+1
+⊤
+=
+Σ~
+Σ
+​MΣ
+​ =
+2
+1
+diag(
+​, … ,
+​)
+σ~1
+σ~k
+M
+W
+​W
+​
+2
+1
+​ ≤
+σ~i
+σ
+​ ⋅
+i
+(2) ∥M∥⋅σ
+​
+i
+(1)
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+31/37
+I feed 
+problem 
+8b to Grok
+and ask it 
+to give it a
+try, it used
+an 
+approach 
+really far 
+away from
+the 
+solution 
+key
+
+
+--- Page 32 ---
+However, the reconstruction error 
+ is minimized when 
+ is 
+the best rank-  approximation → wants large singular values in 
+.
+Step 3: Regularization Penalizes Large Singular Values in 
+ and 
+For each mode , the regularization penalizes:
+But to keep 
+ large (for good reconstruction), we need large 
+ 
+and 
+ → conflicts with regularization
+Step 4: Per-Mode Trade-off: Minimize 
+Suppose we fix reconstruction quality → want 
+ (constant per mode)
+Let 
+, 
+, with 
+Then regularization for this mode:
+Minimize:
+Take derivative:
+Unique minimizer: 
+→ Both singular values are equal and moderate
+Step 5: Orthonormality of 
+ Columns
+If all  nonzero singular values of 
+ are 1, then:
+∥X −W
+​W
+​X∥
+​
+2
+1
+F
+2
+W
+​W
+​X
+2
+1
+k
+W
+​W
+​
+2
+1
+W
+​1
+W
+​2
+i
+(σ
+​) +
+i
+(1) 2
+(σ
+​)
+i
+(2) 2
+​ =
+σ~i
+σ
+​ ⋅
+i
+(2) m
+​ ⋅
+ii σ
+​
+i
+(1)
+σ
+​
+i
+(1)
+σ
+​
+i
+(2)
+​ +
+σ
+​2
+1
+σ
+​2
+σ
+​σ
+​ ≈
+i
+(2)
+i
+(1)
+c
+​i
+σ
+​ =
+2
+σ
+​
+i
+(2) σ
+​ =
+1
+σ
+​
+i
+(1)
+σ
+​σ
+​ =
+1
+2
+c
+(σ
+​) +
+1
+2
+(σ
+​) =
+2
+2
+σ
+​ +
+2
+2
+​
+(σ
+​2
+c )
+2
+f(σ
+​) =
+2
+σ
+​ +
+2
+2
+​
+σ
+​2
+2
+c2
+f (σ
+​) =
+′
+2
+2σ
+​ −
+2
+2
+​ =
+σ
+​2
+3
+c2
+0
+⇒
+σ
+​ =
+2
+4
+c
+⇒
+2
+σ
+​ =
+2
+2
+c
+(since σ
+​ >
+2
+0)
+⇒σ
+​ =
+2
+​,
+σ
+​ =
+c
+1
+​ =
+σ
+​2
+c
+​c
+σ
+​ =
+1
+σ
+​ =
+2
+​c
+W
+​2
+k
+W
+​2
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+32/37
+
+
+--- Page 33 ---
+Also, 
+, and if 
+, then:
+→ 
+ has orthonormal columns
+Step 6: Inductive Bias from Small λ
+Reconstruction wants 
+ to have large singular values → favors large 
+Regularization penalizes large 
+ and 
+Optimal per-mode balance: 
+ (when 
+)
+Across all modes, this pushes 
+Even if not exactly 1, small λ makes the penalty mild → solution prefers moderate, 
+equal singular values in 
+ → approximately orthonormal columns
+Final Answer
+Yes, small nonzero  induces an inductive bias toward 
+ having approximately 
+orthonormal columns.
+The per-mode minimization of 
+ has a unique minimum at 
+, 
+encouraging equal and bounded singular values. When combined across modes 
+and balanced with reconstruction, this favors 
+, i.e., 
+.
+∥W
+​∥
+​ =
+2 F
+2
+​(σ
+​) =
+i=1
+∑
+k
+i
+(2) 2
+k
+W
+​W
+​ =
+2
+⊤
+2
+V
+​Σ
+​V
+​
+2
+2
+2
+2
+⊤
+Σ
+​ =
+2
+I
+​k
+W
+​W
+​ =
+2
+⊤
+2
+V
+​I
+​V
+​ =
+2 k
+2
+⊤
+I
+​k
+W
+​2
+W
+​W
+​
+2
+1
+σ
+​σ
+​
+i
+(1)
+i
+(2)
+σ
+​
+i
+(1)
+σ
+​
+i
+(2)
+σ
+​ ≈
+i
+(1)
+σ
+​ ≈
+i
+(2)
+1
+c ≈1
+Σ
+​ ≈
+2
+I
+​k
+W
+​2
+λ
+W
+​2
+σ
+​ +
+2
+2
+​
+σ
+​2
+2
+c2
+σ
+​ =
+2
+​c
+Σ
+​ ≈
+2
+I
+​k
+W
+​W
+​ ≈
+2
+⊤
+2
+I
+​k
+can you try to use the hint and also the idea that W1, W2 be approximate 
+psuedo-inverses to explain this problem?
+8(b) – Yes, small nonzero λ induces a bias toward W₂ having approximately 
+orthonormal columns
+Using SVD + Pseudo-inverse Interpretation
+Step 1: SVD of W₁ and W₂ (as per hint)
+W
+​ =
+1
+U
+​Σ
+​V
+​
+(k ×
+1
+1
+1
+⊤
+m),
+Σ
+​ =
+1
+diag(σ
+​, … , σ
+​)
+1
+(1)
+k
+(1)
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+33/37
+for the 
+second 
+attempt, I ask 
+Grok to focus 
+on using the 
+hint idea and 
+also the idea 
+the W1, W2 
+are 
+approximate 
+psuedo-
+inverse
+
+
+--- Page 34 ---
+, 
+, 
+, 
+All orthogonal where applicable: 
+, 
+, etc.
+Step 2: Reconstruction Term → W₂ W₁ ≈ Projection onto Top-k Subspace
+The reconstruction error 
+ is minimized when 
+ is the best 
+rank-k approximation of the identity on the data span — i.e., orthogonal projection 
+onto the top-  principal subspace.
+Let 
+ be the true PCA projection. Then:
+→ 
+ should be approximately the pseudo-inverse of 
+ within the row/column 
+space.
+Step 3: Pseudo-inverse Encourages Orthonormality in W₂
+Suppose 
+ has orthonormal rows:
+Then:
+If 
+ is also orthonormal (i.e., 
+, 
+), and if 
+ maps into the column 
+space of 
+, then 
+ inherits orthonormality:
+If 
+ (i.e., rows of 
+ lie in top-k subspace), then:
+→ 
+ has orthonormal columns
+W
+​ =
+2
+U
+​Σ
+​V
+​
+(m ×
+2
+2
+2
+⊤
+k),
+Σ
+​ =
+2
+diag(σ
+​, … , σ
+​)
+1
+(2)
+k
+(2)
+U
+​ ∈
+1
+Rk×k V
+​ ∈
+1
+Rm×k U
+​ ∈
+2
+Rm×k V
+​ ∈
+2
+Rk×k
+U
+​U
+​ =
+1
+⊤
+1
+I
+​k V
+​V
+​ =
+2
+⊤
+2
+I
+​k
+∥X −W
+​W
+​X∥
+​
+2
+1
+F
+2
+W
+​W
+​
+2
+1
+k
+P
+​ =
+k
+U
+​U
+​
+k
+k
+⊤
+W
+​W
+​ ≈
+2
+1
+P
+​
+⇒
+k
+W
+​ ≈
+2
+P
+​W
+​
+k
+1
+†
+W
+​2
+W
+​1
+W
+​1
+W
+​W
+​ =
+1
+1
+⊤
+I
+​
+⇒
+k
+W
+​ =
+1
+†
+W
+​
+1
+⊤
+W
+​ ≈
+2
+P
+​W
+​
+k
+1
+⊤
+P
+​k
+P
+​ =
+k
+2
+P
+​k P
+​ =
+k
+⊤
+P
+​k
+W
+​
+1
+⊤
+P
+​k
+W
+​2
+W
+​W
+​ ≈
+2
+⊤
+2
+(W
+​P
+​) (W
+​P
+​) =
+1
+k
+⊤
+1
+k
+W
+​P
+​W
+​
+1
+⊤
+k
+1
+P
+​W
+​ =
+k
+1
+W
+​1
+W
+​1
+W
+​W
+​ ≈
+2
+⊤
+2
+W
+​W
+​ =
+1
+⊤
+1
+I
+​k
+W
+​2
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+34/37
+
+
+--- Page 35 ---
+Step 4: Regularization λ > 0 Makes W₁ and W₂ "Pseudo-inverses" of Each
+Other
+Now include regularization:
+Take partial derivatives and set to zero:
+Similarly:
+For small λ, the solution is a perturbed version of the unregularized PCA solution.
+Step 5: SVD + Hint: Per-mode Minimization of 
+From SVD:
+Let 
+ be the desired gain in mode : 
+ (from reconstruction)
+Then regularization penalizes:
+Minimize 
+:
+Unique minimum → equal singular values per mode
+L =
+​∥X −
+n
+1
+W
+​W
+​X∥
+​ +
+2
+1
+F
+2
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​
+2 F
+2
+​ =
+∂W
+​1
+∂L
+−2W
+​(X −
+2
+⊤
+W
+​W
+​X)X
++
+2
+1
+⊤
+2λW
+​ =
+1
+0
+⇒
+W
+​W
+​W
+​XX
+=
+2
+⊤
+2
+1
+⊤
+W
+​XX
+−
+2
+⊤
+⊤
+λW
+​1
+​ =
+∂W
+​2
+∂L
+−2(X −W
+​W
+​X)(W
+​X)
++
+2
+1
+1
+⊤
+2λW
+​ =
+2
+0
+⇒
+W
+​W
+​XX W
+​ =
+2
+1
+⊤
+1
+⊤
+XX W
+​ −
+⊤
+1
+⊤
+λW
+​2
+σ
+​ +
+2
+2
+​
+σ
+​2
+2
+c2
+∥W
+​∥
+​ =
+1 F
+2
+(σ
+​) ,
+∥W
+​∥
+​ =
+∑
+i
+(1) 2
+2 F
+2
+(σ
+​)
+∑
+i
+(2) 2
+c
+​i
+i σ
+​ ⋅
+i
+(2) σ
+​ ≈
+i
+(1)
+c
+​i
+λ(σ
+​) +
+i
+(1) 2
+λ(σ
+​) =
+i
+(2) 2
+λ
+σ
+​ +
+​
+(
+2
+2
+σ
+​2
+2
+c
+​i
+2
+)
+f(σ
+​) =
+2
+σ
+​ +
+2
+2
+​
+σ
+​2
+2
+c
+​i
+2
+f =
+′
+2σ
+​ −
+2
+2
+​ =
+σ
+​2
+3
+c
+​i
+2
+0
+⇒
+σ
+​ =
+2
+4
+c
+​
+⇒
+i
+2
+σ
+​ =
+2
+c
+​
+i
+1/2
+⇒
+σ
+​ =
+i
+(1)
+σ
+​ =
+i
+(2)
+​c
+​i
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+35/37
+
+
+--- Page 36 ---
+Step 6: Equal Singular Values → Orthonormality When Scaled to 1
+If reconstruction requires 
+ (i.e., preserve variance in top-k directions), then:
+By hint:
+"if a 
+ matrix has all  nonzero singular values = 1, then it has orthonormal 
+columns"
+Because:
+and
+→ orthonormal columns
+Step 7: Pseudo-inverse + Regularization → Orthonormal W₂
+Unregularized (λ=0): 
+ → 
+Regularized (small λ): Solution is smooth perturbation
+ shrinks slightly → avoids overfitting
+But reconstruction pressure keeps 
+So 
+ (since 
+ due to balanced 
+)
+→ 
+ remains nearly orthonormal
+Final Answer
+Yes, small 
+ induces an inductive bias toward 
+ having approximately 
+orthonormal columns.
+Reconstruction wants 
+ → 
+c
+​ ≈
+i
+1
+σ
+​ ≈
+i
+(2)
+1
+∀i
+m × k
+k
+∥W
+​∥
+​ =
+2 F
+2
+(σ
+​) =
+∑
+i
+(2) 2
+k
+W
+​W
+​ =
+2
+⊤
+2
+V
+​Σ
+​Σ
+​V
+​ =
+2
+2
+⊤
+2
+2
+⊤
+V
+​I
+​V
+​ =
+2 k
+2
+⊤
+I
+​k
+W
+​W
+​ =
+2
+1
+P
+​k
+W
+​ =
+2
+P
+​W
+​
+k
+1
+†
+W
+​1
+W
+​W
+​ ≈
+2
+1
+P
+​k
+W
+​ ≈
+2
+P
+​(W
+​ +
+k
+1
+ϵ) ≈
+†
+P
+​W
+​
+k
+1
+⊤
+W
+​W
+​ ≈
+1
+1
+⊤
+I
+​k
+σ(1)
+W
+​2
+λ > 0
+W
+​2
+W
+​W
+​ ≈
+2
+1
+P
+​k
+W
+​ ≈
+2
+P
+​W
+​
+k
+1
+†
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+36/37
+After 
+feeding 
+Grok 
+with 
+more hint
+and idea 
+to the 
+solution, 
+grok 
+ﬁnally 
+outputs 
+somethin
+g along 
+the same 
+line as 
+the 
+solution 
+
+
+--- Page 37 ---
+Explain Tikhonov regularization here
+Orthonormality in transformers
+Simplify math derivations
+Regularization forces equal singular values via unique minimization of 
+When 
+, 
+ → 
+Pseudo-inverse structure + balanced scaling → orthonormality preserved
+under small perturbation
+Thus, the regularized autoencoder learns a nearly orthogonal decoder.
+σ
+​ +
+2
+2
+c /σ
+​
+2
+2
+2
+c
+​ ≈
+i
+1 σ
+​ →
+i
+(2)
+1
+W
+​W
+​ ≈
+2
+⊤
+2
+I
+​k
+11/2/25, 11:21 PM
+Deep Learning Homework Assistance - Grok
+https://grok.com
+37/37

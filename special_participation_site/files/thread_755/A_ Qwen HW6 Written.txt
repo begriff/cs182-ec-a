@@ -1,0 +1,513 @@
+--- Page 1 ---
+Annotation:
+interesting 
+how Qwen 
+seems to go 
+back and forth 
+in its Chain of 
+Thought
+Annotation:
+Seems like the 
+general 
+method for 
+Qwen is to 
+summarize all 
+relevant 
+information 
+about the 
+question and 
+then begin to 
+solve.
+Annotation:
+Qwen does 
+correctly set up the 
+problem though
+Annotation:
+Qwen just guesses 
+at what the 
+structure of the 
+graph is. Not sure 
+why. Not sure why 
+Qwen doesn’t 
+mention anything.
+Annotation:
+Qwen breaks down the 
+problem step by step. 
+Correctly reaches the 
+answer
+Annotation:
+Annotation:
+We’re loading 
+the model 
+with the initial 
+PDF. Following 
+the pattern of 
+other student 
+who have 
+instructed 
+similarly. 
+Annotation:
+It’s arguing 
+with itself 
+about 
+conventions
+Answer: 
+Correct
+Annotation:
+Very 
+animated. 
+Short lines 
+and questions 
+to guide 
+further 
+discovery. 
+Seems like the 
+model relies 
+on its own 
+output from 
+earlier to 
+decide how to 
+move forward 
+and resolve 
+confusion.
+Annotation:
+Also very 
+mathematica
+lly sound step 
+by step 
+process to 
+solve the 
+induction 
+problem
+Answer: 
+Correct
+Annotation:
+Confusion 
+from earlier is 
+ignored and 
+Qwen is able 
+to create 
+answer
+Answer: 
+Correct
+Annotation:
+Interestingly, 
+Qwen figures 
+out the 
+boolean 
+concept
+Annotation:
+I might call 
+this a 
+hallucination. 
+Not sure 
+where Qwen 
+got this 
+information 
+about staying 
+1 forever. 
+Qwen does 
+initially get the 
+answer 
+correct, but it 
+seems like it’s 
+solving a new 
+problem with 
+side 
+information.
+Annotation:
+Qwen tells 
+itself to think 
+carefully. 
+Answer: 
+Incorrect but 
+with correct 
+nuance. 
+Answer: 
+Correct
+Annotation:
+I think that this answer 
+captures the gist of 
+what the answer key 
+was saying. However, it 
+fails to incorporate 
+softmax. 
+Annotation: 
+Incorrect 
+(missing 
+information)
+Annotation:
+The answer 
+key mentions 
+using a 
+learned 
+embedding. I 
+think what 
+they could 
+mean is that 
+the input to 
+the 
+embedding is 
+still a one-hot 
+encoding. So 
+it’s unclear 
+here
+Answer: 
+Incorrect
+Annotation:
+Qwen actually 
+doesn’t do 
+much 
+describing or 
+problem 
+solving so it’s 
+hard to see 
+the reasoning. 
+Answer: Most 
+correct except 
+“Zero padding 
+edges” 
+incorrect
+Annotation:
+The answer 
+key is looking 
+for a range of 
+answers. 
+Definitely, 
+Qwen gives a 
+range of 
+answers, and 
+gives a one-
+line Chain of 
+Thought, 
+reasoning 
+about the 
+propagation of 
+missing 
+values. That 
+seems to 
+influence it’s 
+final answer 
+which is 
+incomplete, 
+lacking 
+something 
+about random 
+removal of 
+entire nodes/
+edges. 
+Answer: 
+Incomplete
+Annotation:
+Logic is 
+sound.
+Answer: 
+Correct
+Annotation:
+Qwen lists out 
+all of the 
+components 
+of the 
+question and 
+answers 
+correctly. 
+Annotation:
+Qwen also 
+lists out small 
+chain of 
+reasoning to 
+figure out the 
+below, and 
+returns the 
+correct 
+answer.
+Answer: 
+Correct
+Answer:
+Correct
+Annotation:
+I tried to help 
+Qwen by 
+providing 
+specific 
+questions that 
+it answered 
+incompletely 
+or incorrectly. 
+ 
+I also 
+intentionally 
+tried to leave 
+the feedback 
+vague, naming 
+the particular 
+problem but 
+not giving it a 
+particular 
+direction to 
+go.
+Annotation:
+Qwen is 
+describing 
+looking at the 
+GNN 
+pedagogy, so 
+it’s refining its 
+problem 
+solving 
+strategy
+Annotation:
+Qwen actually 
+touches on 
+the answer 
+that the key is 
+looking for.   
+This is a fairly 
+nuanced 
+answer still, as 
+Qwen is really 
+looking at the 
+details of the 
+question and 
+thinking about 
+the 
+particularities 
+of what the 
+problem might 
+be asking.   
+It refines its 
+answer in a 
+way that is 
+more specific, 
+probably 
+because I 
+asked it to 
+include more 
+information. 
+Annotation:
+Qwen is 
+mixing up 
+answering 
+strategies. 
+First it begins 
+by rewording 
+the original 
+answer, and 
+then it refers 
+to GNN. It 
+seems like it’s 
+able to 
+accomodate 
+multiple 
+perspectives: 
+why would the 
+author send 
+the answer 
+back, what are 
+the GNN 
+authors 
+saying, what 
+are the 
+homework 
+authors 
+saying.
+Annotation:
+It also 
+incorporates 
+the format of 
+the 
+homework, 
+and then 
+periodically 
+stops to fact 
+check.
+Annotation:
+Going back to 
+the GNN 
+authors
+Answer: 
+Incomplete 
+answer, 
+lacking talk 
+about GNN 
+robustness to 
+variance in 
+neighbors, but 
+actually 
+discusses the 
+answer earlier 
+in the thinking 
+process, so. 
+Answer: 
+Correct
+Annotation:
+Qwen goes 
+more into 
+detail. 
+Annotation: 
+Qwen 
+basically 
+reiterates over 
+the previous 
+answers, not 
+thinking about 
+the random 
+removal of 
+certain non-
+important 
+nodes.
+Annotation:
+Without 
+prompting, 
+Qwen seems 
+to want to use 
+mathematical 
+concepts to 
+solve the 
+problem. Cool. 
+Not sure if it’s 
+keeping in 
+context the 
+previous 
+answers/
+sources.
+Answer: 
+Correct
+Annotation:
+Qwen 
+provides a 
+simple 
+explanation of 
+the problem 
+and accurately 
+solves the 
+problem.
+Answer: 
+Correct
+Answer: 
+Correct
+Annotation:
+Qwen parses 
+situation. It’s 
+actually not 
+obvious here 
+but Qwen 
+actually can’t 
+read the 
+graph. Qwen 
+is able to 
+solve this 
+problem, 
+following the 
+strategies 
+from earlier of 
+reformatting 
+the available 
+information, 
+and then 
+displaying it 
+within its line 
+of reasoning.
+Answer: 
+Correct
+Answer: 
+Correct
+Annotation:
+Qwen goes to the 
+trouble of 
+replicating the 
+entire graph. Seems 
+to fit into its broader 
+problem solving 
+strategy. 
+Annotation:
+Here it seems like 
+Qwen did not 
+answer the full 
+prompt.   
+Re sending the 
+focused prompt 
+with just the 
+remaining questions 
+helps Qwen to 
+focus.
+Annotation:
+Qwen jumps 
+immediately to 
+missing something 
+readily available 
+through other 
+sources as opposed
+to reasoning 
+independently. 
+Annotation:
+Qwen says that the 
+exact drawing is not 
+visible in the text.
+Annotation:
+This is a really 
+interesting segment.  
+Qwen tries to 
+reconstruct the 
+graph.  
+What’s in context?  
+The ask for 
+repetition, GNN 
+source, past 
+homeworks, the 
+context of the 
+current assignment.
+Annotation:
+Qwen here is also 
+reasoning about the 
+style of the 
+question.   
+It correctly 
+diagnoses that 
+Node 2 must have 
+Node 5 as a 
+neighbor.  
+What kind of 
+reasoning is this?  
+Deductive 
+reasoning?
+Annotation:
+Is there evidence 
+that Qwen actually 
+searched up or 
+referenced other 
+homeworks?   
+Interesting that 
+Qwen attempts to 
+be safe here. 
+Annotation:
+Qwen is probably 
+pre-trained to be 
+safe and adjusts as 
+minimally as 
+possible to the 
+correction.   
+It correctly 
+computes the 
+update rules with its 
+own version of the 
+graph, restating the 
+problem.  
+I wonder how many 
+sources it was 
+trained on also 
+restate the problem. 
+That seems like a 
+very legitimate 
+problem solving 
+strategy.
+Annotation:
+Interesting that 
+Qwen doesn’t ask 
+for an adjacency 
+matrix or any further 
+help, it just assumes 
+that it can solve the 
+problem and tries to 
+manifest a solution 
+with its own guess.

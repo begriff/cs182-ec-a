@@ -1,0 +1,329 @@
+--- Page 1 ---
+To help gemma better read the equations, I 
+always upload part of the HW9 PDF. I always ask 
+it to reproduce the question it is trying to solve to 
+make sure gemma has read the problem correctly.
+It always did read the problem correctly, but if it 
+didn’t, I would attribute it to not being able to scan 
+the homework properly and would have just fed 
+overleaf code to gemma.
+
+
+--- Page 2 ---
+gemma one-shotted problem 1a. 
+One a separate note, I personally like that the 
+solution
+uses plently of english and is still precise.  I feel 
+this style is more readable and builds more 
+understanding than equation-heavy explanations, 
+like the ones given by ChatGPT.
+
+
+--- Page 3 ---
+gemma one-shotted problem 1b and 1c. 
+Again, both solutions are written in a similar style to the 
+solution in part a, which I appreciate. The two values for s 
+in part 1c are technically correct, but negative values for s 
+don’t obey standard convention (keeping positive attention 
+scores).  I am going to see if gemma recognizes this when 
+prompted.
+In either case, I consider this a minor error and something 
+easily ﬁxable by a student reviewing what gemma 
+generated, so I count this as gemma one-shotting question 
+1c
+
+
+--- Page 4 ---
+gemma does recognize that s should be 
+positive in this context (because we are talking 
+about attention mechanisms), but the reason 
+isn’t compltely clear from this explanation 
+(does gemma think this is because of mininum 
+scaling or the problem context?). I clarify in the 
+next page
+
+
+--- Page 5 ---
+when prompted to clarify, gemma identiﬁes the 
+predominant reason: we want s to be positive 
+in order to keep scores positive. 
+
+
+--- Page 6 ---
+gemma uses weird formatting here but the 
+keys, values, and query are underestood to be 
+vectors (as I conﬁrm later). So for example the 
+query q is understood to be [1, 1, 2].
+
+
+--- Page 7 ---
+gemma one-shotted 2a. I conﬁrm below that gemma understands that 1 4 3
+is the vector [1, 4, 3] and not the number 143.
+
+
+--- Page 8 ---
+gemma has a tendency of apologizing/sucking up profusely. We will see much more of this 
+when gemma gets something wrong. For now, note that gemma recognizes [1, 4, 3] as a vector.
+
+
+--- Page 9 ---
+Normally I upload the question via PDF to make 
+sure gemma can read the math equations 
+properly.
+Since this question is text only I felt comfortable 
+just pasting it in from the homework
+
+
+--- Page 10 ---
+I think this solution would count as correct or mostly correct on an exam, 
+but  I was not satisﬁed with the handwavy explanation about why gradients are 0. The next few 
+pages show me pushing gemma to give a more precise explanation (ie. small changes in any 
+input x_j that is not the argmax leads to no change, so the gradient for all such x_j is 0).
+
+
+--- Page 11 ---
+First attempt, I try to give it a scenario 
+using mathematical lanauge. Gemma 
+produces a valid point about instability 
+but the explanation is generally wrong 
+
+
+--- Page 12 ---
+Here I think gemma got too preoccupied with 
+the “\epsilon is the smallest such value” 
+assumption. 
+I originally included this to get gemma to focus 
+on what happens for really small changes of 
+x_j without spoonfeeding the answer to 
+gemma.
+We do see that gemma mentions the right idea
+(this function is peicewise constant and 
+therefore has derivative 0 a.e.), but this core 
+reason is buried in a lot of uneccesary detail. I 
+think if I had asked gemma to be more concise
+it would have produced the right explanation
+
+
+--- Page 15 ---
+Almost perfect. The only error in gemma was part b
+(it stated self.d_k * num_heads instead of d_model), which
+is similar to d_model but not quite the same think (given that 
+d_heads might not perfectly divide d_model).
+I suspect that the error is simply from 
+gemma overlooking this “rounding 
+error”, so I felt pointing out the issue 
+would have been simply spoonfeeding 
+gemma the right answer. For this reason
+I simply moved onto part 3b  
+
+
+--- Page 16 ---
+gemma correclty identiﬁes the minimal changes needed. However, it also mentions in 
+text something about potentially adjusting forward calls. I decided to ask it to produce 
+the new code so I could determine whether this was due to a misunderstanding of the 
+problem or not. 
+
+
+--- Page 17 ---
+on producing the new code, we can see gemma actually understood the problem correctly, in that it can implement 
+the right coding solution (aside from the rounding error).
+However, the solution is explained unclearly. This can be 
+seen in this comment, where gemma claims to have 
+changed an unchanged line. My guess is this is due to 
+gemma sticking to some kind of habit it’s learned about 
+designing safe/robust software.
+
+
+--- Page 18 ---
+again, more disclaimers that are not needed. My guess 
+is this comes from a learned habit of trying to make your 
+code as robust (prone from bugs) as possible, so it 
+mentions these disclaimers as ﬂags to check, just in 
+case something changed.
+
+
+--- Page 19 ---
+Q4 shows one of gemma’s weaknesses: 
+dimension analysis.
+gemma in general has a hard time ﬁguring 
+out the dimensions of tensors/matrices
+and does not get much better with 
+additional guidance. 
+
+
+--- Page 20 ---
+gemma at ﬁrst fails to recognize that shared weights across heads means that W_k can simply be d by k, instead it just uses a 
+standard formula for dimensionality.
+interestingly, c) is wrong. gemma does understand what to do, but for some reason forgets the dimension of Wq, even though 
+it said Wq has dimension [h, d, k] immediately before.
+this is is simply a result of getting b wrong.
+correct.
+
+
+--- Page 21 ---
+The other thing gemma has a hard time with is time/space complexity. It produces wrong bounds here for both, and doesn’t 
+get better with additional guidance.
+
+
+--- Page 22 ---
+Once gemma remembers that we share keys across heads, it underestands you can just encode W_k with dimensions [d, k].
+I’m not sure why gemma forgot this info, because in theory this problem statement is much shorter than gemma’s 80,000 
+token context window. 
+same error in C still
+
+
+--- Page 23 ---
+D is immediately ﬁxed now that B is ﬁxed. gemma always 
+understood what to do in part d, the error just came from a 
+wrong answer in part b
+
+
+--- Page 25 ---
+Gemma doesn’t correct c until I remind gemma of the shape of 
+Wq, after which it immediately corrects the problem. This 
+suggests that gemma forgot this information for some reason.
+
+
+--- Page 26 ---
+these are a string of failed attempts to get gemma to the write 
+time/space complexity.
+
+
+--- Page 28 ---
+I tried getting gemma to write the complexity formulas in 
+terms of the right variables. This got a time complexity closer 
+to the right solution, but not quite there.
+
+
+--- Page 30 ---
+I’m not sure if gemma got nervous or frustrated here 
+(switched to learend response of frustration or 
+nervousness), but it’s reasoning ability seems to 
+decline here. It fails to even understand my feedback 
+correctly, changing both f and g to be in terms of b, n, 
+k, and d
+<— this seems like just a guess to me, the syntax 
+isn’t even correct
+
+
+--- Page 31 ---
+At this point I thought the error might be 
+a typo in my message (part q instead of 
+part g) so I cut gemma off and retyped 
+the prompt. This turned out not to be the 
+case. 
+
+
+--- Page 32 ---
+At this point I think gemma is just 
+guessing (it’s message are even starting 
+to become incoherent at this point), so I 
+decided to cut my losses and move on.
+<— still not sure why this 
+started over now, without 
+additional prompting.
+
+
+--- Page 34 ---
+From here on out I see a 
+noticable drop in 
+performance. Upon reﬂection,
+this change reminds me of 
+how a human performs after 
+they have become frustrated 
+with a hard problem set. I’m 
+not sure if this is actually a 
+learned behavior or me 
+reading into things too much.
+we do see gemma get the right ideas, but 
+the answer conﬂicts with itself. I try to 
+clarify later in the post.
+I’m not sure where gemma saw this form 
+for a quadratic kernel. I have not seen this 
+form used before. 
+
+
+--- Page 35 ---
+This seems like it could be true, but the idea is underdeveloped. I think this is gemma’s version
+of trying to hand-wave the problem away
+Almost correct, just forgot to normalize. 
+
+
+--- Page 36 ---
+The time and complexity is actually correct, even with the incorrect equation. 
+This could be because A: the equaton in part b) is simple enough for gemma’s 
+to analyze the time and space complexity of computing 6b), and B: adding the 
+demoniator to the equation doesn’t increase time or space complexity
+
+
+--- Page 37 ---
+just wrong. We’ll see later that gemma isn’t able to arrive at the right answer.
+
+
+--- Page 38 ---
+the start of a bizzare chain. Gemma insists 
+throughout all of this that the sum of strictly 
+positive numbers can be 0
+
+
+--- Page 40 ---
+My ﬁrst thought is that gemma confused 
+positive with non-negative, so I stated 
+explicitly that positive means > 0. Nothing 
+changed.
+
+
+--- Page 41 ---
+While it seems to acknowledge my suggestion, it goes on to say that in high 
+dimensions positive vectors can “cancel” eachother out, leading to a we can still get 
+0, while analyzing a function with codomain R! This ridiculous argument reads to me 
+gemma trying to justify their initial reponse than trying to get the right solution.
+
+
+--- Page 42 ---
+Here I just give it the answer to see if 
+gemma can recognize the correct 
+answer - it can’t.
+
+
+--- Page 43 ---
+at this point I give up and try to get gemma to correct 6b. I start by giving it the more standard form for quadratic kernels.
+
+
+--- Page 44 ---
+b and c are almost correct, I want to see if gemma can ﬁgure out the rest if I point out the details it forgot.
+
+
+--- Page 45 ---
+Before I do so, one more push where I don’t give any hints. Some progress but not much.
+
+
+--- Page 48 ---
+Gemma is able to ﬁnd the right cross-terms, but not what to normalize it’s terms by. It also normalizes the wrong terms (eg. the 
+square terms), even though my hint said to normalize non-squared terms.
+I wasn’t sure how to get closer without feeding gemma the correct answer at this point, so I stopped.
+
+
+--- Page 49 ---
+gemma did however get the right solution for part c (albeit in an unorthodox format).
+
+
+--- Page 50 ---
+I now try and get gemma to correct part d. I start by givings it the 
+similarity score deﬁnition. It seems to have this weird idea that we don’t 
+have to compute the feature maps explicitly (and that this can be done in 
+time O(d)), so I start by correcting that assumption
+feature map deﬁned kind of wrong. I thought (q) was being used as a 
+standin variable, it seems gemma thought q was a ﬁxed constant.
+
+
+--- Page 52 ---
+I suspect from the previous problems that gemma simply isn’t making progress on this problem, so as a sanity check I give it 
+the solution (as a pseudocode) and ask it to compute time complexity from here. If this was successful, I would have started a 
+new chat and asked it to solve 6d from scratch.
+
+
+--- Page 55 ---
+While it does come up with the right intermediate time complexity here, the space complexity is still off (I think because it 
+forgets to account for caching of Q, K, and V in memory). Furthermore, C is also off (it pretends \phi has O(d) terms, not 
+O(d^2) terms). Therefore I conclude that gemma will not solve 6d without me dragging it there. 

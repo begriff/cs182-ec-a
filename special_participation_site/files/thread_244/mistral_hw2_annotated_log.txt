@@ -1,0 +1,109 @@
+--- Page 1 ---
+First, I provide a prepared guideline 
+prompt for the LLM to better 
+understand what and how to do the 
+following tasks, encourage it to give 
+more organized,convinced and 
+detailed answers.
+Here the Mistral convert the 
+original problem into a 
+equivalent formula which rescale 
+the alpha. There is no harm 
+doing this but we hope it follows 
+the original question settings.
+
+
+--- Page 2 ---
+I explicitly remind mistral to 
+follow the original problem setting 
+of alpha.
+
+
+--- Page 3 ---
+Correct answer for question 1a) after 
+1 follow-up reminder.
+
+
+--- Page 6 ---
+Here, for question 1b) the mistral gave 
+an obviously wrong answer. So first, I 
+tried to give a straightforward reminder 
+which points out a term that should be 
+included in the right answer.
+
+
+--- Page 7 ---
+Although I pointed out the correct 
+components, the mistral still insisted 
+its previous solution. So this time, I 
+indicate an apparent paradox in its 
+reasoning.
+
+
+--- Page 9 ---
+After reminding it that we can 
+explicitly write out the minimum 
+term, the mistral indeed wrote out it 
+but in a wrong answer. So I directly 
+told it the right result of the 
+minimum term.
+
+
+--- Page 10 ---
+After the correction, the mistral 
+refused it and came back to its 
+original fault which is a existing 
+result of a specific problem. We 
+can deduce that the mistral lazily 
+copy the answer from its learning 
+materials instead of reasoning 
+under the given problem settings. 
+So I forced it to follow the 
+mathematical chain and explicitly 
+provided the correct component 
+of the final answer.
+
+
+--- Page 11 ---
+For question 1b, The Mistral got the right 
+final answer after 4 follow-up correction.
+
+
+--- Page 13 ---
+Mistral one-shot the question 2a
+
+
+--- Page 14 ---
+For question 2b, Mistral gave the same 
+answer as the 2a and made some mistakes 
+when including the Adam matrix Mt. So for 
+the follow-up guidance, I emphasized the 
+difference between the 2 problems and 
+remind it of the effect of the matrix M
+
+
+--- Page 16 ---
+The answer stuck to the previous. 
+So I explicitly pointed out the 
+correct direction of the gradients.
+
+
+--- Page 18 ---
+After 2 follow-up guidance, it got the correct 
+answer for question 2b.
+
+
+--- Page 19 ---
+The mistral wrongly understood the 
+rescaling statement in the problem 
+context. So I re-explain it a bit to help 
+it reasoning.
+
+
+--- Page 20 ---
+For question 2c, it got correct 
+answer with 1 guidance.
+
+
+--- Page 21 ---
+For question 5, one-shot!

@@ -1,0 +1,110 @@
+--- Page 1 ---
+​I used Mistral AI to work through the non-coding portions of HW7, and the results were mixed.​
+​While it managed to derive the first-order optimality conditions, it initially gave the final formulas​
+​without showing the intermediate steps, and I had to reprompt it to fully explain the derivation.​
+​For Question 3(b)(ii), it did not apply the optimality conditions at first and only produced the​
+​correct reasoning after I explicitly instructed it to use them. It also struggled significantly with​
+​Question 4, incorrectly reporting both the model accuracies and training times. On the other​
+​hand, it performed much better on the later conceptual questions—particularly Questions 7 and​
+​8—where it provided mostly correct answers along with clear and coherent explanations.​
+​This is the unannotated trace:​
+​https://chat.mistral.ai/chat/2fc76ff9-ffb4-4ebb-b867-2c05650e1003​
+​This is the annotated trace​
+
+
+--- Page 2 ---
+It got the correct optimality 
+conditions, but it didn't explain 
+the steps for how it derived the 
+conditions. It directly showed the 
+derivative and set it to 0
+
+
+--- Page 3 ---
+This does not align with the staff solution as 
+it doesn't use
+the optimality conditions derived in the first 
+part to solve the proof. It never plugs the 
+PCA-based W1 and W2 into the gradient 
+equations or shows that the gradients go to 
+zero, and instead relies on tautological 
+identities. Because of this, its conclusion 
+that the principal components satisfy the 
+optimality conditions isn’t actually justified.
+It reported the wrong training time and 
+accuracies. These numbers never showed 
+up in the blog and Mistral completely 
+hallucinated on these answers. 
+
+
+--- Page 4 ---
+I am not sure how it derived the 
+3x speedup. It pulled in details from
+unrelated contexts instead of 
+grounding its response in the given 
+material. The explanation sounded 
+plausible but wasn’t faithful to the 
+content of the post.
+It did get the overall idea about the 
+blog, however, did not answer in the 
+~100 words as it was instructed in the
+problem statement
+
+
+--- Page 5 ---
+I wanted to see if it would expand on its 
+answer from part 1 and share how it 
+derived its solutions. It was able to 
+successfully show its derivations and these
+are correct 
+
+
+--- Page 6 ---
+In order to match the staff solutions, it needed 
+to be prompted and told that it needs to use the
+optimality conditions that it derived from the 
+first part. After prompting it with this specific 
+information, it was able to derive the correct 
+proof that is similar to the staff solution. 
+
+
+--- Page 7 ---
+I wanted to see that if I paste the entire content for the blog, 
+would Mistral have an easier time at getting the right 
+responses. Here I copied the blog contents and reprompted it 
+to solve problem 4. 
+It was able to get the right accuracies and timing. It might 
+be the case that Mistral wasn't able to properly extract the 
+information from the pdf of questions given or that the 
+name of the blog post wasn't enough for it to extract 
+information.  
+
+
+--- Page 8 ---
+These summaries are a lot more accurate 
+than the prompt before that didn't contain all 
+the information from the blog
+
+
+--- Page 9 ---
+Here I gave it a picture of the problem and typed in the 
+problems in the prompt. 
+The model’s answer about “alignment issues” didn’t 
+match the staff solution. It focused on generic 
+seq2seq alignment problems instead of the real flaw:
+forcing the decoder at step t to depend only on the 
+first t source tokens and preventing the model from 
+handling different-length or reordered translations. 
+So the explanation sounded plausible but didn’t 
+address the actual issue the question was testing.
+Both of these answers are correct
+
+
+--- Page 10 ---
+It provided the right explanation and answers 
+for both of these problems
+
+
+--- Page 11 ---
+once again, it was able to give the right answers for the 
+multiple choice questions

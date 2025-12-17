@@ -1,0 +1,191 @@
+--- Page 1 ---
+ 
+Model Used: Claude Sonnet 4.5 
+ 
+ 
+ 
+ 
+
+
+--- Page 3 ---
+ 
+ 
+ 
+Analysis: Overall, Claude did a great job on part 1a) subpart i), arriving at the correct answer in a 
+one-shot setting without any hallucinations. It clearly stated all the givens of the problem 
+including the Gaussian kernel, softmax similarity, and the assumption that sqrt(D) = sigma^2, 
+and showed all algebraic steps, including the squared norm, substitution, and properties of 
+exponentials, to reach the correct solution. However, since the answer key expressed the solution 
+in terms of sigma^2 rather than sqrt(D), I prompted Claude to rewrite the answer accordingly, 
+which it did correctly:  
+ 
+ 
+
+
+--- Page 5 ---
+ 
+ 
+ 
+Analysis: Although Claude had already performed most of these computations earlier, it 
+recomputed the majority of the solution instead of simply substituting sigma^2 for sqrt(D) in the 
+expression it had previously derived. 
+ 
+
+
+--- Page 9 ---
+ 
+ 
+ 
+ 
+Analysis: Again, Claude was able to get the correct answer in a one-shot setting, which was very 
+impressive! It also goes through each calculation step by step, and its computation of 
+
+
+--- Page 10 ---
+wrandom(Q), wrandom(K), and the norms and exponentials of wrandom(Q) and wrandom(K) 
+match the calculations performed in the answer key.  
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 13 ---
+ 
+ 
+ 
+Analysis: Claude seems to be representing all the phis in the problem with ws, but it gets the 
+correct answer for how casual masking changes equation 1 and equation 2 to simplify equation 8. 
+Claude also correctly reports that the complexity of linear transformers with causal masking is 
+linear with respect to N (the sequence length), but provides a lot more in-depth computation to 
+get to this answer rather than just using the insight that Si and Zi can be computed from Si-1 and 
+Zi-1 in constant time.  
+ 
+ 
+ 
+
+
+--- Page 15 ---
+ 
+ 
+Analysis: Claude correctly identifies the two neural architectures considered by the paper as the 
+Zeiler & Fergus model and the Inception model, clearly describing their authors and key 
+characteristics. It accurately notes that the Zeiler & Fergus model uses multiple interleaved 
+layers of convolutions, non-linear activations, local response normalizations, and max-pooling 
+layers. 
+ 
+ 
+
+
+--- Page 17 ---
+ 
+ 
+ 
+ 
+Analysis: Claude clearly explains that the triplet loss ensures the anchor image is closer to the 
+positive image than to the negative image by at least a margin of alpha, and correctly notes that it 
+
+
+--- Page 18 ---
+does not require a classification layer. It also provides a helpful comparison between typical 
+supervised learning and the triplet loss used in FaceNet, clarifying the differences between the 
+two approaches. Overall, the response is very detailed and robust.  
+ 
+ 
+ 
+
+
+--- Page 20 ---
+ 
+ 
+Analysis: Claude correctly identifies that generating all possible triplets is computationally 
+infeasible, wastes resources, and can degrade training quality. It also accurately notes that the 
+authors use online triplet mining to address these issues. The response is very detailed, which 
+enhances the reader’s understanding. 
+ 
+ 
+
+
+--- Page 23 ---
+ 
+ 
+Analysis: Claude correctly identifies the number of parameters and FLOPs used for the paper’s 
+neural network, and even goes further to cite the number of parameters and FLOPs used for the 
+NN3, NN4, NNS1, and NNS2 architectures. The model is also able to identify the correct 
+number of parameters and FLOPs used by ResNet-50 which was not provided in the FaceNet 
+reading I supplemented Claude with, which was interesting to see. It also provides a much more 
+detailed comparison between the paper’s architecture and ResNet-50, which helps further 
+supplement the reader’s understanding.  
+ 
+ 
+
+
+--- Page 25 ---
+ 
+ 
+ 
+Analysis: Claude correctly defines a semi-hard negative and explains why it’s useful, while also 
+providing clear mathematical intuition that helps the reader understand the concept more fully. I 
+actually think the answer key is incorrect for this part since it states that semi hard negatives are 
+“negative examples in a triplet that are closer to the anchor image than the positive example,” 
+which is the opposite of how the paper (and Claude!) defines it.  
+ 
+ 
+
+
+--- Page 28 ---
+ 
+ 
+Analysis: Claude again correctly defines harmonic embeddings as embeddings produced by 
+different models (v1 and v2) that remain comparable within the same embedding space. It also 
+provides additional interpretation of these embeddings in the corresponding figures of the paper, 
+information I didn’t ask for but found interesting nonetheless. 
+ 
+ 
+
+
+--- Page 30 ---
+ 
+ 
+ 
+Analysis: ​Claude correctly notes that 128 dimensions is optimal and highlights the diminishing 
+returns that occur when increasing the embedding size beyond 256 dimensions. It also points out 
+that the performance differences among 64, 128, and 256 dimensions are statistically 
+insignificant. Additionally, Claude reaches the same conclusion as the answer key that larger 
+embedding dimensions may require more training time to reach the same accuracy (even though 
+I didn’t explicitly ask for that reasoning), which was great to see!  
+
+
+--- Page 34 ---
+ 
+ 
+Analysis: Claude correctly notes that performance increases by 8.8% when scaling from 2.6M to 
+26M images, whereas increasing to 260M yields only an additional 1.1% gain. It also discusses 
+the practical implications of these results and how they relate to broader deep learning principles. 
+Again, this was something I didn’t directly ask for but appreciated, as it added valuable context 
+and improved my understanding as a reader. 
+ 
+ 
+ 
+ 
+
+
+--- Page 36 ---
+Analysis: Interesting to see what Claude answered for this question! It not only answers the 
+question but also provides reasoning for why the emergent property of invariance to extreme 
+variations in pose, lighting, age, and occlusion is significant and noteworthy.  
+ 
+ 
+ 
+ 
+
+
+--- Page 37 ---
+ 
+ 
+Analysis: Interesting to see what Claude answered for this question! Like the previous part, it not 
+only answers the question by identifying its favorite approach from the paper (the online 
+semi-hard negative mining strategy) but also explains why this strategy is relevant and 
+noteworthy.  
+ 

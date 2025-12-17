@@ -1,0 +1,90 @@
+--- Page 1 ---
+In this document, I will guide Claude AI to walk through the written problems for HW5, showing 
+its misconceptions and hallucinations. 
+ 
+Question 1: 
+Part(a) 
+ 
+I would say it does a really good job here. The arguments it made are sensible. 
+ 
+Part(b): 
+ 
+It gives the right solution with the correct procedure. 
+ 
+
+
+--- Page 2 ---
+Part(c): 
+ 
+It correctly understands the nature of transpose convolution output and generalizes the idea 
+from the 1-dimensional example to the 2-dimensional case. However, it made a minor 
+calculation error. The center entry of the square matrix should be -3 instead of 0. 
+ 
+
+
+--- Page 3 ---
+Then I asked it to recalculate part c by telling it that there is a mistake. Unfortunately, it still gives 
+the wrong solution. Obviously, once it makes a small mistake, it will remember it and get stuck 
+on previous misconceptions even with explicit prompts telling it about the mistake. 
+ 
+Question 2 
+Part (a):  
+Its response is very interesting. Though it demonstrates the right conceptual understanding 
+about batch normalization and layer normalization, it fails to apply such understanding to 
+recognize the right visual representation from figures. 
+ 
+ 
+Part (b): 
+It gets the right algebraic representation using chain rule. For the sanity check, it calculates the 
+right solution for n = 1 case with the right reasoning. However, for the infinity case, it fails to 
+recognize the most obvious reasoning that could be made to argue that the summation part will 
+go to 0. Instead, it tries to make some more meaningless complicated arguments that interpret 
+the summation part as expectation. 
+
+
+--- Page 4 ---
+ 
+ 
+Question 3 
+It correctly reasons about both part (a) and part (b). 
+
+
+--- Page 5 ---
+ 
+ 
+ 
+Question 4 
+Part (a): It almost arrives at a perfect solution except step 6. From step 1 to 5, it puts the right 
+argument regarding algebraic expansions and matrix expectation calculations. At step 6, it omits 
+the most obvious quadratic pattern and does something meaningless and more complicated.  
+
+
+--- Page 7 ---
+Part (b): 
+It makes a sensible argument about inference time scaling when dropouts are involved during 
+training time. However, it fails to give a mathematical explanation about how the such scaling 
+can be absorbed by w and tau. 
+ 
+ 
+Part (c) 
+It is doing the right reparameterization. 
+ 
+ 
+ 
+
+
+--- Page 8 ---
+Part (d) 
+It makes exactly the right argument about the implicit impacts of dropouts as a kind of 
+normalization.  
+ 
+ 
+Summarization for using Claude AI as a homework helper: 
+I have to acknowledge that Claude AI is a very powerful tool that can help us walk through the 
+homework. I rarely see any hallucinations or misconceptions. Most of the arguments it made are 
+consistent with the right solution especially when the questions are fairly straightforward. 
+However, when it is asked to derive something that requires many intermediate steps, it will 
+sometimes fail to recognize the most obvious thing to do at some point. That is to say, for 
+long-horizon tasks, it tends to make its solutions more complex even though such complex 
+reasoning is not ideal. 
+ 

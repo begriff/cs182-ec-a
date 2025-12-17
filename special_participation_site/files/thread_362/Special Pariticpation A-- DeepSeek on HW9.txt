@@ -1,0 +1,201 @@
+--- Page 1 ---
+Intro: 
+This is an attempt to interact with deepseek on non-coding parts of homework 9. The purpose of 
+this study is to better understand how to prompt/interact with LLMs more effectively and LLM’s 
+capability of solving real life reasoning/math related problems with few-shot prompting. The 
+specific model I interacted with was DeepSeek-V3.2. I used Deepseek’s web ui to interact with 
+the model. I will focus on how different prompting methods (or modes of reasoning) affect a 
+model's one-shot correctness of the problems, and how to improve its accuracy without 
+providing more in context examples. Note that only important parts of the full conversations are 
+included here (for the sake of length), for full conversation, please refer to the links: 
+ 
+Conversation traces: 
+ 
+https://chat.deepseek.com/share/jkzqnyn7j8say9v7jc​
+https://chat.deepseek.com/share/838vauzbwa2g0ynfby​
+https://chat.deepseek.com/share/pp0exea4mnmt36qfqu​
+​
+ 
+Annotated Trace: 
+ 
+For deepseek webui, there is an option called “DeepThink”, with explanation (Think before 
+responding to solve reasoning problems). To better understand its effect, I started the interaction 
+on problem 1 with this feature off, and my prompt is simply telling the model that this is a 
+homework problem from my deep learning class and that I need the model to solve it and clearly 
+
+
+--- Page 2 ---
+present the final answer for each part:​
+ 
+Model answer:​
+ 
+ 
+
+
+--- Page 3 ---
+ 
+ 
+ 
+Note that the model was able to get all three subparts correct with only one one-shot attempt. 
+Another thing to note is that although I did not turn on the “DeepThink” feature, nor did I 
+explicitly prompt the model to explain its reasoning (like a chain of thought style), the model 
+nonetheless still explained its thought process for solving the problem. I believe this can be 
+attributed to two reasons: when the model is trained/finetuned, it has been trained toward a 
+
+
+--- Page 4 ---
+“reasoning” style where it likes to explain its reasoning when solving complex mathy problems; 
+and that in the prompt I mentioned this is a course homework, so the model understands that I 
+probably need more than just the final answer.  
+ 
+I therefore continue with the next question: 
+​
+ 
+ 
+Model answer: 
+
+
+--- Page 5 ---
+​
+ 
+
+
+--- Page 6 ---
+ 
+ 
+Note that because it is hard to extract matrix from the problem and input into model, so here I 
+utilized the webui’s native OCR ability. By only providing a screenshot of the problem, the web ui 
+first extracts text from the screenshot and feeds the text into the model. As we can see, the 
+extraction was pretty accurate and the model was able to get the correct answer one-shot. 
+ 
+Proceeding to the next question, because the question has code in its prompt, I again 
+screenshot the problem and utilized the webui’s native OCR capability:​
+ 
+ 
+
+
+--- Page 8 ---
+Again, the model was able to solve the problem correctly in one try without any further 
+prompting. The style it answered the question is also consistent with previous questions: a step 
+by step solution with explanations. Note that one would expect a model to easily solve this type 
+of question because this question simply asks for a vanilla implementation of the attention 
+mechanism. Such a concept should be abundant in model’s training data and thus the model 
+doesn’t necessarily need to “reason”, it is simply completing something that it already 
+“memorized”.  
+ 
+ 
+For the next part of the problem, because the problem is too long, I broke it down into two 
+separate screenshots and uploaded them to the ui. The first image is the example provided by 
+the question of a MHA implementation, whereas the second image is code for multi query 
+attention (some modifications from the MHA example provided) with blanks. Without any 
+information (I did not include the part that tells the model the specific place holders like ___A___ 
+are blanks to fill with options), I directly prompted the model to fill in the blanks. I did this 
+because I expected the model to be able to tell places like ___A____ are blanks to fill. I also did 
+not provide the options for the model to choose because I expect the model to know the 
+answers without the options. However, something interesting happened:​
+ 
+ 
+Notice that instead of recognizing placeholders like ___A___ to be blanks to fill, the model 
+falsely treats these placeholders as actual variables. This caused the model to not fully answer 
+
+
+--- Page 9 ---
+the question. Although correct answers for A and B are mentioned by the model, it did not treat 
+AB the same as CDE. To further study the reasons for this, I propose two hypotheses: 
+1.​ Because the input was text extracted from the image, there may be inaccurate extraction 
+and thus misled the model to think A/B are different from C/D/E. 
+1.​ The model did not have enough reasoning ability to recognize the blanks from variables. 
+ 
+For the first hypothesis, because the model and OCR feature are closed sourced, there is no 
+good way to actually test it. One thing I could do to test this is by providing the model with a 
+human verified correct version of the extracted text, to make sure the model receives the correct 
+text. However, this hypothesis is likely not true because C/D/E are no different from A/B in the 
+image. If the OCR can correctly extract C/D/E, then it can probably also extract OCR A/B 
+correctly. I thus want to focus on testing hypothesis 2 — will increasing the model’s reasoning 
+ability help the model to identify the correct answers to fill? 
+To test this, I will test the same thing on the same model, except this time with the “DeepThink” 
+feature on. The DeepThink feature is supposed to be an enhancement on model’s reasoning 
+ability, and to make sure past context does not interfere with model’s answer, I started a new 
+chat, input same prompt:​
+ 
+ 
+However, the model still gives only C,D,E as the final answers. This result is not enough to help 
+us determine whether the hypothesis is correct or not. We still don’t know how much this 
+“DeepThink” feature improved model reasoning ability, thus we can’t rule out the possibility that 
+if the model has further enhanced reasoning ability, it will be able to identify all the blanks. 
+ 
+Upon further analysis, I found out that the screenshot to model was in the form of python code. 
+And the difference between A/B and C/D/E is that A/B are in the function signature, while C/D/E 
+are in the function body. When the model is asked to “fill in the blanks”, it assumes the blanks 
+are in the function body — that’s how coding works. The model assumes this is a coding 
+question and only fills in the blanks as if this is a coding question. With this realization, I 
+provided more context to the model and it was able to correctly fill in all the blanks:​
+ 
+ 
+
+
+--- Page 10 ---
+ 
+ 
+Note that the model only correctly identifies all the blanks with the DeepThink feature. 
+Without strong reasoning ability, the model still is not able to recognize all blanks:​
+ 
+ 
+For the next two subparts, the model was able to one-shot correct answers: 
+
+
+--- Page 11 ---
+ 
+ 
+ 
+ 
+ 
+For the last problem, I started by simply pasting the question prompt to the model and asking it 
+one-shot the problem (answering all four subparts at the same time). The model was able to get 
+b and c correct one shot. But the model got part a and part d wrong. 
+ 
+I started solving this by using a screenshot of the question instead of merely copy-pasting the 
+text. When I naively copy the text, there are certain symbols/formulas that are somewhat 
+malformed, and I want to make sure that doesn’t affect the model's inference. Next, instead of 
+giving all four subparts all together, I give each subpart one at a time. This is not based on 
+anything, but is simply something I personally do and have found to be working for me while 
+interacting with LLM’s in the past. With these changes, the model was able to solve problem (d): 
+ 
+ 
+However, it still fails to answer question (a): 
+
+
+--- Page 12 ---
+ 
+ 
+The model isn’t necessarily wrong, the answer is still correct, just that the model wasn’t 
+incorporating the case that the sim function value can be negative. I have tried a few methods 
+and the model just seems to not mention the case where sim value can be negative. After closer 
+inspection, I have made the following hypothesis: the model is not mentioning all cases because 
+the question did not ask for the most “loose” condition. As a result, the model gives a tighter 
+condition that not only satisfies the prompt but also ensures better numerical stability. With this 
+hypothesis in mind, I changed the prompt a little bit: instead of asking for a condition, I ask for 
+the “minimal” condition, and as expected, the model gives correct answer:​
+ 
+
+
+--- Page 13 ---
+ 
+ 
+ 
+Summary: 
+ 
+To sum up, the model (DeepSeek-V3.2) is a quite strong model and is able to solve most of the 
+non coding questions correctly (one-shot). For this specific problem set, two things matter the 
+most for accuracy: 1. Model’s reasoning ability and 2. Correct prompt and context. Prompt and 
+context are very important because if instructions and context are not explicitly told, the model 
+will make certain assumptions, and thus give incorrect answers. For example in question 4, 
+when not stated explicitly, the model thinks it is completing some code function instead of filling 
+blanks for a written question, thus identifying the wrong blanks to fill. The model’s reasoning 
+ability is also very important : for the previous example, even if the correct context and prompt is 
+provided, the model still was not able to identify the correct blanks to fill without the DeepThink 
+feature on. Together, these observations suggest that while DeepSeek-V3.2 is already quite 
+capable on non-coding questions, its performance is highly sensitive to both how we phrase the 
+task and model’s reasoning capabilities. Thus, carefully designing prompts and systematically 
+leveraging features like DeepThink will be essential for reliably getting correct answers and 
+understanding the model's core strengths and weaknesses. 

@@ -1,0 +1,2848 @@
+--- Page 1 ---
+182 participation A
+Answer part (i) by explicitely computing gradients step by step (no shortcuts), then for part (ii) 
+explain whether the PCA solution using the top-k eigenvectors satisfies these optimality conditions 
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+1/18
+
+
+--- Page 2 ---
+and why. 
+We’re given a linear autoencoder with
+where 
+, 
+ (encoder) and 
+ (decoder).
+(i) First–order optimality conditions (gradients)
+Write the loss as an element–wise sum:
+Define
+So 
+.
+Gradient w.r.t. 
+Take a single element 
+. Using the chain rule:
+Now expand 
+:
+Differentiate w.r.t. 
+; only terms with 
+ and 
+ survive:
+Thus
+Recognize matrix products. First
+L(W
+​, W
+​; X) =
+1
+2
+∥X −W
+​W
+​X∥
+​,
+2
+1
+F
+2
+X ∈Rm×n W
+​ ∈
+1
+Rk×m
+W
+​ ∈
+2
+Rm×k
+L(W
+​, W
+​) =
+1
+2
+​
+​(X
+​ −
+i=1
+∑
+m
+j=1
+∑
+n
+ij
+(W
+​W
+​X)
+​) .
+2
+1
+ij
+2
+Y = W
+​W
+​X,
+E =
+2
+1
+X −Y .
+L =
+​ E
+​
+∑i,j
+ij
+2
+W
+​2
+W
+​
+2,ab
+​ =
+∂W
+​
+2,ab
+∂L
+​2E
+​
+​ =
+i,j
+∑
+ij ∂W
+​
+2,ab
+∂E
+​
+ij
+​2E
+​
+−
+​
+.
+i,j
+∑
+ij (
+∂W
+​
+2,ab
+∂Y
+​
+ij )
+Y
+Y
+​ =
+ij
+(W
+​W
+​X)
+​ =
+2
+1
+ij
+​W
+​(W
+​X)
+​ =
+r=1
+∑
+k
+2,ir
+1
+rj
+​
+​W
+​W
+​X
+​.
+r=1
+∑
+k
+s=1
+∑
+m
+2,ir
+1,rs
+sj
+W
+​
+2,ab
+i = a
+r = b
+​ =
+∂W
+​
+2,ab
+∂Y
+​
+ij
+δ
+​
+​W
+​X
+​.
+ia
+s=1
+∑
+m
+1,bs
+sj
+​ =
+∂W
+​
+2,ab
+∂L
+−2
+​E
+​W
+​X
+​.
+j
+∑
+aj
+s
+∑
+1,bs
+sj
+(EX )
+​ =
+T
+as
+​E
+​X
+​,
+j
+∑
+aj
+sj
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+2/18
+
+
+--- Page 3 ---
+so
+Therefore, in matrix form
+Substitute 
+ and define 
+:
+Let’s do it cleanly:
+So the first-order optimality condition from this gradient is
+Gradient w.r.t. 
+Now take an element 
+. Again:
+From the expression for 
+,
+So
+First sum over :
+Then multiply by 
+ and sum :
+Thus, in matrix form,
+​E
+​
+​W
+​X
+​ =
+j
+∑
+aj
+s
+∑
+1,bs
+sj
+​W
+​(EX )
+​ =
+s
+∑
+1,bs
+T
+as
+(EX W
+​)
+​.
+T
+1
+T
+ab
+∇
+​L =
+W
+​2
+​ =
+∂W
+​2
+∂L
+−2EX W
+​.
+T
+1
+T
+E = X −W
+​W
+​X
+2
+1
+S := XXT
+∇
+​L =
+W
+​2
+−2(X −W
+​W
+​X)X W
+​ =
+2
+1
+T
+1
+T
+−2SXW
+​(clean up) =
+?
+−2SX?wait
+∇
+​L =
+W
+​2
+−2XX W
+​ +
+T
+1
+T
+2W
+​W
+​XX W
+​ =
+2
+1
+T
+1
+T
+−2SW
+​ +
+1
+T
+2W
+​W
+​SW
+​.
+2
+1
+1
+T
+∇
+​L =
+W
+​2
+0
+⟺
+(X −W
+​W
+​X)X W
+​ =
+2
+1
+T
+1
+T
+0
+or
+W
+​W
+​SW
+​ =
+2
+1
+1
+T
+SW
+​.
+1
+T
+W
+​1
+W
+​
+1,cd
+=
+∂W1,cd
+∂L
+​2E
+​
+−
+​
+.
+i,j
+∑
+ij (
+∂W
+​
+1,cd
+∂Y
+​
+ij )
+Y
+​
+ij
+​ =
+∂W
+​
+1,cd
+∂Y
+​
+ij
+​W
+​X
+​ δ
+​δ
+​ =
+r,s
+∑
+2,ir
+sj
+rc sd
+W
+​X
+​.
+2,ic
+dj
+​ =
+∂W
+​
+1,cd
+∂L
+−2
+​E
+​W
+​X
+​.
+i,j
+∑
+ij
+2,ic
+dj
+i
+​E
+​W
+​ =
+i
+∑
+ij
+2,ic
+(W
+​E)
+​.
+2
+T
+cj
+X
+​
+dj
+j
+​ =
+∂W
+​
+1,cd
+∂L
+−2
+​(W
+​E)
+​X
+​ =
+j
+∑
+2
+T
+cj
+dj
+−2(W
+​EX )
+​.
+2
+T
+T
+cd
+∇
+​L =
+W
+​1
+−2W
+​EX .
+2
+T
+T
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+3/18
+
+
+--- Page 4 ---
+Substitute 
+ and again 
+:
+So the first-order optimality condition from this gradient is
+Summary of first-order conditions
+Let 
+. A stationary point 
+ must satisfy
+These are the first-order optimality conditions requested in (i).
+(ii) Does the PCA solution satisfy these conditions?
+PCA on 
+ gives us the eigendecomposition of
+with eigenvalues 
+ and orthonormal eigenvectors 
+. Let 
+ be the matrix of the top-  eigenvectors.
+The standard linear-PCA autoencoder chooses
+Then 
+ is the orthogonal projector onto the top-  principal subspace.
+We now check the two optimality conditions.
+Condition (1)
+Compute the left-hand side:
+Since 
+ (eigenvector relation), we get
+because 
+.
+The right-hand side of condition (1) is
+E = X −W
+​W
+​X
+2
+1
+S = XXT
+∇
+​L =
+W
+​1
+−2W
+​XX
++
+2
+T
+T
+2W
+​W
+​W
+​XX
+=
+2
+T
+2
+1
+T
+−2W
+​S +
+2
+T
+2W
+​W
+​W
+​S.
+2
+T
+2
+1
+∇
+​L =
+W
+​1
+0
+⟺
+W
+​(X −
+2
+T
+W
+​W
+​X)X
+=
+2
+1
+T
+0
+or
+W
+​W
+​W
+​S =
+2
+T
+2
+1
+W
+​S.
+2
+T
+S = XXT
+(W
+​, W
+​)
+1
+2
+​
+​
+​
+(1)
+(X −W
+​W
+​X)X W
+​ = 0
+⟺
+W
+​W
+​SW
+​ = SW
+​,
+2
+1
+T
+1
+T
+2
+1
+1
+T
+1
+T
+(2)
+W
+​(X −W
+​W
+​X)X
+= 0
+⟺
+W
+​W
+​W
+​S = W
+​S.
+2
+T
+2
+1
+T
+2
+T
+2
+1
+2
+T
+X
+S = XX
+=
+T
+UΣ U ,
+2
+T
+σ
+​ >
+1
+2
+σ
+​ >
+2
+2
+⋯> σ
+​ >
+k
+2
+0
+U = [u
+​, … , u
+​]
+1
+m
+U
+​ ∈
+k
+Rm×k
+k
+W
+​ =
+1
+PCA
+U
+​ ∈
+k
+T
+R
+,
+W
+​ =
+k×m
+2
+PCA
+U
+​ ∈
+k
+R
+.
+m×k
+W
+​W
+​ =
+2
+1
+U
+​U
+​
+k
+k
+T
+k
+W
+​W
+​SW
+​ =
+2
+1
+1
+T
+U
+​U
+​SU
+​.
+k
+k
+T
+k
+SU
+​ =
+k
+U
+​Σ
+​
+k
+k
+2
+U
+​U
+​SU
+​ =
+k
+k
+T
+k
+U
+​U
+​U
+​Σ
+​ =
+k
+k
+T
+k
+k
+2
+U
+​Σ
+​,
+k
+k
+2
+U
+​U
+​ =
+k
+T
+k
+I
+​k
+SW
+​ =
+1
+T
+SU
+​ =
+k
+U
+​Σ
+​.
+k
+k
+2
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+4/18
+
+
+--- Page 5 ---
+Thus
+so the PCA choice satisfies condition (1).
+Equivalently, in the original form
+Condition (2)
+First, note that
+So the left-hand side becomes
+For a symmetric matrix 
+, the left and right eigenvectors coincide. Since 
+,
+we also have 
+. Stacking the top-  eigenvectors,
+Now the right-hand side of condition (2) is
+Thus
+so condition (2) is also satisfied.
+In the original error form,
+Conclusion
+The gradients (derived elementwise) are
+leading to first-order optimality conditions
+ and 
+.
+The PCA solution 
+ (projection onto the span of the top-  eigenvectors of
+) satisfies both conditions, because the residual 
+ is orthogonal to the principal
+subspace, and the eigenvector relations 
+ and 
+ make the two equations
+hold exactly.
+W
+​W
+​SW
+​ =
+2
+1
+1
+T
+SW
+​,
+1
+T
+(X −W
+​W
+​X)X W
+​ =
+2
+1
+T
+1
+T
+(X −U
+​U
+​X)X U
+​ =
+k
+k
+T
+T
+k
+SU
+​ −
+k
+U
+​U
+​SU
+​ =
+k
+k
+T
+k
+U
+​Σ
+​ −
+k
+k
+2
+U
+​Σ
+​ =
+k
+k
+2
+0.
+W
+​W
+​ =
+2
+T
+2
+U
+​U
+​ =
+k
+T
+k
+I
+​.
+k
+W
+​W
+​W
+​S =
+2
+T
+2
+1
+I
+​W
+​S =
+k
+1
+W
+​S =
+1
+U
+​S.
+k
+T
+S
+Su
+​ =
+i
+σ
+​u
+​
+i
+2
+i
+u
+​S =
+i
+T
+σ
+​u
+​
+i
+2
+i
+T
+k
+U
+​S =
+k
+T
+Σ
+​U
+​.
+k
+2
+k
+T
+W
+​S =
+2
+T
+U
+​S =
+k
+T
+Σ
+​U
+​.
+k
+2
+k
+T
+W
+​W
+​W
+​S =
+2
+T
+2
+1
+W
+​S,
+2
+T
+W
+​(X −
+2
+T
+W
+​W
+​X)X
+=
+2
+1
+T
+U
+​(X −
+k
+T
+U
+​U X)X
+=
+k
+k
+T
+T
+U
+​S −
+k
+T
+U
+​U
+​U
+​S =
+k
+T
+k
+k
+T
+U
+​S −
+k
+T
+U
+​S =
+k
+T
+0.
+∇
+​L =
+W
+​2
+−2(X −W
+​W
+​X)X W
+​,
+∇
+​L =
+2
+1
+T
+1
+T
+W
+​1
+−2W
+​(X −
+2
+T
+W
+​W
+​X)X ,
+2
+1
+T
+(X −W
+​W
+​X)X W
+​ =
+2
+1
+T
+1
+T
+0
+W
+​(X −
+2
+T
+W
+​W
+​X)X
+=
+2
+1
+T
+0
+W
+​ =
+1
+U
+​, W
+​ =
+k
+T
+2
+U
+​k
+k
+XXT
+X −U
+​U
+​X
+k
+k
+T
+SU
+​ =
+k
+U
+​Σ
+​
+k
+k
+2
+U
+​S =
+k
+T
+Σ
+​U
+​
+k
+2
+k
+T
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+5/18
+
+
+--- Page 6 ---
+Can you explain why U_k^T U_k = I_k implies SU_k = U_k Sigma_k^2? I'm thinking it's because once 
+we substitute S into the equation, U_k^T U_k results in a rectangular identity matrix, meaning we're 
+left with just the top k elements (hence U_k and Sigma_k^2 instead of just U * Sigma^2)?
+Good question — the implication doesn’t come from 
+ by itself; it comes from combining:
+1. the eigendecomposition 
+, and
+2. the orthonormality of 
+ (which gives you the “rectangular identity” you’re thinking of).
+Let me walk it slowly in the block-matrix way you’re hinting at.
+Setup
+We have the eigendecomposition of 
+:
+where
+ is orthogonal, so 
+,
+.
+Partition 
+ into the top-  eigenvectors and the rest:
+Similarly, split 
+ into blocks:
+Where the “rectangular identity” appears
+From orthonormality:
+From the top-left and bottom-left blocks we get:
+,
+.
+Now multiply 
+ by 
+:
+U
+​U
+​ =
+k
+T
+k
+I
+​k
+S = UΣ U
+2
+T
+U
+S ∈Rm×m
+S = UΣ U ,
+2
+T
+U ∈Rm×m
+U U =
+T
+UU
+=
+T
+I
+​
+m
+Σ =
+2
+diag(σ
+​, … , σ
+​)
+1
+2
+m
+2
+U
+k
+U = [ U
+​ U
+​ ],
+U
+​ ∈
+k
+⊥
+k
+R
+, U
+​ ∈
+m×k
+⊥
+R
+.
+m×(m−k)
+Σ2
+Σ =
+2
+​
+,
+Σ
+​ =
+[Σ
+​k
+2
+0
+0
+Σ⊥
+2 ]
+k
+2
+diag(σ
+​, … , σ
+​).
+1
+2
+k
+2
+U U =
+T
+I
+​
+⇒
+m
+​ [ U
+​ U
+​ ] =
+[U
+​
+k
+T
+U
+​
+⊥
+T]
+k
+⊥
+​
+​ =
+[U
+​U
+​
+k
+T
+k
+U
+​U
+​
+⊥
+T
+k
+U
+​U
+​
+k
+T
+⊥
+U
+​U
+​
+⊥
+T
+⊥]
+​
+​ .
+[I
+​k
+0
+0
+I
+​
+m−k]
+U
+​U
+​ =
+k
+T
+k
+I
+​k
+U
+​U
+​ =
+⊥
+T
+k
+0
+U T
+U
+​k
+T
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+6/18
+
+
+--- Page 7 ---
+This is exactly the “rectangular identity” you were intuitively thinking about: a tall 
+ matrix whose
+top block is 
+ and bottom block is zeros.
+So, the key matrix is 
+, not just 
+ in isolation.
+Deriving 
+Now compute 
+ using the eigendecomposition:
+We just showed 
+, so:
+Therefore
+That’s the desired relation.
+Intuition in words
+ is orthogonal, so multiplying by 
+ “expresses” a vector in the eigenbasis.
+ consists of the first  eigenvectors, so when you project them into the full eigenbasis by 
+,
+you just get the first  standard basis vectors stacked over zeros — that’s your “rectangular
+identity.”
+ then scales those basis vectors by their eigenvalues (only the top  are nonzero in that block),
+producing 
+.
+Multiplying back by 
+ maps this back into the original space, giving exactly 
+.
+So your intuition about “we’re left with just the top-  elements (hence 
+ and 
+)” is right — the precise
+math mechanism is 
+ coming from orthonormality, plus the block-diagonal structure of
+.
+can you try showing that the principal components satisfy the optimality conditions by utilizing 
+transformations V_1 = W_1 U and V_2 = U^T W_2? Then, try re-writing the optimality conditions with 
+U U
+​ =
+T
+k
+​ U
+​ =
+[U
+​
+k
+T
+U
+​
+⊥
+T]
+k
+​ =
+[U
+​U
+​
+k
+T
+k
+U
+​U
+​
+⊥
+T
+k]
+​ .
+[I
+​k
+0 ]
+m × k
+I
+​k
+U U
+​ =
+T
+k
+​
+[I
+​k
+0 ]
+U
+​U
+​ =
+k
+T
+k
+I
+​k
+SU
+​ =
+k
+U
+​Σ
+​
+k
+k
+2
+SU
+​k
+​
+​
+SU
+​k = (UΣ U )U
+​
+2
+T
+k
+= UΣ (U U
+​).
+2
+T
+k
+U U
+​ =
+T
+k
+​
+[I
+​k
+0 ]
+Σ (U U
+​) =
+2
+T
+k
+​
+​
+​ =
+[Σ
+​k
+2
+0
+0
+Σ
+​
+⊥
+2 ] [I
+​k
+0 ]
+​ .
+[Σ
+​k
+2
+0 ]
+SU
+​ =
+k
+U
+​ =
+[Σ
+​k
+2
+0 ]
+[ U
+​ U
+​ ]
+​ =
+k
+⊥[Σ
+​k
+2
+0 ]
+U
+​Σ
+​.
+k
+k
+2
+U
+U T
+U
+​k
+k
+U T
+k
+Σ2
+k
+[Σ
+​; 0]
+k
+2
+U
+U
+​Σ
+​
+k
+k
+2
+k
+U
+​k
+Σk
+2
+U U
+​ =
+T
+k
+[I
+​; 0]
+k
+Σ2
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+7/18
+
+
+--- Page 8 ---
+these and argue why it must hold. Additionally, try moving all terms to the left side and equating it 
+to 0 (while also doing some factoring).
+Nice, this is exactly the right way to think about it. Let’s do the change of variables carefully and then
+plug in the PCA weights.
+1. Original optimality conditions
+From the gradients we had:
+Setting these to zero and using 
+ gives the first–order conditions
+We also have the eigendecomposition
+2. Change of variables with 
+Define
+Equivalently,
+Also note:
+And since 
+ is orthogonal, we can write
+so
+We’ll now rewrite the optimality conditions (A) and (B) in terms of 
+.
+2.1 Condition (A) in the eigenbasis
+∇
+​L =
+W
+​2
+−2(X −W
+​W
+​X)X W
+​,
+∇
+​L =
+2
+1
+T
+1
+T
+W
+​1
+−2W
+​(X −
+2
+T
+W
+​W
+​X)X .
+2
+1
+T
+S = XXT
+​
+​
+(A)
+(B)
+(X −W
+​W
+​X)X W
+​ = 0 ⟺(I −W
+​W
+​)SW
+​ = 0,
+2
+1
+T
+1
+T
+2
+1
+1
+T
+W
+​(X −W
+​W
+​X)X
+= 0 ⟺W
+​(I −W
+​W
+​)S = 0.
+2
+T
+2
+1
+T
+2
+T
+2
+1
+S = XX
+=
+T
+UΣ U ,
+U ∈
+2
+T
+R
+ orthogonal, Σ =
+m×m
+2
+diag(σ
+​, … , σ
+​).
+1
+2
+m
+2
+V
+​, V
+​
+1
+2
+V
+​ :=
+1
+W
+​U
+(k ×
+1
+m),
+V
+​ :=
+2
+U W
+​
+(m ×
+T
+2
+k).
+W
+​ =
+1
+V
+​U ,
+W
+​ =
+1
+T
+2
+UV
+​.
+2
+W
+​W
+​ =
+2
+1
+UV
+​V
+​U .
+2
+1
+T
+U
+I = UIU ,
+T
+I −W
+​W
+​ =
+2
+1
+UIU
+−
+T
+UV
+​V
+​U
+=
+2
+1
+T
+U(I −V
+​V
+​)U .
+2
+1
+T
+V
+​, V
+​
+1
+2
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+8/18
+
+
+--- Page 9 ---
+Start from
+Substitute 
+:
+Multiply on the left by 
+ (invertible), which gives an equivalent condition:
+If you “move all terms to the left” and factor, this is
+2.2 Condition (B) in the eigenbasis
+Start from
+Substitute 
+ and the same expressions as before:
+Multiply on the right by 
+ (invertible) to get an equivalent condition:
+Again, moving everything to the left and factoring:
+So in the eigenbasis of 
+, the stationarity conditions are:
+with all terms on the left-hand side.
+3. Plugging in the PCA solution
+For the PCA autoencoder, we choose
+(I −W
+​W
+​)SW
+​ =
+2
+1
+1
+T
+0.
+S = UΣ U , W
+​ =
+2
+T
+1
+T
+UV
+​, I −
+1
+T
+W
+​W
+​ =
+2
+1
+U(I −V
+​V
+​)U
+2
+1
+T
+​
+​
+0 = (I −W
+​W
+​)SW
+​
+2
+1
+1
+T
+= U(I −V
+​V
+​)U
+⋅UΣ U
+⋅UV
+​
+2
+1
+T
+2
+T
+1
+T
+= U(I −V
+​V
+​)Σ V
+​.
+2
+1
+2
+1
+T
+U T
+​
+(I −V
+​V
+​)Σ V
+​ = 0.
+2
+1
+2
+1
+T
+Σ V
+​ −
+2
+1
+T
+V
+​V
+​Σ V
+​ =
+2
+1
+2
+1
+T
+0
+⟺
+( I −V
+​V
+​ )Σ V
+​ =
+2
+1
+2
+1
+T
+0.
+W
+​(I −
+2
+T
+W
+​W
+​)S =
+2
+1
+0.
+W
+​ =
+2
+T
+V
+​U
+2
+T
+T
+​
+​
+0 = W
+​(I −W
+​W
+​)S
+2
+T
+2
+1
+= V
+​U
+⋅U(I −V
+​V
+​)U
+⋅UΣ U
+2
+T
+T
+2
+1
+T
+2
+T
+= V
+​(I −V
+​V
+​)Σ U .
+2
+T
+2
+1
+2
+T
+U
+​
+V
+​(I −V
+​V
+​)Σ = 0.
+2
+T
+2
+1
+2
+V
+​Σ −
+2
+T
+2
+V
+​V
+​V
+​Σ =
+2
+T
+2
+1
+2
+0
+⟺
+V
+​(I −
+2
+T
+V
+​V
+​)Σ =
+2
+1
+2
+0.
+S
+​
+{(I −V
+​V
+​)Σ V
+​ = 0
+2
+1
+2
+1
+T
+V
+​(I −V
+​V
+​)Σ = 0
+2
+T
+2
+1
+2
+T
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+9/18
+
+
+--- Page 10 ---
+where 
+ contains the top  eigenvectors (columns of 
+).
+Let’s compute 
+ and 
+:
+.
+If we write 
+, then
+(a 
+ matrix that picks the first  coordinates).
+:
+(an 
+ matrix embedding k-dim vectors into the first k coordinates).
+Now compute
+which is the projector onto the first  coordinates in this eigenbasis.
+Also, in this basis
+3.1 Check condition (A)
+We need 
+.
+First compute 
+:
+Then
+Next,
+Multiply:
+W
+​ =
+1
+U
+​,
+W
+​ =
+k
+T
+2
+U
+​,
+k
+U
+​k
+k
+U
+V
+​1
+V
+​2
+V
+​ =
+1
+W
+​U =
+1
+U
+​U
+k
+T
+U = [ U
+​ U
+​ ]
+k
+⊥
+U
+​U =
+k
+T
+[ I
+​ 0 ]
+⇒
+k
+V
+​ =
+1
+[ I
+​ 0 ]
+k
+k × m
+k
+V
+​ =
+2
+U W
+​ =
+T
+2
+U U
+​
+T
+k
+U U
+​ =
+T
+k
+​
+⇒
+[I
+​k
+0 ]
+V
+​ =
+2
+​
+[I
+​k
+0 ]
+m × k
+V
+​V
+​ =
+2
+1
+[ I
+​ 0 ] =
+[Ik
+0 ]
+k
+​
+​ =:
+[I
+​k
+0
+0
+0]
+P,
+k
+Σ =
+2
+diag(σ
+​, … , σ
+​, σ
+​, … , σ
+​) =
+1
+2
+k
+2
+k+1
+2
+m
+2
+​
+​ .
+[Σ
+​k
+2
+0
+0
+Σ
+​
+⊥
+2 ]
+(I −V
+​V
+​)Σ V
+​ =
+2
+1
+2
+1
+T
+0
+V1
+T
+V
+​ =
+1
+T
+​ .
+[I
+​k
+0 ]
+Σ V
+​ =
+2
+1
+T
+​
+​
+​ =
+[Σ
+​k
+2
+0
+0
+Σ
+​
+⊥
+2 ] [I
+​k
+0 ]
+​ .
+[Σ
+​k
+2
+0 ]
+I −V
+​V
+​ =
+2
+1
+I −P =
+​
+​ .
+[0
+0
+0
+I
+​
+m−k]
+[
+] [
+2
+]
+[ ]
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+10/18
+
+
+--- Page 11 ---
+So condition (A) holds.
+3.2 Check condition (B)
+We need 
+.
+First compute 
+:
+Now 
+, so
+So condition (B) also holds.
+4. Intuition in this transformed view
+In the eigenbasis of 
+, 
+ becomes diagonal (
+), and the PCA choice simply makes
+so 
+ is just “zero out all but the first  coordinates”.
+The optimality conditions say: after applying 
+, the “energy” 
+ in the directions selected
+by 
+ must vanish (first condition), and similarly when viewed from the left by 
+ (second
+condition).
+Because <PCA> chooses exactly the top  coordinates and 
+ is the projector onto those
+coordinates, these conditions reduce to multiplying by a matrix that zeroes out exactly the block
+where 
+ or 
+ has support, yielding zero.
+So, using the 
+ transformation, we rewrote the first-order conditions as
+and explicitly checked that the PCA choice (top-  eigenvectors) satisfies both.
+(I −V
+​V
+​)Σ V
+​ =
+2
+1
+2
+1
+T
+​
+​
+​ =
+[0
+0
+0
+I
+​
+m−k] [Σ
+​k
+2
+0 ]
+​ =
+[0
+0]
+0.
+V
+​(I −
+2
+T
+V
+​V
+​)Σ =
+2
+1
+2
+0
+(I −V
+​V
+​)Σ
+2
+1
+2
+(I −V
+​V
+​)Σ =
+2
+1
+2
+​
+​
+​
+​ =
+[0
+0
+0
+I
+​
+m−k] [Σ
+​k
+2
+0
+0
+Σ
+​
+⊥
+2 ]
+​
+​ .
+[0
+0
+0
+Σ
+​
+⊥
+2 ]
+V
+​ =
+2
+T
+[ I
+0 ]
+k
+V
+​(I −
+2
+T
+V
+​V
+​)Σ =
+2
+1
+2
+[ I
+0 ]
+​
+​ =
+k
+[0
+0
+0
+Σ
+​
+⊥
+2 ]
+[ 0 0 ] = 0.
+S S
+Σ2
+V
+​ =
+1
+[I
+​ 0],
+V
+​ =
+k
+2
+[I
+​; 0],
+k
+V
+​V
+​
+2
+1
+k
+(I −V
+​V
+​)
+2
+1
+Σ2
+V
+​1
+V
+​
+2
+T
+k
+V
+​V
+​
+2
+1
+Σ V
+​
+2
+1
+T
+Σ2
+V
+​, V
+​
+1
+2
+(I −V
+​V
+​)Σ V
+​ =
+2
+1
+2
+1
+T
+0,
+V
+​(I −
+2
+T
+V
+​V
+​)Σ =
+2
+1
+2
+0,
+k
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+11/18
+
+
+--- Page 12 ---
+resnet training.pdf
+PDF
+Can you answer these questions based on the blog series pdf I pasted? Specifically, what is the 
+baseline training time and accuracy the authors started with? What was the final training time and 
+accuracy achieved by the authors? Answer parts b and c as well
+(a) Baseline vs final time/accuracy
+From the reproduced DAWNBench setup, the authors’ starting baseline on a single V100 was 94% test
+accuracy in 356 seconds (3/5 runs reached 94% in 356 s). 
+resnet training
+After simplifying the network (removing the duplicated BatchNorm–ReLU), and then progressively
+optimizing data preprocessing and dataloader overhead (pre-doing common transforms, reducing
+worker processes, batching RNG calls, and finally doing augmentation on the main thread), they reached
+a final training time of 297 seconds while still achieving 94% test accuracy. 
+resnet training
+(b) What I learned (~100 words)
+The post really drove home that training speed isn’t only about model architecture or FLOPs—it’s often
+bottlenecked by the input pipeline. I learned how things like redundant layers, slightly odd learning-rate
+schedules, and especially inefficient preprocessing can quietly waste a lot of time. The authors show that
+doing common transforms once, reducing dataloader workers, and batching random-number
+generation can shave tens of seconds off a relatively small CIFAR-10 run without hurting accuracy. More
+broadly, I came away with the lesson that profiling the entire training stack (CPU, data loading,
+augmentation) is essential before blaming the GPU or the model.
+(c) Most interesting approach (~100 words)
+The most interesting part to me was the systematic attack on preprocessing and randomness overhead.
+The idea of precomputing all “static” transforms once, then generating augmentation randomness in
+bulk at the start of each epoch, feels very elegant: it keeps the stochasticity you need for good
+generalization but drastically reduces per-batch Python and RNG overhead. I also liked the
+counterintuitive result that, after these changes, even a single dataloader worker became unnecessary—
+the GPU was finally the slow part again. It’s a nice example of turning a fuzzy “data loading is slow”
+complaint into concrete, measurable optimizations.
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+12/18
+
+
+--- Page 13 ---
+Sources
+Answer the questions on the screenshot. Here are the questions:
+part a: Your teammate proposes stacking the encoder and decoder vertically rather than 
+horizontally.
+Instead of passing the final hidden state of the encoder h_T into the decoder’s first hidden state, at 
+each
+timestep t, the encoder’s hidden state h_t gets passed as an input to timestep t of the decoder. 
+State one
+problem with this proposed design change.
+part b: In the example shown the correct translation is “I see a dog,” but the translation that 
+happened
+to be sampled from the model incorrectly states “I saw a dog”.
+What five tokens will be passed into the decoder during training for w_1, w_2, . . . , w_5?
+(HINT: Remember, during training we have access to correct supervision for translations. Don’t 
+forget
+that you also have special tokens < sos > and < eos > for the beginning and end of a sentence.)
+part c: Continuing the previous part, what five tokens would be passed into the decoder at 
+evaluation
+time for w_1, w_2, . . . , w_5 when a translation is being generated?.
+(Here, you can assume that the decoder only emits a single possibility for each word.)
+Here’s how I’d answer each part:
+(a) Problem with the proposed design
+If at decoder timestep  you feed in encoder hidden state 
+ (instead of a single summary 
+), then
+you’re implicitly assuming a one-to-one alignment between source position  and target position 
+and that the source and target sequences have the same length.
+t
+h
+​t
+h
+​
+T
+t
+t
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+13/18
+
+
+--- Page 14 ---
+But in machine translation, sentences often:
+have different lengths, and
+reorder words/phrases between languages.
+With this design the decoder can’t easily produce more (or fewer) words than the source sentence or
+reorder them, making it unsuitable for general translation.
+(b) Tokens passed to the decoder during training
+During training we use teacher forcing: at each timestep the decoder is fed the correct previous token,
+not what it predicted.
+Correct translation:
+<sos>  I  see  a  dog  <eos>
+So the five input tokens 
+ to the decoder are:
+1. 
+2. 
+3. 
+4. 
+5. 
+(The model is trained to output 
+ at those steps.)
+(c) Tokens passed to the decoder at evaluation time
+At evaluation we don’t have the ground-truth translation, so the decoder is fed its own previous
+predictions (greedy decoding, one possibility per word).
+Sampled translation: “I saw a dog”
+Sequence with special tokens:
+<sos>  I  saw  a  dog  <eos>
+So the five tokens 
+ input to the decoder during generation are:
+1. 
+2. 
+3. 
+4. 
+5. (w_5 = \texttt{dog}`
+w
+​, … , w
+​
+1
+5
+w
+​ =
+1
+<sos>
+w
+​ =
+2
+I
+w
+​ =
+3
+see
+w
+​ =
+4
+a
+w
+​ =
+5
+dog
+I, see, a, dog, <eos>
+w
+​, … , w
+​
+1
+5
+w
+​ =
+1
+<sos>
+w
+​ =
+2
+I
+w
+​ =
+3
+saw
+w
+​ =
+4
+a
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+14/18
+
+
+--- Page 15 ---
+Solve these problems, which I have listed below for your reference:
+You want to use SGD-style training in PyTorch (involving the training points one at a time) and 
+selfsupervision to find W_1 and W_2 which optimize (6) by treating the problem as a neural net 
+being trained
+in a supervised fashion. Answer the following questions and briefly explain your choice:
+(i) How many linear layers do you need?
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+15/18
+
+
+--- Page 16 ---
+(ii) What is the loss function that you will be using?
+(iii) Which of the following would you need to optimize (6) exactly as it is written? (Select all
+that are needed)
+Do you think that the solution to (6) when we use a small nonzero λ has an inductive bias towards
+finding a W2 matrix with approximately orthonormal columns? Argue why or why not?
+Let
+We want to implement this as a neural net in PyTorch and train it with SGD on examples 
+ (input
+and target both ).
+(a) Network + training choices
+(i) How many linear layers?
+Two linear layers.
+One encoder layer with weight 
+: 
+.
+One decoder layer with weight 
+: 
+.
+No nonlinearities or extra layers appear in (6), so exactly two nn.Linear layers (and no bias terms if we
+want to match it exactly).
+(ii) Loss function
+We want the reconstruction term
+so on a single example we want the squared 
+ reconstruction error. That is exactly mean-squared
+error, so we use
+nn.MSELoss
+(with input , target ).
+(iii) What is needed to optimize (6) exactly as written?
+Among the given options we need:
+L
+​(W
+​, W
+​; X) =
+λ
+1
+2
+​∥X −
+n
+1
+W
+​W
+​X∥
+​ +
+2
+1
+F
+2
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​.
+2 F
+2
+x ∈Rm
+x
+W
+​ ∈
+1
+Rk×m z = W
+​x
+1
+W
+​ ∈
+2
+Rm×k
+=
+x^
+W
+​z =
+2
+W
+​W
+​x
+2
+1
+​∥X −
+n
+1
+∥
+​ =
+X^
+F
+2
+​
+​∥x
+​ −
+n
+1
+i
+∑
+i
+​∥
+​,
+x^i 2
+2
+L
+​2
+x^
+x
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+16/18
+
+
+--- Page 17 ---
+✅ Weight Decay – to implement the 
+ penalty (either by adding it to the loss
+manually or by using the weight_decay=λ argument in the optimizer).
+✅ SGD optimizer – some SGD-style optimizer is required to actually minimize the loss by gradient
+descent.
+We do not need:
+❌ Dropout – would randomly zero activations and change the objective.
+❌ Layer Norm / Batch Norm – introduce extra parameters and change the forward mapping; they
+don’t appear in (6).
+So: Weight Decay + SGD optimizer only.
+(b) Does a small nonzero λ bias 
+ toward (approximately)
+orthonormal columns?
+Yes, it does – there is an inductive bias toward 
+ having (approximately) orthonormal columns.
+Sketch of argument using the hint:
+1. For a good autoencoder with small , the reconstruction term forces
+,
+where 
+ is the rank-  projector onto the top-  principal subspace (eigenvalues ≈ 1, others ≈ 0).
+2. Any factorization of 
+ can be written as
+where 
+ are the top-  eigenvectors of 
+, and 
+ is invertible. All such pairs give
+identical reconstruction error because 
+.
+3. The 
+ regularizer breaks this degeneracy.
+Let the singular values of 
+ be 
+. Then
+so the regularization term becomes
+4. For each , the function
+has derivative 
+.
+Setting 
+ gives 
+ (for 
+).
+Moreover 
+, so 
+ is the unique global minimizer.
+λ∥W
+​∥
+​ +
+1 F
+2
+λ∥W
+​∥
+​
+2 F
+2
+W
+​2
+W
+​2
+λ
+W
+​W
+​ ≈
+2
+1
+P
+P
+k
+k
+P
+W
+​ =
+2
+U
+​A,
+W
+​ =
+k
+1
+A
+U
+​,
+−1
+k
+⊤
+U
+​k
+k
+​XX
+n
+1
+⊤
+A ∈Rk×k
+W
+​W
+​ =
+2
+1
+U
+​AA
+U
+​ =
+k
+−1
+k
+⊤
+U
+​U
+​ =
+k
+k
+⊤
+P
+ℓ
+​2
+A
+σ
+​, … , σ
+​ >
+1
+k
+0
+∥W
+​∥
+​ =
+2 F
+2
+​σ
+​,
+∥W
+​∥
+​ =
+i
+∑
+i
+2
+1 F
+2
+​
+​,
+i
+∑σ
+​i
+2
+1
+λ ∥W
+​∥
+​ + ∥W
+​∥
+​ =
+(
+2 F
+2
+1 F
+2 )
+λ
+​
+σ
+​ +
+​
+.
+i=1
+∑
+k
+(
+i
+2
+σ
+​i
+2
+1 )
+i
+f(σ) = σ +
+2
+​
+σ2
+1
+f (σ) =
+′
+2σ −2/σ3
+f (σ) =
+′
+0
+σ =
+4
+1 ⇒σ = 1
+σ > 0
+f (σ) =
+′′
+2 + 6/σ >
+4
+0
+σ = 1
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+17/18
+
+
+--- Page 18 ---
+Therefore the regularizer is minimized when all singular values 
+.
+5. When all singular values of 
+ are 1, 
+ is orthogonal (up to rotations), so
+has singular values all equal to 1 and hence columns of 
+ are orthonormal. Any orthogonal 
+just rotates the basis within the principal subspace but keeps 
+, so the solution is not
+unique, but all solutions have orthonormal columns.
+6. With a small nonzero , the reconstruction term forces 
+ very close to 
+, while the regularizer
+then prefers factorizations of that projector where the singular values of 
+ (and 
+) are close to 1.
+Thus, in practice, we get a strong bias toward 
+ having approximately orthonormal columns
+(up to rotations within the subspace).
+So: yes, the 
+-regularized linear autoencoder has an inductive bias toward 
+ with (approximately)
+orthonormal columns, though the particular orthonormal basis inside the principal subspace is not
+unique.
+2/2
+σ
+​ =
+i
+1
+A
+A
+W
+​ =
+2
+U
+​A
+k
+W
+​2
+A
+W
+​W
+​ =
+2
+T
+2
+I
+​k
+λ
+W
+​W
+​
+2
+1
+P
+W
+​2
+W
+​1
+W
+​2
+ℓ
+​2
+W
+​2
+Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API.
+18/18

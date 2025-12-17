@@ -1,0 +1,1218 @@
+--- Page 1 ---
+Kimi K2 - Thinking Solution to Homework 1
+Hanyang Gu
+November 30, 2025
+Question 1
+Consider the scalar equation σw = y with σ > 0. Minimising the squared loss L(w) =
+(y −σw)2 by gradient descent with step size η yields the recurrence
+wt+1 = wt + 2ησ (y −σwt) = (1 −2ησ2)wt + 2ησy.
+(1)
+The unique optimum is w∗= y/σ.
+(a) Stability of the recurrence
+Let α = 1 −2ησ2. Then (1) becomes
+wt+1 = α wt + 2ησy.
+The homogeneous part w(h)
+t+1 = αw(h)
+t
+decays to zero iff |α| < 1. Since η > 0,
+−1 < 1 −2ησ2 < 1 ⇐⇒0 < η < 1
+σ2.
+Hence the recurrence is stable precisely for
+0 < η < 1
+σ2 .
+Evaluation: Correct. The derivation matches the instructor’s solution. The condition for
+stability is correctly identified as keeping the geometric ratio |1 −2ησ2| < 1, which leads to
+the bound 0 < η < 1/σ2.
+1
+
+
+--- Page 2 ---
+(b) Convergence speed
+Define the error et = wt −w∗. Using w∗= y/σ we obtain from (1)
+et+1 = (1 −2ησ2) et = α et.
+Thus et = αte0. Because w0 = 0, e0 = −w∗and
+|et| = |w∗| |α|t.
+To be within a factor (1 −ε) of the optimum, i.e. |et| ≤ε|w∗|, we need |α|t ≤ε. Solving for
+t,
+t ≥ln ε
+ln |α| =
+ln(1/ε)
+−ln |1 −2ησ2| .
+(1)
+Hence the number of iterations required is
+t ≥
+ln(1/ε)
+−ln |1 −2ησ2| .
+Evaluation: Correct. The analysis of convergence speed is accurate. The derivation T >
+log ϵ
+log |1−2ησ2| correctly links the number of iterations to the contraction factor and the desired
+error tolerance ϵ.
+(c) Two-parameter (vector) problem
+Now consider the diagonal system
+σℓ
+0
+0
+σs
+ w[1]
+w[2]
+
+=
+y[1]
+y[2]
+
+,
+σℓ≫σs > 0.
+Gradient descent with a single learning rate η updates each coordinate independently:
+wt+1[i] = (1 −2ησ2
+i ) wt[i] + 2ησi y[i],
+i ∈{ℓ, s}.
+From part (a) each coordinate converges iff 0 < η < 1/σ2
+i . Because 1/σ2
+ℓ< 1/σ2
+s, the overall
+system converges precisely when
+0 < η < 1
+σ2
+ℓ
+.
+Thus the large singular value σℓlimits the admissible learning rate.
+Evaluation: Correct. The stability condition for the vector case is correctly identified as
+being limited by the direction with the largest curvature (σℓ). The result η < 1/σ2
+ℓmatches
+the solution.
+2
+
+
+--- Page 3 ---
+(d) Which dimension converges faster?
+For coordinate i the error contracts by the factor |αi| = |1 −2ησ2
+i |. Since σℓ> σs and η
+satisfies the bound of part (c), we have
+|αℓ| = |1 −2ησ2
+ℓ| ≤|1 −2ησ2
+s| = |αs|.
+Consequently the direction associated with the small singular value σs decays more slowly.
+In short,
+large σℓdirection converges faster,
+small σs direction converges slower.
+Evaluation: Correct. The reasoning is sound: for a stable learning rate, the contraction
+factor |1 −2ησ2| is smaller (better) for the large curvature direction σℓand closer to 1
+(slower) for the small curvature direction σs. Thus, the σℓdimension converges faster.
+(e) Optimal learning rate for fastest overall convergence
+Overall convergence is dictated by the slowest (largest) contraction factor. To make the two
+factors as small as possible we equalise their magnitudes:
+|1 −2ησ2
+ℓ| = |1 −2ησ2
+s|.
+For the admissible range of η, the left-hand side becomes negative while the right-hand side
+stays positive, so the equality reduces to
+−(1 −2ησ2
+ℓ) = 1 −2ησ2
+s.
+Solving for η gives
+η∗=
+1
+σ2
+ℓ+ σ2
+s
+.
+At this step size both coordinates contract with the same factor
+|αℓ| = |αs| = σ2
+ℓ−σ2
+s
+σ2
+ℓ+ σ2
+s
+,
+which is the smallest possible worst-case factor, yielding the fastest overall convergence.
+Evaluation: Perfect match. The optimal rate is correctly found by balancing the convergence
+speeds of the two extremes, setting |1 −2ησ2
+ℓ| = |1 −2ησ2
+s|. The resulting formula η =
+1
+σ2
+ℓ+σ2s
+is correct.
+3
+
+
+--- Page 4 ---
+(f) Many parallel problems with intermediate singular
+values
+Suppose we have additional dimensions with singular values σi satisfying
+σs ≤σi ≤σℓ
+for i = 3, . . . , k.
+The stability condition remains η < 1/σ2
+ℓ; the intermediate σi do not tighten this bound.
+For any fixed η, the contraction factor |αi| = |1 −2ησ2
+i | is monotone in σ2
+i , so the worst-case
+factor is still attained at the extremes σℓand σs. Consequently the optimal step size is the
+same as in part (e):
+η∗=
+1
+σ2
+ℓ+ σ2
+s
+.
+Intermediate singular values affect the individual convergence rates but not the feasible range
+of η nor the rate-optimal choice.
+Evaluation: Correct. The answer correctly notes that intermediate singular values do not
+constrain the convergence rate or stability beyond the bounds already set by σmin and σmax.
+(g) Relevance to general least-squares via the SVD
+Consider the general least-squares problem
+min
+w
+∥Xw −y∥2
+2,
+where X ∈Rm×d has singular value decomposition X = UΣV T with singular values σ1 ≥
+σ2 ≥· · · ≥σr > 0. Gradient descent with step size η reads
+wt+1 = wt −2ηXT(Xwt −y).
+Introduce the rotated variables ˜wt = V Twt and ˜y = U Ty. Using XT = V ΣTU T we obtain
+˜wt+1 = ˜wt −2ηΣT(Σ ˜wt −˜y).
+Because Σ is diagonal, each component evolves independently as
+˜wt+1[i] = (1 −2ησ2
+i ) ˜wt[i] + 2ησi ˜y[i].
+Thus the scalar analysis of parts (a)–(f) applies coordinate-wise in the orthonormal basis
+furnished by the SVD. In particular:
+• Stability requires 0 < η <
+1
+σ2max, where σmax = σ1.
+• The convergence rate along direction i is governed by |1 −2ησ2
+i |.
+4
+
+
+--- Page 5 ---
+• The overall convergence is bottlenecked by the smallest singular value σmin (the direc-
+tion of smallest curvature).
+• The optimal constant step size for the whole problem is
+η∗=
+1
+σ2
+max + σ2
+min
+,
+which balances the contraction of the slowest and fastest directions, exactly as derived
+in part (e).
+Hence the simple scalar and parallel-scalar analyses provide a complete picture of gradient-descent
+dynamics for arbitrary least-squares problems after the change of basis induced by the SVD.
+Evaluation: Correct. The connection to general least squares is properly explained using
+the SVD to diagonalize the problem, showing that the analysis of scalar/parallel problems
+applies directly to the rotated coordinates.
+Question 2.
+We consider the wide linear system Xw = y with X ∈Rn×d having full row rank (d > n).
+There are infinitely many exact solutions. We analyze SGD with batch size 1 and step-size
+η > 0.
+(a) Min-norm solution and change of coordinates
+Since X has full row rank, XXT is invertible and the minimum-norm solution to Xw = y
+is obtained by solving the normal equations with a Lagrange multiplier:
+w∗= XT(XXT)−1y.
+Define the centered variable w′ = w −w∗. Then
+Xw′ = Xw −Xw∗= y −y = 0,
+so the new system is exactly Xw′ = 0. With the initial condition w0 = 0, we have
+w′
+0 = w0 −w∗= −XT(XXT)−1y .
+Evaluation: Correct. The derivation of the minimum-norm solution w∗and the centered
+initial condition w′
+0 = −w∗is algebraically correct and matches the solution key.
+5
+
+
+--- Page 6 ---
+(b) SVD coordinates
+Write the thin SVD of X as X = UΣV T
+1 where U ∈Rn×n is orthogonal, Σ = diag(σ1, . . . , σn) ∈
+Rn×n with σi > 0, and V1 ∈Rd×n has orthonormal columns. Complete V1 to a full orthogonal
+matrix V = [V1 V2] ∈Rd×d.
+Set w′′ = V Tw′ and partition w′′ = [ew; w⊥] with ew ∈Rn and w⊥∈Rd−n.
+Since
+Xw′ = UΣV T
+1 w′ = UΣew, the constraint Xw′ = 0 is equivalent to ew = 0.
+Thus the
+transformed system reads
+[ e
+X
+0n×(d−n) ]w′′ = 0,
+where e
+X = UΣ.
+From part (a), w′
+0 = −XT(XXT)−1y = −V1Σ−1U Ty. Therefore
+w′′
+0 = V Tw′
+0 = [V T
+1 ; V T
+2 ](−V1Σ−1U Ty) = [−Σ−1U Ty; 0].
+Hence the last (d −n) components of w′′
+0 are zero:
+w⊥,0 = 0 .
+Evaluation: Correct. The transformation to SVD coordinates is handled well. The conclusion
+that the null-space component w⊥,0 initializes to zero is correctly derived from the property
+that w∗lies entirely in the row space of X.
+(c) Reduction to a square system
+Because w⊥never appears in the constraint [ e
+X 0]w′′ = 0 and its initial value is zero, SGD
+never updates w⊥(the gradient in those directions is zero). Consequently we may restrict
+attention to the first n components ew which evolve independently of w⊥.
+Define the square system
+e
+X ew = 0,
+(8)
+where e
+X = UΣ ∈Rn×n is invertible. Each row of (8) is obtained from the corresponding
+row of the original system Xw = y by:
+i) centering: replace y with 0 and w with w′;
+ii) the orthonormal change of variables w′′ = V Tw′;
+iii) restriction to the first n coordinates, which eliminates the trivial null-space directions.
+Thus analyzing SGD on (8) is equivalent to analyzing SGD on the original problem.
+Evaluation: Correct logic. The reduction to the square system e
+X ew = 0 is valid because the
+orthogonal components start at zero and receive zero gradient updates. The explanation of
+the coordinate changes (centering, rotation) is accurate.
+6
+
+
+--- Page 7 ---
+(d) SGD step equivalence
+SGD on the original objective draws index It ∼Unif{1, . . . , n} and updates
+wt+1 = wt −η∇LIt(wt) = wt + 2η
+ y[It] −xT
+Itwt
+
+xIt.
+Using w′ = w −w∗and the fact that xT
+Itw∗= y[It], this becomes
+w′
+t+1 = w′
+t −2η
+ xT
+Itw′
+t
+
+xIt.
+Now apply the orthonormal transformation w′′ = V Tw′:
+w′′
+t+1 = w′′
+t −2η
+ xT
+ItV w′′
+t
+
+V TxIt.
+Recall from (b) that V Txi =
+exi
+0
+
+where exi = ΣU Tei ∈Rn is the ith row of e
+X (written as a
+column). Consequently the update decouples:
+ ewt+1
+w⊥,t+1
+
+=
+ ewt
+w⊥,t
+
+−2η
+(exT
+It ewt) exIt
+0
+
+.
+Since w⊥,0 = 0 and it is never updated, we have w⊥,t = 0 for all t. The n-dimensional
+dynamics are exactly
+ewt+1 = ewt −2η exItexT
+It ewt ,
+(10)
+which is precisely SGD applied to the square system (8).
+Evaluation: Correct derivation.
+The proof that the SGD step on the original system is
+equivalent to the step on the reduced square system is rigorous. The use of the SVD relation
+V ⊤xIt to decouple the update is correct.
+(e) From conditional expectation to high-probability bound
+Assume we have a non-negative stochastic Lyapunov function L(ew) satisfying
+E
+
+L(ewt+1) | ewt
+
+≤(1 −ρ) L(ewt),
+1 > ρ > 0,
+(11)
+for all ewt. Taking expectations and iterating,
+E[L(ewt)] ≤(1 −ρ)t L(ew0).
+Let ϵ, δ > 0 be arbitrary. By Markov’s inequality,
+Pr
+ L(ewt) ≥ϵ
+
+≤E[L(ewt)]
+ϵ
+≤(1 −ρ)t L(ew0)
+ϵ
+.
+7
+
+
+--- Page 8 ---
+Choose T large enough that (1 −ρ)T L(ew0)/ϵ ≤δ, i.e.
+T ≥ln(δϵ/L(ew0))
+ln(1 −ρ)
+.
+Since ln(1 −ρ) < 0, this is equivalent to
+T ≥ln
+ L(ew0)/(δϵ)
+
+−ln(1 −ρ)
+.
+Such a T always exists, proving that for all ϵ, δ > 0,
+Pr
+ L(ewT) < ϵ
+
+≥1 −δ .
+Evaluation: Correct approach. The use of Markov’s inequality to translate the expectation
+bound on the Lyapunov function into a high-probability bound is the standard and correct
+technique for this proof.
+(f) Candidate Lyapunov function
+Define
+L(ew) = ewT e
+XT e
+X ew =
+ e
+X ew
+2.
+(13)
+Since it is a squared Euclidean norm, L(ew) ≥0 for all ew. Moreover, L(ew) = 0 iff e
+X ew = 0.
+Because e
+X is invertible (its singular values σ1, . . . , σn are strictly positive), e
+X ew = 0 implies
+ew = 0. Thus L(ew) ≥0 with equality only at ew = 0.
+Evaluation: Correct. The explanation that L(ew) is a valid Lyapunov function because e
+X is
+invertible (full rank), making the quadratic form positive definite, is correct.
+(g) Decomposition of the Lyapunov update
+Let ∆ewt = ewt+1 −ewt. Expanding
+L(ewt+1) = (ewt + ∆ewt)T e
+XT e
+X(ewt + ∆ewt)
+gives the decomposition
+L(ewt+1) = L(ewt) + A + B,
+(14)
+where
+A = 2 ewT
+t e
+XT e
+X ∆ewt,
+B = ∆ewT
+t e
+XT e
+X ∆ewt.
+8
+
+
+--- Page 9 ---
+Using the SGD update (10), ∆ewt = −2η exItexT
+It ewt, where exIt is the It-th column of e
+XT.
+Explicitly,
+A = −4η ewT
+t e
+XT e
+X exItexT
+It ewt,
+B = 4η2 ewT
+t exItexT
+It e
+XT e
+X exItexT
+It ewt.
+Evaluation: Correct expansion. The linear (A) and quadratic (B) terms of the Lyapunov
+update are correctly identified by expanding the quadratic form.
+(h) Bounding the linear term A
+Since It is uniform on {1, . . . , n},
+E
+exItexT
+It | ewt
+
+= 1
+n
+n
+X
+i=1
+exiexT
+i = 1
+n
+e
+XT e
+X.
+Therefore
+E[A | ewt] = −4η ewT
+t e
+XT e
+X
+1
+n
+e
+XT e
+X
+
+ewt = −4η
+n ewT
+t
+  e
+XT e
+X
+2 ewt.
+Let M = e
+XT e
+X and denote its eigenvalues by σ2
+1 ≥σ2
+2 ≥· · · ≥σ2
+n > 0. Because M is
+symmetric positive definite,
+ewT
+t M 2 ewt ≥σ2
+min ewT
+t M ewt = σ2
+min L(ewt),
+where σmin = σn is the smallest singular value of e
+X. Consequently
+E[A | ewt] ≤−4σ2
+min
+n
+η L(ewt) = −c1η L(ewt),
+with c1 = 4σ2
+min/n > 0.
+Evaluation: Correct. The expectation of the linear term is correctly bounded using the
+minimum singular value σ2
+min of the active subspace, matching the solution’s drift analysis.
+(i) Bounding the quadratic term B
+From (g) and the uniform sampling of It,
+E[B | ewt] = 4η2 ewT
+t
+ 
+1
+n
+n
+X
+i=1
+exiexT
+i e
+XT e
+X exiexT
+i
+!
+ewt.
+For any vector v,
+vT e
+XT e
+X v ≤∥e
+XT e
+X∥∥v∥2 = σ2
+max ∥v∥2,
+9
+
+
+--- Page 10 ---
+where σmax = σ1 is the largest singular value of e
+X. Thus the scalar factor in each term
+satisfies
+exT
+i e
+XT e
+X exi ≤σ2
+max ∥exi∥2.
+Let β = maxi ∥exi∥(the largest row norm of e
+X). Then
+exT
+i e
+XT e
+X exi ≤σ2
+maxβ2.
+Hence
+1
+n
+n
+X
+i=1
+exiexT
+i e
+XT e
+X exiexT
+i ⪯1
+n
+n
+X
+i=1
+σ2
+maxβ2 exiexT
+i = σ2
+maxβ2 M.
+Therefore
+E[B | ewt] ≤4η2σ2
+maxβ2 ewT
+t M ewt = c2η2 L(ewt),
+with c2 = 4σ2
+maxβ2 > 0.
+Evaluation: Correct. The quadratic noise term is correctly bounded using the maximum
+singular value σ2
+max and the row norm bound, consistent with the solution key.
+(j) Exponential decay of the Lyapunov function
+Combining the bounds from (h) and (i),
+E
+
+L(ewt+1) | ewt
+
+≤L(ewt) −c1η L(ewt) + c2η2 L(ewt)
+= (1 −c1η + c2η2) L(ewt),
+with c1, c2 > 0 as above. To guarantee contraction we need 1 −c1η + c2η2 < 1, which is
+equivalent to η < c1/c2. Since the right-hand side is strictly positive, such an η always exists.
+For example, choosing
+η∗= c1
+2c2
+=
+σ2
+min
+2nσ2
+maxβ2
+yields
+1 −c1η∗+ c2(η∗)2 = 1 −c2
+1
+4c2
+< 1.
+Thus there exists a step size η > 0 for which the Lyapunov function decays exponentially in
+expectation.
+Evaluation: Correct. The final assembly of the bounds to show exponential decay 1 −c1η +
+c2η2 < 1 for small η is correct.
+(k) Ridge regression and feature augmentation
+The ordinary ridge regression problem
+min
+w
+∥Xw −y∥2 + λ∥w∥2
+10
+
+
+--- Page 11 ---
+does not satisfy the interpolation condition: the regularizer prevents the loss from reaching
+zero. Consequently, SGD with a constant step size converges only sublinearly.
+The “feature-augmentation” trick rewrites the problem as
+min
+w
+
+ X
+√
+λ Id
+
+w −
+y
+0
+
+2
+,
+which is an interpolation problem: the augmented matrix is tall and, for appropriate λ, has
+full column rank, so there exists a w that drives the augmented residual to zero. Applying
+SGD to this formulation (with a constant step size satisfying the analysis above) yields
+exponential (linear) convergence.
+Typical observations from the Jupyter notebook would be:
+• Direct SGD on ridge regression: convergence rate is O(1/t) (sublinear), and the
+step size must be decayed to guarantee convergence.
+• SGD on the augmented formulation: error decays geometrically as ∥wt −w∗∥2 ≤
+C · (1 −ρ)t for some ρ ∈(0, 1), i.e. exponential convergence.
+• The practical convergence rate ρ depends on the condition number of the augmented
+matrix
+ X
+√
+λI
+
+; smaller λ generally leads to faster convergence but may increase the
+variance of the stochastic gradients.
+The dramatic difference between these two implementations illustrates that mathematically
+equivalent formulations need not be equivalent from an algorithmic standpoint. Understand-
+ing these nuances is crucial for efficient large-scale machine learning.
+Evaluation: Good summary. The response correctly captures the insight that feature aug-
+mentation allows SGD to converge exponentially (like in the interpolating regime) by pro-
+viding ”memory” for each data point, effectively resolving the conflicts that usually slow
+down SGD.
+Solution to Homework 1, Question 3
+We consider the least-squares objective L(w) = ∥y −Xw∥2
+2 and gradient descent with mo-
+mentum:
+wt+1 = wt −ηzt+1,
+zt+1 = (1 −β)zt + β∇L(wt),
+(1)
+where gt = ∇L(wt) = 2XT(Xwt −y). The minimizer is w∗= (XTX)−1XTy. Let the SVD
+of X be X = UΣV T with singular values σ1 ≥σ2 ≥· · · ≥σr > 0.
+11
+
+
+--- Page 12 ---
+(a) Reparameterized dynamics
+Let et = wt −w∗. Since Xw∗= y, we have Xwt −y = Xet. Substituting into (1),
+et+1 = et −ηzt+1,
+zt+1 = (1 −β)zt + 2βXTXet.
+Apply the orthonormal change of variables xt = V Tet and at = V Tzt.
+Using XTX =
+V ΣTΣV T,
+xt+1 = xt −ηat+1,
+at+1 = (1 −β)at + 2βΣTΣxt.
+Because ΣTΣ is diagonal with entries σ2
+i , the system decouples coordinate-wise:
+xt+1[i] = xt[i] −ηat+1[i],
+at+1[i] = (1 −β)at[i] + 2βσ2
+i xt[i].
+(2)
+Evaluation: Correct derivation. The reparameterization into eigen-coordinates xt and at
+matches the solution steps.
+The update rules for the transformed variables are derived
+correctly from the momentum equations.
+(b) The 2 × 2 system matrix Ri
+Eliminate at+1[i] from the first equation of (2):
+xt+1[i] = xt[i] −η
+ (1 −β)at[i] + 2βσ2
+i xt[i]
+
+= (1 −2ηβσ2
+i )xt[i] −η(1 −β)at[i].
+Together with the second equation of (2) this yields
+at+1[i]
+xt+1[i]
+
+=
+
+1 −β
+2βσ2
+i
+−η(1 −β)
+1 −2ηβσ2
+i
+
+|
+{z
+}
+Ri
+at[i]
+xt[i]
+
+.
+Hence the system matrix for coordinate i is
+Ri =
+
+1 −β
+2βσ2
+i
+−η(1 −β)
+1 −2ηβσ2
+i
+
+.
+(3)
+Evaluation: Correct. The system matrix Ri is correctly identified. The entries [(1−β), 2βσ2
+i ]
+and [−η(1 −β), 1 −2ηβσ2
+i ] (or their transpose equivalent depending on vector definition)
+match the dynamics described in the solution.
+12
+
+
+--- Page 13 ---
+(c) Eigenvalues of Ri
+The characteristic polynomial of Ri is
+det(Ri −λI) = λ2 −Tiλ + (1 −β) = 0,
+where Ti = tr(Ri) = 2 −β −2ηβσ2
+i . The eigenvalues are
+λi,± = Ti ±
+p
+T 2
+i −4(1 −β)
+2
+.
+(4)
+The discriminant is Di = T 2
+i −4(1 −β).
+• Purely real: Di > 0 ⇐⇒|Ti| > 2√1 −β.
+• Repeated and purely real: Di = 0 ⇐⇒|Ti| = 2√1 −β.
+• Complex: Di < 0 ⇐⇒|Ti| < 2√1 −β.
+Evaluation: Correct. The characteristic equation and the resulting eigenvalues λ are correctly
+derived. The conditions for real vs. complex eigenvalues based on the discriminant are also
+correct.
+(d) Repeated eigenvalues: stability and maximal η
+When Di = 0, the eigenvalue is λi = Ti/2. The condition Di = 0 gives
+2 −β −2ηβσ2
+i = ±2
+p
+1 −β
+=⇒
+η = 2 −β ∓2√1 −β
+2βσ2
+i
+.
+(5)
+For stability we require |λi| < 1, i.e. |Ti| < 2. Since |Ti| = 2√1 −β, this is equivalent to
+√1 −β < 1, which holds for all β ∈(0, 1). Hence repeated eigenvalues are strictly stable
+inside the unit circle for any β > 0.
+The larger learning rate (corresponding to the minus sign in (5)) is
+ηrepeat(σi) = 2 −β −2√1 −β
+2βσ2
+i
+.
+(6)
+Evaluation: Correct.
+The analysis that repeated/complex eigenvalues lie on a circle of
+radius √1 −β (hence always stable for β ∈(0, 1)) matches the solution. The condition for
+the maximal η for repeated roots is also correct.
+13
+
+
+--- Page 14 ---
+(e) Real eigenvalues: stability and range of η
+For real eigenvalues we need Di > 0 ⇐⇒|Ti| > 2√1 −β. Stability requires both eigenval-
+ues to satisfy |λi,±| < 1. For a quadratic λ2 −Tiλ + (1 −β) = 0 with 0 < β < 1, the Jury
+stability criteria reduce to
+|Ti| < 1 + (1 −β) = 2 −β.
+Since Ti = 2 −β −2ηβσ2
+i , this yields
+|2 −β −2ηβσ2
+i | < 2 −β
+=⇒
+0 < η < 2 −β
+βσ2
+i
+.
+(7)
+Thus for fixed β, the admissible learning rate is inversely proportional to σ2
+i .
+The condition Di > 0 gives two disjoint η-intervals:
+0 < η < 2 −β −2√1 −β
+2βσ2
+i
+or
+η > 2 −β + 2√1 −β
+2βσ2
+i
+.
+Only the first interval satisfies (7), so the stable real regime is
+0 < η < 2 −β −2√1 −β
+2βσ2
+i
+.
+(8)
+Evaluation: Correct.
+The stability analysis for real eigenvalues (requiring them to stay
+within (−1, 1)) leads to the correct bounds on η.
+The derivations align with the Jury
+stability conditions or direct root analysis.
+(f) Complex eigenvalues: stability and maximal η
+Complex eigenvalues occur when Di < 0 ⇐⇒|Ti| < 2√1 −β, which translates to
+2 −β −2√1 −β
+2βσ2
+i
+< η < 2 −β + 2√1 −β
+2βσ2
+i
+.
+(9)
+For complex conjugate pairs, |λi,±|2 = 1 −β. Hence the spectral radius is √1 −β, indepen-
+dent of η and σi. Stability requires √1 −β < 1, which holds for all β ∈(0, 1). The upper
+bound in (9) is therefore the maximal learning rate that keeps the eigenvalues complex:
+ηcomplex,max(σi) = 2 −β + 2√1 −β
+2βσ2
+i
+.
+(10)
+Evaluation: Correct. The observation that complex eigenvalues have constant magnitude
+√1 −β and are thus stable is correct. The range for η yielding complex roots is correctly
+identified.
+14
+
+
+--- Page 15 ---
+(g) Optimal learning rate for a concrete problem
+Let β = 0.1, σ2
+max = 5 and σ2
+min = 0.05 (condition number κ = 100).
+Momentum GD: The fastest overall convergence is achieved by making the worst-case
+direction converge as quickly as possible. This occurs when the eigenvalues for the largest
+curvature (σmax) are just at the boundary of the complex region, because the complex region
+gives a constant spectral radius √1 −β that is smaller than any real eigenvalue magnitude
+in the stable regime. Using (10) with σmax,
+η∗
+mom = 2 −0.1 + 2√1 −0.1
+2 · 0.1 · 5
+= 1.9 + 2
+√
+0.9
+1
+≈1.9 + 1.8974
+1
+= 3.7974 .
+With this choice, the i = max direction has eigenvalues λmax = −√1 −β ≈−0.9487 (re-
+peated), while the i = min direction is safely inside the complex region with |λmin| =
+√1 −β ≈0.9487. Hence the overall spectral radius is ρmom = √1 −β =
+√
+0.9 ≈0.9487.
+The number of iterations to reach ε = 0.001 (i.e., 99.9% of optimum) satisfies ρt
+mom ≤ε,
+so
+tmom ≥
+ln ε
+ln ρmom
+= ln(10−3)
+ln(
+√
+0.9) ≈−6.9078
+−0.05268 ≈131 iterations .
+Ordinary GD: The optimal step size and rate are
+η∗
+gd =
+1
+σ2
+max + σ2
+min
+=
+1
+5 + 0.05 ≈0.198,
+ρgd = κ −1
+κ + 1 = 100 −1
+100 + 1 ≈0.9802.
+Iterations needed:
+tgd ≥ln(10−3)
+ln(0.9802) ≈−6.9078
+−0.0200 ≈345 iterations .
+Conclusion: Momentum GD converges roughly 345/131 ≈2.6 times faster than ordi-
+nary GD on this problem.
+Evaluation: Excellent. The calculation of the optimal η by ensuring the eigenvalues for both
+σmin and σmax are complex (or repeated) matches the advanced analysis in the solution.
+The estimated iteration count is consistent with the theoretical acceleration provided by
+momentum.
+Question 4: Optimizers
+(a) Completing the Adam pseudocode
+The Adam optimizer maintains two exponentially weighted averages:
+• mt: first moment (mean) of the gradient
+• vt: second moment (uncentered variance) of the gradient
+15
+
+
+--- Page 16 ---
+The missing update rules are:
+(A)
+mt ←β1mt−1 + (1 −β1)gt,
+(B)
+vt ←β2vt−1 + (1 −β2)g2
+t ,
+where g2
+t denotes elementwise squaring.
+Evaluation: Correct. The update rules for the first moment mt (Equation A) and second
+moment vt (Equation B) are correctly identified as exponential moving averages, which is
+the standard definition of Adam.
+(b) Equivalence of weight decay and L2 regularization
+Weight decay update:
+θt+1 = (1 −γ)θt −η∇f(θt).
+(1)
+L2-regularized loss:
+f reg
+t
+(θ) = ft(θ) + λ
+2∥θ∥2
+2.
+SGD on this loss gives:
+θt+1 = θt −η∇f reg
+t
+(θt)
+= θt −η
+ ∇f(θt) + λθt
+
+= (1 −ηλ)θt −η∇f(θt).
+(2)
+Comparing (1) and (2), we see they are identical when:
+γ = ηλ .
+Evaluation: Correct derivation. The mathematical equivalence between the weight decay
+update and the L2-regularized SGD update is correctly shown.
+The relation γ = ηλ is
+accurately derived.
+Question 5: Regularization and Instance Noise
+(a) Equivalence to ridge regression
+Noisy data: ˇXi = xi + Ni, Ni ∼N(0, σ2In). The objective is:
+arg min
+w E
+
+∥ˇXw −y∥2
+,
+where ˇX has rows ˇX⊤
+i .
+16
+
+
+--- Page 17 ---
+Expanding the squared norm:
+E
+
+∥ˇXw −y∥2
+= E
+
+w⊤ˇX⊤ˇXw −2y⊤ˇXw + ∥y∥2
+= w⊤E[ ˇX⊤ˇX]w −2y⊤E[ ˇX]w + ∥y∥2.
+Since E[ ˇXi] = xi, we have E[ ˇX] = X. For the second moment:
+ˇX⊤ˇX =
+m
+X
+i=1
+ˇXi ˇX⊤
+i =
+m
+X
+i=1
+(xi + Ni)(xi + Ni)⊤,
+E[ ˇX⊤ˇX] =
+m
+X
+i=1
+ xix⊤
+i + E[NiN⊤
+i ]
+
+= X⊤X + mσ2In.
+Substituting back:
+E
+
+∥ˇXw −y∥2
+= w⊤(X⊤X + mσ2In)w −2y⊤Xw + ∥y∥2
+= ∥Xw −y∥2 + mσ2∥w∥2
+= m
+ 1
+m∥Xw −y∥2 + σ2∥w∥2
+
+.
+Ignoring the constant factor m, this is ridge regression with:
+λ = σ2 .
+Comments:
+Evaluation: Correct. The derivation shows that minimizing the expected loss with additive
+noise Ni introduces a term E[∥Ni∥2] which acts exactly as an L2 penalty on the weights.
+The identification λ = σ2 is correct.
+(b) Gradient descent recurrence for scalar case
+For a single scalar datapoint x with noise Nt ∼N(0, σ2), the noisy input is ˇXt = x + Nt.
+The loss is L(w) = 1
+2( ˇXtw −y)2. The gradient descent update is:
+wt+1 = wt −η∇L(wt)
+= wt −η( ˇXtwt −y) ˇXt
+= (1 −η ˇX2
+t )wt + ηy ˇXt.
+Taking expectation conditioned on wt (but not on the current noise Nt):
+E[wt+1] = E
+
+(1 −η(x + Nt)2)wt
+
++ ηyE[x + Nt]
+= (1 −ηE[(x + Nt)2])E[wt] + ηxy
+=
+ 1 −η(x2 + σ2)
+
+E[wt] + ηxy.
+17
+
+
+--- Page 18 ---
+Thus the recurrence is:
+E[wt+1] =
+ 1 −η(x2 + σ2)
+
+E[wt] + ηxy .
+Comments: Evaluation: Correct. The recurrence for the expected weight E[wt+1] is correctly
+derived. The analysis properly accounts for the noise variance in the second moment of the
+input E[(x + N)2] = x2 + σ2.
+(c) Convergence condition for learning rate
+The recurrence from part (b) is stable iff the contraction factor satisfies:
+| 1 −η(x2 + σ2) | < 1.
+This gives:
+0 < η <
+2
+x2 + σ2 .
+Evaluation: Correct. The stability condition is correctly updated to reflect the increased
+”effective” curvature due to noise: η <
+2
+x2+σ2.
+(d) Limiting value and comparison to noise-free optimum
+The fixed point w∗satisfies:
+w∗=
+ 1 −η(x2 + σ2)
+
+w∗+ ηxy
+η(x2 + σ2)w∗= ηxy
+w∗=
+xy
+x2 + σ2 =
+x2
+x2 + σ2 · y
+x.
+The noise-free optimum is wopt = y/x. Therefore:
+E[w∞] =
+x2
+x2 + σ2 wopt .
+The expectation converges to a shrunken version of the true optimum, with shrinkage factor
+x2
+x2+σ2 < 1. The noise acts as a regularizer, biasing the solution toward zero.
+Evaluation: Correct. The fixed point analysis shows the ”shrinkage” effect where the solution
+converges to a value smaller than the true optimum y/x by a factor of
+x2
+x2+σ2, which matches
+the behavior of Ridge Regression.
+18
+
+
+--- Page 19 ---
+Question 6: General Case Tikhonov Regularization
+(a) Manual solution
+The objective is:
+f(x) = ∥W1(Ax −b)∥2
+2 + ∥W2(x −c)∥2
+2.
+Expanding both terms:
+f(x) = (Ax −b)⊤W ⊤
+1 W1(Ax −b) + (x −c)⊤W ⊤
+2 W2(x −c)
+= x⊤A⊤W ⊤
+1 W1Ax −2b⊤W ⊤
+1 W1Ax + b⊤W ⊤
+1 W1b
++ x⊤W ⊤
+2 W2x −2c⊤W ⊤
+2 W2x + c⊤W ⊤
+2 W2c.
+The gradient is:
+∇f(x) = 2A⊤W ⊤
+1 W1Ax −2A⊤W ⊤
+1 W1b + 2W ⊤
+2 W2x −2W ⊤
+2 W2c.
+Setting ∇f(x) = 0 and solving:
+(A⊤W ⊤
+1 W1A + W ⊤
+2 W2)x = A⊤W ⊤
+1 W1b + W ⊤
+2 W2c.
+The solution is:
+x∗= (A⊤W ⊤
+1 W1A + W ⊤
+2 W2)−1(A⊤W ⊤
+1 W1b + W ⊤
+2 W2c) .
+Evaluation: Correct. The manual derivation of the gradient and the closed-form solution x∗
+involves correct matrix calculus and aligns with the generalized normal equations.
+(b) OLS formulation
+Construct:
+C =
+W1A
+W2
+
+,
+d =
+W1b
+W2c
+
+.
+Then:
+∥Cx −d∥2 =
+
+W1Ax −W1b
+W2x −W2c
+2
+= ∥W1(Ax −b)∥2 + ∥W2(x −c)∥2.
+The OLS solution is:
+x∗= (C⊤C)−1C⊤d = (A⊤W ⊤
+1 W1A + W ⊤
+2 W2)−1(A⊤W ⊤
+1 W1b + W ⊤
+2 W2c),
+which matches part (a).
+Evaluation: Correct. The construction of the stacked matrix C and vector d effectively maps
+the generalized problem to a standard Ordinary Least Squares problem, yielding the same
+solution.
+19
+
+
+--- Page 20 ---
+(c) Reduction to standard ridge regression
+Standard ridge regression: x∗= (A⊤A + λI)−1A⊤b.
+Choose:
+W1 = I,
+W2 =
+√
+λI,
+c = 0.
+Then:
+A⊤W ⊤
+1 W1A + W ⊤
+2 W2 = A⊤A + λI,
+A⊤W ⊤
+1 W1b + W ⊤
+2 W2c = A⊤b.
+Substituting into the solution from (a):
+x∗= (A⊤A + λI)−1A⊤b .
+Evaluation: Correct. The choice of matrices W1 = I, W2 =
+√
+λI and c = 0 correctly
+reduces the general Tikhonov form to the specific standard Ridge Regression objective.
+Question 7: Alternate MAP Interpretation of Ridge Re-
+gression
+We show the equivalence of:
+ˆw1 = (X⊤X + λI)−1X⊤y
+and
+ˆw2 = X⊤(XX⊤+ λI)−1y.
+Matrix algebra proof
+Multiply both sides of the identity
+(X⊤X + λI)X⊤= X⊤(XX⊤+ λI)
+by (X⊤X + λI)−1 on the left and (XX⊤+ λI)−1 on the right:
+X⊤(XX⊤+ λI)−1 = (X⊤X + λI)−1X⊤.
+Multiplying by y yields ˆw1 = ˆw2.
+Probabilistic (MAP) proof
+Model specification:
+W ∼N(0, Id),
+Y | W = XW +
+√
+λN,
+N ∼N(0, In).
+20
+
+
+--- Page 21 ---
+The joint distribution is Gaussian:
+W
+Y
+
+∼N
+
+0,
+ΣWW
+ΣWY
+ΣY W
+ΣY Y
+
+= N
+
+0,
+Id
+X⊤
+X
+XX⊤+ λIn
+
+.
+The MAP estimate given Y = y equals the conditional mean:
+ˆw = E[W | Y = y] = ΣWY Σ−1
+Y Y y = X⊤(XX⊤+ λIn)−1y.
+This is ˆw2.
+The standard ridge solution ˆw1 is obtained by maximizing the log-posterior:
+ˆw1 = arg min
+w
+n1
+λ∥Xw −y∥2 + ∥w∥2o
+= arg min
+w
+n
+∥Xw −y∥2 + λ∥w∥2o
+.
+Both formulations yield the same optimal w because they describe the same underlying
+probabilistic model, just conditioned on different variables. The matrix identity above con-
+firms their algebraic equivalence.
+Evaluation: Correct and rigorous. The response provides two valid proofs: an algebraic
+one using matrix identities (Woodbury/inversion lemma variants) and a probabilistic one
+using the properties of Joint Gaussians and conditional expectations. Both correctly conclude
+that ˆw1 = ˆw2.
+21

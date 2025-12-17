@@ -1,0 +1,3559 @@
+--- Page 1 ---
+q, k ∈Rd
+q, k ∼
+iid N(μ, σ I)
+2
+q
+ i
+k
+ i
+q
+ ∼
+i
+N(μ, σ )
+2
+k
+ ∼
+i
+N(μ, σ )
+2
+q
+k
+q k =
+⊤
+ q
+ k
+ .
+i=1
+∑
+d
+i
+i
+E[q k]
+⊤
+μ, σ, d
+q k =
+⊤
+ q
+ k
+ 
+∑i=1
+d
+i
+i
+E[q
+ k
+ ]
+i
+i
+q k =
+⊤
+ q
+ k
+ .
+i=1
+∑
+d
+i
+i
+E[q k] =
+⊤
+ E[q
+ k
+ ].
+i=1
+∑
+d
+i
+i
+q
+k
+(q
+ , k
+ )
+i
+i
+E[q
+ k
+ ] =
+i
+i
+E[q
+ ] E[k
+ ].
+i
+i
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+1/23
+Question
+I :
+My
+prompt
+approach
+was
+to
+have
+the
+L3M follow
+the
+steps
+2
+take
+when
+approaching
+problems
+. Also , I
+chose
+to
+attach
+screenshots of the problem to
+prevent
+formatting issues
+and
+so
+I
+could
+in
+problems
+one by
+one.
+This part
+is
+very
+concise and
+clear. However, it is slightly
+Misaligned
+with the
+notation
+of the problem.
+-
+should
+say
+"We compute ECqiki) = Elgi]E[ki] : wil
+for
+each
+coordinate
+,
+then
+sum .
+"
+
+
+--- Page 2 ---
+μ
+E[q
+ ] =
+i
+μ,
+E[k
+ ] =
+i
+μ
+E[q
+ k
+ ] =
+i
+i
+μ ⋅μ = μ .
+2
+E[q k] =
+⊤
+ μ =
+i=1
+∑
+d
+2
+dμ .
+2
+μ
+μ ∈Rd
+μ
+ i
+ μ
+ =
+∑i
+i
+2
+∥μ∥2
+ .
+E[q k] = dμ (= ∥μ∥ if you use a mean vector)
+⊤
+2
+2
+σ
+μ = 0, σ = 1
+Var(q k)
+⊤
+d
+q
+ , k
+ ∼
+i
+i
+N(0, 1)
+q k
+⊤
+q k =
+⊤
+ q
+ k
+ 
+∑i=1
+d
+i
+i
+Var(q
+ k
+ )
+i
+i
+Var
+ q
+ k
+ =
+(∑i
+i
+i)
+ Var(q
+ k
+ )
+∑i
+i
+i
+d
+Z
+ =
+i
+q
+ k
+ ,
+so
+q k =
+i
+i
+⊤
+ Z
+ .
+i=1
+∑
+d
+i
+Var(Z
+ )
+i
+μ = 0
+E[q
+ ] =
+i
+0,
+E[k
+ ] =
+i
+0.
+q
+ i
+k
+ i
+E[Z
+ ] =
+i
+E[q
+ k
+ ] =
+i
+i
+E[q
+ ]E[k
+ ] =
+i
+i
+0 ⋅0 = 0.
+Var(Z
+ ) =
+i
+E[Z
+ ] −
+i
+2
+(E[Z
+ ]) =
+i
+2
+E[Z
+ ].
+i
+2
+Z =
+i
+2
+(q
+ k
+ ) =
+i
+i
+2
+q
+ k
+ .
+i
+2
+i
+2
+E[Z
+ ] =
+i
+2
+E[q
+ k
+ ] =
+i
+2
+i
+2
+E[q
+ ] E[k
+ ].
+i
+2
+i
+2
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+2/23
+The problem
+statement takes
+↓EIRd
+, but
+this
+assumes all
+Ni
+are equal . Under
+the
+scalar-mean
+assumption , do
+is
+correct. However,
+it
+would
+be
+more
+accurate
+to
+use
+the
+more
+general
+rector-mean
+case .
+L
+This should have been given
+as the main
+answer .
+↓
+The high level plan is
+correct
+and
+very clear .
+It is
+well-structured
+The
+derivation
+differ slightly
+When
+computing varlaiki). The
+Official
+solution
+uses
+the
+general
+variance
+expansion.
+This
+solution
+uses independence
+.
+However , both
+are
+valid
+approaches.
+
+
+--- Page 3 ---
+X ∼N(0, 1) E[X ] =
+2
+Var(X) = 1
+E[q
+ ] =
+i
+2
+1,
+E[k
+ ] =
+i
+2
+1,
+E[Z
+ ] =
+i
+2
+1 ⋅1 = 1,
+Var(Z
+ ) =
+i
+1.
+Var(q k)
+⊤
+Var(Z
+ )
+i
+(q
+ , k
+ )
+i
+i
+i
+Z
+ i
+i
+Var
+ Z
+ 
+=
+(
+i=1
+∑
+d
+i)
+ Var(Z
+ ).
+i=1
+∑
+d
+i
+Var(q k) =
+⊤
+ Var(Z
+ ) =
+i=1
+∑
+d
+i
+ 1 =
+i=1
+∑
+d
+d.
+ .
+Var(q k) = d
+⊤
+d
+d
+s
+E
+ 
+=
+[ s
+q k
+⊤]
+0
+Var
+ 
+=
+( s
+q k
+⊤)
+1
+μ = 0, σ = 1
+s
+ 
+s
+q k
+⊤
+s
+d
+E[q k] =
+⊤
+0
+Var(q k) =
+⊤
+d
+s
+E[
+ ] =
+s
+X
+ E[X]
+s
+1
+Var(
+ ) =
+s
+X
+ Var(X)
+s21
+X = q k
+⊤
+s
+Y =
+ .
+s
+q k
+⊤
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+3/23
+The final
+answer
+matches
+the
+official
+solutions .
+The plan is very simple
+and
+clear. It mentions
+what
+we
+are
+using from
+part b which
+is helpful
+.
+
+
+--- Page 4 ---
+E[Y ] = E
+ 
+=
+[ s
+q k
+⊤
+]
+ E[q k].
+s
+1
+⊤
+E[q k] =
+⊤
+0
+E[Y ] =
+ ⋅
+s
+1
+0 = 0.
+s
+Var(Y ) = Var
+ 
+=
+( s
+q k
+⊤
+)
+ Var(q k) =
+s2
+1
+⊤
+ ⋅
+s2
+1
+d.
+Var(Y ) = 1
+ =
+s2
+d
+1.
+s
+s =
+2
+d
+⇒
+s =
+ 
+(take s >
+d
+0 as a scaling factor).
+ d
+ .
+s =
+ d
+ 
+ d
+q k
+⊤
+d
+d
+k , k
+ , k
+ , k
+ ∈
+1
+2
+3
+4
+R3
+v
+ , v
+ , v
+ , v
+ ∈
+1
+2
+3
+4
+R3
+q ∈R3
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+4/23
+These steps
+match
+the
+approach
+the
+solutions
+take , but
+in
+more
+detail.
+The
+summary of
+why
+we
+need
+the
+scaling
+- actor
+is
+very helpful
+in understanding the
+general intuition
+of
+the
+problem.
+The final
+answer
+matches
+the
+official
+solutions .
+L
+Question
+2 :
+&
+used
+the
+same
+prompting style
+for
+the
+second question .
+
+
+--- Page 5 ---
+s
+ =
+i
+q k
+ 
+⊤
+i
+j = arg max
+ s
+ 
+i
+i
+v
+ j
+k
+ =
+1
+ 
+ 
+ ,
+k
+ =
+1
+2
+0
+2
+ 
+ ,
+k
+ =
+0
+3
+4
+3
+ 
+ 
+ ,
+k
+ =
+5
+0
+0
+4
+ 
+ 
+ 
+0
+0
+1
+v
+ =
+1
+ 
+ 
+ ,
+v
+ =
+2
+0
+1
+2
+ 
+ 
+ ,
+v
+ =
+1
+4
+3
+3
+ 
+ 
+ ,
+v
+ =
+0
+−1
+4
+4
+ 
+ 
+ 
+1
+0
+−1
+q =
+ 
+ 
+ 
+1
+1
+2
+q
+s
+ =
+i
+q k
+ 
+⊤
+i
+i = 1, 2, 3, 4
+v
+ i
+k
+ 1
+s
+ =
+1
+q k
+ =
+⊤
+1
+ 
+ 
+ 
+ 
+ 
+ =
+[1
+1
+2]
+1
+2
+0
+1 ⋅1 + 1 ⋅2 + 2 ⋅0 = 1 + 2 + 0 = 3
+k
+ 2
+s
+ =
+2
+q k
+ =
+⊤
+2
+ 
+ 
+ 
+ 
+ 
+ =
+[1
+1
+2]
+0
+3
+4
+1 ⋅0 + 1 ⋅3 + 2 ⋅4 = 0 + 3 + 8 = 11
+k
+ 3
+s
+ =
+3
+q k
+ =
+⊤
+3
+ 
+ 
+ 
+ 
+ 
+ =
+[1
+1
+2]
+5
+0
+0
+1 ⋅5 + 1 ⋅0 + 2 ⋅0 = 5
+k
+ 4
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+5/23
+The
+setup
+focuses
+on
+the
+required
+computations -
+It
+is
+clear , correct , and
+complete .
+All
+4
+dot products
+are
+computed
+correctly
+.
+
+
+--- Page 6 ---
+s
+ =
+4
+q k
+ =
+⊤
+4
+ 
+ 
+ 
+ 
+ 
+ =
+[1
+1
+2]
+0
+0
+1
+1 ⋅0 + 1 ⋅0 + 2 ⋅1 = 2
+(s
+ , s
+ , s
+ , s
+ ) =
+1
+2
+3
+4
+(3, 11, 5, 2).
+11
+s
+ 2
+arg
+ s
+ =
+i
+max
+i
+2.
+v
+ =
+2
+ 
+ 
+ .
+1
+4
+3
+q
+k
+ 2
+q
+ .
+output =
+ 
+ 
+ 
+1
+4
+3
+s
+ =
+i
+q k
+ 
+⊤
+i
+α
+ =
+i
+ 
+ e
+∑j
+s
+ j
+es
+ i
+out =
+ α
+ v
+ .
+i
+∑
+i i
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+6/23
+One
+difference
+is
+that
+the
+official
+solutions
+explains
+why
+the "weighted
+sum" is
+trivial ,
+but this
+solution explicitly assumes
+it. It
+would
+be
+clearer if
+mentioned.
+The output is
+20V vect
+.
+The
+plan
+gives
+a
+good
+hin+
+for
+the
+conceptual
+issue
+.
+This matches the
+correct
+reasoning and
+aligns
+with
+the
+official
+solution.
+
+
+--- Page 7 ---
+α
+ i
+s
+ i
+s
+ i
+q
+k
+ i
+s
+ i
+j = arg
+ s
+ ,
+out =
+i
+max
+i
+v
+ .
+j
+out = v
+ j
+q
+k
+ i
+v
+ j
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+7/23
+This
+solution goes into
+more
+detail
+in
+comparison
+to
+the
+official
+solution. It is
+more
+step-by-step
+and
+gives
+mechanical insight.
+In terms
+of mathematical
+a curacy , this
+explicitly
+states
+derivative issues
+, explains why
+arymax
+is
+nondifferentiable ,
+and
+is
+more
+vigorous .
+summary
+is
+Very
+<lear
+and highlights
+main
+issue.
+Question
+3 :
+Again , same prompt
+
+
+--- Page 8 ---
+__init__
+scaled_dot_product_attention
+split_heads
+combine_heads
+forward
+d_model
+num_heads
+d_model
+W_q, W_k, W_v
+(batch, num_heads, seq_len, d_k)
+d_k = d_model // num_heads
+scores = Q @ K^T / sqrt(d_k)
+probs = softmax(scores)
+output = probs @ V
+W_o
+d_model
+d_model
+Q
+QK^T
+V
+softmax
+self.num_heads
+W_o
+__init__
+d_model
+d_model
+d_model
+W_k
+d_model
+d_model
+W_v
+d_model
+W
+ , W
+ , W
+ , W
+ 
+q
+k
+v
+o
+self.W_q = nn.Linear(d_model, d_model)
+self.W_k = nn.Linear(d_model, ___(a)___)
+self.W_v = nn.Linear(___(b)___, d_model)
+self.W_o = nn.Linear(d_model, ___(c)___)
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+8/23
+The plan correctly outlined
+that
+each blank
+corresponds
+to
+a
+standard multi-head
+attention
+component. The
+plan mentions
+the
+relevant
+transformer
+formulas .
+
+
+--- Page 9 ---
+d_model
+W_o
+d_model
+scaled_dot_product_attention
+Q
+softmax
+softmax
+V
+V
+split_heads
+(batch, seq, d_model)
+(batch, num_heads, seq, d_k)
+self.num_heads
+forward
+W_o
+self.W_k = nn.Linear(d_model, d_model)        # (a)
+self.W_v = nn.Linear(d_model, d_model)        # (b)
+self.W_o = nn.Linear(d_model, d_model)        # (c)
+attn_scores = torch.matmul(___(d)___, K.transpose(-2, -1))
+attn_scores = attn_scores / math.sqrt(self.d_k)
+if mask is not None:
+    attn_scores = attn_scores.masked_fill(mask == 0, -1e9)
+attn_probs = torch.___(e)___(attn_scores, dim=-1)
+output = torch.matmul(attn_probs, ___(f)___)
+QK⊤
+attn_scores = torch.matmul(Q, K.transpose(-2, -1))    # (d)
+...
+attn_probs = torch.softmax(attn_scores, dim=-1)       # (e)
+output = torch.matmul(attn_probs, V)                  # (f)
+batch_size, seq_length, d_model = x.size()
+return x.view(batch_size, seq_length,
+              ____(g)____, self.d_k).transpose(1, 2)
+return x.view(batch_size, seq_length,
+              self.num_heads, self.d_k).transpose(1, 2)  # (g)
+attn_output = self.scaled_dot_product_attention(Q, K, V, mask)
+output = self.___(h)___(self.combine_heads(attn_output))
+return output
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+9/23
+Each blank is matched
+to
+the
+correct
+variable/function.
+Each
+step
+is
+also
+connected
+to
+the
+actual
+multi-head attention
+equations.
+The mapping
+from
+↑seudocode
+to math is
+clear .
+
+
+--- Page 10 ---
+W_o
+d_model
+d_model
+d_model
+Q
+softmax
+V
+self.num_heads
+W_o
+QK^T
+V
+W_o
+V = W_v(x)
+2 * d_model
+d_model
+2 * d_model
+d_model
+d_model
+W_o
+2 * d_model
+d_model
+W_o
+2 * d_model
+output = self.W_o(self.combine_heads(attn_output))  # (h)
+self.W_v = nn.Linear(in_features=d_model, out_features=2 * d_model)
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+10/23
+All
+final blanks
+were
+filled in
+correctly
+summarizes the
+main problem
+of changing
+Wer
+shanges
+the
+downstream
+dimensionality
+of the
+concatenated
+heads .
+The plan explicitly lists the
+requirement
+of
+output dim = d-model.
+This explains the
+reasoning behind
+Why only W - o
+must
+adjust.
+
+
+--- Page 11 ---
+W_o
+W_o
+d_model
+2 * d_model
+W_v
+2 * d_model
+combine_heads
+view
+view
+num_heads
+2 * d_model
+W_o
+(batch_size, seq_length, 2
+* d_model)
+W_o
+2 * d_model -> d_model
+W_v
+d_model
+W_o
+2 *
+d_model
+d_model
+x + attention_output
+# before:
+self.W_o = nn.Linear(d_model, d_model)
+# after change to W_v:
+self.W_o = nn.Linear(2 * d_model, d_model)
+# combine_heads should produce (..., 2 * d_model)
+x = x.transpose(1, 2).contiguous()
+batch_size, seq_length, combined_dim = x.size()
+# here combined_dim = 2 * d_model
+2d
+ 
+model
+2d
+ 
+model
+W
+ :
+o
+R
+→
+2d
+ 
+model
+Rd
+ 
+model
+self.W_o = nn.Linear(2 * d_model, d_model)
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+11/23
+M
+The
+walkthrough
+of
+how head
+concatenation
+sizes change
+was
+correct
+and helpful.
+The losic for fixing
+residual
+connections
+is clear
+The final
+answer
+exactly
+matches the official answer
+and includes justification
+.
+
+
+--- Page 12 ---
+W
+ q
+W
+ q
+[h, d, q]
+[d, q]
+[h, q]
+d
+q
+q = d/h
+h
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+12/23
+Question 4 :
+The
+first
+time I
+prompted
+the
+LIM
+caused it
+to
+crash
+.
+I
+tried reprompting
+with
+the
+same
+approach
+again.
+This
+solution correctly recognized
+the
+shape
+of Wa
+, but
+could
+have
+explained
+that
+it
+is
+because
+it
+maintains
+separate
+weights
+per
+head.
+
+
+--- Page 13 ---
+"bd,hdq->bhq"
+"bd,dk->bk"
+torch.einsum("bd,dq->bhq", x, W_q)
+torch.einsum("bd,hdq->bhq", x, W_q)
+torch.einsum("bhd,dq->bhq", x, W_q)
+b d
+h d q
+b h q
+x
+[b, d]
+q
+[b, h, q]
+W
+ q
+(h, d, q)
+[h, d, q]
+ 
+A = [h, d, q]
+W
+ k
+W
+ k
+[h, d, k]
+[d, k]
+[h, k]
+h
+x ∈Rb×d
+k
+[b, k]
+W
+ k
+[d, k]
+[d, k]
+ 
+B = [d, k]
+q = _____C_____
+[b, h, q]
+x : [b, d]
+W :
+q
+[h, d, q]
+x
+W
+ q
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+13/23
+Final
+answer
+is
+correct
+and
+matches
+the official
+output
+exactly.
+This correctly explains
+why
+-here
+is
+no
+h
+dim ,
+This is fully
+correct.
+
+
+--- Page 14 ---
+"bd,dq->bhq"
+b h q
+h
+"bd,hdq->bhq"
+bd
+hdq
+bhq
+"bhd,dq->bhq"
+[b,h,d]
+torch.einsum("bd,dk->bk", x, W_k)
+torch.einsum("bd,hdk->bhk", x, W_k)
+torch.einsum("bd,dk->bhk", x, W_k)
+b k
+d k
+"bd,dk->bk"
+bd
+dk
+bk
+[h,d,k]
+bhk
+bhk
+h
+unsqueeze(1)
+prev_K
+torch.einsum("bd,hdv->bhv", x, W_v)
+torch.einsum("bd,dv->bhv", x, W_v)
+W
+ q
+[d, q]
+x
+W
+ q
+x
+ 
+C = torch.einsum("bd,hdq->bhq", x, W_q)
+q
+[b, h, q]
+k = _____D_____
+x : [b, d]
+W
+ :
+k
+[d, k]
+k
+[b, k]
+W
+ k
+x
+W
+ k
+[b, k]
+W
+ k
+ 
+D = torch.einsum("bd,dk->bk", x, W_k)
+k
+[b, k]
+[b, n, k]
+v = _____E_____
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+14/23
+Einsum reasoning is
+correct
+.
+The
+solution
+walks through
+each
+option
+which
+is helpful.
+This
+matches the
+official
+solutions .
+The
+solution recognizes that
+keys
+are
+projected
+exactly
+like
+queries
+, but
+using
+W- K.
+could
+mention
+shape
+reasoning
+explicitly
+.
+[b ,d]x[d , k]e [b , K]
+, then
+L
+heads
+added
+- [b , n , k]
+The solution
+is correct
+.
+
+
+--- Page 15 ---
+torch.einsum("bd,dv->bv", x, W_v)
+b v
+h d v
+bhv
+"bd,dv->bhv"
+b
+d v
+bhv
+h
+"bd,dv->bv"
+bd
+dv
+bv
+unsqueeze(1)
+prev_V:[b,n,v]
+"bhk,bnk->bhn"
+x : [b, d]
+W
+ :
+v
+[d, v]
+v
+[b, v]
+W
+ v
+x
+W
+ v
+[b, v]
+ 
+E = torch.einsum("bd,dv->bv", x, W_v)
+O(bd +
+2
+bnd)
+q, k, v, o O(bd )
+2
+n
+O(bnd)
+n
+q
+W
+ :
+q
+[h, d, q]
+O(bd )
+2
+k, v
+W
+ :
+k
+[d, k], W
+ :
+v
+[d, v]
+O(bdk) ∼O(bd /h)
+2
+O(bd )
+2
+O(bd )
+2
+q
+W
+ o
+n + 1
+O(bhnk) = O(bnd)
+O(
+ +
+q + o proj (dominant)
+ 
+bd2
+ ) =
+attention
+ 
+bnd
+O(bd +
+2
+bnd).
+ 
+MQA compute complexity = O(bd + bnd)
+2
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+15/23
+The
+answer
+matches
+the
+official
+solution
+and
+the
+explanation
+is
+clear.
+The
+breakdown
+is
+very clear
+With
+computing all
+projections
+first , then
+dot products with
+cached
+KIV
+.
+The projection
+and
+attention
+Lost
+is
+clearly
+separated
+,
+which helps with organizationn.
+The
+complexity
+matches
+the
+official
+solution ,
+
+
+--- Page 16 ---
+O(d +
+2
+bd + bnd)
+W
+ :
+q
+[h, d, q] W
+ :
+k
+[d, k] W
+ :
+v
+[d, v] W
+ :
+o
+[h, v, d]
+O(d )
+2
+x, q, k, v, o, y
+O(bd)
+[b, h, n, k]
+[b, h, n, v]
+O(bnd)
+[b, n, k]
+[b, n, v]
+d/h
+O(bn(d/h)) = O(
+ )
+h
+bnd
+1/h
+memory complexity (MQA) = O(d ) +
+2
+O(bd) + O
+ 
+=
+( h
+bnd)
+O
+d + bd +
+ 
+.
+( 2
+h
+bnd)
+ 
+MQA memory access complexity = O d + bd +
+ 
+( 2
+h
+bnd)
+A = [h, d, q]
+B = [d, k]
+C = torch.einsum("bd,hdq->bhq", x, W_q)
+D = torch.einsum("bd,dk->bk", x, W_k)
+E = torch.einsum("bd,dv->bv", x, W_v)
+ 
+O(bd + bnd)
+2
+ 
+O d + bd +
+ 
+( 2
+h
+bnd)
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+16/23
+This
+solution identifie
+- he
+3
+components
+and
+correctly
+breaks
+down
+the
+complexity
+for
+each
+part
+The official
+solutions
+are
+Old
++ bd + buk) which
+is
+equivalent
+to this
+because
+k = d/h
+In general ,
+all subpart
+solutions
+matched
+the
+official
+solutions
+. The
+LIM
+solution
+included
+more detailed
+reasoning
+and explain why
+each
+answer
+is
+correct. It
+follows then general
+structure
+from
+the
+prompt ,
+but
+also
+adapts
+it
+to
+better
+fit
+the
+needs
+of
+the
+questions .
+The
+hiM
+consistently
+reasoned
+about
+projection
+dimensions
+, wincum
+axes ,
+and broadcasting
+across
+heads.
+Also,
+the
+compute
+and memory
+complexities
+were
+broken
+down
+by component.
+
+
+--- Page 17 ---
+sim
+V
+ =
+i
+′
+ .
+ sim(Q
+ , K
+ )
+∑j=1
+N
+i
+j
+ sim(Q
+ , K
+ ) V
+ 
+∑j=1
+N
+i
+j
+j
+(3)
+Q
+ i
+i
+K
+ j
+j
+V
+ j
+sim(⋅, ⋅)
+V
+ i
+′
+sim(q, k)
+Q
+ i
+ sim(Q
+ , K
+ )
+j=1
+∑
+N
+i
+j
+V
+ i
+′
+Q
+ i
+Z
+ =
+i
+ sim(Q
+ , K
+ ).
+j=1
+∑
+N
+i
+j
+V
+ i
+′
+sim(Q
+ , K
+ )
+i
+j
+sim
+±∞
+Z
+ =
+i 0
+i
+sim(q, k) ≥0
+q, k
+i
+j
+sim(Q
+ , K
+ ) >
+i
+j
+0
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+17/23
+Question
+6 :
+Again , the same prompt
+was
+used .
+The
+LLM correctly
+focuses
+on
+the
+denominator .
+↑
+The
+official
+solutions
+phrase
+a
+more general
+condition
+first (sum-o) ,
+then specializes to
+positive
+Kernels .
+The steps
+are mathematically
+correct :
+non-negative plus
+at
+least
+one
+positive term =>
+sum > 0
+.
+The
+solution
+also required
+that
+Sim
+never
+be
+int , which is reasonable
+.
+
+
+--- Page 18 ---
+Z
+ =
+i
+ sim(Q
+ , K
+ ) >
+j
+∑
+i
+j
+0.
+sim(q, k) = exp(q k/
+ ) >
+⊤
+D
+0
+sim(q, k)
+q, k
+sim(q, k) ≥0
+q, k
+Q
+ i
+K
+ j
+sim(Q
+ , K
+ ) >
+i
+j
+0
+ sim(Q
+ , K
+ )
+∑j
+i
+j
+V
+ i
+′
+sim(q, k)
+sim(q, k) = K (q, k)
+c
+c
+c = 2
+sim(q, k)
+K (q, k) =
+c
+(q k) .
+⊤
+c
+c = 2
+c = 2
+K (q, k) =
+2
+(q k) .
+⊤
+2
+sim(q, k) = (q k) .
+⊤
+2
+ 
+sim(q, k) = (q k) .
+⊤
+2
+ϕ(⋅)
+ϕ(⋅)
+K(q, k) = (q k) =
+⊤
+2
+ϕ(q) ϕ(k).
+⊤
+ϕ(⋅)
+q, k ∈RD
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+18/23
+For
+the restricted setting of
+positive
+Kernels, the final answer
+condition
+is
+equivalent.
+However ,
+it is
+more
+restrictive than
+needed
+in general
+case
+because
+of
+the
+non negativity .
+The solution missed
+the
+part in instruction
+L
+that says constant
+factor is
+Set
+to 1
+The derivation
+that Jaik)
+is
+a Valid
+similarity function
+was
+mathematically fire
+However , it is
+not the
+Kernel
+the problem
+asked
+for .
+The
+" + 1 "Was
+dropped
+.
+The final
+answer
+is right for
+the
+homogeneous
+Kernel instead
+of
+the
+polynomial Kernel
+. This final
+answer
+is
+therefore
+incorrect
+.
+
+
+--- Page 19 ---
+(q k) =
+⊤
+2
+ q
+ k
+ 
+=
+(
+r=1
+∑
+D
+r
+r)
+2
+ 
+ q
+ q
+ k
+ k
+ .
+r=1
+∑
+D
+s=1
+∑
+D
+r s
+r
+s
+(q ⊗q) (k ⊗
+⊤
+k) =
+ q
+ q
+ k
+ k
+ =
+r,s
+∑
+r s
+r
+s
+(q k) .
+⊤
+2
+ϕ(x) = x ⊗x
+ϕ(x) = vec(xx ) ∈
+⊤
+R
+,
+D2
+D × D
+xx⊤
+ϕ(q) ϕ(k) =
+⊤
+vec(qq ) vec(kk ) =
+⊤⊤
+⊤
+trace(qq kk ) =
+⊤
+⊤
+(q k) .
+⊤
+2
+ϕ
+ 
+ϕ(x) = vec(xx ) = x ⊗x.
+⊤
+ϕ(q) ϕ(k) =
+⊤
+(q k)
+⊤
+2
+x
+ϕ
+K(q, k) = ϕ(q) ϕ(k).
+⊤
+sim(Q
+ , K
+ ) =
+i
+j
+K(Q
+ , K
+ ) =
+i
+j
+ϕ(Q
+ ) ϕ(K
+ )
+i ⊤
+j
+V
+ =
+i
+′
+ .
+ sim(Q
+ , K
+ )
+∑j=1
+N
+i
+j
+ sim(Q
+ , K
+ )V
+ 
+∑j=1
+N
+i
+j
+j
+sim(Q
+ , K
+ ) =
+i
+j
+K(Q
+ , K
+ ) =
+i
+j
+ϕ(Q
+ ) ϕ(K
+ ).
+i
+⊤
+j
+V
+ =
+i
+′
+ .
+ ϕ(Q
+ ) ϕ(K
+ )
+∑j=1
+N
+i ⊤
+j
+ (ϕ(Q
+ ) ϕ(K
+ )) V
+ 
+∑j=1
+N
+i ⊤
+j
+j
+ϕ
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+19/23
+The high-level idea
+of
+using
+a
+feature
+Map built
+from
+quadratic
+monomials
+to represent
+a
+quadratic
+Kernes.
+However, the wrong
+Kernel is
+used here
+as well
+.
+-
+For the Kernel (gik)", this
+feature
+map
+is
+valid
+, but
+lacks
+the
+constant
+"I"
+component
+and Escaling .
+ine
+LCM gave a
+valid
+D
+for
+(9T1)3,
+not
+for
+(gik + 1)2 , making this
+final
+answer
+incorrect .
+The plan
+is
+correct
+and
+conciss
+.
+The
+algebra
+is
+straightforward
+and
+matches
+the
+official
+answer.
+The official solution has
+L
+& (Qi) P(K; )T, which is
+a
+row
+vector times
+a
+column Vector
+~ nile
+P(Qi)TP(Ki) is
+a
+column
+Vector
+times
+a
+row
+rector .
+Both
+are equal to the
+dot product
+and
+are
+justvestor
+Rotation
+differences .
+
+
+--- Page 20 ---
+ϕ
+ .
+V
+ =
+ 
+i
+′
+ ϕ(Q
+ ) ϕ(K
+ )
+∑j=1
+N
+i ⊤
+j
+ (ϕ(Q
+ ) ϕ(K
+ )) V
+ 
+∑j=1
+N
+i ⊤
+j
+j
+V
+ =
+i
+′
+ .
+ exp(
+ )
+∑j=1
+N
+ 
+D
+Q
+ K
+ 
+i
+⊤
+j
+ exp(
+ )V
+ 
+∑j=1
+N
+ 
+D
+Q
+ K
+ 
+i
+⊤
+j
+j
+(4)
+V
+ i
+′
+i = 1, … , N
+N
+D
+Q, K
+M
+V
+Q, K, V
+V
+ i
+′
+i = 1, … , N
+S =
+ 
+ 
+D
+QK⊤(N × N)
+A (N × N)
+AV
+V ∈
+′
+RN×M
+S = QK⊤
+Q
+N × D K⊤
+D × N
+O(N D)
+2
+N
+N
+O(N )
+2
+N D
+2
+D
+V =
+′
+AV
+A
+N × N V
+N × M
+O(N M)
+2
+T
+ =
+softmax
+O(N D +
+2
+N M) =
+2
+O(N (D +
+2
+M)).
+D
+M
+O(N D)
+2
+ 
+T
+ = O(N (D + M)).
+softmax
+2
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+20/23
+The final
+answer
+is
+correct .
+The
+plan
+clearly
+separates
+into
+score
+computation ,
+softmax , and weighted sum .
+The
+steps
+use
+the
+matrix
+Multiply viewpoint instead
+of
+explicit
+loops , but
+same
+big-O
+reasoning. However,
+the
+pseudocode
+given
+in
+the
+official
+solutions
+make
+the
+costs
+more
+intuitive
+and
+2ear .
+This matches the
+official
+solution.
+
+
+--- Page 21 ---
+Q, K, V
+Q N × D
+K N × D
+V N × M
+S
+A N × N
+Q O(ND)
+K O(ND)
+V O(NM)
+O(N )
+2
+Mem
+ =
+softmax
+O(ND + ND + NM + N ) =
+2
+O(N(D + M) + N ).
+2
+ 
+Mem
+ = O(N(D + M) + N ).
+softmax
+2
+N 2
+V
+ =
+i
+′
+ .
+ϕ(Q
+ ) (
+ ϕ(K
+ ))
+i ⊤
+∑j=1
+N
+j
+ϕ(Q
+ ) (
+ ϕ(K
+ )V
+ )
+i ⊤
+∑j=1
+N
+j
+j
+⊤
+(5)
+ϕ(Q
+ ), ϕ(K
+ ) ∈
+i
+j
+RM
+M
+V
+ ∈
+j
+RM
+ϕ(x)
+M ≈D
+ϕ
+M
+M ∼D
+N, D, M
+ϕ(Q
+ )
+i
+ϕ(K
+ )
+j
+S =
+ ϕ(K
+ )V
+ 
+∑j=1
+N
+j
+j
+⊤
+M × M
+u =
+ ϕ(K
+ )
+∑j=1
+N
+j
+M
+i
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+21/23
+This
+matches the
+official
+solution ,
+The
+solution
+assumes the
+feature
+dimension
+is
+equals
+M
+or
+D , instead
+of using
+a
+separate
+symbols
+and
+recognizing that
+for
+the
+quadratic
+Polynomial
+Kernel ,
+C = OLD2)
+. This
+means the
+cost
+was
+underestimated.
+
+
+--- Page 22 ---
+ϕ(Q
+ ) S
+i ⊤
+M
+ϕ(Q
+ ) u
+i ⊤
+V
+ =
+i
+′
+numerator/denominator
+ϕ(Q)
+ϕ(K)
+O(DM)
+N
+O(NDM)
+N
+O(NDM)
+O(NDM)
+S
+u
+j
+ϕ(K
+ )V
+ 
+j
+j
+⊤
+M
+O(M )
+2
+N
+O(NM )
+2
+u =
+ ϕ(K
+ )
+∑j
+j
+N M
+O(NM)
+O(NM )
+2
+O(NM )
+2
+V
+ i
+′
+i
+ϕ(Q
+ ) S
+i ⊤
+1 × M
+M × M
+O(M )
+2
+ϕ(Q
+ ) u
+i ⊤
+1 × M
+M × 1
+O(M)
+N
+O(NM )
+2
+O(NM)
+O(NM )
+2
+T
+ =
+kernel
+O(NDM) + O(NM ) +
+2
+O(NM ) =
+2
+O(NDM + NM ).
+2
+M ≈D
+M
+D
+T
+ =
+kernel
+O(ND ).
+2
+O(N D)
+2
+D ∼M
+N
+Q
+K
+N × D
+O(ND)
+V N × M
+O(NM)
+ϕ(Q) N × M
+O(NM)
+ϕ(K) N × M
+O(NM)
+S M × M
+O(M )
+2
+u M
+O(M)
+Mem
+ =
+kernel
+O(ND + NM + M ).
+2
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+22/23
+In the
+steps , the LLM
+treated
+the feature map I
+as
+if
+it
+had
+dimension
+D
+not
+D2. However , for
+the
+actual quadratic Kernel
+with
+Polynomial
+feature
+map , the
+feature
+dimension
+(is quadratic
+in
+B
+,
+so
+all
+multiplications
+involvingI
+are
+more
+expensive ·
+The
+official
+solutions
+also
+use
+Pseudocode
+to help
+with
+complexities
+which
+is helpful
+for
+better
+understanding
+where
+all
+the
+costs
+come
+from
+All computation is
+correct ,
+but
+the
+dimension mistake
+carries throughout
+the
+solution.
+
+
+--- Page 23 ---
+M ≈D
+Mem
+ =
+kernel
+O(ND + D ).
+2
+N ≫D
+O(ND)
+M ≈D
+ 
+T
+ = O(ND ).
+kernel
+2
+ 
+Mem
+ = O(ND + D ).
+kernel
+2
+O(N D)
+2
+O(N +
+2
+ND)
+D
+M
+12/3/25, 1:43 AM
+Expected value of dot product
+https://chatgpt.com/c/692feb32-e2e4-8328-9deb-f30b1c064b2d
+23/23
+Both
+the
+time
+and space
+complexities
+are
+too
+optimistic
+by
+a factor
+of
+D ,
+so
+this
+final
+answer
+is incorrect.
+
+
+--- Page 24 ---
+N
+ND
+N 2
+M ≈D
+ 
+T
+ = O(N(DM + M )) = O(ND ) for M ≈D.
+kernel
+2
+2
+ 
+S
+ = O(ND + NM + M ) = O(ND + D ) for M ≈D.
+kernel
+2
+2
+O(N (D +
+2
+M))
+O(N )
+2
+N
+D
+N = 4096 D = 64
+K
+2
+sim(q, k)
+K(q, k) = (q k +
+⊤
+c) .
+2
+1
+c = 1
+sim(q, k) = (q k +
+⊤
+1) .
+2
+(q k +
+⊤
+1) =
+2
+(q k) +
+⊤
+2
+2q k +
+⊤
+1,
+12/3/25, 5:59 PM
+Problem-solving steps
+https://chatgpt.com/c/6930e5bb-d2e4-8332-ba2e-9640caa58c71
+8/13
+I guided the
+LLM
+by
+mentioning the
+constant .
+The
+correct Kernel
+is
+now
+being
+used.
+
+
+--- Page 25 ---
+ 
+sim(q, k) = (q k + 1) .
+⊤
+2
+ϕ(⋅)
+ϕ(⋅)
+K(q, k) = (q k +
+⊤
+1) =
+2
+ϕ(q) ϕ(k).
+⊤
+ϕ : R
+→
+D
+RM
+(q k +
+⊤
+1)2
+(q k +
+⊤
+1)2
+ϕ(x)
+x
+ i
+x x
+ i
+2
+x
+ x
+i
+j
+ 2
+q, k ∈RD
+(q k +
+⊤
+1) =
+2
+(q k) +
+⊤
+2
+2q k +
+⊤
+1.
+q k
+⊤
+q k =
+⊤
+ q
+ k
+ .
+d=1
+∑
+D
+d
+d
+(q k) =
+⊤
+2
+ q
+ k
+ 
+=
+(
+d=1
+∑
+D
+d
+d)
+2
+ q
+ k
+ +
+d=1
+∑
+D
+d
+2
+d
+2
+2
+ q
+ q
+ k k
+ .
+1≤i<j≤D
+∑
+i j
+i
+j
+(q k +
+⊤
+1) =
+2
+1 + 2
+ q
+ k
+ +
+d=1
+∑
+D
+d
+d
+ q
+ k
+ +
+d=1
+∑
+D
+d
+2
+d
+2
+2
+ q
+ q
+ k
+ k
+ .
+1≤i<j≤D
+∑
+i j
+i
+j
+ϕ(q) ϕ(k)
+⊤
+ϕ(x)
+1
+ 2
+ x
+ 
+2
+d
+x
+ d
+2
+ 2
+ x
+ x
+ 
+2
+i
+j
+i < j
+12/3/25, 5:59 PM
+Problem-solving steps
+https://chatgpt.com/c/6930e5bb-d2e4-8332-ba2e-9640caa58c71
+9/13
+This is correct and
+aligns with the
+official solution.
+The steps here
+use
+the
+right Kernel
+and
+are
+very clear .
+
+
+--- Page 26 ---
+ϕ(x) =
+ 
+ 
+ ∈
+1
+ x
+ 
+2
+1
+ x
+ 
+2
+2
+⋮
+ x
+ 
+2
+D
+x
+ 1
+2
+x
+ 2
+2
+⋮
+x
+ 
+D
+2
+ x
+ x
+ 
+2
+1
+2
+ x
+ x
+ 
+2
+1
+3
+⋮
+ x
+ x
+ 
+2
+D−1
+D
+R
+,
+M =
+M
+1 + D + D +
+ =
+2
+D(D −1)
+1 + D +
+ =
+2
+D(D + 1)
+O(D ).
+2
+ϕ(q) ϕ(k) =
+⊤
+1 ⋅1 +
+ (
+ q
+ )(
+ k
+ ) +
+d=1
+∑
+D
+2 d
+2 d
+ q
+ k
+ +
+d=1
+∑
+D
+d
+2
+d
+2
+ (
+ q
+ q
+ )(
+ k
+ k
+ ).
+i<j
+∑
+2 i j
+2 i
+j
+ϕ(q) ϕ(k) =
+⊤
+1 + 2
+ q
+ k
+ +
+d=1
+∑
+D
+d
+d
+ q
+ k
+ +
+d=1
+∑
+D
+d
+2
+d
+2
+2
+ q
+ q
+ k
+ k
+ =
+i<j
+∑
+i j
+i
+j
+(q k +
+⊤
+1) .
+2
+ϕ
+ 
+ϕ(x) = (1,
+ x
+ , … ,
+ x
+ , x
+ , … , x
+ ,
+ x
+ x
+ , … ,
+ x
+ x
+ )
+2
+1
+2
+D
+1
+2
+D
+2
+2
+1
+2
+2
+D−1
+D
+⊤
+M = 1 + D +
+ =
+2
+D(D + 1)
+O(D ),
+2
+ 
+ϕ(q) ϕ(k) = (q k + 1) = sim(q, k).
+⊤
+⊤
+2
+ϕ
+ϕ
+C = dim ϕ(x) = Θ(D ).
+2
+12/3/25, 5:59 PM
+Problem-solving steps
+https://chatgpt.com/c/6930e5bb-d2e4-8332-ba2e-9640caa58c71
+10/13
+This final
+answer
+is
+correct .
+I
+also
+corrected part
+& by explicitly saying
+&nadratic Kernel
+.
+
+
+--- Page 27 ---
+C = O(D )
+2
+V
+ =
+i
+′
+ ,
+ϕ(Q
+ )
+ ϕ(K
+ )
+i ⊤(∑j=1
+N
+j )
+ϕ(Q
+ )
+ ϕ(K
+ )V
+ 
+i ⊤(∑j=1
+N
+j
+j
+⊤)
+(5)
+Q
+ , K
+ ∈
+i
+j
+RD
+D
+V
+ ∈
+j
+RM
+M
+ϕ : R
+→
+D
+RC
+C = Θ(D ).
+2
+V
+ , … , V
+ 
+1
+′
+N
+′
+Z =
+ ϕ(K ) ∈
+j=1
+∑
+N
+j
+R ,
+S =
+C
+ ϕ(K
+ )V
+ ∈
+j=1
+∑
+N
+j
+j
+⊤
+R
+.
+C×M
+Q
+ i
+ϕ(Q
+ )
+i
+S
+Z
+N, C, M
+C = Θ(D )
+2
+Q, K, V
+Z, S
+ϕ(K
+ )
+j
+j = 1, … , N
+ϕ(K
+ ) ∈
+j
+RC
+O(C)
+C
+Z ←Z + ϕ(K
+ )
+j
+O(C)
+S ←S + ϕ(K
+ )V
+ 
+j
+j
+⊤
+RC×M
+O(CM)
+j O(C + CM) = O(CM)
+N
+T
+ =
+keys
+O(NCM).
+NC
+NCM
+M
+i = 1, … , N
+ϕ(Q
+ ) ∈
+i
+RC O(C)
+M
+12/3/25, 5:59 PM
+Problem-solving steps
+https://chatgpt.com/c/6930e5bb-d2e4-8332-ba2e-9640caa58c71
+11/13
+The steps
+are
+shown
+clearly
+, buthaving
+Pseudocode like the
+official
+solutions
+would
+be helpful .
+
+
+--- Page 28 ---
+num
+ =
+i
+ϕ(Q
+ ) S
+∈
+i
+⊤
+R
+.
+1×M
+1 × C
+C × M O(CM)
+den
+ =
+i
+ϕ(Q
+ ) Z
+i
+⊤
+O(C)
+V
+ =
+i
+′
+ ,
+den
+ i
+num
+ i
+O(M)
+O(CM)
+N
+T
+ =
+queries
+O(NCM).
+T
+ =
+kernel
+O(NCM) + O(NCM) = O(NCM).
+C = Θ(D )
+2
+T
+ =
+kernel
+O(ND M).
+2
+M ≈D
+T
+ =
+kernel
+O(ND ).
+3
+Q N × D
+O(ND)
+K N × D
+O(ND)
+V N × M
+O(NM)
+Z
+C
+O(C)
+S
+C × M
+O(CM)
+ϕ(K
+ )
+j
+N × C
+O(NC)
+S
+ =
+kernel
+O(ND) + O(ND) + O(NM) + O(NC) + O(C) + O(CM).
+O(NC)
+O(CM)
+C = Θ(D )
+2
+S
+ =
+kernel
+O(ND + NM + ND +
+2
+D M).
+2
+M ≈D
+S
+ =
+kernel
+O(ND +
+2
+D ).
+3
+C = Θ(D )
+2
+ 
+T
+ = O(NCM) = O(ND M) ≈O(ND ) if M ≈D.
+kernel
+2
+3
+Q, K, V
+12/3/25, 5:59 PM
+Problem-solving steps
+https://chatgpt.com/c/6930e5bb-d2e4-8332-ba2e-9640caa58c71
+12/13
+This
+is
+concise
+and clear
+.
+
+
+--- Page 29 ---
+ 
+S
+ = O(ND + NM + ND + D M) ≈O(ND + D ) if M ≈D.
+kernel
+2
+2
+2
+3
+C = O(D )
+2
+M ≈D
+ND3
+ND2 D3
+12/3/25, 5:59 PM
+Problem-solving steps
+https://chatgpt.com/c/6930e5bb-d2e4-8332-ba2e-9640caa58c71
+13/13
+The answer
+now
+asigns with the
+official
+solutions .

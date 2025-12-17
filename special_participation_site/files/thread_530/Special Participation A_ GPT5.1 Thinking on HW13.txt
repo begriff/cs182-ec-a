@@ -1,0 +1,120 @@
+--- Page 6 ---
+ 
+Parts (a)-(c): Solid probabilistic foundations 
+The opening segments were handled competently. For part (a), GPT immediately recognized 
+the structure: starting from X₀ ~ N(0, σ²) and adding independent Gaussian noise with variance 
+
+
+--- Page 7 ---
+Δt at each of T = 1/Δt steps yields X₁ ~ N(0, σ² + 1) through the additive property of Gaussian 
+variances. The explanation was direct and correctly leveraged the reproductive property of 
+normal distributions. Part (b) demonstrated similar competence with marginal distributions in the 
+forward process, correctly identifying Xt ~ N(0, σ² + t). The variance approximation in part (c) 
+properly simplified (σ² + t - Δt)Δt/(σ² + t) ≈ Δt by recognizing that σ² + t - Δt ≈ σ² + t when Δt ≪ 
+σ². 
+The approach in these sections was methodical and transparent, with each step justified by 
+standard probability results. This suggests GPT has internalized common probability 
+manipulations involving Gaussians and can apply them reliably in straightforward contexts. 
+Part (d): Successful telescoping product analysis 
+The question of what happens under deterministic reverse diffusion (applying only conditional 
+means without stochastic noise) requires recognizing a telescoping structure. GPT correctly 
+formulated this as a product of T ratios: X̂ ₀ = X₁ · ∏(σ²/(σ² + kΔt)), then observed the telescoping 
+cancellation leading to X̂ ₀ = (σ²/(σ² + 1)) · X₁. The conclusion that variance gets compressed to 
+σ⁴/(σ² + 1)² follows immediately and was correctly stated. The hints were used appropriately to 
+structure the solution, suggesting GPT can recognize and exploit problem scaffolding when 
+provided. 
+Part (e): Incomplete integral evaluation 
+Here the first significant gap appeared. The transition from discrete sum to continuous integral 
+was set up correctly: Var(X̂ ₀) = σ⁴ + ∫₀¹ σ⁴/(σ² + t)² dt. However, GPT then simply asserted this 
+evaluates to σ² without demonstration. The provided hint explicitly gives ∫ 1/(1+t)² dt = C - 
+1/(1+t), which with appropriate u-substitution should yield a verifiable result. The calculation 
+would involve recognizing ∫₀¹ 1/(σ² + t)² dt = (1/σ²) ∫₀¹ 1/(1 + t/σ²)² d(t/σ²), evaluating to 
+(1/σ²)[σ²/(σ²) - σ²/(σ²+1)] = 1/σ² - 1/(σ²+1). Combined with the σ⁴ term, this should produce the 
+desired σ². GPT skipped this entire algebraic chain, suggesting either inability to complete the 
+calculation or a tendency to shortcut when the answer is known from context (the hint states the 
+result should equal σ²). 
+Parts (f)-(h): Increasing abstraction and gaps 
+The description of neural network training for the denoising function in part (f) remained at a 
+high conceptual level. GPT outlined sampling from the dataset, adding noise at various 
+timesteps, and training a network to predict clean signals, but lacked specificity about the actual 
+implementation. The question asks explicitly about input generation, batch construction, and 
+loss computation. A complete answer would specify: sample x from the dataset, sample t 
+uniformly from [0,1], compute xt = √(σ² + t)·x + √t·ε where ε ~ N(0,1), feed (xt, t) into the network 
+g(xt, t), and minimize ||g(xt, t) - σ²/(σ² + t)·xt||². GPT provided the conceptual framework without 
+these implementation details. 
+The DDIM step approximation in part (g) correctly identified that η(t, Δt) ≈ 1/2 for small Δt by 
+expanding √t/(√(t-Δt) + √t) ≈ √t/(2√t - Δt/(2√t)) ≈ 1/2. This was handled adequately. However, part 
+
+
+--- Page 8 ---
+(h) requesting the full DDIM trajectory calculation showed clear signs of incomplete work. GPT 
+claimed the product of all DDIM steps yields X̂ ₀ proportional to X₁ · exp(-1/2 · ∫₀¹ dt/(σ² + t)) 
+without showing the intermediate steps converting the product to a sum via logarithms. The hint 
+about ln(1-x) ≈ -x for small x was mentioned but not applied. A rigorous solution would write out 
+the product explicitly, take logarithms to convert to a sum, recognize the sum as a Riemann 
+approximation to an integral, evaluate that integral, and exponentiate back. GPT sketched this 
+outline but didn't execute it. 
+The pattern across these later parts suggests GPT maintains conceptual understanding of the 
+overall strategy but loses precision when algebraic manipulations become lengthy or when 
+multiple approximations must be tracked simultaneously. 
+ 
+
+
+--- Page 14 ---
+Part (a): Trivial warm-up handled correctly 
+The unconstrained KL minimization problem was answered correctly with p* = q. This follows 
+immediately from the non-negativity of KL divergence and the fact that DKL(p||q) = 0 if and only 
+if p = q almost everywhere. No issues observed. 
+Part (b): Critical derivation gap 
+GPT stated this result but provided no actual derivation. The response mentioned "using 
+calculus of variations" without showing the variation, mentioned "taking derivatives" without 
+writing them down, and essentially asserted the answer. This represents a fundamental failure 
+because the entire point of the exercise is demonstrating mastery of constrained optimization 
+techniques. The gap is particularly problematic because this derivation forms the foundation for 
+all subsequent parts. Someone relying on this solution would miss understanding how 
+constrained policy optimization actually works. 
+Part (c): Solid conceptual explanation 
+The question about why the optimal policy form is impractical was answered well. GPT correctly 
+identified that the partition function Z(x) = Σy πref(y|x)·exp(r(x,y)/β) requires summing over all 
+possible outputs y, which is intractable for large discrete spaces like text generation where y 
+represents arbitrary-length sequences. The explanation clearly connected mathematical 
+structure to computational reality. 
+Part (d): Algebraic error with propagation potential 
+Rearranging the optimal policy equation to isolate the reward requires taking logarithms of both 
+sides: log π*(y|x) = log πref(y|x) + r(x,y)/β - log Z(x), then multiplying by β to get r(x,y) = 
+β·log(π*/πref) + β·log Z(x). GPT's response contained inconsistency here - in some formulations 
+the β coefficient on log Z(x) was present, in others it was omitted. This type of coefficient error is 
+insidious because it propagates through subsequent calculations. While the error might seem 
+minor, it reflects imprecise algebraic tracking that would accumulate in longer derivations. 
+
+
+--- Page 15 ---
+Part (e): Cancellation demonstrated correctly 
+Substituting the reparameterized reward into the Bradley-Terry model and showing Z(x) cancels 
+was handled properly. The probability of preferring yw over yl becomes 
+σ(β·log(π*(yw|x)/πref(yw|x)) + β·log Z(x) - β·log(π*(yl|x)/πref(yl|x)) - β·log Z(x)), where the log 
+Z(x) terms cancel immediately. GPT correctly identified this cancellation and explained its 
+significance: the intractable partition function disappears from the optimization objective, making 
+the problem tractable. This represents a key conceptual insight of DPO and was communicated 
+clearly. 
+Part (f): Gradient derivation lacking implementation detail 
+Computing ∇θ LDPO requires applying the chain rule through the sigmoid function and the log 
+probability ratios. The gradient should be proportional to -E[σ(r̂θ(x,yl) - r̂θ(x,yw))·(∇θ log 
+πθ(yw|x) - ∇θ log πθ(yl|x))], where the sigmoid term acts as an importance weight. GPT 
+captured the structure and correctly interpreted the sigmoid weighting: when the model 
+incorrectly assigns higher probability to the losing response (making r̂θ(x,yl) > r̂θ(x,yw)), the 
+sigmoid approaches 1 and the gradient update is strong; when the model is already correct, the 
+sigmoid approaches 0 and the update is weak. 
+However, the actual differentiation wasn't shown in detail. GPT didn't explicitly write out that ∇θ 
+r̂θ(x,y) = β·∇θ log πθ(y|x), which is what connects the gradient to actual network parameters. 
+For implementation, this matters because it determines what gets backpropagated. The 
+interpretation was insightful but the mathematical execution was incomplete. 
+Part (g): Plackett-Luce extension sketched adequately 
+Extending to rankings rather than pairwise comparisons requires showing Z(x) still cancels in 
+the more complex Plackett-Luce formula. The probability of ranking τ is ∏k exp(r(x,yτ(k)))/Σj≥k 
+exp(r(x,yτ(j))). When substituting r(x,y) = β·log(π*/πref) + β·log Z(x), each exponential becomes 
+(π*(y|x)/πref(y|x))·Z(x), so Z(x) appears in both numerator and denominator of each fraction and 
+cancels. GPT correctly identified this cancellation pattern and wrote the final result in terms of 
+π* and πref only. The explanation was brief but captured the essential algebra. 
+ 
+ 

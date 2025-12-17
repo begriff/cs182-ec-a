@@ -1,0 +1,62 @@
+--- Page 1 ---
+Some background context to 
+improve responses 
+
+
+--- Page 2 ---
+Seems to be correct so far for part a.
+Compared to the solutions, it decided to
+formulate a nice expression for y_k.
+Similarly for K_l too.
+
+
+--- Page 4 ---
+Pretty impressive
+All pretty accurate, though, K_0 isnt included to the numerical
+values of K from the solutions
+
+
+--- Page 5 ---
+Good intuition of a decaying response
+
+
+--- Page 6 ---
+Part c: while it's true that convolution removes sequential dependence across time steps once the kernel is
+known, this answer doesn't explicitly state the critical path length. Each y_k still requires a reduction over 
+kernel terms with O(log L) depth. The official solution distinguishes this from the unrolled recurrence, whose
+depth is O(L)
+Should be O(log L log n) depth. Incomplete withou taccouting 
+for matrix mult. I guess LLM tendency to combine two things 
+together: arithmetic and depth. Tried to fix this, but it was taking 
+long.
+doesnt tie in divide and conquer, even though O(log L) runtime stated
+
+
+--- Page 7 ---
+Different approach, but seems to 
+have the right output. 
+Off target: tried to avoid this, but happens.
+Problem 1 answers are very impressive overall.
+
+
+--- Page 8 ---
+Trying to make it perform better and refresh chat
+
+
+--- Page 11 ---
+One shots all of problem 3, didn't have to tell
+it to do anything extra. No hallucinations, 
+accurate like official solutions.
+Trying to refresh chat once again
+
+
+--- Page 15 ---
+Literally one shots problem 4, no complaints.
+Executive summary: Grok handled most non-coding HW8 problems accurately, 
+particularly those involving linear algebra and ridge-regression interpretations, 
+and often one-shotted the correct solution. It showed no major hallucinations and 
+even produced valid alternative derivations in some cases. The primary weakness
+was in algorithmic complexity analysis, where it sometimes stated correct ideas 
+imprecisely, especially regarding critical path length versus total work. Overall, Grok 
+demonstrated strong formal reasoning but not as tuned with the specific computational 
+assumptions emphasized in lecture.

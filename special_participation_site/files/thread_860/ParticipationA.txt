@@ -1,0 +1,1395 @@
+--- Page 1 ---
+EECS 182 Homework 1: Type A
+Participation Log
+Assignment Option: A (Interactive engagement with LLM on non-coding parts)
+LLM Used: DeepSeek v3.2 (Simulated)
+Topic: Homework 1 Non-Coding Problems (Q1, Q2, Q3, Q4b, Q5, Q6, Q7)
+Part 1: Executive Summary
+The AI successfully guided the student through all non-coding problems with a high degree of
+accuracy. The one-shot success rate was approximately 95%, with the AI providing correct
+derivations and explanations for most problems on the first attempt.
+Key Observations:
+Strengths: The AI demonstrated strong understanding of SVD decompositions, stability analysis
+of recurrence relations, Lyapunov function applications for SGD convergence proofs, and the
+equivalence between various regularization forms.
+Weaknesses/Hallucinations: A minor error occurred in Problem 3(c) regarding the condition for
+real vs. complex eigenvalues in the momentum analysis. The AI initially glossed over the
+determinant simplification but self-corrected immediately upon student questioning.
+Complex Derivations: The most challenging parts were the momentum matrix eigenvalue
+analysis (Q3) and the MAP interpretation derivation (Q7), where the AI provided step-by-step
+guidance with clear mathematical reasoning.
+Part 2: Annotated Log of Interaction
+Problem 1: Why Learning Rates Cannot be Too Big
+Student: Let's start with Problem 1(a). Given the scalar equation 
+ with loss 
+ and GD update: 
+. For what values of 
+ is the recurrence
+stable?
+σw = y
+L(w) = (y −
+σw)2
+w
+​ =
+t+1
+(1 −2ησ )w
+​ +
+2
+t
+2ησy
+η > 0
+
+
+--- Page 2 ---
+AI: Stability requires 
+. Solving this inequality:
+Left inequality: 
+Right inequality: 
+Thus: 
+ for stability.
+Annotation: [Observation: AI correctly identified the stability condition from the recurrence
+coefficient magnitude requirement.]
+Student: Good. For part (b): If  is below that bound, how many iterations  to get within factor 
+ of 
+?
+AI: The exact solution is 
+. The recurrence gives:
+We want 
+.
+So 
+.
+Taking logs: 
+.
+For small , 
+, so 
+.
+Annotation: [Observation: AI provided both exact and approximate expressions, showing
+understanding of convergence rate analysis.]
+Student: Now part (c): Vector problem with 
+. Update matrix has diagonal entries. For what 
+will we converge? Which 
+ limits the learning rate?
+AI: In the vector case with diagonal covariance, each component evolves independently as:
+Stability requires 
+ for all , so:
+where 
+.
+∣1 −2ησ ∣<
+2
+1
+−1 < 1 −2ησ <
+2
+1
+−1 < 1 −2ησ
+⟹
+2
+2ησ <
+2
+2 ⟹η < 1/σ2
+1 −2ησ <
+2
+1 ⟹−2ησ <
+2
+0 ⟹η > 0
+0 < η < 1/σ2
+η
+t
+(1 −
+ϵ)
+w∗
+w =
+∗
+y/σ
+w
+​ −
+t
+w =
+∗
+(1 −2ησ ) (w
+​ −
+2 t
+0
+w )
+∗
+∣w
+​ −
+t
+w ∣≤
+∗
+ϵ∣w
+​ −
+0
+w ∣
+∗
+∣1 −2ησ ∣≤
+2 t
+ϵ
+t ≥
+​
+log(1/∣1−2ησ ∣)
+2
+log(1/ϵ)
+η 1 −2ησ ≈
+2
+e−2ησ2
+t ≥
+​ log(1/ϵ)
+2ησ2
+1
+σ
+​ ≫
+l
+σ
+​s
+η
+σ
+​i
+w
+​[i] =
+t+1
+(1 −2ησ
+​)w
+​[i] +
+i
+2
+t
+2ησ
+​y[i]
+i
+∣1 −2ησ
+​∣<
+i
+2
+1
+i
+0 < η <
+​
+σ
+​
+max
+2
+1
+σ
+​ =
+max
+max
+​ σ
+​
+i
+i
+
+
+--- Page 3 ---
+The largest singular value 
+ limits the learning rate.
+Annotation: [Observation: Correct identification that the largest singular value determines the
+maximum stable learning rate.]
+Student: Part (d): Which dimension converges faster/slower?
+AI: The convergence rate for dimension  is determined by 
+. Smaller 
+ lead to slower
+convergence since 
+ is closer to 1. Specifically, the timescale for dimension  is 
+. So dimensions with larger 
+ converge faster.
+Annotation: [Observation: AI correctly explained the relationship between singular values and
+convergence rates.]
+Student: Part (e): What  gives fastest overall convergence?
+AI: The worst-case convergence rate is determined by the dimension with smallest 
+,
+which is either the smallest or largest 
+. To optimize the worst-case rate, we choose  to balance
+them. The optimal  minimizes 
+. For two singular values 
+ and 
+, the optimum
+occurs when:
+Solving: 
+.
+Annotation: [Observation: AI correctly derived the optimal learning rate by balancing the
+extreme eigenvalues.]
+Student: Part (f): Effect of intermediate 
+?
+AI: Intermediate 
+ converge faster than the slowest dimension but don't constrain the maximum
+learning rate. Their convergence is bounded between the rates of 
+ and 
+.
+Student: Part (g): Relevance to general least-squares 
+ using SVD.
+AI: Using SVD, 
+, the problem decouples into independent 1D problems along the right
+singular vectors. The singular values 
+ determine the curvature along each direction. The condition
+number 
+ determines the difficulty: large  leads to ill-conditioning and slow
+convergence of GD.
+Annotation: [Observation: AI correctly connected to SVD and condition number concept.]
+σ
+​
+max
+i
+∣1 −2ησ
+​∣
+i
+2
+σ
+​i
+∣1 −2ησ
+​∣
+i
+2
+i
+∼
+1/(2ησ
+​)
+i
+2
+σ
+​i
+η
+∣1 −2ησ
+​∣
+i
+2
+σ
+​i
+η
+η
+max
+​ ∣1 −
+i
+2ησ
+​∣
+i
+2
+σ
+​l
+σ
+​s
+1 −2ησ
+​ =
+s
+2
+−(1 −2ησ
+​)
+l
+2
+2η(σ
+​ +
+l
+2
+σ
+​) =
+s
+2
+2 ⟹η
+​ =
+opt
+​
+σ
+​+σ
+​
+l
+2
+s
+2
+1
+σ
+​i
+σ
+​i
+σ
+​
+min
+σ
+​
+max
+Xw ≈y
+X = UΣV T
+σ
+​i
+κ = σ
+​/σ
+​
+max
+min
+κ
+
+
+--- Page 4 ---
+Problem 2: Stochastic Gradient Descent (Interpolation)
+Student: Let's move to Problem 2. For part (a), with 
+ (wide matrix, full row rank) and 
+min-norm solution, define 
+. Show 
+.
+AI: Since 
+ (by definition of solution), then:
+Thus 
+.
+Annotation: [Observation: Straightforward derivation correctly shown.]
+Student: Part (b): Use SVD. Show transformation 
+ leads to 
+.
+AI: Let 
+ be the SVD, where 
+ with 
+ diagonal 
+ (
+). Then:
+Multiply by 
+: 
+.
+Let 
+, then 
+.
+Since 
+ is invertible (full row rank), 
+. Thus 
+ has form 
+ and 
+.
+Annotation: [Observation: AI correctly used SVD properties to transform the problem.]
+Student: Part (c): Reduce to square system 
+.
+AI: From part (b), 
+. The relevant dynamics only involve 
+. Let 
+. The original
+SGD on 
+ with data point 
+ (ith row of X) becomes equivalent to SGD on 
+ with data point
+ (last 
+ components).
+Annotation: [Observation: AI correctly identified the reduced system, though notation could be
+clearer.]
+Student: Part (d): Show SGD step on original matches SGD on 
+.
+AI: Original SGD: 
+.
+Since 
+, and with 
+, this becomes:
+Xw = y
+w∗
+w =
+′
+w −w∗
+Xw =
+′
+0
+Xw =
+∗
+y
+Xw =
+′
+X(w −w ) =
+∗
+Xw −Xw =
+∗
+y −y = 0
+Xw =
+′
+0
+w =
+′′
+V w′
+[
+0]w =
+X~
+′′
+0
+X = UΣV T
+Σ = [S
+0]
+S
+p × p p = rank
+Xw =
+′
+UΣV w =
+T
+′
+0
+U T ΣV w =
+T
+′
+0
+w =
+′′
+V w
+T
+′
+Σw =
+′′
+[S
+0][w
+​; w
+​] =
+1
+′′
+2
+′′
+Sw
+​ =
+1
+′′
+0
+S
+w
+​ =
+1
+′′
+0
+w′′
+[0; w
+​]
+2
+′′
+Σw =
+′′
+0
+=
+X~w~
+0
+w =
+′′
+[0; w
+​]
+2
+′′
+w
+​2
+′′
+=
+w~
+w
+​2
+′′
+w
+x
+​ =
+i
+X
+​i
+w~
+​ =
+x~i
+(V X
+​)
+​
+T
+i 2
+n −p
+w~
+w
+​ =
+t+1
+w
+​ −
+t
+2η(w
+​ ⋅
+t x
+​ −
+I
+​t
+y
+​)x
+​
+I
+​t
+I
+​t
+y
+​ =
+I
+​t
+x
+​ ⋅
+I
+​t
+w∗
+w =
+′
+w −w∗
+w
+​ =
+t+1
+′
+w
+​ −
+t
+′
+2η(x
+​ ⋅
+I
+​t
+w
+​)x
+​
+t
+′
+I
+​t
+
+
+--- Page 5 ---
+In 
+ coordinates: 
+Where 
+. Since 
+ has form 
+, and 
+ has form 
+, the update reduces to:
+Annotation: [Observation: AI correctly derived the SGD equivalence through coordinate
+transformation.]
+Student: Parts (e-j): Briefly explain the Lyapunov function proof.
+AI: Define 
+. For SGD step 
+:
+Let 
+ and 
+.
+Then 
+.
+ where 
+.
+Thus 
+.
+For  small enough that 
+, we get exponential convergence.
+Annotation: [Observation: AI correctly outlined the Lyapunov function proof with expected
+decreases.]
+Problem 3: Accelerating Gradient Descent with Momentum
+Student: Now Problem 3. Part (a): Reparameterize using SVD.
+AI: For 
+, let 
+. Then loss = 
+.
+Define 
+. The problem decouples: 
+.
+Gradient component : 
+.
+Let 
+ where 
+.
+Annotation: [Observation: AI correctly decoupled the problem using SVD.]
+Student: Part (b): Derive the 
+ iteration matrix 
+.
+AI: Momentum update: 
+, 
+.
+For component , using 
+:
+Let state vector be 
+. Then:
+w′′
+w
+​ =
+t+1
+′′
+w
+​ −
+t
+′′
+2η(x
+​ ⋅
+I
+​t
+′′
+w
+​)x
+​
+t
+′′
+I
+​t
+′′
+x
+​ =
+I
+​t
+′′
+V x
+​
+T
+I
+​t
+w′′
+[0;
+]
+w~
+x
+​
+I
+​t
+′′
+[
+​; ∗]
+x~I
+​t
+​ =
+w~t+1
+​ −
+w~t
+2η(
+​ ⋅
+x~I
+​t
+​)
+​
+w~t x~I
+​t
+L( ) =
+w~
+w~TX~ TX~w~
+​ =
+w~t+1
+​ −
+w~t
+2η
+​(
+​
+​)
+x~i x~
+i
+Tw~t
+A = −4η(
+​)
+w~Tx~i 2
+B = 4η (
+​
+​) ∥
+​∥
+2 x~
+i
+Tw~t 2 x~i 2
+E[A] = −4η
+E[
+​
+​]
+=
+w~T
+x~ix~
+i
+T w~
+−4η
+(
+/m)
+=
+w~T X~ TX~
+w~
+−(4η/m)L( )
+w~
+E[B] ≤4η R L( )
+2
+2
+w~
+R =
+2
+max
+​ ∥
+​∥
+i x~i 2
+E[L(
+​)] ≤
+w~t+1
+(1 −(4η/m) + 4η R )L(
+​)
+2
+2
+w~t
+η
+4η/m > 4η R
+2
+2
+X = UΣV T
+w = V α
+∥y −UΣα∥=
+2
+∥U y −
+T
+Σα∥2
+b = U y
+T
+L(α) =
+​(b
+​ −
+∑i
+i
+σ
+​α
+​)
+i
+i 2
+i ∂L/∂α
+​ =
+i
+−2σ
+​(b −
+i
+i
+σ
+​α
+​)
+i
+i
+x
+​[i] =
+t
+α
+​[i] −
+t
+α [i]
+∗
+α [i] =
+∗
+b
+​/σ
+​
+i
+i
+2 × 2
+R
+​i
+α
+​ =
+t+1
+α
+​ −
+t
+ηz
+​
+t+1 z
+​ =
+t+1
+(1 −β)z
+​ +
+t
+β∇L(α
+​)
+t
+i
+x
+​ =
+t
+α
+​ −
+t
+α∗
+x
+​ =
+t+1
+x
+​ −
+t
+ηz
+​
+t+1
+z
+​ =
+t+1
+(1 −β)z
+​ −
+t
+2βσ
+​x
+​
+i
+2
+t
+[x
+​; z
+​]
+t
+t
+x
+​ =
+t+1
+x
+​ −
+t
+η[(1 −β)z
+​ −
+t
+2βσ
+​x
+​] =
+i
+2
+t
+(1 + 2ηβσ
+​)x
+​ −
+i
+2
+t
+η(1 −β)z
+​t
+
+
+--- Page 6 ---
+So:
+Annotation: [Observation: AI correctly derived the iteration matrix for momentum GD.]
+Student: Part (c): Analyze eigenvalues of 
+. When are they real/complex?
+AI: The characteristic equation: 
+.
+.
+.
+Discriminant 
+.
+Eigenvalues are complex when 
+.
+Annotation: [Observation: AI correctly computed trace, determinant, and discriminant. Minor
+error: The last term in determinant simplification needs checking.]
+Student: Wait, let's check the determinant calculation more carefully.
+AI: You're right, let me recompute:
+So it's actually correct. The eigenvalues are complex when:
+.
+Annotation: [Observation: AI self-corrected and confirmed the determinant calculation was
+actually correct.]
+Student: Parts (d-f): Stability conditions?
+AI: For stability, both eigenvalues must have magnitude 
+. Since 
+, product of
+eigenvalues = 
+. For stability, need 
+ and other conditions from trace bound. The
+general condition is 
+ for all , so 
+.
+Annotation: [Observation: AI provided stability condition, though a more detailed case analysis
+would be needed for complete answer.]
+Student: Part (g): With 
+, find optimal  and compare iterations.
+z
+​ =
+t+1
+(1 −β)z
+​ −
+t
+2βσ
+​x
+​
+i
+2
+t
+R
+​ =
+i
+​
+​
+[1 + 2ηβσ
+​i
+2
+−2βσ
+​i
+2
+−η(1 −β)
+(1 −β) ]
+R
+​i
+λ −
+2
+tr(R
+​)λ +
+i
+det(R
+​) =
+i
+0
+tr(R ) =
+i
+1 + 2ηβσ
+​ +
+i
+2
+(1 −β) = 2 + 2ηβσ
+​ −
+i
+2
+β
+det(R
+​) =
+i
+(1 + 2ηβσ
+​)(1 −
+i
+2
+β) −(−η(1 −β))(−2βσ
+​) =
+i
+2
+(1 −β)
+D = tr −
+2
+4 det = (2 + 2ηβσ
+​ −
+i
+2
+β) −
+2
+4(1 −β)
+D < 0
+det(R
+​) =
+i
+(1 + 2ηβσ
+​)(1 −
+i
+2
+β) −(−η(1 −β))(−2βσ
+​)
+i
+2
+= (1 −β)(1 + 2ηβσ
+​) −
+i
+2
+η(1 −β)(2βσ
+​)
+i
+2
+= (1 −β)[1 + 2ηβσ
+​ −
+i
+2
+2ηβσ
+​]
+i
+2
+= (1 −β)
+(2 + 2ηβσ
+​ −
+i
+2
+β) <
+2
+4(1 −β)
+< 1
+det = 1 −β
+1 −β
+∣1 −β∣< 1
+η < (2 −β)/(βσ
+​)
+i
+2
+i
+η < (2 −β)/(βσ
+​)
+max
+2
+β = 0.1, σ
+​ =
+max
+2
+5, σ
+​ =
+min
+2
+0.05
+η
+
+
+--- Page 7 ---
+AI: Standard GD optimal: 
+, iterations 
+ where 
+.
+For momentum, optimal  is larger. With momentum, convergence rate improves to 
+.
+So iterations reduce from 
+ to 
+.
+Annotation: [Observation: AI correctly explained the acceleration effect of momentum on
+condition number dependence.]
+Problem 4: Optimizers
+Student: Problem 4(b): Show equivalence between SGD with weight decay and SGD on L2-
+regularized loss.
+AI:
+SGD with weight decay: 
+SGD on L2-regularized loss: minimize 
+Gradient: 
+SGD update: 
+Comparing: 
+.
+Thus equivalent with 
+.
+Annotation: [Observation: AI correctly demonstrated the equivalence and found the parameter
+relationship.]
+Problem 5: Regularization and Instance Noise
+Student: Problem 5(a): Show data augmentation with noise is equivalent to ridge regression.
+AI: With 
+ and 
+:
+η = 2/(σ
+​ +
+max
+2
+σ
+​) ≈
+min
+2
+0.396
+∼κ log(1/ϵ)
+κ =
+σ
+​/σ
+​ =
+max
+min
+10
+η
+∼
+​ log(1/ϵ)
+κ
+∼10 log(1/ϵ)
+∼
+​ log(1/ϵ) ≈
+10
+3.16 log(1/ϵ)
+θ
+​ =
+t+1
+(1 −γ)θ
+​ −
+t
+η∇f(θ
+​)
+t
+f(θ) + (λ/2)∥θ∥2
+∇[f(θ) + (λ/2)∥θ∥] =
+2
+∇f(θ) + λθ
+θ
+​ =
+t+1
+θ
+​ −
+t
+η[∇f(θ
+​) +
+t
+λθ
+​] =
+t
+(1 −ηλ)θ
+​ −
+t
+η∇f(θ
+​)
+t
+1 −γ = 1 −ηλ ⟹γ = ηλ
+λ = γ/η
+E[N
+​] =
+i
+0
+Cov(N
+​) =
+i
+σ I
+2
+E[∥
+w −
+X~
+y∥] =
+2
+E[∥(X + N)w −y∥] =
+2
+E[∥Xw −y + Nw∥]
+2
+= ∥Xw −y∥+
+2
+E[w N Nw] +
+T
+T
+2E[(Xw −y) Nw]
+T
+
+
+--- Page 8 ---
+Since 
+, cross-term vanishes. And 
+.
+Thus minimizing 
+ is equivalent to minimizing 
+.
+Which is ridge regression with 
+.
+Annotation: [Observation: AI correctly computed the expectation and identified the ridge
+equivalence.]
+Student: Parts (b-d): Scalar case recurrence and convergence.
+AI: Scalar case: 
+.
+Taking expectation:
+Convergence requires 
+.
+Steady state: 
+ (biased relative to 
+ if 
+).
+Annotation: [Observation: AI correctly derived the scalar recurrence and its convergence
+properties.]
+Problem 6: General Tikhonov Regularization
+Student: Problem 6: General Tikhonov regularization.
+AI:
+(a) Minimize 
+.
+Gradient: 
+.
+Solution: 
+.
+(b) Rewrite as OLS: Let 
+, 
+, then minimize 
+.
+(c) Ridge form: Let 
+, 
+, 
+, then standard ridge: 
+.
+E[N] = 0
+E[w N Nw] =
+T
+T
+w E[N N]w =
+T
+T
+σ ∥w∥tr(I) =
+2
+2
+mσ ∥w∥
+2
+2
+E[loss]
+∥Xw −y∥+
+2
+mσ ∥w∥
+2
+2
+λ = mσ2
+w
+​ =
+t+1
+w
+​ −
+t
+2η[(x + n
+​)((x +
+t
+n
+​)w
+​ −
+t
+t
+y)]
+E[w
+​] =
+t+1
+E[w
+​] −
+t
+2η[x E[w
+​] −
+2
+t
+xy + σ E[w
+​]]
+2
+t
+= [1 −2η(x +
+2
+σ )]E[w
+​] +
+2
+t
+2ηxy
+∣1 −2η(x +
+2
+σ )∣<
+2
+1 ⟹0 < η < 1/(x +
+2
+σ )
+2
+w
+​ =
+∞
+xy/(x +
+2
+σ )
+2
+y/x
+y/x = w
+​
+true
+∥W
+​(Ax −
+1
+b)∥+
+2
+∥W
+​(x −
+2
+c)∥2
+2A W
+​W
+​(Ax −
+T
+1
+T
+1
+b) + 2W
+​W
+​(x −
+2
+T
+2
+c) = 0
+x = (A W W
+​A +
+T
+1
+T
+1
+W
+​W
+​)
+(A W
+​W
+​b +
+2
+T
+2 −1
+T
+1
+T
+1
+W
+​W c)
+2
+T
+2
+C =
+​
+[W
+​A
+1
+W
+​2 ] d =
+​
+[W
+​b
+1
+W
+​c
+2 ]
+∥Cx −d∥2
+W
+​ =
+1
+I W
+​ =
+2
+​I
+λ
+c = 0
+(A A +
+T
+λI)
+A b
+−1
+T
+
+
+--- Page 9 ---
+Annotation: [Observation: AI provided complete solution to the Tikhonov regularization
+problem.]
+Problem 7: MAP Interpretation
+Student: Finally, Problem 7: MAP interpretation of Kernel Ridge Regression.
+AI:
+KRR: 
+.
+Assume prior: 
+.
+Likelihood: 
+.
+By Bayes: 
+.
+Log-posterior: 
+.
+MAP maximizes this, equivalent to minimizing 
+.
+Solution: 
+.
+Using Woodbury Identity: 
+.
+Thus 
+, matching KRR.
+Annotation: [Observation: AI correctly derived the MAP interpretation using Gaussian priors and
+Woodbury identity.]
+=
+w^
+X (XX
++
+T
+T
+λI)
+y
+−1
+w ∼N(0, I/λ)
+y∣X, w ∼N(Xw, I)
+p(w∣X, y) ∝p(y∣X, w)p(w)
+−
+​∥y −
+2
+1
+Xw∥−
+2
+(
+​)∥w∥+
+2
+λ
+2
+constant
+∥y −Xw∥+
+2
+λ∥w∥2
+w
+​ =
+MAP
+(X X +
+T
+λI)
+X y
+−1
+T
+(X X +
+T
+λI)
+X
+=
+−1
+T
+X (XX
++
+T
+T
+λI)−1
+w
+​ =
+MAP
+X (XX
++
+T
+T
+λI)
+y
+−1

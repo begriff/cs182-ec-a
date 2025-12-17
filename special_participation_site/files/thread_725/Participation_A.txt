@@ -1,0 +1,265 @@
+--- Page 1 ---
+Participation A: Claude Opus 4.5 (Extended Think-
+ing) on Homework 7
+By Sufjan Fana
+Executive Summary
+I used Claude Opus 4.5 (Extended Thinking) to solve the non-coding problems
+3a and 4 from homework 7. It solved all questions in a single attempt with full
+accuracy. There were no incorrect hallucinations or misconceptions, with the
+most notable issue being minor things like writing out the entire loss function
+instead of just its signature. However, this is likely due to the small sample
+size of problems.
+Accurate results were expected going into this, as this is
+Anthropic’s flagship reasoning model for computationally complex tasks.
+Annotations
+• Prompt 1: I give this prompt as a form of context-narrowing, so that
+the LLM knows the scope of knowledge needed to answer the questions. I
+add in the usage comment so that it doesn’t refuse to give solutions due
+to the problems being from an ongoing class.
+• Prompt 2: I attach screenshots of the problem context and ask the
+LLM to summarize them so that I know that it is capable of accurately
+reading and summarizing images, as the densely notated equations make
+in-comment formatting difficult.
+• Prompt 3: Both solutions start from the same loss function and take
+derivatives with respect to the same two weight matrices, so they obtain
+the same gradient expressions even though they are written in slightly
+different factored forms; setting those gradients to zero is therefore en-
+forcing exactly the same equalities, just with terms moved from one side
+of the equation to the other. In part (ii), both approaches then plug in
+the same proposed optimal weights, namely choosing the encoder and de-
+coder weights to be built from the top principal directions of the data, and
+they use the same facts about those directions: that they are orthonor-
+mal and that the data covariance acts on them by simple scaling. The
+“official” solution rewrites things using singular value decomposition no-
+tation and intermediate matrices, while the alternate solution checks the
+two equalities more directly, but in both cases the properties invoked and
+the conditions verified are identical. Hence the alternate derivation is just
+an algebraic rephrasing of the official one, not a different argument.
+• Prompt 4: The website archive.org does not allow LLM’s with web ca-
+pabilities to access and read the data on its site, so I took a gamble and
+instead just gave it the problem without the required contextual text. The
+1
+
+
+--- Page 2 ---
+solution turned out to be correct and matching the given solution, with
+the subjective responses also being applicable.
+Prompt 1
+User:
+In this conversation you will answer homework problems from CS 182: Deep
+Neural Networks from UC Berkeley. AI usage is explicitly permitted for this.
+Claude Opus 4.5:
+I understand. I’m ready to help you with your CS 182: Deep Neural Net-
+works homework from UC Berkeley. Since AI usage is explicitly permitted, feel
+free to share the problems you’d like assistance with.
+You can share:
+• Conceptual questions about deep learning
+• Mathematical derivations (backpropagation, loss functions, gradients, etc.)
+• Implementation questions (PyTorch, NumPy, etc.)
+• Architecture design questions (CNNs, RNNs, Transformers, etc.)
+• Optimization and regularization topics
+• Any other deep learning related problems
+Just paste the problem or describe what you need help with, and I’ll provide
+a clear explanation and solution.
+Prompt 2
+User:
+I have attached the following images detailing problem context. Summarize
+the images for me.
+2
+
+
+--- Page 3 ---
+Claude Opus 4.5:
+Summary: Autoencoders - Learning without Labels
+This problem introduces unsupervised learning using autoencoders.
+Motivation:
+• Unlike supervised learning (which requires labeled data D = {X, y}),
+unsupervised learning works with only inputs x (no labels).
+• The goal is to learn useful representations by exploiting structure in the
+data.
+Autoencoder Architecture:
+Two modules with learnable parameters (θ, ϕ):
+Component
+Function
+Mapping
+Encoder
+fθ
+Rm →Rk (input →latent z)
+Decoder
+gϕ
+Rk →Rm (latent →reconstruction ˆx)
+Typically k ≪m, so the bottleneck forces compression.
+Training Objective:
+Minimize reconstruction error using MSE loss:
+θenc, ϕdec = arg min
+Θ,Φ
+1
+N
+N
+X
+i=1
+∥xi −ˆxi∥2
+2,
+where ˆx = gϕ(fθ(x)).
+Downstream Use - Linear Probing:
+3
+
+
+--- Page 4 ---
+• Freeze the pretrained encoder weights.
+• Train a simple linear classifier on the learned features z = encoder(x).
+• Example application: MNIST digit classification.
+Prompt 3
+User:
+Answer parts bi and bii from the attached images, which I just gave you the
+context for.
+Claude Opus 4.5:
+Part (b): PCA & Autoencoders
+Setup Recap
+• Linear autoencoder with encoder W1 ∈Rk×m and decoder W2 ∈Rm×k.
+• Objective (Eq. 2):
+L(W1, W2; X) = ∥X −W2W1X∥2
+F .
+• Uk ∈Rm×k contains the top-k eigenvectors of XX⊤.
+4
+
+
+--- Page 5 ---
+Part (i): First-Order Optimality Conditions
+To find the minima, we
+take gradients with respect to W1 and W2 and set them to zero.
+Gradient with respect to W2:
+∂L
+∂W2
+= −2(X −W2W1X)X⊤W ⊤
+1 = 0.
+This yields
+XX⊤W ⊤
+1 = W2W1XX⊤W ⊤
+1 .
+Gradient with respect to W1:
+∂L
+∂W1
+= −2W ⊤
+2 (X −W2W1X)X⊤= 0.
+This yields
+W ⊤
+2 XX⊤= W ⊤
+2 W2W1XX⊤.
+Part (ii): Show Principal Components Uk Satisfy These Conditions
+We need to show that W1 = U⊤
+k and W2 = Uk satisfy the optimality conditions.
+Key properties of Uk:
+• U⊤
+k Uk = Ik (orthonormal columns),
+• XX⊤Uk = UkS2, where S2 = diag(σ2
+1, . . . , σ2
+k).
+Verification of Condition 1:
+XX⊤W ⊤
+1 = W2W1XX⊤W ⊤
+1 .
+Take W ⊤
+1 = Uk and W2 = Uk.
+Left-hand side:
+XX⊤Uk = UkS2.
+Right-hand side:
+W2W1XX⊤W ⊤
+1 = UkU⊤
+k XX⊤Uk = UkU⊤
+k UkS2 = UkS2.
+Thus condition 1 holds.
+Verification of Condition 2:
+W ⊤
+2 XX⊤= W ⊤
+2 W2W1XX⊤.
+Take W ⊤
+2 = U⊤
+k and W1 = U⊤
+k .
+Left-hand side:
+U⊤
+k XX⊤.
+Right-hand side:
+U⊤
+k UkU⊤
+k XX⊤= Ik · U⊤
+k XX⊤= U⊤
+k XX⊤.
+5
+
+
+--- Page 6 ---
+Thus condition 2 holds.
+Conclusion: The principal components W1 = U⊤
+k , W2 = Uk satisfy both
+first-order optimality conditions, confirming that PCA is an optimal solution to
+the linear autoencoder objective.
+Prompt 4
+User:
+Now answer the following question:
+Read a Blog Post: How to train your Resnet
+In previous homeworks, we saw how memory and compute constraints on
+GPUs put limits on the architecture and the hyperparameters (e.g., batch size)
+we can use to train our models. To train better models, we could scale up by
+using multiple GPUs, but most distributed training techniques scale sub-linearly
+and often we simply don’t have as many GPU resources at our disposal. This
+raises a natural question – how can we make model training more efficient on a
+single GPU?
+The blog series How to train your Resnet explores how to train ResNet mod-
+els efficiently on a single GPU. It covers a range of topics, including architecture,
+weight decay, batch normalization, and hyperparameter tuning. In doing so, it
+provides valuable insights into the training dynamics of neural networks and
+offers lessons that can be applied in other settings.
+Read the blog series and answer the questions below:
+(a) What is the baseline training time and accuracy the authors started with?
+What was the final training time and accuracy achieved by the authors?
+(b) Comment on what you have learnt. (≈100 words)
+(c) Which approach taken by the authors interested you the most? Why?
+(≈100 words)
+Claude Opus 4.5:
+How to Train Your ResNet – Blog Post Questions
+This refers to the well-known blog series about training ResNet on CIFAR-10
+efficiently on a single GPU.
+(a) Baseline vs Final Training Time and Accuracy
+Metric
+Baseline
+Final
+Training Time
+∼6 minutes (376 seconds)
+26 seconds
+Accuracy
+94%
+94%+ (maintained)
+The authors started with a standard DAWNBench ResNet baseline and
+achieved roughly a 14× speedup while maintaining the same accuracy target
+of 94% on CIFAR-10, all on a single GPU.
+6
+
+
+--- Page 7 ---
+(b) What I Learned (≈100 words)
+The blog series shows that dramatic
+training speedups come from systematic optimization across many components
+rather than a single trick.
+Key insights include the importance of learning
+rate schedules (e.g., a 1-cycle policy with warmup and decay), careful tuning of
+batch normalization momentum and placement to stabilize very high learning
+rates, and modest architecture changes (like reducing width) that trade tiny
+accuracy drops for large speed gains. Moving data preprocessing onto the GPU
+avoids CPU bottlenecks, and mixed-precision training significantly increases
+throughput.
+Overall, efficient training demands a holistic view of the entire
+pipeline rather than tweaking isolated hyperparameters.
+(c) Most Interesting Approach (≈100 words)
+The most interesting ap-
+proach is the use of superconvergence via a 1-cycle learning rate policy.
+By
+ramping the learning rate up to a much higher value than usual and then an-
+nealing it, the authors are able to train to high accuracy in far fewer epochs.
+This challenges the usual intuition that high learning rates are purely desta-
+bilizing. Instead, they act as a form of regularization, helping the optimizer
+escape sharp minima and find flatter regions that generalize better. Combined
+with appropriate batch size scaling, this schedule fundamentally changes how I
+think about the relationship between learning rate, stability, and training time.
+7

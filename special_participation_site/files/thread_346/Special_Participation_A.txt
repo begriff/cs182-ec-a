@@ -1,0 +1,602 @@
+--- Page 1 ---
+Special Participation A
+Shervin Goudarzi
+November 29, 2025
+Model Performance Summary
+The table below summarizes the initial accuracy of the model’s response for each question.
+Question
+Model Performance
+1. Justifying Scaled-Dot Product
+Attention
+Needed Correction
+2. Argmax Attention
+One Shot
+4. Transformer Decoding Optimization
+One Shot
+6. Kernelized Linear Attention (Part I)
+Needed Corrections
+Table 1: Summary of Model Performance on Initial Question Attempts.
+1
+
+
+--- Page 2 ---
+Conversation Transcript and Solutions
+Initial Setup
+User: You will be assisting an undergraduate student with a problem set on deep neural networks
+for a deep learning class. Do not answer any problem at this time, only when I give you a problem.
+The following problems will be only theory based, so no coding should be done at any point. For
+the solutions you need to provide short, but very clear step-by-step derivation of your solution with
+explanation of your final answer.
+Gemini: Understood. I am ready to assist you with your deep learning theory problems. I will
+focus on providing clear, step-by-step mathematical derivations for your solutions, using LATEX for all
+equations and variables.
+1. Justifying Scaled-Dot Product Attention
+User: Problem: Suppose q, k ∈Rd are two random vectors with q, k ∼N(µ, σ2I), where µ ∈Rd
+and σ ∈R+. In other words, each component qi of q is drawn from a normal distribution with mean
+µi (since µ is a vector) and standard deviation σ, and the same is true for k.
+1. Define E[qT k] in terms of µ, σ and d.
+2. Considering a practical case where µ = 0 and σ = 1, define Var(qT k) in terms of d.
+3. Continue to use the setting in part (b), where µ = 0 and σ = 1. Let s be the scaling factor on
+the dot product. Suppose we want E[qT k
+s ] to be 0, and Var(qT k
+s ) to be σ = 1. What should s be
+in terms of d?
+Gemini:
+Solution
+1(a) Define E[qT k]
+Since q and k are independent random vectors, and for each component E[qi] = µi and E[ki] = µi:
+E[qT k] = E
+" d
+X
+i=1
+qiki
+#
+=
+d
+X
+i=1
+E[qiki]
+Because of independence, E[qiki] = E[qi]E[ki] = µi · µi = µ2
+i .
+E[qT k] =
+d
+X
+i=1
+µ2
+i = µT µ = ∥µ∥2
+2
+1(b) Define Var(qT k) for µ = 0, σ = 1
+Given µ = 0 and σ = 1, we have qi, ki ∼N(0, 1).
+2
+
+
+--- Page 3 ---
+• Var(qT k) = Var
+Pd
+i=1 qiki
+
+= Pd
+i=1 Var(qiki) (due to independence of indices).
+• For the product of two independent standard normal variables X, Y :
+Var(XY ) = E[X2Y 2] −(E[XY ])2
+• Since µ = 0, E[qiki] = E[qi]E[ki] = 0.
+• E[q2
+i k2
+i ] = E[q2
+i ]E[k2
+i ]. For standard normal distribution, E[x2] = 1.
+• Thus, Var(qiki) = 1 · 1 −0 = 1.
+Summing over d dimensions:
+Var(qT k) =
+d
+X
+i=1
+1 = d
+1(c) Determine s
+We require Var
+
+qT k
+s
+
+= 1.
+Var
+ 
+qT k
+s
+!
+= 1
+s2 Var(qT k) = d
+s2
+Setting
+d
+s2 = 1:
+s =
+√
+d
+2. Argmax Attention
+User: Problem: (a) Perform argmax attention with the following keys K and values V, using the
+query q = [1, 1, 2]T :
+K =
+
+
+
+
+
+
+
+1
+2
+0
+
+,
+
+
+0
+3
+4
+
+,
+
+
+5
+0
+0
+
+,
+
+
+0
+0
+1
+
+
+
+
+
+
+
+V =
+
+
+
+
+
+
+
+2
+0
+1
+
+,
+
+
+1
+4
+3
+
+,
+
+
+0
+−1
+4
+
+,
+
+
+1
+0
+−1
+
+
+
+
+
+
+
+(b) How does replacing softmax with argmax affect our ability to usefully train models involving
+attention?
+Solution
+Gemini: 2(a) Argmax Attention Output
+1. Calculate Similarity Scores si = qT ki:
+s1 = [1, 1, 2] · [1, 2, 0]T = 1 + 2 + 0 = 3
+s2 = [1, 1, 2] · [0, 3, 4]T = 0 + 3 + 8 = 11
+s3 = [1, 1, 2] · [5, 0, 0]T = 5 + 0 + 0 = 5
+s4 = [1, 1, 2] · [0, 0, 1]T = 0 + 0 + 2 = 2
+The score vector is s = [3, 11, 5, 2].
+3
+
+
+--- Page 4 ---
+2. Apply Argmax: The maximum score is 11, corresponding to index 2 (the second key).
+3. Compute Output: Argmax attention returns the value vector corresponding to the maximum
+index.
+Output = v2 =
+
+
+1
+4
+3
+
+
+2(b) Effect on Training
+The argmax operation is a step function. Its derivative is zero almost everywhere (and undefined at
+the jump points). During backpropagation, gradients cannot flow through the argmax operation to
+update the weights of the query and key projections. This prevents the model from learning how to
+attend to different parts of the input, rendering gradient-based training impossible for the attention
+mechanism.
+User: 4. Transformer Decoding Optimization
+Consider a multi-head attention (MHA) layer in a transformer decoder performing incremental de-
+coding. The attention layer operates on a batch of b sequences, each with a dimension of d. For each
+of the h heads, the dimensions of query, key, and value projections are q = d/h, k = d/h, and v = d/h
+respectively.
+The following pseudocode performs the multi-head self-attention operation for a single token genera-
+tion in the sequence (for each sequence in our batch).
+1
+def multihead_attention_incremental(x, prev_K, prev_V, W_q, W_k, W_v, W_o):
+2
+"""Multi-head Self-Attention (one step).
+3
+Args:
+4
+x: a tensor with shape [b, d] - current token embedding
+5
+prev_K: tensor with shape [b, h, n, k] - cached keys from prev. tokens
+6
+prev_V: tensor with shape [b, h, n, v] - cached values from prev. tokens
+7
+W_q: a tensor with shape [h, d, q] - query projection weights
+8
+W_k: a tensor with shape [h, d, k] - key projection weights
+9
+W_v: a tensor with shape [h, d, v] - value projection weights
+10 W_o: a tensor with shape [h, v, d] - output projection weights
+11 Returns:
+12 y: a tensor with shape [b, d] - output embedding
+13 """
+14 # Project inputs to query, key, and value
+15 q = torch.einsum("bd,hdq->bhq", x, W_q)
+# [b, h, q]
+16 k = torch.einsum("bd,hdk->bhk", x, W_k)
+# [b, h, k]
+17 v = torch.einsum("bd,hdv->bhv", x, W_v)
+# [b, h, v]
+18
+19 # Append new key and value to previous cached states
+20 new_K = torch.cat([prev_K, k.unsqueeze(2)], dim=2) # [b, h, n+1, q]
+21 new_V = torch.cat([prev_V, v.unsqueeze(2)], dim=2) # [b, h, n+1, v]
+22
+23 # Compute attention scores, apply softmax, and get weighted values
+24 logits = torch.einsum("bhq,bhnq->bhn", q, new_K)
+# [b, h, n+1]
+4
+
+
+--- Page 5 ---
+25 weights = torch.nn.functional.softmax(logits, dim=-1)
+# [b, h, n+1]
+26 o = torch.einsum("bhn,bhnv->bhv", weights, new_V)
+# [b, h, v]
+27
+28 # Project back to output dimension
+29 y = torch.einsum("bhv,hvd->bd", o, W_o) # [b, d]
+30
+31 return y
+Multi-Query Attention (MQA): Multi-query attention is a variant of multi-head attention where
+all heads share the same keys and values, reducing memory access and improving efficiency for incre-
+mental decoding.
+1
+def multiquery_attention_incremental(x, prev_K, prev_V, W_q, W_k, W_v, W_o):
+2
+"""Multi-query Self-Attention (one step).
+3
+Args:
+4
+x: a tensor with shape [b, d] - current token embedding
+5
+prev_K: tensor with shape [b, n, k] - cached keys (shared across heads)
+6
+prev_V: tensor with shape [b, n, v] - cached values (shared across heads)
+7
+W_q: a tensor with shape _____A____ - query projection weights
+8
+W_k: a tensor with shape _____B____ - key projection weights
+9
+W_v: a tensor with shape [d, v] - value projection weights
+10 W_o: a tensor with shape [h, v, d] - output projection weights
+11 Returns:
+12 y: a tensor with shape [b, d] - output embedding
+13 """
+14 # Project input to queries (per head), keys and values (shared)
+15 q = _____C_____
+16 k = _____D_____
+17 v = _____E_____
+18
+19 # Append new key and value to previous cached states
+20 new_K = torch.cat([prev_K, k.unsqueeze(1)], dim=1) # [b, n+1, k]
+21 new_V = torch.cat([prev_V, v.unsqueeze(1)], dim=1) # [b, n+1, v]
+22
+23 # Compute attention scores, apply softmax, and get weighted values
+24 logits = torch.einsum("bhk,bnk->bhn", q, new_K)
+# [b, h, n+1]
+25 weights = torch.nn.functional.softmax(logits, dim=-1)
+# [b, h, n+1]
+26 o = torch.einsum("bhn,bnv->bhv", weights, new_V)
+# [b, h, v]
+27
+28 # Project back to output dimension
+29 y = torch.einsum("bhv,hvd->bd", o, W_o) # [b, d]
+30
+31 return y
+First, fill in the blanks in the code/comments above by picking one:
+(a) (3pts) What is A?
+⃝[h, d, q]
+⃝[d, q]
+⃝[h, q]
+(b) (3pts) What is B?
+⃝[h, d, k]
+⃝[d, k]
+⃝[h, k]
+5
+
+
+--- Page 6 ---
+(c) (4pts) What is C?
+⃝torch.einsum("bd,dq->bhq", x, W_q)
+⃝torch.einsum("bd,hdq->bhq", x, W_q)
+⃝torch.einsum("bhd,dq->bhq", x, W_q)
+(d) (4pts) What is D?
+⃝torch.einsum("bd,dk->bk", x, W_k)
+⃝torch.einsum("bd,hdk->bhk", x, W_k)
+⃝torch.einsum("bd,dk->bhk", x, W_k)
+(e) (4pts) What is E?
+⃝torch.einsum("bd,hdv->bhv", x, W_v)
+⃝torch.einsum("bd,dv->bhv", x, W_v)
+⃝torch.einsum("bd,dv->bv", x, W_v)
+(f) (4pts) Recall that for generating a batch of single tokens in multi-head-attention with a cache of
+n previous tokens, the operations have computational complexity O(bd2 +bnd) since it is O(bd2)
+to do the projections (query, key, value, output) and O(bnd) from attention (dot products with
+n cached keys/values for each head). The memory access complexity is O(d2 + bd + bnd) since
+it is O(d2) to read weights, O(bd) to read/write current token embeddings (x, q, k, v, o, y), and
+O(bnd) to read cached keys/values. The MHA arithmetic intensity is thus
+O(bd2+bnd)
+O(d2+bd+bnd).
+• Both terms are kept; which one dominates depends on the relative size of n and d.
+• If n is small, projections dominate; if n is large, memory access for cached keys/values
+dominates.
+Now consider MQA. For generating a single token with a cache of n previous tokens,
+what is the computational complexity (in Big-O notation)?
+(g) (4pts) For MQA generating a single token with a cache of n previous tokens, what is the
+memory access complexity (in Big-O notation)?
+Gemini: Solution
+4(a)-(e) Shapes and Operations
+(a) Wq shape: [h, d, q] (Multi-head projection).
+(b) Wk shape: [d, k] (Single shared key projection).
+(c) Query calc: torch.einsum("bd,hdq->bhq", x, W_q).
+(d) Key calc: torch.einsum("bd,dk->bk", x, W_k).
+(e) Value calc: torch.einsum("bd,dv->bv", x, W_v).
+4(f) Computational Complexity (One Token)
+O(bd2 + bnd)
+Where bd2 is the projection cost and bnd is the attention scoring cost.
+6
+
+
+--- Page 7 ---
+4(g) Memory Access Complexity
+O(d2 + bd + bnd
+h )
+The term bnd
+h
+reflects the reduced KV cache size in Multi-Query Attention (MQA).
+User: 6. Kernelized Linear Attention (Part I)
+The softmax attention is widely adopted in transformers, however the O(N2) (N stands for the
+sequence length) complexity in memory and computation often makes it less desirable for processing
+long document like a book or a passage, where the N could be beyond thousands. There is a large
+body of the research studying how to resolve this1.
+Under this context, this question presents a formulation of attention via the lens of the kernel. A
+large portion of the context is adopted from Tsai et al.2.
+In particular, attention can be seen as
+applying a kernel over the inputs with the kernel scores being the similarities between inputs. This
+formulation sheds light on individual components of the transformer’s attention, and helps introduce
+some alternative attention mechanisms that replaces the “softmax” with linearized kernel functions,
+thus reducing the O(N2) complexity in memory and computation.
+We first review the building block in the transformer. Let x ∈RN×F denote a sequence of N feature
+vectors of dimensions F. A transformer3 is a function T : RN×F →RN×F defined by the composition
+of L transformer layers T1(·), . . . , TL(·) as follows,
+Tl(x) = fl(Al(x) + x).
+(1)
+The function fl(·) transforms each feature independently of the others and is usually implemented
+with a small two-layer feedforward network. Al(·) is the self attention function and is the only part
+of the transformer that acts across sequences.
+We now focus on the self attention module which involves softmax.
+The self attention function
+Al(·) computes, for every position, a weighted average of the feature representations of all other
+positions with a weight proportional to a similarity score between the representations. Formally, the
+input sequence x is projected by three matrices WQ ∈RF×D, WK ∈RF×D and WV ∈RF×M to
+corresponding representations Q, K and V . The output for all positions, Al(x) = V ′, is computed as
+follows,
+Q = xWQ,
+K = xWK,
+V = xWV ,
+(2)
+Al(x) = V ′ = softmax
+ 
+QKT
+√
+D
+!
+V.
+(3)
+Note that in the previous equation, the softmax function is applied rowwise to QKT .
+Following
+common terminology, the Q, K and V are referred to as the “queries”, “keys” and “values” respectively.
+Equation (2) implements a specific form of self-attention called softmax attention where the similarity
+score is the exponential of the dot product between a query and a key. Given that subscripting a
+1https://huggingface.co/blog/long-range-transformers
+2Tsai, Yao-Hung Hubert, et al. "Transformer dissection: a unified understanding of transformer’s attention via the
+lens of kernel" (2019).
+3Vaswani, Ashish, et al. "Attention is all you need" (2017).
+7
+
+
+--- Page 8 ---
+matrix with i· returns the i-th row as a vector and subscripting with ·j returns the j-th column, we
+can write a generalized attention equation for any similarity function as follows,
+V ′
+i· =
+PN
+j=1 sim(Qi·, Kj·)Vj·
+PN
+j=1 sim(Qi·, Kj·) .
+(4)
+Equation (3) is equivalent to equation (2) if we substitute the similarity function with simsoftmax(q, k) =
+exp
+
+qT k
+√
+D
+
+. This can lead to
+V ′
+i· =
+PN
+j=1 exp
+
+Qi·KT
+j·
+√
+D
+
+Vj·
+PN
+j=1 exp
+
+Qi·KT
+j·
+√
+D
+ .
+(5)
+For computing the resulting self-attended feature Al(x) = V ′, we need to compute all V ′
+i· (i ∈
+{1, . . . , N}) in equation (4).
+(a) Identify the conditions that needs to be met by the sim function to ensure that V ′
+i· in Equation
+(4) remains finite (the denominator never reaches zero).
+(b) The definition of attention in equation (3) is generic and can be used to define several other
+attention implementations.
+(i) One potential attention variant is the “polynomial kernel attention”, where the similarity
+function as sim(q, k) is measured by polynomial kernel K. Considering a special case for a
+“quadratic kernel attention” that the degree of “polynomial kernel attention” is set to be
+2, derive the sim(q, k) for “quadratic kernel attention”. (NOTE: any constant factor is set
+to be 1.)
+(ii) One benefit of using kernelized attention is that we can represent a kernel using a feature
+map ϕ(·). Derive the corresponding feature map ϕ(·) for the quadratic kernel.
+(iii) Considering a general kernel attention, where the kernel can be represented using feature
+map that K(q, k) = (ϕ(q)T ϕ(k)), rewrite kernel attention of equation (3) with feature map
+ϕ(·).
+(c) We can rewrite the softmax attention in terms of equation (3) as equation (4). For all the V ′
+i· (i ∈
+{1, . . . , N}), derive the time complexity (asymptotic computational cost) and space complexity
+(asymptotic memory requirement) of the above softmax attention in terms of sequence length
+N, D and M.
+NOTE: for memory requirement, we need to store any intermediate results for backpropagation,
+including all Q, K, V .
+(d) Assume we have a kernel K as the similarity function and the kernel can be represented with
+a feature map ϕ(·), we can rewrite equation (3) with sim(x, y) = K(x, y) = (ϕ(Qi·)T ϕ(Kj·)) in
+part (b). We can then further simplify it by making use of the associative property of matrix
+multiplication to
+V ′
+i· = ϕ(Qi·) PN
+j=1 ϕ(Kj·)T Vj·
+ϕ(Qi·) PN
+j=1 ϕ(Kj·)T
+.
+(6)
+Note that the feature map ϕ(·) is applied row-wise to the matrices Q and K.
+Considering using a linearized polynomial kernel ϕ(x) of degree 2, and assume M ≈D, derive
+the computational cost and memory requirement of this kernel attention as in...
+8
+
+
+--- Page 9 ---
+Gemini: Solution
+6(a) Conditions for finite V ′
+i· For the output to be finite, the normalization term (denominator)
+must be non-zero:
+N
+X
+j=1
+sim(Qi·, Kj·) ̸= 0
+Since we are using a squared kernel (which produces non-negative values), we strictly require that the
+sum is strictly positive.
+6(b) Kernelized Attention Definitions
+(i) Kernel:
+sim(q, k) = (qT k + 1)2
+(ii) Feature Map ϕ(q): We need a map such that ϕ(q)ϕ(k)T = (qT k + 1)2 = (qT k)2 + 2qT k + 1. For
+a vector q ∈RD, the explicit feature map ϕ(q) is a vector of dimension approximately D2/2:
+ϕ(q) =
+h
+q2
+1, . . . , q2
+D,
+√
+2q1q2, . . . ,
+√
+2qD−1qD,
+√
+2q1, . . . ,
+√
+2qD,
+1
+i
+(iii) Linearized Equation: Using the associative property of matrix multiplication, we compute
+ϕ(K)T V first. Note that the transpose is on ϕ(K) in the numerator and denominator sums.
+V ′
+i· =
+ϕ(Qi·)
+PN
+j=1 ϕ(Kj·)T Vj·
+
+ϕ(Qi·)
+PN
+j=1 ϕ(Kj·)T
+
+6(c) Complexity and Pseudocode
+Standard Softmax Attention:
+• Time: O(N2D)
+• Space: O(N2) (to store the attention matrix)
+Linearized Kernel Attention:
+• Time: O(ND3) (assuming the feature map size corresponds to D2).
+• Space: O(ND2 + D3) (Storing feature maps and aggregated KV).
+Pseudocode for Linearized Attention
+def linearized_kernel_attention(Q, K, V):
+"""
+Linearized Kernel Attention with Associative Property
+V’ = phi(Q) @ [phi(K).T @ V] / phi(Q) @ [phi(K).T @ ones]
+"""
+N = Q.shape[0]
+9
+
+
+--- Page 10 ---
+# 1. Apply Feature Map: Maps [N, D] -> [N, D^2]
+phi_Q = feature_map(Q)
+phi_K = feature_map(K)
+# 2. Compute Aggregated Key-Values (The "Linear" trick)
+# [D^2, N] @ [N, M] -> [D^2, M]
+# This matrix is computed ONCE for the whole sequence
+kv_agg = phi_K.T @ V
+# 3. Compute Normalizer Aggregation
+# [D^2, N] @ [N, 1] -> [D^2, 1]
+z_agg = phi_K.T @ torch.ones(N, 1)
+# 4. Compute Numerator
+# [N, D^2] @ [D^2, M] -> [N, M]
+numerator = phi_Q @ kv_agg
+# 5. Compute Denominator
+# [N, D^2] @ [D^2, 1] -> [N, 1]
+denominator = phi_Q @ z_agg
+# 6. Final Division
+output = numerator / (denominator + 1e-6)
+return output
+10
