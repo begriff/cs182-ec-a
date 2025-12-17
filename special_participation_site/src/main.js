@@ -1200,46 +1200,232 @@ function renderFullPageThread(post) {
     if (pdf) pdfUrl = pdf.saved_as;
   }
 
+  // Preserve theme class from body before replacing
+  const themeClass = document.body.classList.contains('theme-dark') ? 'theme-dark' : 
+                     document.body.classList.contains('theme-light') ? 'theme-light' : '';
+
   const html = `
-    <div class="fixed inset-0 z-50 bg-gray-50 flex flex-col md:flex-row overflow-hidden font-sans text-gray-800" style="position:fixed; top:0; left:0; width:100%; height:100vh; background:#fff; display:flex;">
-      
-      <div style="flex:1; display:flex; flex-direction:column; height:100%; border-right:1px solid #e5e7eb; overflow:hidden;">
-        
-        <div style="padding:1.5rem; border-bottom:1px solid #e5e7eb; background:#fff;">
-          <a href="?" style="display:inline-flex; align-items:center; gap:0.5rem; color:#6b7280; text-decoration:none; margin-bottom:1rem; font-size:0.875rem;">
-            ← Back to Dashboard
-          </a>
+    <style>
+      .fullpage-view {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--bg-app);
+        display: flex;
+        font-family: var(--font-sans);
+        color: var(--fg-primary);
+      }
+      .fullpage-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border-right: 1px solid var(--border);
+        overflow: hidden;
+      }
+      .fullpage-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg-panel);
+      }
+      .fullpage-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--fg-muted);
+        text-decoration: none;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+      }
+      .fullpage-back:hover {
+        color: var(--accent);
+      }
+      .fullpage-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0.5rem 0;
+        color: var(--fg-primary);
+      }
+      .fullpage-meta {
+        font-size: 0.875rem;
+        color: var(--fg-muted);
+        display: flex;
+        gap: 1rem;
+      }
+      .fullpage-meta a {
+        color: var(--accent);
+      }
+      .fullpage-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 2rem;
+        background: var(--bg-app);
+      }
+      .fullpage-content-inner {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .fullpage-body {
+        background: var(--bg-panel);
+        padding: 2rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        color: var(--fg-secondary);
+      }
+      .fullpage-pdf-container {
+        height: 800px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background: var(--bg-panel);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .fullpage-pdf-header {
+        background: var(--bg-inset);
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .fullpage-pdf-title {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--fg-secondary);
+      }
+      .fullpage-pdf-download {
+        font-size: 0.75rem;
+        color: var(--accent);
+      }
+      .fullpage-pdf-iframe {
+        width: 100%;
+        flex: 1;
+        border: none;
+        background: var(--bg-inset);
+      }
+      .fullpage-no-pdf {
+        padding: 3rem;
+        text-align: center;
+        color: var(--fg-muted);
+        border: 2px dashed var(--border);
+        border-radius: var(--radius-lg);
+      }
+      .fullpage-sidebar {
+        width: 400px;
+        min-width: 400px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background: var(--bg-panel);
+        border-left: 1px solid var(--border);
+        box-shadow: -4px 0 15px rgba(0,0,0,0.05);
+      }
+      .fullpage-sidebar-header {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg-inset);
+      }
+      .fullpage-sidebar-title {
+        font-weight: 600;
+        color: var(--fg-primary);
+        margin: 0;
+      }
+      .fullpage-qa-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background: var(--bg-panel);
+      }
+      .fullpage-qa-form-container {
+        padding: 1rem;
+        border-top: 1px solid var(--border);
+        background: var(--bg-inset);
+      }
+      .fullpage-qa-form {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .fullpage-qa-input {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        font-size: 0.875rem;
+        background: var(--bg-panel);
+        color: var(--fg-primary);
+      }
+      .fullpage-qa-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: var(--shadow-focus);
+      }
+      .fullpage-qa-send {
+        padding: 0.5rem 1rem;
+        background: var(--accent);
+        color: var(--accent-fg);
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      .fullpage-qa-send:hover {
+        background: var(--accent-hover);
+      }
+      @media (max-width: 900px) {
+        .fullpage-view {
+          flex-direction: column;
+        }
+        .fullpage-sidebar {
+          width: 100%;
+          min-width: 100%;
+          height: 300px;
+        }
+      }
+    </style>
+    <div class="fullpage-view">
+      <div class="fullpage-main">
+        <div class="fullpage-header">
+          <a href="?" class="fullpage-back">← Back to Dashboard</a>
           
           <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
             <span class="badge badge-hw">${escapeHtml(m.homework_id || 'HW')}</span>
             <span class="badge badge-model">${escapeHtml(m.model_name || 'Model')}</span>
           </div>
           
-          <h1 style="font-size:1.5rem; font-weight:700; margin:0.5rem 0; color:#111827;">${escapeHtml(post.title)}</h1>
+          <h1 class="fullpage-title">${escapeHtml(post.title)}</h1>
           
-          <div style="font-size:0.875rem; color:#6b7280; display:flex; gap:1rem;">
+          <div class="fullpage-meta">
              <span>${escapeHtml(post.user?.name || 'Unknown')}</span>
              <span>•</span>
-             <a href="${post.ed_url}" target="_blank" style="color:#2563eb;">View on Ed</a>
+             <a href="${post.ed_url}" target="_blank">View on Ed</a>
           </div>
         </div>
 
-        <div style="flex:1; overflow-y:auto; padding:2rem; background:#f9fafb;">
-           <div style="max-width:800px; margin:0 auto;">
-              <div class="post-body-container" style="background:#fff; padding:2rem; border-radius:0.75rem; border:1px solid #e5e7eb; margin-bottom:2rem; line-height:1.6;">
+        <div class="fullpage-content">
+           <div class="fullpage-content-inner">
+              <div class="fullpage-body">
                  ${formatBodyWithLinks(post.document, files)}
               </div>
 
               ${pdfUrl ? `
-                <div style="height:800px; border:1px solid #e5e7eb; border-radius:0.75rem; background:#fff; display:flex; flex-direction:column; overflow:hidden;">
-                  <div style="background:#f3f4f6; padding:0.75rem 1rem; border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between; align-items:center;">
-                     <span style="font-weight:600; font-size:0.875rem; color:#374151;">Document Viewer</span>
-                     <a href="${pdfUrl}" target="_blank" style="font-size:0.75rem; color:#2563eb;">Download PDF</a>
+                <div class="fullpage-pdf-container">
+                  <div class="fullpage-pdf-header">
+                     <span class="fullpage-pdf-title">Document Viewer</span>
+                     <a href="${pdfUrl}" target="_blank" class="fullpage-pdf-download">Download PDF</a>
                   </div>
-                  <iframe src="${pdfUrl}" style="width:100%; flex:1; border:none;"></iframe>
+                  <iframe src="${pdfUrl}" class="fullpage-pdf-iframe"></iframe>
                 </div>
               ` : `
-                <div style="padding:3rem; text-align:center; color:#9ca3af; border:2px dashed #e5e7eb; border-radius:0.75rem;">
+                <div class="fullpage-no-pdf">
                   No PDF attachment found.
                 </div>
               `}
@@ -1247,34 +1433,28 @@ function renderFullPageThread(post) {
         </div>
       </div>
 
-      <div style="width:400px; min-width:400px; display:flex; flex-direction:column; height:100%; background:#fff; border-left:1px solid #e5e7eb; box-shadow:-4px 0 15px rgba(0,0,0,0.05);">
-        <div style="padding:1rem; border-bottom:1px solid #e5e7eb; background:#f9fafb;">
-          <h2 style="font-weight:600; color:#1f2937; margin:0;">AI Assistant</h2>
-          <div id="qa-status" class="qa-status" style="font-size:0.75rem; color:#6b7280; margin-top:0.25rem;">Ready</div>
+      <div class="fullpage-sidebar">
+        <div class="fullpage-sidebar-header">
+          <h2 class="fullpage-sidebar-title">AI Assistant</h2>
+          <div id="qa-status" class="qa-status" style="font-size:0.75rem; color:var(--fg-muted); margin-top:0.25rem;">Ready</div>
         </div>
 
-        <div id="qa-messages" style="flex:1; overflow-y:auto; padding:1rem; display:flex; flex-direction:column; gap:1rem;">
+        <div id="qa-messages" class="fullpage-qa-messages">
           <div class="qa-message qa-assistant">
              <p>Hi! I've analyzed this thread and any attached PDFs. What would you like to know?</p>
           </div>
         </div>
 
-        <div style="padding:1rem; border-top:1px solid #e5e7eb; background:#f9fafb;">
-          <form id="qa-form" style="display:flex; gap:0.5rem;">
+        <div class="fullpage-qa-form-container">
+          <form id="qa-form" class="fullpage-qa-form">
             <input 
               type="text" 
               id="qa-input" 
-              style="flex:1; padding:0.5rem 0.75rem; border:1px solid #d1d5db; border-radius:0.375rem; font-size:0.875rem;"
+              class="fullpage-qa-input"
               placeholder="Ask about this thread..." 
               autocomplete="off"
             >
-            <button 
-              type="submit" 
-              id="qa-send" 
-              style="padding:0.5rem 1rem; background:#2563eb; color:white; border:none; border-radius:0.375rem; font-size:0.875rem; font-weight:500; cursor:pointer;"
-            >
-              Send
-            </button>
+            <button type="submit" id="qa-send" class="fullpage-qa-send">Send</button>
           </form>
         </div>
       </div>
@@ -1283,6 +1463,11 @@ function renderFullPageThread(post) {
 
   // Completely replace body content for this view
   document.body.innerHTML = html;
+  
+  // Restore theme class
+  if (themeClass) {
+    document.body.classList.add(themeClass);
+  }
   
   // Re-bind events since we wiped the DOM
   const form = document.getElementById("qa-form");
