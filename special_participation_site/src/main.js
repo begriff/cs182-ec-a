@@ -1380,6 +1380,77 @@ function renderFullPageThread(post) {
       .fullpage-qa-send:hover {
         background: var(--accent-hover);
       }
+      /* Sidebar toggle button (visible when collapsed) */
+      .sidebar-toggle-btn {
+        position: fixed;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 80px;
+        background: var(--accent);
+        color: var(--accent-fg);
+        border: none;
+        border-radius: var(--radius-md) 0 0 var(--radius-md);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      .sidebar-toggle-btn:hover {
+        background: var(--accent-hover);
+      }
+      .sidebar-toggle-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+      .fullpage-view.sidebar-collapsed .sidebar-toggle-btn {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      /* Collapse button in sidebar header */
+      .sidebar-collapse-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg-muted);
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+      .sidebar-collapse-btn:hover {
+        background: var(--bg-panel);
+        color: var(--fg-primary);
+        border-color: var(--border-hover);
+      }
+      .sidebar-collapse-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+      /* Sidebar collapsed state */
+      .fullpage-sidebar {
+        transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease, min-width 0.3s ease;
+      }
+      .fullpage-view.sidebar-collapsed .fullpage-sidebar {
+        transform: translateX(100%);
+        opacity: 0;
+        width: 0;
+        min-width: 0;
+        overflow: hidden;
+        border-left: none;
+      }
+      .fullpage-view.sidebar-collapsed .fullpage-main {
+        border-right: none;
+      }
       @media (max-width: 900px) {
         .fullpage-view {
           flex-direction: column;
@@ -1389,9 +1460,29 @@ function renderFullPageThread(post) {
           min-width: 100%;
           height: 300px;
         }
+        .fullpage-view.sidebar-collapsed .fullpage-sidebar {
+          transform: translateY(100%);
+          height: 0;
+        }
+        .sidebar-toggle-btn {
+          right: 50%;
+          top: auto;
+          bottom: 0;
+          transform: translateX(50%);
+          width: 80px;
+          height: 40px;
+          border-radius: var(--radius-md) var(--radius-md) 0 0;
+        }
       }
     </style>
     <div class="fullpage-view">
+      <!-- Toggle button to open sidebar when collapsed -->
+      <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Open AI Assistant">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </button>
+
       <div class="fullpage-main">
         <div class="fullpage-header">
           <a href="?" class="fullpage-back">← Back to Dashboard</a>
@@ -1434,9 +1525,16 @@ function renderFullPageThread(post) {
       </div>
 
       <div class="fullpage-sidebar">
-        <div class="fullpage-sidebar-header">
-          <h2 class="fullpage-sidebar-title">AI Assistant</h2>
-          <div id="qa-status" class="qa-status" style="font-size:0.75rem; color:var(--fg-muted); margin-top:0.25rem;">Ready</div>
+        <div class="fullpage-sidebar-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <h2 class="fullpage-sidebar-title">AI Assistant</h2>
+            <div id="qa-status" class="qa-status" style="font-size:0.75rem; color:var(--fg-muted); margin-top:0.25rem;">Ready</div>
+          </div>
+          <button id="sidebar-collapse" class="sidebar-collapse-btn" title="Collapse sidebar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
 
         <div id="qa-messages" class="fullpage-qa-messages">
@@ -1472,6 +1570,23 @@ function renderFullPageThread(post) {
   // Re-bind events since we wiped the DOM
   const form = document.getElementById("qa-form");
   if (form) form.addEventListener("submit", handleQaSubmit);
+  
+  // Sidebar toggle functionality
+  const fullpageView = document.querySelector('.fullpage-view');
+  const collapseBtn = document.getElementById('sidebar-collapse');
+  const toggleBtn = document.getElementById('sidebar-toggle');
+  
+  if (collapseBtn && fullpageView) {
+    collapseBtn.addEventListener('click', () => {
+      fullpageView.classList.add('sidebar-collapsed');
+    });
+  }
+  
+  if (toggleBtn && fullpageView) {
+    toggleBtn.addEventListener('click', () => {
+      fullpageView.classList.remove('sidebar-collapsed');
+    });
+  }
 }
 
 // -- INIT --
