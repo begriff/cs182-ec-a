@@ -830,3 +830,495 @@ body.filters-collapsed .filters-panel { display: none; }
 .error-message[hidden] { display: none; }
 
 .muted-text { text-align: center; color: var(--fg-muted); margin-top: 2rem; }
+
+/* =========================================
+   10. ENHANCED CHAT STATUS & INDICATORS
+   ========================================= */
+.chat-status.ready {
+  color: var(--success-fg);
+  font-weight: 600;
+}
+
+.chat-status.loading {
+  color: var(--accent);
+}
+
+.chat-status.error {
+  color: var(--danger-fg);
+}
+
+.qa-status.ready {
+  color: var(--success-fg) !important;
+  font-weight: 600;
+}
+
+.qa-status.loading {
+  color: var(--accent) !important;
+}
+
+.qa-status.error {
+  color: var(--danger-fg) !important;
+}
+
+/* =========================================
+   11. MARKDOWN & LATEX RENDERING IN CHAT
+   ========================================= */
+.message-content {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.message-content p {
+  margin: 0 0 0.75rem 0;
+}
+
+.message-content p:last-child {
+  margin-bottom: 0;
+}
+
+.message-content h1,
+.message-content h2,
+.message-content h3,
+.message-content h4 {
+  margin: 1rem 0 0.5rem 0;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.message-content h1 { font-size: 1.25rem; }
+.message-content h2 { font-size: 1.125rem; }
+.message-content h3 { font-size: 1rem; }
+.message-content h4 { font-size: 0.9rem; }
+
+.message-content ul,
+.message-content ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.message-content li {
+  margin: 0.25rem 0;
+}
+
+.message-content pre {
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  overflow-x: auto;
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Consolas", monospace;
+  font-size: 0.85rem;
+  margin: 0.75rem 0;
+}
+
+.message-content code {
+  background: var(--bg-inset);
+  padding: 0.15rem 0.35rem;
+  border-radius: 3px;
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Consolas", monospace;
+  font-size: 0.85em;
+}
+
+.message-content pre code {
+  background: none;
+  padding: 0;
+}
+
+.message-content blockquote {
+  border-left: 3px solid var(--accent);
+  margin: 0.75rem 0;
+  padding-left: 1rem;
+  color: var(--fg-secondary);
+  font-style: italic;
+}
+
+.message-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+}
+
+.message-content th,
+.message-content td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.message-content th {
+  background: var(--bg-inset);
+  font-weight: 600;
+}
+
+.message-content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.message-content a:hover {
+  text-decoration: underline;
+}
+
+/* KaTeX overrides for dark mode compatibility */
+.katex {
+  font-size: 1em;
+}
+
+.katex-display {
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
+
+.latex-error {
+  color: var(--danger-fg);
+  background: var(--danger-bg);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.85em;
+}
+
+/* =========================================
+   12. FULL PAGE SIDEBAR CONTROLS
+   ========================================= */
+.sidebar-control-group {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  color: var(--fg-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sidebar-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--shadow-focus);
+}
+
+.sidebar-action-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.sidebar-action-btn:hover {
+  background: var(--bg-inset);
+  color: var(--fg-primary);
+  border-color: var(--border-hover);
+}
+
+.sidebar-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--bg-inset);
+  border-radius: var(--radius-md);
+}
+
+.sidebar-loading[hidden] {
+  display: none;
+}
+
+.loading-spinner-small {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.progress-bar-small {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar-small .progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* RAG Toggle Styling */
+.rag-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.rag-toggle-input {
+  display: none;
+}
+
+.rag-toggle-switch {
+  width: 36px;
+  height: 20px;
+  background: var(--border);
+  border-radius: 10px;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.rag-toggle-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: var(--bg-panel);
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.rag-toggle-input:checked + .rag-toggle-switch {
+  background: var(--accent);
+}
+
+.rag-toggle-input:checked + .rag-toggle-switch::after {
+  transform: translateX(16px);
+}
+
+.rag-toggle-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--fg-secondary);
+}
+
+/* =========================================
+   13. CHAT HEADER IMPROVEMENTS
+   ========================================= */
+.chat-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-app);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.chat-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.clear-chat-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.clear-chat-btn:hover {
+  background: var(--danger-bg);
+  color: var(--danger-fg);
+  border-color: var(--danger-border);
+}
+
+.model-select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  color: var(--fg-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.model-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--shadow-focus);
+}
+
+.rag-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.rag-status {
+  font-size: 0.7rem;
+  color: var(--fg-muted);
+}
+
+.rag-status.ready {
+  color: var(--success-fg);
+  font-weight: 600;
+}
+
+/* Chat loading indicator */
+.chat-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: var(--bg-panel);
+}
+
+.chat-loading[hidden] {
+  display: none;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+/* =========================================
+   14. RAG SOURCES STYLING
+   ========================================= */
+.rag-sources {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.rag-sources-label {
+  font-weight: 600;
+  color: var(--fg-secondary);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.rag-source-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.rag-source-badge {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.rag-source-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.rag-source-link:hover {
+  text-decoration: underline;
+}
+
+.rag-source-score {
+  color: var(--fg-muted);
+  font-size: 0.7rem;
+}
+
+/* =========================================
+   15. QA MESSAGES STYLING
+   ========================================= */
+.qa-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.qa-message {
+  max-width: 90%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.qa-message.qa-user {
+  align-self: flex-end;
+  background: var(--chat-user-bg);
+  color: var(--chat-user-fg);
+  border-bottom-right-radius: 2px;
+}
+
+.qa-message.qa-assistant {
+  align-self: flex-start;
+  background: var(--chat-ai-bg);
+  color: var(--chat-ai-fg);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 2px;
+}
+
+/* Streaming cursor animation */
+.qa-message.streaming .message-content::after,
+.chat-message.streaming .message-content::after {
+  content: "▋";
+  animation: blink 1s infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}

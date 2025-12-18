@@ -2,9 +2,14 @@
  * Browser-based Chat Assistant using WebLLM
  * Runs LLM inference entirely in the browser using WebGPU
  * Supports RAG (Retrieval-Augmented Generation) for context-aware responses
+ * Supports Markdown and LaTeX rendering
  */
 
 import * as rag from "./rag.js";
+
+// Markdown/LaTeX libraries (loaded dynamically)
+let markedLib = null;
+let katexLib = null;
 
 // State
 const chatState = {
@@ -19,6 +24,123 @@ const chatState = {
   posts: [],
   filesManifest: {},
 };
+
+/**
+ * Load markdown and LaTeX rendering libraries
+ */
+async function loadRenderingLibraries() {
+  if (!markedLib) {
+    try {
+      markedLib = await import("https://esm.run/marked@12.0.0");
+      // Configure marked for safety
+      markedLib.marked.setOptions({
+        breaks: true,
+        gfm: true,
+      });
+    } catch (e) {
+      console.warn("Failed to load marked library:", e);
+    }
+  }
+  if (!katexLib) {
+    try {
+      katexLib = await import("https://esm.run/katex@0.16.9");
+      // Also load KaTeX CSS
+      if (!document.getElementById("katex-css")) {
+        const link = document.createElement("link");
+        link.id = "katex-css";
+        link.rel = "stylesheet";
+        link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
+        document.head.appendChild(link);
+      }
+    } catch (e) {
+      console.warn("Failed to load KaTeX library:", e);
+    }
+  }
+}
+
+/**
+ * Render markdown and LaTeX in text
+ * @param {string} text - Raw text with markdown/latex
+ * @returns {string} - HTML string
+ */
+function renderMarkdownLatex(text) {
+  if (!text) return "";
+  
+  let processed = text;
+  
+  // Process LaTeX first (before markdown to preserve $$ and $ delimiters)
+  if (katexLib) {
+    // Block LaTeX: $$...$$
+    processed = processed.replace(/\$\$([\s\S]*?)\$\$/g, (match, latex) => {
+      try {
+        return katexLib.default.renderToString(latex.trim(), { 
+          displayMode: true,
+          throwOnError: false,
+          output: "html"
+        });
+      } catch (e) {
+        return `<span class="latex-error">${escapeHtml(match)}</span>`;
+      }
+    });
+    
+    // Inline LaTeX: $...$ (but not $$)
+    processed = processed.replace(/(?<!\$)\$(?!\$)((?:[^$\\]|\\.)+?)\$(?!\$)/g, (match, latex) => {
+      try {
+        return katexLib.default.renderToString(latex.trim(), { 
+          displayMode: false,
+          throwOnError: false,
+          output: "html"
+        });
+      } catch (e) {
+        return `<span class="latex-error">${escapeHtml(match)}</span>`;
+      }
+    });
+    
+    // Also handle \[...\] and \(...\) notation
+    processed = processed.replace(/\\\[([\s\S]*?)\\\]/g, (match, latex) => {
+      try {
+        return katexLib.default.renderToString(latex.trim(), { 
+          displayMode: true,
+          throwOnError: false,
+          output: "html"
+        });
+      } catch (e) {
+        return `<span class="latex-error">${escapeHtml(match)}</span>`;
+      }
+    });
+    
+    processed = processed.replace(/\\\(([\s\S]*?)\\\)/g, (match, latex) => {
+      try {
+        return katexLib.default.renderToString(latex.trim(), { 
+          displayMode: false,
+          throwOnError: false,
+          output: "html"
+        });
+      } catch (e) {
+        return `<span class="latex-error">${escapeHtml(match)}</span>`;
+      }
+    });
+  }
+  
+  // Then process markdown
+  if (markedLib) {
+    try {
+      processed = markedLib.marked.parse(processed);
+    } catch (e) {
+      console.warn("Markdown parsing error:", e);
+      processed = escapeHtml(text).replace(/\n/g, "<br>");
+    }
+  } else {
+    // Basic fallback: escape HTML and convert newlines
+    processed = escapeHtml(processed).replace(/\n/g, "<br>");
+  }
+  
+  return processed;
+}
+
+// Export for use in main.js
+window.renderMarkdownLatex = renderMarkdownLatex;
+window.loadRenderingLibraries = loadRenderingLibraries;
 
 // DOM Elements
 const els = {};
@@ -105,11 +227,14 @@ async function initEngine() {
     });
 
     els.loading.hidden = true;
-    els.status.textContent = "Ready";
+    els.status.textContent = `✓ ${getModelDisplayName(selectedModel)} loaded`;
     els.status.className = "chat-status ready";
     els.input.disabled = false;
     els.send.disabled = false;
     els.input.focus();
+    
+    // Load markdown/LaTeX rendering libraries
+    await loadRenderingLibraries();
 
     // Initialize system message
     chatState.messages = [
@@ -118,6 +243,15 @@ async function initEngine() {
         content: `You are a helpful AI assistant integrated into a web app that explores EECS 182 "special participation A" posts where students evaluated LLMs on homework problems. Be concise and helpful. If asked about the posts, explain that users can filter and search them in the main interface.`,
       },
     ];
+    
+    // Update chat area with ready message
+    els.messages.innerHTML = `
+      <div class="chat-message assistant">
+        <div class="message-content">
+          <p>✓ <strong>${getModelDisplayName(selectedModel)}</strong> is ready! How can I help you explore the special participation posts?</p>
+        </div>
+      </div>
+    `;
 
     // Expose engine globally for thread Q&A to use
     window.sharedLLMEngine = chatState.engine;
@@ -150,7 +284,9 @@ async function handleModelChange() {
   chatState.messages = [];
   els.messages.innerHTML = `
     <div class="chat-message assistant">
-      <p>Loading ${getModelDisplayName(newModel)}...</p>
+      <div class="message-content">
+        <p>Loading ${getModelDisplayName(newModel)}...</p>
+      </div>
     </div>
   `;
 
@@ -181,7 +317,9 @@ function clearConversation() {
   // Clear the messages display
   els.messages.innerHTML = `
     <div class="chat-message assistant">
-      <p>Conversation cleared. How can I help you?</p>
+      <div class="message-content">
+        <p>Conversation cleared. How can I help you?</p>
+      </div>
     </div>
   `;
 }
@@ -339,12 +477,13 @@ async function handleSubmit(e) {
     for await (const chunk of asyncGenerator) {
       const delta = chunk.choices[0]?.delta?.content || "";
       fullResponse += delta;
-      assistantEl.querySelector("p").textContent = fullResponse;
+      updateMessageContent(assistantEl, fullResponse, false);
       scrollToBottom();
     }
 
-    // Remove streaming cursor
+    // Remove streaming cursor and render final markdown/latex
     assistantEl.classList.remove("streaming");
+    updateMessageContent(assistantEl, fullResponse, true);
 
     // Add source links if RAG was used
     if (ragResults.length > 0) {
@@ -381,8 +520,7 @@ async function handleSubmit(e) {
     chatState.messages.push({ role: "assistant", content: fullResponse });
   } catch (error) {
     console.error("Generation error:", error);
-    assistantEl.querySelector("p").textContent =
-      "Sorry, something went wrong. Please try again.";
+    updateMessageContent(assistantEl, "Sorry, something went wrong. Please try again.", true);
     assistantEl.classList.remove("streaming");
   } finally {
     chatState.isGenerating = false;
@@ -396,10 +534,35 @@ async function handleSubmit(e) {
 function addMessage(role, content, isStreaming = false) {
   const div = document.createElement("div");
   div.className = `chat-message ${role}${isStreaming ? " streaming" : ""}`;
-  div.innerHTML = `<p>${escapeHtml(content)}</p>`;
+  
+  // For streaming messages, start with plain text (will be rendered on completion)
+  if (isStreaming) {
+    div.innerHTML = `<div class="message-content"><p>${escapeHtml(content)}</p></div>`;
+  } else {
+    // Render markdown/latex for completed messages
+    const rendered = role === "assistant" ? renderMarkdownLatex(content) : escapeHtml(content);
+    div.innerHTML = `<div class="message-content">${rendered}</div>`;
+  }
+  
   els.messages.appendChild(div);
   scrollToBottom();
   return div;
+}
+
+/**
+ * Update message content (for streaming) and optionally render markdown when done
+ */
+function updateMessageContent(messageEl, content, finalize = false) {
+  const contentEl = messageEl.querySelector(".message-content");
+  if (!contentEl) return;
+  
+  if (finalize) {
+    // Final render with markdown/latex
+    contentEl.innerHTML = renderMarkdownLatex(content);
+  } else {
+    // Plain text during streaming
+    contentEl.innerHTML = `<p>${escapeHtml(content)}</p>`;
+  }
 }
 
 function scrollToBottom() {

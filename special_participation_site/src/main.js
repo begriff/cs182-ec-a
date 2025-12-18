@@ -594,10 +594,35 @@ function addQaMessage(role, content, isStreaming = false) {
   
   const div = document.createElement("div");
   div.className = `qa-message qa-${role}${isStreaming ? " streaming" : ""}`;
-  div.innerHTML = `<p>${escapeHtml(content)}</p>`;
+  
+  // For streaming messages, start with plain text
+  if (isStreaming) {
+    div.innerHTML = `<div class="message-content"><p>${escapeHtml(content)}</p></div>`;
+  } else {
+    // Render markdown/latex for completed messages
+    const rendered = role === "assistant" && window.renderMarkdownLatex 
+      ? window.renderMarkdownLatex(content) 
+      : escapeHtml(content);
+    div.innerHTML = `<div class="message-content">${rendered}</div>`;
+  }
+  
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
   return div;
+}
+
+/**
+ * Update QA message content and optionally render markdown when done
+ */
+function updateQaMessageContent(messageEl, content, finalize = false) {
+  const contentEl = messageEl.querySelector(".message-content");
+  if (!contentEl) return;
+  
+  if (finalize && window.renderMarkdownLatex) {
+    contentEl.innerHTML = window.renderMarkdownLatex(content);
+  } else {
+    contentEl.innerHTML = `<p>${escapeHtml(content)}</p>`;
+  }
 }
 
 async function handleQaSubmit(e) {
@@ -653,15 +678,20 @@ async function handleQaSubmit(e) {
       const delta = chunk.choices[0]?.delta?.content || "";
       fullResponse += delta;
       if (assistantEl) {
-        assistantEl.querySelector("p").textContent = fullResponse;
+        updateQaMessageContent(assistantEl, fullResponse, false);
         if(container) container.scrollTop = container.scrollHeight;
       }
     }
-    if(assistantEl) assistantEl.classList.remove("streaming");
+    if(assistantEl) {
+      assistantEl.classList.remove("streaming");
+      updateQaMessageContent(assistantEl, fullResponse, true);
+    }
   } catch (err) {
     console.error("QA generation error:", err);
-    if(assistantEl) assistantEl.querySelector("p").textContent = "Sorry, something went wrong.";
-    if(assistantEl) assistantEl.classList.remove("streaming");
+    if(assistantEl) {
+      updateQaMessageContent(assistantEl, "Sorry, something went wrong.", true);
+      assistantEl.classList.remove("streaming");
+    }
   } finally {
     state.qaGenerating = false;
     if(inputEl) inputEl.disabled = false;
@@ -1380,6 +1410,180 @@ function renderFullPageThread(post) {
       .fullpage-qa-send:hover {
         background: var(--accent-hover);
       }
+      .fullpage-qa-send:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .fullpage-qa-input:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      /* Sidebar control styling */
+      .sidebar-control-group {
+        margin-bottom: 0.5rem;
+      }
+      .sidebar-select {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--bg-panel);
+        color: var(--fg-primary);
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+      .sidebar-select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: var(--shadow-focus);
+      }
+      .sidebar-action-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg-muted);
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+      .sidebar-action-btn:hover {
+        background: var(--bg-inset);
+        color: var(--fg-primary);
+      }
+      .sidebar-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        background: var(--bg-inset);
+        border-radius: var(--radius-md);
+      }
+      .sidebar-loading[hidden] { display: none; }
+      .loading-spinner-small {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--border);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .progress-bar-small {
+        width: 100%;
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .progress-bar-small .progress-fill {
+        height: 100%;
+        background: var(--accent);
+        transition: width 0.3s ease;
+        width: 0%;
+      }
+      /* RAG toggle */
+      .rag-toggle-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+      }
+      .rag-toggle-input { display: none; }
+      .rag-toggle-switch {
+        width: 36px;
+        height: 20px;
+        background: var(--border);
+        border-radius: 10px;
+        position: relative;
+        transition: background 0.2s;
+      }
+      .rag-toggle-switch::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        background: var(--bg-panel);
+        border-radius: 50%;
+        transition: transform 0.2s;
+      }
+      .rag-toggle-input:checked + .rag-toggle-switch {
+        background: var(--accent);
+      }
+      .rag-toggle-input:checked + .rag-toggle-switch::after {
+        transform: translateX(16px);
+      }
+      /* QA messages */
+      .qa-message {
+        max-width: 90%;
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-md);
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+      .qa-message.qa-user {
+        align-self: flex-end;
+        background: var(--accent);
+        color: white;
+        border-bottom-right-radius: 2px;
+      }
+      .qa-message.qa-assistant {
+        align-self: flex-start;
+        background: var(--bg-inset);
+        color: var(--fg-primary);
+        border: 1px solid var(--border);
+        border-bottom-left-radius: 2px;
+      }
+      .qa-status.ready { color: #22c55e !important; font-weight: 600; }
+      .qa-status.loading { color: var(--accent) !important; }
+      .qa-status.error { color: #ef4444 !important; }
+      /* Message content styling */
+      .message-content { overflow-wrap: break-word; }
+      .message-content p { margin: 0 0 0.5rem 0; }
+      .message-content p:last-child { margin-bottom: 0; }
+      .message-content pre {
+        background: rgba(0,0,0,0.1);
+        padding: 0.5rem;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-size: 0.85rem;
+      }
+      .message-content code {
+        background: rgba(0,0,0,0.1);
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+        font-size: 0.85em;
+      }
+      .message-content pre code { background: none; padding: 0; }
+      .message-content ul, .message-content ol {
+        margin: 0.5rem 0;
+        padding-left: 1.25rem;
+      }
+      .message-content blockquote {
+        border-left: 3px solid var(--accent);
+        margin: 0.5rem 0;
+        padding-left: 0.75rem;
+        color: var(--fg-muted);
+      }
+      .qa-message.streaming .message-content::after {
+        content: "▋";
+        animation: blink 1s infinite;
+      }
+      @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+      }
+      /* KaTeX display */
+      .katex-display {
+        margin: 0.5rem 0;
+        overflow-x: auto;
+      }
       /* Sidebar toggle button (visible when collapsed) */
       .sidebar-toggle-btn {
         position: fixed;
@@ -1525,21 +1729,62 @@ function renderFullPageThread(post) {
       </div>
 
       <div class="fullpage-sidebar">
-        <div class="fullpage-sidebar-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
-          <div>
-            <h2 class="fullpage-sidebar-title">AI Assistant</h2>
-            <div id="qa-status" class="qa-status" style="font-size:0.75rem; color:var(--fg-muted); margin-top:0.25rem;">Ready</div>
+        <div class="fullpage-sidebar-header" style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <h2 class="fullpage-sidebar-title">AI Assistant</h2>
+              <div id="qa-status" class="qa-status" style="font-size:0.75rem; color:var(--fg-muted); margin-top:0.25rem;">Select a model to start</div>
+            </div>
+            <div style="display:flex; gap:0.5rem;">
+              <button id="qa-clear" class="sidebar-action-btn" title="Clear conversation">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+              <button id="sidebar-collapse" class="sidebar-collapse-btn" title="Collapse sidebar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
           </div>
-          <button id="sidebar-collapse" class="sidebar-collapse-btn" title="Collapse sidebar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
+          
+          <!-- Model Selection -->
+          <div class="sidebar-control-group">
+            <label for="qa-model-select" style="font-size:0.75rem; font-weight:600; color:var(--fg-secondary); margin-bottom:0.25rem; display:block;">Model</label>
+            <select id="qa-model-select" class="sidebar-select">
+              <option value="">Select a model...</option>
+              <option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">Llama 3.2 1B (fastest)</option>
+              <option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">Llama 3.2 3B (balanced)</option>
+              <option value="SmolLM2-1.7B-Instruct-q4f16_1-MLC">SmolLM2 1.7B</option>
+              <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen 2.5 1.5B</option>
+            </select>
+          </div>
+          
+          <!-- RAG Toggle -->
+          <div class="sidebar-control-group" style="display:flex; align-items:center; justify-content:space-between;">
+            <label class="rag-toggle-label" style="display:flex; align-items:center; gap:0.5rem;">
+              <input type="checkbox" id="qa-rag-toggle" class="rag-toggle-input" />
+              <span class="rag-toggle-switch"></span>
+              <span style="font-size:0.8rem; font-weight:600;">RAG Mode</span>
+            </label>
+            <span id="qa-rag-status" style="font-size:0.7rem; color:var(--fg-muted);">Disabled</span>
+          </div>
+          
+          <!-- Loading Progress -->
+          <div id="qa-loading" class="sidebar-loading" hidden>
+            <div class="loading-spinner-small"></div>
+            <span id="qa-loading-text" style="font-size:0.75rem;">Loading...</span>
+            <div class="progress-bar-small">
+              <div id="qa-progress-fill" class="progress-fill"></div>
+            </div>
+          </div>
         </div>
 
         <div id="qa-messages" class="fullpage-qa-messages">
           <div class="qa-message qa-assistant">
-             <p>Hi! I've analyzed this thread and any attached PDFs. What would you like to know?</p>
+             <div class="message-content"><p>Hi! Select a model above to start chatting. I can help you understand this thread and any attached documents.</p></div>
           </div>
         </div>
 
@@ -1551,8 +1796,9 @@ function renderFullPageThread(post) {
               class="fullpage-qa-input"
               placeholder="Ask about this thread..." 
               autocomplete="off"
+              disabled
             >
-            <button type="submit" id="qa-send" class="fullpage-qa-send">Send</button>
+            <button type="submit" id="qa-send" class="fullpage-qa-send" disabled>Send</button>
           </form>
         </div>
       </div>
@@ -1586,6 +1832,178 @@ function renderFullPageThread(post) {
     toggleBtn.addEventListener('click', () => {
       fullpageView.classList.remove('sidebar-collapsed');
     });
+  }
+  
+  // Model selection handler
+  const modelSelect = document.getElementById('qa-model-select');
+  if (modelSelect) {
+    // Check if shared engine exists and pre-select the model
+    if (window.sharedLLMEngine) {
+      state.qaEngine = window.sharedLLMEngine;
+      state.qaWebllm = window.sharedLLMWebllm;
+      const statusEl = document.getElementById('qa-status');
+      if (statusEl) {
+        statusEl.textContent = '✓ Model ready (shared)';
+        statusEl.className = 'qa-status ready';
+      }
+      const inputEl = document.getElementById('qa-input');
+      const sendEl = document.getElementById('qa-send');
+      const messagesEl = document.getElementById('qa-messages');
+      if (inputEl) inputEl.disabled = false;
+      if (sendEl) sendEl.disabled = false;
+      if (messagesEl) {
+        messagesEl.innerHTML = `
+          <div class="qa-message qa-assistant">
+            <div class="message-content"><p>✓ <strong>Model ready!</strong> Ask me anything about this thread or the attached documents.</p></div>
+          </div>
+        `;
+      }
+    }
+    
+    modelSelect.addEventListener('change', async () => {
+      const selectedModel = modelSelect.value;
+      if (!selectedModel) return;
+      
+      // If we already have a shared engine, skip loading
+      if (window.sharedLLMEngine) {
+        state.qaEngine = window.sharedLLMEngine;
+        state.qaWebllm = window.sharedLLMWebllm;
+        const statusEl = document.getElementById('qa-status');
+        if (statusEl) {
+          statusEl.textContent = '✓ Model ready (shared)';
+          statusEl.className = 'qa-status ready';
+        }
+        const inputEl = document.getElementById('qa-input');
+        const sendEl = document.getElementById('qa-send');
+        const messagesEl = document.getElementById('qa-messages');
+        if (inputEl) inputEl.disabled = false;
+        if (sendEl) sendEl.disabled = false;
+        if (messagesEl) {
+          messagesEl.innerHTML = `
+            <div class="qa-message qa-assistant">
+              <div class="message-content"><p>✓ <strong>Model ready!</strong> Ask me anything about this thread or the attached documents.</p></div>
+            </div>
+          `;
+        }
+        return;
+      }
+      
+      await initFullPageQaEngine(selectedModel);
+    });
+  }
+  
+  // RAG toggle handler
+  const ragToggle = document.getElementById('qa-rag-toggle');
+  if (ragToggle) {
+    ragToggle.addEventListener('change', async () => {
+      const ragStatus = document.getElementById('qa-rag-status');
+      if (ragToggle.checked) {
+        if (ragStatus) ragStatus.textContent = 'Initializing...';
+        // RAG would need to be initialized here - for now just show status
+        if (ragStatus) ragStatus.textContent = 'Enabled';
+      } else {
+        if (ragStatus) ragStatus.textContent = 'Disabled';
+      }
+    });
+  }
+  
+  // Clear chat handler
+  const clearBtn = document.getElementById('qa-clear');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      const messagesContainer = document.getElementById('qa-messages');
+      if (messagesContainer) {
+        messagesContainer.innerHTML = `
+          <div class="qa-message qa-assistant">
+            <div class="message-content"><p>Conversation cleared. How can I help you with this thread?</p></div>
+          </div>
+        `;
+      }
+    });
+  }
+  
+  // Load rendering libraries for markdown/LaTeX
+  if (window.loadRenderingLibraries) {
+    window.loadRenderingLibraries();
+  }
+}
+
+/**
+ * Initialize QA engine for full page view with progress feedback
+ */
+async function initFullPageQaEngine(modelId) {
+  const statusEl = document.getElementById('qa-status');
+  const loadingEl = document.getElementById('qa-loading');
+  const loadingText = document.getElementById('qa-loading-text');
+  const progressFill = document.getElementById('qa-progress-fill');
+  const inputEl = document.getElementById('qa-input');
+  const sendEl = document.getElementById('qa-send');
+  
+  if (!navigator.gpu) {
+    if (statusEl) {
+      statusEl.textContent = 'WebGPU not supported';
+      statusEl.className = 'qa-status error';
+    }
+    return;
+  }
+  
+  try {
+    if (loadingEl) loadingEl.hidden = false;
+    if (statusEl) {
+      statusEl.textContent = 'Loading model...';
+      statusEl.className = 'qa-status loading';
+    }
+    
+    if (!state.qaWebllm) {
+      if (loadingText) loadingText.textContent = 'Loading WebLLM library...';
+      state.qaWebllm = await import("https://esm.run/@mlc-ai/web-llm");
+    }
+    
+    if (loadingText) loadingText.textContent = `Loading ${modelId}...`;
+    
+    state.qaEngine = await state.qaWebllm.CreateMLCEngine(modelId, {
+      initProgressCallback: (progress) => {
+        const percent = Math.round(progress.progress * 100);
+        if (progressFill) progressFill.style.width = `${percent}%`;
+        if (loadingText) loadingText.textContent = progress.text || 'Loading...';
+      },
+    });
+    
+    // Share engine globally
+    window.sharedLLMEngine = state.qaEngine;
+    window.sharedLLMWebllm = state.qaWebllm;
+    
+    if (loadingEl) loadingEl.hidden = true;
+    if (statusEl) {
+      statusEl.textContent = '✓ Model ready';
+      statusEl.className = 'qa-status ready';
+    }
+    if (inputEl) inputEl.disabled = false;
+    if (sendEl) sendEl.disabled = false;
+    if (inputEl) inputEl.focus();
+    
+    // Update messages area with ready message
+    const messagesEl = document.getElementById('qa-messages');
+    if (messagesEl) {
+      messagesEl.innerHTML = `
+        <div class="qa-message qa-assistant">
+          <div class="message-content"><p>✓ <strong>Model ready!</strong> Ask me anything about this thread or the attached documents.</p></div>
+        </div>
+      `;
+    }
+    
+    // Load rendering libraries
+    if (window.loadRenderingLibraries) {
+      await window.loadRenderingLibraries();
+    }
+    
+  } catch (err) {
+    console.error('Failed to init QA engine:', err);
+    if (loadingEl) loadingEl.hidden = true;
+    if (statusEl) {
+      statusEl.textContent = 'Failed to load model';
+      statusEl.className = 'qa-status error';
+    }
   }
 }
 

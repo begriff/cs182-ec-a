@@ -271,7 +271,7 @@
           <div class="chat-header-top">
             <div>
               <h3>AI Assistant</h3>
-              <p id="chat-status" class="chat-status">Loading model...</p>
+              <p id="chat-status" class="chat-status">Select a model to start</p>
             </div>
             <button id="clear-chat" class="clear-chat-btn" type="button" title="Clear conversation">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -299,7 +299,9 @@
 
         <div id="chat-messages" class="chat-messages">
           <div class="chat-message assistant">
-            <p>Hi! Select a model from the dropdown above to get started. The model will run entirely in your browser using WebGPU.</p>
+            <div class="message-content">
+              <p>Hi! Select a model from the dropdown above to get started. The model will run entirely in your browser using WebGPU.</p>
+            </div>
           </div>
         </div>
 
