@@ -7,6 +7,17 @@ const THEME_KEY = "spa-theme-mode";
 const PDFJS_CDN = "https://esm.run/pdfjs-dist@3.11.174";
 const PDFJS_WORKER_CDN = "https://esm.run/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
+// Initialize shared analyzer state if not exists
+if (!window.sharedAnalyzerState) {
+  window.sharedAnalyzerState = {
+    engine: null,
+    webllm: null,
+    scores: new Map(), // postId -> { score, reasoning, hw, model }
+    isLoading: false,
+    isRunning: false,
+  };
+}
+
 const state = {
   allPosts: [],
   filtered: [],
@@ -23,7 +34,15 @@ const state = {
   insightsFilters: {
     homeworks: new Set(),
     models: new Set()
-  }
+  },
+  // Analyzer state - uses shared state
+  get analyzerEngine() { return window.sharedAnalyzerState.engine; },
+  set analyzerEngine(v) { window.sharedAnalyzerState.engine = v; },
+  get analyzerWebllm() { return window.sharedAnalyzerState.webllm; },
+  set analyzerWebllm(v) { window.sharedAnalyzerState.webllm = v; },
+  get analyzerScores() { return window.sharedAnalyzerState.scores; },
+  analyzerLoading: false,
+  analyzerRunning: false
 };
 
 const els = {};
@@ -32,6 +51,7 @@ let lastFocusedElement = null;
 function cacheElements() {
   els.filterHomework = document.getElementById("filter-homework");
   els.filterModel = document.getElementById("filter-model");
+  els.filterAuthor = document.getElementById("filter-author");
   els.searchText = document.getElementById("search-text");
   els.sortOrder = document.getElementById("sort-order");
   els.postsList = document.getElementById("posts-list");
@@ -59,6 +79,17 @@ function cacheElements() {
   
   els.homeworkInsightsBody = document.getElementById("homework-insights-body");
   els.modelInsightsBody = document.getElementById("model-insights-body");
+  
+  // Analyzer elements
+  els.overviewModelSelect = document.getElementById("overview-model-select");
+  els.overviewAnalyzerStatus = document.getElementById("overview-analyzer-status");
+  els.overviewLoading = document.getElementById("overview-loading");
+  els.overviewLoadingText = document.getElementById("overview-loading-text");
+  els.overviewProgressFill = document.getElementById("overview-progress-fill");
+  els.analyzeAllBtn = document.getElementById("analyze-all-btn");
+  els.clearScoresBtn = document.getElementById("clear-scores-btn");
+  els.analyzeProgress = document.getElementById("analyze-progress");
+  els.scoreSummary = document.getElementById("score-summary");
 }
 
 async function loadData() {
@@ -180,11 +211,13 @@ function populateSelect(selectEl, label, values) {
 function buildFilters(posts) {
   const homeworks = new Set();
   const models = new Set();
+  const authors = new Set();
 
   for (const post of posts) {
     const m = post.metrics || {};
     if (m.homework_id) homeworks.add(m.homework_id);
     if (m.model_name) models.add(m.model_name);
+    if (post.user?.name) authors.add(post.user.name);
   }
 
   const sortAlpha = (a, b) => a.localeCompare(b);
@@ -207,6 +240,7 @@ function buildFilters(posts) {
     Array.from(homeworks).sort(sortHomeworks),
   );
   populateSelect(els.filterModel, "models", Array.from(models).sort(sortAlpha));
+  populateSelect(els.filterAuthor, "contributors", Array.from(authors).sort(sortAlpha));
 }
 
 function applyThemePreference(mode) {
@@ -254,6 +288,7 @@ function attachEvents() {
   [
     els.filterHomework,
     els.filterModel,
+    els.filterAuthor,
     els.filterFocus,
     els.filterActionability,
     els.sortOrder,
@@ -704,20 +739,82 @@ async function handleQaSubmit(e) {
   }
 }
 
+/**
+ * Parse search query for special prefixes like author:, model:, hw:
+ * Returns { terms: string[], filters: { author?, model?, hw? } }
+ */
+function parseSearchQuery(query) {
+  const filters = {};
+  const terms = [];
+  
+  // Split by spaces but respect quoted strings
+  const tokens = query.match(/(?:[^\s"]+|"[^"]*")+/g) || [];
+  
+  for (const token of tokens) {
+    const lower = token.toLowerCase();
+    
+    // Check for prefix filters
+    if (lower.startsWith('author:') || lower.startsWith('by:') || lower.startsWith('student:')) {
+      filters.author = token.split(':')[1].replace(/"/g, '').toLowerCase();
+    } else if (lower.startsWith('model:') || lower.startsWith('llm:')) {
+      filters.model = token.split(':')[1].replace(/"/g, '').toLowerCase();
+    } else if (lower.startsWith('hw:') || lower.startsWith('homework:')) {
+      filters.hw = token.split(':')[1].replace(/"/g, '').toUpperCase();
+    } else {
+      // Regular search term
+      terms.push(token.replace(/"/g, '').toLowerCase());
+    }
+  }
+  
+  return { terms, filters };
+}
+
 function applyFiltersAndRender() {
-  const homeworkVal = decodeURIComponent(els.filterHomework.value || "");
-  const modelVal = decodeURIComponent(els.filterModel.value || "");
-  const search = (els.searchText.value || "").toLowerCase().trim();
-  const sortOrder = els.sortOrder.value || "newest";
+  const homeworkVal = decodeURIComponent(els.filterHomework?.value || "");
+  const modelVal = decodeURIComponent(els.filterModel?.value || "");
+  const authorVal = decodeURIComponent(els.filterAuthor?.value || "");
+  const searchRaw = (els.searchText?.value || "").trim();
+  const sortOrder = els.sortOrder?.value || "newest";
+  
+  // Parse search for special syntax
+  const { terms: searchTerms, filters: searchFilters } = parseSearchQuery(searchRaw);
 
   let results = state.allPosts.filter((post) => {
     const m = post.metrics || {};
+    const authorName = (post.user?.name || "");
+    const authorNameLower = authorName.toLowerCase();
+    const modelName = (m.model_name || "").toLowerCase();
+    const hwId = (m.homework_id || "").toUpperCase();
+    
+    // Dropdown filters
     if (homeworkVal && m.homework_id !== homeworkVal) return false;
     if (modelVal && m.model_name !== modelVal) return false;
-    if (search) {
-      const haystack = `${post.title || ""}\n${post.document || ""}`.toLowerCase();
-      if (!haystack.includes(search)) return false;
+    if (authorVal && authorName !== authorVal) return false;
+    
+    // Search prefix filters (author:, model:, hw:)
+    if (searchFilters.author && !authorNameLower.includes(searchFilters.author)) return false;
+    if (searchFilters.model && !modelName.includes(searchFilters.model)) return false;
+    if (searchFilters.hw && !hwId.includes(searchFilters.hw)) return false;
+    
+    // General search terms - search across multiple fields
+    if (searchTerms.length > 0) {
+      // Build comprehensive haystack including all searchable fields
+      const haystack = [
+        post.title || "",
+        post.document || "",
+        post.user?.name || "",
+        m.model_name || "",
+        m.homework_id || "",
+        // Include file names if any
+        ...(post.file_refs || []).map(f => f.filename || "")
+      ].join(" ").toLowerCase();
+      
+      // All search terms must match (AND logic)
+      for (const term of searchTerms) {
+        if (!haystack.includes(term)) return false;
+      }
     }
+    
     return true;
   });
 
@@ -753,6 +850,12 @@ function sortResults(list, order) {
       const modelB = b.metrics?.model_name || "";
       return modelA.localeCompare(modelB);
     });
+  } else if (order === "author") {
+    arr.sort((a, b) => {
+      const authorA = a.user?.name || "";
+      const authorB = b.user?.name || "";
+      return authorA.localeCompare(authorB);
+    });
   } else if (order === "oldest") {
     arr.sort((a, b) => {
       const da = parseDateSafe(a.created_at);
@@ -785,12 +888,22 @@ function renderSummaryBar() {
   }
   const hw = new Set();
   const models = new Set();
+  const authors = new Set();
   for (const post of state.filtered) {
     const m = post.metrics || {};
     if (m.homework_id) hw.add(m.homework_id);
     if (m.model_name) models.add(m.model_name);
+    if (post.user?.name) authors.add(post.user.name);
   }
-  els.summaryBar.textContent = `Showing ${shown} of ${total} posts | Homeworks: ${hw.size} | Models: ${models.size}`;
+  
+  // Build summary with stats
+  const stats = [
+    `Showing ${shown} of ${total} posts`,
+    `${authors.size} contributors`,
+    `${hw.size} homeworks`,
+    `${models.size} models`
+  ];
+  els.summaryBar.textContent = stats.join(" · ");
 }
 
 function renderPosts() {
@@ -842,6 +955,30 @@ function postToHtml(post, index) {
     `<span class="badge badge-hw">${escapeHtml(hw)}</span>`,
     `<span class="badge badge-model">${escapeHtml(model)}</span>`,
   ];
+  
+  // Check if we have a score for this post
+  const scoreData = state.analyzerScores.get(post.id);
+  let scoreBadgeHtml = "";
+  let analyzeButtonHtml = "";
+  
+  if (scoreData) {
+    const scoreLabels = ["", "Very Poor", "Poor", "Mediocre", "Good", "Excellent"];
+    scoreBadgeHtml = `<span class="post-score-badge score-${scoreData.score}" title="${escapeAttribute(scoreData.reasoning)}">
+      <span>${scoreData.score}/5</span>
+      <span class="score-label">${scoreLabels[scoreData.score]}</span>
+    </span>`;
+  } else {
+    const isDisabled = !state.analyzerEngine ? "disabled" : "";
+    analyzeButtonHtml = `<button class="btn-analyze" data-post-id="${post.id}" ${isDisabled}>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 20V10"></path>
+        <path d="M18 20V4"></path>
+        <path d="M6 20v-4"></path>
+      </svg>
+      Analyze
+    </button>`;
+  }
+  
   const stats = [];
   if (wc != null) stats.push(`${wc} words`);
   if (typeof post.view_count === "number") stats.push(`${post.view_count} views`);
@@ -854,9 +991,8 @@ function postToHtml(post, index) {
   const files = getFilesForPost(post);
   const filesHtml = buildFilesHtml(files);
 
-  // New Button for Full View added below badges
   return `
-<article class="post-card" data-index="${index}">
+<article class="post-card" data-index="${index}" data-post-id="${post.id}">
   <header class="post-header">
     <div>
       <h3 class="post-title">${title}</h3>
@@ -867,12 +1003,16 @@ function postToHtml(post, index) {
       </p>
     </div>
   </header>
-  <div class="post-badges">${badges.join(" ")}</div>
+  <div class="post-badges">
+    ${badges.join(" ")}
+    ${scoreBadgeHtml}
+  </div>
   
-  <div style="margin: 0.75rem 0;">
+  <div style="margin: 0.75rem 0; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
     <a href="?thread=${post.number}" class="btn-full-view" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.4rem 0.8rem; background:#eff6ff; color:#1d4ed8; text-decoration:none; border-radius:6px; font-size:0.875rem; font-weight:500;">
-      <span>Open Full View & PDF ↗</span>
+      <span>Open Full View ↗</span>
     </a>
+    ${analyzeButtonHtml}
   </div>
 
   <p class="post-stats">${stats.map(escapeHtml).join(" · ")}</p>
@@ -2007,12 +2147,388 @@ async function initFullPageQaEngine(modelId) {
   }
 }
 
+// -- ANALYZER FUNCTIONS --
+
+async function initAnalyzerEngine(modelId) {
+  if (state.analyzerLoading) return;
+  
+  state.analyzerLoading = true;
+  
+  if (els.overviewLoading) els.overviewLoading.classList.add("is-visible");
+  if (els.overviewAnalyzerStatus) {
+    els.overviewAnalyzerStatus.textContent = "Loading...";
+    els.overviewAnalyzerStatus.className = "analyzer-status-badge loading";
+  }
+  
+  try {
+    if (!navigator.gpu) {
+      throw new Error("WebGPU not supported");
+    }
+    
+    // Try to use shared engine first
+    if (window.sharedLLMEngine && window.sharedLLMWebllm) {
+      state.analyzerEngine = window.sharedLLMEngine;
+      state.analyzerWebllm = window.sharedLLMWebllm;
+      
+      if (els.overviewLoading) els.overviewLoading.classList.remove("is-visible");
+      if (els.overviewAnalyzerStatus) {
+        els.overviewAnalyzerStatus.textContent = "✓ Ready";
+        els.overviewAnalyzerStatus.className = "analyzer-status-badge ready";
+      }
+      if (els.analyzeAllBtn) els.analyzeAllBtn.disabled = false;
+      renderPosts(); // Re-render to enable analyze buttons
+      return;
+    }
+    
+    // Load WebLLM
+    if (!state.analyzerWebllm) {
+      if (els.overviewLoadingText) els.overviewLoadingText.textContent = "Loading WebLLM...";
+      state.analyzerWebllm = await import("https://esm.run/@mlc-ai/web-llm");
+    }
+    
+    if (els.overviewLoadingText) els.overviewLoadingText.textContent = `Loading model...`;
+    
+    state.analyzerEngine = await state.analyzerWebllm.CreateMLCEngine(modelId, {
+      initProgressCallback: (progress) => {
+        const percent = Math.round(progress.progress * 100);
+        if (els.overviewProgressFill) els.overviewProgressFill.style.width = `${percent}%`;
+        if (els.overviewLoadingText) els.overviewLoadingText.textContent = progress.text || "Loading...";
+      },
+    });
+    
+    // Share globally
+    window.sharedLLMEngine = state.analyzerEngine;
+    window.sharedLLMWebllm = state.analyzerWebllm;
+    
+    if (els.overviewLoading) els.overviewLoading.classList.remove("is-visible");
+    if (els.overviewAnalyzerStatus) {
+      els.overviewAnalyzerStatus.textContent = "✓ Ready";
+      els.overviewAnalyzerStatus.className = "analyzer-status-badge ready";
+    }
+    if (els.analyzeAllBtn) els.analyzeAllBtn.disabled = false;
+    renderPosts(); // Re-render to enable analyze buttons
+    
+    // Notify judge panel that engine is ready
+    window.dispatchEvent(new CustomEvent("analyzer-engine-ready"));
+    
+  } catch (err) {
+    console.error("Failed to load analyzer:", err);
+    if (els.overviewLoading) els.overviewLoading.classList.remove("is-visible");
+    if (els.overviewAnalyzerStatus) {
+      els.overviewAnalyzerStatus.textContent = "Error";
+      els.overviewAnalyzerStatus.className = "analyzer-status-badge error";
+    }
+  } finally {
+    state.analyzerLoading = false;
+  }
+}
+
+function buildAnalyzerPrompt(post) {
+  const m = post.metrics || {};
+  const hw = m.homework_id || "Unknown";
+  const model = m.model_name || "Unknown";
+  
+  let content = post.document || "";
+  if (content.length > 2500) {
+    content = content.slice(0, 2500) + "...";
+  }
+  
+  return `You are evaluating how well an AI model (${model}) performed on homework (${hw}) based on a student's report.
+
+STUDENT REPORT:
+Title: ${post.title || "Untitled"}
+${content}
+
+Score how well ${model} performed (NOT the report quality):
+1 = Very Poor: Most answers wrong, fundamental errors
+2 = Poor: Significant mistakes, struggled with key concepts
+3 = Mediocre: Mixed performance, some correct, some errors
+4 = Good: Most things correct, minor mistakes only
+5 = Excellent: Correct answers, strong reasoning, minimal errors
+
+Respond ONLY with JSON: {"score": <1-5>, "reasoning": "<brief explanation>"}`;
+}
+
+async function analyzePost(post) {
+  if (!state.analyzerEngine) return null;
+  
+  const prompt = buildAnalyzerPrompt(post);
+  
+  try {
+    const response = await state.analyzerEngine.chat.completions.create({
+      messages: [
+        { role: "system", content: "You are a precise evaluator. Respond with valid JSON only." },
+        { role: "user", content: prompt }
+      ],
+      max_tokens: 150,
+      temperature: 0.3,
+    });
+    
+    const text = response.choices[0]?.message?.content || "";
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      const score = Math.min(5, Math.max(1, Math.round(parsed.score || 3)));
+      return {
+        score,
+        reasoning: parsed.reasoning || "No reasoning provided",
+        hw: post.metrics?.homework_id || "Unknown",
+        model: post.metrics?.model_name || "Unknown",
+        title: post.title || "Untitled",
+        postId: post.id,
+      };
+    }
+    
+    // Fallback
+    const numMatch = text.match(/\b([1-5])\b/);
+    return {
+      score: numMatch ? parseInt(numMatch[1], 10) : 3,
+      reasoning: "Score extracted from response",
+      hw: post.metrics?.homework_id || "Unknown",
+      model: post.metrics?.model_name || "Unknown",
+      title: post.title || "Untitled",
+      postId: post.id,
+    };
+  } catch (err) {
+    console.error("Analyze error:", err);
+    return {
+      score: 3,
+      reasoning: "Error during analysis",
+      hw: post.metrics?.homework_id || "Unknown",
+      model: post.metrics?.model_name || "Unknown",
+      title: post.title || "Untitled",
+      postId: post.id,
+    };
+  }
+}
+
+async function analyzeSinglePost(postId) {
+  const post = state.allPosts.find(p => p.id === postId);
+  if (!post || !state.analyzerEngine) return;
+  
+  // Find and update button state
+  const btn = document.querySelector(`.btn-analyze[data-post-id="${postId}"]`);
+  if (btn) {
+    btn.classList.add("is-analyzing");
+    btn.disabled = true;
+    btn.innerHTML = `<span>Analyzing...</span>`;
+  }
+  
+  const result = await analyzePost(post);
+  if (result) {
+    state.analyzerScores.set(postId, result);
+    if (els.clearScoresBtn) els.clearScoresBtn.disabled = false;
+    if (els.analyzeProgress) els.analyzeProgress.textContent = `${state.analyzerScores.size} posts scored`;
+    renderPosts();
+    updateScoreSummary();
+    // Notify judge panel immediately
+    window.dispatchEvent(new CustomEvent("analyzer-scores-updated"));
+  }
+}
+
+async function analyzeAllPosts() {
+  if (!state.analyzerEngine || state.analyzerRunning) return;
+  
+  state.analyzerRunning = true;
+  window.sharedAnalyzerState.isRunning = true;
+  if (els.analyzeAllBtn) els.analyzeAllBtn.disabled = true;
+  if (els.clearScoresBtn) els.clearScoresBtn.disabled = true;
+  
+  const total = state.allPosts.length;
+  let completed = 0;
+  let newlyScored = 0;
+  
+  for (const post of state.allPosts) {
+    if (state.analyzerScores.has(post.id)) {
+      completed++;
+      continue;
+    }
+    
+    if (els.analyzeProgress) {
+      els.analyzeProgress.textContent = `Analyzing ${completed + 1}/${total}...`;
+    }
+    
+    const result = await analyzePost(post);
+    if (result) {
+      state.analyzerScores.set(post.id, result);
+      newlyScored++;
+    }
+    
+    completed++;
+    
+    // Update UI after every new score (real-time updates)
+    renderPosts();
+    updateScoreSummary();
+    // Notify judge panel for every score
+    window.dispatchEvent(new CustomEvent("analyzer-scores-updated"));
+    
+    await new Promise(r => setTimeout(r, 50));
+  }
+  
+  state.analyzerRunning = false;
+  window.sharedAnalyzerState.isRunning = false;
+  if (els.analyzeAllBtn) els.analyzeAllBtn.disabled = false;
+  if (els.clearScoresBtn) els.clearScoresBtn.disabled = false;
+  if (els.analyzeProgress) els.analyzeProgress.textContent = `${state.analyzerScores.size} posts scored`;
+  
+  renderPosts();
+  updateScoreSummary();
+  // Final notification
+  window.dispatchEvent(new CustomEvent("analyzer-scores-updated"));
+}
+
+function clearAnalyzerScores() {
+  state.analyzerScores.clear();
+  if (els.clearScoresBtn) els.clearScoresBtn.disabled = true;
+  if (els.analyzeProgress) els.analyzeProgress.textContent = "";
+  renderPosts();
+  updateScoreSummary();
+  // Notify judge panel
+  window.dispatchEvent(new CustomEvent("analyzer-scores-updated"));
+}
+
+function updateScoreSummary() {
+  if (!els.scoreSummary) return;
+  
+  const scores = Array.from(state.analyzerScores.values());
+  if (scores.length === 0) {
+    els.scoreSummary.classList.remove("has-scores");
+    els.scoreSummary.innerHTML = "";
+    return;
+  }
+  
+  // Calculate stats
+  const avgScore = scores.reduce((sum, s) => sum + s.score, 0) / scores.length;
+  const scoreCounts = [0, 0, 0, 0, 0, 0]; // index 1-5
+  scores.forEach(s => scoreCounts[s.score]++);
+  
+  // Group by model
+  const modelScores = {};
+  scores.forEach(s => {
+    if (!modelScores[s.model]) modelScores[s.model] = [];
+    modelScores[s.model].push(s.score);
+  });
+  
+  // Find best/worst model
+  let bestModel = { name: "", avg: 0 };
+  let worstModel = { name: "", avg: 6 };
+  Object.entries(modelScores).forEach(([name, modelScoreList]) => {
+    const avg = modelScoreList.reduce((a, b) => a + b, 0) / modelScoreList.length;
+    if (avg > bestModel.avg) bestModel = { name, avg };
+    if (avg < worstModel.avg) worstModel = { name, avg };
+  });
+  
+  const scoreClass = `score-${Math.round(avgScore)}`;
+  
+  els.scoreSummary.classList.add("has-scores");
+  els.scoreSummary.innerHTML = `
+    <div class="score-summary-grid">
+      <div class="score-summary-item">
+        <div class="score-summary-label">Posts Scored</div>
+        <div class="score-summary-value">${scores.length}</div>
+      </div>
+      <div class="score-summary-item">
+        <div class="score-summary-label">Avg Performance</div>
+        <div class="score-summary-value ${scoreClass}">${avgScore.toFixed(1)}</div>
+      </div>
+      <div class="score-summary-item">
+        <div class="score-summary-label">Top Performer</div>
+        <div class="score-summary-value score-4" style="font-size:1rem;">${escapeHtml(bestModel.name) || "-"}</div>
+      </div>
+      <div class="score-summary-item">
+        <div class="score-summary-label">Needs Work</div>
+        <div class="score-summary-value score-2" style="font-size:1rem;">${escapeHtml(worstModel.name) || "-"}</div>
+      </div>
+    </div>
+  `;
+}
+
+// Track if analyzer listeners have been added
+let analyzerListenersAttached = false;
+
+function handleAnalyzerScoresUpdated() {
+  renderPosts();
+  updateScoreSummary();
+  // Update button states
+  if (els.clearScoresBtn) {
+    els.clearScoresBtn.disabled = state.analyzerScores.size === 0;
+  }
+  if (els.analyzeProgress && state.analyzerScores.size > 0) {
+    els.analyzeProgress.textContent = `${state.analyzerScores.size} posts scored`;
+  }
+}
+
+function handleAnalyzerEngineReady() {
+  if (els.overviewAnalyzerStatus) {
+    els.overviewAnalyzerStatus.textContent = "✓ Ready";
+    els.overviewAnalyzerStatus.className = "analyzer-status-badge ready";
+  }
+  if (els.analyzeAllBtn) els.analyzeAllBtn.disabled = false;
+  renderPosts();
+}
+
+function attachAnalyzerEvents() {
+  // Model select
+  if (els.overviewModelSelect) {
+    els.overviewModelSelect.addEventListener("change", () => {
+      const modelId = els.overviewModelSelect.value;
+      if (modelId) initAnalyzerEngine(modelId);
+    });
+  }
+  
+  // Analyze all button
+  if (els.analyzeAllBtn) {
+    els.analyzeAllBtn.addEventListener("click", analyzeAllPosts);
+  }
+  
+  // Clear scores button
+  if (els.clearScoresBtn) {
+    els.clearScoresBtn.addEventListener("click", clearAnalyzerScores);
+  }
+  
+  // Delegate click for individual analyze buttons
+  if (els.postsList) {
+    els.postsList.addEventListener("click", (e) => {
+      const btn = e.target.closest(".btn-analyze");
+      if (btn && !btn.disabled) {
+        const postId = parseInt(btn.dataset.postId, 10);
+        if (postId) analyzeSinglePost(postId);
+      }
+    });
+  }
+  
+  // Add global listeners only once
+  if (!analyzerListenersAttached) {
+    analyzerListenersAttached = true;
+    window.addEventListener("analyzer-scores-updated", handleAnalyzerScoresUpdated);
+    window.addEventListener("analyzer-engine-ready", handleAnalyzerEngineReady);
+  }
+  
+  // Check if shared engine already exists
+  if (window.sharedAnalyzerState?.engine || window.sharedLLMEngine) {
+    state.analyzerEngine = window.sharedAnalyzerState?.engine || window.sharedLLMEngine;
+    state.analyzerWebllm = window.sharedAnalyzerState?.webllm || window.sharedLLMWebllm;
+    if (els.overviewAnalyzerStatus) {
+      els.overviewAnalyzerStatus.textContent = "✓ Ready";
+      els.overviewAnalyzerStatus.className = "analyzer-status-badge ready";
+    }
+    if (els.analyzeAllBtn) els.analyzeAllBtn.disabled = false;
+    // Update score summary if there are existing scores
+    if (state.analyzerScores.size > 0) {
+      updateScoreSummary();
+      if (els.clearScoresBtn) els.clearScoresBtn.disabled = false;
+    }
+  }
+}
+
 // -- INIT --
 
 async function init() {
   cacheElements();
   initThemePreference();
   attachEvents();
+  attachAnalyzerEvents();
 
   try {
     const [posts, manifest, insights] = await Promise.all([

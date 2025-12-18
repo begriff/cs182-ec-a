@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Special Participation A Explorer</title>
+    <link rel="icon" type="image/png" href="img/neuralnet.png" />
     <link rel="stylesheet" href="src/styles.css" />
   </head>
   <body>
@@ -46,8 +47,25 @@
 
       <div class="main-layout">
         <aside id="controls" class="panel filters-panel" aria-label="Post filters">
-          <h2>Explore posts</h2>
+          <h2>🔍 Explore Posts</h2>
           <div class="filters" aria-label="Post filters">
+            <label class="search-label">
+              <span>Search</span>
+              <input
+                id="search-text"
+                type="search"
+                placeholder="Search posts, authors, models..."
+              />
+              <span class="search-hint">
+                Try: <code>author:John</code> <code>model:Claude</code> <code>hw:HW5</code>
+              </span>
+            </label>
+
+            <label>
+              <span>Contributor</span>
+              <select id="filter-author"></select>
+            </label>
+
             <label>
               <span>Homework</span>
               <select id="filter-homework"></select>
@@ -58,15 +76,6 @@
               <select id="filter-model"></select>
             </label>
 
-            <label class="search-label">
-              <span>Search</span>
-              <input
-                id="search-text"
-                type="search"
-                placeholder="Search title or body text..."
-              />
-            </label>
-
             <label>
               <span>Sort by</span>
               <select id="sort-order">
@@ -74,6 +83,7 @@
                 <option value="oldest">Oldest first</option>
                 <option value="homework">Homework (ascending)</option>
                 <option value="model">Model (A-Z)</option>
+                <option value="author">Contributor (A-Z)</option>
               </select>
             </label>
           </div>
@@ -90,7 +100,7 @@
               aria-controls="overview"
               data-view="overview"
             >
-              Overview
+              🏠 Overview
             </button>
             <button
               id="tab-homework"
@@ -101,7 +111,7 @@
               aria-controls="homework-insights"
               data-view="homework"
             >
-              Homework insights
+              📚 Homework Insights
             </button>
             <button
               id="tab-models"
@@ -112,7 +122,18 @@
               aria-controls="model-insights"
               data-view="models"
             >
-              Model insights
+              🤖 Model Insights
+            </button>
+            <button
+              id="tab-judge"
+              class="view-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="judge-view"
+              data-view="judge"
+            >
+              📊 Performance Analyzer
             </button>
           </nav>
 
@@ -123,33 +144,53 @@
             role="tabpanel"
             aria-labelledby="tab-overview"
           >
-            <h2>Overview</h2>
+            <h2>📋 Overview</h2>
             <p>
-              This tool reads the exported Ed Discussion threads in
-              <code>thread_util/threads.json</code>, annotates each post with a small
-              set of hand-designed metrics, and lets you interactively filter and
-              explore how students used large language models on different
-              homeworks.
+              Explore how students used LLMs to solve EECS 182 homework problems. 
+              Each post documents a student's experience with a specific model on a homework assignment.
             </p>
-            <div class="overview-grid">
-              <div>
-                <h3>Data</h3>
-                <ul>
-                  <li>One row per top-level Ed thread that matched "special participation A".</li>
-                  <li>Includes title, plain-text body, author, timestamps, and category.</li>
-                  <li>Replies are not included beyond simple counts.</li>
-                </ul>
-              </div>
-              <div>
-                <h3>Metrics (summary)</h3>
-                <ul>
-                  <li><strong>Homework</strong>: which HW the post is about (e.g., HW6).</li>
-                  <li><strong>Model</strong>: which LLM or tool was evaluated (Kimi, Claude, GPT-5.x, etc.).</li>
-                </ul>
+            
+            <div class="analyzer-panel" id="analyzer-panel">
+              <div class="analyzer-header">
+                <div class="analyzer-title-row">
+                  <h3>📊 Performance Scores</h3>
+                  <div class="analyzer-status-row">
+                    <select id="overview-model-select" class="analyzer-model-select">
+                      <option value="">Select scoring model...</option>
+                      <option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">Llama 3.2 1B (fastest)</option>
+                      <option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">Llama 3.2 3B (balanced)</option>
+                      <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen 2.5 1.5B</option>
+                    </select>
+                    <span id="overview-analyzer-status" class="analyzer-status-badge">Not loaded</span>
+                  </div>
+                </div>
                 <p class="small-muted">
-                  Posts can be filtered by homework or model, and sorted by date, homework number, or model name.
+                  Use an on-device LLM to score how well each AI model performed (1-5 scale) based on students' reports.
+                  Click "Analyze" on any post, or analyze all at once.
                 </p>
+                <div id="overview-loading" class="analyzer-loading">
+                  <div class="analyzer-loading-inner">
+                    <div class="analyzer-loading-spinner"></div>
+                    <span id="overview-loading-text" class="analyzer-loading-text">Loading model...</span>
+                    <div class="analyzer-progress-bar">
+                      <div id="overview-progress-fill" class="analyzer-progress-fill"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
+              <div class="analyzer-actions">
+                <button id="analyze-all-btn" class="analyzer-btn analyzer-btn-primary" disabled>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Analyze All Posts
+                </button>
+                <button id="clear-scores-btn" class="analyzer-btn analyzer-btn-secondary" disabled>
+                  Clear Scores
+                </button>
+                <span id="analyze-progress" class="analyzer-progress-text"></span>
+              </div>
+              <div id="score-summary" class="score-summary"></div>
             </div>
           </section>
 
@@ -172,7 +213,7 @@
             aria-labelledby="tab-homework"
             hidden
           >
-            <h2>Homework insights</h2>
+            <h2>📚 Homework Insights</h2>
             <p class="small-muted">
               AI-generated summaries of how different models performed on each homework assignment.
             </p>
@@ -187,11 +228,111 @@
             aria-labelledby="tab-models"
             hidden
           >
-            <h2>Model insights</h2>
+            <h2>🤖 Model Insights</h2>
             <p class="small-muted">
               AI-generated summaries of how each model performed across all homework assignments.
             </p>
             <div id="model-insights-body" class="insights-body"></div>
+          </section>
+
+          <section
+            id="judge-view"
+            class="panel view-section"
+            data-view="judge"
+            role="tabpanel"
+            aria-labelledby="tab-judge"
+            hidden
+          >
+            <div class="judge-container">
+              <header class="judge-header">
+                <div class="judge-title-area">
+                  <h2>📊 Model Performance Analyzer</h2>
+                  <p class="small-muted">
+                    Automatically score <strong>how well each AI model performed</strong> on homework assignments (1-5 scale), 
+                    based on students' reports describing their accuracy, errors, and overall performance.
+                  </p>
+                </div>
+                <div class="judge-controls">
+                  <div class="judge-model-row">
+                    <select id="judge-model-select" class="judge-select">
+                      <option value="">Select scoring model...</option>
+                      <option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">Llama 3.2 1B (fastest)</option>
+                      <option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">Llama 3.2 3B (balanced)</option>
+                      <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen 2.5 1.5B</option>
+                    </select>
+                    <div id="judge-status" class="judge-status">Select model to start</div>
+                  </div>
+                  <div id="judge-loading" class="judge-loading">
+                    <div class="judge-loading-inner">
+                      <div class="judge-loading-spinner"></div>
+                      <span id="judge-loading-text" class="judge-loading-text">Loading model...</span>
+                      <div class="judge-progress-bar">
+                        <div id="judge-progress-fill" class="judge-progress-fill"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </header>
+
+              <div class="judge-main-content">
+                <div class="judge-actions">
+                  <button id="judge-run-all" class="judge-btn judge-btn-primary" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    Analyze All Reports
+                  </button>
+                  <button id="judge-clear" class="judge-btn judge-btn-secondary" disabled>
+                    Clear Results
+                  </button>
+                  <div class="judge-progress-info">
+                    <span id="judge-progress-text"></span>
+                  </div>
+                </div>
+
+                <div class="judge-viz-controls">
+                  <h3>📈 Visualization</h3>
+                  <div class="judge-viz-tabs">
+                    <button class="judge-viz-tab active" data-viz="by-homework">
+                      📊 By Homework
+                    </button>
+                    <button class="judge-viz-tab" data-viz="by-model">
+                      🤖 By Model
+                    </button>
+                    <button class="judge-viz-tab" data-viz="homework-holistic">
+                      📈 Homework Holistic
+                    </button>
+                    <button class="judge-viz-tab" data-viz="model-holistic">
+                      📉 Model Holistic
+                    </button>
+                  </div>
+                  
+                  <div class="judge-viz-filter">
+                    <label id="judge-filter-label">Select Homework:</label>
+                    <select id="judge-filter-select">
+                      <option value="">Loading...</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="judge-chart-area">
+                  <div id="judge-chart-container" class="judge-chart-container">
+                    <div class="judge-chart-placeholder">
+                      <div class="judge-chart-placeholder-icon">📊</div>
+                      <p>Load a model and run the judge to see visualizations</p>
+                    </div>
+                  </div>
+                  <div id="judge-chart-legend" class="judge-chart-legend"></div>
+                </div>
+
+                <div class="judge-results-table-container">
+                  <h3>📝 Detailed Results</h3>
+                  <div id="judge-results-table" class="judge-results-table">
+                    <p class="muted-text">No results yet. Run the judge to score reports.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
         </div>
       </div>
@@ -270,7 +411,7 @@
         <header class="chat-header">
           <div class="chat-header-top">
             <div>
-              <h3>AI Assistant</h3>
+              <h3>💬 AI Assistant</h3>
               <p id="chat-status" class="chat-status">Select a model to start</p>
             </div>
             <button id="clear-chat" class="clear-chat-btn" type="button" title="Clear conversation">
@@ -334,5 +475,6 @@
 
     <script type="module" src="src/main.js"></script>
     <script type="module" src="src/chat.js"></script>
+    <script type="module" src="src/judge.js"></script>
   </body>
 </html>
