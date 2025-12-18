@@ -385,6 +385,8 @@ function handlePostListClick(event) {
   // If clicking the "Full View" button, let standard navigation happen
   if (event.target.closest(".btn-full-view")) return;
   if (event.target.closest("a")) return;
+  // If clicking the "Analyze" button, don't open modal
+  if (event.target.closest(".btn-analyze")) return;
 
   const indexAttr = card.getAttribute("data-index");
   const index = indexAttr ? Number(indexAttr) : NaN;
