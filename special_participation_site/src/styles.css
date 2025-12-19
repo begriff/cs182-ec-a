@@ -103,9 +103,7 @@ body.theme-light {
   --accent-hover: #1d4ed8;
   --accent-soft: #eff6ff;
   --chat-user-bg: #2563eb;
-  --chat-user-fg: #ffffff;
   --chat-ai-bg: #f1f5f9;
-  --chat-ai-fg: #0f172a;
 }
 
 body.theme-dark {
@@ -121,9 +119,7 @@ body.theme-dark {
   --accent-hover: #60a5fa;
   --accent-soft: rgba(59, 130, 246, 0.15);
   --chat-user-bg: #3b82f6;
-  --chat-user-fg: #ffffff;
   --chat-ai-bg: #1e2538;
-  --chat-ai-fg: #f1f5f9;
 }
 
 body {
@@ -150,9 +146,6 @@ body {
   min-height: 80px; 
   background: var(--bg-panel);
   border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
   display: flex;
   align-items: center;
   padding: 0.75rem 0; /* Vertical padding */
@@ -260,6 +253,10 @@ body {
   align-items: flex-start;
 }
 
+.main-layout.filters-hidden {
+  grid-template-columns: 1fr;
+}
+
 @media (max-width: 900px) {
   .main-layout { grid-template-columns: 1fr; gap: 1.5rem; }
   .header-branding { margin-bottom: 0.5rem; }
@@ -277,6 +274,14 @@ body {
   position: sticky;
   top: 6rem;
   box-shadow: var(--shadow-sm);
+}
+
+/* Keep filters at top (not sticky) on smaller screens */
+@media (max-width: 900px) {
+  .filters-panel {
+    position: static !important;
+    top: auto !important;
+  }
 }
 
 .filters-panel h2 {
@@ -694,6 +699,69 @@ body.filters-collapsed .filters-panel { display: none; }
 .post-score-badge .score-label {
   font-weight: 400;
   opacity: 0.8;
+}
+
+/* Score Justification on Post Cards */
+.post-score-justification {
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-inset);
+  border-left: 3px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--fg-secondary);
+  animation: fadeInJustification 0.3s ease-out;
+}
+
+@keyframes fadeInJustification {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.post-score-justification .justification-icon {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.post-score-justification .justification-text {
+  flex: 1;
+  word-break: break-word;
+}
+
+/* Score-specific justification colors */
+.post-score-justification.score-1 {
+  background: rgba(239, 68, 68, 0.08);
+  border-left-color: #ef4444;
+}
+
+.post-score-justification.score-2 {
+  background: rgba(249, 115, 22, 0.08);
+  border-left-color: #f97316;
+}
+
+.post-score-justification.score-3 {
+  background: rgba(234, 179, 8, 0.08);
+  border-left-color: #eab308;
+}
+
+.post-score-justification.score-4 {
+  background: rgba(34, 197, 94, 0.08);
+  border-left-color: #22c55e;
+}
+
+.post-score-justification.score-5 {
+  background: rgba(16, 185, 129, 0.08);
+  border-left-color: #10b981;
 }
 
 /* Analyze Button on Post Cards */

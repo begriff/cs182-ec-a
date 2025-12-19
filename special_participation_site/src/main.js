@@ -365,6 +365,20 @@ function setupViewSwitcher() {
       tab.classList.toggle("is-active", isActive);
       tab.setAttribute("aria-selected", isActive ? "true" : "false");
     });
+
+    // Show filters panel only on overview
+    const filtersPanel = document.getElementById("controls");
+    const filtersToggle = document.getElementById("filters-toggle");
+    const mainLayout = document.querySelector(".main-layout");
+    if (filtersPanel) {
+      filtersPanel.style.display = view === "overview" ? "" : "none";
+    }
+    if (filtersToggle) {
+      filtersToggle.style.display = view === "overview" ? "" : "none";
+    }
+    if (mainLayout) {
+      mainLayout.classList.toggle("filters-hidden", view !== "overview");
+    }
   };
 
   tabs.forEach((tab) => {
@@ -961,14 +975,19 @@ function postToHtml(post, index) {
   // Check if we have a score for this post
   const scoreData = state.analyzerScores.get(post.id);
   let scoreBadgeHtml = "";
+  let scoreJustificationHtml = "";
   let analyzeButtonHtml = "";
   
   if (scoreData) {
     const scoreLabels = ["", "Very Poor", "Poor", "Mediocre", "Good", "Excellent"];
-    scoreBadgeHtml = `<span class="post-score-badge score-${scoreData.score}" title="${escapeAttribute(scoreData.reasoning)}">
+    scoreBadgeHtml = `<span class="post-score-badge score-${scoreData.score}">
       <span>${scoreData.score}/5</span>
       <span class="score-label">${scoreLabels[scoreData.score]}</span>
     </span>`;
+    scoreJustificationHtml = `<div class="post-score-justification score-${scoreData.score}">
+      <span class="justification-icon">💬</span>
+      <span class="justification-text">${escapeHtml(scoreData.reasoning)}</span>
+    </div>`;
   } else {
     const isDisabled = !state.analyzerEngine ? "disabled" : "";
     analyzeButtonHtml = `<button class="btn-analyze" data-post-id="${post.id}" ${isDisabled}>
@@ -1009,6 +1028,7 @@ function postToHtml(post, index) {
     ${badges.join(" ")}
     ${scoreBadgeHtml}
   </div>
+  ${scoreJustificationHtml}
   
   <div style="margin: 0.75rem 0; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
     <a href="?thread=${post.number}" class="btn-full-view" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.4rem 0.8rem; background:#eff6ff; color:#1d4ed8; text-decoration:none; border-radius:6px; font-size:0.875rem; font-weight:500;">
