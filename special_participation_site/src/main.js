@@ -1147,60 +1147,83 @@ function formatMarkdownText(text) {
   return result;
 }
 
-// Render the checkbox filters inside the Insights panel
+// Render the improved filters inside the Insights panel
 function renderInsightsFilters(allHw, allModels) {
   const container = document.createElement('div');
   container.className = 'insights-filters-container';
-  container.style.marginBottom = '20px';
-  container.style.padding = '15px';
-  container.style.backgroundColor = 'var(--bg-card)';
-  container.style.border = '1px solid var(--border-color)';
-  container.style.borderRadius = '8px';
 
-  const makeCheckboxGroup = (label, items, type) => {
+  // Title
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'insights-filters-title';
+  titleDiv.innerHTML = `<span>🎯</span> Filter Insights`;
+  container.appendChild(titleDiv);
+
+  // Create pill-style filter groups
+  const makeFilterGroup = (label, items, type, icon) => {
     const group = document.createElement('div');
-    group.style.marginBottom = '10px';
-    const title = document.createElement('strong');
-    title.textContent = label + ": ";
-    title.style.marginRight = '10px';
-    group.appendChild(title);
+    group.className = 'insights-filter-group';
+    
+    const labelEl = document.createElement('span');
+    labelEl.className = 'insights-filter-label';
+    labelEl.textContent = `${icon} ${label}`;
+    group.appendChild(labelEl);
 
+    const pillsContainer = document.createElement('div');
+    pillsContainer.className = 'insights-filter-pills';
+    
     items.forEach(item => {
-      const labelEl = document.createElement('label');
-      labelEl.style.marginRight = '15px';
-      labelEl.style.display = 'inline-block';
+      const pill = document.createElement('label');
+      pill.className = `insights-filter-pill${state.insightsFilters[type].has(item) ? ' active' : ''}`;
       
-      const box = document.createElement('input');
-      box.type = 'checkbox';
-      box.value = item;
-      box.checked = state.insightsFilters[type].has(item);
-      box.onclick = () => {
-        if (box.checked) state.insightsFilters[type].add(item);
-        else state.insightsFilters[type].delete(item);
-        renderHomeworkInsights(); // Re-render logic
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = state.insightsFilters[type].has(item);
+      checkbox.onchange = () => {
+        if (checkbox.checked) {
+          state.insightsFilters[type].add(item);
+          pill.classList.add('active');
+        } else {
+          state.insightsFilters[type].delete(item);
+          pill.classList.remove('active');
+        }
+        renderHomeworkInsights();
       };
       
-      labelEl.appendChild(box);
-      labelEl.appendChild(document.createTextNode(" " + item));
-      group.appendChild(labelEl);
+      pill.appendChild(checkbox);
+      pill.appendChild(document.createTextNode(item));
+      pillsContainer.appendChild(pill);
     });
+    
+    group.appendChild(pillsContainer);
     return group;
   };
 
-  container.appendChild(makeCheckboxGroup("Homeworks", allHw, 'homeworks'));
-  container.appendChild(makeCheckboxGroup("Models", allModels, 'models'));
+  container.appendChild(makeFilterGroup("Homeworks", allHw, 'homeworks', '📚'));
+  container.appendChild(makeFilterGroup("Models", allModels, 'models', '🤖'));
 
-  // Reset button
+  // Actions row
+  const actionsDiv = document.createElement('div');
+  actionsDiv.className = 'insights-filter-actions';
+  
   const resetBtn = document.createElement('button');
-  resetBtn.textContent = "Clear Filters";
-  resetBtn.className = "appearance-btn"; 
-  resetBtn.style.fontSize = "0.8rem";
+  resetBtn.className = 'insights-clear-btn';
+  resetBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Clear All Filters`;
   resetBtn.onclick = () => {
     state.insightsFilters.homeworks.clear();
     state.insightsFilters.models.clear();
     renderHomeworkInsights();
   };
-  container.appendChild(resetBtn);
+  actionsDiv.appendChild(resetBtn);
+  
+  const activeCount = state.insightsFilters.homeworks.size + state.insightsFilters.models.size;
+  if (activeCount > 0) {
+    const countSpan = document.createElement('span');
+    countSpan.style.cssText = 'font-size: 0.8rem; color: var(--accent); font-weight: 600;';
+    countSpan.textContent = `${activeCount} filter${activeCount > 1 ? 's' : ''} active`;
+    actionsDiv.appendChild(countSpan);
+  }
+  
+  container.appendChild(actionsDiv);
 
   return container;
 }
@@ -1227,7 +1250,7 @@ function renderHomeworkInsights() {
   });
   const sortedModels = Array.from(allModels).sort();
 
-  // Render Filters at top
+  // Render Filters
   els.homeworkInsightsBody.appendChild(renderInsightsFilters(hwIds, sortedModels));
 
   // --- FILTERING LOGIC ---
@@ -1236,61 +1259,35 @@ function renderHomeworkInsights() {
   }
   
   if (hwIds.length === 0) {
-    const msg = document.createElement('p');
-    msg.className = "muted-text";
-    msg.textContent = "No homeworks match the selected filters.";
-    els.homeworkInsightsBody.appendChild(msg);
+    const emptyState = document.createElement('div');
+    emptyState.className = 'insights-empty-state';
+    emptyState.innerHTML = `
+      <div class="insights-empty-icon">🔍</div>
+      <div class="insights-empty-title">No matching homeworks</div>
+      <p class="insights-empty-text">Try adjusting your filters to see more insights.</p>
+    `;
+    els.homeworkInsightsBody.appendChild(emptyState);
     return;
   }
 
+  // Grid container for cards
+  const insightsGrid = document.createElement('div');
+  insightsGrid.className = 'insights-grid';
+
   hwIds.forEach(hwId => {
     const data = homeworkData[hwId];
+    const hwNumber = hwId.replace(/\D/g, '');
     
     // Create HW Card
     const card = document.createElement('details');
     card.className = "insight-card";
-    card.open = true; // Default open
-    card.style.marginBottom = "20px";
-    card.style.border = "1px solid var(--border-color)";
-    card.style.borderRadius = "8px";
-    card.style.padding = "10px";
-    card.style.backgroundColor = "var(--bg-card)";
+    card.open = true;
 
+    // Custom summary/header
     const summaryEl = document.createElement('summary');
-    summaryEl.style.cursor = "pointer";
-    summaryEl.style.fontWeight = "bold";
-    summaryEl.style.fontSize = "1.1rem";
-    summaryEl.style.padding = "10px 0";
-    summaryEl.textContent = `${hwId}`; // e.g. "Homework 0"
-    card.appendChild(summaryEl);
-
-    const body = document.createElement('div');
-    body.style.paddingLeft = "15px";
-
-    // Overall HW Stats/Summary
-    const summaryHtml = formatInsightText(data.summary);
-    const metaHtml = `<p class="insight-meta" style="margin-bottom:15px; font-style:italic; color:var(--text-muted)">${data.post_count} posts analyzed</p>`;
+    summaryEl.className = 'insight-card-header';
     
-    // Inject Styles for Green/Red sections locally
-    const styleBlock = `
-      <style>
-        .insight-section { margin-bottom: 10px; padding: 8px; border-radius: 4px; }
-        .insight-strengths { background-color: rgba(40, 167, 69, 0.1); border-left: 4px solid #28a745; color: var(--text-color); }
-        .insight-weaknesses { background-color: rgba(220, 53, 69, 0.1); border-left: 4px solid #dc3545; color: var(--text-color); }
-        .insight-strengths strong, .insight-weaknesses strong { display:block; margin-bottom:5px; }
-        .model-list-item { border-top: 1px solid var(--border-color); padding: 8px 0; }
-        .model-list-item summary { cursor: pointer; outline: none; }
-      </style>
-    `;
-    
-    body.innerHTML = styleBlock + metaHtml + summaryHtml;
-
-    // --- RENDER MODEL LIST FOR THIS HOMEWORK ---
-    const modelListDiv = document.createElement('div');
-    modelListDiv.className = "insight-model-list";
-    modelListDiv.style.marginTop = "15px";
-
-    // Group posts for this HW by model
+    // Group posts for this HW by model for stats
     const postsForHw = state.allPosts.filter(p => p.metrics?.homework_id === hwId);
     const modelsInHw = {};
     postsForHw.forEach(p => {
@@ -1298,52 +1295,202 @@ function renderHomeworkInsights() {
       if (!modelsInHw[mName]) modelsInHw[mName] = [];
       modelsInHw[mName].push(p);
     });
-
     let modelNames = Object.keys(modelsInHw).sort();
     
-    // Filter Models if checkboxes selected
+    // Filter Models if selected
     if (state.insightsFilters.models.size > 0) {
       modelNames = modelNames.filter(m => state.insightsFilters.models.has(m));
     }
+    
+    summaryEl.innerHTML = `
+      <div class="insight-card-title-group">
+        <div class="insight-card-icon">📘</div>
+        <div>
+          <h3 class="insight-card-title">${escapeHtml(hwId)}</h3>
+          <div class="insight-card-subtitle">AI Performance Analysis</div>
+        </div>
+      </div>
+      <div class="insight-card-meta">
+        <span class="insight-card-stat">
+          <span class="insight-card-stat-value">${data.post_count}</span> reports
+        </span>
+        <span class="insight-card-stat">
+          <span class="insight-card-stat-value">${Object.keys(modelsInHw).length}</span> models
+        </span>
+        <div class="insight-card-chevron">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+    `;
+    card.appendChild(summaryEl);
 
+    // Body content
+    const body = document.createElement('div');
+    body.className = 'insight-card-body';
+
+    // Parse and format summary with sections
+    const summaryContent = document.createElement('div');
+    summaryContent.className = 'insight-summary-content';
+    summaryContent.innerHTML = formatInsightTextEnhanced(data.summary);
+    body.appendChild(summaryContent);
+
+    // --- RENDER MODEL LIST ---
     if (modelNames.length > 0) {
+      const modelsSection = document.createElement('div');
+      modelsSection.className = 'insight-models-section';
+      
+      modelsSection.innerHTML = `
+        <div class="insight-models-header">
+          <span>🤖</span> Models Evaluated (${modelNames.length})
+        </div>
+      `;
+      
+      const modelsGrid = document.createElement('div');
+      modelsGrid.className = 'insight-models-grid';
+      
       modelNames.forEach(mName => {
         const mPosts = modelsInHw[mName];
         
-        const mDetails = document.createElement('details');
-        mDetails.className = "model-list-item";
+        const modelCard = document.createElement('details');
+        modelCard.className = 'insight-model-card';
         
-        const mSummary = document.createElement('summary');
-        mSummary.innerHTML = `<strong>${escapeHtml(mName)}</strong> <span class="muted-text">(${mPosts.length})</span>`;
-        mDetails.appendChild(mSummary);
+        const modelHeader = document.createElement('summary');
+        modelHeader.className = 'insight-model-header';
+        modelHeader.innerHTML = `
+          <span class="insight-model-name">
+            <span class="insight-model-icon">🔹</span>
+            ${escapeHtml(mName)}
+          </span>
+          <span class="insight-model-count">${mPosts.length}</span>
+        `;
+        modelCard.appendChild(modelHeader);
         
-        const mBody = document.createElement('div');
-        mBody.style.padding = "10px 0 10px 20px";
+        const modelPosts = document.createElement('div');
+        modelPosts.className = 'insight-model-posts';
         
-        // List links to the actual threads
         mPosts.forEach(p => {
-            const linkDiv = document.createElement('div');
-            linkDiv.style.marginBottom = "4px";
-            const link = document.createElement('a');
-            link.href = `?thread=${p.number}`; // Link to Full Page View
-            link.textContent = p.title || `Post #${p.number}`;
-            linkDiv.appendChild(link);
-            mBody.appendChild(linkDiv);
+          const link = document.createElement('a');
+          link.href = `?thread=${p.number}`;
+          link.className = 'insight-model-post-link';
+          link.textContent = p.title || `Post #${p.number}`;
+          modelPosts.appendChild(link);
         });
-
-        mDetails.appendChild(mBody);
-        modelListDiv.appendChild(mDetails);
+        
+        modelCard.appendChild(modelPosts);
+        modelsGrid.appendChild(modelCard);
       });
-      body.appendChild(modelListDiv);
-    } else {
-       if (state.insightsFilters.models.size > 0) {
-         body.innerHTML += `<p class="muted-text" style="margin-top:10px">No models match filter for this homework.</p>`;
-       }
+      
+      modelsSection.appendChild(modelsGrid);
+      body.appendChild(modelsSection);
+    } else if (state.insightsFilters.models.size > 0) {
+      const noMatchMsg = document.createElement('div');
+      noMatchMsg.className = 'insights-empty-state';
+      noMatchMsg.style.padding = '2rem';
+      noMatchMsg.innerHTML = `
+        <div class="insights-empty-icon" style="font-size:2rem;">🔍</div>
+        <p class="insights-empty-text">No models match your current filter for this homework.</p>
+      `;
+      body.appendChild(noMatchMsg);
     }
 
     card.appendChild(body);
-    els.homeworkInsightsBody.appendChild(card);
+    insightsGrid.appendChild(card);
   });
+
+  els.homeworkInsightsBody.appendChild(insightsGrid);
+}
+
+// Enhanced text formatter with better sections
+function formatInsightTextEnhanced(text) {
+  if (!text) return "";
+  
+  // Split by numbered sections (1. **..., 2. **..., etc.)
+  const sections = text.split(/(?=\d+\.\s+\*\*)/);
+  let html = '';
+  
+  for (const section of sections) {
+    if (!section.trim()) continue;
+    
+    // Check for section types
+    const isEasiest = /easiest|hardest|problem/i.test(section.slice(0, 100));
+    const isStrengths = /strengths?|best|success|excell/i.test(section.slice(0, 100));
+    const isWeaknesses = /weakness|limitation|challenge|struggle|difficult/i.test(section.slice(0, 100));
+    const isThemes = /theme|strateg|common|approach/i.test(section.slice(0, 100));
+    const isTrends = /trend|performance|pattern/i.test(section.slice(0, 100));
+    const isInsights = /insight|notable|observation|finding/i.test(section.slice(0, 100));
+    
+    let sectionClass = '';
+    let sectionIcon = '📌';
+    let sectionLabel = '';
+    
+    if (isStrengths) {
+      sectionClass = 'insight-strengths';
+      sectionIcon = '✅';
+      sectionLabel = 'Strengths';
+    } else if (isWeaknesses) {
+      sectionClass = 'insight-weaknesses';
+      sectionIcon = '⚠️';
+      sectionLabel = 'Challenges';
+    } else if (isEasiest) {
+      sectionIcon = '🎯';
+      sectionLabel = 'Problem Difficulty';
+    } else if (isThemes) {
+      sectionIcon = '💡';
+      sectionLabel = 'Common Strategies';
+    } else if (isTrends) {
+      sectionIcon = '📈';
+      sectionLabel = 'Performance Trends';
+    } else if (isInsights) {
+      sectionIcon = '🔎';
+      sectionLabel = 'Key Insights';
+    }
+    
+    // Format the section content
+    let formatted = escapeHtml(section);
+    
+    // Format bold text
+    formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    
+    // Format lists
+    formatted = formatted.replace(/(?:^|\n)[\s]*[-•]\s+/g, '<br>• ');
+    
+    // Format line breaks for readability
+    formatted = formatted.replace(/\n\n/g, '</p><p>');
+    formatted = formatted.replace(/\n/g, '<br>');
+    
+    // Wrap in paragraph if not already
+    if (!formatted.startsWith('<p>')) {
+      formatted = `<p>${formatted}</p>`;
+    }
+    
+    if (sectionClass) {
+      html += `
+        <div class="insight-section ${sectionClass}">
+          <div class="insight-section-header">
+            <span class="insight-section-icon">${sectionIcon}</span>
+            <span>${sectionLabel}</span>
+          </div>
+          ${formatted}
+        </div>
+      `;
+    } else if (sectionLabel) {
+      html += `
+        <div class="insight-section" style="background: var(--bg-inset); border: 1px solid var(--border);">
+          <div class="insight-section-header" style="color: var(--fg-secondary);">
+            <span class="insight-section-icon">${sectionIcon}</span>
+            <span>${sectionLabel}</span>
+          </div>
+          ${formatted}
+        </div>
+      `;
+    } else {
+      html += formatted;
+    }
+  }
+  
+  return html || formatMarkdownText(text);
 }
 
 // -- INSIGHTS LOGIC END --
@@ -1352,24 +1499,59 @@ function renderModelInsights() {
   if (!state.insights || !state.insights.models || !els.modelInsightsBody) {
     return;
   }
+  
   const modelData = state.insights.models;
   const modelNames = Object.keys(modelData).sort();
+  
   if (modelNames.length === 0) {
-    els.modelInsightsBody.innerHTML = '<p class="muted-text">No model insights available yet.</p>';
-    return;
-  }
-  const cards = modelNames.map(model => {
-    const data = modelData[model];
-    const formattedSummary = formatInsightText(data.summary);
-    return `
-      <div class="insight-item">
-        <h4>${escapeHtml(model)}</h4>
-        <div class="insight-summary">${formattedSummary}</div>
-        <p class="insight-meta">${data.post_count} evaluation${data.post_count !== 1 ? 's' : ''} analyzed</p>
+    els.modelInsightsBody.innerHTML = `
+      <div class="insights-empty-state">
+        <div class="insights-empty-icon">🤖</div>
+        <div class="insights-empty-title">No model insights available</div>
+        <p class="insights-empty-text">Run the insights generator to create model summaries.</p>
       </div>
     `;
-  }).join('');
-  els.modelInsightsBody.innerHTML = cards;
+    return;
+  }
+  
+  let html = `<div class="insights-grid">`;
+  
+  modelNames.forEach(model => {
+    const data = modelData[model];
+    const formattedSummary = formatInsightTextEnhanced(data.summary);
+    
+    html += `
+      <details class="insight-card" open>
+        <summary class="insight-card-header">
+          <div class="insight-card-title-group">
+            <div class="insight-card-icon">🤖</div>
+            <div>
+              <h3 class="insight-card-title">${escapeHtml(model)}</h3>
+              <div class="insight-card-subtitle">Model Performance Summary</div>
+            </div>
+          </div>
+          <div class="insight-card-meta">
+            <span class="insight-card-stat">
+              <span class="insight-card-stat-value">${data.post_count}</span> evaluation${data.post_count !== 1 ? 's' : ''}
+            </span>
+            <div class="insight-card-chevron">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </summary>
+        <div class="insight-card-body">
+          <div class="insight-summary-content">
+            ${formattedSummary}
+          </div>
+        </div>
+      </details>
+    `;
+  });
+  
+  html += '</div>';
+  els.modelInsightsBody.innerHTML = html;
 }
 
 // -- NEW: Full Page Thread Renderer --
