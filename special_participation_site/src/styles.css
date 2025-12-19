@@ -103,7 +103,9 @@ body.theme-light {
   --accent-hover: #1d4ed8;
   --accent-soft: #eff6ff;
   --chat-user-bg: #2563eb;
+  --chat-user-fg: #ffffff;
   --chat-ai-bg: #f1f5f9;
+  --chat-ai-fg: #0f172a;
 }
 
 body.theme-dark {
@@ -119,7 +121,9 @@ body.theme-dark {
   --accent-hover: #60a5fa;
   --accent-soft: rgba(59, 130, 246, 0.15);
   --chat-user-bg: #3b82f6;
+  --chat-user-fg: #ffffff;
   --chat-ai-bg: #1e2538;
+  --chat-ai-fg: #f1f5f9;
 }
 
 body {
