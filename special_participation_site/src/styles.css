@@ -3016,3 +3016,17 @@ body.filters-collapsed .filters-panel { display: none; }
     max-width: 70px;
   }
 }
+
+/* =========================================
+   FOOTER
+   ========================================= */
+.site-footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
