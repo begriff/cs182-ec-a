@@ -1,6 +1,7 @@
 const DATA_URL = "public/data/posts_processed.json";
 const INSIGHTS_URL = "public/data/insights.json";
 const MANIFEST_URL = "files/manifest.json";
+const TAG_FIX_URL = "tag_fix/corrections.json";
 const THEME_KEY = "spa-theme-mode";
 
 // -- NEW: PDF Constants --
@@ -132,6 +133,49 @@ async function loadInsights() {
     console.warn("Could not load insights:", err);
     return null;
   }
+}
+
+async function loadTagCorrections() {
+  try {
+    const res = await fetch(TAG_FIX_URL, { cache: "no-store" });
+    if (!res.ok) {
+      console.warn(`Tag corrections not found at ${TAG_FIX_URL}`);
+      return {};
+    }
+    return await res.json();
+  } catch (err) {
+    console.warn("Could not load tag corrections:", err);
+    return {};
+  }
+}
+
+function applyTagCorrections(posts, corrections) {
+  if (!corrections || Object.keys(corrections).length === 0) {
+    return posts;
+  }
+  
+  for (const post of posts) {
+    const threadNum = String(post.number);
+    const fix = corrections[threadNum];
+    if (fix) {
+      if (!post.metrics) {
+        post.metrics = {};
+      }
+      // Apply each correction field
+      if (fix.model_name !== undefined) {
+        post.metrics.model_name = fix.model_name;
+      }
+      if (fix.homework_id !== undefined) {
+        post.metrics.homework_id = fix.homework_id;
+      }
+      // Add support for other fields as needed
+      if (fix.depth_bucket !== undefined) {
+        post.metrics.depth_bucket = fix.depth_bucket;
+      }
+    }
+  }
+  
+  return posts;
 }
 
 // -- NEW: PDF Extraction Logic --
@@ -2970,12 +3014,17 @@ async function init() {
   attachAnalyzerEvents();
 
   try {
-    const [posts, manifest, insights] = await Promise.all([
+    const [posts, manifest, insights, tagCorrections] = await Promise.all([
       loadData(),
       loadFilesManifest(),
       loadInsights(),
+      loadTagCorrections(),
     ]);
-    state.allPosts = posts;
+    
+    // Apply tag corrections to posts before storing
+    const correctedPosts = applyTagCorrections(posts, tagCorrections);
+    
+    state.allPosts = correctedPosts;
     state.filesManifest = manifest;
     state.insights = insights;
     
@@ -2983,7 +3032,7 @@ async function init() {
     const params = new URLSearchParams(window.location.search);
     const threadId = params.get('thread');
     if (threadId) {
-      const post = posts.find(p => String(p.number) === threadId);
+      const post = correctedPosts.find(p => String(p.number) === threadId);
       if (post) {
         renderFullPageThread(post);
         return; // Skip rendering dashboard
