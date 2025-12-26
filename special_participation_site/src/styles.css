@@ -1168,10 +1168,7 @@ body.filters-collapsed .filters-panel { display: none; }
   font-size: 1.75rem;
   font-weight: 800;
   margin: 0 0 0.5rem;
-  background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--fg-primary);
 }
 
 .insights-header .small-muted {
@@ -2796,5 +2793,226 @@ body.filters-collapsed .filters-panel { display: none; }
 
   .judge-table-reasoning {
     display: none;
+  }
+}
+
+/* =========================================
+   16. MATRIX VIEW
+   ========================================= */
+.matrix-header {
+  margin-bottom: 2rem;
+}
+
+.matrix-header h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  color: var(--fg-primary);
+}
+
+.matrix-header .small-muted {
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+  max-width: 600px;
+}
+
+.matrix-controls {
+  margin-top: 1rem;
+}
+
+.matrix-transpose-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--fg-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.matrix-transpose-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.matrix-transpose-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.matrix-transpose-btn:hover svg {
+  transform: rotate(180deg);
+}
+
+.matrix-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  min-width: 800px;
+}
+
+.matrix-table th,
+.matrix-table td {
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.75rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.matrix-table thead th {
+  background: linear-gradient(135deg, var(--bg-inset) 0%, var(--bg-panel) 100%);
+  color: var(--fg-primary);
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  padding: 0.75rem 0.5rem;
+}
+
+.matrix-table thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  background: var(--bg-panel);
+  border-right: 2px solid var(--border);
+}
+
+.matrix-corner-cell {
+  background: var(--bg-panel) !important;
+  font-size: 0.7rem !important;
+  color: var(--fg-muted) !important;
+}
+
+.matrix-hw-header {
+  background: var(--bg-inset) !important;
+  color: var(--fg-primary) !important;
+  font-size: 0.75rem;
+  min-width: 50px;
+}
+
+.matrix-table tbody th {
+  background: var(--bg-panel);
+  color: var(--fg-primary);
+  font-weight: 700;
+  text-align: left;
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  border-right: 2px solid var(--border);
+  white-space: nowrap;
+  min-width: 70px;
+}
+
+.matrix-table tbody tr:hover th,
+.matrix-table tbody tr:hover td {
+  background-color: var(--bg-inset);
+}
+
+.matrix-cell-empty {
+  color: var(--fg-muted);
+  opacity: 0.3;
+  font-style: italic;
+  font-size: 0.75rem;
+}
+
+.matrix-cell-authors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.matrix-author-tag {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.matrix-author-tag:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.05);
+}
+
+.matrix-author-count {
+  font-size: 0.65rem;
+  color: var(--fg-muted);
+  margin-top: 0.15rem;
+}
+
+/* Color variants for multiple authors */
+.matrix-author-tag:nth-child(2) {
+  background: rgba(139, 92, 246, 0.15);
+  color: #7c3aed;
+}
+
+.matrix-author-tag:nth-child(2):hover {
+  background: #7c3aed;
+  color: white;
+}
+
+.matrix-author-tag:nth-child(3) {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+}
+
+.matrix-author-tag:nth-child(3):hover {
+  background: #059669;
+  color: white;
+}
+
+/* Stats row at bottom */
+.matrix-stats-row th,
+.matrix-stats-row td {
+  background: var(--bg-inset) !important;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--fg-secondary);
+  border-top: 2px solid var(--border);
+}
+
+.matrix-stats-row th {
+  text-align: right !important;
+  padding-right: 1rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .matrix-table {
+    font-size: 0.75rem;
+  }
+  
+  .matrix-table th,
+  .matrix-table td {
+    padding: 0.4rem;
+  }
+  
+  .matrix-author-tag {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.35rem;
+    max-width: 70px;
   }
 }

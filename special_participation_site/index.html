@@ -92,15 +92,26 @@
         <div class="content-column">
           <nav class="view-tabs" aria-label="Views" role="tablist">
             <button
-              id="tab-overview"
+              id="tab-matrix"
               class="view-tab is-active"
               type="button"
               role="tab"
               aria-selected="true"
+              aria-controls="matrix-view"
+              data-view="matrix"
+            >
+              📋 Matrix View
+            </button>
+            <button
+              id="tab-overview"
+              class="view-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
               aria-controls="overview"
               data-view="overview"
             >
-              🏠 Overview
+              📝 Threads
             </button>
             <button
               id="tab-homework"
@@ -143,8 +154,9 @@
             data-view="overview"
             role="tabpanel"
             aria-labelledby="tab-overview"
+            hidden
           >
-            <h2>📋 Overview</h2>
+            <h2>📝 Threads</h2>
             <p>
               Explore how students used LLMs to solve EECS 182 homework problems. 
               Each post documents a student's experience with a specific model on a homework assignment.
@@ -199,6 +211,7 @@
             class="panel view-section"
             data-view="overview"
             aria-label="Explore posts"
+            hidden
           >
             <div id="summary-bar" class="summary-bar"></div>
             <div id="posts-list" class="posts-list" aria-live="polite"></div>
@@ -339,6 +352,34 @@
                 </div>
               </div>
             </div>
+          </section>
+
+          <section
+            id="matrix-view"
+            class="panel view-section"
+            data-view="matrix"
+            role="tabpanel"
+            aria-labelledby="tab-matrix"
+          >
+            <div class="matrix-header">
+              <h2>📋 Contribution Matrix</h2>
+              <p class="small-muted">
+                A quick overview of which students evaluated which models on each homework.
+                Each cell shows the author(s) who submitted a report for that combination.
+              </p>
+              <div class="matrix-controls">
+                <button id="transpose-matrix-btn" class="matrix-transpose-btn" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                  </svg>
+                  Transpose
+                </button>
+              </div>
+            </div>
+            <div id="matrix-container" class="matrix-container"></div>
           </section>
         </div>
       </div>

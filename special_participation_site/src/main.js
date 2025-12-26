@@ -388,7 +388,7 @@ function setupViewSwitcher() {
     });
   });
 
-  setView("overview");
+  setView("matrix");
 }
 
 function handlePostListClick(event) {
@@ -1495,6 +1495,241 @@ function formatInsightTextEnhanced(text) {
 
 // -- INSIGHTS LOGIC END --
 
+// -- MATRIX VIEW LOGIC --
+
+// State for matrix orientation: false = models as rows, true = homeworks as rows
+let matrixTransposed = false;
+
+function renderMatrixView() {
+  const container = document.getElementById("matrix-container");
+  if (!container) return;
+  
+  // Collect all unique homeworks and models
+  const homeworks = new Set();
+  const models = new Set();
+  
+  for (const post of state.allPosts) {
+    const m = post.metrics || {};
+    if (m.homework_id) homeworks.add(m.homework_id);
+    if (m.model_name) models.add(m.model_name);
+  }
+  
+  // Sort homeworks numerically
+  const sortedHomeworks = Array.from(homeworks).sort((a, b) => {
+    const numA = parseInt(a.replace(/\D/g, ''), 10) || 0;
+    const numB = parseInt(b.replace(/\D/g, ''), 10) || 0;
+    return numA - numB;
+  });
+  
+  // Sort models alphabetically
+  const sortedModels = Array.from(models).sort((a, b) => a.localeCompare(b));
+  
+  if (sortedHomeworks.length === 0 || sortedModels.length === 0) {
+    container.innerHTML = `
+      <div class="insights-empty-state">
+        <div class="insights-empty-icon">📋</div>
+        <div class="insights-empty-title">No data available</div>
+        <p class="insights-empty-text">Posts need homework and model metadata to generate the matrix.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Build a lookup: { modelName: { hwId: [posts] } }
+  const matrix = {};
+  for (const model of sortedModels) {
+    matrix[model] = {};
+    for (const hw of sortedHomeworks) {
+      matrix[model][hw] = [];
+    }
+  }
+  
+  for (const post of state.allPosts) {
+    const m = post.metrics || {};
+    const hw = m.homework_id;
+    const model = m.model_name;
+    if (hw && model && matrix[model] && matrix[model][hw]) {
+      matrix[model][hw].push(post);
+    }
+  }
+  
+  let html = '<table class="matrix-table">';
+  
+  if (matrixTransposed) {
+    // TRANSPOSED: Homeworks as rows, Models as columns
+    const modelTotals = {};
+    sortedModels.forEach(m => modelTotals[m] = 0);
+    
+    // Header row with models
+    html += '<thead><tr>';
+    html += '<th class="matrix-corner-cell">HW \\ Model</th>';
+    for (const model of sortedModels) {
+      const shortName = shortenModelName(model);
+      html += `<th class="matrix-hw-header" title="${escapeHtml(model)}">${escapeHtml(shortName)}</th>`;
+    }
+    html += '</tr></thead>';
+    
+    // Body rows for each homework
+    html += '<tbody>';
+    for (const hw of sortedHomeworks) {
+      html += '<tr>';
+      html += `<th>${escapeHtml(hw)}</th>`;
+      
+      for (const model of sortedModels) {
+        const posts = matrix[model][hw];
+        modelTotals[model] += posts.length;
+        
+        if (posts.length === 0) {
+          html += '<td class="matrix-cell-empty">—</td>';
+        } else {
+          html += '<td><div class="matrix-cell-authors">';
+          const displayPosts = posts.slice(0, 3);
+          for (const post of displayPosts) {
+            const authorName = post.user?.name || "Unknown";
+            const shortAuthor = shortenAuthorName(authorName);
+            html += `<a href="?thread=${post.number}" class="matrix-author-tag" title="${escapeHtml(authorName)}">${escapeHtml(shortAuthor)}</a>`;
+          }
+          if (posts.length > 3) {
+            html += `<span class="matrix-author-count">+${posts.length - 3} more</span>`;
+          }
+          html += '</div></td>';
+        }
+      }
+      html += '</tr>';
+    }
+    
+    // Stats row with totals per model
+    html += '<tr class="matrix-stats-row">';
+    html += '<th>Total</th>';
+    for (const model of sortedModels) {
+      html += `<td>${modelTotals[model]}</td>`;
+    }
+    html += '</tr>';
+  } else {
+    // DEFAULT: Models as rows, Homeworks as columns
+    const hwTotals = {};
+    sortedHomeworks.forEach(hw => hwTotals[hw] = 0);
+    
+    // Header row with homeworks
+    html += '<thead><tr>';
+    html += '<th class="matrix-corner-cell">Model \\ HW</th>';
+    for (const hw of sortedHomeworks) {
+      html += `<th class="matrix-hw-header">${escapeHtml(hw)}</th>`;
+    }
+    html += '</tr></thead>';
+    
+    // Body rows for each model
+    html += '<tbody>';
+    for (const model of sortedModels) {
+      html += '<tr>';
+      const shortName = shortenModelName(model);
+      html += `<th title="${escapeHtml(model)}">${escapeHtml(shortName)}</th>`;
+      
+      for (const hw of sortedHomeworks) {
+        const posts = matrix[model][hw];
+        hwTotals[hw] += posts.length;
+        
+        if (posts.length === 0) {
+          html += '<td class="matrix-cell-empty">—</td>';
+        } else {
+          html += '<td><div class="matrix-cell-authors">';
+          const displayPosts = posts.slice(0, 3);
+          for (const post of displayPosts) {
+            const authorName = post.user?.name || "Unknown";
+            const shortAuthor = shortenAuthorName(authorName);
+            html += `<a href="?thread=${post.number}" class="matrix-author-tag" title="${escapeHtml(authorName)}">${escapeHtml(shortAuthor)}</a>`;
+          }
+          if (posts.length > 3) {
+            html += `<span class="matrix-author-count">+${posts.length - 3} more</span>`;
+          }
+          html += '</div></td>';
+        }
+      }
+      html += '</tr>';
+    }
+    
+    // Stats row with totals per homework
+    html += '<tr class="matrix-stats-row">';
+    html += '<th>Total</th>';
+    for (const hw of sortedHomeworks) {
+      html += `<td>${hwTotals[hw]}</td>`;
+    }
+    html += '</tr>';
+  }
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function toggleMatrixTranspose() {
+  matrixTransposed = !matrixTransposed;
+  renderMatrixView();
+}
+
+function shortenModelName(name) {
+  // Shorten common model names for display in narrow columns
+  const replacements = [
+    [/ChatGPT[-\s]?5\.1\s*(Thinking|Extended)/gi, 'GPT-5.1'],
+    [/ChatGPT[-\s]?5\.1/gi, 'GPT-5.1'],
+    [/ChatGPT[-\s]?4o/gi, 'GPT-4o'],
+    [/ChatGPT[-\s]?o3/gi, 'GPT-o3'],
+    [/ChatGPT/gi, 'GPT'],
+    [/Claude\s*Opus\s*4\.5.*Extended.*Thinking/gi, 'Opus 4.5 ET'],
+    [/Claude\s*Opus\s*4\.5/gi, 'Opus 4.5'],
+    [/Claude\s*Sonnet\s*4\.5/gi, 'Sonnet 4.5'],
+    [/Claude/gi, 'Claude'],
+    [/DeepSeek[-\s]?v?3\.2/gi, 'DeepSeek'],
+    [/Deepseek/gi, 'DeepSeek'],
+    [/Gemini\s*3\.?0?\s*Pro.*Thinking/gi, 'Gem 3 Pro'],
+    [/Gemini\s*3\s*Pro/gi, 'Gem 3 Pro'],
+    [/Gemini\s*2\.5\s*Flash/gi, 'Gem Flash'],
+    [/Gemini\s*2\.5\s*Pro/gi, 'Gem 2.5 Pro'],
+    [/Gemini\s*Flash/gi, 'Gem Flash'],
+    [/Gemini\s*Pro/gi, 'Gem Pro'],
+    [/Gemini/gi, 'Gemini'],
+    [/Mistral\s*AI/gi, 'Mistral'],
+    [/Le\s*Chat/gi, 'Mistral'],
+    [/Kimi\s*K2/gi, 'Kimi K2'],
+    [/Llama\s*4\s*Maverick/gi, 'Llama 4'],
+    [/Perplexity\s*Sonar/gi, 'Perplexity'],
+    [/gpt-oss-120b/gi, 'GPT-OSS'],
+    [/GPT-Oss/gi, 'GPT-OSS'],
+  ];
+  
+  let result = name;
+  for (const [pattern, replacement] of replacements) {
+    result = result.replace(pattern, replacement);
+  }
+  
+  // Truncate if still too long
+  if (result.length > 14) {
+    result = result.slice(0, 12) + '…';
+  }
+  
+  return result;
+}
+
+function shortenAuthorName(name) {
+  // Try to get first name only, or truncate
+  if (!name) return "?";
+  
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    // Return first name + last initial
+    const firstName = parts[0];
+    const lastInitial = parts[parts.length - 1][0];
+    const short = `${firstName} ${lastInitial}.`;
+    if (short.length <= 12) return short;
+    // If still too long, just first name
+    return firstName.slice(0, 10);
+  }
+  
+  // Single name - truncate if needed
+  return name.length > 10 ? name.slice(0, 9) + '…' : name;
+}
+
+// -- END MATRIX VIEW LOGIC --
+
 function renderModelInsights() {
   if (!state.insights || !state.insights.models || !els.modelInsightsBody) {
     return;
@@ -2023,7 +2258,7 @@ function renderFullPageThread(post) {
         }
       }
     </style>
-    <div class="fullpage-view">
+    <div class="fullpage-view sidebar-collapsed">
       <!-- Toggle button to open sidebar when collapsed -->
       <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Open AI Assistant">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2759,6 +2994,13 @@ async function init() {
     applyFiltersAndRender();
     renderHomeworkInsights();
     renderModelInsights();
+    renderMatrixView();
+    
+    // Attach matrix transpose button listener
+    const transposeBtn = document.getElementById("transpose-matrix-btn");
+    if (transposeBtn) {
+      transposeBtn.addEventListener("click", toggleMatrixTranspose);
+    }
   } catch (err) {
     console.error(err);
     // Fallback error display
